@@ -11,8 +11,9 @@ export function ThemeToggle() {
 
   return (
     <Button
-      variant="ghost"
+      variant="outline"
       size="icon"
+      className="rounded-full bg-primary !text-primary-foreground hover:bg-primary/80 active:bg-primary/90 dark:bg-accent dark:text-accent-foreground dark:hover:bg-accent/80 dark:active:bg-accent/90"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
       <Sun className="h-[1.5rem] w-[1.3rem] dark:hidden" />
