@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { Facebook, Github, Instagram, Twitter } from "lucide-react"
 
@@ -20,16 +21,23 @@ import { ThemeToggle } from "@/components/theme-toggle"
 
 export function SiteFooter() {
   return (
-    <footer
-      className="bg-background z-40 w-full px-8 py-4"
-      style={{
-        background:
-          "radial-gradient(86.72% 86.72% at 50% 28.12%, rgba(170, 170, 170, 0.10) 0%, rgba(227, 227, 227, 0.00) 100%), rgba(113, 113, 113, 0.15)",
-      }}
-    >
+    <footer className="dark:bg-black bg-[#F5F5F5] z-40 w-full px-8 py-4">
       <div className="w-full flex flex-col md:flex-row gap-4 justify-center items-center py-16">
         <div className="w-full md:w-1/3 flex flex-col items-center justify-center">
-          <Icons.logo className="h-32 w-32" />
+          <Image
+            src="/logo.svg"
+            alt="logo"
+            width={50}
+            height={50}
+            className="w-32 h-auto dark:hidden"
+          />
+          <Image
+            src="/logo-white.svg"
+            alt="logo"
+            width={50}
+            height={50}
+            className="w-32 h-auto hidden dark:block"
+          />
           <span className="inline-block text-3xl font-satoshi font-semibold">
             {siteConfig.name}
           </span>
@@ -38,14 +46,15 @@ export function SiteFooter() {
             Collaborations!
           </span>
         </div>
-        <div className="w-full md:w-2/3 flex gap-4 justify-center items-center">
-          <Card
-            className="w-full max-w-xl border-none rounded-lg shadow-lg"
-            style={{
-              background:
-                "linear-gradient(0deg, rgba(37, 37, 37, 0.00) 0%, rgba(37, 37, 37, 0.00) 100%), radial-gradient(86.72% 86.72% at 50% 28.12%, rgba(170, 170, 170, 0.10) 0%, rgba(227, 227, 227, 0.00) 100%), rgba(255, 255, 255, 0.78)",
-            }}
-          >
+        <div className="relative w-full md:w-2/3 flex gap-4 justify-center items-center">
+          <Image
+            src="/images/footer/gradient.png"
+            width={812}
+            height={624}
+            alt="hero"
+            className="absolute w-full max-w-3xl h-auto mx-auto z-[-1] bg-transparent"
+          />
+          <Card className="w-full max-w-xl border-none rounded-lg shadow-sm bg-secondary">
             <CardContent>
               <div className="flex justify-between">
                 <div className="flex gap-4">

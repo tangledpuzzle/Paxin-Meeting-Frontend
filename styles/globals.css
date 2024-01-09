@@ -37,7 +37,7 @@
   }
 
   .dark {
-    --background: 224 71% 4%;
+    --background: 0 0% 5%;
     --foreground: 213 31% 91%;
 
     --muted: 223 47% 11%;
@@ -55,8 +55,8 @@
     --card: 224 71% 4%;
     --card-foreground: 213 31% 91%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
+    --primary: 166.2 100% 30.6%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 222.2 47.4% 11.2%;
     --secondary-foreground: 210 40% 98%;
@@ -77,6 +77,46 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  .bg-gradient {
+    background: linear-gradient(90deg, #00b887 0%, #01b6d3 100%),
+      linear-gradient(7deg, #7b2bcc 21.22%, #2296f3 88.72%);
+  }
+
+  .bg-radial-gradient {
+    background: radial-gradient(
+        100% 100% at 50% 50%,
+        rgba(0, 184, 135, 0.75) 0%,
+        rgba(1, 182, 211, 0.58) 100%
+      ),
+      #00b887;
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      90deg,
+      #575757 0%,
+      rgba(82, 93, 90, 0.98) 36.43%,
+      rgba(0, 184, 135, 0.7) 46.56%,
+      rgba(0, 184, 135, 0.7) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .text-gradient {
+    background: linear-gradient(
+      90deg,
+      #fff 0%,
+      rgba(255, 255, 255, 0.98) 36.43%,
+      rgb(103, 255, 215) 46.56%,
+      rgb(103, 255, 215) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   /* This will change the scrollbar color for Webkit browsers like Chrome, Safari */

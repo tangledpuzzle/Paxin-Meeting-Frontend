@@ -21,7 +21,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 
 export function LanguageSelector() {
   return (
-    <Select>
+    <Select defaultValue="en">
       <SelectTrigger className="w-auto rounded-full !px-4 gap-2">
         <SelectValue placeholder="Select a language" />
       </SelectTrigger>

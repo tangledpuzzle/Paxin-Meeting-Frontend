@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 
 import { AvatarWithMenu } from "./avatar-with-menu"
 import { LanguageSelector } from "./language"
+import { MobileMenu } from "./mobile-menu"
 
 export function SiteHeader() {
   return (
@@ -15,12 +16,13 @@ export function SiteHeader() {
       <div className="flex h-20 items-center space-x-4 px-8 sm:justify-between sm:space-x-0">
         <MainNav items={siteConfig.mainNav} />
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <nav className="flex items-center space-x-2">
+          <nav className="hidden sm:flex items-center space-x-2">
             <ThemeToggle />
             <LanguageSelector />
             <AvatarWithMenu />
           </nav>
         </div>
+        <MobileMenu />
       </div>
     </header>
   )
