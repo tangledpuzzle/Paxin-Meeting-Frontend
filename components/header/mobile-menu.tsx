@@ -1,11 +1,8 @@
 "use client"
 
-import Link from "next/link"
 import { Menu } from "lucide-react"
 
-import { siteConfig } from "@/config/site"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,13 +11,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { MainNav } from "@/components/header/main-nav"
-import { Icons } from "@/components/icons"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 export function MobileMenu() {
   return (
-    <div className="md:hidden block">
+    <div className="block md:hidden">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Button variant="ghost" size="icon" className="ml-3">

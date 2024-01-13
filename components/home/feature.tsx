@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
 import Image from "next/image"
 
 import { Icons } from "@/components/icons"
 
-import { Badge } from "../ui/badge"
+import { SectionBadge } from "../common/section-badge"
+import { SectionDescription } from "../common/section-description"
+import { SectionTitle } from "../common/section-title"
 
 const features = [
   {
@@ -46,32 +47,32 @@ function FeatureCard({
   return (
     <div
       data-theme="light"
-      className={`relative max-w-[350px] mx-auto w-full bg-muted hover:bg-transparent flex flex-col gap-4 font-satoshi group transition-all duration-500 rounded-3xl overflow-hidden`}
+      className={`group relative mx-auto flex w-full max-w-[350px] flex-col gap-4 overflow-hidden rounded-3xl bg-muted font-satoshi transition-all duration-500 hover:bg-transparent`}
     >
       <div
-        className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[-1]"
+        className="absolute left-0 top-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
           background:
             "linear-gradient(90deg, #00B887 0%, #01B6D3 100%), linear-gradient(7deg, #7B2BCC 21.22%, #2296F3 88.72%)",
         }}
       ></div>
-      <div className="bg-transparent flex items-center justify-start m-6 mb-0">
+      <div className="m-6 mb-0 flex items-center justify-start bg-transparent">
         <Icons.bag
-          className="dark:hidden group-hover:hidden w-8 h-8"
+          className="h-8 w-8 group-hover:hidden dark:hidden"
           fill="black"
         />
         <Icons.bag
-          className="hidden dark:block group-hover:block w-8 h-8"
+          className="hidden h-8 w-8 group-hover:block dark:block"
           fill="white"
         />
       </div>
       <div
-        className={`text-lg font-bold mx-6 text-secondary-foreground group-hover:text-secondary`}
+        className={`mx-6 text-lg font-bold text-secondary-foreground group-hover:text-secondary`}
       >
         {title}
       </div>
       <div
-        className={`text-sm text-muted-foreground group-hover:text-muted mx-6`}
+        className={`mx-6 text-sm text-muted-foreground group-hover:text-muted`}
       >
         {description}
       </div>
@@ -80,7 +81,7 @@ function FeatureCard({
         width={291}
         height={152}
         alt="feature"
-        className="w-full mt-auto opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        className="mt-auto w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
       />
     </div>
   )
@@ -88,19 +89,14 @@ function FeatureCard({
 
 export function FeatureSection() {
   return (
-    <div className="flex flex-col justify-center items-center">
-      <Badge variant="outline" className="p-2 text-primary">
-        <Icons.star className="w-4 h-4 mr-2" />
-        Discover PaxinTrade
-      </Badge>
-      <div className="text-3xl md:text-4xl xl:text-5xl text-gradient text-center mt-2 font-roboto font-bold leading-normal">
-        Unleashing the Future of Online Interaction
-      </div>
-      <div className="max-w-4xl text-muted-foreground font-satoshi prose text-center">
+    <div className="flex flex-col items-center justify-center">
+      <SectionBadge>Discover PaxinTrade</SectionBadge>
+      <SectionTitle>Unleashing the Future of Online Interaction</SectionTitle>
+      <SectionDescription>
         Explore the unique blend of online publishing and Telegram mailing. From
         streamlined searches to launching your 3D world,
-      </div>
-      <div className="relative w-full mt-10 grid grid-cols-1 xl:grid-cols-4 md:grid-cols-2 gap-4 justify-center items-stretch">
+      </SectionDescription>
+      <div className="relative mt-10 grid w-full grid-cols-1 items-stretch justify-center gap-4 md:grid-cols-2 xl:grid-cols-4">
         {features.map((feature, index) => (
           <FeatureCard
             key={index}

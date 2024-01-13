@@ -5,82 +5,76 @@ import Link from "next/link"
 import { Facebook, Github, Instagram, Twitter } from "lucide-react"
 
 import { siteConfig } from "@/config/site"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { MainNav } from "@/components/header/main-nav"
-import { Icons } from "@/components/icons"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 export function SiteFooter() {
   return (
-    <footer className="dark:bg-black bg-[#F5F5F5] z-40 w-full px-8 py-4">
-      <div className="w-full flex flex-col md:flex-row gap-4 justify-center items-center py-16">
-        <div className="w-full md:w-1/3 flex flex-col items-center justify-center">
+    <footer className="z-40 w-full bg-[#F5F5F5] px-8 py-4 dark:bg-black">
+      <div className="flex w-full flex-col items-center justify-center gap-4 py-16 md:flex-row">
+        <div className="flex w-full flex-col items-center justify-center md:w-1/3">
           <Image
             src="/logo.svg"
             alt="logo"
             width={50}
             height={50}
-            className="w-32 h-auto dark:hidden"
+            className="h-auto w-32 dark:hidden"
           />
           <Image
             src="/logo-white.svg"
             alt="logo"
             width={50}
             height={50}
-            className="w-32 h-auto hidden dark:block"
+            className="hidden h-auto w-32 dark:block"
           />
-          <span className="inline-block text-3xl font-satoshi font-semibold">
+          <span className="inline-block font-satoshi text-3xl font-semibold">
             {siteConfig.name}
           </span>
-          <span className="block text-sm max-w-md text-center my-2 font-satoshi text-muted-foreground">
+          <span className="my-2 block max-w-md text-center font-satoshi text-sm text-muted-foreground">
             Drop us a Line or Two , We are Open for Creative Minds and
             Collaborations!
           </span>
         </div>
-        <div className="relative w-full md:w-2/3 flex gap-4 justify-center items-center">
+        <div className="relative flex w-full items-center justify-center gap-4 md:w-2/3">
           <Image
             src="/images/footer/gradient.png"
             width={812}
             height={624}
             alt="hero"
-            className="absolute w-full max-w-3xl h-auto mx-auto z-[-1] bg-transparent"
+            className="absolute z-[-1] mx-auto h-auto w-full max-w-3xl bg-transparent"
           />
-          <Card className="w-full max-w-xl border-none rounded-lg shadow-sm bg-secondary">
+          <Card className="w-full max-w-xl rounded-lg border-none bg-secondary shadow-sm">
             <CardContent>
               <div className="flex justify-between">
                 <div className="flex gap-4">
                   <div className="flex flex-col">
-                    <div className="font-dm-sans text-xl my-4 font-semibold">
+                    <div className="font-dm-sans my-4 text-xl font-semibold">
                       About
                     </div>
                     {siteConfig.footer.about.map((item, index) => (
                       <Link
                         key={index}
                         href={item.href}
-                        className="text-sm text-muted-foreground font-satoshi my-2"
+                        className="my-2 font-satoshi text-sm text-muted-foreground"
                       >
                         {item.title}
                       </Link>
                     ))}
                   </div>
                   <div className="flex flex-col">
-                    <div className="font-dm-sans text-xl my-4 font-semibold">
+                    <div className="font-dm-sans my-4 text-xl font-semibold">
                       Product
                     </div>
                     {siteConfig.footer.product.map((item, index) => (
                       <Link
                         key={index}
                         href={item.href}
-                        className="text-sm text-muted-foreground font-satoshi my-2"
+                        className="my-2 font-satoshi text-sm text-muted-foreground"
                       >
                         {item.title}
                       </Link>
@@ -88,14 +82,14 @@ export function SiteFooter() {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <div className="font-dm-sans text-xl my-4 font-semibold">
+                  <div className="font-dm-sans my-4 text-xl font-semibold">
                     Resources
                   </div>
                   {siteConfig.footer.resources.map((item, index) => (
                     <Link
                       key={index}
                       href={item.href}
-                      className="text-sm text-muted-foreground font-satoshi my-2"
+                      className="my-2 font-satoshi text-sm text-muted-foreground"
                     >
                       {item.title}
                     </Link>
@@ -104,39 +98,39 @@ export function SiteFooter() {
               </div>
             </CardContent>
             <CardFooter className="flex flex-col">
-              <Separator className="container mx-auto my-2 opacity-30 bg-[#8C8C8C]/30" />
-              <div className="w-full flex justify-between">
-                <div className="text-lg text-muted-foreground font-satoshi">
+              <Separator className="container mx-auto my-2 bg-[#8C8C8C]/30 opacity-30" />
+              <div className="flex w-full justify-between">
+                <div className="font-satoshi text-lg text-muted-foreground">
                   Follow us on:
                 </div>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
-                    className="text-sm text-muted-foreground font-satoshi rounded-full"
+                    className="rounded-full font-satoshi text-sm text-muted-foreground"
                     size="icon"
                   >
-                    <Facebook className="w-4 h-4" />
+                    <Facebook className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="outline"
-                    className="text-sm text-muted-foreground font-satoshi rounded-full"
+                    className="rounded-full font-satoshi text-sm text-muted-foreground"
                     size="icon"
                   >
-                    <Instagram className="w-4 h-4" />
+                    <Instagram className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="outline"
-                    className="text-sm text-muted-foreground font-satoshi rounded-full"
+                    className="rounded-full font-satoshi text-sm text-muted-foreground"
                     size="icon"
                   >
-                    <Twitter className="w-4 h-4" />
+                    <Twitter className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="outline"
-                    className="text-sm text-muted-foreground font-satoshi rounded-full"
+                    className="rounded-full font-satoshi text-sm text-muted-foreground"
                     size="icon"
                   >
-                    <Github className="w-4 h-4" />
+                    <Github className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -145,20 +139,20 @@ export function SiteFooter() {
         </div>
       </div>
       <Separator className="container mx-auto bg-[#8C8C8C]/30" />
-      <div className="container flex flex-col sm:flex-row items-center justify-between mt-2">
-        <div className="text-sm text-muted-foreground font-satoshi">
+      <div className="container mt-2 flex flex-col items-center justify-between sm:flex-row">
+        <div className="font-satoshi text-sm text-muted-foreground">
           © Copyright 2022, All Rights Reserved by PaxinTrade
         </div>
         <div>
           <Button
             variant="link"
-            className="text-sm text-muted-foreground font-satoshi"
+            className="font-satoshi text-sm text-muted-foreground"
           >
             Privacy Policy
           </Button>
           <Button
             variant="link"
-            className="text-sm text-muted-foreground font-satoshi"
+            className="font-satoshi text-sm text-muted-foreground"
           >
             Terms of Use
           </Button>

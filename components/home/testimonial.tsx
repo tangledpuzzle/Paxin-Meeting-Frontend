@@ -1,11 +1,10 @@
 "use client"
 
-import Image from "next/image"
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Icons } from "@/components/icons"
 
-import { Badge } from "../ui/badge"
+import { SectionBadge } from "../common/section-badge"
+import { SectionDescription } from "../common/section-description"
+import { SectionTitle } from "../common/section-title"
 
 const data = [
   {
@@ -70,22 +69,22 @@ function TestimonialCard({
   timestamp: string
 }) {
   return (
-    <div className="rounded-xl bg-muted p-8 max-w-[400px]">
+    <div className="max-w-[400px] rounded-xl bg-muted p-8">
       <div className="flex items-center gap-4">
         <Avatar>
           <AvatarImage src={avatar} alt={fullname} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <div className="text-lg font-satoshi text-secondary-foreground">
+          <div className="font-satoshi text-lg text-secondary-foreground">
             {fullname}
           </div>
           <div className="text-sm">@{username}</div>
         </div>
       </div>
       <div className="mt-4">
-        <div className="text-lg font-satoshi">"{comment}"</div>
-        <div className="text-sm mt-6">{timestamp}</div>
+        <div className="font-satoshi text-lg">{comment}</div>
+        <div className="mt-6 text-sm">{timestamp}</div>
       </div>
     </div>
   )
@@ -93,20 +92,15 @@ function TestimonialCard({
 
 export function TestimonialSection() {
   return (
-    <div className="flex flex-col justify-center items-center">
-      <Badge variant="outline" className="p-2 text-primary">
-        <Icons.star className="w-4 h-4 mr-2" />
-        Why PaxinTrade
-      </Badge>
-      <div className="text-3xl md:text-4xl xl:text-5xl text-gradient text-center mt-2 font-roboto font-bold leading-normal">
-        Positive experiences from early users
-      </div>
-      <div className="max-w-4xl text-muted-foreground font-satoshi prose text-center">
+    <div className="flex flex-col items-center justify-center">
+      <SectionBadge>Why PaxinTrade</SectionBadge>
+      <SectionTitle>Positive experiences from early users</SectionTitle>
+      <SectionDescription>
         Discover the experiences of PaxinTrade users who have found value and
         innovation in our platform.
-      </div>
-      <div className="relative w-full mt-10 flex justify-center items-center">
-        <div className="grid grid-cols-1 xl:grid-cols-4 md:grid-cols-2 gap-8">
+      </SectionDescription>
+      <div className="relative mt-10 flex w-full items-center justify-center">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
           {data.map((item) => (
             <TestimonialCard
               key={item.username}
@@ -119,14 +113,14 @@ export function TestimonialSection() {
           ))}
         </div>
         <div
-          className="absolute w-full h-full dark:hidden"
+          className="absolute h-full w-full dark:hidden"
           style={{
             background:
               "linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1) 85%)",
           }}
         ></div>
         <div
-          className="absolute w-full h-full hidden dark:block"
+          className="absolute hidden h-full w-full dark:block"
           style={{
             background: "linear-gradient(to bottom, #0c0c0c00, #0c0c0cff 85%)",
           }}

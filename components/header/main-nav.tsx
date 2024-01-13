@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation"
 import { NavItem } from "@/types/nav"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
 
 interface MainNavProps {
   items?: NavItem[]
@@ -25,21 +24,21 @@ export function MainNav({ items }: MainNavProps) {
           alt="logo"
           width={50}
           height={50}
-          className="dark:hidden h-12 w-12"
+          className="h-12 w-12 dark:hidden"
         />
         <Image
           src="/logo-white.svg"
           alt="logo"
           width={50}
           height={50}
-          className="hidden dark:block h-12 w-12"
+          className="hidden h-12 w-12 dark:block"
         />
-        <span className="inline-block sm:hidden lg:inline-block text-3xl font-satoshi font-semibold">
+        <span className="inline-block font-satoshi text-3xl font-semibold sm:hidden lg:inline-block">
           {siteConfig.name}
         </span>
       </Link>
       {items?.length ? (
-        <nav className="hidden md:flex gap-6 h-10 my-auto">
+        <nav className="my-auto hidden h-10 gap-6 md:flex">
           {items?.map(
             (item, index) =>
               item.href && (
@@ -47,9 +46,9 @@ export function MainNav({ items }: MainNavProps) {
                   key={index}
                   href={item.href}
                   className={cn(
-                    "flex items-center text-sm font-medium text-muted-foreground px-3 rounded-lg hover:bg-secondary hover:text-primary active:bg-secondary/80",
+                    "flex items-center rounded-lg px-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary active:bg-secondary/80",
                     item.disabled && "cursor-not-allowed opacity-80",
-                    pathname === item.href && "text-primary bg-secondary"
+                    pathname === item.href && "bg-secondary text-primary"
                   )}
                 >
                   {item.title}

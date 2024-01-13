@@ -48,7 +48,7 @@ export const siteConfig = {
       {
         title: "FAQ",
         href: "/faq",
-      }
+      },
     ],
     product: [
       {
@@ -62,7 +62,7 @@ export const siteConfig = {
       {
         title: "Changelog",
         href: "/changelog",
-      }
+      },
     ],
     resources: [
       {
@@ -76,13 +76,13 @@ export const siteConfig = {
       {
         title: "Twitter",
         href: "https://twitter.com/shadcn",
-      }
+      },
     ],
     social: {
       facebook: "https://facebook.com/shadcn",
       instagram: "https://instagram.com/shadcn",
       twitter: "https://twitter.com/shadcn",
       github: "https://github.com/shadcn/ui",
-    }
-  }
+    },
+  },
 }
