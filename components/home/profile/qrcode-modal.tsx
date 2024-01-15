@@ -10,7 +10,11 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 
-export function QRCodeModal() {
+interface QRCodeModalProps {
+  qrcode: string
+}
+
+export function QRCodeModal({ qrcode }: QRCodeModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -31,7 +35,7 @@ export function QRCodeModal() {
             Please Scan the QR Code Code inside the area. Scanning will start
             automatically.
           </div>
-          <QRCode value="Hello! I am a qrcode" className="mt-4" />
+          <QRCode value={qrcode} className="mt-4" />
         </div>
         <div className="relative my-2 flex w-full justify-center">
           <div className="absolute top-[50%] z-[-1] h-[2px] w-full rounded-full bg-muted"></div>
@@ -41,7 +45,7 @@ export function QRCodeModal() {
           <Input
             type="text"
             placeholder="Enter the code"
-            value="3463-3456-5687-0455"
+            value={qrcode}
             readOnly
           />
           <Button variant="outline" size="icon">
