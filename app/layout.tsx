@@ -1,3 +1,5 @@
+import App from "@/provider/provider"
+
 import "@/styles/globals.css"
 import { Metadata } from "next"
 
@@ -32,12 +34,12 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <>
+    <App>
       <html lang="en" suppressHydrationWarning>
         <head />
         <body
           className={cn(
-            "min-h-screen bg-background font-sans antialiased",
+            "min-h-screen bg-background font-satoshi antialiased",
             fontSans.variable,
             fontSatoshi.variable,
             fontDMSans.variable,
@@ -54,6 +56,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </ThemeProvider>
         </body>
       </html>
-    </>
+    </App>
   )
 }

@@ -1,0 +1,16 @@
+.slick-prev::before {
+  content: '';
+}
+
+.slick-next::before {
+  content: '';
+}
+
+.slick-slide {
+  transition: opacity .3s ease-in-out;
+  opacity: 0.3;
+}
+
+.slick-center {
+  opacity: 1;
+}

@@ -1,12 +1,12 @@
-import { AboutSection } from "@/components/home/about"
-import { FeatureSection } from "@/components/home/feature"
-import { HeroSection } from "@/components/home/hero"
-import { JoinUsSection } from "@/components/home/joinus"
-import { NavigateSection } from "@/components/home/navigate"
-import { ServicesSection } from "@/components/home/services"
-import { TestimonialSection } from "@/components/home/testimonial"
+import { AboutSection } from "@/components/main/about"
+import { FeatureSection } from "@/components/main/feature"
+import { HeroSection } from "@/components/main/hero"
+import { JoinUsSection } from "@/components/main/joinus"
+import { NavigateSection } from "@/components/main/navigate"
+import { ServicesSection } from "@/components/main/services"
+import { TestimonialSection } from "@/components/main/testimonial"
 
-export default function IndexPage() {
+export default function LandingPage() {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <HeroSection />

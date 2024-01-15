@@ -1,4 +1,3 @@
-
 import { siteConfig } from "@/config/site"
 import { MainNav } from "@/components/header/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
