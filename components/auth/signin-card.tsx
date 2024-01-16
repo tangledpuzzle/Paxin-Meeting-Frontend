@@ -21,8 +21,8 @@ export function SignInCard() {
           <Input type="text" placeholder="Password" className="pl-12 pr-4" />
         </div>
         <div className="flex w-full justify-end">
-          <Button type="button" variant="link">
-            Forgot password?
+          <Button variant="link" asChild>
+            <Link href="/auth/forgot-password">Forgot password?</Link>
           </Button>
         </div>
         <Button type="submit" variant="default" className="w-full">
