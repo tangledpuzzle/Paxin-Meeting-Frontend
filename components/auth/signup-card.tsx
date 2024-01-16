@@ -53,7 +53,7 @@ export function SignUpCard() {
           </div>
         </div>
         <Button type="submit" variant="default" className="w-full">
-          Login
+          Sign Up
         </Button>
       </div>
       <div className="mt-8 flex w-full max-w-sm items-center justify-center">

@@ -26,7 +26,7 @@ export function SignInCard() {
           </Button>
         </div>
         <Button type="submit" variant="default" className="w-full">
-          Login
+          Sign In
         </Button>
       </div>
       <div className="mt-8 w-full max-w-sm space-y-4">
