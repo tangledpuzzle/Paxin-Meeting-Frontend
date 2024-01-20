@@ -54,19 +54,7 @@ export function HeroSection() {
             className="mx-auto h-auto w-full max-w-5xl md:hidden"
           />
         </div>
-        <div
-          className="absolute h-full w-full max-w-5xl dark:hidden"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1) 85%)",
-          }}
-        ></div>
-        <div
-          className="absolute hidden h-full w-full max-w-5xl dark:block"
-          style={{
-            background: "linear-gradient(to bottom, #0c0c0c00, #0c0c0cff 85%)",
-          }}
-        ></div>
+        <div className="absolute bottom-0 h-1/2 w-full max-w-5xl bg-gradient-to-b from-transparent via-white to-white dark:via-black dark:to-black"></div>
       </div>
     </div>
   )

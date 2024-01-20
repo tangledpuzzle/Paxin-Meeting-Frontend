@@ -1,9 +1,7 @@
 "use client"
 
 import { usePaxContext } from "@/context/context"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import {
   Pagination,
   PaginationContent,
@@ -16,44 +14,10 @@ import {
 
 import "slick-carousel/slick/slick-theme.css"
 import "slick-carousel/slick/slick.css"
-import "../slider.css"
 import { FlowCard } from "./flow-card"
-
-function SampleNextArrow(props: any) {
-  const { onClick } = props
-  return (
-    <div className="absolute right-0 top-0 z-10 flex h-full items-center justify-center">
-      <Button className="h-6 w-6 rounded-full" onClick={onClick} size="icon">
-        <ChevronRightIcon className="h-5 w-5 text-white" />
-      </Button>
-    </div>
-  )
-}
-
-function SamplePrevArrow(props: any) {
-  const { onClick } = props
-  return (
-    <div className="absolute left-0 top-0 z-10 flex h-full items-center justify-center">
-      <Button className="h-6 w-6 rounded-full" onClick={onClick} size="icon">
-        <ChevronLeftIcon className="h-5 w-5 text-white" />
-      </Button>
-    </div>
-  )
-}
 
 export default function FlowSection() {
   const { viewMode, setViewMode } = usePaxContext()
-
-  const settings = {
-    dots: false,
-    infinite: false,
-    centerMode: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    variableWidth: true,
-    prevArrow: <SamplePrevArrow />,
-    nextArrow: <SampleNextArrow />,
-  }
 
   const data = {
     title: "Your Personal Realtor",

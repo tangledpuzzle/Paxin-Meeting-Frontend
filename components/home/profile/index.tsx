@@ -1,8 +1,5 @@
 "use client"
 
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
 import {
   Pagination,
   PaginationContent,
@@ -15,43 +12,9 @@ import {
 
 import "slick-carousel/slick/slick-theme.css"
 import "slick-carousel/slick/slick.css"
-import "../slider.css"
 import { ProfileCard } from "./profile-card"
 
-function SampleNextArrow(props: any) {
-  const { onClick } = props
-  return (
-    <div className="absolute right-0 top-0 z-10 flex h-full items-center justify-center">
-      <Button className="h-6 w-6 rounded-full" onClick={onClick} size="icon">
-        <ChevronRightIcon className="h-5 w-5 text-white" />
-      </Button>
-    </div>
-  )
-}
-
-function SamplePrevArrow(props: any) {
-  const { onClick } = props
-  return (
-    <div className="absolute left-0 top-0 z-10 flex h-full items-center justify-center">
-      <Button className="h-6 w-6 rounded-full" onClick={onClick} size="icon">
-        <ChevronLeftIcon className="h-5 w-5 text-white" />
-      </Button>
-    </div>
-  )
-}
-
 export default function ProfileSection() {
-  const settings = {
-    dots: false,
-    infinite: false,
-    centerMode: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    variableWidth: true,
-    prevArrow: <SamplePrevArrow />,
-    nextArrow: <SampleNextArrow />,
-  }
-
   const data = {
     username: "@yliano60",
     bio: "Hello! My name is Julia. I provide services related to Real Estate. I will advise you on any issues before you make a decision regarding cooperation.",

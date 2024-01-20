@@ -1,18 +1,15 @@
 import Image from "next/image"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { BiSolidCalendar } from "react-icons/bi"
 import { BsCalendarDateFill } from "react-icons/bs"
 import { GrArticle } from "react-icons/gr"
-import Slider from "react-slick"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { TagBadge } from "@/components/common/tag-badge"
+import { TagSlider } from "@/components/common/tag-slider"
 
 import "slick-carousel/slick/slick-theme.css"
 import "slick-carousel/slick/slick.css"
-import "../slider.css"
 import { CategoryCard } from "./category-card"
 import { CityCard } from "./city-card"
 import { QRCodeModal } from "./qrcode-modal"
@@ -33,28 +30,6 @@ export interface ProfileCardProps {
   }
 }
 
-function SampleNextArrow(props: any) {
-  const { onClick } = props
-  return (
-    <div className="absolute right-0 top-0 z-10 flex h-full items-center justify-center">
-      <Button className="h-6 w-6 rounded-full" onClick={onClick} size="icon">
-        <ChevronRightIcon className="h-5 w-5 text-white" />
-      </Button>
-    </div>
-  )
-}
-
-function SamplePrevArrow(props: any) {
-  const { onClick } = props
-  return (
-    <div className="absolute left-0 top-0 z-10 flex h-full items-center justify-center">
-      <Button className="h-6 w-6 rounded-full" onClick={onClick} size="icon">
-        <ChevronLeftIcon className="h-5 w-5 text-white" />
-      </Button>
-    </div>
-  )
-}
-
 function ProfileCard(profile: ProfileCardProps) {
   const {
     username,
@@ -67,17 +42,6 @@ function ProfileCard(profile: ProfileCardProps) {
     countrycode,
     review,
   } = profile
-
-  const settings = {
-    dots: false,
-    infinite: false,
-    centerMode: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    variableWidth: true,
-    prevArrow: <SamplePrevArrow />,
-    nextArrow: <SampleNextArrow />,
-  }
 
   return (
     <Card>
@@ -103,11 +67,7 @@ function ProfileCard(profile: ProfileCardProps) {
           </div>
         </div>
         <div className="relative w-full max-w-[100%]">
-          <Slider {...settings}>
-            {tags.map((tag, index) => (
-              <TagBadge key={index}>{tag}</TagBadge>
-            ))}
-          </Slider>
+          <TagSlider tags={tags} />
         </div>
         <div className="relative">
           <div

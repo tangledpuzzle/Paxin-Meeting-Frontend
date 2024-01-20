@@ -14,7 +14,7 @@ export const siteConfig = {
       href: "/about",
     },
     {
-      title: "Contact Us",
+      title: "Contact",
       href: "/contact",
     },
   ],
@@ -26,11 +26,11 @@ export const siteConfig = {
   footer: {
     about: [
       {
-        title: "About Us",
+        title: "About",
         href: "/about",
       },
       {
-        title: "Contact Us",
+        title: "Contact",
         href: "/contact",
       },
       {
