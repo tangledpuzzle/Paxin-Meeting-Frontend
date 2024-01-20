@@ -11,16 +11,21 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 
 interface QRCodeModalProps {
+  children?: React.ReactNode
   qrcode: string
 }
 
-export function QRCodeModal({ qrcode }: QRCodeModalProps) {
+export function QRCodeModal({ qrcode, children }: QRCodeModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="rounded-full">
-          <IoQrCodeOutline className="h-5 w-5 text-white" />
-        </Button>
+        {children ? (
+          children
+        ) : (
+          <Button variant="outline" size="icon" className="rounded-full">
+            <IoQrCodeOutline className="h-5 w-5 text-white" />
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="max-w-lg rounded-lg sm:mx-auto">
         <div className="flex flex-col items-center">

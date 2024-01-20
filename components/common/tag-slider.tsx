@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import Slider from "react-slick"
 
@@ -35,9 +36,25 @@ function SliderPrevArrow(props: any) {
 }
 
 function TagSlider({ tags }: TagSliderProps) {
+  const [sliderNeeded, setSliderNeeded] = useState(false)
+  const tagContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (tagContainerRef.current) {
+      let parentWidth = tagContainerRef.current?.offsetWidth
+
+      let childrenWidth = Array.from(tagContainerRef.current.children).reduce(
+        (acc, child) => acc + (child as HTMLDivElement).offsetWidth,
+        0
+      )
+
+      setSliderNeeded(childrenWidth >= parentWidth)
+    }
+  }, [tags])
+
   const settings = {
     dots: false,
-    infinite: false,
+    infinite: true,
     centerMode: true,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -46,12 +63,21 @@ function TagSlider({ tags }: TagSliderProps) {
     nextArrow: <SliderNextArrow />,
   }
 
-  return (
+  return sliderNeeded ? (
     <Slider {...settings}>
       {tags.map((tag, index) => (
         <TagBadge key={index}>{tag}</TagBadge>
       ))}
     </Slider>
+  ) : (
+    <div
+      ref={tagContainerRef}
+      className={sliderNeeded ? "" : "flex w-full max-w-full"}
+    >
+      {tags.map((tag, index) => (
+        <TagBadge key={index}>{tag}</TagBadge>
+      ))}
+    </div>
   )
 }
 

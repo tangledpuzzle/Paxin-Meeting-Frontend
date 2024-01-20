@@ -10,9 +10,9 @@ import { TagSlider } from "@/components/common/tag-slider"
 
 import "slick-carousel/slick/slick-theme.css"
 import "slick-carousel/slick/slick.css"
+import { QRCodeModal } from "../../common/qrcode-modal"
 import { CategoryCard } from "./category-card"
 import { CityCard } from "./city-card"
-import { QRCodeModal } from "./qrcode-modal"
 
 export interface ProfileCardProps {
   username: string

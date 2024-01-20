@@ -8,7 +8,10 @@ interface SectionBadgeProps {
 
 function TagBadge({ children }: SectionBadgeProps) {
   return (
-    <Badge variant="outline" className="mx-1 border-primary px-4 py-2">
+    <Badge
+      variant="outline"
+      className="mx-1 whitespace-nowrap rounded-full border-primary px-4 py-1"
+    >
       {children}
     </Badge>
   )
