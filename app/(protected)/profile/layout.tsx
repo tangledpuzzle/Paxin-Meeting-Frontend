@@ -11,7 +11,7 @@ export default function ProfileLayout({
       <SiteHeader />
       <div className="absolute top-0 flex h-screen w-full">
         <Sidebar />
-        <main className="mt-20 w-full bg-secondary">{children}</main>
+        <main className="mt-20 w-full bg-secondary/60">{children}</main>
       </div>
     </>
   )

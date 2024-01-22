@@ -5,7 +5,7 @@ import { Search } from "lucide-react"
 import { BiSolidCategory } from "react-icons/bi"
 import { FaTrashAlt } from "react-icons/fa"
 import { IoMdArchive } from "react-icons/io"
-import { MdOutlineHouseSiding } from "react-icons/md"
+import { MdOutlineHouseSiding, MdOutlinePostAdd } from "react-icons/md"
 import { RiArticleLine, RiEditBoxFill } from "react-icons/ri"
 
 import { Badge } from "@/components/ui/badge"
@@ -32,10 +32,16 @@ export default function MyPostsPage() {
         icon={RiArticleLine}
       />
       <Separator className="my-4" />
-      <div className="mb-2 w-full">
+      <div className="mb-2 flex w-full justify-between gap-2">
         <div className="relative w-full sm:w-80">
           <Search className="absolute inset-y-0 left-3 my-auto h-4 w-4 text-gray-500" />
           <Input type="text" placeholder="Search" className="pl-12 pr-4" />
+        </div>
+        <div>
+          <Button>
+            <MdOutlinePostAdd className="mr-2 h-5 w-5" />
+            New Post
+          </Button>
         </div>
       </div>
       <div className="w-full">
@@ -92,7 +98,7 @@ export default function MyPostsPage() {
               <CarouselNext className="right-3" />
             </Carousel>
             <div className="relative flex w-full flex-col md:h-60">
-              <div className="line-clamp-1 w-[calc(100%_-_12rem)] max-w-lg text-3xl font-bold">
+              <div className="line-clamp-1 w-[calc(100%_-_12rem)] text-3xl font-bold">
                 Metaverse Metaverse Metaverse Metaverse Metaverse
               </div>
               <div className="line-clamp-1 w-full text-sm text-muted-foreground md:w-[90%]">
@@ -199,7 +205,7 @@ export default function MyPostsPage() {
               <CarouselNext className="right-3" />
             </Carousel>
             <div className="relative flex w-full flex-col md:h-60">
-              <div className="line-clamp-1 w-[calc(100%_-_12rem)] max-w-lg text-3xl font-bold">
+              <div className="line-clamp-1 w-[calc(100%_-_12rem)] text-3xl font-bold">
                 Metaverse Metaverse Metaverse Metaverse Metaverse
               </div>
               <div className="line-clamp-1 w-full text-sm text-muted-foreground md:w-[90%]">
@@ -306,7 +312,7 @@ export default function MyPostsPage() {
               <CarouselNext className="right-3" />
             </Carousel>
             <div className="relative flex w-full flex-col md:h-60">
-              <div className="line-clamp-1 w-[calc(100%_-_12rem)] max-w-lg text-3xl font-bold">
+              <div className="line-clamp-1 w-[calc(100%_-_12rem)] text-3xl font-bold">
                 Metaverse Metaverse Metaverse Metaverse Metaverse
               </div>
               <div className="line-clamp-1 w-full text-sm text-muted-foreground md:w-[90%]">
