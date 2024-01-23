@@ -11,10 +11,16 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export function LanguageSelector() {
+interface LanguageSelectorProps {
+  className?: string
+}
+
+export function LanguageSelector({ className }: LanguageSelectorProps) {
   return (
     <Select defaultValue="en">
-      <SelectTrigger className="w-auto gap-2 rounded-full !px-4">
+      <SelectTrigger
+        className={`w-auto gap-2 rounded-full bg-transparent !px-2 ${className ? className : ""}`}
+      >
         <SelectValue placeholder="Select a language" />
       </SelectTrigger>
       <SelectContent>
@@ -26,7 +32,7 @@ export function LanguageSelector() {
                 alt="en"
                 width={24}
                 height={24}
-                className="mr-2 h-4 w-4"
+                className="mr-2 h-auto w-5"
               />
               English
             </div>
@@ -38,7 +44,7 @@ export function LanguageSelector() {
                 alt="ru"
                 width={24}
                 height={24}
-                className="mr-2 h-auto w-4"
+                className="mr-2 h-auto w-5"
               />
               Russian
             </div>
@@ -50,7 +56,7 @@ export function LanguageSelector() {
                 alt="ge"
                 width={24}
                 height={24}
-                className="mr-2 h-auto w-4"
+                className="mr-2 h-auto w-5"
               />
               Georgian
             </div>
@@ -62,7 +68,7 @@ export function LanguageSelector() {
                 alt="es"
                 width={24}
                 height={24}
-                className="mr-2 h-auto w-4"
+                className="mr-2 h-auto w-5"
               />
               Spanish
             </div>

@@ -6,6 +6,8 @@ import { NavigateSection } from "@/components/main/navigate"
 import { ServicesSection } from "@/components/main/services"
 import { TestimonialSection } from "@/components/main/testimonial"
 
+import "@/styles/main.css"
+
 export default function LandingPage() {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">

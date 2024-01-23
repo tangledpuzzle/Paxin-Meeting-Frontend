@@ -9,7 +9,7 @@ import { MobileMenu } from "./mobile-menu"
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
-      <div className="flex h-20 items-center space-x-4 px-8 sm:justify-between sm:space-x-0">
+      <div className="flex h-20 items-center space-x-4 px-4 sm:justify-between sm:space-x-0 md:px-8">
         <MainNav items={siteConfig.mainNav} />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="hidden items-center space-x-2 sm:flex">

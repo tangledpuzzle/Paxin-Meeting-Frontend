@@ -9,7 +9,10 @@ interface SectionBadgeProps {
 
 function SectionBadge({ children }: SectionBadgeProps) {
   return (
-    <Badge variant="outline" className="p-2 text-primary">
+    <Badge
+      variant="outline"
+      className="rounded-full p-2 text-primary dark:border-primary"
+    >
       <Icons.star className="mr-2 h-4 w-4" />
       {children}
     </Badge>

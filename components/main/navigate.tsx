@@ -13,21 +13,21 @@ export function NavigateSection() {
         Explore the unique blend of online publishing and Telegram mailing. From
         streamlined searches to launching your 3D world.
       </SectionDescription>
-      <div className="relative mt-10 grid w-full grid-cols-1 gap-8 md:grid-cols-3">
+      <div className="relative mt-10 grid w-full grid-cols-1 gap-4 md:grid-cols-3">
         <div
-          className="bg-gradient flex flex-col justify-center rounded-xl bg-cover bg-no-repeat p-8 md:col-span-2"
+          className="bg-gradient flex min-h-72 flex-col justify-center rounded-xl bg-cover bg-no-repeat p-4 sm:p-8 md:col-span-2"
           style={{ backgroundImage: `url("/images/home/navigate-bg.png")` }}
         >
-          <div className="text-md font-satoshi font-extrabold text-white">
+          <div className="font-satoshi text-sm font-extrabold text-white">
             Efficient Discovery:
           </div>
-          <div className="font-satoshi text-sm text-white/70">
+          <div className="text-xs text-white/70">
             Utilize our advanced search engine for quick and efficient
             information discovery. Highlight your content and create a
             personalized space within our diverse platform.
           </div>
         </div>
-        <div className="hover:navigate-hover group relative overflow-hidden rounded-xl bg-muted/50 transition-all hover:bg-transparent">
+        <div className="hover:navigate-hover bg-with-gradient group relative overflow-hidden rounded-xl transition-all hover:bg-none">
           <div
             className="absolute left-0 top-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
             style={{
@@ -42,17 +42,24 @@ export function NavigateSection() {
             alt="telegram"
             className="mx-auto my-16 h-32 w-32"
           />
+          <Image
+            src="/images/home/ring.png"
+            objectFit="contain"
+            layout="fill"
+            alt="ring"
+            className="absolute mx-auto w-full"
+          />
           <div className="bg-[#00000008] p-8 pt-2">
-            <div className="text-md font-satoshi font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-secondary">
+            <div className="text-sm font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white">
               Private Asks
             </div>
-            <div className="translate-all font-satoshi text-sm text-muted-foreground duration-500 group-hover:text-muted">
+            <div className="translate-all text-xs text-muted-foreground duration-500 group-hover:text-white/70">
               Easily identify and connect with others on the Telegram network
               for seamless sharing.
             </div>
           </div>
         </div>
-        <div className="group relative grid grid-cols-1 overflow-hidden rounded-xl bg-muted p-8 hover:bg-transparent sm:grid-cols-2 md:col-span-3">
+        <div className="bg-with-gradient group relative grid grid-cols-1 overflow-hidden rounded-xl hover:bg-none sm:grid-cols-2 md:col-span-3">
           <div
             className="absolute left-0 top-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
             style={{
@@ -60,48 +67,90 @@ export function NavigateSection() {
                 "linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6",
             }}
           ></div>
-          <div className="order-last mx-auto mt-4 flex w-full max-w-sm justify-between px-8 sm:order-first">
+          <div className="relative order-last mx-auto flex w-full max-w-sm justify-between p-8 sm:order-first">
             <Image
               src="/images/home/fire1.svg"
               width={15}
               height={22}
               alt="fire 1"
-              className=""
+              className="group-hover:hidden"
             />
             <Image
               src="/images/home/fire2.svg"
               width={26}
               height={34}
               alt="fire 2"
-              className=""
+              className="group-hover:hidden"
             />
             <Image
               src="/images/home/fire3.svg"
               width={35}
               height={44}
               alt="fire 3"
-              className=""
+              className="group-hover:hidden"
             />
             <Image
               src="/images/home/fire4.svg"
               width={26}
               height={34}
               alt="fire 4"
-              className=""
+              className="group-hover:hidden"
             />
             <Image
               src="/images/home/fire5.svg"
               width={15}
               height={21}
               alt="fire 5"
-              className=""
+              className="group-hover:hidden"
+            />
+            <Image
+              src="/images/home/fire1-hover.svg"
+              width={15}
+              height={22}
+              alt="fire 1"
+              className="hidden group-hover:block"
+            />
+            <Image
+              src="/images/home/fire2-hover.svg"
+              width={26}
+              height={34}
+              alt="fire 2"
+              className="hidden group-hover:block"
+            />
+            <Image
+              src="/images/home/fire3-hover.svg"
+              width={35}
+              height={44}
+              alt="fire 3"
+              className="hidden group-hover:block"
+            />
+            <Image
+              src="/images/home/fire4-hover.svg"
+              width={26}
+              height={34}
+              alt="fire 4"
+              className="hidden group-hover:block"
+            />
+            <Image
+              src="/images/home/fire5-hover.svg"
+              width={15}
+              height={21}
+              alt="fire 5"
+              className="hidden group-hover:block"
+            />
+            <Image
+              src="/images/home/ring-2.png"
+              objectFit="cover"
+              layout="fill"
+              alt="ring"
+              className="absolute"
             />
           </div>
-          <div className="relative">
-            <div className="text-md font-satoshi font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-secondary">
+          <div className="relative p-8">
+            <div className="my-2 text-sm font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white">
               Smart Filters for Tailored Content:
             </div>
-            <div className="w-2/3 font-satoshi text-sm text-muted-foreground transition-all duration-500 group-hover:text-muted">
+            <div className="w-2/3 text-xs text-muted-foreground transition-all duration-500 group-hover:text-white/70">
               Use our advanced filters to tailor your content consumption,
               ensuring a personalized and relevant digital experience.
             </div>

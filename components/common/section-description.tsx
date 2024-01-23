@@ -9,7 +9,7 @@ function SectionDescription({ className, ...props }: SectionDescriptionProps) {
   return (
     <div
       className={cn(
-        "prose max-w-4xl text-center font-satoshi text-muted-foreground",
+        "max-w-4xl text-center text-sm text-muted-foreground sm:text-base",
         className
       )}
       {...props}

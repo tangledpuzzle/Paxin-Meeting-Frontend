@@ -45,10 +45,7 @@ function FeatureCard({
   bottomImage: string
 }) {
   return (
-    <div
-      data-theme="light"
-      className={`group relative mx-auto flex w-full max-w-[350px] flex-col gap-4 overflow-hidden rounded-3xl bg-muted font-satoshi transition-all duration-500 hover:bg-transparent`}
-    >
+    <div className="bg-with-gradient group relative mx-auto flex w-full max-w-[350px] flex-col gap-4 overflow-hidden rounded-3xl transition-all duration-500 hover:bg-none">
       <div
         className="absolute left-0 top-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
@@ -57,22 +54,15 @@ function FeatureCard({
         }}
       ></div>
       <div className="m-6 mb-0 flex items-center justify-start bg-transparent">
-        <Icons.bag
-          className="h-8 w-8 group-hover:hidden dark:hidden"
-          fill="black"
-        />
-        <Icons.bag
-          className="hidden h-8 w-8 group-hover:block dark:block"
-          fill="white"
-        />
+        <Icons.bag className="h-8 w-8 text-gray-500 group-hover:text-white dark:text-white" />
       </div>
       <div
-        className={`mx-6 text-lg font-bold text-secondary-foreground group-hover:text-secondary`}
+        className={`mx-6 text-lg font-bold text-secondary-foreground group-hover:text-white`}
       >
         {title}
       </div>
       <div
-        className={`mx-6 text-sm text-muted-foreground group-hover:text-muted`}
+        className={`mx-6 mb-6 text-sm text-muted-foreground group-hover:text-white/70 dark:text-white/70 md:mb-0`}
       >
         {description}
       </div>
@@ -81,7 +71,7 @@ function FeatureCard({
         width={291}
         height={152}
         alt="feature"
-        className="mt-auto w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        className="mt-auto hidden w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:block"
       />
     </div>
   )

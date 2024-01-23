@@ -5,7 +5,7 @@ import { Button } from "../ui/button"
 
 export function AboutSection() {
   return (
-    <div className="mb-32 flex flex-col items-center justify-center">
+    <div className="mb-8 flex flex-col items-center justify-center sm:mb-32">
       <SectionBadge>About</SectionBadge>
       <SectionTitle>What is Paxintrade?</SectionTitle>
       <SectionDescription>
@@ -17,7 +17,7 @@ export function AboutSection() {
         broad platform.
       </SectionDescription>
       <div className="relative mt-10 flex w-full items-center justify-center">
-        <Button variant="default">About Us</Button>
+        <Button className="w-36">About Us</Button>
       </div>
     </div>
   )

@@ -44,7 +44,7 @@ export function SiteFooter() {
             alt="hero"
             className="absolute z-[-1] mx-auto h-auto w-full max-w-3xl bg-transparent"
           />
-          <Card className="w-full max-w-xl rounded-lg border-none bg-secondary shadow-sm">
+          <Card className="w-full max-w-xl rounded-lg border-none bg-white shadow-sm dark:bg-[#17171A]">
             <CardContent>
               <div className="flex justify-between">
                 <div className="flex w-full gap-4">
@@ -56,7 +56,7 @@ export function SiteFooter() {
                       <Link
                         key={index}
                         href={item.href}
-                        className="my-2 font-satoshi text-sm text-muted-foreground"
+                        className="my-2 font-satoshi text-sm text-secondary-foreground"
                       >
                         {item.title}
                       </Link>
@@ -70,7 +70,7 @@ export function SiteFooter() {
                       <Link
                         key={index}
                         href={item.href}
-                        className="my-2 font-satoshi text-sm text-muted-foreground"
+                        className="my-2 font-satoshi text-sm text-secondary-foreground"
                       >
                         {item.title}
                       </Link>
@@ -84,7 +84,7 @@ export function SiteFooter() {
                       <Link
                         key={index}
                         href={item.href}
-                        className="my-2 font-satoshi text-sm text-muted-foreground"
+                        className="my-2 font-satoshi text-sm text-secondary-foreground"
                       >
                         {item.title}
                       </Link>
@@ -96,34 +96,34 @@ export function SiteFooter() {
             <CardFooter className="flex flex-col">
               <Separator className="container mx-auto my-2 bg-[#8C8C8C]/30 opacity-30" />
               <div className="flex w-full justify-between">
-                <div className="font-satoshi text-lg text-muted-foreground">
+                <div className="font-satoshi text-lg text-secondary-foreground">
                   Follow us on:
                 </div>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
-                    className="rounded-full font-satoshi text-sm text-muted-foreground"
+                    className="rounded-full border-secondary-foreground font-satoshi text-sm text-secondary-foreground"
                     size="icon"
                   >
                     <Facebook className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="outline"
-                    className="rounded-full font-satoshi text-sm text-muted-foreground"
+                    className="rounded-full border-secondary-foreground font-satoshi text-sm text-secondary-foreground"
                     size="icon"
                   >
                     <Instagram className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="outline"
-                    className="rounded-full font-satoshi text-sm text-muted-foreground"
+                    className="rounded-full border-secondary-foreground font-satoshi text-sm text-secondary-foreground"
                     size="icon"
                   >
                     <Twitter className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="outline"
-                    className="rounded-full font-satoshi text-sm text-muted-foreground"
+                    className="rounded-full border-secondary-foreground font-satoshi text-sm text-secondary-foreground"
                     size="icon"
                   >
                     <Github className="h-4 w-4" />

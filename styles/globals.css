@@ -84,15 +84,6 @@
       linear-gradient(7deg, #7b2bcc 21.22%, #2296f3 88.72%);
   }
 
-  .bg-radial-gradient {
-    background: radial-gradient(
-        100% 100% at 50% 50%,
-        rgba(0, 184, 135, 0.75) 0%,
-        rgba(1, 182, 211, 0.58) 100%
-      ),
-      #00b887;
-  }
-
   .text-gradient {
     background: linear-gradient(
       90deg,

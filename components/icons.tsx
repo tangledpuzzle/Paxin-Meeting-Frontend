@@ -114,7 +114,7 @@ export const Icons = {
       width="20"
       height="17"
       viewBox="0 0 20 17"
-      fill="none"
+      fill="currentColor"
       {...props}
     >
       <path
@@ -253,7 +253,7 @@ export const Icons = {
       width="30"
       height="30"
       viewBox="0 0 30 30"
-      fill="#5F5F5F"
+      fill="currentColor"
       {...props}
     >
       <path

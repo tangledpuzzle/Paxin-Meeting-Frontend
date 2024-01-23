@@ -69,22 +69,26 @@ function TestimonialCard({
   timestamp: string
 }) {
   return (
-    <div className="max-w-[400px] rounded-xl bg-muted p-8">
+    <div className="bg-with-gradient max-w-[400px] rounded-xl p-8">
       <div className="flex items-center gap-4">
         <Avatar>
           <AvatarImage src={avatar} alt={fullname} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <div className="font-satoshi text-lg text-secondary-foreground">
+          <div className="text-base text-gray-500 dark:text-white/70">
             {fullname}
           </div>
-          <div className="text-sm">@{username}</div>
+          <div className="text-sm text-secondary-foreground">@{username}</div>
         </div>
       </div>
       <div className="mt-4">
-        <div className="font-satoshi text-lg">{comment}</div>
-        <div className="mt-6 text-sm">{timestamp}</div>
+        <div className="text-base text-gray-500 dark:text-white/70">
+          {comment}
+        </div>
+        <div className="mt-6 text-sm text-secondary-foreground">
+          {timestamp}
+        </div>
       </div>
     </div>
   )
@@ -112,19 +116,7 @@ export function TestimonialSection() {
             />
           ))}
         </div>
-        <div
-          className="absolute h-full w-full dark:hidden"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1) 85%)",
-          }}
-        ></div>
-        <div
-          className="absolute hidden h-full w-full dark:block"
-          style={{
-            background: "linear-gradient(to bottom, #0c0c0c00, #0c0c0cff 85%)",
-          }}
-        ></div>
+        <div className="absolute bottom-0 h-full w-full bg-gradient-to-b from-transparent to-white dark:to-background"></div>
       </div>
     </div>
   )

@@ -6,7 +6,7 @@ import { SectionTitle } from "../common/section-title"
 
 export function HeroSection() {
   return (
-    <div className="mb-24 flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center overflow-hidden">
       <SectionBadge>Explore PaxinTrade</SectionBadge>
       <SectionTitle>Empowering Connections in the Metaverse</SectionTitle>
       <SectionDescription>
@@ -22,7 +22,7 @@ export function HeroSection() {
           alt="hero"
           className="absolute z-[-1] mx-auto h-auto w-full bg-transparent"
         />
-        <div className="w-full px-16 dark:hidden">
+        <div className="w-full px-2 dark:hidden sm:px-16">
           <Image
             src="/images/home/hero-light.png"
             width={1440}
@@ -38,23 +38,23 @@ export function HeroSection() {
             className="mx-auto h-auto w-full max-w-5xl md:hidden"
           />
         </div>
-        <div className="hidden w-full px-16 dark:block">
+        <div className="hidden w-full px-2 dark:block sm:px-16">
           <Image
             src="/images/home/hero-dark.png"
-            width={879}
-            height={654}
+            width={1440}
+            height={1106}
             alt="hero"
             className="mx-auto hidden h-auto w-full max-w-5xl md:block"
           />
           <Image
             src="/images/home/hero-mobile-dark.png"
-            width={879}
-            height={654}
+            width={400}
+            height={658}
             alt="hero"
             className="mx-auto h-auto w-full max-w-5xl md:hidden"
           />
         </div>
-        <div className="absolute bottom-0 h-1/2 w-full max-w-5xl bg-gradient-to-b from-transparent via-white to-white dark:via-black dark:to-black"></div>
+        <div className="absolute bottom-0 h-1/6 w-full max-w-5xl bg-gradient-to-b from-transparent via-white to-white dark:via-background dark:to-background md:h-1/3"></div>
       </div>
     </div>
   )

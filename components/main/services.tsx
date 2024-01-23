@@ -38,7 +38,7 @@ function ServiceCard({
   icons: string[]
 }) {
   return (
-    <div className="bg-radial-gradient relative flex w-full max-w-5xl flex-col items-center justify-center rounded-xl p-8">
+    <div className="bg-radial-gradient-2 relative flex w-full max-w-5xl flex-col items-center justify-center rounded-xl p-8">
       <div className="my-4 flex items-center justify-start gap-4 bg-transparent sm:my-8">
         {icons.map((icon) => (
           <Image
