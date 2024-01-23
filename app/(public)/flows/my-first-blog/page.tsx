@@ -69,7 +69,7 @@ const images = [
 ]
 
 export default function FlowPage() {
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
+  const [windowWidth, setWindowWidth] = useState<number>(1000)
 
   useEffect(() => {
     const handleResize = () => {
