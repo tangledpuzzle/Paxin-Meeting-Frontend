@@ -43,7 +43,7 @@ export default function ConferencePage() {
     <div className="p-4">
       <CTASection title="Conference" description="" icon={HiUserGroup} />
       <Separator className="my-4" />
-      <div className="flex h-[calc(100vh_-_13rem)] w-full flex-col rounded-xl bg-background p-4">
+      <div className="flex h-[calc(100vh_-_15rem)] w-full flex-col rounded-xl bg-background p-4 sm:h-[calc(100vh_-_13rem)]">
         <div className="flex w-full items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Image

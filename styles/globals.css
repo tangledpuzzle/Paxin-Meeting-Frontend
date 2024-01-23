@@ -79,7 +79,7 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  .bg-gradient {
+  .bg-primary {
     background: linear-gradient(90deg, #00b887 0%, #01b6d3 100%),
       linear-gradient(7deg, #7b2bcc 21.22%, #2296f3 88.72%);
   }

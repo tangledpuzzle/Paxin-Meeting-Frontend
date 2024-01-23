@@ -20,7 +20,7 @@ export function ProfileNav({ items, setOpen }: ProfileNavProps) {
   }
 
   return (
-    <nav className="grid items-start gap-2 font-satoshi">
+    <nav className="grid w-full grid-cols-4 items-start gap-2 sm:grid-cols-1">
       {items.map((item, index) => {
         const Icon: React.ComponentType<any> | undefined = item.icon
         return (
@@ -34,7 +34,7 @@ export function ProfileNav({ items, setOpen }: ProfileNavProps) {
             >
               <span
                 className={cn(
-                  "text-md group flex items-center rounded-md px-4 py-3 font-medium hover:bg-primary/15",
+                  "text-md group flex flex-col items-center rounded-md px-4 py-1 font-medium hover:bg-primary/15 sm:flex-row sm:py-3",
                   path === item.href
                     ? "border border-primary bg-primary/10 text-primary"
                     : "transparent",
@@ -42,7 +42,9 @@ export function ProfileNav({ items, setOpen }: ProfileNavProps) {
                 )}
               >
                 {Icon && <Icon className="h-5 w-5 lg:mr-2" />}
-                <span className="hidden truncate lg:block">{item.title}</span>
+                <span className="truncate text-xs sm:hidden sm:text-base lg:block">
+                  {item.title}
+                </span>
               </span>
             </Link>
           )

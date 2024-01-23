@@ -47,7 +47,7 @@ export function SiteFooter() {
           <Card className="w-full max-w-xl rounded-lg border-none bg-secondary shadow-sm">
             <CardContent>
               <div className="flex justify-between">
-                <div className="flex gap-4">
+                <div className="flex w-full gap-4">
                   <div className="flex flex-col">
                     <div className="font-dm-sans my-4 text-xl font-semibold">
                       About
@@ -76,20 +76,20 @@ export function SiteFooter() {
                       </Link>
                     ))}
                   </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="font-dm-sans my-4 text-xl font-semibold">
-                    Resources
+                  <div className="ml-auto flex flex-col">
+                    <div className="font-dm-sans my-4 text-xl font-semibold">
+                      Resources
+                    </div>
+                    {siteConfig.footer.resources.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={item.href}
+                        className="my-2 font-satoshi text-sm text-muted-foreground"
+                      >
+                        {item.title}
+                      </Link>
+                    ))}
                   </div>
-                  {siteConfig.footer.resources.map((item, index) => (
-                    <Link
-                      key={index}
-                      href={item.href}
-                      className="my-2 font-satoshi text-sm text-muted-foreground"
-                    >
-                      {item.title}
-                    </Link>
-                  ))}
                 </div>
               </div>
             </CardContent>

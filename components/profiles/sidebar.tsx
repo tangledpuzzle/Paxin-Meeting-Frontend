@@ -52,10 +52,10 @@ export default function Sidebar() {
   return (
     <nav
       className={cn(
-        `relative hidden h-screen w-auto border-r pt-16 sm:block lg:w-72`
+        `fixed bottom-0 z-30 w-full border-t bg-background sm:relative sm:h-screen sm:w-auto sm:border-r sm:pt-16 lg:w-72`
       )}
     >
-      <div className="space-y-4 py-4">
+      <div className="sm:space-y-4 sm:py-4">
         <div className="px-3 py-2">
           <div className="space-y-1">
             <ProfileNav items={navItems} />

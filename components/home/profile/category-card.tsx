@@ -17,9 +17,9 @@ function CategoryCard({ categories }: CategoryCardProps) {
         Category
       </div>
       <div className="mb-2 h-[1.5px] w-2/3 rounded-lg bg-gradient-to-r from-muted-foreground to-transparent"></div>
-      <div className="relative inline w-full max-w-full space-y-1">
+      <div className="flex w-full flex-wrap gap-1">
         {categories.map((category, i) => (
-          <Badge key={i} variant="outline" className="mx-1 w-fit rounded-xl">
+          <Badge key={i} variant="outline" className="w-fit rounded-xl">
             {category}
           </Badge>
         ))}
