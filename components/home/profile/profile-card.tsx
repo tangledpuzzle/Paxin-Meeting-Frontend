@@ -45,7 +45,7 @@ function ProfileCard(profile: ProfileCardProps) {
 
   return (
     <Card>
-      <CardContent className="relative flex max-w-[400px] flex-col gap-4 p-3">
+      <CardContent className="relative flex max-w-[320px] flex-col gap-4 p-3 sm:max-w-[400px]">
         <div className="relative">
           <Image
             src={avatar}
