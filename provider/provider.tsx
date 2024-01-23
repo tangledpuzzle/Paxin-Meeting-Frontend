@@ -10,6 +10,7 @@ interface IProps {
 const App: React.FC<IProps> = ({ children }) => {
   const [viewMode, setViewMode] = useState<string>("profile")
   const [postMode, setPostMode] = useState<string>("all")
+  const [currentPlan, setCurrentPlan] = useState<string>("BASIC")
 
   return (
     <PaxContext.Provider
@@ -18,6 +19,8 @@ const App: React.FC<IProps> = ({ children }) => {
         setViewMode,
         postMode,
         setPostMode,
+        currentPlan,
+        setCurrentPlan,
       }}
     >
       {children}

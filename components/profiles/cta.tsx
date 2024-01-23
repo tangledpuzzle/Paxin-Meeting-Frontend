@@ -2,6 +2,8 @@ import { FaHardDrive, FaSackDollar, FaUserClock } from "react-icons/fa6"
 
 import { Button } from "@/components/ui/button"
 
+import { PlanUpgradeModal } from "./plan-upgrade-modal"
+
 interface CTAProps {
   title: string
   description?: string
@@ -23,17 +25,21 @@ export default function CTASection({ title, description, icon }: CTAProps) {
             {description}
           </div>
         </div>
-        <Button className="ml-auto sm:hidden">
-          <FaHardDrive className="mr-2 h-4 w-4" />
-          0.2/20MB
-        </Button>
+        <PlanUpgradeModal>
+          <Button variant="outline" className="ml-auto sm:hidden">
+            <FaHardDrive className="mr-2 h-4 w-4" />
+            0.2/20MB
+          </Button>
+        </PlanUpgradeModal>
       </div>
       <div className="flex gap-2">
-        <Button className="hidden w-full sm:flex">
-          <FaHardDrive className="mr-2 h-4 w-4" />
-          0.2/20MB
-        </Button>
-        <Button className="w-full">
+        <PlanUpgradeModal>
+          <Button variant="outline" className="hidden w-full sm:flex">
+            <FaHardDrive className="mr-2 h-4 w-4" />
+            0.2/20MB
+          </Button>
+        </PlanUpgradeModal>
+        <Button variant="outline" className="w-full">
           <FaSackDollar className="mr-2 h-4 w-4" />
           100
         </Button>

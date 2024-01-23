@@ -1,6 +1,6 @@
 "use client"
 
-import { GiVideoConference } from "react-icons/gi"
+import { HiUserGroup } from "react-icons/hi"
 import { MdDashboard } from "react-icons/md"
 import { RiArticleLine, RiUserSettingsFill } from "react-icons/ri"
 
@@ -42,7 +42,7 @@ const navItems: NavItem[] = [
     href: "/profile/conference",
     disabled: false,
     external: false,
-    icon: GiVideoConference,
+    icon: HiUserGroup,
     label: "Conference",
     description: "",
   },
