@@ -95,7 +95,7 @@ export function SiteFooter() {
             </CardContent>
             <CardFooter className="flex flex-col">
               <Separator className="container mx-auto my-2 bg-[#8C8C8C]/30 opacity-30" />
-              <div className="flex w-full justify-between">
+              <div className="flex w-full flex-col justify-between gap-1 sm:flex-row">
                 <div className="font-satoshi text-lg text-secondary-foreground">
                   Follow us on:
                 </div>

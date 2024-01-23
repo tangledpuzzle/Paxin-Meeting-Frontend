@@ -1,9 +1,15 @@
 .bg-with-gradient {
-  background: linear-gradient(0deg, #F3F4F6 0%, #F3F4F6 100%), linear-gradient(7deg, #7B2BCC 21.22%, #2296F3 88.72%);
+  background: linear-gradient(0deg, #f3f4f6 0%, #f3f4f6 100%),
+    linear-gradient(7deg, #7b2bcc 21.22%, #2296f3 88.72%);
 }
 
 .dark .bg-with-gradient {
-  background: linear-gradient(181deg, rgba(255, 255, 255, 0.06) -3.73%, rgba(255, 255, 255, 0.00) 99.29%), rgba(255, 255, 255, 0.06);
+  background: linear-gradient(
+      181deg,
+      rgba(255, 255, 255, 0.06) -3.73%,
+      rgba(255, 255, 255, 0) 99.29%
+    ),
+    rgba(255, 255, 255, 0.06);
 }
 
 .bg-radial-gradient {
@@ -16,5 +22,49 @@
 }
 
 .bg-radial-gradient-2 {
-  background: radial-gradient(100% 100% at 50% 50%, rgba(0, 184, 135, 0.75) 0%, rgba(1, 182, 211, 0.58) 100%), rgba(0, 0, 0, 0.50);
+  background: radial-gradient(
+      100% 100% at 50% 50%,
+      rgba(0, 184, 135, 0.75) 0%,
+      rgba(1, 182, 211, 0.58) 100%
+    ),
+    rgba(0, 0, 0, 0.5);
 }
+
+.border-gradient {
+  position: relative;
+  box-shadow: -6px 0px 18.9px 8px rgba(88, 170, 241, 0.05);
+  background: linear-gradient(
+    90deg,
+    #01b6d3 0.01%,
+    #00b887 50.01%,
+    #01b6d3 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .border-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  padding: 1px;
+  background: linear-gradient(90deg, #00b887 0%, #01b6d3 100%),
+    linear-gradient(7deg, #7b2bcc 21.22%, #2296f3 88.72%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* .border-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: -1;
+  margin: 5px;
+  border-radius: inherit;
+  background: linear-gradient(to right, red, orange);
+} */

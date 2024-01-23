@@ -14,14 +14,8 @@ export function HeroSection() {
         a connected metaverse experience. Join PaxinTrade and redefine your
         online presence with innovative features and interactions.
       </SectionDescription>
-      <div className="relative mt-10 flex w-full items-center justify-center">
-        <Image
-          src="/images/home/gradient.png"
-          width={1152}
-          height={874}
-          alt="hero"
-          className="absolute z-[-1] mx-auto h-auto w-full bg-transparent"
-        />
+      <div className="relative mt-12 flex w-full items-center justify-center">
+        <div className="absolute z-[-1] h-[110%] w-full max-w-7xl bg-transparent bg-[url('/images/home/gradient-mobile.png')] bg-cover bg-top bg-no-repeat md:h-[115%] md:bg-[url('/images/home/gradient.png')]" />
         <div className="w-full px-2 dark:hidden sm:px-16">
           <Image
             src="/images/home/hero-light.png"

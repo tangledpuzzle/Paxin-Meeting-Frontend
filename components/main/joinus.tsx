@@ -4,7 +4,7 @@ import { Button } from "../ui/button"
 
 export function JoinUsSection() {
   return (
-    <div className="bg-radial-gradient mt-24 flex flex-col items-center justify-center rounded-xl bg-primary p-8 pt-0">
+    <div className="bg-radial-gradient mx-3 mt-24 flex flex-col items-center justify-center rounded-xl bg-primary p-8 pt-0">
       <Image
         src="/images/home/join-us-banner.png"
         width={1216}

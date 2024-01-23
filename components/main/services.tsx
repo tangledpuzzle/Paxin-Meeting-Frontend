@@ -63,7 +63,7 @@ function ServiceCard({
 
 export function ServicesSection() {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center px-3">
       <SectionBadge>Services</SectionBadge>
       <SectionTitle>Combination of Services in One Platform</SectionTitle>
       <SectionDescription>

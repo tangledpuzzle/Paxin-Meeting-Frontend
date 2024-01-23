@@ -6,7 +6,7 @@ import { SectionTitle } from "../common/section-title"
 
 export function NavigateSection() {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center px-3">
       <SectionBadge>Search and Share</SectionBadge>
       <SectionTitle>Navigating Your Digital Universe</SectionTitle>
       <SectionDescription>

@@ -79,7 +79,7 @@ function FeatureCard({
 
 export function FeatureSection() {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center px-3">
       <SectionBadge>Discover PaxinTrade</SectionBadge>
       <SectionTitle>Unleashing the Future of Online Interaction</SectionTitle>
       <SectionDescription>
