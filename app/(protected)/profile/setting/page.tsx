@@ -12,6 +12,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import CTASection from "@/components/profiles/cta"
 
+import "react-quill/dist/quill.snow.css"
+import "@/styles/editor.css"
+import { ImageUpload } from "@/components/common/file-uploader"
+
+const ReactQuill =
+  typeof window === "object" ? require("react-quill") : () => false
 const cityOptions = [
   {
     label: "Moscow",
@@ -46,6 +52,38 @@ const hashtagOptions = [
 ]
 
 export default function SettingPage() {
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ align: [] }],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image", "video", "code-block"],
+      ["clean"],
+    ],
+  }
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "align",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video",
+    "code-block",
+  ]
   return (
     <div className="p-4">
       <CTASection
@@ -178,6 +216,9 @@ export default function SettingPage() {
                     value="photo-gallery"
                     className="flex w-full flex-col gap-3"
                   >
+                    <div>
+                      <ImageUpload />
+                    </div>
                     <div className="flex w-full justify-end gap-2">
                       <Button>Save</Button>
                     </div>
@@ -186,6 +227,15 @@ export default function SettingPage() {
                     value="additional"
                     className="flex w-full flex-col gap-3"
                   >
+                    <div>
+                      <ReactQuill
+                        theme="snow"
+                        modules={modules}
+                        formats={formats}
+                        placeholder="Type your content here..."
+                        className="placeholder:text-white"
+                      />
+                    </div>
                     <div className="flex w-full justify-end gap-2">
                       <Button>Save</Button>
                     </div>

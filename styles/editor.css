@@ -1,0 +1,8 @@
+.ql-editor {
+  min-height: 6rem;
+  font-size: 12pt;
+}
+
+.ql-editor.ql-blank::before {
+  @apply !text-gray-400;
+}

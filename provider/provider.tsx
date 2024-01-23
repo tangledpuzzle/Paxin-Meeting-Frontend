@@ -9,12 +9,15 @@ interface IProps {
 
 const App: React.FC<IProps> = ({ children }) => {
   const [viewMode, setViewMode] = useState<string>("profile")
+  const [postMode, setPostMode] = useState<string>("all")
 
   return (
     <PaxContext.Provider
       value={{
         viewMode,
         setViewMode,
+        postMode,
+        setPostMode,
       }}
     >
       {children}
