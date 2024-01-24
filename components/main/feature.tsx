@@ -14,24 +14,31 @@ const features = [
     description:
       "Seamlessly combining online publishing with Telegram mailing for a novel digital experience.",
     bottomImage: "/images/home/feature-bottom-4.png",
+    icon: "/images/home/eye.svg",
   },
   {
     title: "Swift Identification",
     description:
       "Quickly identify and connect with other users on the Telegram network through our Pax platform.",
     bottomImage: "/images/home/feature-bottom-4.png",
+    icon: "/images/home/swift.svg",
+
   },
   {
     title: "Advanced Communication",
     description:
       "Enhance your Telegram communications with features for efficient indexing and information sharing.",
     bottomImage: "/images/home/feature-bottom-4.png",
+    icon: "/images/home/smscall.svg",
+
   },
   {
     title: "3D World Experience",
     description:
       "Immerse yourself in a new dimension of creativity, where you can interact with familiar activities in a unique format.",
     bottomImage: "/images/home/feature-bottom-4.png",
+    icon: "/images/home/city360.svg",
+
   },
 ]
 
@@ -39,10 +46,12 @@ function FeatureCard({
   title,
   description,
   bottomImage,
+  icon
 }: {
   title: string
   description: string
   bottomImage: string
+  icon: string
 }) {
   return (
     <div className="relative group isolate rounded-xl bg-with-gradient before:hidden before:lg:block before:absolute before:-inset-[2px] before:h-[calc(100%+4px)] before:w-[calc(100%+4px)] before:z-[-1] before:rounded-[13px] flex-1 flex flex-col shadow hover:ring-primary-500 dark:hover:ring-primary-400 transition-shadow duration-200" >
@@ -55,13 +64,19 @@ function FeatureCard({
       ></div>
     <div className="flex-1 flex flex-col overflow-hidden rounded-xl  transition-[background-opacity]">
       <div className="m-6 mb-0 flex items-center justify-start bg-transparent">
-        <Icons.bag className="h-8 w-8 text-gray-500 group-hover:text-white dark:text-white" />
+        <Image
+          src={icon}
+          width={32}
+          height={32}
+          alt="feature"
+          className="h-8 w-8 text-gray-500 group-hover:text-white dark:text-white"
+        />
       </div>
       <div className="gap-x-8 gap-y-4 rounded-xl flex flex-col flex-1 px-4 py-5 sm:p-6 ">
           <div className="">
               <div className="mb-2 pointer-events-none" ></div>
-              <p className="text-base font-bold truncate" >{title}</p>
-              <p className="text-[15px] mt-1" >{description}</p>
+              <p className="text-base font-bold truncate group-hover:text-white" >{title}</p>
+              <p className="text-[15px] mt-1 group-hover:text-white" >{description}</p>
               <Image
                 src={bottomImage}
                 width={291}
@@ -92,6 +107,7 @@ export function FeatureSection() {
             title={feature.title}
             description={feature.description}
             bottomImage={feature.bottomImage}
+            icon={feature.icon}
           />
         ))}
     </div>

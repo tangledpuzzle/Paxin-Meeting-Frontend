@@ -43,11 +43,11 @@ export function NavigateSection() {
             }}
           ></div>
           <Image
-            src="/images/home/telegrami.png"
+            src="/images/home/telegrami.svg"
             width={450}
             height={450}
             alt="telegram"
-            className="mx-auto my-16 h-32 w-32"
+            className="mx-auto my-16 h-[154px] w-[154px]"
           />
           <Image
             src="/images/home/ring.png"
