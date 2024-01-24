@@ -25,7 +25,7 @@ export function MobileMenu() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" float="right" size="icon">
-            <RiMenu3Line className="h-5 w-5" />
+            <RiMenu3Line className="h-6 w-6" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-8 w-60">
