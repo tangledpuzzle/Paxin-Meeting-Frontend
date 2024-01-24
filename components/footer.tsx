@@ -46,50 +46,48 @@ export function SiteFooter() {
           />
           <Card className="w-full max-w-xl rounded-lg border-none bg-white shadow-sm dark:bg-[#17171A]">
             <CardContent>
-              <div className="flex justify-between">
-                <div className="flex w-full gap-4">
-                  <div className="flex flex-col">
-                    <div className="font-dm-sans my-4 text-xl font-semibold">
-                      About
-                    </div>
-                    {siteConfig.footer.about.map((item, index) => (
-                      <Link
-                        key={index}
-                        href={item.href}
-                        className="my-2 font-satoshi text-sm text-secondary-foreground"
-                      >
-                        {item.title}
-                      </Link>
-                    ))}
+            <div className="grid grid-cols-1 md:grid-cols-3">
+                <div className="flex flex-col">
+                  <div className="font-dm-sans my-4 text-xl font-semibold">
+                    About
                   </div>
-                  <div className="flex flex-col">
-                    <div className="font-dm-sans my-4 text-xl font-semibold">
-                      Product
-                    </div>
-                    {siteConfig.footer.product.map((item, index) => (
-                      <Link
-                        key={index}
-                        href={item.href}
-                        className="my-2 font-satoshi text-sm text-secondary-foreground"
-                      >
-                        {item.title}
-                      </Link>
-                    ))}
+                  {siteConfig.footer.about.map((item, index) => (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      className="my-2 font-satoshi text-sm text-secondary-foreground"
+                    >
+                      {item.title}
+                    </Link>
+                  ))}
+                </div>
+                <div className="flex flex-col">
+                  <div className="font-dm-sans my-4 text-xl font-semibold">
+                    Product
                   </div>
-                  <div className="ml-auto flex flex-col">
-                    <div className="font-dm-sans my-4 text-xl font-semibold">
-                      Resources
-                    </div>
-                    {siteConfig.footer.resources.map((item, index) => (
-                      <Link
-                        key={index}
-                        href={item.href}
-                        className="my-2 font-satoshi text-sm text-secondary-foreground"
-                      >
-                        {item.title}
-                      </Link>
-                    ))}
+                  {siteConfig.footer.product.map((item, index) => (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      className="my-2 font-satoshi text-sm text-secondary-foreground"
+                    >
+                      {item.title}
+                    </Link>
+                  ))}
+                </div>
+                <div className="md:ml-auto flex flex-col">
+                  <div className="font-dm-sans my-4 text-xl font-semibold">
+                    Resources
                   </div>
+                  {siteConfig.footer.resources.map((item, index) => (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      className="my-2 font-satoshi text-sm text-secondary-foreground"
+                    >
+                      {item.title}
+                    </Link>
+                  ))}
                 </div>
               </div>
             </CardContent>

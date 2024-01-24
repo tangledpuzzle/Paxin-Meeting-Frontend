@@ -6,7 +6,7 @@ import { SectionTitle } from "../common/section-title"
 
 export function NavigateSection() {
   return (
-    <div className="flex flex-col items-center justify-center px-3">
+    <div className="flex flex-col items-center justify-center px-3 pb-[40px] md:pb-[80px]">
       <SectionBadge>Search and Share</SectionBadge>
       <SectionTitle className="px-7 leading-[30px]">Navigating Your Digital Universe</SectionTitle>
       <SectionDescription>
@@ -25,10 +25,10 @@ export function NavigateSection() {
                 "linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6",
             }}
           ></div>
-          <div className="font-satoshi text-sm font-extrabold text-white">
+          <div className="font-satoshi text-md md:text-xl font-extrabold text-white">
             Efficient Discovery:
           </div>
-          <div className="text-xs text-white/70">
+          <div className="text-xs md:text-md text-white/70 leading-[25.15px] max-w-md">
             Utilize our advanced search engine for quick and efficient
             information discovery. Highlight your content and create a
             personalized space within our diverse platform.
@@ -58,10 +58,10 @@ export function NavigateSection() {
             fill
           />
           <div className="bg-[#00000008] p-8 pt-2">
-            <div className="text-sm font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white">
+            <div className="text-md md:text-xl font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white">
               Private Asks
             </div>
-            <div className="translate-all text-xs text-muted-foreground duration-500 group-hover:text-white/70">
+            <div className="translate-all text-xs md:text-md leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70">
               Easily identify and connect with others on the Telegram network
               for seamless sharing.
             </div>
@@ -155,10 +155,10 @@ export function NavigateSection() {
             />
           </div>
           <div className="relative p-8">
-            <div className="my-2 text-sm font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white">
+            <div className="my-2 text-sm md:text-md font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white">
               Smart Filters for Tailored Content:
             </div>
-            <div className="w-2/3 text-xs text-muted-foreground transition-all duration-500 group-hover:text-white/70">
+            <div className="w-2/3 text-xs md:text-md text-muted-foreground transition-all duration-500 group-hover:text-white/70">
               Use our advanced filters to tailor your content consumption,
               ensuring a personalized and relevant digital experience.
             </div>
