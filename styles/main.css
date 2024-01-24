@@ -5,7 +5,11 @@
 }
 
 .border-gardient-light {
-  border-bottom: 1px solid hsla(0, 0%, 91%, 1);
+  border: 1px solid;
+  border-image: linear-gradient(270deg, rgba(228, 228, 228, 0) 5.23%, #E6E6E6 53.6%, rgba(234, 234, 234, 0) 100%);
+  border-image-slice: 1;
+
+
 }
 
 .bg-with-gradient {
