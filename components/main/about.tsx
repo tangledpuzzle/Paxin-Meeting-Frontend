@@ -7,8 +7,8 @@ export function AboutSection() {
   return (
     <div className="mb-8 flex flex-col items-center justify-center px-3 sm:mb-32">
       <SectionBadge>About</SectionBadge>
-      <SectionTitle>What is Paxintrade?</SectionTitle>
-      <SectionDescription>
+      <SectionTitle className="px-7 leading-[30px]">What is Paxintrade?</SectionTitle>
+      <SectionDescription className="px-7 leading-[25.15px]">
         Online portal that provides opportunities to search and share
         information within our dynamic network in interaction with the network
         of Telegram users. Our site combines the functionality of searching for

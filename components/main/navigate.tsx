@@ -8,7 +8,7 @@ export function NavigateSection() {
   return (
     <div className="flex flex-col items-center justify-center px-3">
       <SectionBadge>Search and Share</SectionBadge>
-      <SectionTitle>Navigating Your Digital Universe</SectionTitle>
+      <SectionTitle className="px-7 leading-[30px]">Navigating Your Digital Universe</SectionTitle>
       <SectionDescription>
         Explore the unique blend of online publishing and Telegram mailing. From
         streamlined searches to launching your 3D world.

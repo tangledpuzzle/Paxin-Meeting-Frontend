@@ -79,10 +79,10 @@ function FeatureCard({
 
 export function FeatureSection() {
   return (
-    <div className="flex flex-col items-center justify-center px-3">
+    <div className="flex flex-col items-center justify-center">
       <SectionBadge>Discover PaxinTrade</SectionBadge>
-      <SectionTitle>Unleashing the Future of Online Interaction</SectionTitle>
-      <SectionDescription>
+      <SectionTitle className="px-7 leading-[30px]">Unleashing the Future of Online Interaction</SectionTitle>
+      <SectionDescription className="px-7">
         Explore the unique blend of online publishing and Telegram mailing. From
         streamlined searches to launching your 3D world,
       </SectionDescription>

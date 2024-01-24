@@ -98,13 +98,13 @@ export function TestimonialSection() {
   return (
     <div className="flex flex-col items-center justify-center">
       <SectionBadge>Why PaxinTrade</SectionBadge>
-      <SectionTitle>Positive experiences from early users</SectionTitle>
-      <SectionDescription>
+      <SectionTitle className="px-7 leading-[30px]">Positive experiences from early users</SectionTitle>
+      <SectionDescription className="px-7 leading-[25.15px]">
         Discover the experiences of PaxinTrade users who have found value and
         innovation in our platform.
       </SectionDescription>
       <div className="relative mt-10 flex w-full items-center justify-center">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4 px-3">
           {data.map((item) => (
             <TestimonialCard
               key={item.username}

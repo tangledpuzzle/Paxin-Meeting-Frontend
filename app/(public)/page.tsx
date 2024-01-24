@@ -10,7 +10,7 @@ import "@/styles/main.css"
 
 export default function LandingPage() {
   return (
-    <section className="container grid items-center gap-6 px-0 pb-8 pt-6 md:py-10">
+    <section className="container grid items-center gap-0 px-0 pb-8 pt-6 md:py-10">
       <HeroSection />
       <FeatureSection />
       <NavigateSection />

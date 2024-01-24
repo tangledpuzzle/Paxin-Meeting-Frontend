@@ -65,8 +65,8 @@ export function ServicesSection() {
   return (
     <div className="flex flex-col items-center justify-center px-3">
       <SectionBadge>Services</SectionBadge>
-      <SectionTitle>Combination of Services in One Platform</SectionTitle>
-      <SectionDescription>
+      <SectionTitle className="px-7 leading-[30px]">Combination of Services in One Platform</SectionTitle>
+      <SectionDescription className="px-7 leading-[25.15px]">
         We present ourselves as a unique combination of popular services such as
         Instagram, LinkedIn, Zoom, WhatsApp and Facebook Marketplace.
       </SectionDescription>
