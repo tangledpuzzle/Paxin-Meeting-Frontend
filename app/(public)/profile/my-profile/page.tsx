@@ -94,8 +94,8 @@ export default function ProfilePage() {
                   <Image
                     src="/images/2.jpg"
                     alt="preview image"
-                    layout="fill"
-                    objectFit="cover"
+                    style={{objectFit:"cover"}}
+                    fill
                   />
                 </div>
                 <div>
@@ -279,8 +279,8 @@ export default function ProfilePage() {
                   <Image
                     src="/images/2.jpg"
                     alt="preview image"
-                    layout="fill"
-                    objectFit="cover"
+                    style={{objectFit:"cover"}}
+                    fill
                   />
                 </div>
                 <div>

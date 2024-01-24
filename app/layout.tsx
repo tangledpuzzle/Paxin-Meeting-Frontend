@@ -1,7 +1,7 @@
 import App from "@/provider/provider"
 
 import "@/styles/globals.css"
-import { Metadata } from "next"
+import { Metadata, Viewport } from "next"
 
 import { siteConfig } from "@/config/site"
 import { fontDMSans, fontRoboto, fontSans, fontSatoshi } from "@/lib/fonts"
@@ -15,15 +15,18 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 }
 
 interface RootLayoutProps {
@@ -44,7 +47,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontRoboto.variable
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true}>
             {children}
           </ThemeProvider>
           <TailwindIndicator />

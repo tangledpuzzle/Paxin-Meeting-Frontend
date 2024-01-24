@@ -1,3 +1,13 @@
+.border-gardient-dark {
+  border-bottom: 1px solid;
+  border-image: linear-gradient(270deg, rgba(228, 228, 228, 0) 5.23%, rgba(241, 241, 241, 0.17) 53.6%, rgba(234, 234, 234, 0) 100%);
+  border-image-slice: 1;
+}
+
+.border-gardient-light {
+  border-bottom: 1px solid hsla(0, 0%, 91%, 1);
+}
+
 .bg-with-gradient {
   background: linear-gradient(0deg, #f3f4f6 0%, #f3f4f6 100%),
     linear-gradient(7deg, #7b2bcc 21.22%, #2296f3 88.72%);

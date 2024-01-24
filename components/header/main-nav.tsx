@@ -22,18 +22,18 @@ export function MainNav({ items }: MainNavProps) {
         <Image
           src="/logo-black.svg"
           alt="logo"
-          width={50}
-          height={50}
-          className="h-12 w-12 dark:hidden"
+          width={40.44}
+          height={40.44}
+          className="h-[40.44px] w-[40.44px] dark:hidden"
         />
         <Image
           src="/logo-white.svg"
           alt="logo"
-          width={50}
-          height={50}
-          className="hidden h-12 w-12 dark:block"
+          width={40.44}
+          height={40.44}
+          className="hidden h-[40.44px] w-[40.44px] dark:block"
         />
-        <span className="inline-block font-satoshi text-3xl font-semibold sm:hidden lg:inline-block">
+        <span className="inline-block font-satoshi text-xl font-semibold sm:hidden lg:inline-block">
           {siteConfig.name}
         </span>
       </Link>

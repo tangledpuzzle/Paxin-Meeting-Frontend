@@ -21,7 +21,7 @@ const data = [
     avatar:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
     fullname: "Jane Doe",
-    username: "janedoe",
+    username: "janedoe1",
     comment:
       "I am extremely happy with my decision to trade with PaxinTrade. Their platform offers a wide variety of options and the support team is always there to assist.",
     timestamp: "2 days ago",
@@ -30,7 +30,7 @@ const data = [
     avatar:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
     fullname: "Jane Doe",
-    username: "janedoe",
+    username: "janedoe2",
     comment:
       "PaxinTrade has truly transformed my trading journey. The platform is intuitive and packed with features. Their responsive customer support makes it even better. I'm impressed!",
     timestamp: "2 days ago",
@@ -39,7 +39,7 @@ const data = [
     avatar:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
     fullname: "Jane Doe",
-    username: "janedoe",
+    username: "janedoe3",
     comment:
       "I can't thank PaxinTrade enough for their exceptional services. Their platform is robust and secure, and the educational resources have helped me improve my trading skills significantly. Great job!",
     timestamp: "2 days ago",
@@ -48,7 +48,7 @@ const data = [
     avatar:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
     fullname: "Jane Doe",
-    username: "janedoe",
+    username: "janedoe4",
     comment:
       "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade! ",
     timestamp: "2 days ago",

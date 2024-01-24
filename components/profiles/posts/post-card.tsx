@@ -74,8 +74,8 @@ export function PostCard({
                 <Image
                   src={image}
                   alt="preview image"
-                  layout="fill"
-                  objectFit="cover"
+                  style={{objectFit:"cover"}}
+                  fill
                 />
               </div>
             </CarouselItem>

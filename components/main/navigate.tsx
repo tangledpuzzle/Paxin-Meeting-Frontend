@@ -44,10 +44,10 @@ export function NavigateSection() {
           />
           <Image
             src="/images/home/ring.png"
-            objectFit="contain"
-            layout="fill"
+            style={{objectFit:"contain"}}
             alt="ring"
             className="absolute mx-auto w-full"
+            fill
           />
           <div className="bg-[#00000008] p-8 pt-2">
             <div className="text-sm font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white">
@@ -140,10 +140,10 @@ export function NavigateSection() {
             />
             <Image
               src="/images/home/ring-2.png"
-              objectFit="cover"
-              layout="fill"
+              style={{objectFit:"contain"}}
               alt="ring"
               className="absolute"
+              fill
             />
           </div>
           <div className="relative p-8">

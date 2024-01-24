@@ -8,15 +8,15 @@
 </g>
 <defs>
 <radialGradient id="paint0_radial_1225_6415" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(10.625 43.0808) rotate(-90) scale(39.643 36.8711)">
-<stop stop-color="#FFDD55"/>
-<stop offset="0.1" stop-color="#FFDD55"/>
-<stop offset="0.5" stop-color="#FF543E"/>
-<stop offset="1" stop-color="#C837AB"/>
+<stop stopColor="#FFDD55"/>
+<stop offset="0.1" stopColor="#FFDD55"/>
+<stop offset="0.5" stopColor="#FF543E"/>
+<stop offset="1" stopColor="#C837AB"/>
 </radialGradient>
 <radialGradient id="paint1_radial_1225_6415" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(-6.70016 2.88141) rotate(78.681) scale(17.7206 73.045)">
-<stop stop-color="#3771C8"/>
-<stop offset="0.128" stop-color="#3771C8"/>
-<stop offset="1" stop-color="#6600FF" stop-opacity="0"/>
+<stop stopColor="#3771C8"/>
+<stop offset="0.128" stopColor="#3771C8"/>
+<stop offset="1" stopColor="#6600FF" stop-opacity="0"/>
 </radialGradient>
 <clipPath id="clip0_1225_6415">
 <rect width="40" height="40" fill="white"/>
