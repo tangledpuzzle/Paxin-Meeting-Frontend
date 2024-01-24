@@ -24,7 +24,7 @@ export function MobileMenu() {
     <div className="block md:hidden">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" float="right" size="icon">
             <RiMenu3Line className="h-5 w-5" />
           </Button>
         </DropdownMenuTrigger>
