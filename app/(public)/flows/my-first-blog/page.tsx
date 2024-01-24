@@ -25,6 +25,7 @@ import { QRCodeModal } from "@/components/common/qrcode-modal"
 import { TagSlider } from "@/components/common/tag-slider"
 
 import "react-image-gallery/styles/css/image-gallery.css"
+
 import { useEffect, useState } from "react"
 
 import { Label } from "@/components/ui/label"

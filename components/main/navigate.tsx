@@ -44,7 +44,8 @@ export function NavigateSection() {
           />
           <Image
             src="/images/home/ring.png"
-            style={{objectFit:"contain"}}
+            style={{ objectFit: "contain" }}
+            sizes="(max-width: 768px) 100vw, 33vw"	
             alt="ring"
             className="absolute mx-auto w-full"
             fill
@@ -140,7 +141,7 @@ export function NavigateSection() {
             />
             <Image
               src="/images/home/ring-2.png"
-              style={{objectFit:"contain"}}
+              style={{ objectFit: "contain" }}
               alt="ring"
               className="absolute"
               fill

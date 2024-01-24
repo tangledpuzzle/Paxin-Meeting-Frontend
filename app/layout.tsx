@@ -1,6 +1,7 @@
 import App from "@/provider/provider"
 
 import "@/styles/globals.css"
+
 import { Metadata, Viewport } from "next"
 
 import { siteConfig } from "@/config/site"
@@ -47,7 +48,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontRoboto.variable
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem={true}
+          >
             {children}
           </ThemeProvider>
           <TailwindIndicator />

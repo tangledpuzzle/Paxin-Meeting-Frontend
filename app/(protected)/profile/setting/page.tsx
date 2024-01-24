@@ -14,6 +14,7 @@ import CTASection from "@/components/profiles/cta"
 
 import "react-quill/dist/quill.snow.css"
 import "@/styles/editor.css"
+
 import { ImageUpload } from "@/components/common/file-uploader"
 
 const ReactQuill =

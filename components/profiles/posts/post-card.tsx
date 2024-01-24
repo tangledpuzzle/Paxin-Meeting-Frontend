@@ -74,7 +74,7 @@ export function PostCard({
                 <Image
                   src={image}
                   alt="preview image"
-                  style={{objectFit:"cover"}}
+                  style={{ objectFit: "cover" }}
                   fill
                 />
               </div>

@@ -12,6 +12,7 @@ import { TagSlider } from "@/components/common/tag-slider"
 
 import "slick-carousel/slick/slick-theme.css"
 import "slick-carousel/slick/slick.css"
+
 import { CategoryBadge } from "./category-badge"
 import { LocationBadge } from "./location-badge"
 import { PriceBadge } from "./price-badge"

@@ -19,6 +19,7 @@ import { Breadcrumb } from "@/components/common/breadcrumb"
 import { TagSlider } from "@/components/common/tag-slider"
 
 import "react-image-gallery/styles/css/image-gallery.css"
+
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -94,7 +95,7 @@ export default function ProfilePage() {
                   <Image
                     src="/images/2.jpg"
                     alt="preview image"
-                    style={{objectFit:"cover"}}
+                    style={{ objectFit: "cover" }}
                     fill
                   />
                 </div>
@@ -279,7 +280,7 @@ export default function ProfilePage() {
                   <Image
                     src="/images/2.jpg"
                     alt="preview image"
-                    style={{objectFit:"cover"}}
+                    style={{ objectFit: "cover" }}
                     fill
                   />
                 </div>

@@ -13,7 +13,7 @@ interface PreviewImageProps {
 
 const PreviewImage: FC<PreviewImageProps> = ({ src, onRemove }) => (
   <div className="relative h-24 w-24">
-    <Image src={src} alt="" style={{objectFit:"cover"}} fill/>
+    <Image src={src} alt="" style={{ objectFit: "cover" }} fill />
     <Button
       variant="destructive"
       className="absolute right-1 top-1 h-6 w-6 rounded-full"
