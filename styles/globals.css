@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer components {
+  :root {
+    --borderimg: linear-gradient(270deg, rgba(228, 228, 228, 0) 5.23%, #E6E6E6 53.6%, rgba(234, 234, 234, 0) 100%);
+  }
+
+  .dark {
+    --borderimg: linear-gradient(270deg, rgba(228, 228, 228, 0) 5.23%, rgba(241, 241, 241, 0.17) 53.6%, rgba(234, 234, 234, 0) 100%); 
+  }
+
+  .border-gardient-header {
+    border-image:var(--borderimg);
+    border-bottom: 1px solid;
+    border-image-slice: 1;
+  }
+}
+
+.border-gardient-h {
+  @apply border-gardient-header;
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
