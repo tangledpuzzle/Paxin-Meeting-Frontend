@@ -32,7 +32,6 @@
 
 .border-gradient {
   position: relative;
-  box-shadow: -6px 0px 18.9px 8px rgba(88, 170, 241, 0.05);
   background: linear-gradient(
     90deg,
     #01b6d3 0.01%,

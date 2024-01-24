@@ -11,9 +11,9 @@ function SectionBadge({ children }: SectionBadgeProps) {
   return (
     <Badge
       variant="outline"
-      className="border-gradient rounded-full p-2 dark:border-none"
+      className="border-gradient rounded-full p-[13px] mb-[12px] dark:border-none"
     >
-      <Icons.star className="mr-2 h-4 w-4" />
+      <Icons.star className="mr-2 h-5 w-5" />
       {children}
     </Badge>
   )
