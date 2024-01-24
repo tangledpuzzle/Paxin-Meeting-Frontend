@@ -15,9 +15,16 @@ export function NavigateSection() {
       </SectionDescription>
       <div className="relative mt-10 grid w-full grid-cols-1 gap-4 md:grid-cols-3">
         <div
-          className="bg-gradient flex min-h-72 flex-col justify-center rounded-xl bg-cover bg-no-repeat p-4 sm:p-8 md:col-span-2"
-          style={{ backgroundImage: `url("/images/home/navigate-bg.png")` }}
+          className="bg-s hover:navigate-hover flex min-h-72 flex-col justify-center group relative overflow-hidden rounded-xl transition-all hover:bg-none bg-cover p-4 sm:p-8 md:col-span-2"
+          style={{ backgroundImage: `url("/images/home/bg-nav.png")` }}
         >
+           <div
+            className="absolute left-0 top-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            style={{
+              background:
+                "linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6",
+            }}
+          ></div>
           <div className="font-satoshi text-sm font-extrabold text-white">
             Efficient Discovery:
           </div>
@@ -36,7 +43,7 @@ export function NavigateSection() {
             }}
           ></div>
           <Image
-            src="/images/home/tg.png"
+            src="/images/home/telegrami.png"
             width={450}
             height={450}
             alt="telegram"
