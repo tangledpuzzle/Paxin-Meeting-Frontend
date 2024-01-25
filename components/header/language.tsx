@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { useTranslation } from "next-i18next"
 
 import {
   Select,
@@ -16,8 +17,22 @@ interface LanguageSelectorProps {
 }
 
 export function LanguageSelector({ className }: LanguageSelectorProps) {
+  const { i18n } = useTranslation()
+
+  console.log(i18n.language, "hi")
+
+  const changeLang = (lang: string) => {
+    i18n.changeLanguage(lang)
+    console.log(i18n.language)
+  }
+
   return (
-    <Select defaultValue="en">
+    <Select
+      defaultValue={i18n.language}
+      onValueChange={(value) => {
+        changeLang(value)
+      }}
+    >
       <SelectTrigger
         className={`w-auto gap-2 rounded-full bg-transparent !px-2 ${className ? className : ""}`}
       >

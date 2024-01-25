@@ -2,7 +2,9 @@
 
 import React, { ReactNode, useEffect, useState } from "react"
 import { PaxContext } from "@/context/context"
+import i18n from "@/i18n"
 import axios from "axios"
+import { I18nextProvider } from "react-i18next"
 
 interface IProps {
   children: ReactNode
@@ -66,7 +68,7 @@ const App: React.FC<IProps> = ({ children }) => {
         setSocket,
       }}
     >
-      {children}
+      <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
     </PaxContext.Provider>
   )
 }

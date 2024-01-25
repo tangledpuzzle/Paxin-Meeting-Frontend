@@ -9,9 +9,10 @@ import { LanguageSelector } from "./language"
 import { MobileMenu } from "./mobile-menu"
 
 export function SiteHeader() {
-
   return (
-    <header className={`sticky top-0 z-40 w-full bg-background border-gardient-h bg-h`}>
+    <header
+      className={`border-gardient-h bg-h sticky top-0 z-40 w-full bg-background`}
+    >
       <div className="flex h-20 items-center space-x-4 px-4 sm:justify-between sm:space-x-0 md:px-8">
         <MainNav items={siteConfig.mainNav} />
         <div className="flex flex-1 items-center justify-end space-x-4">
