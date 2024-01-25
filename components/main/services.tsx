@@ -24,7 +24,7 @@ const services = [
   {
     title: "Whatsapp and Facebook",
     description: "Save web clips and sync with your apps",
-    icons: ["whatsapp", "facebook"],
+    icons: ["whatsapp", "fb-color"],
   },
 ]
 

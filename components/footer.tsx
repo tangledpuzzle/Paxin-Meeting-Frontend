@@ -41,7 +41,7 @@ export function SiteFooter() {
             alt="hero"
             className="absolute z-[-1] mx-auto h-auto w-full max-w-3xl bg-transparent"
           />
-          <Card className="w-full max-w-xl rounded-lg border-none bg-white shadow-sm dark:bg-[#17171A]">
+          <Card className="w-full max-w-xl rounded-lg border-none bg-white shadow-sm dark:bg-[#17171A]/70">
             <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3">
                 <div className="flex flex-col">
@@ -90,38 +90,38 @@ export function SiteFooter() {
             </CardContent>
             <CardFooter className="flex flex-col">
               <Separator className="container mx-auto my-2 bg-[#8C8C8C]/30 opacity-30" />
-              <div className="flex w-full flex-col justify-between gap-1 sm:flex-row">
-                <div className="font-satoshi text-lg text-secondary-foreground">
+              <div className="flex w-full flex-col justify-between gap-1 sm:flex-row items-center">
+                <div className="font-satoshi text-lg text-secondary-foreground pb-[10px] md:pb-[0px]">
                   Follow us on:
                 </div>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
-                    className="rounded-full border-secondary-foreground font-satoshi text-sm text-secondary-foreground"
+                    className="rounded-full border-secondary font-satoshi text-sm text-secondary-foreground"
                     size="icon"
                   >
-                    <Facebook className="h-4 w-4" />
+                    <Image
+                      src="/images/home/facebook.svg"
+                      width={450}
+                      height={450}
+                      alt="x"
+                      className="mx-auto my-16 h-5 w-5"
+                    />                  
                   </Button>
+
                   <Button
                     variant="outline"
-                    className="rounded-full border-secondary-foreground font-satoshi text-sm text-secondary-foreground"
+                    className="rounded-full border-secondary font-satoshi text-sm text-secondary-foreground"
                     size="icon"
                   >
-                    <Instagram className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="rounded-full border-secondary-foreground font-satoshi text-sm text-secondary-foreground"
-                    size="icon"
-                  >
-                    <Twitter className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="rounded-full border-secondary-foreground font-satoshi text-sm text-secondary-foreground"
-                    size="icon"
-                  >
-                    <Github className="h-4 w-4" />
+                    <Image
+                      src="/images/home/x.svg"
+                      width={450}
+                      height={450}
+                      alt="x"
+                      className="mx-auto my-16 h-4 w-4"
+                    />
+                           
                   </Button>
                 </div>
               </div>
@@ -129,7 +129,7 @@ export function SiteFooter() {
           </Card>
         </div>
       </div>
-      <Separator className="container mx-auto bg-[#8C8C8C]/30" />
+      <Separator className="container mx-auto bg-[#8C8C8C]/20" />
       <div className="container mt-2 flex flex-col items-center justify-between sm:flex-row">
         <div className="font-satoshi text-sm text-muted-foreground">
           © Copyright 2022, All Rights Reserved by PaxinTrade
