@@ -9,7 +9,7 @@ import { SectionTitle } from "../common/section-title"
 const data = [
   {
     avatar:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
+      "/images/avatar.jpg",
     fullname: "Jane Doe",
     username: "janedoe5",
     comment:
@@ -18,7 +18,7 @@ const data = [
   },
   {
     avatar:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
+      "/images/avatar.jpg",
     fullname: "John Doe",
     username: "johndoe",
     comment:
@@ -28,7 +28,7 @@ const data = [
   },
   {
     avatar:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
+      "/images/avatar.jpg",
     fullname: "Jane Doe",
     username: "janedoe1",
     comment:
@@ -37,7 +37,7 @@ const data = [
   },
   {
     avatar:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
+      "/images/avatar.jpg",
     fullname: "Jane Doe",
     username: "janedoe2",
     comment:
@@ -46,7 +46,7 @@ const data = [
   },
   {
     avatar:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
+      "/images/avatar.jpg",
     fullname: "Jane Doe",
     username: "janedoe3",
     comment:
@@ -55,7 +55,7 @@ const data = [
   },
   {
     avatar:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
+      "/images/avatar.jpg",
     fullname: "Jane Doe",
     username: "janedoe4",
     comment:
@@ -70,7 +70,6 @@ function TestimonialCard({
   fullname,
   username,
   comment,
-  timestamp,
 }: {
   avatar: string
   fullname: string
@@ -79,28 +78,6 @@ function TestimonialCard({
   timestamp: string
 }) {
   return (   
-    // <div className="bg-with-gradient max-w-[400px] rounded-xl p-8">
-    //   <div className="flex items-center gap-4">
-    //     <Avatar>
-    //       <AvatarImage src={avatar} alt={fullname} />
-    //       <AvatarFallback>CN</AvatarFallback>
-    //     </Avatar>
-    //     <div className="flex flex-col">
-    //       <div className="text-base text-gray-500 dark:text-white/70">
-    //         {fullname}
-    //       </div>
-    //       <div className="text-sm text-secondary-foreground">@{username}</div>
-    //     </div>
-    //   </div>
-    //   <div className="mt-4">
-    //     <div className="text-base text-gray-500 dark:text-white/70">
-    //       {comment}
-    //     </div>
-    //     <div className="mt-6 text-sm text-secondary-foreground">
-    //       {timestamp}
-    //     </div>
-    //   </div>
-    // </div>
     <div className="break-inside-avoid">
       <div className="rounded-xl shadow bg-with-gradient relative">
         <div className="flex flex-col px-4 py-5 sm:p-6">
