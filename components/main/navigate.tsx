@@ -14,7 +14,7 @@ export function NavigateSection() {
         streamlined searches to launching your 3D world.
       </SectionDescription>
       <div className="relative mt-10 grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-        <div
+        {/* <div
           className="bg-s hover:navigate-hover flex min-h-72 flex-col justify-center group relative overflow-hidden rounded-xl transition-all hover:bg-none bg-cover p-4 sm:p-8 md:col-span-2"
           style={{ backgroundImage: `url("/images/home/bg-nav.png")` }}
         >
@@ -32,6 +32,28 @@ export function NavigateSection() {
             Utilize our advanced search engine for quick and efficient
             information discovery. Highlight your content and create a
             personalized space within our diverse platform.
+          </div>
+        </div> */}
+        <div className="md:col-span-2 min-h-72 bg-cover hover:navigate-hover bg-with-gradient group relative overflow-hidden rounded-xl transition-all hover:bg-none"
+             style={{ backgroundImage: `url("/images/home/bg-nav.png")`, backgroundSize: `cover` }}>
+          <div
+            className="absolute left-0 top-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            style={{
+              background:
+                "linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6",
+            }}
+          ></div>
+         
+          <div className="bg-[#00000008] p-8 pt-2 h-full flex justify-center bg-cover w-full items-center flex-col"
+          style={{ backgroundImage: `url("/images/home/bg-nav-dark.png")` }}>
+            <div className="text-xl md:text-xl font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white">
+              Efficient Discovery
+            </div>
+            <div className="translate-all text-center max-w-md text-xs md:text-md leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70">
+              Utilize our advanced search engine for quick and efficient
+              information discovery. Highlight your content and create a
+              personalized space within our diverse platform.
+            </div>
           </div>
         </div>
         <div className="hover:navigate-hover bg-with-gradient group relative overflow-hidden rounded-xl transition-all hover:bg-none">

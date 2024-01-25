@@ -30,15 +30,7 @@
     rgba(0, 0, 0, 0.5);
 }
 
-.bg-s {
-  background: linear-gradient(
-    181deg,
-    rgba(255, 255, 255, 0.06) -3.73%,
-    rgba(255, 255, 255, 0) 99.29%
-  ),
-  rgba(255, 255, 255, 0.06);
-  background-size: cover;
-}
+
 
 
 .border-gradient {
