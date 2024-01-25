@@ -28,7 +28,7 @@ export function MobileMenu() {
             <RiMenu3Line className="h-6 w-6" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mr-8 w-60">
+        <DropdownMenuContent className="mr-4 mt-8 w-60">
           <DropdownMenuItem className="cursor-pointer text-base" asChild>
             <Link href="/home">
               <MdHome className="mr-2 h-5 w-5 text-primary" />
