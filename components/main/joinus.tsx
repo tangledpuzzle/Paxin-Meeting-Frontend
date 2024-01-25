@@ -22,7 +22,7 @@ export function JoinUsSection() {
         redefine your digital presence today.
       </div>
       <div className="relative mt-10 flex w-full items-center justify-center">
-        <Button variant="secondary" className="bg-white text-primary">
+        <Button variant="secondary" className="bg-white text-black hover:text-white" aria-label="Join Now">
           Join Now
         </Button>
       </div>

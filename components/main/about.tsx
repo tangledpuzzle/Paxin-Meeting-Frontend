@@ -19,6 +19,7 @@ export function AboutSection() {
       <div className="relative mt-10 flex w-full items-center justify-center">
         <Button
           className="w-36"
+          aria-label="About us"
           style={{
             boxShadow: "0px 4px 15px 8px rgba(88, 170, 241, 0.15)",
           }}

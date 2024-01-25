@@ -51,6 +51,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
+        aria-label="lang"
         className={cn(buttonVariants({ variant, size, className, float }))}
         ref={ref}
         {...props}
