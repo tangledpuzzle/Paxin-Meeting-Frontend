@@ -1,6 +1,8 @@
 "use client"
 
-import { usePaxContext } from "@/context/context"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import useSWR from "swr"
 
 import {
   Pagination,
@@ -13,44 +15,77 @@ import {
 } from "@/components/ui/pagination"
 
 import { FlowCard } from "./flow-card"
+import { FlowCardSkeleton } from "./flow-card-skeleton"
+
+const fetcher = (url: string) => axios.get(url).then((res) => res.data)
+
+export interface FlowData {
+  title: string
+  subtitle: string
+  user: {
+    username: string
+    online: boolean
+    telegram: string
+    avatar: string
+  }
+  hero: string
+  price: number
+  regularpost: boolean
+  tags: string[]
+  location: string
+  category: string
+  countrycode: string
+  review: {
+    totalviews: number
+  }
+}
 
 export default function FlowSection() {
-  const { viewMode, setViewMode } = usePaxContext()
+  const [flowData, setFlowData] = useState<FlowData[]>([])
 
-  const data = {
-    title: "Your Personal Realtor",
-    subtitle: "We can help you as a Personal Realtor",
-    user: {
-      username: "@yliano60",
-      online: true,
-      telegram: "telegram",
-      avatar: "https://github.com/shadcn.png",
-    },
-    hero: `/images/profiles/1.png`,
-    price: 1250,
-    regularpost: true,
-    tags: [
-      "#Personal Realtor",
-      "#Ипотека без первоначального взноса",
-      "#Personal Realtor",
-      "#Ипотека без первоначального взноса",
-      "#Personal Realtor",
-      "#Ипотека без первоначального взноса",
-    ],
-    location: "London",
-    category: "Technology",
-    countrycode: "de",
-    review: {
-      totalviews: 420,
-    },
-  }
+  const { data: fetchedData, error } = useSWR("/api/blog/listAll", fetcher)
+
+  useEffect(() => {
+    if (!error && fetchedData) {
+      const filteredData = fetchedData.data.map((item: any) => {
+        return {
+          title: item.title,
+          subtitle: item.descr,
+          user: {
+            username: item.user.name,
+            online: item.user.online,
+            telegram: "",
+            avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${item.user.photo}`,
+          },
+          hero: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${item.photos[0].files[0].path}`,
+          price: item.total,
+          regularpost: item.user.role === "user",
+          tags: item.hashtags,
+          location: item.city[0].name,
+          category: item.catygory[0].name,
+          countrycode: item.lang,
+          review: {
+            totalviews: item.views,
+          },
+        }
+      })
+
+      setFlowData(filteredData)
+    }
+  }, [fetchedData])
 
   return (
     <div className="w-full space-y-6">
-      <div className="grid w-full place-items-center gap-4 lg:grid-cols-3">
-        {[1, 2, 3].map((page) => (
-          <FlowCard {...data} />
-        ))}
+      <div className="grid w-full place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        {!error ? (
+          fetchedData && flowData ? (
+            flowData.map((flow: FlowData) => <FlowCard {...flow} />)
+          ) : (
+            <FlowCardSkeleton />
+          )
+        ) : (
+          <></>
+        )}
       </div>
       <Pagination>
         <PaginationContent>

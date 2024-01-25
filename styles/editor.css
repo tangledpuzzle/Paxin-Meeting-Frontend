@@ -6,3 +6,7 @@
 .ql-editor.ql-blank::before {
   @apply !text-gray-400;
 }
+
+.ql-disabled {
+  border: none !important;
+}

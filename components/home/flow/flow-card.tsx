@@ -54,23 +54,25 @@ function FlowCard(profile: FlowCardProps) {
   } = profile
 
   return (
-    <Card>
-      <CardContent className="relative flex max-w-[320px] flex-col gap-4 p-3 sm:max-w-[400px]">
+    <Card className="size-full max-w-[320px] sm:max-w-[400px]">
+      <CardContent className="relative flex size-full flex-col gap-4 p-3">
         <div className="relative">
-          <Image
-            src={hero}
-            width={370}
-            height={234}
-            alt="profile"
-            className="h-auto w-full"
-          />
+          <div className="h-[200px] w-full">
+            <Image
+              src={hero}
+              layout="fill"
+              objectFit="contain"
+              objectPosition="center"
+              alt="profile"
+            />
+          </div>
           <div className="absolute right-3 top-3 flex gap-2">
             {regularpost && (
               <Badge
                 variant="default"
                 className="border-none bg-black/50 p-2 text-white"
               >
-                <Mail className="mr-2 h-4 w-4 text-white" />
+                <Mail className="mr-2 size-4 text-white" />
                 Regular Post
               </Badge>
             )}
@@ -79,7 +81,7 @@ function FlowCard(profile: FlowCardProps) {
               variant="default"
               className="border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white"
             >
-              <Eye className="mr-2 h-4 w-4 text-white" />
+              <Eye className="mr-2 size-4 text-white" />
               {review.totalviews}
             </Badge>
           </div>
@@ -90,16 +92,18 @@ function FlowCard(profile: FlowCardProps) {
         </div>
         <div className="relative">
           <div
-            className={`absolute right-0 top-3 h-8 w-8 rounded-full bg-[url('https://flagcdn.com/${countrycode}.svg')] bg-cover bg-center bg-no-repeat`}
+            className={`absolute right-0 top-3 size-8 rounded-full bg-[url('https://flagcdn.com/${countrycode}.svg')] bg-cover bg-center bg-no-repeat`}
           />
         </div>
         <div className="font-satoshi">
-          <div className="text-xl font-semibold text-secondary-foreground">
+          <div className="line-clamp-1 text-xl font-semibold text-secondary-foreground">
             {title}
           </div>
-          <div className="text-sm text-muted-foreground">{subtitle}</div>
+          <div className="line-clamp-3 text-sm text-muted-foreground">
+            {subtitle}
+          </div>
         </div>
-        <div className="flex gap-3">
+        <div className="mt-auto flex gap-3">
           <PriceBadge>{price}</PriceBadge>
           <LocationBadge>{location}</LocationBadge>
           <CategoryBadge>{category}</CategoryBadge>
