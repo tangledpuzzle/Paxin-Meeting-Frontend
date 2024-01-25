@@ -9,6 +9,7 @@ import { fontDMSans, fontRoboto, fontSans, fontSatoshi } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
+import { MetadataUpdater } from '@/lib/dynamicMetadata';
 
 export const metadata: Metadata = {
   title: {
@@ -16,10 +17,9 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  manifest: '/manifest.webmanifest',
+  manifest: '/manifest-dark.webmanifest',
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/icons/favicon-16x16.png',
+    icon: '/favicon-dark.ico',
   },
 };
 
@@ -54,6 +54,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             enableSystem={true}
           >
             {children}
+            <MetadataUpdater />
           </ThemeProvider>
           <TailwindIndicator />
         </body>
