@@ -35,7 +35,7 @@ export function NavigateSection() {
           </div>
         </div> */}
         <div className="md:col-span-2 min-h-72 bg-cover hover:navigate-hover bg-with-gradient group relative overflow-hidden rounded-xl transition-all hover:bg-none"
-             style={{ backgroundImage: `url("/images/home/bg-nav.png")`, backgroundSize: `cover` }}>
+             style={{ backgroundImage: `url("/images/home/bg-nav.webp")`, backgroundSize: `cover` }}>
           <div
             className="absolute left-0 top-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
             style={{
@@ -45,7 +45,7 @@ export function NavigateSection() {
           ></div>
          
           <div className="bg-[#00000008] p-8 pt-2 h-full flex justify-center bg-cover w-full items-center flex-col"
-          style={{ backgroundImage: `url("/images/home/bg-nav-dark.png")` }}>
+          style={{ backgroundImage: `url("/images/home/bg-nav-dark.webp")` }}>
             <div className="text-xl md:text-xl font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white">
               Efficient Discovery
             </div>

@@ -15,17 +15,17 @@ export function HeroSection() {
         online presence with innovative features and interactions.
       </SectionDescription>
       <div className="relative px-7 mt-12 flex w-full items-center justify-center">
-        <div className="absolute z-[-1] h-[110%] w-full max-w-7xl bg-transparent bg-[url('/images/home/gradient-mobile.png')] bg-cover bg-top bg-no-repeat md:h-[115%] md:bg-[url('/images/home/gradient.png')]" />
+        <div className="absolute z-[-1] h-[110%] w-full max-w-7xl bg-transparent bg-[url('/images/home/gradient-mobile.webp')] bg-cover bg-top bg-no-repeat md:h-[115%] md:bg-[url('/images/home/gradient.webp')]" />
         <div className="w-full dark:hidden">
           <Image
-            src="/images/home/hero-light.png"
+            src="/images/home/hero-light.avif"
             width={1440}
             height={1106}
             alt="hero"
             className="mx-auto hidden h-auto w-full max-w-5xl md:block"
           />
           <Image
-            src="/images/home/hero-mobile-light.png"
+            src="/images/home/hero-mobile-light.avif"
             width={400}
             height={658}
             alt="hero"
@@ -34,14 +34,14 @@ export function HeroSection() {
         </div>
         <div className="hidden w-full px-2 dark:block sm:px-16">
           <Image
-            src="/images/home/hero-dark.png"
+            src="/images/home/hero-dark.avif"
             width={1440}
             height={1106}
             alt="hero"
             className="mx-auto hidden h-auto w-full max-w-5xl md:block"
           />
           <Image
-            src="/images/home/hero-mobile-dark.png"
+            src="/images/home/hero-mobile-dark.avif"
             width={400}
             height={658}
             alt="hero"
