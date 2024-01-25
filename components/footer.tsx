@@ -136,12 +136,14 @@ export function SiteFooter() {
         <div className="flex justify-center md:justify-end">
           <Button
             variant="link"
+            aria-label="Privacy Policy"
             className="font-satoshi text-sm text-muted-foreground"
           >
             Privacy Policy
           </Button>
           <Button
             variant="link"
+            aria-label="Terms of Use"
             className="font-satoshi text-sm text-muted-foreground"
           >
             Terms of Use
