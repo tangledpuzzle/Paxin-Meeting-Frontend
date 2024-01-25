@@ -7,7 +7,7 @@ export function MetadataUpdater() {
   const { theme } = useTheme();
 
   const updateFavicon = (theme: string) => {
-    const faviconLink = document.querySelector("link[rel~='icon']");
+    const faviconLink = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
     if (!faviconLink) return;
 
     if (theme === 'light') {
@@ -18,7 +18,7 @@ export function MetadataUpdater() {
   };
 
   const updateManifest = (theme: string) => {
-    const manifestLink = document.querySelector("link[rel~='manifest']");
+    const manifestLink = document.querySelector("link[rel~='manifest']") as HTMLLinkElement;
     if (!manifestLink) return;
 
     if (theme === 'dark') {
