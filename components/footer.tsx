@@ -130,11 +130,11 @@ export function SiteFooter() {
         </div>
       </div>
       <Separator className="container mx-auto bg-[#8C8C8C]/20" />
-      <div className="container mt-2 flex flex-col items-center justify-between sm:flex-row">
-        <div className="font-satoshi text-sm text-muted-foreground">
-          © Copyright 2022, All Rights Reserved by PaxinTrade
+      <div className="md:container mt-2 grid grid-cols-1 md:grid-cols-2 ">
+        <div className="font-satoshi text-sm text-muted-foreground flex items-center justify-center md:justify-start">
+          © All Rights Reserved by PaxinTrade
         </div>
-        <div>
+        <div className="flex justify-center md:justify-end">
           <Button
             variant="link"
             className="font-satoshi text-sm text-muted-foreground"
