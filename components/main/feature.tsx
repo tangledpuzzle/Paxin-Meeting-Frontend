@@ -1,9 +1,6 @@
 "use client"
 
 import Image from "next/image"
-
-import { Icons } from "@/components/icons"
-
 import { SectionBadge } from "../common/section-badge"
 import { SectionDescription } from "../common/section-description"
 import { SectionTitle } from "../common/section-title"
