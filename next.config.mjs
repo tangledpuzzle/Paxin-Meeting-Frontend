@@ -2,16 +2,19 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["proxy.paxintrade.com"],
+    domains: ['proxy.paxintrade.com'],
   },
   async rewrites() {
     return [
       {
-        source: "/api/:path*",
-        destination: "https://go.paxintrade.com/api/:path*", // Proxy to Backend
+        source: '/api/:path*',
+        destination: 'https://go.paxintrade.com/api/:path*', // Proxy to Backend
       },
-    ]
+    ];
   },
-}
+  compiler: {
+    styledComponents: true,
+  },
+};
 
-export default nextConfig
+export default nextConfig;

@@ -4,7 +4,7 @@ import { Button } from "../ui/button"
 
 export function JoinUsSection() {
   return (
-    <div className="bg-radial-gradient mx-3 mt-12 md:mt-24 flex flex-col items-center justify-center rounded-xl bg-primary p-8 pt-0">
+    <div className="bg-radial-gradient mx-3 flex flex-col items-center justify-center rounded-xl bg-primary p-8 pt-0">
       <Image
         src="/images/home/join-us-banner.png"
         width={1216}
@@ -22,7 +22,7 @@ export function JoinUsSection() {
         redefine your digital presence today.
       </div>
       <div className="relative mt-10 flex w-full items-center justify-center">
-        <Button variant="secondary" className="bg-white text-primary">
+        <Button variant="secondary" className="bg-white text-black hover:text-white" aria-label="Join Now">
           Join Now
         </Button>
       </div>
