@@ -15,25 +15,22 @@ export function SiteFooter() {
       <div className="flex w-full flex-col items-center justify-center gap-4 py-16 md:flex-row">
         <div className="flex w-full flex-col items-center justify-center md:w-1/3">
           <Image
-            src="/logo.svg"
+            src="/text-logo-white.svg"
             alt="logo"
             width={50}
             height={50}
             className="h-auto w-32 dark:hidden"
           />
           <Image
-            src="/logo-white.svg"
+            src="/logo-text.svg"
             alt="logo"
             width={50}
             height={50}
             className="hidden h-auto w-32 dark:block"
           />
-          <span className="inline-block font-satoshi text-3xl font-semibold">
-            {siteConfig.name}
-          </span>
           <span className="my-2 block max-w-md text-center font-satoshi text-sm text-muted-foreground">
-            Drop us a Line or Two , We are Open for Creative Minds and
-            Collaborations!
+            сhoice and freedom in every interaction <br/>
+            your platform where worlds meet!
           </span>
         </div>
         <div className="relative flex w-full items-center justify-center gap-4 md:w-2/3">
