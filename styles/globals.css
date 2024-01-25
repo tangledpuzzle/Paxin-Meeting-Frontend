@@ -7,14 +7,32 @@
   :root {
     --borderimg: linear-gradient(270deg, rgba(228, 228, 228, 0) 5.23%, #E6E6E6 53.6%, rgba(234, 234, 234, 0) 100%);
     --bgheader: 0, 0%, 100%;
-    
+    --bgs: linear-gradient(
+      181deg,
+      rgba(255, 255, 255, 0.06) -3.73%,
+      rgba(255, 255, 255, 0) 99.29%
+    ),
+    rgba(255, 255, 255, 0.06);
   }
 
   .dark {
     --borderimg: linear-gradient(270deg, rgba(228, 228, 228, 0) 5.23%, rgba(241, 241, 241, 0.17) 53.6%, rgba(234, 234, 234, 0) 100%); 
     --bgheader: 0, 0%, 6%;
-
+    --bgs: linear-gradient(
+      181deg,
+      rgba(255, 255, 255, 0.06) -3.73%,
+      rgba(255, 255, 255, 0) 99.29%
+    ),
+    rgba(255, 255, 255, 0.06);
   }
+
+
+  .bg-ss {
+    background: var(--bgs);
+    background-size: cover;
+  }
+
+
 
   .border-gardient-header {
     border-image:var(--borderimg);
@@ -24,12 +42,15 @@
   
   .bg-header {
     background: hsla(var(--bgheader));
-
   }
 }
 
 .border-gardient-h {
   @apply border-gardient-header;
+}
+
+.bg-s {
+  @apply bg-ss;
 }
 
 .bg-h {
@@ -147,28 +168,22 @@
     -webkit-text-fill-color: transparent;
   }
 
-  /* This will change the scrollbar color for Webkit browsers like Chrome, Safari */
-  ::-webkit-scrollbar {
-    width: 12px;
-    /* width of the entire scrollbar */
-  }
 
-  ::-webkit-scrollbar-track {
-    background: #f0f0f0;
-    /* color of the tracking area */
+  html {
+    scrollbar-face-color: #646464;
+    scrollbar-base-color: #646464;
+    scrollbar-3dlight-color: #646464;
+    scrollbar-highlight-color: #646464;
+    scrollbar-track-color: #000;
+    scrollbar-arrow-color: #000;
+    scrollbar-shadow-color: #646464;
   }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #888;
-    /* color of the scroll thumb */
-    border-radius: 20px;
-    /* roundness of the scroll thumb */
-    border: 3px solid #f0f0f0;
-    /* creates padding around scroll thumb */
-  }
-
-  /* change color on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-  }
+  
+  ::-webkit-scrollbar { width: 8px; height: 3px;}
+  ::-webkit-scrollbar-button {  background-color: #666; }
+  ::-webkit-scrollbar-track {  background-color: #646464;}
+  ::-webkit-scrollbar-track-piece { background-color: #000;}
+  ::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 3px;}
+  ::-webkit-scrollbar-corner { background-color: #646464;}
+  ::-webkit-resizer { background-color: #666;}
 }

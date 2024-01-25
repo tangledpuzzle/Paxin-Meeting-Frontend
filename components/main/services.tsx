@@ -24,7 +24,7 @@ const services = [
   {
     title: "Whatsapp and Facebook",
     description: "Save web clips and sync with your apps",
-    icons: ["whatsapp", "facebook"],
+    icons: ["whatsapp", "fb-color"],
   },
 ]
 
@@ -63,7 +63,7 @@ function ServiceCard({
 
 export function ServicesSection() {
   return (
-    <div className="flex flex-col items-center justify-center px-3">
+    <div className="flex flex-col items-center justify-center px-3 pb-[40px] md:pb-[80px]">
       <SectionBadge>Services</SectionBadge>
       <SectionTitle className="px-7 leading-[30px]">Combination of Services in One Platform</SectionTitle>
       <SectionDescription className="px-7 leading-[25.15px]">
