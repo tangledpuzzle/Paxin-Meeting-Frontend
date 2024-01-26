@@ -6,7 +6,7 @@ import { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
 
 import { siteConfig } from '@/config/site';
-import { fontDMSans, fontRoboto, fontSans, fontSatoshi } from '@/lib/fonts';
+import { fontRoboto, fontSatoshi } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -43,9 +43,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <body
           className={cn(
             'min-h-screen bg-background font-satoshi antialiased',
-            fontSans.variable,
             fontSatoshi.variable,
-            fontDMSans.variable,
             fontRoboto.variable
           )}
         >

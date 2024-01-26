@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import Slider from "react-slick"
 
+
+
 import { Button } from "@/components/ui/button"
 import { TagBadge } from "@/components/common/tag-badge"
 

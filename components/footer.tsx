@@ -44,7 +44,7 @@ export function SiteFooter() {
             <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3">
                 <div className="flex flex-col">
-                  <div className="font-dm-sans my-4 text-xl font-semibold">
+                  <div className="font-satoshi my-4 text-xl font-semibold">
                     About
                   </div>
                   {siteConfig.footer.about.map((item, index) => (
@@ -58,7 +58,7 @@ export function SiteFooter() {
                   ))}
                 </div>
                 <div className="flex flex-col">
-                  <div className="font-dm-sans my-4 text-xl font-semibold">
+                  <div className="font-satoshi my-4 text-xl font-semibold">
                     Product
                   </div>
                   {siteConfig.footer.product.map((item, index) => (
@@ -72,7 +72,7 @@ export function SiteFooter() {
                   ))}
                 </div>
                 <div className="md:ml-auto flex flex-col">
-                  <div className="font-dm-sans my-4 text-xl font-semibold">
+                  <div className="font-satoshi my-4 text-xl font-semibold">
                     Resources
                   </div>
                   {siteConfig.footer.resources.map((item, index) => (
