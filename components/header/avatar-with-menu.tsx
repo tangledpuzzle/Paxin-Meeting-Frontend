@@ -15,7 +15,7 @@ export function AvatarWithMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className="mr-3">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src="/images/avatar.jpg" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

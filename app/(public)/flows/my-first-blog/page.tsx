@@ -92,7 +92,7 @@ export default function FlowPage() {
         <div className="flex gap-3 text-xl font-semibold text-secondary-foreground">
           Your Personal Realtor
           <div
-            className={`h-6 w-6 rounded-full bg-[url('https://flagcdn.com/es.svg')] bg-cover bg-center bg-no-repeat`}
+            className={`h-6 w-6 rounded-full bg-[url('/images/es.svg')] bg-cover bg-center bg-no-repeat`}
           />
         </div>
         <div className="text-sm text-muted-foreground">

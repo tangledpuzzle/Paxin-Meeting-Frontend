@@ -248,7 +248,7 @@ export default function ProfilePage({
                   <div className="flex gap-3 text-xl font-semibold text-secondary-foreground">
                     @{profileDetails.username}
                     <div
-                      className={`size-6 rounded-full bg-[url('https://flagcdn.com/es.svg')] bg-cover bg-center bg-no-repeat`}
+                      className={`size-6 rounded-full bg-[url('/images/es.svg')] bg-cover bg-center bg-no-repeat`}
                     />
                   </div>
                   <div className="text-sm text-muted-foreground">
