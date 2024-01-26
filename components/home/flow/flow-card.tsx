@@ -13,8 +13,10 @@ import { TagSlider } from '@/components/common/tag-slider';
 import { CategoryBadge } from './category-badge';
 import { LocationBadge } from './location-badge';
 import { PriceBadge } from './price-badge';
+import Link from 'next/link';
 
 export interface FlowCardProps {
+  id: string;
   title: string;
   subtitle: string;
   user: {
@@ -23,6 +25,7 @@ export interface FlowCardProps {
     telegram: string;
     avatar: string;
   };
+  slug: string;
   hero: string;
   price: number;
   regularpost?: boolean;
@@ -37,9 +40,11 @@ export interface FlowCardProps {
 
 function FlowCard(profile: FlowCardProps) {
   const {
+    id,
     title,
     subtitle,
     user,
+    slug,
     hero,
     price,
     regularpost,
@@ -53,37 +58,39 @@ function FlowCard(profile: FlowCardProps) {
   return (
     <Card className='size-full max-w-[320px] sm:max-w-[400px]'>
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
-        <div className='relative'>
-          <div className='h-[200px] w-full'>
-            <Image
-              src={hero}
-              layout='fill'
-              objectFit='contain'
-              objectPosition='center'
-              alt='profile'
-            />
-          </div>
-          <div className='absolute right-3 top-3 flex gap-2'>
-            {regularpost && (
+        <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
+          <div className='relative'>
+            <div className='h-[200px] w-full'>
+              <Image
+                src={hero}
+                layout='fill'
+                objectFit='contain'
+                objectPosition='center'
+                alt='profile'
+              />
+            </div>
+            <div className='absolute right-3 top-3 flex gap-2'>
+              {regularpost && (
+                <Badge
+                  variant='default'
+                  className='border-none bg-black/50 p-2 text-white'
+                >
+                  <Mail className='mr-2 size-4 text-white' />
+                  Regular Post
+                </Badge>
+              )}
+
               <Badge
                 variant='default'
-                className='border-none bg-black/50 p-2 text-white'
+                className='border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
               >
-                <Mail className='mr-2 size-4 text-white' />
-                Regular Post
+                <Eye className='mr-2 size-4 text-white' />
+                {review.totalviews}
               </Badge>
-            )}
-
-            <Badge
-              variant='default'
-              className='border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
-            >
-              <Eye className='mr-2 size-4 text-white' />
-              {review.totalviews}
-            </Badge>
+            </div>
+            <div className='absolute inset-0 flex items-center justify-center rounded-lg rounded-b-none bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
-          <div className='absolute inset-0 flex items-center justify-center rounded-lg rounded-b-none bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
-        </div>
+        </Link>
         <div className='relative w-full max-w-[100%]'>
           <TagSlider tags={tags} />
         </div>
@@ -94,7 +101,9 @@ function FlowCard(profile: FlowCardProps) {
         </div>
         <div className='font-satoshi'>
           <div className='line-clamp-1 text-xl font-semibold text-secondary-foreground'>
-            {title}
+            <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
+              {title}
+            </Link>
           </div>
           <div className='line-clamp-3 text-sm text-muted-foreground'>
             {subtitle}
@@ -106,28 +115,32 @@ function FlowCard(profile: FlowCardProps) {
           <CategoryBadge>{category}</CategoryBadge>
         </div>
         <div className='flex justify-between'>
-          <div className='flex gap-2'>
-            <ProfileAvatar
-              src={user.avatar}
-              username={user.username}
-              online={user.online}
-            />
-            <div className='flex flex-col justify-between'>
-              <div className='text-md text-secondary-foreground'>
-                {user.username}
+          <Link href='/profile/[username]' as={`/profile/${user.username}`}>
+            <div className='flex gap-2'>
+              <ProfileAvatar
+                src={user.avatar}
+                username={user.username}
+                online={user.online}
+              />
+              <div className='flex flex-col justify-between'>
+                <div className='text-md text-secondary-foreground'>
+                  {user.username}
+                </div>
+                <div className='text-xs text-muted-foreground'>
+                  Visit Profile
+                </div>
               </div>
-              <div className='text-xs text-muted-foreground'>Visit Profile</div>
             </div>
-          </div>
+          </Link>
           <div className='flex gap-2'>
             <Button variant='outline' size='icon' className='rounded-full'>
-              <BsPersonFillExclamation className='h-5 w-5 text-gray-500 dark:text-white' />
+              <BsPersonFillExclamation className='size-5 text-gray-500 dark:text-white' />
             </Button>
             <Button variant='outline' size='icon' className='rounded-full'>
-              <BiLink className='h-5 w-5 text-gray-500 dark:text-white' />
+              <BiLink className='size-5 text-gray-500 dark:text-white' />
             </Button>
             <Button variant='outline' size='icon' className='rounded-full'>
-              <FaTelegramPlane className='h-5 w-5 text-gray-500 dark:text-white' />
+              <FaTelegramPlane className='size-5 text-gray-500 dark:text-white' />
             </Button>
           </div>
         </div>
