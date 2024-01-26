@@ -93,7 +93,7 @@ export default function ProfilePage({
   const { locale, setLocale } = useContext(PaxContext);
   const [profileDetails, setProfileDetails] = useState<ProfileDetails>();
   const { data: fetchedData, error } = useSWR(
-    `/api/profiles/get/${params.username}`,
+    `/api/profiles/get/${params.username}?language=${locale}`,
     fetcher
   );
 
@@ -131,64 +131,9 @@ export default function ProfilePage({
 
   useEffect(() => {
     if (!error && fetchedData) {
-      setProfileDetails({
-        username: fetchedData.data.Name,
-        bio: fetchedData.data.Profile[0].MultilangDescr[
-          locale.charAt(0).toUpperCase() + locale.slice(1)
-        ],
-        hashtags: fetchedData.data.Profile[0].Hashtags.map(
-          (tag: any) => tag.Hashtag
-        ),
-        cities: fetchedData.data.Profile[0].City.map((city: any) => city.Hex),
-        categories: fetchedData.data.Profile[0].Guilds.map(
-          (guild: any) => guild.Hex
-        ),
-        latestblog:
-          fetchedData.data.Blogs.length > 0
-            ? {
-                title:
-                  fetchedData.data.Blogs[0].MultilangTitle[
-                    locale.charAt(0).toUpperCase() + locale.slice(1)
-                  ],
-                subtitle:
-                  fetchedData.data.Blogs[0].MultilangDescr[
-                    locale.charAt(0).toUpperCase() + locale.slice(1)
-                  ],
-                hero: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${fetchedData.data.Blogs[0].photos[0].files[0].path}`,
-                review: {
-                  votes: fetchedData.data.Blogs[0].Views, // This is the number of views, not votes. Need to fix api
-                },
-              }
-            : undefined,
-        review: {
-          totaltime: fetchedData.data.TotalOnlineHours[0],
-          monthtime: fetchedData.data.OnlineHours[0],
-          totalposts: fetchedData.data.TotalRestBlogs,
-          monthposts: fetchedData.data.TotalBlogs,
-          followers: fetchedData.data.Followers.length,
-        },
-        gallery: fetchedData.data.Profile[0].photos[0].files.map(
-          (file: any) => {
-            return {
-              original: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`,
-              thumbnail: `https://proxy.paxintrade.com/50/https://img.paxintrade.com/${file.path}`,
-            };
-          }
-        ),
-
-        description:
-          fetchedData.data.Profile[0].MultilangDescr[
-            locale.charAt(0).toUpperCase() + locale.slice(1)
-          ],
-        additionalinfo:
-          fetchedData.data.Profile[0].MultilangAdditional[
-            locale.charAt(0).toUpperCase() + locale.slice(1)
-          ],
-        telegram: fetchedData.data.TelegramName,
-        qrcode: fetchedData.data.Name,
-      });
+      setProfileDetails(fetchedData);
     }
-  }, [fetchedData, locale]);
+  }, [fetchedData, error]);
 
   return !error ? (
     fetchedData && profileDetails ? (

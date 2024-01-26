@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
 
     const flows = data.data.map((item: any) => {
       return {
+        id: item.uniqId,
         title:
           item.multilangtitle[locale.charAt(0).toUpperCase() + locale.slice(1)],
         subtitle:
@@ -28,6 +29,7 @@ export async function GET(req: NextRequest) {
           telegram: '',
           avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${item.user.photo}`,
         },
+        slug: item.slug,
         hero: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${item.photos[0].files[0].path}`,
         price: item.total,
         regularpost: item.user.role === 'user',

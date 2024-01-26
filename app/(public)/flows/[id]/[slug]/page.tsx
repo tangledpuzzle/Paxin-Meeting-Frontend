@@ -65,8 +65,7 @@ interface BlogDetails {
   countrycode: string;
 }
 
-const fetcher = ([url, name]: string[]) =>
-  axios.get(url, { headers: { name } }).then((res) => res.data);
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function FlowPage({
   params,
@@ -79,7 +78,7 @@ export default function FlowPage({
     {} as BlogDetails
   );
   const { data: fetchedData, error } = useSWR(
-    [`/api/blog/${params.slug}`, params.id],
+    `/api/flows/get/${params.id}?language=${locale}&slug=${params.slug}`,
     fetcher
   );
 
@@ -95,45 +94,10 @@ export default function FlowPage({
   ];
 
   useEffect(() => {
-    if (!error && fetchedData && fetchedData.data) {
-      setBlogDetails({
-        title:
-          fetchedData.data[0].multilangtitle[
-            locale.charAt(0).toUpperCase() + locale.slice(1)
-          ],
-        description:
-          fetchedData.data[0].multilangdescr[
-            locale.charAt(0).toUpperCase() + locale.slice(1)
-          ],
-        content:
-          fetchedData.data[0].multilangcontent[
-            locale.charAt(0).toUpperCase() + locale.slice(1)
-          ],
-        review: {
-          views: fetchedData.data[0].views,
-        },
-        gallery: fetchedData.data[0].photos[0].files.map((file: any) => {
-          return {
-            original: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`,
-            thumbnail: `https://proxy.paxintrade.com/50/https://img.paxintrade.com/${file.path}`,
-          };
-        }),
-        author: {
-          username: fetchedData.data[0].user.name,
-          avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${fetchedData.data[0].user.photo}`,
-          bio: fetchedData.data[0].user.role,
-        },
-        price: fetchedData.data[0].total,
-        qrcode: fetchedData.data[0].slug,
-        hashtags: fetchedData.data[0].hashtags,
-        categories: fetchedData.data[0].catygory.map(
-          (catygory: any) => catygory.name
-        ),
-        cities: fetchedData.data[0].city.map((city: any) => city.name),
-        countrycode: fetchedData.data[0].lang,
-      });
+    if (!error && fetchedData) {
+      setBlogDetails(fetchedData);
     }
-  }, [fetchedData, error, locale]);
+  }, [fetchedData, error]);
 
   useEffect(() => {
     const handleResize = () => {

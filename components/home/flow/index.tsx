@@ -12,6 +12,7 @@ import { useSearchParams } from 'next/navigation';
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export interface FlowData {
+  id: string;
   title: string;
   subtitle: string;
   user: {
@@ -20,6 +21,7 @@ export interface FlowData {
     telegram: string;
     avatar: string;
   };
+  slug: string;
   hero: string;
   price: number;
   regularpost: boolean;
