@@ -38,23 +38,20 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 export default function ProfileSection() {
   const searchParams = useSearchParams();
   const [profileData, setProfileData] = useState<ProfileData[]>([]);
-  const [fetchURL, setFetchURL] = useState('/api/profiles/get');
+  const [fetchURL, setFetchURL] = useState('/api/profiles/get?language=en');
   const { locale, setLocale } = useContext(PaxContext);
 
   const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
 
   useEffect(() => {
     const generateFetchURL = () => {
-      let baseURL = '/api/profiles/get';
+      let baseURL = `/api/profiles/get?language=${locale}`;
       const queryParams = ['title', 'city', 'category', 'hashtag'];
-      let hasQuery = false;
 
       queryParams.forEach((param) => {
         const value = searchParams.get(param);
         if (value) {
-          baseURL += hasQuery ? '&' : '?';
-          baseURL += `${param}=${value}`;
-          hasQuery = true;
+          baseURL += `&${param}=${value}`;
         }
       });
 
@@ -62,33 +59,13 @@ export default function ProfileSection() {
     };
 
     setFetchURL(generateFetchURL());
-  }, [searchParams]);
+  }, [searchParams, locale]);
 
   useEffect(() => {
     if (!error && fetchedData) {
-      const filteredData = fetchedData.data.map((item: any) => {
-        return {
-          username: item.User.Name,
-          bio: item.MultilangDescr[
-            locale.charAt(0).toUpperCase() + locale.slice(1)
-          ],
-          avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${item.photos[0].files[0].path}`,
-          tags: item.Hashtags.map((tag: any) => tag.Hashtag),
-          cities: item.City.map((city: any) => city.Hex),
-          categories: item.Guilds.map((guild: any) => guild.Hex),
-          qrcode: item.User.Name,
-          countrycode: item.Lang,
-          review: {
-            totaltime: item.User.TotalOnlineHours[0],
-            monthtime: item.User.OnlineHours[0],
-            totalposts: item.User.TotalBlogs,
-          },
-        };
-      });
-
-      setProfileData(filteredData);
+      setProfileData(fetchedData);
     }
-  }, [fetchedData, locale]);
+  }, [fetchedData, error]);
 
   return (
     <div className='w-full space-y-6'>
@@ -99,7 +76,12 @@ export default function ProfileSection() {
               <ProfileCard key={profile.username} {...profile} />
             ))
           ) : (
-            <ProfileCardSkeleton />
+            <>
+              <ProfileCardSkeleton />
+              <ProfileCardSkeleton className='hidden md:block' />
+              <ProfileCardSkeleton className='hidden lg:block' />
+              <ProfileCardSkeleton className='hidden 2xl:block' />
+            </>
           )
         ) : (
           <></>

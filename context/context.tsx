@@ -1,13 +1,33 @@
 import { createContext, useContext } from 'react';
 
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  avatar: string;
+  plan: string;
+  role: string;
+  balance: number;
+  storage: number;
+  limitStorage: number;
+  followers: number;
+  followings: number;
+  onlinehours: {
+    hour: number;
+    minutes: number;
+    seconds: number;
+  };
+  totalposts: number;
+}
+
 export type GlobalContent = {
-  status: string;
+  user: User | null;
   postMode: string;
   currentPlan: string;
   socket: WebSocket | null;
   locale: string;
   // eslint-disable-next-line unused-imports/no-unused-vars
-  setStatus: (status: string) => void;
+  setUser: (user: User | null) => void;
   // eslint-disable-next-line unused-imports/no-unused-vars
   setPostMode: (value: string) => void;
   // eslint-disable-next-line unused-imports/no-unused-vars
@@ -18,8 +38,8 @@ export type GlobalContent = {
   setLocale: (value: string) => void;
 };
 export const PaxContext = createContext<GlobalContent>({
-  status: '',
-  setStatus: () => {},
+  user: null,
+  setUser: () => {},
   postMode: 'all',
   currentPlan: 'BASIC',
   socket: null,

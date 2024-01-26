@@ -71,47 +71,6 @@ export function SignInCard() {
       router.push('/profile/dashboard');
     }
 
-    // try {
-    //   const response = await axios.post(
-    //     '/api/auth/login',
-    //     {
-    //       email: data.email,
-    //       password: data.password,
-    //     },
-    //     {
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         Accept: 'application/json',
-    //       },
-    //     }
-    //   );
-
-    //   const result = response.data;
-    //   console.log(result, 'result');
-
-    //   if (result.status === 'success') {
-    //     toast.success("Welcome back! You've logged in successfully.", {
-    //       position: 'top-right',
-    //     });
-
-    //     setCookie(null, 'access_token', result?.access_token);
-    //     setCookie(null, 'refresh_token', result?.refresh_token, {
-    //       maxAge: 60 * 60 * 24 * 7,
-    //       sameSite: 'lax',
-    //     });
-
-    //     router.push('/profile/dashboard');
-    //   } else {
-    //     toast.error(result.message, {
-    //       position: 'top-right',
-    //     });
-    //   }
-    // } catch (error) {
-    //   toast.error('Something went wrong. Please try again.', {
-    //     position: 'top-right',
-    //   });
-    // }
-
     setLoading(false);
   };
 
@@ -151,7 +110,7 @@ export function SignInCard() {
                 <FormItem>
                   <FormControl>
                     <div className='relative mx-auto w-full'>
-                      <Mail className='absolute inset-y-0 left-3 my-auto h-4 w-4 text-gray-500' />
+                      <Mail className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                       <Input
                         type='email'
                         placeholder='Email'
@@ -173,7 +132,7 @@ export function SignInCard() {
                 <FormItem>
                   <FormControl>
                     <div className='relative mx-auto w-full'>
-                      <Lock className='absolute inset-y-0 left-3 my-auto h-4 w-4 text-gray-500' />
+                      <Lock className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                       <Input
                         type='password'
                         placeholder='Password'
@@ -198,7 +157,7 @@ export function SignInCard() {
               className='w-full'
               disabled={loading}
             >
-              {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+              {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
               Sign In
             </Button>
           </form>

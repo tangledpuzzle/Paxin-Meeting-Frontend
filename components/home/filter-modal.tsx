@@ -50,11 +50,11 @@ export function FilterModal() {
   const [isReset, setIsReset] = useState<boolean>(false);
 
   const { data: fetchedCities, error: cityFetchError } = useSWR(
-    '/api/cities/all',
+    '/api/cities/get',
     fetcher
   );
   const { data: fetchedCategories, error: categoryFetchError } = useSWR(
-    '/api/guilds/getAll',
+    '/api/categories/get',
     fetcher
   );
 
@@ -167,7 +167,7 @@ export function FilterModal() {
   }, [viewMode]);
 
   useEffect(() => {
-    if (fetchedCities) {
+    if (!cityFetchError && fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
           value: city.Translations.find((t: any) => t.Language === locale).Name,
@@ -191,7 +191,7 @@ export function FilterModal() {
         ]);
       }
     }
-    if (fetchedCategories) {
+    if (!categoryFetchError && fetchedCategories) {
       setCategoryOptions(
         fetchedCategories.data.map((category: any) => ({
           value: category.Translations.find((t: any) => t.Language === locale)

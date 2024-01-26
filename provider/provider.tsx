@@ -1,20 +1,23 @@
 'use client';
 
 import { SessionProvider, SessionProviderProps } from 'next-auth/react';
-import { PaxContext } from '@/context/context';
+import { PaxContext, User } from '@/context/context';
 import i18n from '@/i18n';
-import axios from 'axios';
 import { setCookie } from 'nookies';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
+import axios from 'axios';
+import useSWR from 'swr';
 
 interface IProps {
   children: ReactNode;
   session: SessionProviderProps['session'];
 }
 
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
 const Providers: React.FC<IProps> = ({ children, session }) => {
-  const [status, setStatus] = useState<string>('');
+  const [user, setUser] = useState<User | null>(null);
   const [postMode, setPostMode] = useState<string>('all');
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');
   const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -23,6 +26,33 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
       ? window.localStorage.getItem('locale') || 'en'
       : 'en'
   );
+
+  const { data: fetchedData, error } = useSWR(
+    `/api/users/me?lang=${locale}`,
+    fetcher
+  );
+
+  useEffect(() => {
+    if (!error && fetchedData) {
+      setUser({
+        id: fetchedData.data?.user?.id,
+        username: fetchedData.data?.user?.name,
+        email: fetchedData.data?.user?.email,
+        avatar: fetchedData.data?.user?.photo,
+        plan: fetchedData.data?.user?.Plan,
+        role: fetchedData.data?.user?.role,
+        balance: fetchedData.data?.balance,
+        storage: fetchedData.data?.storage,
+        limitStorage: fetchedData.data?.user?.limitstorage,
+        followers: fetchedData.data?.user?.totalfollowers,
+        followings: fetchedData.data?.user?.followings?.length,
+        onlinehours: fetchedData.data?.user?.total_online_hours[0],
+        totalposts: fetchedData.data?.user?.totalblogs,
+      });
+    }
+
+    console.log(fetchedData);
+  }, [fetchedData, error]);
 
   useEffect(() => {
     if (process.browser) {
@@ -69,8 +99,8 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
     <SessionProvider session={session}>
       <PaxContext.Provider
         value={{
-          status,
-          setStatus,
+          user,
+          setUser,
           postMode,
           setPostMode,
           currentPlan,

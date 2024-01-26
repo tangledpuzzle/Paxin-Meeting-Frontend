@@ -36,13 +36,13 @@ export default function FlowSection() {
   const searchParams = useSearchParams();
   const [flowData, setFlowData] = useState<FlowData[]>([]);
   const { locale, setLocale } = useContext(PaxContext);
-  const [fetchURL, setFetchURL] = useState('/api/blog/listAll');
+  const [fetchURL, setFetchURL] = useState('/api/flows/get?language=en');
 
   const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
 
   useEffect(() => {
     const generateFetchURL = () => {
-      let baseURL = '/api/blog/listAll';
+      let baseURL = `/api/flows/get?language=${locale}`;
       const queryParams = [
         'mode',
         'title',
@@ -51,15 +51,11 @@ export default function FlowSection() {
         'hashtag',
         'money',
       ];
-      let hasQuery = false;
-      console.log(searchParams.getAll(''));
 
       queryParams.forEach((param) => {
         const value = searchParams.get(param);
         if (value) {
-          baseURL += hasQuery ? '&' : '?';
-          baseURL += `${param}=${value}`;
-          hasQuery = true;
+          baseURL += `&${param}=${value}`;
         }
       });
 
@@ -67,42 +63,13 @@ export default function FlowSection() {
     };
 
     setFetchURL(generateFetchURL());
-  }, [searchParams]);
+  }, [searchParams, locale]);
 
   useEffect(() => {
     if (!error && fetchedData) {
-      const filteredData = fetchedData.data.map((item: any) => {
-        return {
-          title:
-            item.multilangtitle[
-              locale.charAt(0).toUpperCase() + locale.slice(1)
-            ],
-          subtitle:
-            item.multilangdescr[
-              locale.charAt(0).toUpperCase() + locale.slice(1)
-            ],
-          user: {
-            username: item.user.name,
-            online: item.user.online,
-            telegram: '',
-            avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${item.user.photo}`,
-          },
-          hero: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${item.photos[0].files[0].path}`,
-          price: item.total,
-          regularpost: item.user.role === 'user',
-          tags: item.hashtags,
-          location: item.city[0].name,
-          category: item.catygory[0].name,
-          countrycode: item.lang,
-          review: {
-            totalviews: item.views,
-          },
-        };
-      });
-
-      setFlowData(filteredData);
+      setFlowData(fetchedData);
     }
-  }, [fetchedData, locale]);
+  }, [fetchedData, error]);
 
   return (
     <div className='w-full space-y-6'>
@@ -113,7 +80,12 @@ export default function FlowSection() {
               <FlowCard key={flow.title} {...flow} />
             ))
           ) : (
-            <FlowCardSkeleton />
+            <>
+              <FlowCardSkeleton />
+              <FlowCardSkeleton className='hidden md:block' />
+              <FlowCardSkeleton className='hidden lg:block' />
+              <FlowCardSkeleton className='hidden 2xl:block' />
+            </>
           )
         ) : (
           <></>

@@ -3,7 +3,7 @@ import { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   debug: true,
   session: {
     strategy: 'jwt',
@@ -45,9 +45,18 @@ const authOptions: NextAuthOptions = {
 
           const data = response.data;
 
+          console.log(data);
+
           if (data.status === 'success') {
-            // The login was successful
-            console.log('Login successful');
+            return {
+              id: data.refresh_token.UserID,
+              name: '',
+              email: credentials.email,
+              token: data.access_token,
+              refreshToken: data.refresh_token.Token,
+              expiresIn: data.refresh_token.ExpiresIn,
+              tokenUuid: data.refresh_token.TokenUuid,
+            };
           } else {
             // The login failed
             console.log('Login failed');
@@ -68,19 +77,25 @@ const authOptions: NextAuthOptions = {
   // JWT
   callbacks: {
     async session({ token, session }: { token: any; session: any }) {
-      const user = session.user;
-
-      if (token && user) {
-        user.id = token.id;
-        user.name = token.name;
-        user.email = token.email;
-        user.image = token.picture;
+      if (token) {
+        session.user.id = token.id; // Customize as per your needs
+        session.accessToken = token.accessToken; // Add fields that are necessary
+        session.refreshToken = token.refreshToken;
+        session.expiresIn = token.expiresIn;
+        session.tokenUuid = token.tokenUuid;
       }
-
       return session;
     },
     async jwt({ token, user }: { token: any; user: any }) {
-      return {};
+      if (user) {
+        token.id = user.id;
+        token.accessToken = user.token;
+        token.refreshToken = user.refreshToken;
+        token.expiresIn = user.expiresIn;
+        token.tokenUuid = user.tokenUuid;
+        // Add other fields as necessary depending on your use case
+      }
+      return token;
     },
   },
 };
