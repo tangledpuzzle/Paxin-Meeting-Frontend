@@ -1,13 +1,13 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { PaxContext } from '@/context/context';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Loader2, Lock, Mail } from 'lucide-react';
-import { parseCookies, setCookie } from 'nookies';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { parseCookies } from 'nookies';
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { signIn, useSession } from 'next-auth/react';
 
 const formSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -33,6 +34,11 @@ export function SignInCard() {
   const { socket } = useContext(PaxContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const session = useSession();
+
+  if (session.status === 'authenticated') {
+    router.push('/profile/dashboard');
+  }
 
   const defaultValues = {
     email: '',
@@ -46,46 +52,65 @@ export function SignInCard() {
   const onSubmit = async (data: UserFormValue) => {
     setLoading(true);
 
-    try {
-      const response = await axios.post(
-        '/api/auth/login',
-        {
-          email: data.email,
-          password: data.password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        }
-      );
+    const status = await signIn('email', {
+      email: data.email,
+      password: data.password,
+      session: parseCookies().session,
+      redirect: false,
+    });
 
-      const result = response.data;
-      console.log(result, 'result');
-
-      if (result.status === 'success') {
-        toast.success("Welcome back! You've logged in successfully.", {
-          position: 'top-right',
-        });
-
-        setCookie(null, 'access_token', result?.access_token);
-        setCookie(null, 'refresh_token', result?.refresh_token, {
-          maxAge: 60 * 60 * 24 * 7,
-          sameSite: 'lax',
-        });
-
-        router.push('/profile/dashboard');
-      } else {
-        toast.error(result.message, {
-          position: 'top-right',
-        });
-      }
-    } catch (error) {
-      toast.error('Something went wrong. Please try again.', {
+    if (status?.error) {
+      toast.error(status?.error, {
         position: 'top-right',
       });
     }
+    if (status?.ok) {
+      toast.success("Welcome back! You've logged in successfully.", {
+        position: 'top-right',
+      });
+      router.push('/profile/dashboard');
+    }
+
+    // try {
+    //   const response = await axios.post(
+    //     '/api/auth/login',
+    //     {
+    //       email: data.email,
+    //       password: data.password,
+    //     },
+    //     {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Accept: 'application/json',
+    //       },
+    //     }
+    //   );
+
+    //   const result = response.data;
+    //   console.log(result, 'result');
+
+    //   if (result.status === 'success') {
+    //     toast.success("Welcome back! You've logged in successfully.", {
+    //       position: 'top-right',
+    //     });
+
+    //     setCookie(null, 'access_token', result?.access_token);
+    //     setCookie(null, 'refresh_token', result?.refresh_token, {
+    //       maxAge: 60 * 60 * 24 * 7,
+    //       sameSite: 'lax',
+    //     });
+
+    //     router.push('/profile/dashboard');
+    //   } else {
+    //     toast.error(result.message, {
+    //       position: 'top-right',
+    //     });
+    //   }
+    // } catch (error) {
+    //   toast.error('Something went wrong. Please try again.', {
+    //     position: 'top-right',
+    //   });
+    // }
 
     setLoading(false);
   };

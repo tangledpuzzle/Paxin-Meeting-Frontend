@@ -1,32 +1,33 @@
-import axios from "axios"
-import { NextAuthOptions } from "next-auth"
-import NextAuth from "next-auth/next"
-import CredentialsProvider from "next-auth/providers/credentials"
+import axios from 'axios';
+import { NextAuthOptions } from 'next-auth';
+import NextAuth from 'next-auth/next';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 const authOptions: NextAuthOptions = {
   debug: true,
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   pages: {
-    signIn: "/auth/signin",
-    newUser: "/register",
+    signIn: '/auth/signin',
+    newUser: '/register',
   },
   providers: [
     CredentialsProvider({
-      id: "email",
-      name: "email",
-      type: "credentials",
+      id: 'email',
+      name: 'email',
+      type: 'credentials',
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "bruce@wayne.com" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'text', placeholder: 'bruce@wayne.com' },
+        password: { label: 'Password', type: 'password' },
+        session: { label: 'Session', type: 'text' },
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) {
-          return null
+          return null;
         }
 
-        console.log(credentials)
+        console.log(credentials);
 
         try {
           const response = await axios.post(
@@ -37,29 +38,29 @@ const authOptions: NextAuthOptions = {
             },
             {
               headers: {
-                session: "6nDOfKAYTbqpiMaHJnjxFA%3D%3D",
+                session: credentials.session,
               },
             }
-          )
+          );
 
-          const data = response.data
+          const data = response.data;
 
-          if (data.status === "success") {
+          if (data.status === 'success') {
             // The login was successful
-            console.log("Login successful")
+            console.log('Login successful');
           } else {
             // The login failed
-            console.log("Login failed")
+            console.log('Login failed');
           }
         } catch (error) {
-          console.error("Error:", error)
+          console.error('Error:', error);
         }
 
         return {
-          id: "",
-          name: "",
-          email: "",
-        }
+          id: '',
+          name: '',
+          email: '',
+        };
       },
     }),
   ],
@@ -67,23 +68,23 @@ const authOptions: NextAuthOptions = {
   // JWT
   callbacks: {
     async session({ token, session }: { token: any; session: any }) {
-      const user = session.user
+      const user = session.user;
 
       if (token && user) {
-        user.id = token.id
-        user.name = token.name
-        user.email = token.email
-        user.image = token.picture
+        user.id = token.id;
+        user.name = token.name;
+        user.email = token.email;
+        user.image = token.picture;
       }
 
-      return session
+      return session;
     },
     async jwt({ token, user }: { token: any; user: any }) {
-      return {}
+      return {};
     },
   },
-}
+};
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

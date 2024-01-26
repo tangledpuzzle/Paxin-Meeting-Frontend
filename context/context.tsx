@@ -1,10 +1,13 @@
 import { createContext, useContext } from 'react';
 
 export type GlobalContent = {
+  status: string;
   postMode: string;
   currentPlan: string;
   socket: WebSocket | null;
   locale: string;
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  setStatus: (status: string) => void;
   // eslint-disable-next-line unused-imports/no-unused-vars
   setPostMode: (value: string) => void;
   // eslint-disable-next-line unused-imports/no-unused-vars
@@ -15,6 +18,8 @@ export type GlobalContent = {
   setLocale: (value: string) => void;
 };
 export const PaxContext = createContext<GlobalContent>({
+  status: '',
+  setStatus: () => {},
   postMode: 'all',
   currentPlan: 'BASIC',
   socket: null,

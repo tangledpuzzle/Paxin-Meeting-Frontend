@@ -4,13 +4,13 @@
 
 // import { parseCookies } from "nookies"
 
-import { SiteHeader } from "@/components/header/site-header"
-import Sidebar from "@/components/profiles/sidebar"
+import { SiteHeader } from '@/components/header/site-header';
+import Sidebar from '@/components/profiles/sidebar';
 
 export default function ProfileLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   // const router = useRouter()
 
@@ -40,10 +40,10 @@ export default function ProfileLayout({
   return (
     <>
       <SiteHeader />
-      <div className="absolute top-0 flex h-screen w-full">
+      <div className='absolute top-0 flex h-screen w-full'>
         <Sidebar />
-        <main className="mt-20 w-full bg-secondary/60">{children}</main>
+        <main className='mt-20 w-full bg-secondary/60'>{children}</main>
       </div>
     </>
-  )
+  );
 }

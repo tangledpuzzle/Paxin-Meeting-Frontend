@@ -7,14 +7,14 @@ const nextConfig = {
   images: {
     domains: ['proxy.paxintrade.com'],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://go.paxintrade.com/api/:path*', // Proxy to Backend
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/api/:path*',
+  //       destination: 'https://go.paxintrade.com/api/:path*', // Proxy to Backend
+  //     },
+  //   ];
+  // },
   i18n,
   compiler: {
     styledComponents: true,

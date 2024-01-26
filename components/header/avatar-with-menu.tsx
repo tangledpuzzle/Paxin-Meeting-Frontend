@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,14 +8,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
+import { signOut } from 'next-auth/react';
 
 export function AvatarWithMenu() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar className="mr-3">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <DropdownMenuTrigger asChild>
+        <Avatar className='mr-3'>
+          <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -25,8 +26,10 @@ export function AvatarWithMenu() {
         <DropdownMenuItem>Profile</DropdownMenuItem>
         <DropdownMenuItem>Billing</DropdownMenuItem>
         <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/' })}>
+          Sign Out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
