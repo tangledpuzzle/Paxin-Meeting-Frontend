@@ -5,12 +5,12 @@ import '@/styles/globals.css';
 import { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
 
-import { siteConfig } from '@/config/site';
-import { fontDMSans, fontRoboto, fontSans, fontSatoshi } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
+import { siteConfig } from '@/config/site';
 import { MetadataUpdater } from '@/lib/dynamicMetadata';
+import { fontRoboto, fontSatoshi } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 import { getServerSession } from 'next-auth';
 
 export const metadata: Metadata = {
@@ -45,9 +45,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <body
         className={cn(
           'min-h-screen bg-background font-satoshi antialiased',
-          fontSans.variable,
           fontSatoshi.variable,
-          fontDMSans.variable,
           fontRoboto.variable
         )}
       >

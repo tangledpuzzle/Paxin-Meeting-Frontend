@@ -10,9 +10,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ProfileAvatar } from '@/components/common/profile-avatar';
 import { TagSlider } from '@/components/common/tag-slider';
 
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
-
 import { CategoryBadge } from './category-badge';
 import { LocationBadge } from './location-badge';
 import { PriceBadge } from './price-badge';
@@ -92,7 +89,7 @@ function FlowCard(profile: FlowCardProps) {
         </div>
         <div className='relative'>
           <div
-            className={`absolute right-0 top-3 size-8 rounded-full bg-[url('https://flagcdn.com/${countrycode}.svg')] bg-cover bg-center bg-no-repeat`}
+            className={`absolute right-0 top-3 size-8 rounded-full bg-[url('/images/${countrycode}.svg')] bg-cover bg-center bg-no-repeat`}
           />
         </div>
         <div className='font-satoshi'>

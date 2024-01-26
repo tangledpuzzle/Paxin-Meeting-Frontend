@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
+import Image from 'next/image';
 
 import {
   Select,
@@ -11,8 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useContext } from 'react';
 import { PaxContext } from '@/context/context';
+import { useContext } from 'react';
 
 interface LanguageSelectorProps {
   className?: string;
@@ -21,8 +21,6 @@ interface LanguageSelectorProps {
 export function LanguageSelector({ className }: LanguageSelectorProps) {
   const { i18n } = useTranslation();
   const { locale, setLocale } = useContext(PaxContext);
-
-  console.log(i18n.language, 'hi');
 
   const changeLang = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -48,7 +46,7 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
           <SelectItem value='en'>
             <div className='flex items-center'>
               <Image
-                src='https://flagcdn.com/us.svg'
+                src='/images/us.svg'
                 alt='en'
                 width={24}
                 height={24}
@@ -60,7 +58,7 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
           <SelectItem value='ru'>
             <div className='flex items-center'>
               <Image
-                src='https://flagcdn.com/ru.svg'
+                src='/images/ru.svg'
                 alt='ru'
                 width={24}
                 height={24}
@@ -72,8 +70,8 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
           <SelectItem value='ka'>
             <div className='flex items-center'>
               <Image
-                src='https://flagcdn.com/ge.svg'
-                alt='ka'
+                src='/images/ge.svg'
+                alt='ge'
                 width={24}
                 height={24}
                 className='mr-2 h-auto w-5'
@@ -84,7 +82,7 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
           <SelectItem value='es'>
             <div className='flex items-center'>
               <Image
-                src='https://flagcdn.com/es.svg'
+                src='/images/es.svg'
                 alt='es'
                 width={24}
                 height={24}

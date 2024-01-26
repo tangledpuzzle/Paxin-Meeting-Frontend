@@ -8,9 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { TagSlider } from '@/components/common/tag-slider';
 
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
-
 import Link from 'next/link';
 
 import { QRCodeModal } from '../../common/qrcode-modal';
@@ -84,7 +81,7 @@ function ProfileCard(profile: ProfileCardProps) {
         </div>
         <div className='relative'>
           <div
-            className={`absolute right-0 top-3 size-8 rounded-full bg-[url('https://flagcdn.com/${countrycode}.svg')] bg-cover bg-center bg-no-repeat`}
+            className={`absolute right-0 top-3 size-8 rounded-full bg-[url('/images/${countrycode}.svg')] bg-cover bg-center bg-no-repeat`}
           ></div>
         </div>
         <div className='font-satoshi'>
@@ -112,7 +109,7 @@ function ProfileCard(profile: ProfileCardProps) {
           <CategoryCard categories={categories} />
         </div>
         <div className='flex justify-between'>
-          <Button variant='default' className='w-full font-sans' asChild>
+          <Button variant='default' className='w-full font-roboto' asChild>
             <Link href='/profile/[username]' as={`/profile/${username}`}>
               View Detail
             </Link>

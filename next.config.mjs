@@ -5,7 +5,12 @@ const { i18n } = pkg;
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['proxy.paxintrade.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'proxy.paxintrade.com'
+      }
+    ],
   },
   // async rewrites() {
   //   return [
