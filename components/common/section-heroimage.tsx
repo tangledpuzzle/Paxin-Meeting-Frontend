@@ -39,7 +39,7 @@ function SectionHeroImage({ }: SectionHeroImageProps) {
         <Image
           src="/images/home/hero-light.avif"
           width={1440}
-          height={1106}
+          height={3000}
           alt="hero"
           loading="lazy"
           className="mx-auto hidden h-auto w-full max-w-5xl md:block"
