@@ -1,16 +1,17 @@
-import App from '@/provider/provider';
+import Providers from '@/provider/provider';
 
 import '@/styles/globals.css';
 
 import { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
 
-import { siteConfig } from '@/config/site';
-import { fontRoboto, fontSatoshi } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
+import { siteConfig } from '@/config/site';
 import { MetadataUpdater } from '@/lib/dynamicMetadata';
+import { fontRoboto, fontSatoshi } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
+import { getServerSession } from 'next-auth';
 
 export const metadata: Metadata = {
   title: {
@@ -35,18 +36,20 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const session = await getServerSession();
+
   return (
-    <App>
-      <html lang='en' suppressHydrationWarning>
-        <head />
-        <body
-          className={cn(
-            'min-h-screen bg-background font-satoshi antialiased',
-            fontSatoshi.variable,
-            fontRoboto.variable
-          )}
-        >
+    <html lang='en' suppressHydrationWarning>
+      <head />
+      <body
+        className={cn(
+          'min-h-screen bg-background font-satoshi antialiased',
+          fontSatoshi.variable,
+          fontRoboto.variable
+        )}
+      >
+        <Providers session={session}>
           <ThemeProvider
             attribute='class'
             defaultTheme='system'
@@ -57,8 +60,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <MetadataUpdater />
           </ThemeProvider>
           <TailwindIndicator />
-        </body>
-      </html>
-    </App>
+        </Providers>
+      </body>
+    </html>
   );
 }

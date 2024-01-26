@@ -1,27 +1,52 @@
-import { createContext, useContext } from "react"
+import { createContext, useContext } from 'react';
+
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  avatar: string;
+  plan: string;
+  role: string;
+  balance: number;
+  storage: number;
+  limitStorage: number;
+  followers: number;
+  followings: number;
+  onlinehours: {
+    hour: number;
+    minutes: number;
+    seconds: number;
+  };
+  totalposts: number;
+}
 
 export type GlobalContent = {
-  viewMode: string
-  postMode: string
-  currentPlan: string
-  socket: WebSocket | null
+  user: User | null;
+  postMode: string;
+  currentPlan: string;
+  socket: WebSocket | null;
+  locale: string;
   // eslint-disable-next-line unused-imports/no-unused-vars
-  setViewMode: (value: string) => void
+  setUser: (user: User | null) => void;
   // eslint-disable-next-line unused-imports/no-unused-vars
-  setPostMode: (value: string) => void
+  setPostMode: (value: string) => void;
   // eslint-disable-next-line unused-imports/no-unused-vars
-  setCurrentPlan: (value: string) => void
+  setCurrentPlan: (value: string) => void;
   // eslint-disable-next-line unused-imports/no-unused-vars
-  setSocket: (value: WebSocket | null) => void
-}
+  setSocket: (value: WebSocket | null) => void;
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  setLocale: (value: string) => void;
+};
 export const PaxContext = createContext<GlobalContent>({
-  viewMode: "profile",
-  postMode: "all",
-  currentPlan: "BASIC",
+  user: null,
+  setUser: () => {},
+  postMode: 'all',
+  currentPlan: 'BASIC',
   socket: null,
-  setViewMode: () => {},
+  locale: 'en',
   setPostMode: () => {},
   setCurrentPlan: () => {},
   setSocket: () => {},
-})
-export const usePaxContext = () => useContext(PaxContext)
+  setLocale: () => {},
+});
+export const usePaxContext = () => useContext(PaxContext);
