@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import { TfiWrite } from "react-icons/tfi"
-import ReactSelect from "react-select"
+import { TfiWrite } from 'react-icons/tfi';
+import ReactSelect from 'react-select';
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -12,9 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -22,93 +22,97 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { ImageUpload } from "@/components/common/file-uploader"
+} from '@/components/ui/select';
+import { ImageUpload } from '@/components/common/file-uploader';
 
-import "react-quill/dist/quill.snow.css"
-import "@/styles/editor.css"
+import 'react-quill/dist/quill.snow.css';
+import '@/styles/editor.css';
+import { useContext } from 'react';
+import { PaxContext } from '@/context/context';
 
 const ReactQuill =
-  typeof window === "object" ? require("react-quill") : () => false
+  typeof window === 'object' ? require('react-quill') : () => false;
 
 interface NewPostModalProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const cityOptions = [
   {
-    label: "Moscow",
-    value: "moscow",
+    label: 'Moscow',
+    value: 'moscow',
   },
   {
-    label: "Singapore",
-    value: "singapore",
+    label: 'Singapore',
+    value: 'singapore',
   },
-]
+];
 
 const categoryOptions = [
   {
-    label: "Moscow",
-    value: "moscow",
+    label: 'Moscow',
+    value: 'moscow',
   },
   {
-    label: "Singapore",
-    value: "singapore",
+    label: 'Singapore',
+    value: 'singapore',
   },
-]
+];
 
 const hashtagOptions = [
   {
-    label: "Moscow",
-    value: "moscow",
+    label: 'Moscow',
+    value: 'moscow',
   },
   {
-    label: "Singapore",
-    value: "singapore",
+    label: 'Singapore',
+    value: 'singapore',
   },
-]
+];
 
 export function NewPostModal({ children }: NewPostModalProps) {
+  const { user } = useContext(PaxContext);
+
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{ align: [] }],
       [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
+        { list: 'ordered' },
+        { list: 'bullet' },
+        { indent: '-1' },
+        { indent: '+1' },
       ],
-      ["link", "image", "video", "code-block"],
-      ["clean"],
+      ['link', 'image', 'video', 'code-block'],
+      ['clean'],
     ],
-  }
+  };
 
   const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "align",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "video",
-    "code-block",
-  ]
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'align',
+    'list',
+    'bullet',
+    'indent',
+    'link',
+    'image',
+    'video',
+    'code-block',
+  ];
 
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-h-[90%] w-full overflow-y-auto sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl">
-        <DialogHeader className="flex flex-row items-center gap-3">
-          <div className="rounded-full bg-primary/10 p-3 text-primary">
-            <TfiWrite className="h-5 w-5" />
+      <DialogContent className='max-h-[90%] w-full overflow-y-auto sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
+        <DialogHeader className='flex flex-row items-center gap-3'>
+          <div className='rounded-full bg-primary/10 p-3 text-primary'>
+            <TfiWrite className='size-5' />
           </div>
           <div>
             <DialogTitle>Writing a Post</DialogTitle>
@@ -117,101 +121,110 @@ export function NewPostModal({ children }: NewPostModalProps) {
             </DialogDescription>
           </div>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="flex items-center gap-4">
-            <Label htmlFor="title" className="text-right">
+        <div className='grid gap-4 py-4'>
+          <div className='flex items-center gap-4'>
+            <Label htmlFor='title' className='text-right'>
               Title
             </Label>
-            <Input id="title" name="title" className="" />
+            <Input id='title' name='title' className='' />
           </div>
-          <div className="flex items-center gap-4">
-            <Label htmlFor="subtitle" className="text-right">
+          <div className='flex items-center gap-4'>
+            <Label htmlFor='subtitle' className='text-right'>
               Subtitle
             </Label>
-            <Input id="subtitle" name="subtitle" className="" />
+            <Input id='subtitle' name='subtitle' className='' />
           </div>
           <div>
-            <Label htmlFor="subtitle" className="text-right">
+            <Label htmlFor='subtitle' className='text-right'>
               Content
             </Label>
             <ReactQuill
-              theme="snow"
+              theme='snow'
               modules={modules}
               formats={formats}
-              placeholder="Type your content here..."
-              className="placeholder:text-white"
+              placeholder='Type your content here...'
+              className='placeholder:text-white'
             />
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className='grid gap-4 sm:grid-cols-2'>
             <div>
-              <Label htmlFor="city">City</Label>
+              <Label htmlFor='city'>City</Label>
               <ReactSelect
                 isMulti
-                name="city"
-                id="city"
-                options={cityOptions}
+                name='city'
+                id='city'
+                options={user?.city.map((city: any) => ({
+                  label: city.name,
+                  value: city.id.toString(),
+                }))}
                 classNames={{
-                  input: () => "dark:text-white text-black",
+                  input: () => 'dark:text-white text-black',
                   control: () =>
-                    "!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50",
+                    '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                   option: () =>
-                    "!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer",
-                  menu: () => "!bg-muted",
+                    '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                  menu: () => '!bg-muted',
                 }}
               />
             </div>
             <div>
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor='category'>Category</Label>
               <ReactSelect
                 isMulti
-                name="category"
-                id="category"
-                options={categoryOptions}
+                name='category'
+                id='category'
+                options={user?.category.map((category: any) => ({
+                  label: category.name,
+                  value: category.id.toString(),
+                }))}
                 classNames={{
-                  input: () => "dark:text-white text-black",
+                  input: () => 'dark:text-white text-black',
                   control: () =>
-                    "!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50",
+                    '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                   option: () =>
-                    "!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer",
-                  menu: () => "!bg-muted",
+                    '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                  menu: () => '!bg-muted',
                 }}
               />
             </div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className='grid gap-4 sm:grid-cols-2'>
             <div>
-              <Label htmlFor="hashtag">Hashtags</Label>
+              <Label htmlFor='hashtag'>Hashtags</Label>
               <ReactSelect
                 isMulti
-                name="hashtag"
-                id="hashtag"
-                options={hashtagOptions}
+                name='hashtag'
+                id='hashtag'
+                options={user?.hashtags.map((hashtag: any) => ({
+                  label: hashtag,
+                  value: hashtag,
+                }))}
                 classNames={{
-                  input: () => "dark:text-white text-black",
+                  input: () => 'dark:text-white text-black',
                   control: () =>
-                    "!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50",
+                    '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                   option: () =>
-                    "!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer",
-                  menu: () => "!bg-muted",
+                    '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                  menu: () => '!bg-muted',
                 }}
               />
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className='grid gap-4 sm:grid-cols-2'>
               <div>
-                <Label htmlFor="price">Price</Label>
-                <Input id="price" name="price" type="number" className="" />
+                <Label htmlFor='price'>Price</Label>
+                <Input id='price' name='price' type='number' className='' />
               </div>
               <div>
-                <Label htmlFor="numberofdays">Number of Days</Label>
-                <Select defaultValue="30">
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="" />
+                <Label htmlFor='numberofdays'>Number of Days</Label>
+                <Select defaultValue='30'>
+                  <SelectTrigger className='w-full'>
+                    <SelectValue placeholder='' />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="30">30</SelectItem>
-                      <SelectItem value="60">60</SelectItem>
-                      <SelectItem value="90">90</SelectItem>
+                      <SelectItem value='30'>30</SelectItem>
+                      <SelectItem value='60'>60</SelectItem>
+                      <SelectItem value='90'>90</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -224,9 +237,9 @@ export function NewPostModal({ children }: NewPostModalProps) {
         </div>
 
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button type='submit'>Post</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

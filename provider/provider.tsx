@@ -40,6 +40,13 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
         email: fetchedData.data?.user?.email,
         avatar: fetchedData.data?.user?.photo,
         plan: fetchedData.data?.user?.Plan,
+        city: fetchedData.data?.user?.profile[0].City.map((city: string) =>
+          JSON.parse(city)
+        ),
+        category: fetchedData.data?.user?.profile[0].guilds.map(
+          (guild: string) => JSON.parse(guild)
+        ),
+        hashtags: fetchedData.data?.user?.profile[0].hashtags,
         role: fetchedData.data?.user?.role,
         balance: fetchedData.data?.balance,
         storage: fetchedData.data?.storage,

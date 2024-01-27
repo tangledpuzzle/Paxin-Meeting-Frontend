@@ -14,7 +14,7 @@ export async function PATCH(req: NextRequest) {
   try {
     if (req.headers.get('additional')) {
       const { additionalinfo } = await req.json();
-      console.log(additionalinfo);
+
       const res = await fetch(
         `${process.env.API_URL}/api/profile/saveAdditional`,
         {
@@ -35,13 +35,19 @@ export async function PATCH(req: NextRequest) {
 
       return NextResponse.json(profile);
     } else {
+      const { city, guilds, hashtags, Descr } = await req.json();
       const res = await fetch(`${process.env.API_URL}/api/profile/save`, {
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,
           'Content-Type': 'application/json',
         },
         method: 'PATCH',
-        body: JSON.stringify(req.body),
+        body: JSON.stringify({
+          city,
+          guilds,
+          hashtags,
+          Descr,
+        }),
       });
 
       if (!res.ok) {
@@ -53,7 +59,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json(profile);
     }
   } catch (error) {
-    console.log(error);
+    console.log(error, 'hey');
     return NextResponse.json(
       { error: 'Failed to fetch data' },
       { status: 500 }

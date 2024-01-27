@@ -5,22 +5,31 @@ import { MdAccountBalanceWallet } from 'react-icons/md';
 import { RiUserSettingsFill } from 'react-icons/ri';
 import Select from 'react-select';
 
+import { ImageUpload } from '@/components/common/file-uploader';
+import CTASection from '@/components/profiles/cta';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
-import CTASection from '@/components/profiles/cta';
+import { PaxContext } from '@/context/context';
+import '@/styles/editor.css';
+import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import useSWR from 'swr';
+import { Loader2 } from 'lucide-react';
+import { useContext, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
-import '@/styles/editor.css';
-
-import { ImageUpload } from '@/components/common/file-uploader';
-import { useContext, useEffect, useState } from 'react';
-import { PaxContext } from '@/context/context';
-import { Loader2 } from 'lucide-react';
+import useSWR from 'swr';
+import * as z from 'zod';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -31,23 +40,51 @@ interface Profile {
   cities: {
     id: number;
     name: string;
-    hex: string;
   }[];
   categories: {
     id: number;
     name: string;
-    hex: string;
   }[];
   gallery: string[];
   additionalinfo: string;
 }
 
 interface Option {
-  value: string;
+  value: number;
   label: string;
 }
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
+const basicFormSchema = z.object({
+  city: z
+    .array(
+      z.object({
+        value: z.number(),
+        label: z.string(),
+      })
+    )
+    .min(1, 'Please select at least one city'),
+  category: z
+    .array(
+      z.object({
+        value: z.number(),
+        label: z.string(),
+      })
+    )
+    .min(1, 'Please select at least one category'),
+  hashtags: z
+    .array(
+      z.object({
+        value: z.number(),
+        label: z.string(),
+      })
+    )
+    .min(1, 'Please select at least one hashtag'),
+  bio: z.string().min(10, 'Bio must be at least 10 characters long'),
+});
+
+type BasicFormValue = z.infer<typeof basicFormSchema>;
 
 export default function SettingPage() {
   const { locale } = useContext(PaxContext);
@@ -68,6 +105,10 @@ export default function SettingPage() {
   const [cityOptions, setCityOptions] = useState<Option[]>();
   const [categoryOptions, setCategoryOptions] = useState<Option[]>();
 
+  const basicForm = useForm<BasicFormValue>({
+    resolver: zodResolver(basicFormSchema),
+  });
+
   const {
     data: fetchedData,
     error,
@@ -87,20 +128,32 @@ export default function SettingPage() {
     if (!error && fetchedData) {
       setProfile(fetchedData);
       setAdditionalInfo(fetchedData.additionalinfo);
-      setBio(fetchedData.bio);
-      setHashtags(fetchedData.hashtags);
-      setCities(
+
+      basicForm.setValue(
+        'city',
         fetchedData.cities.map((city: any) => ({
-          value: city.name,
+          value: city.id,
           label: city.name,
         }))
       );
-      setCategories(
+
+      basicForm.setValue(
+        'category',
         fetchedData.categories.map((category: any) => ({
-          value: category.name,
+          value: category.id,
           label: category.name,
         }))
       );
+
+      basicForm.setValue(
+        'hashtags',
+        fetchedData.hashtags.map((hashtag: any) => ({
+          value: hashtag.id,
+          label: hashtag.name,
+        }))
+      );
+
+      basicForm.setValue('bio', fetchedData.bio);
     }
   }, [fetchedData, error]);
 
@@ -108,7 +161,7 @@ export default function SettingPage() {
     if (!cityFetchError && fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
-          value: city.Translations.find((t: any) => t.Language === locale).Name,
+          value: city.ID,
           label: city.Translations.find((t: any) => t.Language === locale).Name,
         }))
       );
@@ -116,14 +169,19 @@ export default function SettingPage() {
     if (!categoryFetchError && fetchedCategories) {
       setCategoryOptions(
         fetchedCategories.data.map((category: any) => ({
-          value: category.Translations.find((t: any) => t.Language === locale)
-            .Name,
+          value: category.ID,
           label: category.Translations.find((t: any) => t.Language === locale)
             .Name,
         }))
       );
     }
-  }, [fetchedCities, fetchedCategories, locale]);
+  }, [
+    fetchedCities,
+    fetchedCategories,
+    locale,
+    cityFetchError,
+    categoryFetchError,
+  ]);
 
   const modules = {
     toolbar: [
@@ -191,6 +249,45 @@ export default function SettingPage() {
     setIsAdditionalLoading(false);
   };
 
+  const submitBasicInfo = async (data: BasicFormValue) => {
+    setIsBasicLoading(true);
+
+    try {
+      const res = await axios.patch('/api/profiles/patch', {
+        city: data.city.map((city: any) => ({
+          ID: city.value,
+          Name: city.label,
+        })),
+        guilds: data.category.map((category: any) => ({
+          ID: category.value,
+          Name: category.label,
+        })),
+        hashtags: data.hashtags.map((hashtag: any) => ({
+          ID: hashtag.value,
+          Hashtag: hashtag.label,
+        })),
+        Descr: data.bio,
+      });
+
+      if (res.status === 200) {
+        toast.success('Profile updated successfully', {
+          position: 'top-right',
+        });
+        profileMutate();
+      } else {
+        toast.error('Failed to update profile', {
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      toast.error('Failed to update profile', {
+        position: 'top-right',
+      });
+    }
+
+    setIsBasicLoading(false);
+  };
+
   return (
     <div className='p-4'>
       <CTASection
@@ -250,98 +347,134 @@ export default function SettingPage() {
                     value='basic'
                     className='flex w-full max-w-lg flex-col gap-3'
                   >
-                    <div>
-                      <Label htmlFor='city'>City(s) of Operation</Label>
-                      <Select
-                        isMulti
-                        name='city'
-                        id='city'
-                        value={cities}
-                        options={cityOptions}
-                        onChange={(selectedCities: any) =>
-                          setCities(selectedCities)
-                        }
-                        classNames={{
-                          input: () => 'dark:text-white text-black',
-                          control: () =>
-                            '!flex !h-10 !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
-                          option: () =>
-                            '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
-                          menu: () => '!bg-muted',
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor='activity'>Types of Activities</Label>
-                      <Select
-                        isMulti
-                        name='activity'
-                        id='activity'
-                        value={categories}
-                        options={categoryOptions}
-                        onChange={(selectedCategories: any) =>
-                          setCategories(selectedCategories)
-                        }
-                        classNames={{
-                          input: () => 'dark:text-white text-black',
-                          control: () =>
-                            '!flex !h-10 !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
-                          option: () =>
-                            '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
-                          menu: () => '!bg-muted',
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor='hashtag'>
-                        Hashtag for Promoting Your Profile
-                      </Label>
-                      <Select
-                        isMulti
-                        name='hashtag'
-                        id='hashtag'
-                        options={
-                          profile?.hashtags
-                            ? profile.hashtags.map((h) => ({
-                                value: h,
-                                label: h,
-                              }))
-                            : []
-                        }
-                        classNames={{
-                          input: () => 'dark:text-white text-black',
-                          control: () =>
-                            '!flex !h-10 !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
-                          option: () =>
-                            '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
-                          menu: () => '!bg-muted',
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor='description'>
-                        Brief Profile Description
-                      </Label>
-                      <Textarea
-                        id='description'
-                        name='description'
-                        placeholder='Enter profile description...'
-                        defaultValue={profile?.bio || ''}
-                        rows={5}
-                      ></Textarea>
-                    </div>
-                    <div className='flex w-full justify-end gap-2'>
-                      <Button variant='destructive'>Delete Account</Button>
-                      <Button
-                        onClick={submitAddtionalInfo}
-                        disabled={isBasicLoading}
+                    <Form {...basicForm}>
+                      <form
+                        onSubmit={basicForm.handleSubmit(submitBasicInfo)}
+                        className='w-full space-y-2'
                       >
-                        {isBasicLoading && (
-                          <Loader2 className='mr-2 size-4 animate-spin' />
-                        )}
-                        Save
-                      </Button>
-                    </div>
+                        <FormField
+                          control={basicForm.control}
+                          name='city'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel htmlFor='city'>
+                                City(s) of Operation
+                              </FormLabel>
+                              <FormControl>
+                                <Select
+                                  isMulti
+                                  options={cityOptions}
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                  classNames={{
+                                    input: () => 'dark:text-white text-black',
+                                    control: () =>
+                                      '!flex !h-10 !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                                    option: () =>
+                                      '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                                    menu: () => '!bg-muted',
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={basicForm.control}
+                          name='category'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel htmlFor='category'>
+                                Types of Activities
+                              </FormLabel>
+                              <FormControl>
+                                <Select
+                                  isMulti
+                                  options={categoryOptions}
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                  classNames={{
+                                    input: () => 'dark:text-white text-black',
+                                    control: () =>
+                                      '!flex !h-10 !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                                    option: () =>
+                                      '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                                    menu: () => '!bg-muted',
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={basicForm.control}
+                          name='hashtags'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel htmlFor='hashtags'>
+                                Hashtag for Promoting Your Profile
+                              </FormLabel>
+                              <FormControl>
+                                <Select
+                                  isMulti
+                                  options={
+                                    profile?.hashtags
+                                      ? profile.hashtags.map(
+                                          (hashtag: any) => ({
+                                            value: hashtag.id,
+                                            label: hashtag.name,
+                                          })
+                                        )
+                                      : []
+                                  }
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                  classNames={{
+                                    input: () => 'dark:text-white text-black',
+                                    control: () =>
+                                      '!flex !h-10 !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                                    option: () =>
+                                      '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                                    menu: () => '!bg-muted',
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={basicForm.control}
+                          name='bio'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel htmlFor='bio'>
+                                Brief Profile Description
+                              </FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  placeholder='Enter profile description...'
+                                  {...field}
+                                  rows={5}
+                                ></Textarea>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <div className='flex w-full justify-end gap-2'>
+                          <Button variant='destructive'>Delete Account</Button>
+                          <Button type='submit' disabled={isBasicLoading}>
+                            {isBasicLoading && (
+                              <Loader2 className='mr-2 size-4 animate-spin' />
+                            )}
+                            Save
+                          </Button>
+                        </div>
+                      </form>
+                    </Form>
                   </TabsContent>
                   <TabsContent
                     value='photo-gallery'

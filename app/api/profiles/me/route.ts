@@ -31,14 +31,16 @@ export async function GET(req: NextRequest) {
       bio: data.data.MultilangDescr[
         locale.charAt(0).toUpperCase() + locale.slice(1)
       ],
-      hashtags: data.data.Hashtags.map((tag: any) => tag.Hashtag),
+      hashtags: data.data.Hashtags.map((tag: any) => ({
+        id: tag.ID,
+        name: tag.Hashtag,
+      })),
       cities: data.data.City.map((city: any) => {
-        return { id: city.ID, hex: city.Hex, name: city.Translations[0].Name };
+        return { id: city.ID, name: city.Translations[0].Name };
       }),
       categories: data.data.Guilds.map((guild: any) => {
         return {
           id: guild.ID,
-          hex: guild.Hex,
           name: guild.Translations[0].Name,
         };
       }),

@@ -8,20 +8,30 @@ import { Label } from '../ui/label';
 
 interface PreviewImageProps {
   src: string;
+  name: string;
+  size: number;
   onRemove: () => void;
 }
 
-const PreviewImage: FC<PreviewImageProps> = ({ src, onRemove }) => (
-  <div className='relative h-24 w-24'>
+const PreviewImage: FC<PreviewImageProps> = ({ src, name, size, onRemove }) => (
+  <div className='relative size-24'>
     <Image src={src} alt='' style={{ objectFit: 'cover' }} fill />
     <Button
       variant='destructive'
-      className='absolute right-1 top-1 h-6 w-6 rounded-full'
+      className='absolute right-1 top-1 z-30 size-6 rounded-full'
       onClick={onRemove}
       size='icon'
     >
-      <LiaTimesSolid className='h-4 w-4' />
+      <LiaTimesSolid className='size-4' />
     </Button>
+    <div className='absolute left-1 top-1 flex w-16 flex-col'>
+      <span className='line-clamp-1 text-sm text-secondary-foreground'>
+        {name} a sd fa sdfasdfasdf
+      </span>
+      <span className='line-clamp-1 text-xs text-muted-foreground'>
+        {(size / 1024).toFixed(2)}KB
+      </span>
+    </div>
   </div>
 );
 
@@ -49,6 +59,8 @@ export const ImageUpload: FC = () => {
     if (!duplicate) {
       setImages([...images, ...Array.from(e.target.files)]);
     }
+
+    console.log(images);
 
     e.target.value = '';
   };
@@ -112,6 +124,8 @@ export const ImageUpload: FC = () => {
           <PreviewImage
             key={index}
             src={URL.createObjectURL(file)}
+            name={file.name}
+            size={file.size}
             onRemove={() => removeImage(index)}
           />
         ))}

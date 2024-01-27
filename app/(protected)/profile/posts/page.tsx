@@ -5,103 +5,128 @@ import { Search } from 'lucide-react';
 import { MdOutlinePostAdd } from 'react-icons/md';
 import { RiArticleLine } from 'react-icons/ri';
 
+import { ConfirmModal } from '@/components/common/confirm-modal';
+import CTASection from '@/components/profiles/cta';
+import { NewPostModal } from '@/components/profiles/posts/new-post-modal';
+import { PostCard, PostCardProps } from '@/components/profiles/posts/post-card';
+import { PostCardSkeleton } from '@/components/profiles/posts/post-card-skeleton';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import CTASection from '@/components/profiles/cta';
-import { NewPostModal } from '@/components/profiles/posts/new-post-modal';
-import { PostCard, PostCardProps } from '@/components/profiles/posts/post-card';
+import axios from 'axios';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import useSWR from 'swr';
 
-const posts: PostCardProps[] = [
-  {
-    id: 1,
-    title: 'Metaverse Metaverse Metaverse Metaverse Metaverse',
-    subtitle:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit',
-    hashtags: ['#Personal Realtor', '#Personal Realtor', '#Personal Realtor'],
-    expireDate: '22/12/2020',
-    cities: ['Moscow'],
-    categories: ['Technology'],
-    gallery: ['/images/1.jpg', '/images/2.jpg', '/images/3.jpg'],
-    archived: true,
-  },
-  {
-    id: 2,
-    title: 'Metaverse Metaverse Metaverse Metaverse Metaverse',
-    subtitle:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit',
-    hashtags: ['#Personal Realtor', '#Personal Realtor', '#Personal Realtor'],
-    expireDate: '22/12/2020',
-    cities: ['Moscow'],
-    categories: ['Technology'],
-    gallery: ['/images/1.jpg', '/images/2.jpg', '/images/3.jpg'],
-    archived: true,
-  },
-  {
-    id: 3,
-    title: 'Metaverse Metaverse Metaverse Metaverse Metaverse',
-    subtitle:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit',
-    hashtags: ['#Personal Realtor', '#Personal Realtor', '#Personal Realtor'],
-    expireDate: '22/12/2020',
-    cities: ['Moscow'],
-    categories: ['Technology'],
-    gallery: ['/images/1.jpg', '/images/2.jpg', '/images/3.jpg'],
-    archived: true,
-  },
-  {
-    id: 4,
-    title: 'Metaverse Metaverse Metaverse Metaverse Metaverse',
-    subtitle:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit',
-    hashtags: ['#Personal Realtor', '#Personal Realtor', '#Personal Realtor'],
-    expireDate: '22/12/2020',
-    cities: ['Moscow'],
-    categories: ['Technology'],
-    gallery: ['/images/1.jpg', '/images/2.jpg', '/images/3.jpg'],
-    archived: false,
-  },
-  {
-    id: 5,
-    title: 'Metaverse Metaverse Metaverse Metaverse Metaverse',
-    subtitle:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit',
-    hashtags: ['#Personal Realtor', '#Personal Realtor', '#Personal Realtor'],
-    expireDate: '22/12/2020',
-    cities: ['Moscow'],
-    categories: ['Technology'],
-    gallery: ['/images/1.jpg', '/images/2.jpg', '/images/3.jpg'],
-    archived: false,
-  },
-  {
-    id: 6,
-    title: 'Metaverse Metaverse Metaverse Metaverse Metaverse',
-    subtitle:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit ipsum dolor sit amet, consectetur adipiscing elit',
-    hashtags: ['#Personal Realtor', '#Personal Realtor', '#Personal Realtor'],
-    expireDate: '22/12/2020',
-    cities: ['Moscow'],
-    categories: ['Technology'],
-    gallery: ['/images/1.jpg', '/images/2.jpg', '/images/3.jpg'],
-    archived: false,
-  },
-];
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function MyPostsPage() {
-  const { postMode, setPostMode } = usePaxContext();
+  const { locale } = usePaxContext();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [showArchiveModal, setShowArchiveModal] = useState<boolean>(false);
+  const [isArchiveLoading, setIsArchiveLoading] = useState<boolean>(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
+  const [deleteID, setDeleteID] = useState<number>(-1);
+  const [archiveID, setArchiveID] = useState<number>(-1);
+  const [blogs, setBlogs] = useState<PostCardProps[]>([]);
+  const [fetchURL, setFetchURL] = useState<string>('/api/flows/me');
+
+  const {
+    data: fetchedData,
+    error,
+    mutate: blogsMutate,
+  } = useSWR(fetchURL, fetcher);
+
+  useEffect(() => {
+    const generateFetchURL = () => {
+      let baseURL = `/api/flows/me?language=${locale}`;
+      const queryParams = ['skip', 'limit', 'search', 'isArchive'];
+
+      queryParams.forEach((param) => {
+        const value = searchParams.get(param);
+        if (value) {
+          baseURL += `&${param}=${value}`;
+        }
+      });
+
+      return baseURL;
+    };
+
+    setFetchURL(generateFetchURL());
+  }, [searchParams, locale]);
+
+  useEffect(() => {
+    if (!error && fetchedData) {
+      setBlogs(fetchedData);
+      console.log(fetchedData, 'h');
+    }
+  }, [fetchedData, error]);
+
+  const handleDelete = async () => {
+    setIsDeleteLoading(true);
+
+    try {
+      const res = await fetch(`/api/flows/delete/${deleteID}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: deleteID }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to delete post');
+      }
+
+      toast.success('Post deleted successfully', {
+        position: 'top-right',
+      });
+
+      blogsMutate();
+    } catch (error) {
+      toast.error('Failed to delete post', {
+        position: 'top-right',
+      });
+    }
+
+    setIsDeleteLoading(false);
+    setShowDeleteModal(false);
+  };
+
+  const handleArchive = async () => {
+    setIsArchiveLoading(true);
+
+    try {
+      const res = await fetch(`/api/flows/archive/${archiveID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: archiveID }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to archive post');
+      }
+
+      toast.success('Post archived successfully', {
+        position: 'top-right',
+      });
+
+      blogsMutate();
+    } catch (error) {
+      toast.error('Failed to archive post', {
+        position: 'top-right',
+      });
+    }
+
+    setIsArchiveLoading(false);
+    setShowArchiveModal(false);
+  };
 
   return (
     <div className='p-4'>
@@ -120,77 +145,98 @@ export default function MyPostsPage() {
           <div className='grid h-9 grid-cols-2 gap-2 rounded-lg bg-background p-1 px-2'>
             <Button
               className='h-7 bg-background text-inherit shadow-none hover:bg-primary/10 data-[state=active]:bg-primary/10 data-[state=active]:text-primary'
-              data-state={postMode === 'all' ? 'active' : ''}
-              onClick={() => setPostMode('all')}
+              data-state={
+                searchParams.get('isArchive') === 'true' ? '' : 'active'
+              }
+              onClick={() => {
+                const newSearchParams = new URLSearchParams(searchParams);
+                newSearchParams.delete('isArchive');
+
+                router.push(`?${newSearchParams.toString()}`);
+              }}
             >
               All
             </Button>
             <Button
               className='h-7 bg-background text-inherit shadow-none hover:bg-primary/10 data-[state=active]:bg-primary/10 data-[state=active]:text-primary'
-              data-state={postMode === 'archived' ? 'active' : ''}
-              onClick={() => setPostMode('archived')}
+              data-state={
+                searchParams.get('isArchive') === 'true' ? 'active' : ''
+              }
+              onClick={() => {
+                const newSearchParams = new URLSearchParams(searchParams);
+                newSearchParams.set('isArchive', 'true');
+
+                router.push(`?${newSearchParams.toString()}`);
+              }}
             >
               Archived
             </Button>
           </div>
           <NewPostModal>
             <Button>
-              <MdOutlinePostAdd className='mr-2 h-5 w-5' />
+              <MdOutlinePostAdd className='mr-2 size-5' />
               New Post
             </Button>
           </NewPostModal>
         </div>
       </div>
+      <div>
+        <ConfirmModal
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          title='Are you sure?'
+          description='Are you sure you want to delete this post?'
+          onConfirm={() => {
+            handleDelete();
+          }}
+          loading={isDeleteLoading}
+        />
+        <ConfirmModal
+          isOpen={showArchiveModal}
+          onClose={() => setShowArchiveModal(false)}
+          title='Are you sure?'
+          description='Are you sure you want to archive this post?'
+          onConfirm={() => {
+            handleArchive();
+          }}
+          loading={isArchiveLoading}
+        />
+      </div>
       <div className='w-full'>
-        {postMode === 'all' ? (
-          <ScrollArea className='h-[calc(100vh_-_18rem)] rounded-lg bg-background p-4'>
-            {posts
-              .filter((post) => !post.archived)
-              .map((post) => (
-                <>
-                  <PostCard
-                    key={post.id}
-                    id={post.id}
-                    title={post.title}
-                    subtitle={post.subtitle}
-                    content={post.content}
-                    hashtags={post.hashtags}
-                    expireDate={post.expireDate}
-                    cities={post.cities}
-                    categories={post.categories}
-                    gallery={post.gallery}
-                    archived={post.archived}
-                  />
-                  <Separator className='my-4' />
-                </>
-              ))}
-          </ScrollArea>
-        ) : postMode === 'archived' ? (
-          <ScrollArea className='h-[calc(100vh_-_18rem)] rounded-lg bg-background p-4'>
-            {posts
-              .filter((post) => post.archived)
-              .map((post) => (
-                <>
-                  <PostCard
-                    key={post.id}
-                    id={post.id}
-                    title={post.title}
-                    subtitle={post.subtitle}
-                    content={post.content}
-                    hashtags={post.hashtags}
-                    expireDate={post.expireDate}
-                    cities={post.cities}
-                    categories={post.categories}
-                    gallery={post.gallery}
-                    archived={post.archived}
-                  />
-                  <Separator className='my-4' />
-                </>
-              ))}
-          </ScrollArea>
-        ) : (
-          <></>
-        )}
+        <ScrollArea className='max-h-[calc(100vh_-_18rem)] rounded-lg bg-background p-4'>
+          {!error ? (
+            fetchedData && blogs ? (
+              blogs.map((blog) => (
+                <PostCard
+                  key={blog.id}
+                  id={blog.id}
+                  title={blog.title}
+                  subtitle={blog.subtitle}
+                  content={blog.content}
+                  hashtags={blog.hashtags}
+                  expireDate={blog.expireDate}
+                  cities={blog.cities}
+                  categories={blog.categories}
+                  gallery={blog.gallery}
+                  archived={blog.archived}
+                  onArchive={() => {
+                    setArchiveID(blog.id);
+                    setShowArchiveModal(true);
+                  }}
+                  onDelete={() => {
+                    setDeleteID(blog.id);
+                    setShowDeleteModal(true);
+                  }}
+                  mutate={blogsMutate}
+                />
+              ))
+            ) : (
+              <PostCardSkeleton />
+            )
+          ) : (
+            <div></div>
+          )}
+        </ScrollArea>
       </div>
     </div>
   );
