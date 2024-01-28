@@ -6,6 +6,15 @@ export interface User {
   email: string;
   avatar: string;
   plan: string;
+  city: {
+    id: number;
+    name: string;
+  }[];
+  category: {
+    id: number;
+    name: string;
+  }[];
+  hashtags: string[];
   role: string;
   balance: number;
   storage: number;

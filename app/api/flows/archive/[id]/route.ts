@@ -1,9 +1,9 @@
+import { authOptions } from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/authOptions';
 
-export async function GET(req: NextRequest) {
-  const locale = req.nextUrl.searchParams.get('language') || 'en';
+export async function POST(req: NextRequest) {
+  const id = req.nextUrl.pathname.split('/').pop();
 
   const session = await getServerSession(authOptions);
 
@@ -13,11 +13,14 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(
-      `${process.env.API_URL}/api/users/me?language=${locale}`,
+      `${process.env.API_URL}/api/blog/makearchive/${id}`,
       {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ id }),
       }
     );
 

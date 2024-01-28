@@ -1,9 +1,9 @@
+import { authOptions } from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/authOptions';
 
-export async function GET(req: NextRequest) {
-  const locale = req.nextUrl.searchParams.get('language') || 'en';
+export async function DELETE(req: NextRequest) {
+  const id = req.nextUrl.pathname.split('/').pop();
 
   const session = await getServerSession(authOptions);
 
@@ -12,14 +12,14 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const res = await fetch(
-      `${process.env.API_URL}/api/users/me?language=${locale}`,
-      {
-        headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
-        },
-      }
-    );
+    const res = await fetch(`${process.env.API_URL}/api/blog/delete/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${session?.accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id }),
+    });
 
     if (!res.ok) {
       throw new Error('Failed to fetch data');
