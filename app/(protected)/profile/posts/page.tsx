@@ -172,7 +172,7 @@ export default function MyPostsPage() {
               Archived
             </Button>
           </div>
-          <NewPostModal>
+          <NewPostModal mutate={blogsMutate}>
             <Button>
               <MdOutlinePostAdd className='mr-2 size-5' />
               New Post
@@ -203,7 +203,7 @@ export default function MyPostsPage() {
         />
       </div>
       <div className='w-full'>
-        <ScrollArea className='max-h-[calc(100vh_-_18rem)] rounded-lg bg-background p-4'>
+        <ScrollArea className='h-[calc(100vh_-_18rem)] rounded-lg bg-background p-4'>
           {!error ? (
             fetchedData && blogs ? (
               blogs.map((blog) => (

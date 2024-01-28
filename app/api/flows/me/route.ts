@@ -1,7 +1,7 @@
 import { formatDate } from '@/lib/utils';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/authOptions';
 
 export async function GET(req: NextRequest) {
   const query = req.nextUrl.searchParams.toString();
@@ -47,10 +47,13 @@ export async function GET(req: NextRequest) {
       categories: blog.Catygory.map(
         (category: any) => category.Translations[0].Name
       ),
-      gallery: blog.photos[0].files.map(
-        (file: any) =>
-          `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`
-      ),
+      gallery:
+        blog.photos?.length > 0 && blog.photos[0].files?.length > 0
+          ? blog.photos[0].files?.map(
+              (file: any) =>
+                `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`
+            )
+          : [],
       archived: blog.Status === 'ARCHIVED',
     }));
 

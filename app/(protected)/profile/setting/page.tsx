@@ -5,7 +5,7 @@ import { MdAccountBalanceWallet } from 'react-icons/md';
 import { RiUserSettingsFill } from 'react-icons/ri';
 import Select from 'react-select';
 
-import { ImageUpload } from '@/components/common/file-uploader';
+import { ImageUpload, PreviewImage } from '@/components/common/file-uploader';
 import CTASection from '@/components/profiles/cta';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,7 +24,7 @@ import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
@@ -81,20 +81,21 @@ const basicFormSchema = z.object({
       })
     )
     .min(1, 'Please select at least one hashtag'),
-  bio: z.string().min(10, 'Bio must be at least 10 characters long'),
+  bio: z.string().min(1, 'Bio is required'),
 });
 
-type BasicFormValue = z.infer<typeof basicFormSchema>;
+type BasicFormData = z.infer<typeof basicFormSchema>;
+
+type ImageUploadComponentType = {
+  handleUpload: () => Promise<{ files: any[] } | null>;
+};
 
 export default function SettingPage() {
   const { locale } = useContext(PaxContext);
 
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const imageUploadRef = useRef<ImageUploadComponentType>(null);
 
-  const [bio, setBio] = useState<string>('');
-  const [hashtags, setHashtags] = useState<string[]>([]);
-  const [cities, setCities] = useState<string[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [additionalInfo, setAdditionalInfo] = useState<string>('');
 
   const [isBasicLoading, setIsBasicLoading] = useState<boolean>(false);
@@ -105,7 +106,7 @@ export default function SettingPage() {
   const [cityOptions, setCityOptions] = useState<Option[]>();
   const [categoryOptions, setCategoryOptions] = useState<Option[]>();
 
-  const basicForm = useForm<BasicFormValue>({
+  const basicForm = useForm<BasicFormData>({
     resolver: zodResolver(basicFormSchema),
   });
 
@@ -155,6 +156,8 @@ export default function SettingPage() {
 
       basicForm.setValue('bio', fetchedData.bio);
     }
+
+    console.log(fetchedData);
   }, [fetchedData, error]);
 
   useEffect(() => {
@@ -249,7 +252,7 @@ export default function SettingPage() {
     setIsAdditionalLoading(false);
   };
 
-  const submitBasicInfo = async (data: BasicFormValue) => {
+  const submitBasicInfo = async (data: BasicFormData) => {
     setIsBasicLoading(true);
 
     try {
@@ -286,6 +289,51 @@ export default function SettingPage() {
     }
 
     setIsBasicLoading(false);
+  };
+
+  const submitGallery = async () => {
+    setIsGalleryLoading(true);
+
+    try {
+      const files = await imageUploadRef.current?.handleUpload();
+
+      console.log(
+        files?.files.map((file: any) => {
+          path: file.path;
+        })
+      );
+
+      const res = await axios.patch(
+        '/api/profiles/patch',
+        {
+          gallery: files?.files.map((file: any) => ({
+            path: file?.path,
+          })),
+        },
+        {
+          headers: {
+            gallery: true,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        toast.success('Gallery updated successfully', {
+          position: 'top-right',
+        });
+        profileMutate();
+      } else {
+        toast.error('Failed to update gallery', {
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      toast.error('Failed to update gallery', {
+        position: 'top-right',
+      });
+    }
+
+    setIsGalleryLoading(false);
   };
 
   return (
@@ -480,12 +528,24 @@ export default function SettingPage() {
                     value='photo-gallery'
                     className='flex w-full flex-col gap-3'
                   >
+                    <div className='flex flex-wrap gap-2'>
+                      {profile?.gallery?.length &&
+                        profile.gallery.map((image: string, index: number) => (
+                          <PreviewImage
+                            key={index}
+                            src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${image}`}
+                            onRemove={() => {
+                              console.log('SDF');
+                            }}
+                          />
+                        ))}
+                    </div>
                     <div>
-                      <ImageUpload />
+                      <ImageUpload ref={imageUploadRef} />
                     </div>
                     <div className='flex w-full justify-end gap-2'>
                       <Button
-                        onClick={submitAddtionalInfo}
+                        onClick={submitGallery}
                         disabled={isGalleryLoading}
                       >
                         {isGalleryLoading && (

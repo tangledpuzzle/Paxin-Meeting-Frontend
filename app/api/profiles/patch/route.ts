@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/authOptions';
 
 export async function PATCH(req: NextRequest) {
   const locale = req.nextUrl.searchParams.get('language') || 'en';
@@ -34,6 +34,28 @@ export async function PATCH(req: NextRequest) {
       const profile = await res.json();
 
       return NextResponse.json(profile);
+    } else if (req.headers.get('gallery')) {
+      const update = req.nextUrl.searchParams.get('update');
+
+      if (update) {
+      } else {
+        const { gallery } = await req.json();
+        console.log(gallery, 'gallery');
+        const res = await fetch(`${process.env.API_URL}/api/profile/photos`, {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          method: 'PATCH',
+          body: JSON.stringify(gallery),
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        return NextResponse.json({ success: true });
+      }
     } else {
       const { city, guilds, hashtags, Descr } = await req.json();
       const res = await fetch(`${process.env.API_URL}/api/profile/save`, {

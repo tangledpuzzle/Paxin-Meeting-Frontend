@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/authOptions';
 
 export async function GET(req: NextRequest) {
   const locale = req.nextUrl.searchParams.get('language') || 'en';
@@ -50,6 +50,8 @@ export async function GET(req: NextRequest) {
           locale.charAt(0).toUpperCase() + locale.slice(1)
         ],
     };
+
+    console.log(data.data.photos[0].files);
 
     return NextResponse.json(profile);
   } catch (error) {

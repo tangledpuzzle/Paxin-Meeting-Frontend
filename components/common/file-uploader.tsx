@@ -1,19 +1,28 @@
-import React, { FC, useState } from 'react';
+import React, { FC, forwardRef, useImperativeHandle, useState } from 'react';
 import Image from 'next/image';
 import { BsCloudUpload } from 'react-icons/bs';
 import { LiaTimesSolid } from 'react-icons/lia';
 
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
+import axios from 'axios';
+import { Loader2 } from 'lucide-react';
 
 interface PreviewImageProps {
   src: string;
-  name: string;
-  size: number;
+  name?: string;
+  size?: number;
+  uploading?: boolean;
   onRemove: () => void;
 }
 
-const PreviewImage: FC<PreviewImageProps> = ({ src, name, size, onRemove }) => (
+export const PreviewImage: FC<PreviewImageProps> = ({
+  src,
+  name,
+  size,
+  uploading,
+  onRemove,
+}) => (
   <div className='relative size-24'>
     <Image src={src} alt='' style={{ objectFit: 'cover' }} fill />
     <Button
@@ -26,17 +35,31 @@ const PreviewImage: FC<PreviewImageProps> = ({ src, name, size, onRemove }) => (
     </Button>
     <div className='absolute left-1 top-1 flex w-16 flex-col'>
       <span className='line-clamp-1 text-sm text-secondary-foreground'>
-        {name} a sd fa sdfasdfasdf
+        {name && name}
       </span>
       <span className='line-clamp-1 text-xs text-muted-foreground'>
-        {(size / 1024).toFixed(2)}KB
+        {size && `${(size / 1024).toFixed(2)}KB`}
       </span>
     </div>
+    {uploading && (
+      <div className='absolute inset-0 z-30 flex items-center justify-center bg-white/80 dark:bg-black/80'>
+        <Loader2 className='animate-spin text-secondary-foreground' />
+      </div>
+    )}
   </div>
 );
 
-export const ImageUpload: FC = () => {
+type ImageUploadProps = {
+  value?: any;
+  onChange?: (value: any) => void;
+};
+
+export const ImageUpload = forwardRef<
+  { handleUpload: () => Promise<any> },
+  ImageUploadProps
+>(({ value, onChange }, ref) => {
   const [images, setImages] = useState<File[]>([]);
+  const [uploading, setUploading] = useState(false);
   const hiddenFileInputRef = React.useRef<any>();
 
   const onClick = () => {
@@ -60,6 +83,14 @@ export const ImageUpload: FC = () => {
       setImages([...images, ...Array.from(e.target.files)]);
     }
 
+    onChange &&
+      onChange(
+        new Array(images.length + e.target.files.length).fill({
+          name: '',
+          path: '',
+        })
+      );
+
     console.log(images);
 
     e.target.value = '';
@@ -75,6 +106,14 @@ export const ImageUpload: FC = () => {
     if (!e.dataTransfer.files) return;
 
     setImages((prev) => [...prev, ...Array.from(e.dataTransfer.files)]);
+
+    onChange &&
+      onChange(
+        new Array(images.length + e.dataTransfer.files.length).fill({
+          name: '',
+          path: '',
+        })
+      );
   };
 
   const removeImage = (index: number) => {
@@ -83,7 +122,51 @@ export const ImageUpload: FC = () => {
       copy.splice(index, 1);
       return copy;
     });
+
+    onChange &&
+      onChange(
+        new Array(images.length - 1).fill({
+          name: '',
+          path: '',
+        })
+      );
   };
+
+  const handleUpload = async () => {
+    setUploading(true);
+
+    const formData = new FormData();
+
+    images.forEach((image) => {
+      formData.append('files', image);
+    });
+
+    try {
+      const res = await axios.post('/api/upload/images', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (res.status === 200) {
+        setUploading(false);
+
+        return res.data;
+      }
+
+      setUploading(false);
+
+      return null;
+    } catch (error) {
+      setUploading(false);
+
+      return null;
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    handleUpload,
+  }));
 
   return (
     <div className='flex flex-col items-center space-y-4'>
@@ -119,17 +202,20 @@ export const ImageUpload: FC = () => {
         />
       </div>
 
-      <div className='flex max-w-full flex-wrap items-center justify-center space-x-2 space-y-2'>
+      <div className='flex max-w-full flex-wrap items-center justify-center gap-2'>
         {images.map((file, index) => (
           <PreviewImage
             key={index}
             src={URL.createObjectURL(file)}
             name={file.name}
             size={file.size}
+            uploading={uploading}
             onRemove={() => removeImage(index)}
           />
         ))}
       </div>
     </div>
   );
-};
+});
+
+ImageUpload.displayName = 'ImageUpload';
