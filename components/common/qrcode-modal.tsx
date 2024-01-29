@@ -31,7 +31,7 @@ export function QRCodeModal({ qrcode, children }: QRCodeModalProps) {
         <div className='flex flex-col items-center'>
           <Badge
             variant='outline'
-            className='mb-4 flex h-12 w-12 items-center justify-center rounded-full'
+            className='mb-4 flex size-12 items-center justify-center rounded-full'
           >
             <LuScanLine className='size-6' />
           </Badge>

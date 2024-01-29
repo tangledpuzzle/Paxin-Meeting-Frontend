@@ -57,7 +57,7 @@ interface Profile {
 }
 
 interface Option {
-  value: number;
+  value: string | number;
   label: string;
 }
 
@@ -67,7 +67,7 @@ const basicFormSchema = z.object({
   city: z
     .array(
       z.object({
-        value: z.number(),
+        value: z.union([z.string(), z.number()]),
         label: z.string(),
       })
     )
@@ -75,7 +75,7 @@ const basicFormSchema = z.object({
   category: z
     .array(
       z.object({
-        value: z.number(),
+        value: z.union([z.string(), z.number()]),
         label: z.string(),
       })
     )
@@ -83,7 +83,7 @@ const basicFormSchema = z.object({
   hashtags: z
     .array(
       z.object({
-        value: z.number(),
+        value: z.union([z.string(), z.number()]),
         label: z.string(),
       })
     )
@@ -120,10 +120,13 @@ export default function SettingPage() {
     useState<boolean>(false);
   const [isRechargeLoading, setIsRechargeLoading] = useState<boolean>(false);
 
+  const [hashtagURL, setHashtagURL] = useState<string>('/api/hashtags/get');
+
   const [isNeededUpdate, setIsNeededUpdate] = useState<boolean>(false);
 
   const [cityOptions, setCityOptions] = useState<Option[]>();
   const [categoryOptions, setCategoryOptions] = useState<Option[]>();
+  const [hashtagOptions, setHashtagOptions] = useState<Option[]>([]);
 
   const basicForm = useForm<BasicFormData>({
     resolver: zodResolver(basicFormSchema),
@@ -141,6 +144,11 @@ export default function SettingPage() {
   );
   const { data: fetchedCategories, error: categoryFetchError } = useSWR(
     '/api/categories/get',
+    fetcher
+  );
+
+  const { data: fetchedHashtags, error: hashtagFetchError } = useSWR(
+    hashtagURL,
     fetcher
   );
 
@@ -181,7 +189,6 @@ export default function SettingPage() {
   }, [fetchedData, error]);
 
   useEffect(() => {
-    4;
     if (!cityFetchError && fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
@@ -206,6 +213,20 @@ export default function SettingPage() {
     cityFetchError,
     categoryFetchError,
   ]);
+
+  useEffect(() => {
+    console.log(fetchedHashtags, 'tags');
+    if (!hashtagFetchError && fetchedHashtags) {
+      setHashtagOptions(
+        fetchedHashtags?.map((hashtag: any) => ({
+          value: hashtag.ID,
+          label: hashtag.Hashtag,
+        })) || []
+      );
+    } else {
+      setHashtagOptions([]);
+    }
+  }, [hashtagFetchError, fetchedHashtags]);
 
   const modules = {
     toolbar: [
@@ -275,6 +296,39 @@ export default function SettingPage() {
 
   const submitBasicInfo = async (data: BasicFormData) => {
     setIsBasicLoading(true);
+
+    for (const hashtag of data.hashtags) {
+      if (hashtag.label === hashtag.value) {
+        try {
+          const res = await axios.post('/api/hashtags/create', {
+            hashTag: hashtag.label,
+          });
+
+          if (res.status === 200) {
+            const hashtagData = res.data.data;
+
+            hashtag.value = hashtagData.ID;
+          } else {
+            toast.error('Failed to add hashtag', {
+              position: 'top-right',
+            });
+
+            setIsBasicLoading(false);
+
+            return;
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error('Failed to add hashtag', {
+            position: 'top-right',
+          });
+
+          setIsBasicLoading(false);
+
+          return;
+        }
+      }
+    }
 
     try {
       const res = await axios.patch('/api/profiles/patch', {
@@ -403,6 +457,11 @@ export default function SettingPage() {
 
     setGallery(_gallery);
     setIsNeededUpdate(true);
+  };
+
+  const handleHashtagSearch = (query: string) => {
+    console.log(basicForm.getValues('hashtags'));
+    if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
   };
 
   return (
@@ -536,18 +595,10 @@ export default function SettingPage() {
                               <FormControl>
                                 <CreatableSelect
                                   isMulti
-                                  options={
-                                    profile?.hashtags
-                                      ? profile.hashtags.map(
-                                          (hashtag: any) => ({
-                                            value: hashtag.id,
-                                            label: hashtag.name,
-                                          })
-                                        )
-                                      : []
-                                  }
+                                  options={hashtagOptions}
                                   value={field.value}
                                   onChange={field.onChange}
+                                  onInputChange={handleHashtagSearch}
                                   classNames={{
                                     input: () => 'dark:text-white text-black',
                                     control: () =>

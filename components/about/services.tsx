@@ -39,7 +39,7 @@ export function ServicesSection() {
             key={index}
             className='rounded-lg bg-white p-6 shadow-primary drop-shadow-[0_25px_25px_rgba(0,156,0,0.1)] dark:bg-secondary'
           >
-            <div className='flex h-12 w-12 items-center justify-center rounded-full bg-primary/10'>
+            <div className='flex size-12 items-center justify-center rounded-full bg-primary/10'>
               <service.icon className='size-6 text-primary' />
             </div>
             <div className='my-2 text-lg font-semibold text-primary'>

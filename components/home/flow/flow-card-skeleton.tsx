@@ -20,9 +20,9 @@ function FlowCardSkeleton({ className }: { className?: string }) {
           <Skeleton className='size-2/3' />
         </div>
         <div className='flex gap-3'>
-          <Skeleton className='h-12 w-1/3' />
-          <Skeleton className='h-12 w-1/3' />
-          <Skeleton className='h-12 w-1/3' />
+          <Skeleton className='size-1/3' />
+          <Skeleton className='size-1/3' />
+          <Skeleton className='size-1/3' />
         </div>
         <div className='flex justify-between'>
           <div className='flex gap-2'>

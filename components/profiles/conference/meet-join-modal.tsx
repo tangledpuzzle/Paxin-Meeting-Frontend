@@ -37,14 +37,14 @@ export function MeetJoinModal({ children }: MeetJoinModalProps) {
               alt='logo'
               width={50}
               height={50}
-              className='h-12 w-12 dark:hidden'
+              className='size-12 dark:hidden'
             />
             <Image
               src='/logo-white.svg'
               alt='logo'
               width={50}
               height={50}
-              className='hidden h-12 w-12 dark:block'
+              className='hidden size-12 dark:block'
             />
             <span className='inline-block font-satoshi text-2xl font-bold text-primary sm:hidden lg:inline-block'>
               PaxMeet Join
