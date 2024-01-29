@@ -18,6 +18,7 @@ interface ProfileData {
   categories: string[];
   qrcode: string;
   countrycode: string;
+  totalfollowers: number,
   review: {
     totaltime: {
       hour: number;
@@ -69,7 +70,7 @@ export default function ProfileSection() {
 
   return (
     <div className='w-full space-y-6'>
-      <div className='grid w-full place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+      <div className='grid w-full place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
         {!error ? (
           fetchedData && profileData ? (
             profileData.map((profile: ProfileData) => (

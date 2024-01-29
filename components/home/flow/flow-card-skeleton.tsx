@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 function FlowCardSkeleton({ className }: { className?: string }) {
   return (
-    <Card className={cn('w-full max-w-[320px] sm:max-w-[400px]', className)}>
+    <Card className={cn('w-full', className)}>
       <CardContent className='relative flex w-full flex-col gap-4 p-3'>
         <div className='relative'>
           <Skeleton className='h-[200px] w-full' />

@@ -1,9 +1,7 @@
 import Image from 'next/image';
 import { BiSolidCalendar } from 'react-icons/bi';
 import { BsCalendarDateFill } from 'react-icons/bs';
-import { GrArticle } from 'react-icons/gr';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { TagSlider } from '@/components/common/tag-slider';
@@ -23,6 +21,7 @@ export interface ProfileCardProps {
   categories: string[];
   qrcode: string;
   countrycode: string;
+  totalfollowers: number,
   review: {
     totaltime: {
       hour: number;
@@ -49,34 +48,30 @@ function ProfileCard(profile: ProfileCardProps) {
     qrcode,
     countrycode,
     review,
+    totalfollowers,
   } = profile;
 
   return (
-    <Card className='size-full max-w-[320px] sm:max-w-[400px]'>
+    <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
         <div className='relative'>
           <div className='h-[300px] w-full'>
             <Image
               src={avatar}
-              layout='fill'
-              objectFit='contain'
+              width={300}
+              height={300}
+              style={{width: '100%', height: '100%'}}
               objectPosition='center'
+              className='rounded-md rounded-b-m '
               alt='profile'
             />
           </div>
-          <div className='absolute inset-0 flex items-center justify-center rounded-lg rounded-b-none bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
+          <div className='absolute inset-0 flex items-center justify-center rounded-md  bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           <div className='absolute top-3 flex w-full justify-between gap-2 px-4'>
             <QRCodeModal qrcode={qrcode} />
-            <Badge
-              variant='default'
-              className='border-none !bg-black/50 p-2 text-white'
-            >
-              <GrArticle className='mr-2 size-4 text-white' />
-              {review.totalposts}
-            </Badge>
           </div>
         </div>
-        <div className='relative w-full max-w-[100%]'>
+        <div className='relative w-full max-w-[100%] h-[40px]'>
           <TagSlider tags={tags} />
         </div>
         <div className='relative'>
@@ -85,23 +80,37 @@ function ProfileCard(profile: ProfileCardProps) {
           ></div>
         </div>
         <div className='font-satoshi'>
-          <div className='line-clamp-1 text-xl font-semibold text-secondary-foreground'>
+          <div className='line-clamp-1 text-xl font-semibold text-secondary-foreground pb-4'>
             @{username}
           </div>
           <div className='line-clamp-3 text-sm text-muted-foreground'>
             {bio}
           </div>
         </div>
-        <div className='mt-auto'>
-          <div className='flex items-center justify-start gap-2 text-muted-foreground'>
-            <BsCalendarDateFill className='size-5 text-black dark:text-white' />
-            This month:{' '}
-            {`${review.monthtime.hour}h : ${review.monthtime.minutes}m`}
+        <div className='mt-auto grid grid-cols-2'>
+          <div>
+            <div className='flex items-center justify-start gap-2 text-muted-foreground pb-2'>
+              <BsCalendarDateFill className='size-5 text-black dark:text-white' />
+              <span className='text-sm'>This month:{' '}
+              {`${review.monthtime.hour}h : ${review.monthtime.minutes}m`}</span>
+            </div>
+            <div className='flex items-center justify-start gap-2 text-muted-foreground'>
+              <BiSolidCalendar className='size-5 text-black dark:text-white' />
+              <span className='text-sm'>Total time:{' '}
+              {`${review.totaltime.hour}h : ${review.totaltime.minutes}m`}</span>
+            </div>
           </div>
-          <div className='flex items-center justify-start gap-2 text-muted-foreground'>
-            <BiSolidCalendar className='size-5 text-black dark:text-white' />
-            Total time:{' '}
-            {`${review.totaltime.hour}h : ${review.totaltime.minutes}m`}
+          <div>
+            <div className='flex items-center justify-start gap-2 text-muted-foreground pb-2'>
+              <BsCalendarDateFill className='size-5 text-black dark:text-white' />
+              <span className='text-sm'>Followers:{' '}
+              {`${totalfollowers}`}</span>
+            </div>
+            <div className='flex items-center justify-start gap-2 text-muted-foreground'>
+              <BiSolidCalendar className='size-5 text-black dark:text-white' />
+              <span className='text-sm'>Total Posts:{' '}
+              {`${review.totalposts}`}</span>
+            </div>
           </div>
         </div>
         <div className='flex gap-3'>

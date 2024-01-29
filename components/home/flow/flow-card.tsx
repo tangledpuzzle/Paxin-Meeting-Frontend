@@ -56,7 +56,7 @@ function FlowCard(profile: FlowCardProps) {
   } = profile;
 
   return (
-    <Card className='size-full max-w-[320px] sm:max-w-[400px]'>
+    <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
         <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
           <div className='relative'>
