@@ -10,7 +10,7 @@ export interface CategoryCardProps
 
 function CategoryCard({ categories }: CategoryCardProps) {
   return (
-    <div className="border-badge bg-[#5959591a] group relative w-full rounded-xl border border-[#ffffff2b] p-2 transition-all duration-300 hover:border-primary">
+    <div className="border-badge bg-[#9c9c9c1a] group relative w-full rounded-xl border border-[#ffffff2b] p-2 transition-all duration-300 hover:border-primary">
       <div className="absolute inset-0 h-full w-full bg-gradient-to-b from-transparent to-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
       <div className="flex items-center gap-1">
         <BiSolidCategory className="h-5 w-5 text-gray-500 dark:text-white" />

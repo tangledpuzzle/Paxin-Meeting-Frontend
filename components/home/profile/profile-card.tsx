@@ -71,7 +71,7 @@ function ProfileCard(profile: ProfileCardProps) {
             <QRCodeModal qrcode={qrcode} />
           </div>
         </div>
-        <div className='relative w-full max-w-[100%] h-[40px]'>
+        <div className='relative w-full max-w-[100%] h-auto text-center'>
           <TagSlider tags={tags} />
         </div>
         <div className='relative'>

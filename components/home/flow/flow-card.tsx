@@ -63,9 +63,10 @@ function FlowCard(profile: FlowCardProps) {
             <div className='h-[200px] w-full'>
               <Image
                 src={hero}
-                layout='fill'
-                objectFit='contain'
-                objectPosition='center'
+                width={300}
+                height={300}
+                style={{width: '100%', height: '100%'}}
+                className='rounded-md rounded-b-m '
                 alt='profile'
               />
             </div>
@@ -88,7 +89,7 @@ function FlowCard(profile: FlowCardProps) {
                 {review.totalviews}
               </Badge>
             </div>
-            <div className='absolute inset-0 flex items-center justify-center rounded-lg rounded-b-none bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
+            <div className='absolute inset-0 flex items-center justify-center rounded-md rounded-b-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
         </Link>
         <div className='relative w-full max-w-[100%]'>
