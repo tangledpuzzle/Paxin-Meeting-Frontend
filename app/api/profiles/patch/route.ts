@@ -35,27 +35,42 @@ export async function PATCH(req: NextRequest) {
 
       return NextResponse.json(profile);
     } else if (req.headers.get('gallery')) {
-      const update = req.nextUrl.searchParams.get('update');
+      const { gallery, uploadedGallery } = await req.json();
 
-      if (update) {
-      } else {
-        const { gallery } = await req.json();
-        console.log(gallery, 'gallery');
+      if (gallery) {
+        const res = await fetch(
+          `${process.env.API_URL}/api/profile/photos?update=true`,
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+              'Content-Type': 'application/json',
+            },
+            method: 'PATCH',
+            body: JSON.stringify(gallery),
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error('Failed to fetch data');
+        }
+      }
+
+      if (uploadedGallery) {
         const res = await fetch(`${process.env.API_URL}/api/profile/photos`, {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,
             'Content-Type': 'application/json',
           },
           method: 'PATCH',
-          body: JSON.stringify(gallery),
+          body: JSON.stringify(uploadedGallery),
         });
 
         if (!res.ok) {
           throw new Error('Failed to fetch data');
         }
-
-        return NextResponse.json({ success: true });
       }
+
+      return NextResponse.json({ success: true });
     } else {
       const { city, guilds, hashtags, Descr } = await req.json();
       const res = await fetch(`${process.env.API_URL}/api/profile/save`, {

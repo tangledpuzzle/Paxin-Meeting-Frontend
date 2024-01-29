@@ -45,7 +45,13 @@ interface Profile {
     id: number;
     name: string;
   }[];
-  gallery: string[];
+  gallery: {
+    ID: number;
+    ProfileID: number;
+    files: {
+      path: string;
+    }[];
+  };
   additionalinfo: string;
 }
 
@@ -88,6 +94,13 @@ type BasicFormData = z.infer<typeof basicFormSchema>;
 
 type ImageUploadComponentType = {
   handleUpload: () => Promise<{ files: any[] } | null>;
+  handleReset: () => void;
+};
+
+type GalleryType = {
+  ID: number;
+  ProfileID: number;
+  files: { path: string }[];
 };
 
 export default function SettingPage() {
@@ -97,11 +110,14 @@ export default function SettingPage() {
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [additionalInfo, setAdditionalInfo] = useState<string>('');
+  const [gallery, setGallery] = useState<GalleryType>({} as GalleryType);
 
   const [isBasicLoading, setIsBasicLoading] = useState<boolean>(false);
   const [isGalleryLoading, setIsGalleryLoading] = useState<boolean>(false);
   const [isAdditionalLoading, setIsAdditionalLoading] =
     useState<boolean>(false);
+
+  const [isNeededUpdate, setIsNeededUpdate] = useState<boolean>(false);
 
   const [cityOptions, setCityOptions] = useState<Option[]>();
   const [categoryOptions, setCategoryOptions] = useState<Option[]>();
@@ -128,6 +144,7 @@ export default function SettingPage() {
   useEffect(() => {
     if (!error && fetchedData) {
       setProfile(fetchedData);
+      setGallery(fetchedData.gallery);
       setAdditionalInfo(fetchedData.additionalinfo);
 
       basicForm.setValue(
@@ -161,6 +178,7 @@ export default function SettingPage() {
   }, [fetchedData, error]);
 
   useEffect(() => {
+    4;
     if (!cityFetchError && fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
@@ -297,18 +315,16 @@ export default function SettingPage() {
     try {
       const files = await imageUploadRef.current?.handleUpload();
 
-      console.log(
-        files?.files.map((file: any) => {
-          path: file.path;
-        })
-      );
-
       const res = await axios.patch(
-        '/api/profiles/patch',
+        `/api/profiles/patch`,
         {
-          gallery: files?.files.map((file: any) => ({
-            path: file?.path,
-          })),
+          uploadedGallery:
+            files?.files && files?.files?.length > 0
+              ? files?.files.map((file: any) => ({
+                  path: file?.path,
+                }))
+              : false,
+          gallery: isNeededUpdate ? gallery : false,
         },
         {
           headers: {
@@ -321,6 +337,8 @@ export default function SettingPage() {
         toast.success('Gallery updated successfully', {
           position: 'top-right',
         });
+
+        imageUploadRef.current?.handleReset();
         profileMutate();
       } else {
         toast.error('Failed to update gallery', {
@@ -334,6 +352,26 @@ export default function SettingPage() {
     }
 
     setIsGalleryLoading(false);
+  };
+
+  const removeGallery = (path: string) => {
+    if (gallery.files.length === 1) {
+      toast.error('You must have at least one image', {
+        position: 'top-right',
+      });
+
+      return;
+    }
+    const _gallery = {
+      ID: gallery.ID,
+      ProfileID: gallery.ProfileID,
+      files: [],
+    } as GalleryType;
+
+    _gallery.files = gallery.files.filter((file: any) => file.path !== path);
+
+    setGallery(_gallery);
+    setIsNeededUpdate(true);
   };
 
   return (
@@ -529,13 +567,13 @@ export default function SettingPage() {
                     className='flex w-full flex-col gap-3'
                   >
                     <div className='flex flex-wrap gap-2'>
-                      {profile?.gallery?.length &&
-                        profile.gallery.map((image: string, index: number) => (
+                      {gallery?.files?.length > 0 &&
+                        gallery?.files.map((file: any) => (
                           <PreviewImage
-                            key={index}
-                            src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${image}`}
+                            key={file.path}
+                            src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`}
                             onRemove={() => {
-                              console.log('SDF');
+                              removeGallery(file.path);
                             }}
                           />
                         ))}

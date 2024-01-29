@@ -34,18 +34,35 @@ import { IoMdArchive } from 'react-icons/io';
 import { LuArchiveRestore } from 'react-icons/lu';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RiEditBoxFill } from 'react-icons/ri';
+import { EditPostModal } from './edit-post-modal';
 
 export interface PostCardProps {
   id: number;
   title: string;
+  original_title: string;
   subtitle: string;
+  original_subtitle: string;
   content: string;
+  original_content: string;
   hashtags: string[];
   expireDate: string;
-  cities: string[];
-  categories: string[];
-  gallery: string[];
+  cities: {
+    id: number;
+    name: string;
+  }[];
+  categories: {
+    id: number;
+    name: string;
+  }[];
+  gallery: {
+    ID: number;
+    BlogID: number;
+    files: {
+      path: string;
+    }[];
+  };
   archived: boolean;
+  price: string;
   onArchive: () => void;
   onDelete: () => void;
   mutate: () => void;
@@ -54,18 +71,23 @@ export interface PostCardProps {
 export function PostCard({
   id,
   title,
+  original_title,
   subtitle,
+  original_subtitle,
   content,
+  original_content,
   hashtags,
   expireDate,
   cities,
   categories,
   gallery,
   archived,
+  price,
   onArchive,
   onDelete,
   mutate,
 }: PostCardProps) {
+  console.log(gallery, 'hey');
   const [isExtendsLoading, setIsExtendsLoading] = useState<boolean>(false);
   const [extendsTime, setExtendsTime] = useState<string>('3');
 
@@ -108,9 +130,24 @@ export function PostCard({
           aria-label='actions'
           className='absolute right-0 top-64 z-10 flex gap-2 md:top-0'
         >
-          <Button variant='outline' size='icon' className='rounded-full'>
-            <RiEditBoxFill className='size-4' />
-          </Button>
+          <EditPostModal
+            blog={{
+              id: id,
+              title: original_title,
+              content: original_content,
+              subtitle: original_subtitle,
+              hashtags: hashtags,
+              cities: cities,
+              categories: categories,
+              gallery: gallery,
+              price: price,
+            }}
+            mutate={mutate}
+          >
+            <Button variant='outline' size='icon' className='rounded-full'>
+              <RiEditBoxFill className='size-4' />
+            </Button>
+          </EditPostModal>
           {archived ? (
             <Button variant='outline' size='icon' className='rounded-full'>
               <LuArchiveRestore className='size-4' />
@@ -136,18 +173,20 @@ export function PostCard({
         </div>
         <Carousel className='w-full md:w-52'>
           <CarouselContent>
-            {gallery.map((image, index) => (
-              <CarouselItem key={index}>
-                <div className='relative h-60 w-full'>
-                  <Image
-                    src={image}
-                    alt='preview image'
-                    style={{ objectFit: 'cover' }}
-                    fill
-                  />
-                </div>
-              </CarouselItem>
-            ))}
+            {gallery &&
+              gallery.files &&
+              gallery.files.map((image, index) => (
+                <CarouselItem key={index}>
+                  <div className='relative h-60 w-full'>
+                    <Image
+                      src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${image.path}`}
+                      alt='preview image'
+                      style={{ objectFit: 'cover' }}
+                      fill
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
           </CarouselContent>
           <CarouselPrevious className='left-3' />
           <CarouselNext className='right-3' />
@@ -186,7 +225,7 @@ export function PostCard({
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value='3'>3 days</SelectItem>
-                      <SelectItem value='4'>5 days</SelectItem>
+                      <SelectItem value='5'>5 days</SelectItem>
                       <SelectItem value='10'>10 days</SelectItem>
                       <SelectItem value='15'>15 days</SelectItem>
                     </SelectGroup>
@@ -202,25 +241,25 @@ export function PostCard({
             </Popover>
           </div>
           <div className='mt-auto flex gap-2'>
-            {cities.map((city, i) => (
+            {cities.map((city) => (
               <Badge
                 variant='outline'
                 className='rounded-full border-primary bg-primary/10 text-primary'
-                key={city + i}
+                key={city.id}
               >
                 <MdOutlineHouseSiding className='mr-1 size-4' />
-                {city}
+                {city.name}
               </Badge>
             ))}
 
-            {categories.map((category, i) => (
+            {categories.map((category) => (
               <Badge
                 variant='outline'
                 className='rounded-full border-primary bg-primary/10 text-primary'
-                key={category + i}
+                key={category.id}
               >
                 <BiSolidCategory className='mr-1 size-4' />
-                {category}
+                {category.name}
               </Badge>
             ))}
           </div>

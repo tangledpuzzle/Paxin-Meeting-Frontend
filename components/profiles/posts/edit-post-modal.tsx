@@ -3,7 +3,7 @@
 import { TfiWrite } from 'react-icons/tfi';
 import ReactSelect from 'react-select';
 
-import { ImageUpload } from '@/components/common/file-uploader';
+import { ImageUpload, PreviewImage } from '@/components/common/file-uploader';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -23,29 +23,44 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { PaxContext } from '@/context/context';
 import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import { useContext, useRef, useState } from 'react';
+import { Loader2 } from 'lucide-react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
 import * as z from 'zod';
-import { Loader2 } from 'lucide-react';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
 
-interface NewPostModalProps {
+interface EditPostModalProps {
+  blog: {
+    id: number;
+    title: string;
+    subtitle: string;
+    content: string;
+    cities: {
+      id: number;
+      name: string;
+    }[];
+    categories: {
+      id: number;
+      name: string;
+    }[];
+    hashtags: string[];
+    price: string;
+    gallery: {
+      ID: number;
+      BlogID: number;
+      files: {
+        path: string;
+      }[];
+    };
+  };
   children: React.ReactNode;
   mutate?: () => void;
 }
@@ -84,7 +99,6 @@ const formSchema = z
       )
       .min(1, 'Please select at least one hashtag'),
     price: z.string().optional(),
-    days: z.string(),
     images: z
       .array(
         z.object({
@@ -103,7 +117,8 @@ type ImageUploadComponentType = {
   handleReset: () => void;
 };
 
-export function NewPostModal({ children, mutate }: NewPostModalProps) {
+export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
+  console.log(blog.gallery, 'hey hey');
   const { user, locale } = useContext(PaxContext);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -146,18 +161,39 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: '',
-      subtitle: '',
-      content: '',
-      city: [],
-      category: [],
-      hashtags: [],
-      price: '',
-      days: '30',
-      images: [],
-    },
   });
+
+  useEffect(() => {
+    form.setValue('title', blog.title);
+    form.setValue('subtitle', blog.subtitle);
+    form.setValue('content', blog.content);
+    form.setValue(
+      'city',
+      blog.cities.map((city) => ({ value: city.id, label: city.name }))
+    );
+    form.setValue(
+      'category',
+      blog.categories.map((category) => ({
+        value: category.id,
+        label: category.name,
+      }))
+    );
+    form.setValue(
+      'hashtags',
+      blog.hashtags.map((hashtag) => ({
+        value: hashtag,
+        label: hashtag,
+      }))
+    );
+    form.setValue('price', blog.price.toString());
+    form.setValue(
+      'images',
+      blog.gallery?.files?.map((image) => ({
+        name: image.path,
+        path: image.path,
+      }))
+    );
+  }, [blog]);
 
   const submitBlog = async (data: FormData) => {
     setIsLoading(true);
@@ -165,30 +201,29 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     try {
       const files = await imageUploadRef.current?.handleUpload();
 
-      if (!files) {
-        toast.error('Failed to upload images for blog', {
-          position: 'top-right',
-        });
-
-        return;
-      }
-
-      console.log(files?.files);
-
-      const res = await axios.post(`/api/flows/create?language=${locale}`, {
+      const res = await axios.patch(`/api/flows/patch/${blog.id}`, {
         title: data.title,
         subtitle: data.subtitle,
         content: data.content,
-        city: data.city.map((city) => ({ ID: city.value })),
-        category: data.category.map((category) => ({ ID: category.value })),
-        hashtags: data.hashtags.map((hashtag) => ({ hashtag: hashtag.value })),
+        city: data.city.map((city) => ({ id: city.value, name: city.label })),
+        category: data.category.map((category) => ({
+          id: category.value,
+          name: category.label,
+        })),
+        hashtags: data.hashtags.map((hashtag) => hashtag.label),
         price: data.price,
-        days: data.days,
-        images: files?.files,
+        images: {
+          ID: blog.gallery.ID,
+          BlogID: blog.gallery.BlogID,
+          files: [
+            ...data.images.map((image) => ({ path: image.path })),
+            ...(files?.files || []),
+          ],
+        },
       });
 
       if (res.status === 200) {
-        toast.success('Blog created successfully', {
+        toast.success('Blog updated successfully', {
           position: 'top-right',
         });
 
@@ -202,7 +237,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
 
         imageUploadRef.current?.handleReset();
       } else {
-        toast.error('Failed to create blog', {
+        toast.error('Failed to update blog', {
           position: 'top-right',
         });
       }
@@ -224,10 +259,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
             <TfiWrite className='size-5' />
           </div>
           <div>
-            <DialogTitle>Writing a Post</DialogTitle>
-            <DialogDescription>
-              You can write a new post here.
-            </DialogDescription>
+            <DialogTitle>Edit Post</DialogTitle>
+            <DialogDescription>You can edit your post here.</DialogDescription>
           </div>
         </DialogHeader>
         <Form {...form}>
@@ -373,7 +406,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                     </FormItem>
                   )}
                 />
-                <div className='grid gap-4 sm:grid-cols-2'>
+                <div className='grid gap-4'>
                   <FormField
                     control={form.control}
                     name='price'
@@ -382,33 +415,6 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                         <FormLabel htmlFor='price'>Price</FormLabel>
                         <FormControl>
                           <Input className='' type='number' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='days'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel htmlFor='days'>Number of Days</FormLabel>
-                        <FormControl>
-                          <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
-                          >
-                            <SelectTrigger className='w-full'>
-                              <SelectValue placeholder='' />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectItem value='30'>30</SelectItem>
-                                <SelectItem value='60'>60</SelectItem>
-                                <SelectItem value='90'>90</SelectItem>
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -424,11 +430,36 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <ImageUpload
-                        ref={imageUploadRef}
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
+                      <>
+                        <div className='flex flex-wrap gap-2'>
+                          {field.value.length > 0 &&
+                            field.value.map((file: any) => (
+                              <PreviewImage
+                                key={file.path}
+                                src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`}
+                                onRemove={() => {
+                                  if (field.value.length === 1) {
+                                    return toast.error(
+                                      'You must have at least one image',
+                                      {
+                                        position: 'top-right',
+                                      }
+                                    );
+                                  } else {
+                                    const _images = form
+                                      .getValues('images')
+                                      .filter(
+                                        (image: any) => image.path !== file.path
+                                      );
+                                    console.log(_images);
+                                    field.onChange(_images);
+                                  }
+                                }}
+                              />
+                            ))}
+                        </div>
+                        <ImageUpload ref={imageUploadRef} />
+                      </>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -438,7 +469,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
             <DialogFooter>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
-                Post
+                Save
               </Button>
             </DialogFooter>
           </form>
