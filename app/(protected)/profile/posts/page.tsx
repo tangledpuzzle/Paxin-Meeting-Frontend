@@ -211,14 +211,18 @@ export default function MyPostsPage() {
                   key={blog.id}
                   id={blog.id}
                   title={blog.title}
+                  original_title={blog.original_title}
                   subtitle={blog.subtitle}
+                  original_subtitle={blog.original_subtitle}
                   content={blog.content}
+                  original_content={blog.original_content}
                   hashtags={blog.hashtags}
                   expireDate={blog.expireDate}
                   cities={blog.cities}
                   categories={blog.categories}
                   gallery={blog.gallery}
                   archived={blog.archived}
+                  price={blog.price}
                   onArchive={() => {
                     setArchiveID(blog.id);
                     setShowArchiveModal(true);
