@@ -133,8 +133,8 @@ export default function MyPostsPage() {
   return (
     <div className='p-4'>
       <CTASection
-        title={t('my_posts')}
-        description={t('my_posts_description')}
+        title='my_posts'
+        description='my_posts_description'
         icon={RiArticleLine}
       />
       <Separator className='my-4' />

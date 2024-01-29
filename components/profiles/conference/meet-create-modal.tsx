@@ -11,12 +11,14 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { useTranslation } from 'react-i18next';
 
 interface MeetCreateModalProps {
   children: React.ReactNode;
 }
 
 export function MeetCreateModal({ children }: MeetCreateModalProps) {
+  const { t } = useTranslation();
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -38,14 +40,14 @@ export function MeetCreateModal({ children }: MeetCreateModalProps) {
               className='hidden size-12 dark:block'
             />
             <span className='inline-block font-satoshi text-2xl font-bold text-primary sm:hidden lg:inline-block'>
-              PaxMeet Create
+              PaxMeet {t('create')}
             </span>
           </div>
         </DialogHeader>
         <div className='grid gap-4 py-4'>
           <div className='relative w-full'>
             <UserRound className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
-            <Input type='text' placeholder='Name' className='pl-12 pr-4' />
+            <Input type='text' placeholder={t('name')} className='pl-12 pr-4' />
           </div>
           <div className='flex items-center space-x-2'>
             <Checkbox id='terms' />
@@ -53,20 +55,20 @@ export function MeetCreateModal({ children }: MeetCreateModalProps) {
               htmlFor='terms'
               className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
             >
-              Private Room
+              {t('private_room')}
             </label>
           </div>
           <div className='relative mx-auto w-full'>
             <Lock className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
             <Input
               type='password'
-              placeholder='Password'
+              placeholder={t('password')}
               className='pl-12 pr-4'
             />
           </div>
         </div>
         <DialogFooter>
-          <Button type='submit'>Create</Button>
+          <Button type='submit'>{t('create')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

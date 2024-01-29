@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import { NavItem } from '@/types/nav';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface ProfileNavProps {
   items: NavItem[];
@@ -13,6 +14,7 @@ interface ProfileNavProps {
 }
 
 export function ProfileNav({ items, setOpen }: ProfileNavProps) {
+  const { t } = useTranslation();
   const path = usePathname();
 
   if (!items?.length) {
@@ -43,7 +45,7 @@ export function ProfileNav({ items, setOpen }: ProfileNavProps) {
               >
                 {Icon && <Icon className='size-5 lg:mr-2' />}
                 <span className='truncate text-xs sm:hidden sm:text-base lg:block'>
-                  {item.title}
+                  {t(item.title)}
                 </span>
               </span>
             </Link>

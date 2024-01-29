@@ -14,7 +14,7 @@
   "setting_description": "Здесь вы можете настроить все параметры своего профиля",
   "conference_description": "",
   "all": "Все",
-  "archived": "Архивированные",
+  "archive": "Архивированные",
   "new_post": "Новый пост",
   "extend": "Продлить",
   "extend_time": "Продлить время",
@@ -72,5 +72,9 @@
   "success_create_blog": "Блог успешно создан",
   "type_content_here": "Введите ваш контент здесь",
   "failed_profile_update": "Не удалось обновить профиль",
-  "success_profile_update": "Профиль успешно обновлен"
+  "success_profile_update": "Профиль успешно обновлен",
+  "private_room": "Приватная комната",
+  "name": "Имя",
+  "password": "Пароль",
+  "room_id": "ID комнаты"
 }

@@ -14,7 +14,7 @@
   "setting_description": "You can set all the profile related settings",
   "conference_description": "",
   "all": "All",
-  "archived": "Archived",
+  "archive": "Archived",
   "new_post": "New Post",
   "extend": "Extend",
   "extend_time": "Extend Time",
@@ -72,5 +72,9 @@
   "success_create_blog": "Blog created successfully",
   "type_content_here": "Type your content here",
   "failed_profile_update": "Failed to update profile",
-  "success_profile_update": "Profile updated successfully"
+  "success_profile_update": "Profile updated successfully",
+  "private_room": "Private Room",
+  "name": "Name",
+  "password": "Password",
+  "room_id": "Room ID"
 }

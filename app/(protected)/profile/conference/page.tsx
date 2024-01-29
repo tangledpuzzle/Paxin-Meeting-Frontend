@@ -42,7 +42,7 @@ export default function ConferencePage() {
 
   return (
     <div className='p-4'>
-      <CTASection title='Conference' description='' icon={HiUserGroup} />
+      <CTASection title='conference' description='' icon={HiUserGroup} />
       <Separator className='my-4' />
       <div className='flex h-[calc(100vh_-_15rem)] w-full flex-col rounded-xl bg-background p-4 sm:h-[calc(100vh_-_13rem)]'>
         <div className='flex w-full items-center justify-between'>

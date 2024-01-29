@@ -14,7 +14,7 @@
   "setting_description": "Puedes configurar todas las configuraciones relacionadas con tu perfil",
   "conference_description": "",
   "all": "Todos",
-  "archived": "Archivado",
+  "archive": "Archivado",
   "new_post": "Nueva Publicación",
   "extend": "Extender",
   "extend_time": "Extender Tiempo",
@@ -72,5 +72,9 @@
   "success_create_blog": "Blog creado exitosamente",
   "type_content_here": "Escribe tu contenido aquí",
   "failed_profile_update": "Error al actualizar el perfil",
-  "success_profile_update": "Perfil actualizado exitosamente"
+  "success_profile_update": "Perfil actualizado exitosamente",
+  "private_room": "Sala Privada",
+  "name": "Nombre",
+  "password": "Contraseña",
+  "room_id": "ID de Sala"
 }

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { PlanUpgradeModal } from './plan-upgrade-modal';
 import { useContext } from 'react';
 import { PaxContext } from '@/context/context';
+import { useTranslation } from 'react-i18next';
 
 interface CTAProps {
   title: string;
@@ -13,6 +14,7 @@ interface CTAProps {
 }
 
 export default function CTASection({ title, description, icon }: CTAProps) {
+  const { t } = useTranslation();
   const { user } = useContext(PaxContext);
   const Icon = icon;
 
@@ -23,9 +25,9 @@ export default function CTASection({ title, description, icon }: CTAProps) {
           <Icon className='size-5' />
         </div>
         <div>
-          <div className='text-lg font-semibold'>{title}</div>
+          <div className='text-lg font-semibold'>{t(title)}</div>
           <div className='hidden text-sm text-muted-foreground lg:block'>
-            {description}
+            {t(description || '')}
           </div>
         </div>
         <PlanUpgradeModal>

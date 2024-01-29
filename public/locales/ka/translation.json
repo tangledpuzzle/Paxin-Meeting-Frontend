@@ -14,7 +14,7 @@
   "setting_description": "წააკიბედეთ პროფილის პარამეტრები",
   "conference_description": "",
   "all": "ყველა",
-  "archived": "არქივირებული",
+  "archive": "არქივირებული",
   "new_post": "ახალი პოსტი",
   "extend": "გაშლა",
   "extend_time": "დროის გაფართოება",
@@ -72,5 +72,9 @@
   "success_create_blog": "ბლოგი შეიქმნა წარმატებით",
   "type_content_here": "ჩაწერეთ კონტენტი აქ",
   "failed_profile_update": "პროფილის განახლება ვერ ხერხდება",
-  "success_profile_update": "პროფილი"
+  "success_profile_update": "პროფილი",
+  "private_room": "კერძო სართული",
+  "name": "სახელი",
+  "password": "პაროლი",
+  "room_id": "სართულის ID"
 }

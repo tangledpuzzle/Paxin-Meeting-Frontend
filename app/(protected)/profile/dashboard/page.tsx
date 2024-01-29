@@ -12,8 +12,8 @@ export default function DashboardPage() {
   return (
     <div className='p-4'>
       <CTASection
-        title={t('dashboard')}
-        description={t('dashboard_description')}
+        title='dashboard'
+        description='dashboard_description'
         icon={MdDashboard}
       />
       <Separator className='my-4' />

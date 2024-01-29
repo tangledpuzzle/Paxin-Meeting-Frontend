@@ -14,12 +14,14 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { ConfirmPasswordModal } from './confirm-password-modal';
+import { useTranslation } from 'react-i18next';
 
 interface MeetJoinModalProps {
   children: React.ReactNode;
 }
 
 export function MeetJoinModal({ children }: MeetJoinModalProps) {
+  const { t } = useTranslation();
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   const handleJoin = () => {
@@ -47,24 +49,24 @@ export function MeetJoinModal({ children }: MeetJoinModalProps) {
               className='hidden size-12 dark:block'
             />
             <span className='inline-block font-satoshi text-2xl font-bold text-primary sm:hidden lg:inline-block'>
-              PaxMeet Join
+              PaxMeet {t('join')}
             </span>
           </div>
         </DialogHeader>
         <div className='grid gap-4 py-4'>
           <div className='relative w-full'>
             <UserRound className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
-            <Input type='text' placeholder='Name' className='pl-12 pr-4' />
+            <Input type='text' placeholder={t('name')} className='pl-12 pr-4' />
           </div>
           <div className='relative mx-auto w-full'>
             <PiDoorOpen className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
-            <Input placeholder='Room ID' className='pl-12 pr-4' />
+            <Input placeholder={t('room_id')} className='pl-12 pr-4' />
           </div>
         </div>
         <ConfirmPasswordModal open={isPrivate} setOpen={setIsPrivate} />
         <DialogFooter>
           <Button type='submit' onClick={handleJoin}>
-            Join
+            {t('join')}
           </Button>
         </DialogFooter>
       </DialogContent>

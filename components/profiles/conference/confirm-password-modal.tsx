@@ -9,6 +9,7 @@ import {
   DialogHeader,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { useTranslation } from 'react-i18next';
 
 interface ConfirmPasswordModalProps {
   open: boolean;
@@ -19,6 +20,8 @@ export function ConfirmPasswordModal({
   open,
   setOpen,
 }: ConfirmPasswordModalProps) {
+  const { t } = useTranslation();
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className='max-w-md'>
@@ -39,7 +42,7 @@ export function ConfirmPasswordModal({
               className='hidden size-12 dark:block'
             />
             <span className='inline-block font-satoshi text-2xl font-bold text-primary sm:hidden lg:inline-block'>
-              PaxMeet Join
+              PaxMeet {t('join')}
             </span>
           </div>
         </DialogHeader>
@@ -54,7 +57,7 @@ export function ConfirmPasswordModal({
           </div>
         </div>
         <DialogFooter>
-          <Button type='submit'>Join</Button>
+          <Button type='submit'>{t('join')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
