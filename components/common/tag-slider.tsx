@@ -57,6 +57,7 @@ function TagSlider({ tags }: TagSliderProps) {
       showStatus={false}
       renderArrowPrev={(onClick) => <SliderPrevArrow onClick={onClick} />}
       renderArrowNext={(onClick) => <SliderNextArrow onClick={onClick} />}
+      autoPlay={true}
     >
       {tags.map((tag, index) => (
         <TagBadge key={index}>{tag}</TagBadge>
