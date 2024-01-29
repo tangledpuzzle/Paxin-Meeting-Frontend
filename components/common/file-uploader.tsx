@@ -27,8 +27,9 @@ export const PreviewImage: FC<PreviewImageProps> = ({
     <Image src={src} alt='' style={{ objectFit: 'cover' }} fill />
     <Button
       variant='destructive'
-      className='absolute right-1 top-1 z-30 size-6 rounded-full'
+      className='absolute right-1 top-1 z-10 size-6 rounded-full'
       onClick={onRemove}
+      type='button'
       size='icon'
     >
       <LiaTimesSolid className='size-4' />
@@ -42,7 +43,7 @@ export const PreviewImage: FC<PreviewImageProps> = ({
       </span>
     </div>
     {uploading && (
-      <div className='absolute inset-0 z-30 flex items-center justify-center bg-white/80 dark:bg-black/80'>
+      <div className='absolute inset-0 z-10 flex items-center justify-center bg-white/80 dark:bg-black/80'>
         <Loader2 className='animate-spin text-secondary-foreground' />
       </div>
     )}
@@ -164,8 +165,14 @@ export const ImageUpload = forwardRef<
     }
   };
 
+  const handleReset = () => {
+    setImages([]);
+    onChange && onChange([]);
+  };
+
   useImperativeHandle(ref, () => ({
     handleUpload,
+    handleReset,
   }));
 
   return (
@@ -181,7 +188,12 @@ export const ImageUpload = forwardRef<
           </div>
           <div className='flex flex-col items-center'>
             <Label htmlFor='file-upload' className='text-lg'>
-              <Button variant='link' className='p-0' onClick={onClick}>
+              <Button
+                variant='link'
+                type='button'
+                className='p-0'
+                onClick={onClick}
+              >
                 Click to Upload
               </Button>{' '}
               or drag and drop

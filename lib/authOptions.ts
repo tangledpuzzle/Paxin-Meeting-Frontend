@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -44,8 +44,6 @@ export const authOptions: NextAuthOptions = {
 
           const data = response.data;
 
-          console.log(data);
-
           if (data.status === 'success') {
             return {
               id: data.refresh_token.UserID,
@@ -57,18 +55,11 @@ export const authOptions: NextAuthOptions = {
               tokenUuid: data.refresh_token.TokenUuid,
             };
           } else {
-            // The login failed
-            console.log('Login failed');
+            throw new Error(data.message);
           }
-        } catch (error) {
-          console.error('Error:', error);
+        } catch (error: AxiosError | any) {
+          throw new Error(error.response.data.message);
         }
-
-        return {
-          id: '',
-          name: '',
-          email: '',
-        };
       },
     }),
   ],

@@ -44,14 +44,18 @@ export async function GET(req: NextRequest) {
           name: guild.Translations[0].Name,
         };
       }),
-      gallery: data.data.photos[0].files.map((file: any) => file.path),
+      gallery: {
+        ID: data.data.photos[0].ID,
+        ProfileID: data.data.photos[0].ProfileID,
+        files: data.data.photos[0].files,
+      },
       additionalinfo:
         data.data.MultilangAdditional[
           locale.charAt(0).toUpperCase() + locale.slice(1)
         ],
     };
 
-    console.log(data.data.photos[0].files);
+    console.log(data.data.photos);
 
     return NextResponse.json(profile);
   } catch (error) {
