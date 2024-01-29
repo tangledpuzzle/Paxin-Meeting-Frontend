@@ -41,6 +41,7 @@ import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
 import * as z from 'zod';
 import { Loader2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -104,6 +105,7 @@ type ImageUploadComponentType = {
 };
 
 export function NewPostModal({ children, mutate }: NewPostModalProps) {
+  const { t } = useTranslation();
   const { user, locale } = useContext(PaxContext);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -188,7 +190,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
       });
 
       if (res.status === 200) {
-        toast.success('Blog created successfully', {
+        toast.success(t('success_create_blog'), {
           position: 'top-right',
         });
 
@@ -202,12 +204,12 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
 
         imageUploadRef.current?.handleReset();
       } else {
-        toast.error('Failed to create blog', {
+        toast.error(t('failed_create_blog'), {
           position: 'top-right',
         });
       }
     } catch (error) {
-      toast.error('Failed to create blog', {
+      toast.error(t('failed_create_blog'), {
         position: 'top-right',
       });
     }
@@ -224,10 +226,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
             <TfiWrite className='size-5' />
           </div>
           <div>
-            <DialogTitle>Writing a Post</DialogTitle>
-            <DialogDescription>
-              You can write a new post here.
-            </DialogDescription>
+            <DialogTitle>{t('write_post')}</DialogTitle>
+            <DialogDescription>{t('write_post_description')}</DialogDescription>
           </div>
         </DialogHeader>
         <Form {...form}>
@@ -242,7 +242,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                 render={({ field }) => (
                   <FormItem>
                     <div className='flex items-center gap-4'>
-                      <FormLabel htmlFor='title'>Title</FormLabel>
+                      <FormLabel htmlFor='title'>{t('title')}</FormLabel>
                       <FormControl>
                         <Input className='' {...field} />
                       </FormControl>
@@ -257,7 +257,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                 render={({ field }) => (
                   <FormItem>
                     <div className='flex items-center gap-4'>
-                      <FormLabel htmlFor='subtitle'>Subtitle</FormLabel>
+                      <FormLabel htmlFor='subtitle'>{t('subtitle')}</FormLabel>
                       <FormControl>
                         <Input className='' {...field} />
                       </FormControl>
@@ -271,14 +271,14 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                 name='content'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='content'>Content</FormLabel>
+                    <FormLabel htmlFor='content'>{t('content')}</FormLabel>
                     <FormControl>
                       <ReactQuill
                         theme='snow'
                         {...field}
                         modules={modules}
                         formats={formats}
-                        placeholder='Type your content here...'
+                        placeholder={t('type_content_here')}
                         className='placeholder:text-white'
                       />
                     </FormControl>
@@ -292,7 +292,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                   name='city'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='city'>City</FormLabel>
+                      <FormLabel htmlFor='city'>{t('city')}</FormLabel>
                       <FormControl>
                         <ReactSelect
                           isMulti
@@ -320,7 +320,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                   name='category'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='category'>Category</FormLabel>
+                      <FormLabel htmlFor='category'>{t('category')}</FormLabel>
                       <FormControl>
                         <ReactSelect
                           isMulti
@@ -350,7 +350,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                   name='hashtags'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='hashtags'>Hashtags</FormLabel>
+                      <FormLabel htmlFor='hashtags'>{t('hashtags')}</FormLabel>
                       <FormControl>
                         <ReactSelect
                           isMulti
@@ -379,7 +379,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                     name='price'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel htmlFor='price'>Price</FormLabel>
+                        <FormLabel htmlFor='price'>{t('price')}</FormLabel>
                         <FormControl>
                           <Input className='' type='number' {...field} />
                         </FormControl>
@@ -392,7 +392,9 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                     name='days'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel htmlFor='days'>Number of Days</FormLabel>
+                        <FormLabel htmlFor='days'>
+                          {t('number_of_days')}
+                        </FormLabel>
                         <FormControl>
                           <Select
                             value={field.value}
@@ -403,9 +405,15 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
-                                <SelectItem value='30'>30</SelectItem>
-                                <SelectItem value='60'>60</SelectItem>
-                                <SelectItem value='90'>90</SelectItem>
+                                <SelectItem value='30'>
+                                  30 {t('days')}
+                                </SelectItem>
+                                <SelectItem value='60'>
+                                  60 {t('days')}
+                                </SelectItem>
+                                <SelectItem value='90'>
+                                  90 {t('days')}
+                                </SelectItem>
                               </SelectGroup>
                             </SelectContent>
                           </Select>
@@ -438,7 +446,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
             <DialogFooter>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
-                Post
+                {t('post')}
               </Button>
             </DialogFooter>
           </form>

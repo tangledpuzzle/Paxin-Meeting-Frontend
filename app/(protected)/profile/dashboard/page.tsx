@@ -4,13 +4,16 @@ import { MdDashboard } from 'react-icons/md';
 
 import { Separator } from '@/components/ui/separator';
 import CTASection from '@/components/profiles/cta';
+import { useTranslation } from 'react-i18next';
 
 export default function DashboardPage() {
+  const { t } = useTranslation();
+
   return (
     <div className='p-4'>
       <CTASection
-        title='Dashboard'
-        description='You can view all the stats and Analytics related to you'
+        title={t('dashboard')}
+        description={t('dashboard_description')}
         icon={MdDashboard}
       />
       <Separator className='my-4' />

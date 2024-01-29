@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { MeetCreateModal } from '@/components/profiles/conference/meet-create-modal';
 import { MeetJoinModal } from '@/components/profiles/conference/meet-join-modal';
 import CTASection from '@/components/profiles/cta';
+import { t } from 'i18next';
 
 // Custom formatting for date and time
 const timeZone: Intl.DateTimeFormatOptions = {
@@ -73,12 +74,11 @@ export default function ConferencePage() {
           <div className='mb-48 mt-auto space-y-4'>
             <div>
               <div className='w-full text-center text-3xl font-semibold'>
-                Premium <span className='text-primary'>PaxMeet</span> video
-                meetings
+                {t('premium')} <span className='text-primary'>PaxMeet</span>{' '}
+                {t('video_meeting')}
               </div>
               <div className='w-full text-center text-muted-foreground'>
-                We re-engineered the service we built for secure business
-                meetings, PaxMeet, to make it free and available for all.
+                {t('paxmeet_description')}
               </div>
             </div>
             <div className='flex w-full justify-center gap-4'>
@@ -87,16 +87,16 @@ export default function ConferencePage() {
                   variant='outline'
                   className='border-primary text-primary'
                 >
-                  Create
+                  {t('create')}
                 </Button>
               </MeetCreateModal>
               <MeetJoinModal>
-                <Button>Join</Button>
+                <Button>{t('join')}</Button>
               </MeetJoinModal>
             </div>
           </div>
           <div className='mt-auto w-full justify-center text-center text-sm text-muted-foreground'>
-            No one can join a meeting unless invited or admitted by the host.
+            {t('no_one_can_join_meeting_unless_invited_or_admitted_by_host')}
           </div>
         </div>
       </div>

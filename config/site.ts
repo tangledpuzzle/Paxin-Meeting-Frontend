@@ -1,84 +1,84 @@
-export type SiteConfig = typeof siteConfig
+export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Paxintrade",
+  name: 'Paxintrade',
   description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+    'Beautifully designed components built with Radix UI and Tailwind CSS.',
   mainNav: [
     {
-      title: "Home",
-      href: "/home",
+      title: 'home',
+      href: '/home',
     },
     {
-      title: "About",
-      href: "/about",
+      title: 'about',
+      href: '/about',
     },
     {
-      title: "Contact",
-      href: "/contact",
+      title: 'contact',
+      href: '/contact',
     },
   ],
   links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/shadcn/ui",
-    docs: "https://ui.shadcn.com",
+    twitter: 'https://twitter.com/shadcn',
+    github: 'https://github.com/shadcn/ui',
+    docs: 'https://ui.shadcn.com',
   },
   footer: {
     about: [
       {
-        title: "About",
-        href: "/about",
+        title: 'About',
+        href: '/about',
       },
       {
-        title: "Contact",
-        href: "/contact",
+        title: 'Contact',
+        href: '/contact',
       },
       {
-        title: "Privacy Policy",
-        href: "/privacy",
+        title: 'Privacy Policy',
+        href: '/privacy',
       },
       {
-        title: "Terms & Conditions",
-        href: "/terms",
+        title: 'Terms & Conditions',
+        href: '/terms',
       },
       {
-        title: "FAQ",
-        href: "/faq",
+        title: 'FAQ',
+        href: '/faq',
       },
     ],
     product: [
       {
-        title: "Documentation",
-        href: "/docs",
+        title: 'Documentation',
+        href: '/docs',
       },
       {
-        title: "Blog",
-        href: "/blog",
+        title: 'Blog',
+        href: '/blog',
       },
       {
-        title: "Changelog",
-        href: "/changelog",
+        title: 'Changelog',
+        href: '/changelog',
       },
     ],
     resources: [
       {
-        title: "Community",
-        href: "/community",
+        title: 'Community',
+        href: '/community',
       },
       {
-        title: "Discord",
-        href: "https://discord.gg/shadcn",
+        title: 'Discord',
+        href: 'https://discord.gg/shadcn',
       },
       {
-        title: "Twitter",
-        href: "https://twitter.com/shadcn",
+        title: 'Twitter',
+        href: 'https://twitter.com/shadcn',
       },
     ],
     social: {
-      facebook: "https://facebook.com/shadcn",
-      instagram: "https://instagram.com/shadcn",
-      twitter: "https://twitter.com/shadcn",
-      github: "https://github.com/shadcn/ui",
+      facebook: 'https://facebook.com/shadcn',
+      instagram: 'https://instagram.com/shadcn',
+      twitter: 'https://twitter.com/shadcn',
+      github: 'https://github.com/shadcn/ui',
     },
   },
-}
+};

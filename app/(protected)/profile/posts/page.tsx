@@ -19,11 +19,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
+import { useTranslation } from 'react-i18next';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function MyPostsPage() {
   const { locale } = usePaxContext();
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const router = useRouter();
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
@@ -79,16 +81,16 @@ export default function MyPostsPage() {
       });
 
       if (!res.ok) {
-        throw new Error('Failed to delete post');
+        throw new Error(t('failed_delete_post'));
       }
 
-      toast.success('Post deleted successfully', {
+      toast.success(t('success_delete_post'), {
         position: 'top-right',
       });
 
       blogsMutate();
     } catch (error) {
-      toast.error('Failed to delete post', {
+      toast.error(t('failed_delete_post'), {
         position: 'top-right',
       });
     }
@@ -110,16 +112,16 @@ export default function MyPostsPage() {
       });
 
       if (!res.ok) {
-        throw new Error('Failed to archive post');
+        throw new Error(t('failed_archive_post'));
       }
 
-      toast.success('Post archived successfully', {
+      toast.success(t('success_archive_post'), {
         position: 'top-right',
       });
 
       blogsMutate();
     } catch (error) {
-      toast.error('Failed to archive post', {
+      toast.error(t('failed_archive_post'), {
         position: 'top-right',
       });
     }
@@ -131,15 +133,15 @@ export default function MyPostsPage() {
   return (
     <div className='p-4'>
       <CTASection
-        title='My Posts'
-        description='You can view all posts created by you'
+        title={t('my_posts')}
+        description={t('my_posts_description')}
         icon={RiArticleLine}
       />
       <Separator className='my-4' />
       <div className='mb-2 flex w-full flex-col-reverse items-center justify-between gap-2 sm:flex-row'>
         <div className='relative w-full sm:w-80'>
           <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
-          <Input type='text' placeholder='Search' className='pl-12 pr-4' />
+          <Input type='text' placeholder={t('search')} className='pl-12 pr-4' />
         </div>
         <div className='flex w-full items-center justify-between gap-2 sm:w-auto'>
           <div className='grid h-9 grid-cols-2 gap-2 rounded-lg bg-background p-1 px-2'>
@@ -155,7 +157,7 @@ export default function MyPostsPage() {
                 router.push(`?${newSearchParams.toString()}`);
               }}
             >
-              All
+              {t('all')}
             </Button>
             <Button
               className='h-7 bg-background text-inherit shadow-none hover:bg-primary/10 data-[state=active]:bg-primary/10 data-[state=active]:text-primary'
@@ -169,13 +171,13 @@ export default function MyPostsPage() {
                 router.push(`?${newSearchParams.toString()}`);
               }}
             >
-              Archived
+              {t('archive')}
             </Button>
           </div>
           <NewPostModal mutate={blogsMutate}>
             <Button>
               <MdOutlinePostAdd className='mr-2 size-5' />
-              New Post
+              {t('new_post')}
             </Button>
           </NewPostModal>
         </div>
@@ -184,8 +186,8 @@ export default function MyPostsPage() {
         <ConfirmModal
           isOpen={showDeleteModal}
           onClose={() => setShowDeleteModal(false)}
-          title='Are you sure?'
-          description='Are you sure you want to delete this post?'
+          title={t('are_you_sure')}
+          description={t('are_you_sure_delete_post')}
           onConfirm={() => {
             handleDelete();
           }}
@@ -194,8 +196,8 @@ export default function MyPostsPage() {
         <ConfirmModal
           isOpen={showArchiveModal}
           onClose={() => setShowArchiveModal(false)}
-          title='Are you sure?'
-          description='Are you sure you want to archive this post?'
+          title={t('are_you_sure')}
+          description={t('are_you_sure_archive_post')}
           onConfirm={() => {
             handleArchive();
           }}

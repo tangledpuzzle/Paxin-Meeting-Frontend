@@ -33,6 +33,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
 import * as z from 'zod';
+import { useTranslation } from 'react-i18next';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -118,7 +119,7 @@ type ImageUploadComponentType = {
 };
 
 export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
-  console.log(blog.gallery, 'hey hey');
+  const { t } = useTranslation();
   const { user, locale } = useContext(PaxContext);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -259,8 +260,8 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
             <TfiWrite className='size-5' />
           </div>
           <div>
-            <DialogTitle>Edit Post</DialogTitle>
-            <DialogDescription>You can edit your post here.</DialogDescription>
+            <DialogTitle>{t('edit_post')}</DialogTitle>
+            <DialogDescription>{t('edit_post_description')}</DialogDescription>
           </div>
         </DialogHeader>
         <Form {...form}>
@@ -275,7 +276,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                 render={({ field }) => (
                   <FormItem>
                     <div className='flex items-center gap-4'>
-                      <FormLabel htmlFor='title'>Title</FormLabel>
+                      <FormLabel htmlFor='title'>{t('title')}</FormLabel>
                       <FormControl>
                         <Input className='' {...field} />
                       </FormControl>
@@ -290,7 +291,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                 render={({ field }) => (
                   <FormItem>
                     <div className='flex items-center gap-4'>
-                      <FormLabel htmlFor='subtitle'>Subtitle</FormLabel>
+                      <FormLabel htmlFor='subtitle'>{t('subtitle')}</FormLabel>
                       <FormControl>
                         <Input className='' {...field} />
                       </FormControl>
@@ -304,14 +305,14 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                 name='content'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='content'>Content</FormLabel>
+                    <FormLabel htmlFor='content'>{t('content')}</FormLabel>
                     <FormControl>
                       <ReactQuill
                         theme='snow'
                         {...field}
                         modules={modules}
                         formats={formats}
-                        placeholder='Type your content here...'
+                        placeholder={t('type_content_here')}
                         className='placeholder:text-white'
                       />
                     </FormControl>
@@ -325,7 +326,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                   name='city'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='city'>City</FormLabel>
+                      <FormLabel htmlFor='city'>{t('city')}</FormLabel>
                       <FormControl>
                         <ReactSelect
                           isMulti
@@ -353,7 +354,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                   name='category'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='category'>Category</FormLabel>
+                      <FormLabel htmlFor='category'>{t('category')}</FormLabel>
                       <FormControl>
                         <ReactSelect
                           isMulti
@@ -383,7 +384,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                   name='hashtags'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='hashtags'>Hashtags</FormLabel>
+                      <FormLabel htmlFor='hashtags'>{t('hashtags')}</FormLabel>
                       <FormControl>
                         <ReactSelect
                           isMulti
@@ -412,7 +413,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                     name='price'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel htmlFor='price'>Price</FormLabel>
+                        <FormLabel htmlFor='price'>{t('price')}</FormLabel>
                         <FormControl>
                           <Input className='' type='number' {...field} />
                         </FormControl>
@@ -469,7 +470,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
             <DialogFooter>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
-                Save
+                {t('save')}
               </Button>
             </DialogFooter>
           </form>
