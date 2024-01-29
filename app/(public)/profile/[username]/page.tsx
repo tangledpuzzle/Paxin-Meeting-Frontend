@@ -188,7 +188,7 @@ export default function ProfilePage({
                   <CardFooter>
                     <Button className='w-full'>
                       View Post
-                      <MdOutlineKeyboardArrowRight className='ml-2 h-5 w-5' />
+                      <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Button>
                   </CardFooter>
                 </Card>
@@ -296,7 +296,7 @@ export default function ProfilePage({
               </div>
               <div>
                 <div className='flex items-center gap-2'>
-                  <RiUserFollowFill className='h-4 w-4' />
+                  <RiUserFollowFill className='size-4' />
                   Followers
                 </div>
                 <div className='text-gray-500'>

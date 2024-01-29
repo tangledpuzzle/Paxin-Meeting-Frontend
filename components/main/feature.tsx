@@ -1,104 +1,107 @@
-"use client"
+'use client';
 
-import Image from "next/image"
-import { SectionBadge } from "../common/section-badge"
-import { SectionDescription } from "../common/section-description"
-import { SectionTitle } from "../common/section-title"
+import Image from 'next/image';
+import { SectionBadge } from '../common/section-badge';
+import { SectionDescription } from '../common/section-description';
+import { SectionTitle } from '../common/section-title';
 
 const features = [
   {
-    title: "Hybrid Vision",
+    title: 'Hybrid Vision',
     description:
-      "Seamlessly combining online publishing with Telegram mailing for a novel digital experience.",
-    bottomImage: "/images/home/feature-bottom-4.png",
-    icon: "/images/home/eye.svg",
+      'Seamlessly combining online publishing with Telegram mailing for a novel digital experience.',
+    bottomImage: '/images/home/feature-bottom-4.png',
+    icon: '/images/home/eye.svg',
   },
   {
-    title: "Swift Identification",
+    title: 'Swift Identification',
     description:
-      "Quickly identify and connect with other users on the Telegram network through our Pax platform.",
-    bottomImage: "/images/home/feature-bottom-4.png",
-    icon: "/images/home/swift.svg",
-
+      'Quickly identify and connect with other users on the Telegram network through our Pax platform.',
+    bottomImage: '/images/home/feature-bottom-4.png',
+    icon: '/images/home/swift.svg',
   },
   {
-    title: "Advanced Communication",
+    title: 'Advanced Communication',
     description:
-      "Enhance your Telegram communications with features for efficient indexing and information sharing.",
-    bottomImage: "/images/home/feature-bottom-4.png",
-    icon: "/images/home/smscall.svg",
-
+      'Enhance your Telegram communications with features for efficient indexing and information sharing.',
+    bottomImage: '/images/home/feature-bottom-4.png',
+    icon: '/images/home/smscall.svg',
   },
   {
-    title: "3D World Experience",
+    title: '3D World Experience',
     description:
-      "Immerse yourself in a new dimension of creativity, where you can interact with familiar activities in a unique format.",
-    bottomImage: "/images/home/feature-bottom-4.png",
-    icon: "/images/home/city360.svg",
-
+      'Immerse yourself in a new dimension of creativity, where you can interact with familiar activities in a unique format.',
+    bottomImage: '/images/home/feature-bottom-4.png',
+    icon: '/images/home/city360.svg',
   },
-]
+];
 
 function FeatureCard({
   title,
   description,
   bottomImage,
-  icon
+  icon,
 }: {
-  title: string
-  description: string
-  bottomImage: string
-  icon: string
+  title: string;
+  description: string;
+  bottomImage: string;
+  icon: string;
 }) {
   return (
-    <div className="relative group isolate rounded-xl bg-with-gradient before:hidden before:lg:block before:absolute before:-inset-[2px] before:h-[calc(100%+4px)] before:w-[calc(100%+4px)] before:z-[-1] before:rounded-[13px] flex-1 flex flex-col shadow hover:ring-primary-500 dark:hover:ring-primary-400 transition-shadow duration-200" >
+    <div className='bg-with-gradient hover:ring-primary-500 dark:hover:ring-primary-400 group relative isolate flex flex-1 flex-col rounded-xl shadow transition-shadow duration-200 before:absolute before:-inset-[2px] before:z-[-1] before:hidden before:h-[calc(100%+4px)] before:w-[calc(100%+4px)] before:rounded-[13px] before:lg:block'>
       <div
-        className="absolute rounded-xl left-0 top-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        className='absolute left-0 top-0 z-[-1] size-full rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100'
         style={{
           background:
-            "linear-gradient(90deg, #00B887 0%, #01B6D3 100%), linear-gradient(7deg, #7B2BCC 21.22%, #2296F3 88.72%)",
+            'linear-gradient(90deg, #00B887 0%, #01B6D3 100%), linear-gradient(7deg, #7B2BCC 21.22%, #2296F3 88.72%)',
         }}
       ></div>
-    <div className="flex-1 flex flex-col overflow-hidden rounded-xl  transition-[background-opacity]">
-      <div className="m-6 mb-0 flex items-center justify-start bg-transparent">
-        <Image
-          src={icon}
-          width={32}
-          height={32}
-          alt="feature"
-          className="h-8 w-8 text-gray-500 group-hover:text-white dark:text-white"
-        />
-      </div>
-      <div className="gap-x-8 gap-y-4 rounded-xl flex flex-col flex-1 px-4 py-5 sm:p-6 ">
-          <div className="">
-              <div className="mb-2 pointer-events-none" ></div>
-              <p className="text-base font-bold truncate group-hover:text-white" >{title}</p>
-              <p className="text-[15px] mt-1 group-hover:text-white" >{description}</p>
-              <Image
-                src={bottomImage}
-                width={291}
-                height={152}
-                alt="feature"
-                className="top-0 bottom-0 absolute right-2 overflow-hidden  mt-auto hidden w-full opacity-0 transition-opacity duration-500 group-hover:opacity-20 md:block"
-              />
+      <div className='flex flex-1 flex-col overflow-hidden rounded-xl  transition-[background-opacity]'>
+        <div className='m-6 mb-0 flex items-center justify-start bg-transparent'>
+          <Image
+            src={icon}
+            width={32}
+            height={32}
+            alt='feature'
+            className='size-8 text-gray-500 group-hover:text-white dark:text-white'
+          />
+        </div>
+        <div className='flex flex-1 flex-col gap-x-8 gap-y-4 rounded-xl px-4 py-5 sm:p-6 '>
+          <div className=''>
+            <div className='pointer-events-none mb-2'></div>
+            <p className='truncate text-base font-bold group-hover:text-white'>
+              {title}
+            </p>
+            <p className='mt-1 text-[15px] group-hover:text-white'>
+              {description}
+            </p>
+            <Image
+              src={bottomImage}
+              width={291}
+              height={152}
+              alt='feature'
+              className='absolute bottom-0 right-2 top-0 mt-auto  hidden w-full overflow-hidden opacity-0 transition-opacity duration-500 group-hover:opacity-20 md:block'
+            />
           </div>
+        </div>
       </div>
     </div>
-    </div>
-  )
+  );
 }
 
 export function FeatureSection() {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className='flex flex-col items-center justify-center'>
       <SectionBadge>Discover PaxinTrade</SectionBadge>
-      <SectionTitle className="px-7 leading-[30px]">Unleashing the Future of Online Interaction</SectionTitle>
-      <SectionDescription className="md:max-w-md xl:max-w-full pb-[36px] px-7">
+      <SectionTitle className='px-7 leading-[30px]'>
+        Unleashing the Future of Online Interaction
+      </SectionTitle>
+      <SectionDescription className='px-7 pb-[36px] md:max-w-md xl:max-w-full'>
         Explore the unique blend of online publishing and Telegram mailing. From
         streamlined searches to launching your 3D world,
       </SectionDescription>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 xl:grid-cols-4 px-3 pb-[40px] md:pb-[80px]">
-      {features.map((feature, index) => (
+      <div className='grid grid-cols-1 gap-8 px-3 pb-[40px] sm:grid-cols-2 md:pb-[80px] xl:grid-cols-4'>
+        {features.map((feature, index) => (
           <FeatureCard
             key={index}
             title={feature.title}
@@ -107,8 +110,7 @@ export function FeatureSection() {
             icon={feature.icon}
           />
         ))}
+      </div>
     </div>
-    </div>
-
-  )
+  );
 }
