@@ -31,6 +31,7 @@ import 'react-quill/dist/quill.snow.css';
 import useSWR from 'swr';
 import * as z from 'zod';
 import { Input } from '@/components/ui/input';
+import { useTranslation } from 'react-i18next';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -57,7 +58,7 @@ interface Profile {
 }
 
 interface Option {
-  value: number;
+  value: string | number;
   label: string;
 }
 
@@ -67,7 +68,7 @@ const basicFormSchema = z.object({
   city: z
     .array(
       z.object({
-        value: z.number(),
+        value: z.union([z.string(), z.number()]),
         label: z.string(),
       })
     )
@@ -75,7 +76,7 @@ const basicFormSchema = z.object({
   category: z
     .array(
       z.object({
-        value: z.number(),
+        value: z.union([z.string(), z.number()]),
         label: z.string(),
       })
     )
@@ -83,7 +84,7 @@ const basicFormSchema = z.object({
   hashtags: z
     .array(
       z.object({
-        value: z.number(),
+        value: z.union([z.string(), z.number()]),
         label: z.string(),
       })
     )
@@ -105,6 +106,7 @@ type GalleryType = {
 };
 
 export default function SettingPage() {
+  const { t } = useTranslation();
   const { locale, userMutate } = useContext(PaxContext);
 
   const imageUploadRef = useRef<ImageUploadComponentType>(null);
@@ -120,10 +122,13 @@ export default function SettingPage() {
     useState<boolean>(false);
   const [isRechargeLoading, setIsRechargeLoading] = useState<boolean>(false);
 
+  const [hashtagURL, setHashtagURL] = useState<string>('/api/hashtags/get');
+
   const [isNeededUpdate, setIsNeededUpdate] = useState<boolean>(false);
 
   const [cityOptions, setCityOptions] = useState<Option[]>();
   const [categoryOptions, setCategoryOptions] = useState<Option[]>();
+  const [hashtagOptions, setHashtagOptions] = useState<Option[]>([]);
 
   const basicForm = useForm<BasicFormData>({
     resolver: zodResolver(basicFormSchema),
@@ -141,6 +146,11 @@ export default function SettingPage() {
   );
   const { data: fetchedCategories, error: categoryFetchError } = useSWR(
     '/api/categories/get',
+    fetcher
+  );
+
+  const { data: fetchedHashtags, error: hashtagFetchError } = useSWR(
+    hashtagURL,
     fetcher
   );
 
@@ -181,7 +191,6 @@ export default function SettingPage() {
   }, [fetchedData, error]);
 
   useEffect(() => {
-    4;
     if (!cityFetchError && fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
@@ -206,6 +215,20 @@ export default function SettingPage() {
     cityFetchError,
     categoryFetchError,
   ]);
+
+  useEffect(() => {
+    console.log(fetchedHashtags, 'tags');
+    if (!hashtagFetchError && fetchedHashtags) {
+      setHashtagOptions(
+        fetchedHashtags?.map((hashtag: any) => ({
+          value: hashtag.ID,
+          label: hashtag.Hashtag,
+        })) || []
+      );
+    } else {
+      setHashtagOptions([]);
+    }
+  }, [hashtagFetchError, fetchedHashtags]);
 
   const modules = {
     toolbar: [
@@ -276,6 +299,39 @@ export default function SettingPage() {
   const submitBasicInfo = async (data: BasicFormData) => {
     setIsBasicLoading(true);
 
+    for (const hashtag of data.hashtags) {
+      if (hashtag.label === hashtag.value) {
+        try {
+          const res = await axios.post('/api/hashtags/create', {
+            hashTag: hashtag.label,
+          });
+
+          if (res.status === 200) {
+            const hashtagData = res.data.data;
+
+            hashtag.value = hashtagData.ID;
+          } else {
+            toast.error('Failed to add hashtag', {
+              position: 'top-right',
+            });
+
+            setIsBasicLoading(false);
+
+            return;
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error('Failed to add hashtag', {
+            position: 'top-right',
+          });
+
+          setIsBasicLoading(false);
+
+          return;
+        }
+      }
+    }
+
     try {
       const res = await axios.patch('/api/profiles/patch', {
         city: data.city.map((city: any) => ({
@@ -294,17 +350,17 @@ export default function SettingPage() {
       });
 
       if (res.status === 200) {
-        toast.success('Profile updated successfully', {
+        toast.success(t('success_profile_update'), {
           position: 'top-right',
         });
         profileMutate();
       } else {
-        toast.error('Failed to update profile', {
+        toast.error(t('failed_profile_update'), {
           position: 'top-right',
         });
       }
     } catch (error) {
-      toast.error('Failed to update profile', {
+      toast.error(t('failed_profile_update'), {
         position: 'top-right',
       });
     }
@@ -405,11 +461,16 @@ export default function SettingPage() {
     setIsNeededUpdate(true);
   };
 
+  const handleHashtagSearch = (query: string) => {
+    console.log(basicForm.getValues('hashtags'));
+    if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
+  };
+
   return (
     <div className='p-4'>
       <CTASection
-        title='Setting'
-        description='You can set all the profile related settings'
+        title='setting'
+        description='setting_description'
         icon={RiUserSettingsFill}
       />
       <Separator className='my-4' />
@@ -425,39 +486,41 @@ export default function SettingPage() {
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
             >
               <FaUser className='mr-2 size-4' />
-              Profile Setting
+              {t('profile_settings')}
             </TabsTrigger>
             <TabsTrigger
               value='password'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
             >
               <MdAccountBalanceWallet className='mr-2 size-4' />
-              Accounting
+              {t('accounting')}
             </TabsTrigger>
           </TabsList>
           <div className='w-full'>
             <TabsContent className='my-2 w-full' value='account'>
               <div className='px-3'>
-                <div className='text-2xl font-semibold'>Profile Setting</div>
+                <div className='text-2xl font-semibold'>
+                  {t('profile_settings')}
+                </div>
                 <Tabs defaultValue='basic' className='w-full'>
                   <TabsList className='flex w-auto justify-start bg-background'>
                     <TabsTrigger
                       value='basic'
                       className='w-auto rounded-none border-b-2 border-transparent bg-background data-[state=active]:border-primary data-[state=active]:shadow-none'
                     >
-                      Basic
+                      {t('basic')}
                     </TabsTrigger>
                     <TabsTrigger
                       value='photo-gallery'
                       className='w-auto rounded-none border-b-2 border-transparent bg-background data-[state=active]:border-primary data-[state=active]:shadow-none'
                     >
-                      Photo Gallery
+                      {t('photo_gallery')}
                     </TabsTrigger>
                     <TabsTrigger
                       value='additional'
                       className='w-auto rounded-none border-b-2 border-transparent bg-background data-[state=active]:border-primary data-[state=active]:shadow-none'
                     >
-                      Additional
+                      {t('additional')}
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent
@@ -475,7 +538,7 @@ export default function SettingPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel htmlFor='city'>
-                                City(s) of Operation
+                                {t('city_of_operation')}
                               </FormLabel>
                               <FormControl>
                                 <Select
@@ -503,7 +566,7 @@ export default function SettingPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel htmlFor='category'>
-                                Types of Activities
+                                {t('type_of_activities')}
                               </FormLabel>
                               <FormControl>
                                 <Select
@@ -531,23 +594,15 @@ export default function SettingPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel htmlFor='hashtags'>
-                                Hashtag for Promoting Your Profile
+                                {t('hashtag_for_promoting')}
                               </FormLabel>
                               <FormControl>
                                 <CreatableSelect
                                   isMulti
-                                  options={
-                                    profile?.hashtags
-                                      ? profile.hashtags.map(
-                                          (hashtag: any) => ({
-                                            value: hashtag.id,
-                                            label: hashtag.name,
-                                          })
-                                        )
-                                      : []
-                                  }
+                                  options={hashtagOptions}
                                   value={field.value}
                                   onChange={field.onChange}
+                                  onInputChange={handleHashtagSearch}
                                   classNames={{
                                     input: () => 'dark:text-white text-black',
                                     control: () =>
@@ -568,11 +623,11 @@ export default function SettingPage() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel htmlFor='bio'>
-                                Brief Profile Description
+                                {t('brief_profile_description')}
                               </FormLabel>
                               <FormControl>
                                 <Textarea
-                                  placeholder='Enter profile description...'
+                                  placeholder={t('enter_profile_description')}
                                   {...field}
                                   rows={5}
                                 ></Textarea>
@@ -582,12 +637,14 @@ export default function SettingPage() {
                           )}
                         />
                         <div className='flex w-full justify-end gap-2'>
-                          <Button variant='destructive'>Delete Account</Button>
+                          <Button variant='destructive'>
+                            {t('delete_account')}
+                          </Button>
                           <Button type='submit' disabled={isBasicLoading}>
                             {isBasicLoading && (
                               <Loader2 className='mr-2 size-4 animate-spin' />
                             )}
-                            Save
+                            {t('save')}
                           </Button>
                         </div>
                       </form>
@@ -620,7 +677,7 @@ export default function SettingPage() {
                         {isGalleryLoading && (
                           <Loader2 className='mr-2 size-4 animate-spin' />
                         )}
-                        Save
+                        {t('save')}
                       </Button>
                     </div>
                   </TabsContent>
@@ -647,7 +704,7 @@ export default function SettingPage() {
                         {isAdditionalLoading && (
                           <Loader2 className='mr-2 size-4 animate-spin' />
                         )}
-                        Save
+                        {t('save')}
                       </Button>
                     </div>
                   </TabsContent>
@@ -656,10 +713,10 @@ export default function SettingPage() {
             </TabsContent>
             <TabsContent className='w-full' value='password'>
               <div className='px-3'>
-                <div className='text-2xl font-semibold'>Accounting</div>
+                <div className='text-2xl font-semibold'>{t('accounting')}</div>
                 <div className='mt-4 flex w-full max-w-lg items-center gap-4'>
                   <Input
-                    placeholder='Enter Recharge Code'
+                    placeholder={t('enter_recharge_code')}
                     value={rechargecode}
                     onChange={(e) => setRechargecode(e.target.value)}
                   ></Input>
@@ -667,7 +724,7 @@ export default function SettingPage() {
                     {isRechargeLoading && (
                       <Loader2 className='mr-2 size-4 animate-spin' />
                     )}
-                    Recharge via code
+                    {t('recharge_via_code')}
                   </Button>
                 </div>
               </div>

@@ -16,8 +16,8 @@ function SliderNextArrow(props: any) {
   const { onClick } = props;
   return (
     <div className='absolute right-0 top-[10px] z-10 flex h-full items-center justify-center'>
-      <Button className='h-6 w-6 rounded-full' onClick={onClick} size='icon'>
-        <ChevronRightIcon className='h-5 w-5 text-white' />
+      <Button className='size-6 rounded-full' onClick={onClick} size='icon'>
+        <ChevronRightIcon className='size-5 text-white' />
       </Button>
     </div>
   );
@@ -27,8 +27,8 @@ function SliderPrevArrow(props: any) {
   const { onClick } = props;
   return (
     <div className='absolute left-0 top-[10px] z-10 flex h-full items-center justify-center'>
-      <Button className='h-6 w-6 rounded-full' onClick={onClick} size='icon'>
-        <ChevronLeftIcon className='h-5 w-5 text-white' />
+      <Button className='size-6 rounded-full' onClick={onClick} size='icon'>
+        <ChevronLeftIcon className='size-5 text-white' />
       </Button>
     </div>
   );

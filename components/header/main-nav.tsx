@@ -1,44 +1,46 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import * as React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-import { NavItem } from "@/types/nav"
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
+import { NavItem } from '@/types/nav';
+import { siteConfig } from '@/config/site';
+import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface MainNavProps {
-  items?: NavItem[]
+  items?: NavItem[];
 }
 
 export function MainNav({ items }: MainNavProps) {
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const { t } = useTranslation();
 
   return (
-    <div className="flex gap-6 md:gap-10">
-      <Link href="/" className="flex items-center gap-2">
+    <div className='flex gap-6 md:gap-10'>
+      <Link href='/' className='flex items-center gap-2'>
         <Image
-          src="/logo-black.svg"
-          alt="logo"
+          src='/logo-black.svg'
+          alt='logo'
           width={40.44}
           height={40.44}
-          className="h-[40.44px] w-[40.44px] dark:hidden"
+          className='size-[40.44px] dark:hidden'
         />
         <Image
-          src="/logo-white.svg"
-          alt="logo"
+          src='/logo-white.svg'
+          alt='logo'
           width={40.44}
           height={40.44}
-          className="hidden h-[40.44px] w-[40.44px] dark:block"
+          className='hidden size-[40.44px] dark:block'
         />
-        <span className="inline-block font-satoshi text-xl font-semibold sm:hidden lg:inline-block">
+        <span className='inline-block font-satoshi text-xl font-semibold sm:hidden lg:inline-block'>
           {siteConfig.name}
         </span>
       </Link>
       {items?.length ? (
-        <nav className="my-auto hidden h-10 gap-6 md:flex">
+        <nav className='my-auto hidden h-10 gap-6 md:flex'>
           {items?.map(
             (item, index) =>
               item.href && (
@@ -46,17 +48,17 @@ export function MainNav({ items }: MainNavProps) {
                   key={index}
                   href={item.href}
                   className={cn(
-                    "flex items-center rounded-lg px-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary active:bg-secondary/80",
-                    item.disabled && "cursor-not-allowed opacity-80",
-                    pathname === item.href && "bg-secondary text-primary"
+                    'flex items-center rounded-lg px-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary active:bg-secondary/80',
+                    item.disabled && 'cursor-not-allowed opacity-80',
+                    pathname === item.href && 'bg-secondary text-primary'
                   )}
                 >
-                  {item.title}
+                  {t(item.title)}
                 </Link>
               )
           )}
         </nav>
       ) : null}
     </div>
-  )
+  );
 }

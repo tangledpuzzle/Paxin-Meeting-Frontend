@@ -35,6 +35,7 @@ import { LuArchiveRestore } from 'react-icons/lu';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RiEditBoxFill } from 'react-icons/ri';
 import { EditPostModal } from './edit-post-modal';
+import { useTranslation } from 'react-i18next';
 
 export interface PostCardProps {
   id: number;
@@ -87,7 +88,7 @@ export function PostCard({
   onDelete,
   mutate,
 }: PostCardProps) {
-  console.log(gallery, 'hey');
+  const { t } = useTranslation();
   const [isExtendsLoading, setIsExtendsLoading] = useState<boolean>(false);
   const [extendsTime, setExtendsTime] = useState<string>('3');
 
@@ -107,16 +108,16 @@ export function PostCard({
       );
 
       if (!res.ok) {
-        throw new Error('Failed to archive post');
+        throw new Error(t('failed_extend_time'));
       }
 
-      toast.success('Post extended successfully', {
+      toast.success(t('success_extend_time'), {
         position: 'top-right',
       });
 
       mutate();
     } catch (error) {
-      toast.error('Failed to extend post', {
+      toast.error(t('failed_extend_time'), {
         position: 'top-right',
       });
     }
@@ -206,7 +207,9 @@ export function PostCard({
             dangerouslySetInnerHTML={{ __html: content }}
           ></div>
           <div className='my-2 flex items-center gap-3 text-sm'>
-            <div>Expires at: {expireDate}</div>
+            <div>
+              {t('expire_at')}: {expireDate}
+            </div>
             <Popover>
               <PopoverTrigger>
                 <Button
@@ -214,20 +217,20 @@ export function PostCard({
                   className='h-auto border-red-500 px-2 py-1 text-red-500'
                   size='sm'
                 >
-                  Extend time
+                  {t('extend_time')}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className='flex items-center gap-2'>
                 <Select value={extendsTime} onValueChange={setExtendsTime}>
                   <SelectTrigger>
-                    <SelectValue placeholder='Select number of days' />
+                    <SelectValue placeholder={t('number_of_days')} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value='3'>3 days</SelectItem>
-                      <SelectItem value='5'>5 days</SelectItem>
-                      <SelectItem value='10'>10 days</SelectItem>
-                      <SelectItem value='15'>15 days</SelectItem>
+                      <SelectItem value='3'>3 {t('days')}</SelectItem>
+                      <SelectItem value='5'>5 {t('days')}</SelectItem>
+                      <SelectItem value='10'>10 {t('days')}</SelectItem>
+                      <SelectItem value='15'>15 {t('days')}</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -235,7 +238,7 @@ export function PostCard({
                   {isExtendsLoading && (
                     <Loader2 className='mr-2 size-4 animate-spin' />
                   )}
-                  Extend
+                  {t('extend')}
                 </Button>
               </PopoverContent>
             </Popover>

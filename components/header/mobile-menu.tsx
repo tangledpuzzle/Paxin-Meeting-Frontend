@@ -17,9 +17,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { LanguageSelector } from './language';
+import { useTranslation } from 'react-i18next';
 
 export function MobileMenu() {
   const { setTheme, theme } = useTheme();
+  const { t } = useTranslation();
+
   return (
     <div className='block md:hidden'>
       <DropdownMenu>
@@ -32,19 +35,19 @@ export function MobileMenu() {
           <DropdownMenuItem className='cursor-pointer text-base' asChild>
             <Link href='/home'>
               <MdHome className='mr-2 size-5 text-primary' />
-              Home
+              {t('home')}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className='cursor-pointer text-base' asChild>
             <Link href='/about'>
               <IoMdInformationCircle className='mr-2 size-5 text-primary' />
-              About
+              {t('about')}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className='cursor-pointer text-base' asChild>
             <Link href='/contact'>
               <MdLocalPhone className='mr-2 size-5 text-primary' />
-              Contact
+              {t('contact')}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator className='sm:hidden' />
@@ -57,7 +60,7 @@ export function MobileMenu() {
           >
             <Sun className='mr-2 hidden h-[1.5rem] w-[1.3rem] text-primary dark:block' />
             <Moon className='mr-2 size-5 text-primary dark:hidden' />
-            {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+            {theme === 'light' ? t('dark_mode') : t('light_mode')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

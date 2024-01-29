@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(
-      `${process.env.API_URL}/api/cities/all/${query ? `?${query}` : ''}`
+      `${process.env.API_URL}/api/profilehashtags/findTag${query ? `?${query}` : ''}`
     );
 
     if (!res.ok) {
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
     const data = await res.json();
 
-    return NextResponse.json(data);
+    return NextResponse.json(data.data);
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to fetch data' },
