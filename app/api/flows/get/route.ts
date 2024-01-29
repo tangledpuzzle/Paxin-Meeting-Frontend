@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(
-      `${process.env.API_URL}/api/blog/listAll/${query ? `?${query}` : ''}`
+      `${process.env.API_URL}/api/blog/listAll${query ? `?${query}` : ''}`
     );
 
     if (!res.ok) {

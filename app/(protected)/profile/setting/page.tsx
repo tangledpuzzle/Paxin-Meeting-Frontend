@@ -30,6 +30,7 @@ import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
 import useSWR from 'swr';
 import * as z from 'zod';
+import { Input } from '@/components/ui/input';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -104,18 +105,20 @@ type GalleryType = {
 };
 
 export default function SettingPage() {
-  const { locale } = useContext(PaxContext);
+  const { locale, userMutate } = useContext(PaxContext);
 
   const imageUploadRef = useRef<ImageUploadComponentType>(null);
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [additionalInfo, setAdditionalInfo] = useState<string>('');
   const [gallery, setGallery] = useState<GalleryType>({} as GalleryType);
+  const [rechargecode, setRechargecode] = useState<string>('');
 
   const [isBasicLoading, setIsBasicLoading] = useState<boolean>(false);
   const [isGalleryLoading, setIsGalleryLoading] = useState<boolean>(false);
   const [isAdditionalLoading, setIsAdditionalLoading] =
     useState<boolean>(false);
+  const [isRechargeLoading, setIsRechargeLoading] = useState<boolean>(false);
 
   const [isNeededUpdate, setIsNeededUpdate] = useState<boolean>(false);
 
@@ -352,6 +355,34 @@ export default function SettingPage() {
     }
 
     setIsGalleryLoading(false);
+  };
+
+  const submitRechargecode = async () => {
+    setIsRechargeLoading(true);
+
+    try {
+      const res = await axios.post('/api/profiles/balance/add', {
+        code: rechargecode,
+      });
+
+      if (res.status === 200) {
+        toast.success('Recharge code updated successfully', {
+          position: 'top-right',
+        });
+      } else {
+        toast.error('Failed to update recharge code', {
+          position: 'top-right',
+        });
+      }
+
+      userMutate();
+    } catch (error) {
+      toast.error('Failed to update recharge code', {
+        position: 'top-right',
+      });
+    }
+
+    setIsRechargeLoading(false);
   };
 
   const removeGallery = (path: string) => {
@@ -626,6 +657,19 @@ export default function SettingPage() {
             <TabsContent className='w-full' value='password'>
               <div className='px-3'>
                 <div className='text-2xl font-semibold'>Accounting</div>
+                <div className='mt-4 flex w-full max-w-lg items-center gap-4'>
+                  <Input
+                    placeholder='Enter Recharge Code'
+                    value={rechargecode}
+                    onChange={(e) => setRechargecode(e.target.value)}
+                  ></Input>
+                  <Button onClick={submitRechargecode}>
+                    {isRechargeLoading && (
+                      <Loader2 className='mr-2 size-4 animate-spin' />
+                    )}
+                    Recharge via code
+                  </Button>
+                </div>
               </div>
             </TabsContent>
           </div>

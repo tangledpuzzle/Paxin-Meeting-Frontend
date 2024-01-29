@@ -38,6 +38,8 @@ export type GlobalContent = {
   // eslint-disable-next-line unused-imports/no-unused-vars
   setUser: (user: User | null) => void;
   // eslint-disable-next-line unused-imports/no-unused-vars
+  userMutate: () => void;
+  // eslint-disable-next-line unused-imports/no-unused-vars
   setPostMode: (value: string) => void;
   // eslint-disable-next-line unused-imports/no-unused-vars
   setCurrentPlan: (value: string) => void;
@@ -49,6 +51,7 @@ export type GlobalContent = {
 export const PaxContext = createContext<GlobalContent>({
   user: null,
   setUser: () => {},
+  userMutate: () => {},
   postMode: 'all',
   currentPlan: 'BASIC',
   socket: null,
