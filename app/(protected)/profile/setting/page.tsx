@@ -4,7 +4,7 @@ import { FaUser } from 'react-icons/fa6';
 import { MdAccountBalanceWallet } from 'react-icons/md';
 import { RiUserSettingsFill } from 'react-icons/ri';
 import Select from 'react-select';
-
+import CreatableSelect from 'react-select/creatable';
 import { ImageUpload, PreviewImage } from '@/components/common/file-uploader';
 import CTASection from '@/components/profiles/cta';
 import { Button } from '@/components/ui/button';
@@ -534,7 +534,7 @@ export default function SettingPage() {
                                 Hashtag for Promoting Your Profile
                               </FormLabel>
                               <FormControl>
-                                <Select
+                                <CreatableSelect
                                   isMulti
                                   options={
                                     profile?.hashtags
