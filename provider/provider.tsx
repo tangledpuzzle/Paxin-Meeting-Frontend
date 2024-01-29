@@ -14,6 +14,12 @@ interface IProps {
   session: SessionProviderProps['session'];
 }
 
+const PLAN = {
+  Начальный: 'BASIC',
+  Бизнесс: 'BUSINESS',
+  Расширенный: 'ADVANCED',
+};
+
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const Providers: React.FC<IProps> = ({ children, session }) => {
@@ -27,10 +33,11 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
       : 'en'
   );
 
-  const { data: fetchedData, error } = useSWR(
-    `/api/users/me?lang=${locale}`,
-    fetcher
-  );
+  const {
+    data: fetchedData,
+    error,
+    mutate: userMutate,
+  } = useSWR(`/api/users/me?lang=${locale}`, fetcher);
 
   useEffect(() => {
     if (!error && fetchedData) {
@@ -58,7 +65,7 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
       });
     }
 
-    console.log(fetchedData);
+    setCurrentPlan(PLAN[fetchedData?.data?.user?.Plan as keyof typeof PLAN]);
   }, [fetchedData, error]);
 
   useEffect(() => {
@@ -108,6 +115,7 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
         value={{
           user,
           setUser,
+          userMutate,
           postMode,
           setPostMode,
           currentPlan,

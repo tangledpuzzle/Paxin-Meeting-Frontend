@@ -13,10 +13,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  console.log(
-    `${process.env.API_URL}/api/blog/list${query ? `?${query}` : ''}`
-  );
-
   try {
     const res = await fetch(
       `${process.env.API_URL}/api/blog/list${query ? `?${query}` : ''}`,
@@ -46,16 +42,18 @@ export async function GET(req: NextRequest) {
       content:
         blog.MultilangContent[locale.charAt(0).toUpperCase() + locale.slice(1)],
       original_content: blog.Content,
-      hashtags: blog.Hashtags.map((tag: any) => tag.Hashtag),
+      hashtags: blog.Hashtags?.map((tag: any) => tag.Hashtag) || [],
       expireDate: formatDate(new Date(blog.ExpiredAt)),
-      cities: blog.City.map((city: any) => ({
-        id: city.ID,
-        name: city.Translations[0].Name,
-      })),
-      categories: blog.Catygory.map((category: any) => ({
-        id: category.ID,
-        name: category.Translations[0].Name,
-      })),
+      cities:
+        blog.City?.map((city: any) => ({
+          id: city.ID,
+          name: city.Translations[0].Name,
+        })) || [],
+      categories:
+        blog.Catygory?.map((category: any) => ({
+          id: category.ID,
+          name: category.Translations[0].Name,
+        })) || [],
       gallery:
         blog.photos && blog.photos.length > 0
           ? {

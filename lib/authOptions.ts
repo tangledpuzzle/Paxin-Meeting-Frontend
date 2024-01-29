@@ -57,8 +57,12 @@ export const authOptions: NextAuthOptions = {
           } else {
             throw new Error(data.message);
           }
-        } catch (error: AxiosError | any) {
-          throw new Error(error.response.data.message);
+        } catch (error) {
+          const axiosError = error as AxiosError | any;
+
+          throw new Error(
+            axiosError.response?.data?.message ?? 'Something went wrong'
+          );
         }
       },
     }),
