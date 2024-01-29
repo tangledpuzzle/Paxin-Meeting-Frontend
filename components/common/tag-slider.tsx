@@ -57,7 +57,6 @@ function TagSlider({ tags }: TagSliderProps) {
       showStatus={false}
       renderArrowPrev={(onClick) => <SliderPrevArrow onClick={onClick} />}
       renderArrowNext={(onClick) => <SliderNextArrow onClick={onClick} />}
-      autoPlay={true}
     >
       {tags.map((tag, index) => (
         <TagBadge key={index}>{tag}</TagBadge>
@@ -66,7 +65,7 @@ function TagSlider({ tags }: TagSliderProps) {
   ) : (
     <div
       ref={tagContainerRef}
-      className={sliderNeeded ? '' : 'flex w-full max-w-full'}
+      className={sliderNeeded ? '' : 'flex w-full max-w-full gap-2'}
     >
       {tags.map((tag, index) => (
         <TagBadge key={index}>{tag}</TagBadge>

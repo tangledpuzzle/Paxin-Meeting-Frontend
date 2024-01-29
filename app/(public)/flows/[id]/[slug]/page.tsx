@@ -239,7 +239,7 @@ export default function FlowPage({
                 className='mx-auto h-auto max-w-[150px] cursor-pointer'
               />
             </QRCodeModal>
-            <Card className='mx-auto w-full max-w-[320px]'>
+            <Card className='mx-auto w-full'>
               <CardHeader className='flex flex-col items-center justify-center'>
                 <Avatar>
                   <AvatarImage
