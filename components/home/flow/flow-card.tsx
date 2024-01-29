@@ -60,7 +60,7 @@ function FlowCard(profile: FlowCardProps) {
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
         <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
           <div className='relative'>
-            <div className='h-[200px] w-full'>
+            <div className='h-auto w-full'>
               <Image
                 src={hero}
                 width={300}
