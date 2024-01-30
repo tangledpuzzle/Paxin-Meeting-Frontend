@@ -35,6 +35,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { PaxContext } from '@/context/context';
+import FlowDetailSkeleton from '@/components/home/flow/flow-detail-skeleton';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -283,9 +284,9 @@ export default function FlowPage({
         </div>
       </section>
     ) : (
-      <></>
+      <FlowDetailSkeleton />
     )
   ) : (
-    <></>
+    <div></div>
   );
 }
