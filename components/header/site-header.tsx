@@ -11,8 +11,10 @@ import { useContext } from 'react';
 import { PaxContext } from '@/context/context';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 export function SiteHeader() {
+  const { t } = useTranslation();
   const { user } = useContext(PaxContext);
 
   return (
@@ -28,7 +30,7 @@ export function SiteHeader() {
             {user && <AvatarWithMenu />}
             {!user && (
               <Button asChild>
-                <Link href='/auth/signin'>Sign In</Link>
+                <Link href='/auth/signin'>{t('sign_in')}</Link>
               </Button>
             )}
           </nav>

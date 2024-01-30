@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { QRCodeModal } from '../../common/qrcode-modal';
 import { CategoryCard } from './category-card';
 import { CityCard } from './city-card';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 export interface ProfileCardProps {
   username: string;

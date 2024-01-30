@@ -8,7 +8,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FilterModal } from './filter-modal';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 export function CTASection() {
   const { t } = useTranslation();

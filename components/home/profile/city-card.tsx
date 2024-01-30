@@ -2,7 +2,7 @@ import * as React from 'react';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 
 import { Badge } from '@/components/ui/badge';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 export interface CityCardProps extends React.HTMLAttributes<HTMLDivElement> {
   cities: string[];

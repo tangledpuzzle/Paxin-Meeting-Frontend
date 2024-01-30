@@ -19,7 +19,7 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 interface Option {
   value: string;

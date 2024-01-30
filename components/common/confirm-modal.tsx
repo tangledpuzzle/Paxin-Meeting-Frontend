@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'next-i18next';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -22,6 +23,8 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   title,
   description,
 }) => {
+  const { t } = useTranslation();
+
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -41,11 +44,11 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
     >
       <div className='flex w-full items-center justify-end space-x-2 pt-6'>
         <Button disabled={loading} variant='outline' onClick={onClose}>
-          Cancel
+          {t('cancel')}
         </Button>
         <Button disabled={loading} variant='destructive' onClick={onConfirm}>
           {loading && <Loader2 className='sze-4 mr-2 animate-spin' />}
-          Continue
+          {t('continue')}
         </Button>
       </div>
     </Modal>

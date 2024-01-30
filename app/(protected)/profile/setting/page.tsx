@@ -283,17 +283,17 @@ export default function SettingPage() {
       );
 
       if (res.status === 200) {
-        toast.success('Profile updated successfully', {
+        toast.success(t('profile_updated_successfully'), {
           position: 'top-right',
         });
         profileMutate();
       } else {
-        toast.error('Failed to update profile', {
+        toast.error(t('profile_update_failed'), {
           position: 'top-right',
         });
       }
     } catch (error) {
-      toast.error('Failed to update profile', {
+      toast.error(t('profile_update_failed'), {
         position: 'top-right',
       });
     }
@@ -316,7 +316,7 @@ export default function SettingPage() {
 
             hashtag.value = hashtagData.ID;
           } else {
-            toast.error('Failed to add hashtag', {
+            toast.error(t('add_hashtag_failed'), {
               position: 'top-right',
             });
 
@@ -326,7 +326,7 @@ export default function SettingPage() {
           }
         } catch (error) {
           console.log(error);
-          toast.error('Failed to add hashtag', {
+          toast.error(t('add_hashtag_failed'), {
             position: 'top-right',
           });
 
@@ -398,19 +398,19 @@ export default function SettingPage() {
       );
 
       if (res.status === 200) {
-        toast.success('Gallery updated successfully', {
+        toast.success(t('gallery_updated_successfully'), {
           position: 'top-right',
         });
 
         imageUploadRef.current?.handleReset();
         profileMutate();
       } else {
-        toast.error('Failed to update gallery', {
+        toast.error(t('gallery_update_failed'), {
           position: 'top-right',
         });
       }
     } catch (error) {
-      toast.error('Failed to update gallery', {
+      toast.error(t('gallery_update_failed'), {
         position: 'top-right',
       });
     }
@@ -427,18 +427,18 @@ export default function SettingPage() {
       });
 
       if (res.status === 200) {
-        toast.success('Recharge code updated successfully', {
+        toast.success(t('recharge_successfully'), {
           position: 'top-right',
         });
       } else {
-        toast.error('Failed to update recharge code', {
+        toast.error(t('recharge_failed'), {
           position: 'top-right',
         });
       }
 
       userMutate();
     } catch (error) {
-      toast.error('Failed to update recharge code', {
+      toast.error(t('recharge_failed'), {
         position: 'top-right',
       });
     }
@@ -448,7 +448,7 @@ export default function SettingPage() {
 
   const removeGallery = (path: string) => {
     if (gallery.files.length === 1) {
-      toast.error('You must have at least one image', {
+      toast.error(t('you_must_have_at_least_one_image'), {
         position: 'top-right',
       });
 
