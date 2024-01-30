@@ -2,7 +2,7 @@ import * as React from 'react';
 import { BiSolidCategory } from 'react-icons/bi';
 
 import { Badge } from '@/components/ui/badge';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 export interface CategoryCardProps
   extends React.HTMLAttributes<HTMLDivElement> {

@@ -35,7 +35,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { PaxContext } from '@/context/context';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;

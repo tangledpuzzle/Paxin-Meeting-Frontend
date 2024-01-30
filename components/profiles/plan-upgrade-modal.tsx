@@ -17,6 +17,7 @@ import {
 import { Icons } from '../icons';
 import { Input } from '../ui/input';
 import { Separator } from '../ui/separator';
+import { useTranslation } from 'next-i18next';
 
 interface PlanCardProps {
   title: string;
@@ -67,27 +68,29 @@ const PlanCard = ({
 
 const plans = [
   {
-    title: 'Basic',
-    description: '300MB / 150 ₽ per month of use',
+    title: 'basic',
+    description: '300MB / 150 ₽',
     icon: Icons.basic,
     plan: 'BASIC',
   },
   {
-    title: 'Business',
-    description: '600MB / 500 ₽ per month of use',
+    title: 'business',
+    description: '600MB / 500 ₽',
     icon: Icons.business,
     plan: 'BUSINESS',
   },
   {
-    title: 'Advanced',
-    description: '900MB / 1000 ₽ per month of use',
+    title: 'advanced',
+    description: '900MB / 1000 ₽',
     icon: Icons.advanced,
     plan: 'ADVANCED',
   },
 ];
 
 export function PlanUpgradeModal({ children }: PlanUpgradeModalProps) {
+  const { t } = useTranslation();
   const { currentPlan, setCurrentPlan } = useContext(PaxContext);
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -97,9 +100,9 @@ export function PlanUpgradeModal({ children }: PlanUpgradeModalProps) {
             <PiNotepadFill className='size-6' />
           </div>
           <div className='flex items-center gap-4'>
-            <DialogTitle>Plans</DialogTitle>
+            <DialogTitle>{t('plans')}</DialogTitle>
             <div className='rounded-lg bg-primary/10 px-2 py-1 text-xs text-primary'>
-              Available to you: 100₽
+              {t('available_to_you')}: 100₽
             </div>
           </div>
         </DialogHeader>
@@ -108,8 +111,8 @@ export function PlanUpgradeModal({ children }: PlanUpgradeModalProps) {
           {plans.map((plan) => (
             <PlanCard
               key={plan.title}
-              title={plan.title}
-              description={plan.description}
+              title={t(plan.title)}
+              description={`${plan.description} ${t('per_month_of_use')}`}
               icon={plan.icon}
               plan={plan.plan}
               currentPlan={currentPlan}
@@ -118,13 +121,13 @@ export function PlanUpgradeModal({ children }: PlanUpgradeModalProps) {
           ))}
         </div>
         <div className='flex items-center gap-4'>
-          <Input placeholder='Enter Recharge Code'></Input>
-          <Button>Recharge via code</Button>
+          <Input placeholder={t('enter_recharge_code')}></Input>
+          <Button>{t('recharge_via_code')}</Button>
         </div>
         <DialogFooter>
-          <Button type='submit'>Pay</Button>
+          <Button type='submit'>{t('pay')}</Button>
           <DialogClose asChild>
-            <Button variant='outline'>Close</Button>
+            <Button variant='outline'>{t('close')}</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

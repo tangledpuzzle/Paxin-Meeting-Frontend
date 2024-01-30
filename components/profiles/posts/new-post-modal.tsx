@@ -51,54 +51,6 @@ interface NewPostModalProps {
   mutate?: () => void;
 }
 
-const formSchema = z
-  .object({
-    title: z.string().min(1, 'Title is required'),
-    subtitle: z.string().min(1, 'Subtitle is required'),
-    content: z
-      .string()
-      .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
-        message: 'Content is required',
-      }),
-    city: z
-      .array(
-        z.object({
-          value: z.number(),
-          label: z.string(),
-        })
-      )
-      .min(1, 'Please select at least one city'),
-    category: z
-      .array(
-        z.object({
-          value: z.number(),
-          label: z.string(),
-        })
-      )
-      .min(1, 'Please select at least one category'),
-    hashtags: z
-      .array(
-        z.object({
-          value: z.string(),
-          label: z.string(),
-        })
-      )
-      .min(1, 'Please select at least one hashtag'),
-    price: z.string().optional(),
-    days: z.string(),
-    images: z
-      .array(
-        z.object({
-          name: z.string(),
-          path: z.string(),
-        })
-      )
-      .min(1, 'Please add at least one image'),
-  })
-  .required();
-
-type FormData = z.infer<typeof formSchema>;
-
 type ImageUploadComponentType = {
   handleUpload: () => Promise<{ files: any[] } | null>;
   handleReset: () => void;
@@ -107,6 +59,54 @@ type ImageUploadComponentType = {
 export function NewPostModal({ children, mutate }: NewPostModalProps) {
   const { t } = useTranslation();
   const { user, locale } = useContext(PaxContext);
+
+  const formSchema = z
+    .object({
+      title: z.string().min(1, t('title_is_required')),
+      subtitle: z.string().min(1, t('subtitle_is_required')),
+      content: z
+        .string()
+        .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
+          message: t('content_is_required'),
+        }),
+      city: z
+        .array(
+          z.object({
+            value: z.number(),
+            label: z.string(),
+          })
+        )
+        .min(1, t('select_at_least_one_city')),
+      category: z
+        .array(
+          z.object({
+            value: z.number(),
+            label: z.string(),
+          })
+        )
+        .min(1, t('select_at_least_one_category')),
+      hashtags: z
+        .array(
+          z.object({
+            value: z.string(),
+            label: z.string(),
+          })
+        )
+        .min(1, t('select_at_least_one_hashtag')),
+      price: z.string().optional(),
+      days: z.string(),
+      images: z
+        .array(
+          z.object({
+            name: z.string(),
+            path: z.string(),
+          })
+        )
+        .min(1, t('upload_at_least_one_image')),
+    })
+    .required();
+
+  type FormData = z.infer<typeof formSchema>;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
@@ -168,7 +168,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
       const files = await imageUploadRef.current?.handleUpload();
 
       if (!files) {
-        toast.error('Failed to upload images for blog', {
+        toast.error(t('failed_upload_images_for_blogs'), {
           position: 'top-right',
         });
 

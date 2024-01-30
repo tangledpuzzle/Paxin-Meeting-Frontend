@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import axios from 'axios';
-import { Trans, useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'next-i18next';
 
 export function SignUpCard() {
   const { t } = useTranslation();

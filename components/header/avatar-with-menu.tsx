@@ -13,7 +13,7 @@ import { PaxContext } from '@/context/context';
 import { getInitials } from '@/lib/utils';
 import { signOut } from 'next-auth/react';
 import { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { RiArticleLine, RiUserSettingsFill } from 'react-icons/ri';
 import { FaSignOutAlt } from 'react-icons/fa';
