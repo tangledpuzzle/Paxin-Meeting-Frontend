@@ -73,7 +73,7 @@ function ProfileCard(profile: ProfileCardProps) {
             <QRCodeModal qrcode={qrcode} />
           </div>
         </div>
-        <div className='relative w-full max-w-[100%] h-auto text-center'>
+        <div className='relative w-full max-w-[100%] h-[40px] text-center'>
           <TagSlider tags={tags} />
         </div>
         <div className='relative'>
@@ -93,19 +93,19 @@ function ProfileCard(profile: ProfileCardProps) {
           <div>
             <div className='flex items-center justify-start gap-2 text-muted-foreground pb-2'>
               <IoCalendarNumberOutline className='size-5 text-black dark:text-white' />
-              <span className='text-sm'>This month:{' '}
+              <span className='text-sm'>Online:{' '}
               {`${review.monthtime.hour}h : ${review.monthtime.minutes}m`}</span>
             </div>
             <div className='flex items-center justify-start gap-2 text-muted-foreground'>
               <CiClock1 className='size-5 text-black dark:text-white' />
-              <span className='text-sm'>Total time:{' '}
+              <span className='text-sm'>Total:{' '}
               {`${review.totaltime.hour}h : ${review.totaltime.minutes}m`}</span>
             </div>
           </div>
           <div>
             <div className='flex items-center justify-start gap-2 text-muted-foreground pb-2'>
               <GiShadowFollower className='size-5 text-black dark:text-white' />
-              <span className='text-sm'>Followers:{' '}
+              <span className='text-sm'>Sub.:{' '}
               {`${totalfollowers}`}</span>
             </div>
             <div className='flex items-center justify-start gap-2 text-muted-foreground'>
