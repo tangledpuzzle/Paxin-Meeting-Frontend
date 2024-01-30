@@ -69,6 +69,7 @@ export default function FlowSection() {
 
   useEffect(() => {
     if (!error && fetchedData) {
+      console.log(fetchedData);
       setFlowData(fetchedData);
     }
   }, [fetchedData, error]);
@@ -79,7 +80,7 @@ export default function FlowSection() {
         {!error ? (
           fetchedData && flowData ? (
             flowData.map((flow: FlowData) => (
-              <FlowCard key={flow.title} {...flow} />
+              <FlowCard key={flow.id} {...flow} />
             ))
           ) : (
             <>

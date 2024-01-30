@@ -13,8 +13,12 @@ import { PaxContext } from '@/context/context';
 import { getInitials } from '@/lib/utils';
 import { signOut } from 'next-auth/react';
 import { useContext } from 'react';
-
+import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
+import { RiArticleLine, RiUserSettingsFill } from 'react-icons/ri';
+import { FaSignOutAlt } from 'react-icons/fa';
 export function AvatarWithMenu() {
+  const { t } = useTranslation();
   const { user } = useContext(PaxContext);
 
   return (
@@ -28,14 +32,43 @@ export function AvatarWithMenu() {
           <AvatarFallback>{getInitials(user?.username || '')}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuContent className='mr-4 w-60'>
+        <DropdownMenuLabel className='flex w-full items-center gap-2 overflow-hidden'>
+          <Avatar>
+            <AvatarImage
+              src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${user?.avatar}`}
+              alt={user?.username}
+            />
+            <AvatarFallback>{getInitials(user?.username || '')}</AvatarFallback>
+          </Avatar>
+          <div className='w-40'>
+            <div className='overflow-hidden text-ellipsis text-sm font-bold'>
+              {user?.username}
+            </div>
+            <div className='overflow-hidden text-ellipsis text-xs font-normal'>
+              {user?.email}
+            </div>
+          </div>
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/' })}>
-          Sign Out
+        <DropdownMenuItem className='cursor-pointer text-base' asChild>
+          <Link href='/profile/posts'>
+            <RiArticleLine className='mr-2 size-5 text-primary' />
+            {t('my_posts')}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className='cursor-pointer text-base' asChild>
+          <Link href='/profile/settings'>
+            <RiUserSettingsFill className='mr-2 size-5 text-primary' />
+            {t('settings')}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className='cursor-pointer text-base'
+          onClick={() => signOut({ callbackUrl: '/' })}
+        >
+          <FaSignOutAlt className='mr-2 size-5 text-primary' />
+          {t('sign_out')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

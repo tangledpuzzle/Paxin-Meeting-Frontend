@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BiSolidCategory } from 'react-icons/bi';
 
 import { Badge } from '@/components/ui/badge';
+import { useTranslation } from 'react-i18next';
 
 export interface CategoryCardProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -9,12 +10,14 @@ export interface CategoryCardProps
 }
 
 function CategoryCard({ categories }: CategoryCardProps) {
+  const { t } = useTranslation();
+
   return (
     <div className='border-badge group relative w-full rounded-xl border border-[#ffffff2b] bg-[#9c9c9c1a] p-2 transition-all duration-300 hover:border-primary'>
       <div className='absolute inset-0 size-full bg-gradient-to-b from-transparent to-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100'></div>
       <div className='flex items-center gap-1'>
         <BiSolidCategory className='size-5 text-gray-500 dark:text-white' />
-        <span className='pl-1'>Category</span>
+        <span className='pl-1'>{t('category')}</span>
       </div>
       <div className='mb-0 h-[1.5px] w-2/3 rounded-lg bg-gradient-to-r from-muted-foreground to-transparent'></div>
       <div className='flex w-full flex-wrap gap-1'>

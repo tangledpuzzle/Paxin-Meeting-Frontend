@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { CiClock1 } from "react-icons/ci";
-import { IoCalendarNumberOutline } from "react-icons/io5";
-import { TiMessage } from "react-icons/ti";
-import { GiShadowFollower } from "react-icons/gi";
+import { CiClock1 } from 'react-icons/ci';
+import { IoCalendarNumberOutline } from 'react-icons/io5';
+import { TiMessage } from 'react-icons/ti';
+import { GiShadowFollower } from 'react-icons/gi';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { QRCodeModal } from '../../common/qrcode-modal';
 import { CategoryCard } from './category-card';
 import { CityCard } from './city-card';
+import { useTranslation } from 'react-i18next';
 
 export interface ProfileCardProps {
   username: string;
@@ -23,7 +24,7 @@ export interface ProfileCardProps {
   categories: string[];
   qrcode: string;
   countrycode: string;
-  totalfollowers: number,
+  totalfollowers: number;
   review: {
     totaltime: {
       hour: number;
@@ -40,6 +41,7 @@ export interface ProfileCardProps {
 }
 
 function ProfileCard(profile: ProfileCardProps) {
+  const { t } = useTranslation();
   const {
     username,
     bio,
@@ -62,9 +64,9 @@ function ProfileCard(profile: ProfileCardProps) {
               src={avatar}
               width={300}
               height={300}
-              style={{width: '100%', height: '100%'}}
+              style={{ width: '100%', height: '100%' }}
               objectPosition='center'
-              className='rounded-md rounded-b-m '
+              className='rounded-b-m rounded-md'
               alt='profile'
             />
           </div>
@@ -73,7 +75,7 @@ function ProfileCard(profile: ProfileCardProps) {
             <QRCodeModal qrcode={qrcode} />
           </div>
         </div>
-        <div className='relative w-full max-w-[100%] h-[40px] text-center'>
+        <div className='relative h-[40px] w-full max-w-[100%] text-center'>
           <TagSlider tags={tags} />
         </div>
         <div className='relative'>
@@ -82,7 +84,7 @@ function ProfileCard(profile: ProfileCardProps) {
           ></div>
         </div>
         <div className='font-satoshi'>
-          <div className='line-clamp-1 text-xl font-semibold text-secondary-foreground pb-4'>
+          <div className='line-clamp-1 pb-4 text-xl font-semibold text-secondary-foreground'>
             @{username}
           </div>
           <div className='line-clamp-3 text-sm text-muted-foreground'>
@@ -91,27 +93,33 @@ function ProfileCard(profile: ProfileCardProps) {
         </div>
         <div className='mt-auto grid grid-cols-2'>
           <div>
-            <div className='flex items-center justify-start gap-2 text-muted-foreground pb-2'>
+            <div className='flex items-center justify-start gap-2 pb-2 text-muted-foreground'>
               <IoCalendarNumberOutline className='size-5 text-black dark:text-white' />
-              <span className='text-sm'>Online:{' '}
-              {`${review.monthtime.hour}h : ${review.monthtime.minutes}m`}</span>
+              <span className='text-sm'>
+                {t('online')}:{' '}
+                {`${review.monthtime.hour}h : ${review.monthtime.minutes}m`}
+              </span>
             </div>
             <div className='flex items-center justify-start gap-2 text-muted-foreground'>
               <CiClock1 className='size-5 text-black dark:text-white' />
-              <span className='text-sm'>Total:{' '}
-              {`${review.totaltime.hour}h : ${review.totaltime.minutes}m`}</span>
+              <span className='text-sm'>
+                {t('total')}:{' '}
+                {`${review.totaltime.hour}h : ${review.totaltime.minutes}m`}
+              </span>
             </div>
           </div>
           <div>
-            <div className='flex items-center justify-start gap-2 text-muted-foreground pb-2'>
+            <div className='flex items-center justify-start gap-2 pb-2 text-muted-foreground'>
               <GiShadowFollower className='size-5 text-black dark:text-white' />
-              <span className='text-sm'>Sub.:{' '}
-              {`${totalfollowers}`}</span>
+              <span className='text-sm'>
+                {t('subscribes')}: {`${totalfollowers}`}
+              </span>
             </div>
             <div className='flex items-center justify-start gap-2 text-muted-foreground'>
               <TiMessage className='size-5 text-black dark:text-white' />
-              <span className='text-sm'>Total Posts:{' '}
-              {`${review.totalposts}`}</span>
+              <span className='text-sm'>
+                {t('total_posts')}: {`${review.totalposts}`}
+              </span>
             </div>
           </div>
         </div>
@@ -122,7 +130,7 @@ function ProfileCard(profile: ProfileCardProps) {
         <div className='flex justify-between'>
           <Button variant='default' className='w-full font-roboto' asChild>
             <Link href='/profile/[username]' as={`/profile/${username}`}>
-              View Detail
+              {t('view_detail')}
             </Link>
           </Button>
         </div>

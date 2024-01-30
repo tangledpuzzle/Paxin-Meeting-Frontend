@@ -9,6 +9,8 @@ import { LanguageSelector } from './language';
 import { MobileMenu } from './mobile-menu';
 import { useContext } from 'react';
 import { PaxContext } from '@/context/context';
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export function SiteHeader() {
   const { user } = useContext(PaxContext);
@@ -24,6 +26,11 @@ export function SiteHeader() {
             <ThemeToggle />
             <LanguageSelector />
             {user && <AvatarWithMenu />}
+            {!user && (
+              <Button asChild>
+                <Link href='/auth/signin'>Sign In</Link>
+              </Button>
+            )}
           </nav>
         </div>
         <MobileMenu />
