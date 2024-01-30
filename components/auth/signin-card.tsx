@@ -37,7 +37,7 @@ export function SignInCard() {
 
   const formSchema = z.object({
     email: z.string().email(t('invalid_email')),
-    password: z.string().min(6, 'password_must_be_at_least_8_characters'),
+    password: z.string().min(6, t('password_must_be_at_least_8_characters')),
   });
 
   type UserFormValue = z.infer<typeof formSchema>;

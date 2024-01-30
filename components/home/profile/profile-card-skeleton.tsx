@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 import { Skeleton } from '@/components/ui/skeleton';
 
-function ProfileCardSkeleton({ className }: { className?: string }) {
+export function ProfileCardSkeleton({ className }: { className?: string }) {
   return (
     <Card className={cn('size-full max-w-[320px] sm:max-w-[400px]', className)}>
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
