@@ -241,7 +241,7 @@ export default function ProfilePage({
                     <Badge
                       key={index}
                       variant='outline'
-                      className='rounded-full border-primary bg-primary/10 text-primary'
+                      className='rounded-full border-primary bg-primary/10 text-primary max-w-fit p-2'
                     >
                       {city}
                     </Badge>
@@ -258,7 +258,7 @@ export default function ProfilePage({
                     <Badge
                       key={index}
                       variant='outline'
-                      className='rounded-full border-primary bg-primary/10 text-primary'
+                      className='rounded-full border-primary bg-primary/10 text-primary max-w-fit p-2'
                     >
                       {category}
                     </Badge>

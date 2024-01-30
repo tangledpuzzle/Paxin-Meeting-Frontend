@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
         bio: item.MultilangDescr[
           locale.charAt(0).toUpperCase() + locale.slice(1)
         ],
-        avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${item.photos[0].files[0].path}`,
+        avatar: `https://proxy.paxintrade.com/300/https://img.paxintrade.com/${item.photos[0].files[0].path}`,
         tags: item.Hashtags.map((tag: any) => tag.Hashtag),
         cities: item.City.map((city: any) => city.Translations[0].Name),
         categories: item.Guilds.map((guild: any) => guild.Translations[0].Name),

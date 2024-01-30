@@ -10,7 +10,7 @@ function TagBadge({ children }: SectionBadgeProps) {
   return (
     <Badge
       variant="outline"
-      className="rounded-full border-primary px-4 py-0 text-balance"
+      className="rounded-full border-primary px-4 py-0 text-balance max-w-max"
     >
       {children}
     </Badge>

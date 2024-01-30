@@ -15,6 +15,8 @@ import { LocationBadge } from './location-badge';
 import { PriceBadge } from './price-badge';
 import Link from 'next/link';
 
+import { Tooltip as ReactTooltip } from "react-tooltip";
+
 export interface FlowCardProps {
   id: string;
   title: string;
@@ -60,7 +62,7 @@ function FlowCard(profile: FlowCardProps) {
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
         <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
           <div className='relative'>
-            <div className='h-[200px] w-full'>
+            <div className='h-auto w-full'>
               <Image
                 src={hero}
                 width={300}
@@ -134,15 +136,32 @@ function FlowCard(profile: FlowCardProps) {
             </div>
           </Link>
           <div className='flex gap-2'>
-            <Button variant='outline' size='icon' className='rounded-full'>
+
+            <Button  variant='outline' size='icon' className='rounded-full'  data-tooltip-id="my-tooltip-1" >
               <BsPersonFillExclamation className='size-5 text-gray-500 dark:text-white' />
             </Button>
-            <Button variant='outline' size='icon' className='rounded-full'>
+            <Button variant='outline' size='icon' className='rounded-full'  data-tooltip-id="my-tooltip-2">
               <BiLink className='size-5 text-gray-500 dark:text-white' />
             </Button>
-            <Button variant='outline' size='icon' className='rounded-full'>
+            <Button variant='outline' size='icon' className='rounded-full'  data-tooltip-id="my-tooltip-3">
               <FaTelegramPlane className='size-5 text-gray-500 dark:text-white' />
             </Button>
+            
+            <ReactTooltip
+              id="my-tooltip-1"
+              place="bottom"
+              content="Send report"
+            />
+            <ReactTooltip
+              id="my-tooltip-2"
+              place="bottom"
+              content="Copy link url"
+            />
+            <ReactTooltip
+              id="my-tooltip-3"
+              place="bottom"
+              content="Open telegram chat"
+            />
           </div>
         </div>
       </CardContent>
