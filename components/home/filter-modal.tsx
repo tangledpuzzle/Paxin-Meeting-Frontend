@@ -19,6 +19,7 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 interface Option {
   value: string;
@@ -28,6 +29,7 @@ interface Option {
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function FilterModal() {
+  const { t } = useTranslation();
   const { locale, setLocale } = useContext(PaxContext);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -226,17 +228,17 @@ export function FilterModal() {
       <DialogTrigger asChild>
         <Button variant='outline'>
           <Filter className='mr-2 size-4' />
-          Filter
+          {t('filters')}
         </Button>
       </DialogTrigger>
       <DialogContent className='max-w-xl rounded-lg sm:mx-auto'>
         <DialogHeader>
-          <DialogTitle>Filters</DialogTitle>
+          <DialogTitle>{t('filters')}</DialogTitle>
         </DialogHeader>
         <div className='grid gap-4 py-4'>
           <div className=''>
             <Label htmlFor='name' className='text-right'>
-              Cities
+              {t('cities')}
             </Label>
             <Select
               isMulti
@@ -244,6 +246,7 @@ export function FilterModal() {
               options={cityOptions}
               value={city}
               onChange={(selectedCities: any) => setCity(selectedCities)}
+              placeholder={t('select')}
               classNames={{
                 input: () => 'dark:text-white text-black',
                 control: () =>
@@ -256,7 +259,7 @@ export function FilterModal() {
           </div>
           <div className=''>
             <Label htmlFor='username' className='text-right'>
-              Categories
+              {t('categories')}
             </Label>
             <Select
               isMulti
@@ -266,6 +269,7 @@ export function FilterModal() {
               onChange={(selectedCategories: any) =>
                 setCategory(selectedCategories)
               }
+              placeholder={t('select')}
               classNames={{
                 input: () => 'dark:text-white text-black',
                 control: () =>
@@ -278,13 +282,13 @@ export function FilterModal() {
           </div>
           <div className=''>
             <Label htmlFor='username' className='text-right'>
-              Hashtag
+              {t('hashtag')}
             </Label>
             <div className='relative w-full'>
               <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
               <Input
                 type='text'
-                placeholder='Search'
+                placeholder={t('search')}
                 className='pl-12 pr-4'
                 value={hashTag}
                 onChange={(e) => setHashTag(e.target.value)}
@@ -294,13 +298,13 @@ export function FilterModal() {
           {viewMode === 'flow' && (
             <div className=''>
               <Label htmlFor='username' className='text-right'>
-                Prices
+                {t('prices')}
               </Label>
               <div className='flex gap-3'>
                 <Input
                   type='number'
                   min='0'
-                  placeholder='from'
+                  placeholder={t('from')}
                   className='sm:w-20'
                   value={minPrice}
                   onChange={(e) => handleMinPrice(e.target.value)}
@@ -308,7 +312,7 @@ export function FilterModal() {
                 <Input
                   type='number'
                   min='0'
-                  placeholder='to'
+                  placeholder={t('to')}
                   className='sm:w-20'
                   defaultValue={maxPrice}
                   onChange={(e) => handleMaxPrice(e.target.value)}
@@ -316,8 +320,7 @@ export function FilterModal() {
               </div>
               {priceHasError && (
                 <div className='text-xs text-red-500'>
-                  The minimum price must be a number not less than 0 and not
-                  greater than the maximum price.
+                  {t('price_validation_message')}
                 </div>
               )}
             </div>
@@ -325,11 +328,11 @@ export function FilterModal() {
         </div>
         <DialogFooter className='ml-auto flex-row gap-3'>
           <Button type='submit' variant='outline' onClick={handleResetFilters}>
-            Reset
+            {t('reset')}
           </Button>
           <DialogClose asChild>
             <Button type='submit' onClick={handleApplyFilters}>
-              Apply
+              {t('apply')}
             </Button>
           </DialogClose>
         </DialogFooter>

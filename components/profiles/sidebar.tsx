@@ -29,7 +29,7 @@ const navItems: NavItem[] = [
     description: '',
   },
   {
-    title: 'setting',
+    title: 'settings',
     href: '/profile/setting',
     disabled: false,
     external: false,

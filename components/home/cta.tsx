@@ -8,8 +8,10 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FilterModal } from './filter-modal';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export function CTASection() {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const router = useRouter();
   const [keyword, setKeyword] = useState<string>(
@@ -23,7 +25,7 @@ export function CTASection() {
       <ToggleGroup
         type='single'
         variant='outline'
-        value={searchParams.get('mode') || 'profile'}
+        value={searchParams.get('mode') || 'flow'}
         className='w-auto gap-0 rounded-lg shadow-lg'
         onValueChange={(value: string) => {
           if (value) {
@@ -32,10 +34,10 @@ export function CTASection() {
         }}
       >
         <ToggleGroupItem value='profile' className={`rounded-r-none`}>
-          Profile
+          {t('profile')}
         </ToggleGroupItem>
         <ToggleGroupItem value='flow' className={`rounded-l-none border-l-0`}>
-          Flow
+          {t('flow')}
         </ToggleGroupItem>
       </ToggleGroup>
 
@@ -44,7 +46,7 @@ export function CTASection() {
           <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
           <Input
             type='text'
-            placeholder='Search'
+            placeholder={t('search')}
             className='pl-12 pr-4'
             value={keyword}
             onChange={(e) => {

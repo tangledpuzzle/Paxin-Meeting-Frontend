@@ -26,58 +26,58 @@ export const siteConfig = {
   footer: {
     about: [
       {
-        title: 'About',
+        title: 'about',
         href: '/about',
       },
       {
-        title: 'Contact',
+        title: 'contact',
         href: '/contact',
       },
       {
-        title: 'Privacy Policy',
+        title: 'privacy_policy',
         href: '/privacy',
       },
       {
-        title: 'Terms & Conditions',
+        title: 'terms_and_conditions',
         href: '/terms',
       },
       {
-        title: 'FAQ',
+        title: 'faq',
         href: '/faq',
       },
     ],
     product: [
       {
-        title: 'Documentation',
+        title: 'documentation',
         href: '/docs',
       },
       {
-        title: 'Blog',
+        title: 'blog',
         href: '/blog',
       },
       {
-        title: 'Changelog',
+        title: 'changelog',
         href: '/changelog',
       },
     ],
     resources: [
       {
-        title: 'Community',
+        title: 'community',
         href: '/community',
       },
       {
-        title: 'Discord',
+        title: 'discord',
         href: 'https://discord.gg/shadcn',
       },
       {
-        title: 'Twitter',
-        href: 'https://twitter.com/shadcn',
+        title: 'twitter',
+        href: 'https://twitter.com/paxintrade',
       },
     ],
     social: {
-      facebook: 'https://facebook.com/shadcn',
+      facebook: 'https://www.facebook.com/paxintrade',
       instagram: 'https://instagram.com/shadcn',
-      twitter: 'https://twitter.com/shadcn',
+      twitter: 'https://twitter.com/paxintrade',
       github: 'https://github.com/shadcn/ui',
     },
   },

@@ -35,6 +35,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { PaxContext } from '@/context/context';
+import { useTranslation } from 'react-i18next';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -72,6 +73,7 @@ export default function FlowPage({
 }: {
   params: { id: string; slug: string };
 }) {
+  const { t } = useTranslation();
   const { locale, setLocale } = useContext(PaxContext);
   const [windowWidth, setWindowWidth] = useState<number>(1000);
   const [blogDetails, setBlogDetails] = useState<BlogDetails>(
@@ -84,7 +86,7 @@ export default function FlowPage({
 
   const breadcrumbs = [
     {
-      name: 'Flow',
+      name: t('flow'),
       url: '/home',
     },
     {
@@ -143,7 +145,7 @@ export default function FlowPage({
                 <div>
                   <div className='flex items-center gap-2'>
                     <MdOutlineHouseSiding className='size-5' />
-                    City
+                    {t('city')}
                   </div>
                   <div className='flex gap-2'>
                     {blogDetails.cities &&
@@ -161,7 +163,7 @@ export default function FlowPage({
                 <div>
                   <div className='flex items-center gap-2'>
                     <IoEyeSharp className='size-4' />
-                    Views
+                    {t('views')}
                   </div>
                   <div className='flex gap-2'>
                     <Badge
@@ -175,7 +177,7 @@ export default function FlowPage({
                 <div>
                   <div className='flex items-center gap-2'>
                     <FaSackDollar className='size-4' />
-                    Price
+                    {t('price')}
                   </div>
                   <div className='flex gap-2'>
                     <Badge
@@ -189,7 +191,7 @@ export default function FlowPage({
                 <div>
                   <div className='flex items-center gap-2'>
                     <BiSolidCategory className='size-4' />
-                    Category
+                    {t('category')}
                   </div>
                   <div className='flex gap-2'>
                     {blogDetails.categories &&
@@ -218,7 +220,9 @@ export default function FlowPage({
             </div>
             <Separator className='my-4' />
             <div>
-              <Label className='text-xl font-semibold'>Description:</Label>
+              <Label className='text-xl font-semibold'>
+                {t('description')}:
+              </Label>
               <div className='text-muted-foreground'>
                 <ReactQuill
                   theme='snow'
@@ -226,7 +230,7 @@ export default function FlowPage({
                   modules={{ toolbar: false }}
                   formats={[]}
                   readOnly
-                  placeholder='Type your content here...'
+                  placeholder={t('type_your_content_here')}
                   className='border-none text-gray-500 placeholder:text-white'
                 />
               </div>
@@ -274,7 +278,7 @@ export default function FlowPage({
                 </div>
                 <Button className='w-full' asChild>
                   <Link href={`/profile/${blogDetails.author?.username}`}>
-                    Visit Profile
+                    {t('visit_profile')}
                   </Link>
                 </Button>
               </CardFooter>
