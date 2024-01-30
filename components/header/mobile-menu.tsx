@@ -22,11 +22,10 @@ import { PaxContext } from '@/context/context';
 import { getInitials } from '@/lib/utils';
 import { signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
-import { RiArticleLine, RiUserSettingsFill } from 'react-icons/ri';
 import { LanguageSelector } from './language';
-import { useRouter } from 'next/navigation';
 
 export function MobileMenu() {
   const { setTheme, theme } = useTheme();
