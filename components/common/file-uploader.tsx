@@ -7,6 +7,7 @@ import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
+import { useTranslation } from 'next-i18next';
 
 interface PreviewImageProps {
   src: string;
@@ -59,6 +60,7 @@ export const ImageUpload = forwardRef<
   { handleUpload: () => Promise<any> },
   ImageUploadProps
 >(({ value, onChange }, ref) => {
+  const { t } = useTranslation();
   const [images, setImages] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const hiddenFileInputRef = React.useRef<any>();
@@ -194,12 +196,12 @@ export const ImageUpload = forwardRef<
                 className='p-0'
                 onClick={onClick}
               >
-                Click to Upload
+                {t('click_to_upload')}
               </Button>{' '}
-              or drag and drop
+              {t('or_drag_and_drop')}
             </Label>
             <span className='text-sm text-muted-foreground'>
-              (You can upload no more than 10 images)
+              ({t('upload_no_more_than_10')})
             </span>
           </div>
         </div>

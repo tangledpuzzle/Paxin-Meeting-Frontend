@@ -22,15 +22,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { signIn, useSession } from 'next-auth/react';
-
-const formSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 8 characters long'),
-});
-
-type UserFormValue = z.infer<typeof formSchema>;
+import { Trans, useTranslation } from 'next-i18next';
 
 export function SignInCard() {
+  const { t } = useTranslation();
   const { socket } = useContext(PaxContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -39,6 +34,13 @@ export function SignInCard() {
   if (session.status === 'authenticated') {
     router.push('/profile/dashboard');
   }
+
+  const formSchema = z.object({
+    email: z.string().email(t('invalid_email')),
+    password: z.string().min(6, t('password_must_be_at_least_8_characters')),
+  });
+
+  type UserFormValue = z.infer<typeof formSchema>;
 
   const defaultValues = {
     email: '',
@@ -65,7 +67,7 @@ export function SignInCard() {
       });
     }
     if (status?.ok) {
-      toast.success("Welcome back! You've logged in successfully.", {
+      toast.success(t('welcome_back_sign_in'), {
         position: 'top-right',
       });
       router.push('/profile/dashboard');
@@ -94,8 +96,10 @@ export function SignInCard() {
   return (
     <div className='flex size-full flex-col items-center justify-center'>
       <div className='text-center text-2xl sm:text-3xl'>
-        <span>Welcome to</span>{' '}
-        <span className='font-bold text-primary'>PaxinTrade</span>
+        <Trans
+          i18nKey='welcome_to_paxintrade'
+          components={[<span className='font-bold text-primary' />]}
+        />
       </div>
       <div className='mt-8 flex w-full max-w-sm flex-col gap-3'>
         <Form {...form}>
@@ -113,7 +117,7 @@ export function SignInCard() {
                       <Mail className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                       <Input
                         type='email'
-                        placeholder='Email'
+                        placeholder={t('email')}
                         className='pl-12 pr-4'
                         disabled={loading}
                         {...field}
@@ -135,7 +139,7 @@ export function SignInCard() {
                       <Lock className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                       <Input
                         type='password'
-                        placeholder='Password'
+                        placeholder={t('password')}
                         className='pl-12 pr-4'
                         disabled={loading}
                         {...field}
@@ -148,7 +152,9 @@ export function SignInCard() {
             />
             <div className='flex w-full justify-end'>
               <Button variant='link' asChild>
-                <Link href='/auth/forgot-password'>Forgot password?</Link>
+                <Link href='/auth/forgot-password'>
+                  {t('forgot_password_question')}
+                </Link>
               </Button>
             </div>
             <Button
@@ -158,19 +164,21 @@ export function SignInCard() {
               disabled={loading}
             >
               {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
-              Sign In
+              {t('sign_in')}
             </Button>
           </form>
         </Form>
       </div>
       <div className='mt-8 w-full max-w-sm space-y-4'>
-        <div className='text-center'>{"Don't have an account? Setup Now"}</div>
+        <div className='text-center'>
+          {t('do_not_have_account')} {t('setup_now')}
+        </div>
         <Button
           variant='outline'
           className='w-full border-primary text-primary'
           asChild
         >
-          <Link href='/auth/signup'>Sign Up</Link>
+          <Link href='/auth/signup'>{t('sign_up')}</Link>
         </Button>
       </div>
     </div>

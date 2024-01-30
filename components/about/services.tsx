@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { FaFileCircleCheck, FaSliders } from 'react-icons/fa6';
 import { MdVerified } from 'react-icons/md';
 import { TbCalendarSearch } from 'react-icons/tb';
@@ -5,34 +6,33 @@ import { TbCalendarSearch } from 'react-icons/tb';
 const services = [
   {
     icon: TbCalendarSearch,
-    title: 'Search Engine',
-    description:
-      'With our unique search engine, you can easily find the information you are interested in by viewing posts and publications from other users.',
+    title: 'search_engine',
+    description: 'search_engine_description',
   },
   {
     icon: FaFileCircleCheck,
-    title: 'Verified History',
-    description:
-      'Given the rapid spread of fake news and misinformation online, we are creating a trusted space where each profile has a verified history of activity.',
+    title: 'verified_history',
+    description: 'verified_history_description',
   },
   {
     icon: FaSliders,
-    title: 'Advanced Filters',
-    description:
-      'With advanced filters and an intuitive interface, you can quickly find content that matches your interests.',
+    title: 'advanced_filters',
+    description: 'advanced_filters_description',
   },
   {
     icon: MdVerified,
-    title: 'Verified Accounts',
-    description:
-      'We place great importance on verifying user accounts over time. This ensures a high degree of authenticity and reliability of information distributed through our platform. ',
+    title: 'verified_accounts',
+    description: 'verified_accounts_description',
   },
 ];
 
 export function ServicesSection() {
+  const { t } = useTranslation();
   return (
     <div className='flex flex-col items-center justify-center bg-muted/30 px-8 py-12 sm:px-12 md:px-24'>
-      <div className='text-3xl font-semibold text-primary'>Our Services</div>
+      <div className='text-3xl font-semibold text-primary'>
+        {t('our_services')}
+      </div>
       <div className='mt-4 grid w-full gap-x-4 gap-y-6 sm:grid-cols-2'>
         {services.map((service, index) => (
           <div
@@ -43,9 +43,9 @@ export function ServicesSection() {
               <service.icon className='size-6 text-primary' />
             </div>
             <div className='my-2 text-lg font-semibold text-primary'>
-              {service.title}
+              {t(service.title)}
             </div>
-            <div className='text-sm'>{service.description}</div>
+            <div className='text-sm'>{t(service.description)}</div>
           </div>
         ))}
       </div>

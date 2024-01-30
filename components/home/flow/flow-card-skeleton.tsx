@@ -5,24 +5,24 @@ import { cn } from '@/lib/utils';
 
 function FlowCardSkeleton({ className }: { className?: string }) {
   return (
-    <Card className={cn('w-full', className)}>
+    <Card className={cn('w-full max-w-[320px] sm:max-w-[400px]', className)}>
       <CardContent className='relative flex w-full flex-col gap-4 p-3'>
         <div className='relative'>
           <Skeleton className='h-[200px] w-full' />
           <div className='absolute inset-0 flex items-center justify-center rounded-lg rounded-b-none bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
         </div>
-        <Skeleton className='relative size-full max-w-[100%]' />
+        <Skeleton className='relative h-6 w-full max-w-[100%]' />
         <div className='relative'>
           <Skeleton className='absolute right-0 top-3 size-8 rounded-full' />
         </div>
         <div className='space-y-1'>
-          <Skeleton className='size-20' />
-          <Skeleton className='size-2/3' />
+          <Skeleton className='h-5 w-20' />
+          <Skeleton className='h-5 w-2/3' />
         </div>
         <div className='flex gap-3'>
-          <Skeleton className='size-1/3' />
-          <Skeleton className='size-1/3' />
-          <Skeleton className='size-1/3' />
+          <Skeleton className='h-12 w-1/3' />
+          <Skeleton className='h-12 w-1/3' />
+          <Skeleton className='h-12 w-1/3' />
         </div>
         <div className='flex justify-between'>
           <div className='flex gap-2'>

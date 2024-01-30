@@ -22,17 +22,23 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import { Trans, useTranslation } from 'next-i18next';
 
-const formSchema = z.object({
-  password: z.string().min(8, 'Password must be at least 8 characters long'),
-});
-
-type UserFormValue = z.infer<typeof formSchema>;
-
-export default function VerifyPage({ params }: { params: { slug: string } }) {
+export default function ResetPasswordPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const { t } = useTranslation();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isAccepted, setIsAccepted] = useState<boolean>(false);
+
+  const formSchema = z.object({
+    password: z.string().min(8, t('password_must_be_at_least_8_characters')),
+  });
+
+  type UserFormValue = z.infer<typeof formSchema>;
 
   const defaultValues = {
     password: '',
@@ -59,18 +65,18 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
       });
 
       if (res.status === 200) {
-        toast.success('Password reset successfully', {
+        toast.success(t('password_reset_successfully'), {
           position: 'top-right',
         });
 
         router.push('/auth/signin');
       } else {
-        toast.error('Password reset failed', {
+        toast.error(t('password_reset_failed'), {
           position: 'top-right',
         });
       }
     } catch (error) {
-      toast.error('Password reset failed', {
+      toast.error(t('password_reset_failed'), {
         position: 'top-right',
       });
     }
@@ -84,7 +90,7 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
       <section className='flex h-[calc(100vh_-_5rem_-_1px)] w-full items-center justify-center'>
         <div className='mb-36 w-full max-w-md space-y-20'>
           <div className='text-center text-2xl font-bold text-primary sm:text-3xl'>
-            Reset Password
+            {t('reset_password')}
           </div>
           <div className='space-y-4 rounded-lg p-4 shadow-lg'>
             <Form {...form}>
@@ -102,7 +108,7 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
                           <Lock className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                           <Input
                             type='password'
-                            placeholder='Password'
+                            placeholder={t('password')}
                             className='pl-12 pr-4'
                             {...field}
                           />
@@ -119,15 +125,13 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
                     onCheckedChange={(value: boolean) => setIsAccepted(value)}
                   />
                   <Label htmlFor='terms' className='leading-6'>
-                    I have read this and agree to the{' '}
-                    <Link href='/' className='text-primary underline'>
-                      Platform Rules
-                    </Link>{' '}
-                    and{' '}
-                    <Link href='/' className='text-primary underline'>
-                      Privacy Rules
-                    </Link>{' '}
-                    use setting
+                    <Trans
+                      i18nKey='terms'
+                      components={[
+                        <Link href='/' className='text-primary underline' />,
+                        <Link href='/' className='text-primary underline' />,
+                      ]}
+                    />
                   </Label>
                 </div>
 
@@ -135,7 +139,7 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
                   {isLoading && (
                     <Loader2 className='mr-2 size-4 animate-spin' />
                   )}
-                  Continue
+                  {t('continue')}
                 </Button>
               </form>
             </Form>

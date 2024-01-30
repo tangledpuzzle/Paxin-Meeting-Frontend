@@ -41,7 +41,7 @@ import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
 import * as z from 'zod';
 import { Loader2 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;

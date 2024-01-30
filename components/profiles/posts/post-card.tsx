@@ -35,7 +35,7 @@ import { LuArchiveRestore } from 'react-icons/lu';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RiEditBoxFill } from 'react-icons/ri';
 import { EditPostModal } from './edit-post-modal';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 export interface PostCardProps {
   id: number;

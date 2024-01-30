@@ -8,26 +8,28 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useTranslation } from 'next-i18next';
 
 export function ContactSection() {
+  const { t } = useTranslation();
   return (
     <div className='grid w-full md:grid-cols-2'>
       <div className='flex flex-col items-center justify-center px-8 py-24 lg:px-16'>
         <div className='flex w-full max-w-md flex-col text-left text-2xl sm:text-3xl'>
-          <span>Get in touch</span>{' '}
+          <span>{t('get_in_touch')}</span>{' '}
           <span className='text-sm text-muted-foreground'>
-            Our friendly team would love to hear from you.
+            {t('get_in_touch_description')}
           </span>
         </div>
         <div className='mt-8 flex w-full max-w-md flex-col gap-3'>
           <div className='grid grid-cols-2 gap-2'>
             <div>
-              <Label htmlFor='firstname'>Firstname</Label>
+              <Label htmlFor='firstname'>{t('firstname')}</Label>
               <div className='relative mx-auto w-full'>
                 <UserRound className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                 <Input
                   type='text'
-                  placeholder='Firstname'
+                  placeholder={t('firstname')!}
                   id='firstname'
                   name='firstname'
                   className='pl-12 pr-4'
@@ -35,26 +37,26 @@ export function ContactSection() {
               </div>
             </div>
             <div>
-              <Label htmlFor='lastname'>Lastname</Label>
+              <Label htmlFor='lastname'>{t('lastname')}</Label>
               <div className='relative mx-auto w-full'>
                 <UserRound className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                 <Input
                   type='text'
                   id='lastname'
                   name='lastname'
-                  placeholder='Lastname'
+                  placeholder={t('lastname')}
                   className='pl-12 pr-4'
                 />
               </div>
             </div>
           </div>
           <div>
-            <Label htmlFor='email'>Email</Label>
+            <Label htmlFor='email'>{t('email')}</Label>
             <div className='relative mx-auto w-full'>
               <Mail className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
               <Input
                 type='text'
-                placeholder='Email'
+                placeholder={t('email')}
                 id='email'
                 name='email'
                 className='pl-12 pr-4'
@@ -62,12 +64,12 @@ export function ContactSection() {
             </div>
           </div>
           <div>
-            <Label htmlFor='phone'>Phone</Label>
+            <Label htmlFor='phone'>{t('phone')}</Label>
             <div className='relative mx-auto w-full'>
               <Phone className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
               <Input
                 type='text'
-                placeholder='Phone'
+                placeholder={t('phone')}
                 className='pl-12 pr-4'
                 id='phone'
                 name='phone'
@@ -75,9 +77,9 @@ export function ContactSection() {
             </div>
           </div>
           <div>
-            <Label htmlFor='message'>Message</Label>
+            <Label htmlFor='message'>{t('message')}</Label>
             <Textarea
-              placeholder='Type your message here.'
+              placeholder={t('type_your_message_here')}
               id='message'
               name='message'
               rows={4}
@@ -87,15 +89,15 @@ export function ContactSection() {
             <div className='flex items-center space-x-2'>
               <Checkbox id='terms' />
               <Label htmlFor='terms'>
-                You agree our friendly{' '}
+                {t('you_agree_our_friendly')}{' '}
                 <Button variant='link' className='px-1'>
-                  privacy policy
+                  {t('privacy_policy')}
                 </Button>
               </Label>
             </div>
           </div>
           <Button type='submit' variant='default' className='w-full'>
-            Send Message
+            {t('send_message')}
           </Button>
         </div>
       </div>

@@ -15,7 +15,7 @@ import { LocationBadge } from './location-badge';
 import { PriceBadge } from './price-badge';
 import Link from 'next/link';
 
-import { Tooltip as ReactTooltip } from "react-tooltip";
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 export interface FlowCardProps {
   id: string;
@@ -67,8 +67,8 @@ function FlowCard(profile: FlowCardProps) {
                 src={hero}
                 width={300}
                 height={300}
-                style={{width: '100%', height: '100%'}}
-                className='rounded-md rounded-b-m '
+                style={{ width: '100%', height: '100%' }}
+                className='rounded-b-m rounded-md '
                 alt='profile'
               />
             </div>
@@ -136,31 +136,45 @@ function FlowCard(profile: FlowCardProps) {
             </div>
           </Link>
           <div className='flex gap-2'>
-
-            <Button  variant='outline' size='icon' className='rounded-full'  data-tooltip-id="my-tooltip-1" >
+            <Button
+              variant='outline'
+              size='icon'
+              className='rounded-full'
+              data-tooltip-id='my-tooltip-1'
+            >
               <BsPersonFillExclamation className='size-5 text-gray-500 dark:text-white' />
             </Button>
-            <Button variant='outline' size='icon' className='rounded-full'  data-tooltip-id="my-tooltip-2">
+            <Button
+              variant='outline'
+              size='icon'
+              className='rounded-full'
+              data-tooltip-id='my-tooltip-2'
+            >
               <BiLink className='size-5 text-gray-500 dark:text-white' />
             </Button>
-            <Button variant='outline' size='icon' className='rounded-full'  data-tooltip-id="my-tooltip-3">
+            <Button
+              variant='outline'
+              size='icon'
+              className='rounded-full'
+              data-tooltip-id='my-tooltip-3'
+            >
               <FaTelegramPlane className='size-5 text-gray-500 dark:text-white' />
             </Button>
-            
+
             <ReactTooltip
-              id="my-tooltip-1"
-              place="bottom"
-              content="Send report"
+              id='my-tooltip-1'
+              place='bottom'
+              content='Send report'
             />
             <ReactTooltip
-              id="my-tooltip-2"
-              place="bottom"
-              content="Copy link url"
+              id='my-tooltip-2'
+              place='bottom'
+              content='Copy link url'
             />
             <ReactTooltip
-              id="my-tooltip-3"
-              place="bottom"
-              content="Open telegram chat"
+              id='my-tooltip-3'
+              place='bottom'
+              content='Open telegram chat'
             />
           </div>
         </div>

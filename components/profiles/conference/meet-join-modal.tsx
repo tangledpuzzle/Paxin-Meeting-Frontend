@@ -14,7 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { ConfirmPasswordModal } from './confirm-password-modal';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 interface MeetJoinModalProps {
   children: React.ReactNode;
