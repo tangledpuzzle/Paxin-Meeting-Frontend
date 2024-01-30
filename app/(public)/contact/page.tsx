@@ -1,5 +1,7 @@
-import { ContactSection } from "@/components/contact/contact"
-import { HeroSection } from "@/components/contact/hero"
+'use client';
+
+import { ContactSection } from '@/components/contact/contact';
+import { HeroSection } from '@/components/contact/hero';
 
 export default function AboutUsPage() {
   return (
@@ -7,5 +9,5 @@ export default function AboutUsPage() {
       <HeroSection />
       <ContactSection />
     </section>
-  )
+  );
 }

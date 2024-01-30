@@ -125,5 +125,28 @@
   "follow_us_on": "Follow us on",
   "privacy_policy": "Privacy Policy",
   "terms_of_use": "Term of Use",
-  "all_rights_reserved_by_paxintrade": "All Rights Reserved by PaxinTrade"
+  "all_rights_reserved_by_paxintrade": "All Rights Reserved by PaxinTrade",
+
+  "our_services": "Our services",
+  "search_engine": "Search Engine",
+  "search_engine_description": "With our unique search engine, you can easily find the information you are interested in by viewing posts and publications from other users.",
+  "verified_history": "Verified History",
+  "verified_history_description": "Given the rapid spread of fake news and misinformation online, we are creating a trusted space where each profile has a verified history of activity.",
+  "advanced_filters": "Advanced Filters",
+  "advanced_filters_description": "With advanced filters and an intuitive interface, you can quickly find content that matches your interests.",
+  "verified_accounts": "Verified Accounts",
+  "verified_accounts_description": "We place great importance on verifying user accounts over time. This ensures a high degree of authenticity and reliability of information distributed through our platform.",
+  "join_our_virtual_ecosystem": "Join our virtual ecosystem where searching, sharing and interacting with information becomes more intelligent and satisfying. We pride ourselves on providing high quality content and the ability to create your own digital footprint in the online community world.",
+
+  "contact_us": "Contact Us",
+  "get_in_touch": "Get in touch",
+  "get_in_touch_description": "Our friendly team would love to hear from you.",
+  "firstname": "First Name",
+  "lastname": "Last Name",
+  "email": "Email",
+  "message": "Message",
+  "phone": "Phone",
+  "type_your_message_here": "Type your message here",
+  "send_message": "Send Message",
+  "you_agree_our_friendly": "You agree to our friendly"
 }

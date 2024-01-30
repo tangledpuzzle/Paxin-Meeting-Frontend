@@ -125,5 +125,28 @@
   "follow_us_on": "Síguenos en",
   "privacy_policy": "Política de privacidad",
   "terms_of_use": "Términos de uso",
-  "all_rights_reserved_by_paxintrade": "Todos los derechos reservados por PaxinTrade"
+  "all_rights_reserved_by_paxintrade": "Todos los derechos reservados por PaxinTrade",
+
+  "our_services": "Nuestros servicios",
+  "search_engine": "Motor de búsqueda",
+  "search_engine_description": "Con nuestro motor de búsqueda único, puedes encontrar fácilmente la información que te interesa al ver publicaciones de otros usuarios.",
+  "verified_history": "Historial verificado",
+  "verified_history_description": "Dado la rápida propagación de noticias falsas y desinformación en línea, estamos creando un espacio confiable donde cada perfil tiene un historial verificado de actividad.",
+  "advanced_filters": "Filtros avanzados",
+  "advanced_filters_description": "Con filtros avanzados y una interfaz intuitiva, puedes encontrar rápidamente contenido que coincida con tus intereses.",
+  "verified_accounts": "Cuentas verificadas",
+  "verified_accounts_description": "Damos gran importancia a la verificación de cuentas de usuario a lo largo del tiempo. Esto asegura un alto grado de autenticidad y confiabilidad de la información distribuida a través de nuestra plataforma.",
+  "join_our_virtual_ecosystem": "Únete a nuestro ecosistema virtual donde la búsqueda, el intercambio y la interacción con la información se vuelve más inteligente y satisfactoria. Nos enorgullece ofrecer contenido de alta calidad y la capacidad de crear tu propia huella digital en el mundo de la comunidad en línea.",
+
+  "contact_us": "Contactanos",
+  "get_in_touch": "Ponte en contacto",
+  "get_in_touch_description": "Nuestro amable equipo estará encantado de escucharte.",
+  "firstname": "Nombre",
+  "lastname": "Apellido",
+  "email": "Email",
+  "message": "Mensaje",
+  "phone": "Teléfono",
+  "type_your_message_here": "Escribe tu mensaje aquí",
+  "send_message": "Enviar mensaje",
+  "you_agree_our_friendly": "Aceptas nuestro amable"
 }
