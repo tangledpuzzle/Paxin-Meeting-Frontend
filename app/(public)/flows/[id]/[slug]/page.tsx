@@ -1,16 +1,8 @@
 'use client';
 
-import Link from 'next/link';
-import { BiSolidCategory } from 'react-icons/bi';
-import { FaTelegramPlane, FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
-import { FaSackDollar } from 'react-icons/fa6';
-import { IoEyeSharp } from 'react-icons/io5';
-import { MdOutlineHouseSiding } from 'react-icons/md';
-import { RxCopy } from 'react-icons/rx';
-import ImageGallery from 'react-image-gallery';
-import QRCode from 'react-qr-code';
-import axios from 'axios';
-import useSWR from 'swr';
+import { Breadcrumb } from '@/components/common/breadcrumb';
+import { QRCodeModal } from '@/components/common/qrcode-modal';
+import { TagSlider } from '@/components/common/tag-slider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -21,22 +13,32 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Breadcrumb } from '@/components/common/breadcrumb';
-import { QRCodeModal } from '@/components/common/qrcode-modal';
-import { TagSlider } from '@/components/common/tag-slider';
+import axios, { AxiosError } from 'axios';
+import Link from 'next/link';
+import { BiSolidCategory } from 'react-icons/bi';
+import { FaTelegramPlane, FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
+import { FaSackDollar } from 'react-icons/fa6';
+import { IoEyeSharp } from 'react-icons/io5';
+import { MdOutlineHouseSiding } from 'react-icons/md';
+import { RxCopy } from 'react-icons/rx';
+import ImageGallery from 'react-image-gallery';
+import QRCode from 'react-qr-code';
+import useSWR from 'swr';
 
-import 'react-quill/dist/quill.snow.css';
 import '@/styles/editor.css';
+import 'react-quill/dist/quill.snow.css';
 
 import 'react-image-gallery/styles/css/image-gallery.css';
 
 import { useContext, useEffect, useState } from 'react';
 
+import FlowDetailSkeleton from '@/components/home/flow/flow-detail-skeleton';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { PaxContext } from '@/context/context';
-import FlowDetailSkeleton from '@/components/home/flow/flow-detail-skeleton';
 import { useTranslation } from 'next-i18next';
+import toast from 'react-hot-toast';
+import { Loader2 } from 'lucide-react';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -47,11 +49,14 @@ interface GalleryData {
 }
 
 interface BlogDetails {
+  id: number;
   title: string;
   description: string;
   content: string;
   review: {
     views: number;
+    upvotes: number;
+    downvotes: number;
   };
   gallery: GalleryData[];
   author: {
@@ -76,11 +81,18 @@ export default function FlowPage({
 }) {
   const { t } = useTranslation();
   const { locale, setLocale } = useContext(PaxContext);
+
+  const [isUpVoteLoading, setIsUpVoteLoading] = useState(false);
+  const [isDownVoteLoading, setIsDownVoteLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState<number>(1000);
   const [blogDetails, setBlogDetails] = useState<BlogDetails>(
     {} as BlogDetails
   );
-  const { data: fetchedData, error } = useSWR(
+  const {
+    data: fetchedData,
+    error,
+    mutate,
+  } = useSWR(
     `/api/flows/get/${params.id}?language=${locale}&slug=${params.slug}`,
     fetcher
   );
@@ -98,6 +110,7 @@ export default function FlowPage({
 
   useEffect(() => {
     if (!error && fetchedData) {
+      console.log(fetchedData);
       setBlogDetails(fetchedData);
     }
   }, [fetchedData, error]);
@@ -109,11 +122,47 @@ export default function FlowPage({
 
     window.addEventListener('resize', handleResize);
 
-    // Cleanup event listener on unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []); // Empty array means this effect runs once on mount and clean up on unmount
+  }, []);
+
+  const handleVote = async ({ id, vote }: { id: number; vote: boolean }) => {
+    if (vote) setIsUpVoteLoading(true);
+    else setIsDownVoteLoading(true);
+    try {
+      const res = await axios.post(`/api/flows/vote/${id}`, {
+        vote,
+      });
+
+      if (res.status === 200) {
+        toast.success(t('vote_successfully'), {
+          position: 'top-right',
+        });
+        mutate();
+      } else {
+        toast.error(t('vote_failed'), {
+          position: 'top-right',
+        });
+      }
+
+      if (vote) setIsUpVoteLoading(false);
+      else setIsDownVoteLoading(false);
+    } catch (error) {
+      const axiosError = error as AxiosError | any;
+
+      if (axiosError.response?.status === 401) {
+        toast.error(t('not_signed_in'), {
+          position: 'top-right',
+        });
+      } else {
+        toast.error(t('vote_failed'));
+      }
+
+      if (vote) setIsUpVoteLoading(false);
+      else setIsDownVoteLoading(false);
+    }
+  };
 
   return !error ? (
     fetchedData && blogDetails ? (
@@ -209,13 +258,30 @@ export default function FlowPage({
                 </div>
               </div>
               <div className='order-first flex w-full justify-end gap-2 md:order-last'>
-                <Button>
-                  <FaThumbsUp className='mr-2 size-4' />
-                  359
+                <Button
+                  disabled={isUpVoteLoading || isDownVoteLoading}
+                  onClick={() => handleVote({ id: blogDetails.id, vote: true })}
+                >
+                  {isUpVoteLoading ? (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  ) : (
+                    <FaThumbsUp className='mr-2 size-4' />
+                  )}
+                  {blogDetails.review?.upvotes}
                 </Button>
-                <Button variant='outline'>
-                  <FaThumbsDown className='mr-2 size-4' />
-                  34
+                <Button
+                  variant='outline'
+                  disabled={isUpVoteLoading || isDownVoteLoading}
+                  onClick={() =>
+                    handleVote({ id: blogDetails.id, vote: false })
+                  }
+                >
+                  {isDownVoteLoading ? (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  ) : (
+                    <FaThumbsDown className='mr-2 size-4' />
+                  )}
+                  {blogDetails.review?.downvotes}
                 </Button>
               </div>
             </div>

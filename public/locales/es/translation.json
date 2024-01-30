@@ -85,7 +85,6 @@
   "name": "Nombre",
   "password": "Contraseña",
   "room_id": "ID de Sala",
-
   "explore_paxintrade": "Explora PaxinTrade",
   "empowering_connections_metaverse": "Potenciando las conexiones del metaverso",
   "empowering_connections_metaverse_description": "Adéntrate en un mundo 3D de infinitas posibilidades. Tu entrada a una metarelación conectada. Únete a PaxinTrade y revisita tu presencia online con funciones e interacciones revolucionarias.",
@@ -144,7 +143,6 @@
   "community": "Comunidad",
   "discord": "Discord",
   "twitter": "Twitter",
-
   "our_services": "Nuestros servicios",
   "search_engine": "Motor de búsqueda",
   "search_engine_description": "Con nuestro motor de búsqueda único, puedes encontrar fácilmente la información que te interesa al ver publicaciones de otros usuarios.",
@@ -155,7 +153,6 @@
   "verified_accounts": "Cuentas verificadas",
   "verified_accounts_description": "Damos gran importancia a la verificación de cuentas de usuario a lo largo del tiempo. Esto asegura un alto grado de autenticidad y confiabilidad de la información distribuida a través de nuestra plataforma.",
   "join_our_virtual_ecosystem": "Únete a nuestro ecosistema virtual donde la búsqueda, el intercambio y la interacción con la información se vuelve más inteligente y satisfactoria. Nos enorgullece ofrecer contenido de alta calidad y la capacidad de crear tu propia huella digital en el mundo de la comunidad en línea.",
-
   "contact_us": "Contactanos",
   "get_in_touch": "Ponte en contacto",
   "get_in_touch_description": "Nuestro amable equipo estará encantado de escucharte.",
@@ -167,7 +164,6 @@
   "type_your_message_here": "Escribe tu mensaje aquí",
   "send_message": "Enviar mensaje",
   "you_agree_our_friendly": "Aceptas nuestro amable",
-
   "welcome_to_paxintrade": "Bienvenido a PaxinTrade",
   "forgot_password": "¿Olvidaste tu contraseña?",
   "forgot_password_description": "No te preocupes, te enviaremos instrucciones para restablecerla.",
@@ -220,7 +216,6 @@
   "select_at_least_one_category": "Selecciona al menos una categoría",
   "select_at_least_one_hashtag": "Selecciona al menos una etiqueta",
   "upload_at_least_one_image": "Sube al menos una imagen",
-
   "profile": "Perfil",
   "flow": "Flujo",
   "regular_post": "Publicación regular",
@@ -253,5 +248,8 @@
   "additional_info": "Información adicional",
   "type_your_content_here": "Escribe aquí tu contenido...",
   "views": "Vistas",
-  "description": "Descripción"
+  "description": "Descripción",
+  "vote_successfully": "Votación exitosa",
+  "vote_failed": "Error al votar",
+  "not_signed_in": "No has iniciado sesión"
 }

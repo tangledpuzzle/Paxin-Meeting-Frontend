@@ -85,7 +85,6 @@
   "name": "Name",
   "password": "Password",
   "room_id": "Room ID",
-
   "explore_paxintrade": "Explore PaxinTrade",
   "empowering_connections_metaverse": "Empowering Connections in the Metaverse",
   "empowering_connections_metaverse_description": "Immerse yourself in a 3D world of endless possibilities. Your gateway to a connected metaverse experience. Join PaxinTrade and redefine your online presence with innovative features and interactions.",
@@ -144,7 +143,6 @@
   "community": "Community",
   "discord": "Discord",
   "twitter": "Twitter",
-
   "our_services": "Our services",
   "search_engine": "Search Engine",
   "search_engine_description": "With our unique search engine, you can easily find the information you are interested in by viewing posts and publications from other users.",
@@ -155,7 +153,6 @@
   "verified_accounts": "Verified Accounts",
   "verified_accounts_description": "We place great importance on verifying user accounts over time. This ensures a high degree of authenticity and reliability of information distributed through our platform.",
   "join_our_virtual_ecosystem": "Join our virtual ecosystem where searching, sharing and interacting with information becomes more intelligent and satisfying. We pride ourselves on providing high quality content and the ability to create your own digital footprint in the online community world.",
-
   "contact_us": "Contact Us",
   "get_in_touch": "Get in touch",
   "get_in_touch_description": "Our friendly team would love to hear from you.",
@@ -167,7 +164,6 @@
   "type_your_message_here": "Type your message here",
   "send_message": "Send Message",
   "you_agree_our_friendly": "You agree to our friendly",
-
   "welcome_to_paxintrade": "Welcome to <0>PaxinTrade</0>",
   "forgot_password": "Forgot Password",
   "forgot_password_description": "No worries, we will send you reset instructions.",
@@ -220,8 +216,6 @@
   "select_at_least_one_category": "Select at least one category",
   "select_at_least_one_hashtag": "Select at least one hashtag",
   "upload_at_least_one_image": "Upload at least one image",
-
-
   "profile": "Profile",
   "flow": "Flow",
   "regular_post": "Regular Post",
@@ -254,5 +248,8 @@
   "additional_info": "Additional Info",
   "type_your_content_here": "Type your content here...",
   "views": "Views",
-  "description": "Description"
+  "description": "Description",
+  "vote_successfully": "Vote successfully",
+  "vote_failed": "Failed to vote",
+  "not_signed_in": "You are not signed in"
 }
