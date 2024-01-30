@@ -31,7 +31,7 @@ import 'react-quill/dist/quill.snow.css';
 import useSWR from 'swr';
 import * as z from 'zod';
 import { Input } from '@/components/ui/input';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;

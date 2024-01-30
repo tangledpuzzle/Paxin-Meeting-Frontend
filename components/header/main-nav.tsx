@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import { NavItem } from '@/types/nav';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 interface MainNavProps {
   items?: NavItem[];

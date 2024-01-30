@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import { NavItem } from '@/types/nav';
 import { cn } from '@/lib/utils';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 interface ProfileNavProps {
   items: NavItem[];

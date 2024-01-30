@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { LanguageSelector } from './language';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 export function MobileMenu() {
   const { setTheme, theme } = useTheme();

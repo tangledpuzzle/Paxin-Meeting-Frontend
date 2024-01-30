@@ -1,10 +1,9 @@
-'use client';
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
+import { useTranslation } from 'next-i18next';
 
 const data = [
   {
@@ -100,15 +99,16 @@ function TestimonialCard({
 }
 
 export function TestimonialSection() {
+  const { t } = useTranslation();
+
   return (
     <div className='flex flex-col items-center justify-center pb-[40px] md:pb-[80px]'>
-      <SectionBadge>Why PaxinTrade</SectionBadge>
+      <SectionBadge>{t('why_paxintrade')}</SectionBadge>
       <SectionTitle className='px-7 leading-[30px]'>
-        Positive experiences from early users
+        {t('positive_experience_from_early_users')}
       </SectionTitle>
       <SectionDescription className='px-7 leading-[25.15px]'>
-        Discover the experiences of PaxinTrade users who have found value and
-        innovation in our platform.
+        {t('positive_experience_from_early_users_description')}
       </SectionDescription>
       <div className='relative mt-10 flex w-full items-center justify-center px-3'>
         <div className='column-1 gap-8 space-y-8 md:columns-2 lg:columns-3'>

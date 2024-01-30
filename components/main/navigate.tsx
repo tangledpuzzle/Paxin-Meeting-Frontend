@@ -3,17 +3,19 @@ import Image from 'next/image';
 import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
+import { useTranslation } from 'next-i18next';
 
 export function NavigateSection() {
+  const { t } = useTranslation();
+
   return (
     <div className='flex flex-col items-center justify-center px-3 pb-[40px] md:pb-[80px]'>
-      <SectionBadge>Search and Share</SectionBadge>
+      <SectionBadge>{t('search_and_share')}</SectionBadge>
       <SectionTitle className='px-7 leading-[30px]'>
-        Navigating Your Digital Universe
+        {t('navigating_your_digital_universe')}
       </SectionTitle>
       <SectionDescription>
-        Explore the unique blend of online publishing and Telegram mailing. From
-        streamlined searches to launching your 3D world.
+        {t('navigating_your_digital_universe_description')}
       </SectionDescription>
       <div className='relative mt-10 grid w-full grid-cols-1 gap-4 md:grid-cols-3'>
         {/* <div
@@ -52,16 +54,14 @@ export function NavigateSection() {
           ></div>
 
           <div
-            className='flex h-full w-full flex-col items-center justify-center bg-[#00000008] bg-cover p-8 pt-2'
+            className='flex size-full flex-col items-center justify-center bg-[#00000008] bg-cover p-8 pt-2'
             style={{ backgroundImage: `url("/images/home/bg-nav-dark.webp")` }}
           >
             <div className='text-xl font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
-              Efficient Discovery
+              {t('efficient_discovery')}
             </div>
             <div className='translate-all md:text-md max-w-md text-center text-xs leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Utilize our advanced search engine for quick and efficient
-              information discovery. Highlight your content and create a
-              personalized space within our diverse platform.
+              {t('efficient_discovery_description')}
             </div>
           </div>
         </div>
@@ -78,7 +78,7 @@ export function NavigateSection() {
             width={450}
             height={450}
             alt='telegram'
-            className='mx-auto my-16 h-[154px] w-[154px]'
+            className='mx-auto my-16 size-[154px]'
           />
           <Image
             src='/images/home/ring.png'
@@ -90,11 +90,10 @@ export function NavigateSection() {
           />
           <div className='bg-[#00000008] p-8 pt-2'>
             <div className='text-md font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
-              Private Asks
+              {t('private_asks')}
             </div>
             <div className='translate-all md:text-md text-xs leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Easily identify and connect with others on the Telegram network
-              for seamless sharing.
+              {t('private_asks_description')}
             </div>
           </div>
         </div>
@@ -187,11 +186,10 @@ export function NavigateSection() {
           </div>
           <div className='relative p-8'>
             <div className='md:text-md my-2 text-sm font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white'>
-              Smart Filters for Tailored Content:
+              {t('smart_filters_for_tailored_content')}
             </div>
             <div className='md:text-md w-2/3 text-xs text-muted-foreground transition-all duration-500 group-hover:text-white/70'>
-              Use our advanced filters to tailor your content consumption,
-              ensuring a personalized and relevant digital experience.
+              {t('smart_filters_for_tailored_content_description')}
             </div>
             <Image
               src='/images/home/navigate-side.png'

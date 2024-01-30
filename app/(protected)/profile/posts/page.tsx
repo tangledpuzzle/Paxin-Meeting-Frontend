@@ -19,7 +19,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 

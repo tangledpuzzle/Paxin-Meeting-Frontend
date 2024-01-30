@@ -4,7 +4,7 @@ import { MdDashboard } from 'react-icons/md';
 
 import { Separator } from '@/components/ui/separator';
 import CTASection from '@/components/profiles/cta';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 export default function DashboardPage() {
   const { t } = useTranslation();

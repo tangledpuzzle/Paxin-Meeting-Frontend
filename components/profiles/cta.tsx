@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { PlanUpgradeModal } from './plan-upgrade-modal';
 import { useContext } from 'react';
 import { PaxContext } from '@/context/context';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 interface CTAProps {
   title: string;
