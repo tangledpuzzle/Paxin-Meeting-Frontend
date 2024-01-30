@@ -50,7 +50,7 @@ export default function ResetPasswordPage({
 
   const onSubmit = async (data: UserFormValue) => {
     if (!isAccepted) {
-      toast.error('Please accept the terms and conditions', {
+      toast.error(t('accpet_terms_and_conditions_warning'), {
         position: 'top-right',
       });
       return;

@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form';
 import axios from 'axios';
 import { PaxContext } from '@/context/context';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 export function ForgotPasswordCard() {
   const { t } = useTranslation();

@@ -38,7 +38,8 @@ import { QRCodeModal } from '@/components/common/qrcode-modal';
 import 'react-quill/dist/quill.snow.css';
 import '@/styles/editor.css';
 import { PaxContext } from '@/context/context';
-import { useTranslation } from 'react-i18next';
+import ProfileDetailSkeleton from '@/components/home/profile/profile-detail-skeleton';
+import { useTranslation } from 'next-i18next';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -386,9 +387,9 @@ export default function ProfilePage({
         </div>
       </section>
     ) : (
-      <></>
+      <ProfileDetailSkeleton />
     )
   ) : (
-    <></>
+    <div></div>
   );
 }

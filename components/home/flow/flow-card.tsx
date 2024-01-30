@@ -16,7 +16,7 @@ import { PriceBadge } from './price-badge';
 import Link from 'next/link';
 
 import { Tooltip as ReactTooltip } from 'react-tooltip';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 export interface FlowCardProps {
   id: string;

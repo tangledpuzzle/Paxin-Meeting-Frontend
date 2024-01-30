@@ -10,15 +10,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { Trans, useTranslation } from 'next-i18next';
 
 export default function VerifyPage({ params }: { params: { slug: string } }) {
+  const { t } = useTranslation();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isAccepted, setIsAccepted] = useState<boolean>(false);
 
   const onVerify = async () => {
     if (!isAccepted) {
-      toast.error('Please accept the terms and conditions', {
+      toast.error(t('accpet_terms_and_conditions_warning'), {
         position: 'top-right',
       });
       return;
@@ -32,14 +34,14 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
       });
 
       if (res.status === 200) {
-        toast.success('Account verified successfully');
+        toast.success(t('account_verified_successfully'));
 
         router.push('/auth/signin');
       } else {
-        toast.error('Account verification failed');
+        toast.error(t('account_verification_failed'));
       }
     } catch (error) {
-      toast.error('Account verification failed', {
+      toast.error(t('account_verification_failed'), {
         position: 'top-right',
       });
     }
@@ -53,7 +55,7 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
       <section className='flex h-[calc(100vh_-_5rem_-_1px)] w-full items-center justify-center'>
         <div className='mb-36 w-full max-w-md space-y-20'>
           <div className='text-center text-2xl font-bold text-primary sm:text-3xl'>
-            Profile Activation
+            {t('profile_activation')}
           </div>
           <div className='space-y-4 rounded-lg p-4 shadow-lg'>
             <div className='flex items-center space-x-2 text-base'>
@@ -63,21 +65,19 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
                 onCheckedChange={(value: boolean) => setIsAccepted(value)}
               />
               <Label htmlFor='terms' className='leading-6'>
-                I have read this and agree to the{' '}
-                <Link href='/' className='text-primary underline'>
-                  Platform Rules
-                </Link>{' '}
-                and{' '}
-                <Link href='/' className='text-primary underline'>
-                  Privacy Rules
-                </Link>{' '}
-                use setting
+                <Trans
+                  i18nKey='terms'
+                  components={[
+                    <Link href='/' className='text-primary underline' />,
+                    <Link href='/' className='text-primary underline' />,
+                  ]}
+                />
               </Label>
             </div>
 
             <Button className='w-full' disabled={isLoading} onClick={onVerify}>
               {isLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
-              Continue
+              {t('continue')}
             </Button>
           </div>
         </div>
