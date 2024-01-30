@@ -1,12 +1,12 @@
 'use client';
 
-import { SessionProvider, SessionProviderProps } from 'next-auth/react';
 import { PaxContext, User } from '@/context/context';
 import i18n from '@/i18n';
+import axios from 'axios';
+import { SessionProvider, SessionProviderProps } from 'next-auth/react';
 import { setCookie } from 'nookies';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import axios from 'axios';
 import useSWR from 'swr';
 
 interface IProps {
@@ -23,6 +23,7 @@ const PLAN = {
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const Providers: React.FC<IProps> = ({ children, session }) => {
+  console.log(session);
   const [user, setUser] = useState<User | null>(null);
   const [postMode, setPostMode] = useState<string>('all');
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');
@@ -37,7 +38,7 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
     data: fetchedData,
     error,
     mutate: userMutate,
-  } = useSWR(`/api/users/me?lang=${locale}`, fetcher);
+  } = useSWR(session ? `/api/users/me?lang=${locale}` : null, fetcher);
 
   useEffect(() => {
     if (!error && fetchedData) {
