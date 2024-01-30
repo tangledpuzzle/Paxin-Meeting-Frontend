@@ -38,6 +38,7 @@ import { QRCodeModal } from '@/components/common/qrcode-modal';
 import 'react-quill/dist/quill.snow.css';
 import '@/styles/editor.css';
 import { PaxContext } from '@/context/context';
+import ProfileDetailSkeleton from '@/components/home/profile/profile-detail-skeleton';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -241,7 +242,7 @@ export default function ProfilePage({
                     <Badge
                       key={index}
                       variant='outline'
-                      className='rounded-full border-primary bg-primary/10 text-primary max-w-fit p-2'
+                      className='max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
                     >
                       {city}
                     </Badge>
@@ -258,7 +259,7 @@ export default function ProfilePage({
                     <Badge
                       key={index}
                       variant='outline'
-                      className='rounded-full border-primary bg-primary/10 text-primary max-w-fit p-2'
+                      className='max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
                     >
                       {category}
                     </Badge>
@@ -377,9 +378,9 @@ export default function ProfilePage({
         </div>
       </section>
     ) : (
-      <></>
+      <ProfileDetailSkeleton />
     )
   ) : (
-    <></>
+    <div></div>
   );
 }
