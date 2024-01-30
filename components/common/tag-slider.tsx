@@ -15,7 +15,7 @@ interface TagSliderProps {
 function SliderNextArrow(props: any) {
   const { onClick } = props;
   return (
-    <div className='absolute right-0 top-[10px] z-10 flex h-full items-center justify-center'>
+    <div className='absolute right-0 top-[10px] z-10 flex h-full justify-center'>
       <Button className='size-6 rounded-full' onClick={onClick} size='icon'>
         <ChevronRightIcon className='size-5 text-white' />
       </Button>
@@ -26,7 +26,7 @@ function SliderNextArrow(props: any) {
 function SliderPrevArrow(props: any) {
   const { onClick } = props;
   return (
-    <div className='absolute left-0 top-[10px] z-10 flex h-full items-center justify-center'>
+    <div className='absolute left-0 top-[10px] z-10 flex h-full  justify-center'>
       <Button className='size-6 rounded-full' onClick={onClick} size='icon'>
         <ChevronLeftIcon className='size-5 text-white' />
       </Button>
@@ -35,7 +35,7 @@ function SliderPrevArrow(props: any) {
 }
 
 function TagSlider({ tags }: TagSliderProps) {
-  const [sliderNeeded, setSliderNeeded] = useState(false);
+  const [sliderNeeded, setSliderNeeded] = useState(true);
   const tagContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function TagSlider({ tags }: TagSliderProps) {
   ) : (
     <div
       ref={tagContainerRef}
-      className={sliderNeeded ? '' : 'flex w-full max-w-full gap-2'}
+      className={sliderNeeded ? '' : 'flex w-full max-w-full gap-2 flex-row'}
     >
       {tags.map((tag, index) => (
         <TagBadge key={index}>{tag}</TagBadge>
