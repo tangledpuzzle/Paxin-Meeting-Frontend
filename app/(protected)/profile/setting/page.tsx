@@ -32,6 +32,8 @@ import useSWR from 'swr';
 import * as z from 'zod';
 import { Input } from '@/components/ui/input';
 import { useTranslation } from 'next-i18next';
+import { ConfirmModal } from '@/components/common/confirm-modal';
+import { signOut } from 'next-auth/react';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -117,6 +119,9 @@ export default function SettingPage() {
   const [rechargecode, setRechargecode] = useState<string>('');
 
   const [isBasicLoading, setIsBasicLoading] = useState<boolean>(false);
+  const [isDeleteAccountLoading, setIsDeleteAccountLoading] =
+    useState<boolean>(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [isGalleryLoading, setIsGalleryLoading] = useState<boolean>(false);
   const [isAdditionalLoading, setIsAdditionalLoading] =
     useState<boolean>(false);
@@ -466,6 +471,32 @@ export default function SettingPage() {
     if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
   };
 
+  const handleDeleteAccount = async () => {
+    setIsDeleteAccountLoading(true);
+
+    try {
+      const res = await axios.post('/api/users/me/delete');
+
+      if (res.status === 200) {
+        toast.success('Account deleted successfully', {
+          position: 'top-right',
+        });
+
+        signOut({ callbackUrl: '/' });
+      } else {
+        toast.error('Failed to delete account', {
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      toast.error('Failed to delete account', {
+        position: 'top-right',
+      });
+    }
+
+    setIsDeleteAccountLoading(false);
+  };
+
   return (
     <div className='p-4'>
       <CTASection
@@ -475,6 +506,16 @@ export default function SettingPage() {
       />
       <Separator className='my-4' />
       <div className='w-full'>
+        <ConfirmModal
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          title={t('are_you_sure')}
+          description={t('are_you_sure_delete_account')}
+          onConfirm={() => {
+            handleDeleteAccount();
+          }}
+          loading={isDeleteAccountLoading}
+        />
         <Tabs
           defaultValue='account'
           className='h-[calc(100vh_-_13rem)] w-full items-start bg-background py-2 sm:flex'
@@ -637,7 +678,11 @@ export default function SettingPage() {
                           )}
                         />
                         <div className='flex w-full justify-end gap-2'>
-                          <Button variant='destructive'>
+                          <Button
+                            variant='destructive'
+                            type='button'
+                            onClick={() => setShowDeleteModal(true)}
+                          >
                             {t('delete_account')}
                           </Button>
                           <Button type='submit' disabled={isBasicLoading}>

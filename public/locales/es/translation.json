@@ -64,6 +64,7 @@
   "are_you_sure": "¿Estás seguro?",
   "are_you_sure_delete_post": "¿Estás seguro de que deseas eliminar esta publicación?",
   "are_you_sure_archive_post": "¿Estás seguro de que deseas archivar esta publicación?",
+  "are_you_sure_delete_account": "¿Estás seguro de que deseas borrar tu cuenta?",
   "failed_extend_time": "Error al extender el tiempo",
   "success_extend_time": "Publicación extendida exitosamente",
   "expire_at": "Expira en",

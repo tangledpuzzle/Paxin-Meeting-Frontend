@@ -64,6 +64,7 @@
   "are_you_sure": "ნათელი ხართ?",
   "are_you_sure_delete_post": "ნათელი ხართ, რომ გაუქმნათ ეს პოსტი?",
   "are_you_sure_archive_post": "ნათელი ხართ, რომ გააქქონით ეს პოსტი?",
+  "are_you_sure_delete_account": "გსურთ ნამდვილად გახსნათ თქვენი ანგარიში?",
   "failed_extend_time": "დროსულების გაფართოება ვერ ხერხდება",
   "success_extend_time": "პოსტის ვადა გაფართოებულია წარმატებით",
   "expire_at": "ვადა ამომავალში",

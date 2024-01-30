@@ -64,6 +64,7 @@
   "are_you_sure": "Вы уверены?",
   "are_you_sure_delete_post": "Вы уверены, что хотите удалить этот пост?",
   "are_you_sure_archive_post": "Вы уверены, что хотите архивировать этот пост?",
+  "are_you_sure_delete_account": "Вы уверены, что хотите удалить своий аккаунт?",
   "failed_extend_time": "Не удалось продлить время",
   "success_extend_time": "Время успешно продлено",
   "expire_at": "Истекает через",
