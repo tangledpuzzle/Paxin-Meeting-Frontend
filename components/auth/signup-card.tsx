@@ -22,32 +22,36 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import axios from 'axios';
-
-const formSchema = z
-  .object({
-    firstname: z.string().min(1, 'First name is required'),
-    lastname: z.string().min(1, 'Last name is required'),
-    email: z.string().email('Invalid email address'),
-    password: z.string().min(8, 'Password must be at least 8 characters long'),
-    confirmPassword: z
-      .string()
-      .min(8, 'Password must be at least 8 characters long'),
-  })
-  .refine(
-    (values) => {
-      return values.password === values.confirmPassword;
-    },
-    {
-      message: 'Passwords must match!',
-      path: ['confirmPassword'],
-    }
-  );
-
-type UserFormValue = z.infer<typeof formSchema>;
+import { Trans, useTranslation } from 'react-i18next';
 
 export function SignUpCard() {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const formSchema = z
+    .object({
+      firstname: z.string().min(1, t('firstname_is_required')),
+      lastname: z.string().min(1, t('lastname_is_required')),
+      email: z.string().email(t('invalid_email')),
+      password: z
+        .string()
+        .min(8, t('password_must_be_at_least_8_characters_long')),
+      confirmPassword: z
+        .string()
+        .min(8, t('password_must_be_at_least_8_characters_long')),
+    })
+    .refine(
+      (values) => {
+        return values.password === values.confirmPassword;
+      },
+      {
+        message: t('passwords_must_match'),
+        path: ['confirmPassword'],
+      }
+    );
+
+  type UserFormValue = z.infer<typeof formSchema>;
 
   const defaultValues = {
     firstname: '',
@@ -75,17 +79,17 @@ export function SignUpCard() {
       });
 
       if (res.status === 200) {
-        toast.success('Account created successfully. Please login.', {
+        toast.success(t('account_created_successfully'), {
           position: 'top-right',
         });
         router.push('/auth/signin');
       } else {
-        toast.error('Failed to create account. Please try again.', {
+        toast.error(t('failed_create_account'), {
           position: 'top-right',
         });
       }
     } catch (error) {
-      toast.error('Failed to create account. Please try again.', {
+      toast.error(t('failed_create_account'), {
         position: 'top-right',
       });
     }
@@ -96,8 +100,10 @@ export function SignUpCard() {
   return (
     <div className='flex size-full flex-col items-center justify-center'>
       <div className='text-center text-2xl sm:text-3xl'>
-        <span>Get started with</span>{' '}
-        <span className='font-bold text-primary'>PaxinTrade</span>
+        <Trans
+          i18nKey='get_started_with_paxintrade'
+          components={[<span className='font-bold text-primary' />]}
+        />
       </div>
       <div className='mt-8 flex w-full max-w-sm flex-col gap-3'>
         <Form {...form}>
@@ -116,7 +122,7 @@ export function SignUpCard() {
                         <UserRound className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                         <Input
                           type='text'
-                          placeholder='Firstname'
+                          placeholder={t('firstname')}
                           className='pl-12 pr-4'
                           disabled={loading}
                           {...field}
@@ -137,7 +143,7 @@ export function SignUpCard() {
                         <UserRound className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                         <Input
                           type='text'
-                          placeholder='Lastname'
+                          placeholder={t('lastname')}
                           className='pl-12 pr-4'
                           {...field}
                         />
@@ -158,7 +164,7 @@ export function SignUpCard() {
                       <Mail className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                       <Input
                         type='email'
-                        placeholder='Email'
+                        placeholder={t('email')}
                         className='pl-12 pr-4'
                         {...field}
                       />
@@ -178,7 +184,7 @@ export function SignUpCard() {
                       <Lock className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                       <Input
                         type='password'
-                        placeholder='Password'
+                        placeholder={t('password')}
                         className='pl-12 pr-4'
                         {...field}
                       />
@@ -198,7 +204,7 @@ export function SignUpCard() {
                       <LockKeyhole className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                       <Input
                         type='password'
-                        placeholder='Confirm Password'
+                        placeholder={t('confirm_password')}
                         className='pl-12 pr-4'
                         {...field}
                       />
@@ -211,22 +217,24 @@ export function SignUpCard() {
             <div className='mb-4'>
               <div className='flex items-center space-x-2'>
                 <Checkbox id='terms' />
-                <Label htmlFor='terms'>Accept terms and conditions</Label>
+                <Label htmlFor='terms'>
+                  {t('accpet_terms_and_conditions')}
+                </Label>
               </div>
             </div>
             <Button type='submit' className='!mt-8 w-full' disabled={loading}>
               {loading ? (
                 <Loader2 className='mr-2 size-4 animate-spin' />
               ) : null}
-              Sign Up
+              {t('sign_up')}
             </Button>
           </form>
         </Form>
       </div>
       <div className='mt-8 flex w-full max-w-sm items-center justify-center'>
-        <div className='text-center'>Already have account?</div>
+        <div className='text-center'>{t('already_have_account')}</div>
         <Button variant='link'>
-          <Link href='/auth/signin'>Sign In</Link>
+          <Link href='/auth/signin'>{t('sign_in')}</Link>
         </Button>
       </div>
     </div>

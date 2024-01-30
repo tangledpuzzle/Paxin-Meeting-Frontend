@@ -20,16 +20,18 @@ import {
 } from '@/components/ui/form';
 import axios from 'axios';
 import { PaxContext } from '@/context/context';
-
-const formSchema = z.object({
-  email: z.string().email('Invalid email address'),
-});
-
-type UserFormValue = z.infer<typeof formSchema>;
+import { useTranslation } from 'react-i18next';
 
 export function ForgotPasswordCard() {
+  const { t } = useTranslation();
   const { locale } = useContext(PaxContext);
   const [loading, setLoading] = useState(false);
+
+  const formSchema = z.object({
+    email: z.string().email(t('invalid_email')),
+  });
+
+  type UserFormValue = z.infer<typeof formSchema>;
 
   const defaultValues = {
     email: '',
@@ -51,16 +53,16 @@ export function ForgotPasswordCard() {
       );
 
       if (res.status === 200) {
-        toast.success('Check your email for reset instructions', {
+        toast.success(t('check_your_email_for_reset_instructions'), {
           position: 'top-right',
         });
       } else {
-        toast.error('Failed to send reset instructions', {
+        toast.error(t('failed_send_reset_instructions'), {
           position: 'top-right',
         });
       }
     } catch (error) {
-      toast.error('Failed to send reset instructions', {
+      toast.error(t('failed_send_reset_instructions'), {
         position: 'top-right',
       });
     }
@@ -71,9 +73,9 @@ export function ForgotPasswordCard() {
   return (
     <div className='flex size-full flex-col items-center justify-center'>
       <div className='flex flex-col text-center text-2xl sm:text-3xl'>
-        <span>Forgot Password?</span>{' '}
+        <span>{t('forgot_password_question')}</span>{' '}
         <span className='text-sm text-muted-foreground'>
-          No worries, we will send you reset instructions.
+          {t('forgot_password_description')}
         </span>
       </div>
       <div className='mt-8 flex w-full max-w-sm flex-col gap-3'>
@@ -92,7 +94,7 @@ export function ForgotPasswordCard() {
                       <Mail className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
                       <Input
                         type='email'
-                        placeholder='Email'
+                        placeholder={t('email')}
                         className='pl-12 pr-4'
                         {...field}
                       />
@@ -104,7 +106,7 @@ export function ForgotPasswordCard() {
             />
             <Button type='submit' className='w-full' disabled={loading}>
               {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
-              Reset Password
+              {t('reset_password')}
             </Button>
           </form>
         </Form>
@@ -113,7 +115,7 @@ export function ForgotPasswordCard() {
         <Button variant='link' asChild>
           <Link href='/auth/signin'>
             <ArrowLeft className='mr-2 size-4' />
-            Back to Sign In
+            {t('back_to_sign_in')}
           </Link>
         </Button>
       </div>
