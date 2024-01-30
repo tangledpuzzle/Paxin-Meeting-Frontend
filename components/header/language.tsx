@@ -64,7 +64,7 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
                 height={24}
                 className='mr-2 h-auto w-5'
               />
-              Russian
+              Русский
             </div>
           </SelectItem>
           <SelectItem value='ka'>
@@ -76,7 +76,7 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
                 height={24}
                 className='mr-2 h-auto w-5'
               />
-              Georgian
+              ქართული
             </div>
           </SelectItem>
           <SelectItem value='es'>
@@ -88,7 +88,7 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
                 height={24}
                 className='mr-2 h-auto w-5'
               />
-              Spanish
+              Española
             </div>
           </SelectItem>
         </SelectGroup>

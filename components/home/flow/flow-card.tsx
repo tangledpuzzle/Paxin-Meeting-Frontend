@@ -16,6 +16,7 @@ import { PriceBadge } from './price-badge';
 import Link from 'next/link';
 
 import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { useTranslation } from 'react-i18next';
 
 export interface FlowCardProps {
   id: string;
@@ -41,6 +42,7 @@ export interface FlowCardProps {
 }
 
 function FlowCard(profile: FlowCardProps) {
+  const { t } = useTranslation();
   const {
     id,
     title,
@@ -79,7 +81,7 @@ function FlowCard(profile: FlowCardProps) {
                   className='border-none bg-black/50 p-2 text-white'
                 >
                   <Mail className='mr-2 size-4 text-white' />
-                  Regular Post
+                  {t('regular_post')}
                 </Badge>
               )}
 
@@ -91,7 +93,7 @@ function FlowCard(profile: FlowCardProps) {
                 {review.totalviews}
               </Badge>
             </div>
-            <div className='absolute inset-0 flex items-center justify-center rounded-md rounded-b-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
+            <div className='absolute inset-0 flex items-center justify-center rounded-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
         </Link>
         <div className='relative w-full max-w-[100%]'>
@@ -130,7 +132,7 @@ function FlowCard(profile: FlowCardProps) {
                   {user.username}
                 </div>
                 <div className='text-xs text-muted-foreground'>
-                  Visit Profile
+                  {t('visit_profile')}
                 </div>
               </div>
             </div>
@@ -164,17 +166,17 @@ function FlowCard(profile: FlowCardProps) {
             <ReactTooltip
               id='my-tooltip-1'
               place='bottom'
-              content='Send report'
+              content={t('send_report')}
             />
             <ReactTooltip
               id='my-tooltip-2'
               place='bottom'
-              content='Copy link url'
+              content={t('copy_link')}
             />
             <ReactTooltip
               id='my-tooltip-3'
               place='bottom'
-              content='Open telegram chat'
+              content={t('open_telegram_chat')}
             />
           </div>
         </div>

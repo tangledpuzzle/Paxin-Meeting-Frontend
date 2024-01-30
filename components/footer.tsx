@@ -55,13 +55,13 @@ export function SiteFooter() {
                       href={item.href}
                       className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline'
                     >
-                      {item.title}
+                      {t(item.title)}
                     </Link>
                   ))}
                 </div>
                 <div className='flex flex-col'>
                   <div className='my-4 font-satoshi text-xl font-semibold'>
-                    Product
+                    {t('product')}
                   </div>
                   {siteConfig.footer.product.map((item, index) => (
                     <Link
@@ -69,13 +69,13 @@ export function SiteFooter() {
                       href={item.href}
                       className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline'
                     >
-                      {item.title}
+                      {t(item.title)}
                     </Link>
                   ))}
                 </div>
                 <div className='flex flex-col md:ml-auto'>
                   <div className='my-4 font-satoshi text-xl font-semibold'>
-                    Resources
+                    {t('resources')}
                   </div>
                   {siteConfig.footer.resources.map((item, index) => (
                     <Link
@@ -83,7 +83,7 @@ export function SiteFooter() {
                       href={item.href}
                       className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline'
                     >
-                      {item.title}
+                      {t(item.title)}
                     </Link>
                   ))}
                 </div>

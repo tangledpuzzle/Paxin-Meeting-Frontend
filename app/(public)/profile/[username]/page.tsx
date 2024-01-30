@@ -38,6 +38,7 @@ import { QRCodeModal } from '@/components/common/qrcode-modal';
 import 'react-quill/dist/quill.snow.css';
 import '@/styles/editor.css';
 import { PaxContext } from '@/context/context';
+import { useTranslation } from 'react-i18next';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -90,6 +91,7 @@ export default function ProfilePage({
 }: {
   params: { username: string };
 }) {
+  const { t } = useTranslation();
   const { locale, setLocale } = useContext(PaxContext);
   const [profileDetails, setProfileDetails] = useState<ProfileDetails>();
   const { data: fetchedData, error } = useSWR(
@@ -120,7 +122,7 @@ export default function ProfilePage({
 
   const breadcrumbs = [
     {
-      name: 'Profile',
+      name: t('profile'),
       url: '/home',
     },
     {
@@ -154,10 +156,10 @@ export default function ProfilePage({
               <Button variant='outline' className='rounded-full' size='icon'>
                 <MdPhoneInTalk className='size-5' />
               </Button>
-              <Button className='ml-auto rounded-full'>Follow</Button>
+              <Button className='ml-auto rounded-full'>{t('follow')}</Button>
             </div>
             <div className='hidden md:block'>
-              <div className='text-lg font-semibold'>Post Feed: </div>
+              <div className='text-lg font-semibold'>{t('post_feed')}: </div>
               {profileDetails.latestblog && (
                 <Card className='w-full'>
                   <CardHeader>
@@ -187,7 +189,7 @@ export default function ProfilePage({
                   </CardHeader>
                   <CardFooter>
                     <Button className='w-full'>
-                      View Post
+                      {t('view_post')}
                       <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Button>
                   </CardFooter>
@@ -198,7 +200,7 @@ export default function ProfilePage({
                 className='mt-3 w-full rounded-full border-primary text-primary'
               >
                 <VscEye className='mr-2 size-5' />
-                View More Topics
+                {t('view_more_topics')}
               </Button>
             </div>
           </div>
@@ -234,14 +236,14 @@ export default function ProfilePage({
               <div>
                 <div className='flex items-center gap-2'>
                   <MdOutlineHouseSiding className='size-5' />
-                  City
+                  {t('city')}
                 </div>
                 <div className='flex gap-2'>
                   {profileDetails.cities.map((city, index) => (
                     <Badge
                       key={index}
                       variant='outline'
-                      className='rounded-full border-primary bg-primary/10 text-primary max-w-fit p-2'
+                      className='max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
                     >
                       {city}
                     </Badge>
@@ -251,14 +253,14 @@ export default function ProfilePage({
               <div>
                 <div className='flex items-center gap-2'>
                   <BiSolidCategory className='size-4' />
-                  Category
+                  {t('category')}
                 </div>
                 <div className='flex gap-2'>
                   {profileDetails.categories.map((category, index) => (
                     <Badge
                       key={index}
                       variant='outline'
-                      className='rounded-full border-primary bg-primary/10 text-primary max-w-fit p-2'
+                      className='max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
                     >
                       {category}
                     </Badge>
@@ -271,15 +273,15 @@ export default function ProfilePage({
               <div>
                 <div className='flex items-center gap-2'>
                   <BiSolidCalendar className='size-4' />
-                  Online Status
+                  {t('online_status')}
                 </div>
                 <div className='text-gray-500'>
                   <div>
-                    This month: {profileDetails.review.monthtime.hour}h{' '}
+                    {t('this_month')}: {profileDetails.review.monthtime.hour}h{' '}
                     {profileDetails.review.monthtime.minutes}m
                   </div>
                   <div>
-                    Total: {profileDetails.review.totaltime.hour}h{' '}
+                    {t('total')}: {profileDetails.review.totaltime.hour}h{' '}
                     {profileDetails.review.totaltime.minutes}m
                   </div>
                 </div>
@@ -287,49 +289,56 @@ export default function ProfilePage({
               <div>
                 <div className='flex items-center gap-2'>
                   <MdOutlinePostAdd className='size-4' />
-                  Publications
+                  {t('publications')}
                 </div>
                 <div className='text-gray-500'>
-                  <div>This month: {profileDetails.review.monthposts}</div>
-                  <div>Total: {profileDetails.review.totalposts}</div>
+                  <div>
+                    {t('this_month')}: {profileDetails.review.monthposts}
+                  </div>
+                  <div>
+                    {t('total')}: {profileDetails.review.totalposts}
+                  </div>
                 </div>
               </div>
               <div>
                 <div className='flex items-center gap-2'>
                   <RiUserFollowFill className='size-4' />
-                  Followers
+                  {t('followers')}
                 </div>
                 <div className='text-gray-500'>
-                  <div>Total: {profileDetails.review.followers}</div>
+                  <div>
+                    {t('total')}: {profileDetails.review.followers}
+                  </div>
                 </div>
               </div>
             </div>
             <div className='space-y-3'>
               <div>
-                <div className='text-lg font-semibold'>Profile Description</div>
+                <div className='text-lg font-semibold'>
+                  {t('profile_description')}
+                </div>
                 <div className='text-gray-500'>
                   {profileDetails.description}
                 </div>
               </div>
               <div>
-                <div className='text-lg font-semibold'>Additional info</div>
+                <div className='text-lg font-semibold'>
+                  {t('additional_info')}
+                </div>
                 <ReactQuill
                   theme='snow'
                   value={profileDetails.additionalinfo}
                   modules={modules}
                   formats={formats}
                   readOnly
-                  placeholder='Type your content here...'
+                  placeholder={t('type_your_content_here')}
                   className='border-none text-gray-500 placeholder:text-white'
                 />
-                {/* <div className="text-gray-500">
-                  {profileDetails.additionalinfo}
-                </div> */}
               </div>
             </div>
 
             <div className='mx-auto max-w-sm md:hidden'>
-              <div className='text-lg font-semibold'>Post Feed: </div>
+              <div className='text-lg font-semibold'>{t('post_feed')}: </div>
               {profileDetails.latestblog && (
                 <Card className='w-full'>
                   <CardHeader>
@@ -359,7 +368,7 @@ export default function ProfilePage({
                   </CardHeader>
                   <CardFooter>
                     <Button className='w-full'>
-                      View Post
+                      {t('view_post')}
                       <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Button>
                   </CardFooter>
@@ -370,7 +379,7 @@ export default function ProfilePage({
                 className='mt-3 w-full rounded-full border-primary text-primary'
               >
                 <VscEye className='mr-2 size-5' />
-                View More Topics
+                {t('view_more_topics')}
               </Button>
             </div>
           </div>
