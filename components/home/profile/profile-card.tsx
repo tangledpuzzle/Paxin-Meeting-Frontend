@@ -1,6 +1,8 @@
 import Image from 'next/image';
-import { BiSolidCalendar } from 'react-icons/bi';
-import { BsCalendarDateFill } from 'react-icons/bs';
+import { CiClock1 } from "react-icons/ci";
+import { IoCalendarNumberOutline } from "react-icons/io5";
+import { TiMessage } from "react-icons/ti";
+import { GiShadowFollower } from "react-icons/gi";
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -90,24 +92,24 @@ function ProfileCard(profile: ProfileCardProps) {
         <div className='mt-auto grid grid-cols-2'>
           <div>
             <div className='flex items-center justify-start gap-2 text-muted-foreground pb-2'>
-              <BsCalendarDateFill className='size-5 text-black dark:text-white' />
+              <IoCalendarNumberOutline className='size-5 text-black dark:text-white' />
               <span className='text-sm'>This month:{' '}
               {`${review.monthtime.hour}h : ${review.monthtime.minutes}m`}</span>
             </div>
             <div className='flex items-center justify-start gap-2 text-muted-foreground'>
-              <BiSolidCalendar className='size-5 text-black dark:text-white' />
+              <CiClock1 className='size-5 text-black dark:text-white' />
               <span className='text-sm'>Total time:{' '}
               {`${review.totaltime.hour}h : ${review.totaltime.minutes}m`}</span>
             </div>
           </div>
           <div>
             <div className='flex items-center justify-start gap-2 text-muted-foreground pb-2'>
-              <BsCalendarDateFill className='size-5 text-black dark:text-white' />
+              <GiShadowFollower className='size-5 text-black dark:text-white' />
               <span className='text-sm'>Followers:{' '}
               {`${totalfollowers}`}</span>
             </div>
             <div className='flex items-center justify-start gap-2 text-muted-foreground'>
-              <BiSolidCalendar className='size-5 text-black dark:text-white' />
+              <TiMessage className='size-5 text-black dark:text-white' />
               <span className='text-sm'>Total Posts:{' '}
               {`${review.totalposts}`}</span>
             </div>
