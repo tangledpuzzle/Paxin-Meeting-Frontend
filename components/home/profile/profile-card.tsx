@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { QRCodeModal } from '../../common/qrcode-modal';
 import { CategoryCard } from './category-card';
 import { CityCard } from './city-card';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export interface ProfileCardProps {
   username: string;
@@ -41,7 +41,7 @@ export interface ProfileCardProps {
 }
 
 function ProfileCard(profile: ProfileCardProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const {
     username,
     bio,
@@ -129,7 +129,7 @@ function ProfileCard(profile: ProfileCardProps) {
         </div>
         <div className='flex justify-between'>
           <Button variant='default' className='w-full font-roboto' asChild>
-            <Link href='/profile/[username]' as={`/profile/${username}`}>
+            <Link href='/profiles/[username]' as={`/profiles/${username}`}>
               {t('view_detail')}
             </Link>
           </Button>

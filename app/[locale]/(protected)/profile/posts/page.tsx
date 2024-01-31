@@ -19,13 +19,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function MyPostsPage() {
   const { locale } = usePaxContext();
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const searchParams = useSearchParams();
   const router = useRouter();
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);

@@ -4,9 +4,17 @@ import createIntlMiddleware from 'next-intl/middleware';
 import { locales } from './navigation';
 
 const publicPages = [
-  '/main',
+  '/',
+  '/home',
+  '/about',
+  '/contact',
   '/auth/signin',
-  // (/secret requires auth)
+  '/auth/signup',
+  '/auth/verify',
+  '/auth/forgot-password',
+  '/auth/reset-password/[slug]',
+  '/flows/[id]/[slug]',
+  '/profiles/[username]',
 ];
 
 const intlMiddleware = createIntlMiddleware({
@@ -31,12 +39,22 @@ const authMiddleware = withAuth(
 );
 
 export default function middleware(req: NextRequest) {
-  const publicPathnameRegex = RegExp(
-    `^(/(${locales.join('|')}))?(${publicPages
-      .flatMap((p) => (p === '/' ? ['', '/'] : p))
-      .join('|')})/?$`,
+  const formattedPublicPages = publicPages
+    .map((p) =>
+      p === '/'
+        ? ['', '/']
+        : p
+            .replace('[slug]', '[a-zA-Z0-9-]+')
+            .replace('[id]', '[a-zA-Z0-9-]+')
+            .replace('[username]', '[a-zA-Z0-9-]+')
+    )
+    .flat(); // Flatten the array here to ensure proper joining
+
+  const publicPathnameRegex = new RegExp(
+    `^(/(${locales.join('|')}))?(${formattedPublicPages.join('|')})/?$`,
     'i'
   );
+
   const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
 
   if (isPublicPage) {

@@ -16,7 +16,7 @@ import { PriceBadge } from './price-badge';
 import Link from 'next/link';
 
 import { Tooltip as ReactTooltip } from 'react-tooltip';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export interface FlowCardProps {
   id: string;
@@ -42,7 +42,7 @@ export interface FlowCardProps {
 }
 
 function FlowCard(profile: FlowCardProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const {
     id,
     title,
@@ -120,7 +120,7 @@ function FlowCard(profile: FlowCardProps) {
           <CategoryBadge>{category}</CategoryBadge>
         </div>
         <div className='flex justify-between'>
-          <Link href='/profile/[username]' as={`/profile/${user.username}`}>
+          <Link href='/profiles/[username]' as={`/profiles/${user.username}`}>
             <div className='flex gap-2'>
               <ProfileAvatar
                 src={user.avatar}

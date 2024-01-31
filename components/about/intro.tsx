@@ -2,10 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '../ui/button';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export function IntroSection() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
 
   return (
     <div className='grid w-full md:grid-cols-2'>

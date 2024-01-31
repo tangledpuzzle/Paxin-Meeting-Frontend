@@ -1,18 +1,26 @@
-// import { SiteFooter } from "@/components/footer"
-// import { SiteHeader } from "@/components/header/site-header"
+import { SiteFooter } from '@/components/footer';
+import SiteHeader from '@/components/header/site-header';
+import { NextIntlClientProvider, useMessages } from 'next-intl';
+import { unstable_setRequestLocale } from 'next-intl/server';
+import { ReactNode } from 'react';
+type Props = {
+  children: ReactNode;
+  params: { locale: string };
+};
 
-export default function PublicLayout({
+// Since we have a `not-found.tsx` page on the root, a layout file
+// is required, even if it's just passing children through.
+export default function LandingPageLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+  params: { locale },
+}: Props) {
+  unstable_setRequestLocale(locale);
+  const messages = useMessages();
   return (
-    <>
-      {/* <div className="relative flex min-h-screen flex-col">
-        <SiteHeader />
-        <div className="flex-1">{children}</div>
-        <SiteFooter />
-      </div> */}
-    </>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <SiteHeader />
+      {children}
+      <SiteFooter />
+    </NextIntlClientProvider>
   );
 }

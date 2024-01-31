@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { PlanUpgradeModal } from './plan-upgrade-modal';
 import { useContext } from 'react';
 import { PaxContext } from '@/context/context';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 interface CTAProps {
   title: string;
@@ -14,7 +14,7 @@ interface CTAProps {
 }
 
 export default function CTASection({ title, description, icon }: CTAProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const { user } = useContext(PaxContext);
   const Icon = icon;
 

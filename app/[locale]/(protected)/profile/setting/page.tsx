@@ -31,7 +31,7 @@ import 'react-quill/dist/quill.snow.css';
 import useSWR from 'swr';
 import * as z from 'zod';
 import { Input } from '@/components/ui/input';
-import { useTranslation } from 'next-i18next';
+import { useLocale, useTranslations } from 'next-intl';
 import { ConfirmModal } from '@/components/common/confirm-modal';
 import { signOut } from 'next-auth/react';
 
@@ -108,8 +108,9 @@ type GalleryType = {
 };
 
 export default function SettingPage() {
-  const { t } = useTranslation();
-  const { locale, userMutate } = useContext(PaxContext);
+  const t = useTranslations('main');
+  const { userMutate } = useContext(PaxContext);
+  const locale = useLocale();
 
   const imageUploadRef = useRef<ImageUploadComponentType>(null);
 

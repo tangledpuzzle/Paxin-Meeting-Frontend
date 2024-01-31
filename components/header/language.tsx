@@ -24,10 +24,6 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
 
   const changeLang = (lang: string) => {
     router.push(`/${lang}/${pathname}`);
-    // i18n.changeLanguage(lang);
-    // localStorage.setItem('locale', lang);
-    // setLocale(lang);
-    // console.log(i18n.language);
   };
 
   return (

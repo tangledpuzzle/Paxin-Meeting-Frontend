@@ -9,7 +9,7 @@ import {
   DialogHeader,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 interface ConfirmPasswordModalProps {
   open: boolean;
@@ -20,7 +20,7 @@ export function ConfirmPasswordModal({
   open,
   setOpen,
 }: ConfirmPasswordModalProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

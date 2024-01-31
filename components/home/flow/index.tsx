@@ -1,13 +1,13 @@
 'use client';
 
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
-import { PaxContext } from '@/context/context';
+import { useLocale } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { FlowCard } from './flow-card';
 import { FlowCardSkeleton } from './flow-card-skeleton';
-import { useSearchParams } from 'next/navigation';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -37,7 +37,7 @@ export interface FlowData {
 export default function FlowSection() {
   const searchParams = useSearchParams();
   const [flowData, setFlowData] = useState<FlowData[]>([]);
-  const { locale, setLocale } = useContext(PaxContext);
+  const locale = useLocale();
   const [fetchURL, setFetchURL] = useState('/api/flows/get?language=en');
 
   const { data: fetchedData, error } = useSWR(fetchURL, fetcher);

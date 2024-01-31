@@ -2,14 +2,14 @@ import * as React from 'react';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 
 import { Badge } from '@/components/ui/badge';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export interface CityCardProps extends React.HTMLAttributes<HTMLDivElement> {
   cities: string[];
 }
 
 function CityCard({ cities }: CityCardProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
 
   return (
     <div className='border-badge group relative w-full rounded-xl border border-[#ffffff2b] bg-[#9c9c9c1a] p-2 transition-all duration-300 hover:border-primary'>
