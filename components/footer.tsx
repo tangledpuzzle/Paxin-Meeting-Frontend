@@ -55,7 +55,7 @@ export function SiteFooter() {
                       href={item.href}
                       className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline'
                     >
-                      {t(item.title)}
+                      {t(item.title as keyof IntlMessages['main'])}
                     </Link>
                   ))}
                 </div>
@@ -69,7 +69,7 @@ export function SiteFooter() {
                       href={item.href}
                       className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline'
                     >
-                      {t(item.title)}
+                      {t(item.title as keyof IntlMessages['main'])}
                     </Link>
                   ))}
                 </div>
@@ -83,7 +83,7 @@ export function SiteFooter() {
                       href={item.href}
                       className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline'
                     >
-                      {t(item.title)}
+                      {t(item.title as keyof IntlMessages['main'])}
                     </Link>
                   ))}
                 </div>

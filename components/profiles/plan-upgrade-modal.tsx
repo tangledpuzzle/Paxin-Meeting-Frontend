@@ -111,7 +111,7 @@ export function PlanUpgradeModal({ children }: PlanUpgradeModalProps) {
           {plans.map((plan) => (
             <PlanCard
               key={plan.title}
-              title={t(plan.title)}
+              title={t(plan.title as keyof IntlMessages['main'])}
               description={`${plan.description} ${t('per_month_of_use')}`}
               icon={plan.icon}
               plan={plan.plan}

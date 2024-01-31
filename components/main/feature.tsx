@@ -100,8 +100,8 @@ export default function FeatureSection() {
         {features.map((feature, index) => (
           <FeatureCard
             key={index}
-            title={t(feature.title)}
-            description={t(feature.description)}
+            title={t(feature.title as keyof IntlMessages['main'])}
+            description={t(feature.description as keyof IntlMessages['main'])}
             bottomImage={feature.bottomImage}
             icon={feature.icon}
           />

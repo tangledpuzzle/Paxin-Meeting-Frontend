@@ -45,7 +45,7 @@ export function ProfileNav({ items, setOpen }: ProfileNavProps) {
               >
                 {Icon && <Icon className='size-5 lg:mr-2' />}
                 <span className='truncate text-xs sm:hidden sm:text-base lg:block'>
-                  {t(item.title)}
+                  {t(item.title as keyof IntlMessages['main'])}
                 </span>
               </span>
             </Link>

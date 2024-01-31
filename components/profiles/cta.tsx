@@ -25,9 +25,9 @@ export default function CTASection({ title, description, icon }: CTAProps) {
           <Icon className='size-5' />
         </div>
         <div>
-          <div className='text-lg font-semibold'>{t(title)}</div>
+          <div className='text-lg font-semibold'>{title}</div>
           <div className='hidden text-sm text-muted-foreground lg:block'>
-            {t(description || '')}
+            {description || ''}
           </div>
         </div>
         <PlanUpgradeModal>

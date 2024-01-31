@@ -28,12 +28,12 @@ import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
 import * as z from 'zod';
-import { useTranslations } from 'next-intl';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -73,7 +73,8 @@ type ImageUploadComponentType = {
 
 export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   const t = useTranslations('main');
-  const { user, locale } = useContext(PaxContext);
+  const { user } = useContext(PaxContext);
+  const locale = useLocale();
 
   const formSchema = z
     .object({
