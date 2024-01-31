@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface LanguageSelectorProps {
   className?: string;
@@ -21,9 +21,13 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
   const router = useRouter();
   const locale = useLocale();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const newSearchParams = new URLSearchParams(searchParams).toString();
 
   const changeLang = (lang: string) => {
-    router.push(`/${lang}/${pathname}`);
+    router.push(
+      `/${lang}/${pathname}${newSearchParams ? '?' + newSearchParams : ''}`
+    );
   };
 
   return (

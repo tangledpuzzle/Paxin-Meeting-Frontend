@@ -1,5 +1,5 @@
 import Providers from '@/provider/provider';
-
+import SessionProviders from '@/provider/session-provider';
 import '@/styles/globals.css';
 
 import { TailwindIndicator } from '@/components/tailwind-indicator';
@@ -66,18 +66,20 @@ export default async function RootLayout({
           fontRoboto.variable
         )}
       >
-        <Providers session={session}>
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='system'
-            enableSystem={true}
-          >
-            {children}
-            <Toaster />
-            <MetadataUpdater />
-          </ThemeProvider>
-          <TailwindIndicator />
-        </Providers>
+        <SessionProviders session={session}>
+          <Providers>
+            <ThemeProvider
+              attribute='class'
+              defaultTheme='system'
+              enableSystem={true}
+            >
+              {children}
+              <Toaster />
+              <MetadataUpdater />
+            </ThemeProvider>
+            <TailwindIndicator />
+          </Providers>
+        </SessionProviders>
       </body>
     </html>
   );
