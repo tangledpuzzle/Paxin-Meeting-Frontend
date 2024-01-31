@@ -453,7 +453,6 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                                       .filter(
                                         (image: any) => image.path !== file.path
                                       );
-                                    console.log(_images);
                                     field.onChange(_images);
                                   }
                                 }}

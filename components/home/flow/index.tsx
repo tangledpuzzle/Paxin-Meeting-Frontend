@@ -69,7 +69,6 @@ export default function FlowSection() {
 
   useEffect(() => {
     if (!error && fetchedData) {
-      console.log(fetchedData);
       setFlowData(fetchedData);
     }
   }, [fetchedData, error]);

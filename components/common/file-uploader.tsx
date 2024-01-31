@@ -94,8 +94,6 @@ export const ImageUpload = forwardRef<
         })
       );
 
-    console.log(images);
-
     e.target.value = '';
   };
 

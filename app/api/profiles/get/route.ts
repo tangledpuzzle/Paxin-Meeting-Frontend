@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
         categories: item.Guilds.map((guild: any) => guild.Translations[0].Name),
         qrcode: item.User.Name,
         countrycode: item.Lang,
+        totalfollowers: item.User.Followings ? item.User.Followings.length : 0,
         review: {
           totaltime: item.User.TotalOnlineHours[0],
           monthtime: item.User.OnlineHours[0],

@@ -96,7 +96,6 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json(profile);
     }
   } catch (error) {
-    console.log(error, 'hey');
     return NextResponse.json(
       { error: 'Failed to fetch data' },
       { status: 500 }

@@ -113,7 +113,6 @@ export default function FlowPage({
 
   useEffect(() => {
     if (!error && fetchedData) {
-      console.log(fetchedData);
       setBlogDetails(fetchedData);
     }
   }, [fetchedData, error]);

@@ -26,8 +26,6 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        console.log(credentials);
-
         try {
           const response = await axios.post(
             `${process.env.API_URL}/api/auth/login`,

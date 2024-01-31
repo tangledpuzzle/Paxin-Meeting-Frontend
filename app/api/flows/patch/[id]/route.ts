@@ -23,18 +23,6 @@ export async function PATCH(req: NextRequest) {
       images,
     } = await req.json();
 
-    console.log({
-      title,
-      descr: subtitle,
-      content,
-      city,
-      catygory: category,
-      hashtags,
-      total: price * 1,
-      photos: images,
-      files: images.files,
-    });
-
     const res = await fetch(
       `${process.env.API_URL}/api/blog/patch/${id}?mode=updateDeal`,
       {
@@ -64,7 +52,6 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { error: 'Failed to fetch data' },
       { status: 500 }

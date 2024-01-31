@@ -176,8 +176,6 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
         return;
       }
 
-      console.log(files?.files);
-
       const res = await axios.post(`/api/flows/create?language=${locale}`, {
         title: data.title,
         subtitle: data.subtitle,

@@ -63,7 +63,6 @@ export default function MyPostsPage() {
   useEffect(() => {
     if (!error && fetchedData) {
       setBlogs(fetchedData);
-      console.log(fetchedData, 'h');
     }
   }, [fetchedData, error]);
 

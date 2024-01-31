@@ -21,7 +21,7 @@ import { Separator } from '@/components/ui/separator';
 import 'react-image-gallery/styles/css/image-gallery.css';
 
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 import { QRCodeModal } from '@/components/common/qrcode-modal';
@@ -37,11 +37,10 @@ import {
 
 import ProfileDetailSkeleton from '@/components/home/profile/profile-detail-skeleton';
 import '@/styles/editor.css';
-import { useLocale, useTranslations } from 'next-intl';
-import 'react-quill/dist/quill.snow.css';
-import { PaxContext } from '@/context/context';
-import toast from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
+import toast from 'react-hot-toast';
+import 'react-quill/dist/quill.snow.css';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -208,7 +207,6 @@ export default function ProfilePage({
 
   useEffect(() => {
     if (!error && fetchedData) {
-      console.log(fetchedData);
       setProfileDetails(fetchedData);
     }
   }, [fetchedData, error]);
