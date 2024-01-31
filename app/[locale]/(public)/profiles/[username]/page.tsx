@@ -21,7 +21,7 @@ import { Separator } from '@/components/ui/separator';
 import 'react-image-gallery/styles/css/image-gallery.css';
 
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 import { QRCodeModal } from '@/components/common/qrcode-modal';
@@ -39,6 +39,9 @@ import ProfileDetailSkeleton from '@/components/home/profile/profile-detail-skel
 import '@/styles/editor.css';
 import { useLocale, useTranslations } from 'next-intl';
 import 'react-quill/dist/quill.snow.css';
+import { PaxContext } from '@/context/context';
+import toast from 'react-hot-toast';
+import { Loader2 } from 'lucide-react';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -51,11 +54,13 @@ interface GalleryData {
 }
 
 interface ProfileDetails {
+  id: string;
   username: string;
   bio: string;
   hashtags: string[];
   cities: string[];
   categories: string[];
+  country: string;
   review: {
     totaltime: {
       hour: number;
@@ -84,6 +89,7 @@ interface ProfileDetails {
   additionalinfo: string;
   telegram: string;
   qrcode: string;
+  follow: boolean;
 }
 
 export default function ProfilePage({
@@ -93,8 +99,13 @@ export default function ProfilePage({
 }) {
   const t = useTranslations('main');
   const locale = useLocale();
+  const [isFollowLoading, setIsFollowLoading] = useState<boolean>(false);
   const [profileDetails, setProfileDetails] = useState<ProfileDetails>();
-  const { data: fetchedData, error } = useSWR(
+  const {
+    data: fetchedData,
+    error,
+    mutate,
+  } = useSWR(
     `/api/profiles/get/${params.username}?language=${locale}`,
     fetcher
   );
@@ -131,8 +142,73 @@ export default function ProfilePage({
     },
   ];
 
+  const handleFollow = async () => {
+    setIsFollowLoading(true);
+
+    try {
+      const res = await axios.post(
+        '/api/profiles/follow/',
+        {
+          followerID: profileDetails?.id,
+        },
+        {
+          headers: {
+            type: 'scribe',
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        toast.success(t('follow_success'), {
+          position: 'top-right',
+        });
+
+        mutate();
+      } else {
+        toast.error(t('follow_failed'), {
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      toast.error(t('follow_failed'), {
+        position: 'top-right',
+      });
+    }
+
+    setIsFollowLoading(false);
+  };
+
+  const handleUnFollow = async () => {
+    setIsFollowLoading(true);
+
+    try {
+      const res = await axios.post('/api/profiles/follow/', {
+        followerID: profileDetails?.id,
+      });
+
+      if (res.status === 200) {
+        toast.success(t('unfollow_success'), {
+          position: 'top-right',
+        });
+
+        mutate();
+      } else {
+        toast.error(t('unfollow_failed'), {
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      toast.error(t('unfollow_failed'), {
+        position: 'top-right',
+      });
+    }
+
+    setIsFollowLoading(false);
+  };
+
   useEffect(() => {
     if (!error && fetchedData) {
+      console.log(fetchedData);
       setProfileDetails(fetchedData);
     }
   }, [fetchedData, error]);
@@ -156,7 +232,30 @@ export default function ProfilePage({
               <Button variant='outline' className='rounded-full' size='icon'>
                 <MdPhoneInTalk className='size-5' />
               </Button>
-              <Button className='ml-auto rounded-full'>{t('follow')}</Button>
+              {!profileDetails.follow ? (
+                <Button
+                  className='ml-auto rounded-full'
+                  disabled={isFollowLoading}
+                  onClick={handleFollow}
+                >
+                  {isFollowLoading && (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  )}
+                  {t('follow')}
+                </Button>
+              ) : (
+                <Button
+                  variant='outline'
+                  className='ml-auto rounded-full'
+                  disabled={isFollowLoading}
+                  onClick={handleUnFollow}
+                >
+                  {isFollowLoading && (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  )}
+                  {t('unfollow')}
+                </Button>
+              )}
             </div>
             <div className='hidden md:block'>
               <div className='text-lg font-semibold'>{t('post_feed')}: </div>
@@ -182,7 +281,7 @@ export default function ProfilePage({
                         variant='outline'
                         className='bg-muted-foreground text-white'
                       >
-                        <FaThumbsUp className='mr-2 h-3 w-3' />
+                        <FaThumbsUp className='mr-2 size-3' />
                         {profileDetails.latestblog.review.votes}
                       </Badge>
                     </div>
@@ -211,7 +310,10 @@ export default function ProfilePage({
                   <div className='flex gap-3 text-xl font-semibold text-secondary-foreground'>
                     @{profileDetails.username}
                     <div
-                      className={`size-6 rounded-full bg-[url('/images/es.svg')] bg-cover bg-center bg-no-repeat`}
+                      className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
+                      style={{
+                        backgroundImage: `url('/images/${profileDetails.country}.svg')`,
+                      }}
                     />
                   </div>
                   <div className='text-sm text-muted-foreground'>
