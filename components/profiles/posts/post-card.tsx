@@ -36,6 +36,7 @@ import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RiEditBoxFill } from 'react-icons/ri';
 import { EditPostModal } from './edit-post-modal';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 export interface PostCardProps {
   id: number;
@@ -64,6 +65,7 @@ export interface PostCardProps {
   };
   archived: boolean;
   price: string;
+  link: string;
   onArchive: () => void;
   onDelete: () => void;
   mutate: () => void;
@@ -84,6 +86,7 @@ export function PostCard({
   gallery,
   archived,
   price,
+  link,
   onArchive,
   onDelete,
   mutate,
@@ -178,7 +181,7 @@ export function PostCard({
               gallery.files &&
               gallery.files.map((image, index) => (
                 <CarouselItem key={index}>
-                  <div className='relative h-60 w-full'>
+                  <div className='relative h-72 w-full'>
                     <Image
                       src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${image.path}`}
                       alt='preview image'
@@ -192,10 +195,13 @@ export function PostCard({
           <CarouselPrevious className='left-3' />
           <CarouselNext className='right-3' />
         </Carousel>
-        <div className='relative flex w-full flex-col md:h-60'>
-          <div className='line-clamp-1 w-[calc(100%_-_12rem)] text-3xl font-bold'>
+        <div className='relative flex w-full flex-col md:h-72'>
+          <Link
+            href={link}
+            className='line-clamp-1 w-[calc(100%_-_12rem)] text-3xl font-bold'
+          >
             {title}
-          </div>
+          </Link>
           <div className='line-clamp-1 w-full text-sm text-muted-foreground md:w-[90%]'>
             {subtitle}
           </div>
