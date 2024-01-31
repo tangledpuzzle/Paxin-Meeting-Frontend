@@ -1,11 +1,11 @@
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
 import { Button } from '../ui/button';
 
-export function AboutSection() {
-  const { t } = useTranslation();
+export default function AboutSection() {
+  const t = useTranslations('main');
 
   return (
     <div className='flex flex-col items-center justify-center px-0 pb-[40px] md:pb-[80px]'>

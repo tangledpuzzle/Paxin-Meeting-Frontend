@@ -1,8 +1,8 @@
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
-import { useTranslation } from 'next-i18next';
 
 const features = [
   {
@@ -42,7 +42,6 @@ function FeatureCard({
   bottomImage: string;
   icon: string;
 }) {
-  const { t } = useTranslation();
   return (
     <div className='bg-with-gradient hover:ring-primary-500 dark:hover:ring-primary-400 group relative isolate flex flex-1 flex-col rounded-xl shadow transition-shadow duration-200 before:absolute before:-inset-[2px] before:z-[-1] before:hidden before:size-[calc(100%+4px)] before:rounded-[13px] before:lg:block'>
       <div
@@ -66,10 +65,10 @@ function FeatureCard({
           <div className=''>
             <div className='pointer-events-none mb-2'></div>
             <p className='truncate text-base font-bold group-hover:text-white'>
-              {t(title)}
+              {title}
             </p>
             <p className='mt-1 text-[15px] group-hover:text-white'>
-              {t(description)}
+              {description}
             </p>
             <Image
               src={bottomImage}
@@ -85,8 +84,8 @@ function FeatureCard({
   );
 }
 
-export function FeatureSection() {
-  const { t } = useTranslation();
+export default function FeatureSection() {
+  const t = useTranslations('main');
 
   return (
     <div className='flex flex-col items-center justify-center'>
@@ -101,8 +100,8 @@ export function FeatureSection() {
         {features.map((feature, index) => (
           <FeatureCard
             key={index}
-            title={feature.title}
-            description={feature.description}
+            title={t(feature.title)}
+            description={t(feature.description)}
             bottomImage={feature.bottomImage}
             icon={feature.icon}
           />

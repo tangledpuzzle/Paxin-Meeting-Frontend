@@ -11,10 +11,10 @@ import { useContext } from 'react';
 import { PaxContext } from '@/context/context';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export function SiteHeader() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const { user } = useContext(PaxContext);
 
   return (

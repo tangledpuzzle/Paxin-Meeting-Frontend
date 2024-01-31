@@ -1,12 +1,13 @@
+import { useTranslations } from 'next-intl';
+
 import Image from 'next/image';
 
 import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
-import { useTranslation } from 'next-i18next';
 
-export function NavigateSection() {
-  const { t } = useTranslation();
+export default function NavigateSection() {
+  const t = useTranslations('main');
 
   return (
     <div className='flex flex-col items-center justify-center px-3 pb-[40px] md:pb-[80px]'>

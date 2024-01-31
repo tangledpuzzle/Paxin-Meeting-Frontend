@@ -7,10 +7,10 @@ import { siteConfig } from '@/config/site';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export function SiteFooter() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
 
   return (
     <footer className='z-40 w-full bg-[#F5F5F5] px-8 py-4 dark:bg-black'>

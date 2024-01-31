@@ -13,12 +13,12 @@ import { PaxContext } from '@/context/context';
 import { getInitials } from '@/lib/utils';
 import { signOut } from 'next-auth/react';
 import { useContext } from 'react';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { RiArticleLine, RiUserSettingsFill } from 'react-icons/ri';
 import { FaSignOutAlt } from 'react-icons/fa';
 export function AvatarWithMenu() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const { user } = useContext(PaxContext);
 
   return (
