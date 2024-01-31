@@ -266,6 +266,7 @@
     "follow_success": "Follow successfully",
     "follow_failed": "Failed to follow",
     "unfollow_success": "Unfollow successfully",
-    "unfollow_failed": "Failed to unfollow"
+    "unfollow_failed": "Failed to unfollow",
+    "link_copied_to_clipboard": "Link copied to clipboard"
   }
 }

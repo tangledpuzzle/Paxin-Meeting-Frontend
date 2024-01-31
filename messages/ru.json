@@ -265,6 +265,7 @@
     "follow_success": "Подписка успешно выполнена",
     "follow_failed": "Не удалось подписаться",
     "unfollow_success": "Отписка успешно выполнена",
-    "unfollow_failed": "Не удалось отписаться"
+    "unfollow_failed": "Не удалось отписаться",
+    "link_copied_to_clipboard": "Ссылка скопирована в буфер обмена"
   }
 }

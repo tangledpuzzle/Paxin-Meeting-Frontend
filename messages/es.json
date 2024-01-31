@@ -265,6 +265,7 @@
     "follow_success": "Seguido exitosamente",
     "follow_failed": "No se pudo seguir",
     "unfollow_success": "Dejado de seguir exitosamente",
-    "unfollow_failed": "No se pudo dejar de seguir"
+    "unfollow_failed": "No se pudo dejar de seguir",
+    "link_copied_to_clipboard": "Enlace copiado al portapapeles"
   }
 }
