@@ -35,7 +35,7 @@ import { LuArchiveRestore } from 'react-icons/lu';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RiEditBoxFill } from 'react-icons/ri';
 import { EditPostModal } from './edit-post-modal';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export interface PostCardProps {
   id: number;
@@ -88,7 +88,7 @@ export function PostCard({
   onDelete,
   mutate,
 }: PostCardProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const [isExtendsLoading, setIsExtendsLoading] = useState<boolean>(false);
   const [extendsTime, setExtendsTime] = useState<string>('3');
 

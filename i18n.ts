@@ -1,38 +1,18 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import { notFound } from 'next/navigation';
+import { getRequestConfig } from 'next-intl/server';
+import { locales } from './navigation';
 
-import {
-  English_JSON,
-  Georgian_JSON,
-  Russian_JSON,
-  Spanish_JSON,
-} from './public/locales';
+const localeData = {
+  en: require('./messages/en.json'),
+  es: require('./messages/es.json'),
+  ru: require('./messages/ru.json'),
+  ka: require('./messages/ka.json'),
+};
 
-i18n.use(initReactI18next).init({
-  resources: {
-    en: {
-      translation: English_JSON,
-    },
-    ru: {
-      translation: Russian_JSON,
-    },
-    ka: {
-      translation: Georgian_JSON,
-    },
-    es: {
-      translation: Spanish_JSON,
-    },
-    // other languages...
-  },
-  lng:
-    typeof window !== 'undefined'
-      ? window.localStorage.getItem('locale') || 'en'
-      : 'en',
-  fallbackLng: 'en',
+export default getRequestConfig(async ({ locale }) => {
+  if (!locales.includes(locale as any)) notFound();
 
-  interpolation: {
-    escapeValue: false,
-  },
+  return {
+    messages: localeData[locale as keyof typeof localeData],
+  };
 });
-
-export default i18n;

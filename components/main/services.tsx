@@ -1,9 +1,10 @@
+import { useTranslations } from 'next-intl';
+
 import Image from 'next/image';
 
 import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
-import { useTranslation } from 'next-i18next';
 
 const services = [
   {
@@ -37,8 +38,6 @@ function ServiceCard({
   description: string;
   icons: string[];
 }) {
-  const { t } = useTranslation();
-
   return (
     <div className='bg-radial-gradient-2 relative flex w-full max-w-5xl flex-col items-center justify-center rounded-xl p-8'>
       <div className='my-4 flex items-center justify-start gap-4 bg-transparent sm:my-8'>
@@ -54,17 +53,17 @@ function ServiceCard({
         ))}
       </div>
       <div className='whitespace-nowrap text-center font-satoshi text-xs font-medium text-white sm:text-lg'>
-        {t(title)}
+        {title}
       </div>
       <div className='prose hidden text-center font-satoshi text-sm text-white/70 sm:block'>
-        {t(description)}
+        {description}
       </div>
     </div>
   );
 }
 
-export function ServicesSection() {
-  const { t } = useTranslation();
+export default function ServicesSection() {
+  const t = useTranslations('main');
 
   return (
     <div className='flex flex-col items-center justify-center px-3 pb-[40px] md:pb-[80px]'>

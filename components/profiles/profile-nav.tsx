@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import { NavItem } from '@/types/nav';
 import { cn } from '@/lib/utils';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 interface ProfileNavProps {
   items: NavItem[];
@@ -14,7 +14,7 @@ interface ProfileNavProps {
 }
 
 export function ProfileNav({ items, setOpen }: ProfileNavProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const path = usePathname();
 
   if (!items?.length) {

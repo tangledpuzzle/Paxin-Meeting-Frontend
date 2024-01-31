@@ -14,14 +14,14 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { ConfirmPasswordModal } from './confirm-password-modal';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 interface MeetJoinModalProps {
   children: React.ReactNode;
 }
 
 export function MeetJoinModal({ children }: MeetJoinModalProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   const handleJoin = () => {

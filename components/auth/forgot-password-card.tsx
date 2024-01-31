@@ -20,10 +20,10 @@ import {
 } from '@/components/ui/form';
 import axios from 'axios';
 import { PaxContext } from '@/context/context';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export function ForgotPasswordCard() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const { locale } = useContext(PaxContext);
   const [loading, setLoading] = useState(false);
 

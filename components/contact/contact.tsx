@@ -8,10 +8,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export function ContactSection() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   return (
     <div className='grid w-full md:grid-cols-2'>
       <div className='flex flex-col items-center justify-center px-8 py-24 lg:px-16'>

@@ -22,10 +22,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import axios from 'axios';
-import { Trans, useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
+// heyheyhey
 
 export function SignUpCard() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -34,12 +35,10 @@ export function SignUpCard() {
       firstname: z.string().min(1, t('firstname_is_required')),
       lastname: z.string().min(1, t('lastname_is_required')),
       email: z.string().email(t('invalid_email')),
-      password: z
-        .string()
-        .min(8, t('password_must_be_at_least_8_characters_long')),
+      password: z.string().min(8, t('password_must_be_at_least_8_characters')),
       confirmPassword: z
         .string()
-        .min(8, t('password_must_be_at_least_8_characters_long')),
+        .min(8, t('password_must_be_at_least_8_characters')),
     })
     .refine(
       (values) => {
@@ -100,10 +99,11 @@ export function SignUpCard() {
   return (
     <div className='flex size-full flex-col items-center justify-center'>
       <div className='text-center text-2xl sm:text-3xl'>
-        <Trans
-          i18nKey='get_started_with_paxintrade'
-          components={[<span className='font-bold text-primary' />]}
-        />
+        {t.rich('welcome_to_paxintrade', {
+          paxintrade: (children) => (
+            <span className='font-bold text-primary'>{children}</span>
+          ),
+        })}
       </div>
       <div className='mt-8 flex w-full max-w-sm flex-col gap-3'>
         <Form {...form}>

@@ -1,12 +1,11 @@
-import { useTranslation } from 'next-i18next';
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslations } from 'next-intl';
 import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionHeroImage } from '../common/section-heroimage';
 import { SectionTitle } from '../common/section-title';
 
-export function HeroSection() {
-  const { t } = useTranslation();
+const HeroSection = () => {
+  const t = useTranslations('main');
 
   return (
     <div className='flex flex-col items-center justify-center overflow-hidden pb-[90px] pt-[50px] md:pt-[88px]'>
@@ -20,13 +19,6 @@ export function HeroSection() {
       <SectionHeroImage />
     </div>
   );
-}
+};
 
-// export async function getStaticProps({ locale }: { locale: string }) {
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(locale || 'en', ['translation'])),
-//       // Will be passed to the page component as props
-//     },
-//   };
-// }
+export default HeroSection;

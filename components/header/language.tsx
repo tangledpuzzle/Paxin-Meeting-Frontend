@@ -1,6 +1,5 @@
-'use client';
-
-import { useTranslation } from 'next-i18next';
+import { usePathname } from '@/navigation';
+import { useLocale } from 'next-intl';
 import Image from 'next/image';
 
 import {
@@ -11,27 +10,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { PaxContext } from '@/context/context';
-import { useContext } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface LanguageSelectorProps {
   className?: string;
 }
 
 export function LanguageSelector({ className }: LanguageSelectorProps) {
-  const { i18n } = useTranslation();
-  const { locale, setLocale } = useContext(PaxContext);
+  // const { i18n } = useTranslation();
+  const router = useRouter();
+  const locale = useLocale();
+  const pathname = usePathname();
 
   const changeLang = (lang: string) => {
-    i18n.changeLanguage(lang);
-    localStorage.setItem('locale', lang);
-    setLocale(lang);
-    console.log(i18n.language);
+    router.push(`/${lang}/${pathname}`);
   };
 
   return (
     <Select
-      defaultValue={i18n.language}
+      defaultValue={locale}
       onValueChange={(value) => {
         changeLang(value);
       }}

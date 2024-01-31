@@ -41,7 +41,7 @@ import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
 import * as z from 'zod';
 import { Loader2 } from 'lucide-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -57,7 +57,7 @@ type ImageUploadComponentType = {
 };
 
 export function NewPostModal({ children, mutate }: NewPostModalProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const { user, locale } = useContext(PaxContext);
 
   const formSchema = z

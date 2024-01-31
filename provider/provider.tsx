@@ -1,12 +1,11 @@
 'use client';
 
 import { PaxContext, User } from '@/context/context';
-import i18n from '@/i18n';
 import axios from 'axios';
 import { SessionProvider, SessionProviderProps } from 'next-auth/react';
+import { useLocale } from 'next-intl';
 import { setCookie } from 'nookies';
 import React, { ReactNode, useEffect, useState } from 'react';
-import { I18nextProvider } from 'react-i18next';
 import useSWR from 'swr';
 
 interface IProps {
@@ -23,16 +22,11 @@ const PLAN = {
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const Providers: React.FC<IProps> = ({ children, session }) => {
-  console.log(session);
   const [user, setUser] = useState<User | null>(null);
   const [postMode, setPostMode] = useState<string>('all');
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [locale, setLocale] = useState<string>(
-    typeof window !== 'undefined'
-      ? window.localStorage.getItem('locale') || 'en'
-      : 'en'
-  );
+  const locale = useLocale();
 
   const {
     data: fetchedData,
@@ -123,11 +117,9 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
           setCurrentPlan,
           socket,
           setSocket,
-          locale,
-          setLocale,
         }}
       >
-        <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
+        {children}
       </PaxContext.Provider>
     </SessionProvider>
   );

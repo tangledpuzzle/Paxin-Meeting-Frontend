@@ -1,10 +1,10 @@
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import { Button } from '../ui/button';
-import { useTranslation } from 'next-i18next';
 
-export function JoinUsSection() {
-  const { t } = useTranslation();
+export default function JoinUsSection() {
+  const t = useTranslations('main');
 
   return (
     <div className='bg-radial-gradient mx-3 flex flex-col items-center justify-center rounded-xl bg-primary p-8 pt-0'>

@@ -22,10 +22,11 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { signIn, useSession } from 'next-auth/react';
-import { Trans, useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
+// heyheyhey
 
 export function SignInCard() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const { socket } = useContext(PaxContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -96,10 +97,11 @@ export function SignInCard() {
   return (
     <div className='flex size-full flex-col items-center justify-center'>
       <div className='text-center text-2xl sm:text-3xl'>
-        <Trans
-          i18nKey='welcome_to_paxintrade'
-          components={[<span className='font-bold text-primary' />]}
-        />
+        {t.rich('welcome_to_paxintrade', {
+          paxintrade: (children) => (
+            <span className='font-bold text-primary'>{children}</span>
+          ),
+        })}
       </div>
       <div className='mt-8 flex w-full max-w-sm flex-col gap-3'>
         <Form {...form}>

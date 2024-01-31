@@ -21,7 +21,7 @@ import { DropdownMenuLabel } from '@/components/ui/dropdown-menu';
 import { PaxContext } from '@/context/context';
 import { getInitials } from '@/lib/utils';
 import { signOut } from 'next-auth/react';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
@@ -29,7 +29,7 @@ import { LanguageSelector } from './language';
 
 export function MobileMenu() {
   const { setTheme, theme } = useTheme();
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const { user } = useContext(PaxContext);
   const router = useRouter();
 

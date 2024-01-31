@@ -11,11 +11,13 @@ import { useContext } from 'react';
 import { PaxContext } from '@/context/context';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
 
 export function SiteHeader() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const { user } = useContext(PaxContext);
+  const session = useSession();
 
   return (
     <header
@@ -28,7 +30,7 @@ export function SiteHeader() {
             <ThemeToggle />
             <LanguageSelector />
             {user && <AvatarWithMenu />}
-            {!user && (
+            {session.status === 'unauthenticated' && (
               <Button asChild>
                 <Link href='/auth/signin'>{t('sign_in')}</Link>
               </Button>

@@ -1,9 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useTranslations } from 'next-intl';
 
+import Image from 'next/image';
 import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
-import { useTranslation } from 'next-i18next';
 
 const data = [
   {
@@ -76,12 +76,14 @@ function TestimonialCard({
           <div>
             <q className='text-gray-600 dark:text-gray-300'>{comment}</q>
             <div className='relative mt-6 flex items-center gap-3'>
-              <span className='relative inline-flex size-10 flex-shrink-0 items-center justify-center rounded-full text-base'>
-                <Avatar>
-                  <AvatarImage src={avatar} alt={fullname} />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </span>
+              <div className='relative inline-flex size-10 shrink-0  items-center justify-center overflow-hidden rounded-full text-base'>
+                <Image
+                  src={avatar}
+                  alt=''
+                  style={{ objectFit: 'cover', objectPosition: 'center' }}
+                  layout='fill'
+                />
+              </div>
               <div>
                 <p className='text-sm font-semibold text-gray-900 dark:text-white'>
                   {fullname}
@@ -98,8 +100,8 @@ function TestimonialCard({
   );
 }
 
-export function TestimonialSection() {
-  const { t } = useTranslation();
+export default function TestimonialSection() {
+  const t = useTranslations('main');
 
   return (
     <div className='flex flex-col items-center justify-center pb-[40px] md:pb-[80px]'>
@@ -123,21 +125,6 @@ export function TestimonialSection() {
             />
           ))}
         </div>
-
-        {/* <div className="waterfall w-full px-7">
-          <div className="item">1</div>
-          <div className="item">1</div>
-          <div className="item">1</div>
-          <div className="item">1</div>
-          <div className="item">1</div>
-          <div className="item">1</div>
-          <div className="item">1</div>
-          <div className="item">1</div>
-          <div className="item">1</div>
-          <div className="item">1</div>
-          <div className="item">1</div>
-          <div className="item">1</div>
-        </div>  */}
         <div className='absolute bottom-0 size-full bg-gradient-to-b from-transparent to-white dark:to-background'></div>
       </div>
     </div>

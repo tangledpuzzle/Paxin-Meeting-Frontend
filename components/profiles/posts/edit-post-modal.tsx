@@ -33,7 +33,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
 import * as z from 'zod';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -72,7 +72,7 @@ type ImageUploadComponentType = {
 };
 
 export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const { user, locale } = useContext(PaxContext);
 
   const formSchema = z

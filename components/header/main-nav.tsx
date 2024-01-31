@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import { NavItem } from '@/types/nav';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 interface MainNavProps {
   items?: NavItem[];
@@ -16,7 +16,7 @@ interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps) {
   const pathname = usePathname();
-  const { t } = useTranslation();
+  const t = useTranslations('main');
 
   return (
     <div className='flex gap-6 md:gap-10'>
