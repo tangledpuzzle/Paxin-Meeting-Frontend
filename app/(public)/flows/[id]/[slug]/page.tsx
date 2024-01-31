@@ -8,11 +8,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { IoFlagOutline } from 'react-icons/io5';
 import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { BiSolidCategory } from 'react-icons/bi';
@@ -39,6 +41,8 @@ import { PaxContext } from '@/context/context';
 import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
+import { getInitials } from '@/lib/utils';
+import { Progress } from '@/components/ui/progress';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -58,6 +62,7 @@ interface BlogDetails {
     upvotes: number;
     downvotes: number;
   };
+  vote: number;
   gallery: GalleryData[];
   author: {
     username: string;
@@ -190,8 +195,8 @@ export default function FlowPage({
         </div>
         <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-4'>
           <div className='md:col-span-2 xl:col-span-3'>
-            <div className='grid gap-4 md:grid-cols-3'>
-              <div className='grid grid-cols-2 gap-2 md:col-span-2'>
+            <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
+              <div className='grid grid-cols-2 gap-2 xl:col-span-2'>
                 <div>
                   <div className='flex items-center gap-2'>
                     <MdOutlineHouseSiding className='size-5' />
@@ -257,32 +262,75 @@ export default function FlowPage({
                   </div>
                 </div>
               </div>
-              <div className='order-first flex w-full justify-end gap-2 md:order-last'>
-                <Button
-                  disabled={isUpVoteLoading || isDownVoteLoading}
-                  onClick={() => handleVote({ id: blogDetails.id, vote: true })}
-                >
-                  {isUpVoteLoading ? (
-                    <Loader2 className='mr-2 size-4 animate-spin' />
-                  ) : (
-                    <FaThumbsUp className='mr-2 size-4' />
-                  )}
-                  {blogDetails.review?.upvotes}
-                </Button>
-                <Button
-                  variant='outline'
-                  disabled={isUpVoteLoading || isDownVoteLoading}
-                  onClick={() =>
-                    handleVote({ id: blogDetails.id, vote: false })
-                  }
-                >
-                  {isDownVoteLoading ? (
-                    <Loader2 className='mr-2 size-4 animate-spin' />
-                  ) : (
-                    <FaThumbsDown className='mr-2 size-4' />
-                  )}
-                  {blogDetails.review?.downvotes}
-                </Button>
+              <div className='order-first flex w-full flex-col justify-between gap-2 md:order-last'>
+                <Card>
+                  <CardContent className='space-y-3 p-4'>
+                    <div>
+                      <div className='flex items-center justify-between gap-2 lowercase'>
+                        <div className='flex items-center text-primary'>
+                          <FaThumbsUp className='mr-2 size-4' />
+                          {t('upvotes')}
+                        </div>
+                        {blogDetails.review?.upvotes} {t('votes')}
+                      </div>
+                      <Progress
+                        value={
+                          (100 * blogDetails.review?.upvotes) /
+                          (blogDetails.review?.upvotes +
+                            blogDetails.review?.downvotes)
+                        }
+                        className='h-4 w-full'
+                      />
+                    </div>
+                    <div>
+                      <div className='flex items-center justify-between gap-2 lowercase'>
+                        <div className='flex items-center'>
+                          <FaThumbsDown className='mr-2 size-4' />
+                          {t('downvotes')}
+                        </div>
+                        {blogDetails.review?.downvotes} {t('votes')}
+                      </div>
+                      <Progress
+                        value={
+                          (100 * blogDetails.review?.downvotes) /
+                          (blogDetails.review?.upvotes +
+                            blogDetails.review?.downvotes)
+                        }
+                        className='h-4 w-full'
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+                <div className='grid w-full grid-cols-2 gap-2'>
+                  <Button
+                    variant={blogDetails?.vote === 1 ? 'default' : 'outline'}
+                    disabled={isUpVoteLoading || isDownVoteLoading}
+                    onClick={() =>
+                      handleVote({ id: blogDetails.id, vote: true })
+                    }
+                  >
+                    {isUpVoteLoading ? (
+                      <Loader2 className='mr-2 size-4 animate-spin' />
+                    ) : (
+                      <FaThumbsUp className='mr-2 size-4' />
+                    )}
+                    {t('upvote')}
+                  </Button>
+                  <Button
+                    variant={blogDetails?.vote === -1 ? 'default' : 'outline'}
+                    disabled={isUpVoteLoading || isDownVoteLoading}
+                    onClick={() =>
+                      handleVote({ id: blogDetails.id, vote: false })
+                    }
+                  >
+                    {isDownVoteLoading ? (
+                      <Loader2 className='mr-2 size-4 animate-spin' />
+                    ) : (
+                      <FaThumbsDown className='mr-2 size-4' />
+                    )}
+                    {t('downvote')}
+                  </Button>
+                </div>
               </div>
             </div>
             <Separator className='my-4' />
@@ -304,6 +352,25 @@ export default function FlowPage({
             </div>
           </div>
           <div className='space-y-4'>
+            <Card className='mx-auto w-full'>
+              <CardContent className='space-y-8 px-6 py-8 font-satoshi'>
+                <div>
+                  <div className='text-center text-lg font-semibold'>
+                    Anything wrong with the Post?
+                  </div>
+                  <div className='text-center text-xs text-muted-foreground'>
+                    Make a complaining about the post
+                  </div>
+                </div>
+                <Button
+                  variant='outline'
+                  className='w-full !border-primary text-primary'
+                >
+                  <IoFlagOutline className='mr-2 size-4' />
+                  Complain
+                </Button>
+              </CardContent>
+            </Card>
             <QRCodeModal qrcode={blogDetails.qrcode || ''}>
               <QRCode
                 value={blogDetails.qrcode || ''}
@@ -317,7 +384,9 @@ export default function FlowPage({
                     src={blogDetails.author?.avatar}
                     alt={blogDetails.author?.username}
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>
+                    {getInitials(blogDetails.author?.username || '')}
+                  </AvatarFallback>
                 </Avatar>
                 <Link href={`/profile/${blogDetails.author?.username}`}>
                   <CardTitle>@{blogDetails.author?.username}</CardTitle>

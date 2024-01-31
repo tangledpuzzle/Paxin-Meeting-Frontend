@@ -251,5 +251,10 @@
   "description": "Описание",
   "vote_successfully": "Голосование успешно",
   "vote_failed": "Ошибка при голосовании",
-  "not_signed_in": "Вы не вошли в систему"
+  "not_signed_in": "Вы не вошли в систему",
+  "votes": "Голосов",
+  "upvote": "Голос вверх",
+  "downvote": "Голос вниз",
+  "upvotes": "Голоса вверх",
+  "downvotes": "Голоса вниз"
 }

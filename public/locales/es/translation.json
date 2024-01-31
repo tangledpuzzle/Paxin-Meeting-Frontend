@@ -251,5 +251,10 @@
   "description": "Descripción",
   "vote_successfully": "Votación exitosa",
   "vote_failed": "Error al votar",
-  "not_signed_in": "No has iniciado sesión"
+  "not_signed_in": "No has iniciado sesión",
+  "votes": "Votos",
+  "upvote": "Votar arriba",
+  "downvote": "Votar abajo",
+  "upvotes": "Votos arriba",
+  "downvotes": "Votos abajo"
 }

@@ -1,3 +1,5 @@
+import { authOptions } from '@/lib/authOptions';
+import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -5,6 +7,8 @@ export async function GET(req: NextRequest) {
   const slug = req.nextUrl.searchParams.get('slug');
 
   const locale = req.nextUrl.searchParams.get('language') || 'en';
+
+  const session = await getServerSession(authOptions);
 
   try {
     const res = await fetch(
@@ -56,6 +60,14 @@ export async function GET(req: NextRequest) {
         downvotes:
           voteData.votes.filter((item: any) => !item?.IsUP).length || 0,
       },
+      vote: voteData.votes.find(
+        (item: any) => item?.UserID === session?.user?.id
+      )?.IsUP
+        ? 1
+        : voteData.votes.find((item: any) => item?.UserID === session?.user?.id)
+              ?.IsUP === false
+          ? -1
+          : 0,
       gallery: blogData.data[0].photos[0].files.map((file: any) => {
         return {
           original: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`,

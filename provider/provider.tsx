@@ -23,7 +23,6 @@ const PLAN = {
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const Providers: React.FC<IProps> = ({ children, session }) => {
-  console.log(session);
   const [user, setUser] = useState<User | null>(null);
   const [postMode, setPostMode] = useState<string>('all');
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');

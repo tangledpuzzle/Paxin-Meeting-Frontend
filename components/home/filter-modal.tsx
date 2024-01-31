@@ -22,7 +22,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslation } from 'next-i18next';
 
 interface Option {
-  value: string;
+  value: number;
   label: string;
 }
 
@@ -116,11 +116,11 @@ export function FilterModal() {
     newSearchParams.set('hashtag', hashTag || 'all');
     newSearchParams.set(
       'city',
-      city && city.length > 0 ? city[0].value : 'all'
+      city && city.length > 0 ? city[0].label : 'all'
     );
     newSearchParams.set(
       'category',
-      category && category.length > 0 ? category[0].value : 'all'
+      category && category.length > 0 ? category[0].label : 'all'
     );
     if (minPrice || maxPrice)
       newSearchParams.set('money', `${minPrice}-${maxPrice}`);
@@ -147,9 +147,12 @@ export function FilterModal() {
     const _money = searchParams.get('money');
 
     if (_hashtag && _hashtag !== 'all') setHashTag(_hashtag);
-    if (_city && _city !== 'all') setCity([{ value: _city, label: _city }]);
+    if (_city && _city !== 'all')
+      setCity([cityOptions.find((c) => c.label === _city)] as Option[]);
     if (_category && _category !== 'all')
-      setCategory([{ value: _category, label: _category }]);
+      setCategory([
+        categoryOptions.find((c) => c.label === _category),
+      ] as Option[]);
     if (_viewMode) setViewMode(_viewMode);
     if (_money && _money !== 'all') {
       const [min, max] = _money.split('-');
@@ -169,51 +172,59 @@ export function FilterModal() {
   }, [viewMode]);
 
   useEffect(() => {
+    let _city, _category;
     if (!cityFetchError && fetchedCities) {
+      console.log(fetchedCities, 'city-===');
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
-          value: city.Translations.find((t: any) => t.Language === locale).Name,
+          value: city.ID,
           label: city.Translations.find((t: any) => t.Language === locale).Name,
         }))
       );
 
-      const _city = fetchedCities.data.find((city: any) =>
+      _city = fetchedCities.data.find((city: any) =>
         city.Translations.map((t: any) => t.Name).includes(
           searchParams.get('city')
         )
       );
+
       if (_city) {
         setCity([
           {
-            value: _city.Translations.find((t: any) => t.Language === locale)
-              .Name,
+            value: _city.ID,
             label: _city.Translations.find((t: any) => t.Language === locale)
               .Name,
           },
         ]);
+
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set(
+          'city',
+          _city.Translations.find((t: any) => t.Language === locale).Name
+        );
+
+        router.push(`?${newSearchParams.toString()}`);
       }
     }
     if (!categoryFetchError && fetchedCategories) {
       setCategoryOptions(
         fetchedCategories.data.map((category: any) => ({
-          value: category.Translations.find((t: any) => t.Language === locale)
-            .Name,
+          value: category.ID,
           label: category.Translations.find((t: any) => t.Language === locale)
             .Name,
         }))
       );
 
-      const _category = fetchedCategories.data.find((category: any) =>
+      _category = fetchedCategories.data.find((category: any) =>
         category.Translations.map((t: any) => t.Name).includes(
           searchParams.get('category')
         )
       );
+
       if (_category) {
         setCategory([
           {
-            value: _category.Translations.find(
-              (t: any) => t.Language === locale
-            ).Name,
+            value: _category.ID,
             label: _category.Translations.find(
               (t: any) => t.Language === locale
             ).Name,
@@ -221,6 +232,21 @@ export function FilterModal() {
         ]);
       }
     }
+
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (_city) {
+      newSearchParams.set(
+        'city',
+        _city.Translations.find((t: any) => t.Language === locale).Name
+      );
+    }
+    if (_category)
+      newSearchParams.set(
+        'category',
+        _category.Translations.find((t: any) => t.Language === locale).Name
+      );
+
+    if (_city || _category) router.push(`?${newSearchParams.toString()}`);
   }, [fetchedCities, fetchedCategories, locale]);
 
   return (

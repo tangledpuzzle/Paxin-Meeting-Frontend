@@ -124,7 +124,7 @@ export default function ProfilePage({
   const breadcrumbs = [
     {
       name: t('profile'),
-      url: '/home',
+      url: '/home?mode=profile',
     },
     {
       name: params.username,

@@ -251,5 +251,10 @@
   "description": "Description",
   "vote_successfully": "Vote successfully",
   "vote_failed": "Failed to vote",
-  "not_signed_in": "You are not signed in"
+  "not_signed_in": "You are not signed in",
+  "votes": "Votes",
+  "upvote": "Upvote",
+  "downvote": "Downvote",
+  "upvotes": "Upvotes",
+  "downvotes": "Downvotes"
 }
