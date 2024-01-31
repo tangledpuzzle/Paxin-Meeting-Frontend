@@ -80,7 +80,8 @@ function ProfileCard(profile: ProfileCardProps) {
         </div>
         <div className='relative'>
           <div
-            className={`absolute right-0 top-3 size-8 rounded-full bg-[url('/images/${countrycode}.svg')] bg-cover bg-center bg-no-repeat`}
+            className={`absolute right-0 top-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
+            style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
           ></div>
         </div>
         <div className='font-satoshi'>

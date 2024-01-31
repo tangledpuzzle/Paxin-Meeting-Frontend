@@ -23,18 +23,6 @@ export async function POST(req: NextRequest) {
       images,
     } = await req.json();
 
-    console.log({
-      title,
-      subtitle,
-      content,
-      city,
-      category,
-      hashtags,
-      price,
-      days,
-      images,
-    });
-
     const cyrillicToLatin = {
       а: 'a',
       б: 'b',
@@ -95,8 +83,6 @@ export async function POST(req: NextRequest) {
       hashtags: hashtags,
       status: 'ACTIVE',
     };
-
-    console.log(blogData);
 
     const res = await fetch(
       `${process.env.API_URL}/api/blog/create?session=${req.headers.get('session')}`,

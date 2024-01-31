@@ -17,6 +17,7 @@ import Link from 'next/link';
 
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { useTranslations } from 'next-intl';
+import toast from 'react-hot-toast';
 
 export interface FlowCardProps {
   id: string;
@@ -58,6 +59,16 @@ function FlowCard(profile: FlowCardProps) {
     countrycode,
     review,
   } = profile;
+
+  const handleLinkCopy = async () => {
+    await navigator.clipboard.writeText(
+      `https://paxintrade.com/flows/${id}/${slug}`
+    );
+
+    toast.success(t('link_copied_to_clipboard'), {
+      position: 'top-right',
+    });
+  };
 
   return (
     <Card className='size-full w-full'>
@@ -101,7 +112,8 @@ function FlowCard(profile: FlowCardProps) {
         </div>
         <div className='relative'>
           <div
-            className={`absolute right-0 top-3 size-8 rounded-full bg-[url('/images/${countrycode}.svg')] bg-cover bg-center bg-no-repeat`}
+            className={`absolute right-0 top-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
+            style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
           />
         </div>
         <div className='font-satoshi'>
@@ -151,6 +163,7 @@ function FlowCard(profile: FlowCardProps) {
               size='icon'
               className='rounded-full'
               data-tooltip-id='my-tooltip-2'
+              onClick={handleLinkCopy}
             >
               <BiLink className='size-5 text-gray-500 dark:text-white' />
             </Button>

@@ -72,7 +72,6 @@ export function SignInCard() {
       });
 
       getSession().then((session) => {
-        console.log('====', session);
         router.push('/profile/dashboard');
       });
     }

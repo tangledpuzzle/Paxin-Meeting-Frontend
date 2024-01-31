@@ -60,7 +60,6 @@ export function FilterModal() {
   );
 
   const handleMinPrice = (value: string) => {
-    console.log(minPrice, maxPrice);
     if (value === '') {
       setMinPrice(value);
       setPriceHasError(false);
@@ -79,7 +78,6 @@ export function FilterModal() {
   };
 
   const handleMaxPrice = (value: string) => {
-    console.log(minPrice, maxPrice);
     if (value === '') {
       setMaxPrice(value);
       setPriceHasError(false);
@@ -173,7 +171,6 @@ export function FilterModal() {
   useEffect(() => {
     let _city, _category;
     if (!cityFetchError && fetchedCities) {
-      console.log(fetchedCities, 'city-===');
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
           value: city.ID,

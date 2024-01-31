@@ -192,8 +192,6 @@ export default function SettingPage() {
 
       basicForm.setValue('bio', fetchedData.bio);
     }
-
-    console.log(fetchedData);
   }, [fetchedData, error]);
 
   useEffect(() => {
@@ -223,7 +221,6 @@ export default function SettingPage() {
   ]);
 
   useEffect(() => {
-    console.log(fetchedHashtags, 'tags');
     if (!hashtagFetchError && fetchedHashtags) {
       setHashtagOptions(
         fetchedHashtags?.map((hashtag: any) => ({
@@ -326,7 +323,6 @@ export default function SettingPage() {
             return;
           }
         } catch (error) {
-          console.log(error);
           toast.error(t('add_hashtag_failed'), {
             position: 'top-right',
           });
@@ -468,7 +464,6 @@ export default function SettingPage() {
   };
 
   const handleHashtagSearch = (query: string) => {
-    console.log(basicForm.getValues('hashtags'));
     if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
   };
 

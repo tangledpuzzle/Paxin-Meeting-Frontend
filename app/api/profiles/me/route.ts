@@ -55,8 +55,6 @@ export async function GET(req: NextRequest) {
         ],
     };
 
-    console.log(data.data.photos);
-
     return NextResponse.json(profile);
   } catch (error) {
     return NextResponse.json(

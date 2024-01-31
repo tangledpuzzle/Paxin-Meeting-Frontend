@@ -1,6 +1,9 @@
+import { authOptions } from '@/lib/authOptions';
+import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
+  const session = await getServerSession(authOptions);
   const username = req.nextUrl.pathname.split('/').pop();
 
   const locale = req.nextUrl.searchParams.get('language') || 'en';
@@ -17,6 +20,7 @@ export async function GET(req: NextRequest) {
     const data = await res.json();
 
     const profile = {
+      id: data.data.ID,
       username: data.data.Name,
       bio: data.data.Profile[0].MultilangDescr[
         locale.charAt(0).toUpperCase() + locale.slice(1)
@@ -24,6 +28,7 @@ export async function GET(req: NextRequest) {
       hashtags: data.data.Profile[0].Hashtags.map((tag: any) => tag.Hashtag),
       cities: data.data.Profile[0].City.map((city: any) => city.Hex),
       categories: data.data.Profile[0].Guilds.map((guild: any) => guild.Hex),
+      country: data.data.Profile[0].Lang,
       latestblog:
         data.data.Blogs.length > 0
           ? {
@@ -46,7 +51,7 @@ export async function GET(req: NextRequest) {
         monthtime: data.data.OnlineHours[0],
         totalposts: data.data.TotalRestBlogs,
         monthposts: data.data.TotalBlogs,
-        followers: data.data.Followers.length,
+        followers: data.data.Followings.length,
       },
       gallery: data.data.Profile[0].photos[0].files.map((file: any) => {
         return {
@@ -54,7 +59,6 @@ export async function GET(req: NextRequest) {
           thumbnail: `https://proxy.paxintrade.com/50/https://img.paxintrade.com/${file.path}`,
         };
       }),
-
       description:
         data.data.Profile[0].MultilangDescr[
           locale.charAt(0).toUpperCase() + locale.slice(1)
@@ -65,6 +69,11 @@ export async function GET(req: NextRequest) {
         ],
       telegram: data.data.TelegramName,
       qrcode: data.data.Name,
+      follow: session
+        ? data.data.Followings.filter(
+            (item: any) => item.ID === session?.user?.id
+          ).length > 0
+        : false,
     };
 
     return NextResponse.json(profile);
