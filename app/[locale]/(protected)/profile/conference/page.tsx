@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { MeetCreateModal } from '@/components/profiles/conference/meet-create-modal';
 import { MeetJoinModal } from '@/components/profiles/conference/meet-join-modal';
 import CTASection from '@/components/profiles/cta';
-import { t } from 'i18next';
+import { useTranslations } from 'next-intl';
 
 // Custom formatting for date and time
 const timeZone: Intl.DateTimeFormatOptions = {
@@ -26,6 +26,7 @@ const dateString: Intl.DateTimeFormatOptions = {
 };
 
 export default function ConferencePage() {
+  const t = useTranslations('main');
   const [time, setTime] = useState<Date>(new Date());
 
   const updateTime = (): void => {
@@ -42,7 +43,7 @@ export default function ConferencePage() {
 
   return (
     <div className='p-4'>
-      <CTASection title='conference' description='' icon={HiUserGroup} />
+      <CTASection title={t('conference')} description='' icon={HiUserGroup} />
       <Separator className='my-4' />
       <div className='flex h-[calc(100vh_-_15rem)] w-full flex-col rounded-xl bg-background p-4 sm:h-[calc(100vh_-_13rem)]'>
         <div className='flex w-full items-center justify-between'>

@@ -28,6 +28,7 @@ const services = [
 
 export function ServicesSection() {
   const t = useTranslations('main');
+
   return (
     <div className='flex flex-col items-center justify-center bg-muted/30 px-8 py-12 sm:px-12 md:px-24'>
       <div className='text-3xl font-semibold text-primary'>
@@ -43,9 +44,11 @@ export function ServicesSection() {
               <service.icon className='size-6 text-primary' />
             </div>
             <div className='my-2 text-lg font-semibold text-primary'>
-              {t(service.title)}
+              {t(service.title as keyof IntlMessages['main'])}
             </div>
-            <div className='text-sm'>{t(service.description)}</div>
+            <div className='text-sm'>
+              {t(service.description as keyof IntlMessages['main'])}
+            </div>
           </div>
         ))}
       </div>

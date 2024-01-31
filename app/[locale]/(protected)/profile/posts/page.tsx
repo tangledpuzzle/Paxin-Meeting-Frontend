@@ -1,6 +1,5 @@
 'use client';
 
-import { usePaxContext } from '@/context/context';
 import { Search } from 'lucide-react';
 import { MdOutlinePostAdd } from 'react-icons/md';
 import { RiArticleLine } from 'react-icons/ri';
@@ -15,16 +14,16 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import axios from 'axios';
+import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
-import { useTranslations } from 'next-intl';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function MyPostsPage() {
-  const { locale } = usePaxContext();
+  const locale = useLocale();
   const t = useTranslations('main');
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -133,8 +132,8 @@ export default function MyPostsPage() {
   return (
     <div className='p-4'>
       <CTASection
-        title='my_posts'
-        description='my_posts_description'
+        title={t('my_posts')}
+        description={t('my_posts_description')}
         icon={RiArticleLine}
       />
       <Separator className='my-4' />

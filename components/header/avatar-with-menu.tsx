@@ -58,7 +58,7 @@ export function AvatarWithMenu() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className='cursor-pointer text-base' asChild>
-          <Link href='/profile/settings'>
+          <Link href='/profile/setting'>
             <RiUserSettingsFill className='mr-2 size-5 text-primary' />
             {t('settings')}
           </Link>

@@ -501,8 +501,8 @@ export default function SettingPage() {
   return (
     <div className='p-4'>
       <CTASection
-        title='setting'
-        description='setting_description'
+        title={t('settings')}
+        description={t('setting_description')}
         icon={RiUserSettingsFill}
       />
       <Separator className='my-4' />

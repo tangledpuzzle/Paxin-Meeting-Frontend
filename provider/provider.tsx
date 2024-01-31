@@ -2,7 +2,8 @@
 
 import { PaxContext, User } from '@/context/context';
 import axios from 'axios';
-import { SessionProvider, SessionProviderProps } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+
 import { useLocale } from 'next-intl';
 import { setCookie } from 'nookies';
 import React, { ReactNode, useEffect, useState } from 'react';
@@ -10,7 +11,6 @@ import useSWR from 'swr';
 
 interface IProps {
   children: ReactNode;
-  session: SessionProviderProps['session'];
 }
 
 const PLAN = {
@@ -21,7 +21,8 @@ const PLAN = {
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const Providers: React.FC<IProps> = ({ children, session }) => {
+const Providers: React.FC<IProps> = ({ children }) => {
+  const session = useSession();
   const [user, setUser] = useState<User | null>(null);
   const [postMode, setPostMode] = useState<string>('all');
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');
@@ -32,7 +33,10 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
     data: fetchedData,
     error,
     mutate: userMutate,
-  } = useSWR(session ? `/api/users/me?lang=${locale}` : null, fetcher);
+  } = useSWR(
+    session.status === 'authenticated' ? `/api/users/me?lang=${locale}` : null,
+    fetcher
+  );
 
   useEffect(() => {
     if (!error && fetchedData) {
@@ -105,23 +109,21 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
   }, []);
 
   return (
-    <SessionProvider session={session}>
-      <PaxContext.Provider
-        value={{
-          user,
-          setUser,
-          userMutate,
-          postMode,
-          setPostMode,
-          currentPlan,
-          setCurrentPlan,
-          socket,
-          setSocket,
-        }}
-      >
-        {children}
-      </PaxContext.Provider>
-    </SessionProvider>
+    <PaxContext.Provider
+      value={{
+        user,
+        setUser,
+        userMutate,
+        postMode,
+        setPostMode,
+        currentPlan,
+        setCurrentPlan,
+        socket,
+        setSocket,
+      }}
+    >
+      {children}
+    </PaxContext.Provider>
   );
 };
 

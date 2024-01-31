@@ -53,7 +53,7 @@ export function MainNav({ items }: MainNavProps) {
                     pathname === item.href && 'bg-secondary text-primary'
                   )}
                 >
-                  {t(item.title)}
+                  {t(item.title as keyof IntlMessages['main'])}
                 </Link>
               )
           )}

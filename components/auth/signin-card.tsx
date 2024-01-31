@@ -2,12 +2,11 @@
 
 import { PaxContext } from '@/context/context';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 import { Loader2, Lock, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { parseCookies } from 'nookies';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
@@ -21,13 +20,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { signIn, useSession } from 'next-auth/react';
+import { getSession, signIn, useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 // heyheyhey
 
 export function SignInCard() {
   const t = useTranslations('main');
-  const { socket } = useContext(PaxContext);
+  const { socket, userMutate } = useContext(PaxContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const session = useSession();
@@ -71,28 +70,15 @@ export function SignInCard() {
       toast.success(t('welcome_back_sign_in'), {
         position: 'top-right',
       });
-      router.push('/profile/dashboard');
+
+      getSession().then((session) => {
+        console.log('====', session);
+        router.push('/profile/dashboard');
+      });
     }
 
     setLoading(false);
   };
-
-  useEffect(() => {
-    const { access_token } = parseCookies();
-
-    if (access_token) {
-      axios
-        .post(`/api/auth/checkTokenExp`, {}, { params: { access_token } })
-        .then((res) => {
-          if (res.data.status === 'success') {
-            router.push('/profile/dashboard');
-          }
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
-  }, []);
 
   return (
     <div className='flex size-full flex-col items-center justify-center'>

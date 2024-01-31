@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
@@ -19,12 +19,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import axios from 'axios';
-import { PaxContext } from '@/context/context';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 export function ForgotPasswordCard() {
   const t = useTranslations('main');
-  const { locale } = useContext(PaxContext);
+  const locale = useLocale();
   const [loading, setLoading] = useState(false);
 
   const formSchema = z.object({
