@@ -7,7 +7,7 @@ import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 interface PreviewImageProps {
   src: string;
@@ -60,7 +60,7 @@ export const ImageUpload = forwardRef<
   { handleUpload: () => Promise<any> },
   ImageUploadProps
 >(({ value, onChange }, ref) => {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const [images, setImages] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const hiddenFileInputRef = React.useRef<any>();

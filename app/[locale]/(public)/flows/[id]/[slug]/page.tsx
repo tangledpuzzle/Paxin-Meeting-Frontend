@@ -14,13 +14,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { IoFlagOutline } from 'react-icons/io5';
 import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { BiSolidCategory } from 'react-icons/bi';
 import { FaTelegramPlane, FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 import { FaSackDollar } from 'react-icons/fa6';
-import { IoEyeSharp } from 'react-icons/io5';
+import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
 import ImageGallery from 'react-image-gallery';
@@ -32,17 +31,16 @@ import 'react-quill/dist/quill.snow.css';
 
 import 'react-image-gallery/styles/css/image-gallery.css';
 
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import FlowDetailSkeleton from '@/components/home/flow/flow-detail-skeleton';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { PaxContext } from '@/context/context';
-import { useTranslation } from 'next-i18next';
-import toast from 'react-hot-toast';
-import { Loader2 } from 'lucide-react';
-import { getInitials } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
+import { Separator } from '@/components/ui/separator';
+import { getInitials } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
+import toast from 'react-hot-toast';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -84,8 +82,8 @@ export default function FlowPage({
 }: {
   params: { id: string; slug: string };
 }) {
-  const { t } = useTranslation();
-  const { locale, setLocale } = useContext(PaxContext);
+  const t = useTranslations('main');
+  const locale = useLocale();
 
   const [isUpVoteLoading, setIsUpVoteLoading] = useState(false);
   const [isDownVoteLoading, setIsDownVoteLoading] = useState(false);
@@ -388,7 +386,7 @@ export default function FlowPage({
                     {getInitials(blogDetails.author?.username || '')}
                   </AvatarFallback>
                 </Avatar>
-                <Link href={`/profile/${blogDetails.author?.username}`}>
+                <Link href={`/profiles/${blogDetails.author?.username}`}>
                   <CardTitle>@{blogDetails.author?.username}</CardTitle>
                 </Link>
                 <CardDescription className='text-center'>
@@ -413,7 +411,7 @@ export default function FlowPage({
                   </Button>
                 </div>
                 <Button className='w-full' asChild>
-                  <Link href={`/profile/${blogDetails.author?.username}`}>
+                  <Link href={`/profiles/${blogDetails.author?.username}`}>
                     {t('visit_profile')}
                   </Link>
                 </Button>

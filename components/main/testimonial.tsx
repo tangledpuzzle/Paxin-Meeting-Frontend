@@ -100,7 +100,7 @@ function TestimonialCard({
   );
 }
 
-export default function TestimonialSection({ locale }: { locale: string }) {
+export default function TestimonialSection() {
   const t = useTranslations('main');
 
   return (

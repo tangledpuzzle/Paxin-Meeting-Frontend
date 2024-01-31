@@ -1,13 +1,13 @@
 'use client';
 
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
-import { PaxContext } from '@/context/context';
+import { useLocale } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { ProfileCard } from './profile-card';
 import { ProfileCardSkeleton } from './profile-card-skeleton';
-import { useSearchParams } from 'next/navigation';
 
 interface ProfileData {
   username: string;
@@ -18,7 +18,7 @@ interface ProfileData {
   categories: string[];
   qrcode: string;
   countrycode: string;
-  totalfollowers: number,
+  totalfollowers: number;
   review: {
     totaltime: {
       hour: number;
@@ -40,7 +40,7 @@ export default function ProfileSection() {
   const searchParams = useSearchParams();
   const [profileData, setProfileData] = useState<ProfileData[]>([]);
   const [fetchURL, setFetchURL] = useState('/api/profiles/get?language=en');
-  const { locale, setLocale } = useContext(PaxContext);
+  const locale = useLocale();
 
   const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
 

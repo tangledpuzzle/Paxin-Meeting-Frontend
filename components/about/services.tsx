@@ -1,4 +1,4 @@
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import { FaFileCircleCheck, FaSliders } from 'react-icons/fa6';
 import { MdVerified } from 'react-icons/md';
 import { TbCalendarSearch } from 'react-icons/tb';
@@ -27,7 +27,7 @@ const services = [
 ];
 
 export function ServicesSection() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   return (
     <div className='flex flex-col items-center justify-center bg-muted/30 px-8 py-12 sm:px-12 md:px-24'>
       <div className='text-3xl font-semibold text-primary'>

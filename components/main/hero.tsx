@@ -9,10 +9,7 @@ const HeroSection = () => {
 
   return (
     <div className='flex flex-col items-center justify-center overflow-hidden pb-[90px] pt-[50px] md:pt-[88px]'>
-      <SectionBadge>
-        {t('explore_paxintrade')}
-        {locale}
-      </SectionBadge>
+      <SectionBadge>{t('explore_paxintrade')}</SectionBadge>
       <SectionTitle className='px-7 leading-[30px]'>
         {t('empowering_connections_metaverse')}
       </SectionTitle>

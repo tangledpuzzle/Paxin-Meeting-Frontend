@@ -3,6 +3,7 @@
 import { PaxContext, User } from '@/context/context';
 import axios from 'axios';
 import { SessionProvider, SessionProviderProps } from 'next-auth/react';
+import { useLocale } from 'next-intl';
 import { setCookie } from 'nookies';
 import React, { ReactNode, useEffect, useState } from 'react';
 import useSWR from 'swr';
@@ -25,11 +26,7 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
   const [postMode, setPostMode] = useState<string>('all');
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [locale, setLocale] = useState<string>(
-    typeof window !== 'undefined'
-      ? window.localStorage.getItem('locale') || 'en'
-      : 'en'
-  );
+  const locale = useLocale();
 
   const {
     data: fetchedData,
@@ -120,8 +117,6 @@ const Providers: React.FC<IProps> = ({ children, session }) => {
           setCurrentPlan,
           socket,
           setSocket,
-          locale,
-          setLocale,
         }}
       >
         {children}

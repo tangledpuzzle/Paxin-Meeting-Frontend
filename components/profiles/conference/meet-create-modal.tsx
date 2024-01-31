@@ -11,14 +11,14 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 interface MeetCreateModalProps {
   children: React.ReactNode;
 }
 
 export function MeetCreateModal({ children }: MeetCreateModalProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>

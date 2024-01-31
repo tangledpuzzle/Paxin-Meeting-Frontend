@@ -22,14 +22,15 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { Trans, useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
+// heyheyhey
 
 export default function ResetPasswordPage({
   params,
 }: {
   params: { slug: string };
 }) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isAccepted, setIsAccepted] = useState<boolean>(false);
@@ -125,13 +126,18 @@ export default function ResetPasswordPage({
                     onCheckedChange={(value: boolean) => setIsAccepted(value)}
                   />
                   <Label htmlFor='terms' className='leading-6'>
-                    <Trans
-                      i18nKey='terms'
-                      components={[
-                        <Link href='/' className='text-primary underline' />,
-                        <Link href='/' className='text-primary underline' />,
-                      ]}
-                    />
+                    {t.rich('terms', {
+                      platform: (children) => (
+                        <Link href='/' className='text-primary underline'>
+                          {children}
+                        </Link>
+                      ),
+                      privacy: (children) => (
+                        <Link href='/' className='text-primary underline'>
+                          {children}
+                        </Link>
+                      ),
+                    })}
                   </Label>
                 </div>
 

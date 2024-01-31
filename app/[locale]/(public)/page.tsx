@@ -18,14 +18,13 @@ export default function LandingPage({
   const t = useTranslations('main');
   return (
     <section className='container grid items-center gap-0 px-0 pb-8'>
-      {t('votes')} {params.locale}
-      {/* <HeroSection locale={params.locale} />
-      <FeatureSection locale={params.locale} />
-      <NavigateSection locale={params.locale} />
-      <TestimonialSection locale={params.locale} />
-      <AboutSection locale={params.locale} />
-      <ServicesSection locale={params.locale} />
-      <JoinUsSection locale={params.locale} /> */}
+      <HeroSection />
+      <FeatureSection />
+      <NavigateSection />
+      <TestimonialSection />
+      <AboutSection />
+      <ServicesSection />
+      <JoinUsSection />
     </section>
   );
 }

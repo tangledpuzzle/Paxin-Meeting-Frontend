@@ -14,12 +14,11 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { PaxContext } from '@/context/context';
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import useSWR from 'swr';
+import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useTranslation } from 'next-i18next';
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 interface Option {
   value: number;
@@ -29,8 +28,8 @@ interface Option {
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function FilterModal() {
-  const { t } = useTranslation();
-  const { locale, setLocale } = useContext(PaxContext);
+  const t = useTranslations('main');
+  const locale = useLocale();
   const searchParams = useSearchParams();
   const router = useRouter();
 

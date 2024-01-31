@@ -8,10 +8,10 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FilterModal } from './filter-modal';
 import { useState } from 'react';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export function CTASection() {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const searchParams = useSearchParams();
   const router = useRouter();
   const [keyword, setKeyword] = useState<string>(

@@ -17,7 +17,7 @@ import {
 import { Icons } from '../icons';
 import { Input } from '../ui/input';
 import { Separator } from '../ui/separator';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 interface PlanCardProps {
   title: string;
@@ -88,7 +88,7 @@ const plans = [
 ];
 
 export function PlanUpgradeModal({ children }: PlanUpgradeModalProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
   const { currentPlan, setCurrentPlan } = useContext(PaxContext);
 
   return (

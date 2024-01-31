@@ -14,16 +14,17 @@ import { VscEye } from 'react-icons/vsc';
 import ImageGallery from 'react-image-gallery';
 import QRCode from 'react-qr-code';
 
-import { Separator } from '@/components/ui/separator';
 import { Breadcrumb } from '@/components/common/breadcrumb';
 import { TagSlider } from '@/components/common/tag-slider';
+import { Separator } from '@/components/ui/separator';
 
 import 'react-image-gallery/styles/css/image-gallery.css';
 
-import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
+import { QRCodeModal } from '@/components/common/qrcode-modal';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -33,13 +34,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { QRCodeModal } from '@/components/common/qrcode-modal';
 
-import 'react-quill/dist/quill.snow.css';
-import '@/styles/editor.css';
-import { PaxContext } from '@/context/context';
 import ProfileDetailSkeleton from '@/components/home/profile/profile-detail-skeleton';
-import { useTranslation } from 'next-i18next';
+import '@/styles/editor.css';
+import { useLocale, useTranslations } from 'next-intl';
+import 'react-quill/dist/quill.snow.css';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -92,8 +91,8 @@ export default function ProfilePage({
 }: {
   params: { username: string };
 }) {
-  const { t } = useTranslation();
-  const { locale, setLocale } = useContext(PaxContext);
+  const t = useTranslations('main');
+  const locale = useLocale();
   const [profileDetails, setProfileDetails] = useState<ProfileDetails>();
   const { data: fetchedData, error } = useSWR(
     `/api/profiles/get/${params.username}?language=${locale}`,
@@ -128,7 +127,7 @@ export default function ProfilePage({
     },
     {
       name: params.username,
-      url: `profile/${params.username}`,
+      url: `profiles/${params.username}`,
     },
   ];
 

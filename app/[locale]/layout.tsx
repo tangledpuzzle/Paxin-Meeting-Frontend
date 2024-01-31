@@ -13,7 +13,7 @@ import { MetadataUpdater } from '@/lib/dynamicMetadata';
 import { fontRoboto, fontSatoshi } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { getServerSession } from 'next-auth';
-
+import { useTranslations } from 'next-intl';
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,

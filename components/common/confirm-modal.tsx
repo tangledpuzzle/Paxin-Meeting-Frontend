@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   title,
   description,
 }) => {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
 
   const [isMounted, setIsMounted] = useState(false);
 

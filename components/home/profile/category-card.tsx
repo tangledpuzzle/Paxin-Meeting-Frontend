@@ -2,7 +2,7 @@ import * as React from 'react';
 import { BiSolidCategory } from 'react-icons/bi';
 
 import { Badge } from '@/components/ui/badge';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 export interface CategoryCardProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -10,7 +10,7 @@ export interface CategoryCardProps
 }
 
 function CategoryCard({ categories }: CategoryCardProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('main');
 
   return (
     <div className='border-badge group relative w-full rounded-xl border border-[#ffffff2b] bg-[#9c9c9c1a] p-2 transition-all duration-300 hover:border-primary'>
