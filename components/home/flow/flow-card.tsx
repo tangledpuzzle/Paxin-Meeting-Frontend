@@ -167,14 +167,22 @@ function FlowCard(profile: FlowCardProps) {
             >
               <BiLink className='size-5 text-gray-500 dark:text-white' />
             </Button>
-            <Button
-              variant='outline'
-              size='icon'
-              className='rounded-full'
-              data-tooltip-id='my-tooltip-3'
-            >
-              <FaTelegramPlane className='size-5 text-gray-500 dark:text-white' />
-            </Button>
+            {user.telegram && (
+              <Button
+                variant='outline'
+                size='icon'
+                className='rounded-full'
+                data-tooltip-id='my-tooltip-3'
+                asChild
+              >
+                <Link
+                  href={`tg://resolve?domain=${user.telegram}`}
+                  target='_blank'
+                >
+                  <FaTelegramPlane className='size-5 text-gray-500 dark:text-white' />
+                </Link>
+              </Button>
+            )}
 
             <ReactTooltip
               id='my-tooltip-1'

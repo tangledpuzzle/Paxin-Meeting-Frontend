@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
     const data = await res.json();
 
     const flows = data.data.map((item: any) => {
+      console.log(item);
       return {
         id: item.uniqId,
         title:
@@ -26,7 +27,7 @@ export async function GET(req: NextRequest) {
         user: {
           username: item.user.name,
           online: item.user.online,
-          telegram: '',
+          telegram: item.user.telegramactivated ? item.user.telegramname : '',
           avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${item.user.photo}`,
         },
         slug: item.slug,
