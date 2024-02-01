@@ -1,5 +1,5 @@
 // import React, { useState } from "react"
-import { Filter, Search } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import Select from 'react-select';
 
 import { Button } from '@/components/ui/button';
@@ -21,7 +21,7 @@ import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 interface Option {
-  value: number;
+  value: number | string;
   label: string;
 }
 
@@ -36,13 +36,13 @@ export function FilterModal() {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
   const [cityOptions, setCityOptions] = useState<Option[]>([]);
   const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
+  const [hashtagOptions, setHashtagOptions] = useState<Option[]>([]);
   const [viewMode, setViewMode] = useState<string>(
     searchParams.get('mode') || 'profile'
   );
 
-  const [hashTag, setHashTag] = useState<string>(
-    searchParams.get('hashtag') || ''
-  );
+  const [hashTag, setHashTag] = useState<Option[]>([]);
+  const [hashtagURL, setHashtagURL] = useState<string>('/api/hashtags/get');
   const [city, setCity] = useState<Option[]>();
   const [category, setCategory] = useState<Option[]>();
   const [minPrice, setMinPrice] = useState<string>('');
@@ -56,6 +56,11 @@ export function FilterModal() {
   );
   const { data: fetchedCategories, error: categoryFetchError } = useSWR(
     '/api/categories/get',
+    fetcher
+  );
+
+  const { data: fetchedHashtags, error: hashtagFetchError } = useSWR(
+    hashtagURL,
     fetcher
   );
 
@@ -110,7 +115,10 @@ export function FilterModal() {
     }
 
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('hashtag', hashTag || 'all');
+    newSearchParams.set(
+      'hashtag',
+      hashTag ? hashTag.map((item) => item.value).join(',') || 'all' : 'all'
+    );
     newSearchParams.set(
       'city',
       city && city.length > 0 ? city[0].label : 'all'
@@ -126,8 +134,12 @@ export function FilterModal() {
     router.push(`?${newSearchParams.toString()}`);
   };
 
+  const handleHashtagSearch = (query: string) => {
+    if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
+  };
+
   const handleResetFilters = () => {
-    setHashTag('');
+    setHashTag([]);
     setCity([]);
     setCategory([]);
     setMinPrice('');
@@ -143,7 +155,8 @@ export function FilterModal() {
     const _viewMode = searchParams.get('mode');
     const _money = searchParams.get('money');
 
-    if (_hashtag && _hashtag !== 'all') setHashTag(_hashtag);
+    if (_hashtag && _hashtag !== 'all')
+      setHashTag(_hashtag.split(',').map((h) => ({ value: h, label: h })));
     if (_city && _city !== 'all')
       setCity([cityOptions.find((c) => c.label === _city)] as Option[]);
     if (_category && _category !== 'all')
@@ -164,7 +177,7 @@ export function FilterModal() {
     if (['profile', 'flow'].includes(viewMode)) {
       setCity([]);
       setCategory([]);
-      setHashTag('');
+      setHashTag([]);
     }
   }, [viewMode]);
 
@@ -245,6 +258,19 @@ export function FilterModal() {
     if (_city || _category) router.push(`?${newSearchParams.toString()}`);
   }, [fetchedCities, fetchedCategories, locale]);
 
+  useEffect(() => {
+    if (!hashtagFetchError && fetchedHashtags) {
+      setHashtagOptions(
+        fetchedHashtags?.map((hashtag: any) => ({
+          value: hashtag.Hashtag,
+          label: hashtag.Hashtag,
+        })) || []
+      );
+    } else {
+      setHashtagOptions([]);
+    }
+  }, [hashtagFetchError, fetchedHashtags]);
+
   return (
     <Dialog open={isFilterModalOpen} onOpenChange={setIsFilterModalOpen}>
       <DialogTrigger asChild>
@@ -308,7 +334,25 @@ export function FilterModal() {
             <Label htmlFor='username' className='text-right'>
               {t('hashtag')}
             </Label>
-            <div className='relative w-full'>
+            <Select
+              isMulti
+              name='category'
+              options={hashtagOptions}
+              value={hashTag}
+              onInputChange={handleHashtagSearch}
+              onChange={(selectedHashtags: any) => setHashTag(selectedHashtags)}
+              placeholder={t('select') + '...'}
+              noOptionsMessage={() => t('no_options')}
+              classNames={{
+                input: () => 'dark:text-white text-black',
+                control: () =>
+                  '!flex !text-primary !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium placeholder:!text-muted-foreground focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                option: () =>
+                  '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                menu: () => '!bg-muted',
+              }}
+            />
+            {/* <div className='relative w-full'>
               <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
               <Input
                 type='text'
@@ -317,7 +361,7 @@ export function FilterModal() {
                 value={hashTag}
                 onChange={(e) => setHashTag(e.target.value)}
               />
-            </div>
+            </div> */}
           </div>
           {viewMode === 'flow' && (
             <div className=''>
