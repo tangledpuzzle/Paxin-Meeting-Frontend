@@ -26,8 +26,12 @@ export async function GET(req: NextRequest) {
         locale.charAt(0).toUpperCase() + locale.slice(1)
       ],
       hashtags: data.data.Profile[0].Hashtags.map((tag: any) => tag.Hashtag),
-      cities: data.data.Profile[0].City.map((city: any) => city.Hex),
-      categories: data.data.Profile[0].Guilds.map((guild: any) => guild.Hex),
+      cities: data.data.Profile[0].City.map(
+        (city: any) => city.Translations[0].Name
+      ),
+      categories: data.data.Profile[0].Guilds.map(
+        (guild: any) => guild.Translations[0].Name
+      ),
       country: data.data.Profile[0].Lang,
       latestblog:
         data.data.Blogs.length > 0
@@ -42,8 +46,9 @@ export async function GET(req: NextRequest) {
                 ],
               hero: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${data.data.Blogs[0].photos[0].files[0].path}`,
               review: {
-                votes: data.data.Blogs[0].Views, // This is the number of views, not votes. Need to fix api
+                votes: data.data.Blogs[0].Views,
               },
+              link: `${data.data.Blogs[0].UniqId}/${data.data.Blogs[0].Slug}`,
             }
           : undefined,
       review: {
@@ -67,13 +72,14 @@ export async function GET(req: NextRequest) {
         data.data.Profile[0].MultilangAdditional[
           locale.charAt(0).toUpperCase() + locale.slice(1)
         ],
-      telegram: data.data.TelegramName,
+      telegram: data.data.TelegramActivated ? data.data.TelegramName : '',
       qrcode: data.data.Name,
       follow: session
         ? data.data.Followings.filter(
             (item: any) => item.ID === session?.user?.id
           ).length > 0
         : false,
+      me: session?.user?.id === data.data.ID,
     };
 
     return NextResponse.json(profile);

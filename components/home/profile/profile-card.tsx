@@ -1,19 +1,19 @@
 import Image from 'next/image';
 import { CiClock1 } from 'react-icons/ci';
+import { GiShadowFollower } from 'react-icons/gi';
 import { IoCalendarNumberOutline } from 'react-icons/io5';
 import { TiMessage } from 'react-icons/ti';
-import { GiShadowFollower } from 'react-icons/gi';
 
+import { TagSlider } from '@/components/common/tag-slider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { TagSlider } from '@/components/common/tag-slider';
 
 import Link from 'next/link';
 
+import { useTranslations } from 'next-intl';
 import { QRCodeModal } from '../../common/qrcode-modal';
 import { CategoryCard } from './category-card';
 import { CityCard } from './city-card';
-import { useTranslations } from 'next-intl';
 
 export interface ProfileCardProps {
   username: string;
@@ -70,7 +70,11 @@ function ProfileCard(profile: ProfileCardProps) {
               alt='profile'
             />
           </div>
-          <div className='absolute inset-0 flex items-center justify-center rounded-md  bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
+          <Link
+            href='/profiles/[username]'
+            as={`/profiles/${username}`}
+            className='absolute inset-0 flex items-center justify-center rounded-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'
+          ></Link>
           <div className='absolute top-3 flex w-full justify-between gap-2 px-4'>
             <QRCodeModal
               qrcode={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${username}`}
@@ -87,9 +91,13 @@ function ProfileCard(profile: ProfileCardProps) {
           ></div>
         </div>
         <div className='font-satoshi'>
-          <div className='line-clamp-1 pb-4 text-xl font-semibold text-secondary-foreground'>
+          <Link
+            href='/profiles/[username]'
+            as={`/profiles/${username}`}
+            className='line-clamp-1 pb-4 text-xl font-semibold text-secondary-foreground'
+          >
             @{username}
-          </div>
+          </Link>
           <div className='line-clamp-3 text-sm text-muted-foreground'>
             {bio}
           </div>

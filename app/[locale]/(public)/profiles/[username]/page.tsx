@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { BiSolidCalendar, BiSolidCategory } from 'react-icons/bi';
-import { FaTelegramPlane, FaThumbsUp } from 'react-icons/fa';
+import { FaExclamation, FaTelegramPlane, FaThumbsUp } from 'react-icons/fa';
 import {
   MdOutlineHouseSiding,
   MdOutlineKeyboardArrowRight,
@@ -41,6 +41,7 @@ import { Loader2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
+import Link from 'next/link';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -82,6 +83,7 @@ interface ProfileDetails {
     review: {
       votes: number;
     };
+    link: string;
   };
   gallery: GalleryData[];
   description: string;
@@ -89,6 +91,7 @@ interface ProfileDetails {
   telegram: string;
   qrcode: string;
   follow: boolean;
+  me: boolean;
 }
 
 export default function ProfilePage({
@@ -225,15 +228,30 @@ export default function ProfilePage({
             </div>
             <div className='my-4 flex gap-3'>
               <Button variant='outline' className='rounded-full' size='icon'>
-                <FaTelegramPlane className='size-5' />
+                <FaExclamation className='size-4' />
               </Button>
+              {profileDetails.telegram && (
+                <Button
+                  variant='outline'
+                  className='rounded-full'
+                  size='icon'
+                  asChild
+                >
+                  <Link
+                    href={`tg://resolve?domain=${profileDetails.telegram}`}
+                    target='_blank'
+                  >
+                    <FaTelegramPlane className='size-5' />
+                  </Link>
+                </Button>
+              )}
               <Button variant='outline' className='rounded-full' size='icon'>
                 <MdPhoneInTalk className='size-5' />
               </Button>
               {!profileDetails.follow ? (
                 <Button
                   className='ml-auto rounded-full'
-                  disabled={isFollowLoading}
+                  disabled={isFollowLoading || profileDetails.me}
                   onClick={handleFollow}
                 >
                   {isFollowLoading && (
@@ -285,9 +303,11 @@ export default function ProfilePage({
                     </div>
                   </CardHeader>
                   <CardFooter>
-                    <Button className='w-full'>
-                      {t('view_post')}
-                      <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
+                    <Button className='w-full' asChild>
+                      <Link href={`/flows/${profileDetails.latestblog.link}`}>
+                        {t('view_post')}
+                        <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
+                      </Link>
                     </Button>
                   </CardFooter>
                 </Card>
@@ -295,9 +315,12 @@ export default function ProfilePage({
               <Button
                 variant='outline'
                 className='mt-3 w-full rounded-full border-primary text-primary'
+                asChild
               >
-                <VscEye className='mr-2 size-5' />
-                {t('view_more_topics')}
+                <Link href={`/home?mode=flow`}>
+                  <VscEye className='mr-2 size-5' />
+                  {t('view_more_topics')}
+                </Link>
               </Button>
             </div>
           </div>
@@ -319,7 +342,7 @@ export default function ProfilePage({
                   </div>
                 </div>
                 <div className='my-4'>
-                  <TagSlider tags={profileDetails.hashtags} />
+                  <TagSlider tags={profileDetails.hashtags} mode='profile' />
                 </div>
               </div>
               <div className='flex items-start justify-end'>
@@ -342,13 +365,14 @@ export default function ProfilePage({
                 </div>
                 <div className='flex gap-2'>
                   {profileDetails.cities.map((city, index) => (
-                    <Badge
-                      key={index}
-                      variant='outline'
-                      className='max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
-                    >
-                      {city}
-                    </Badge>
+                    <Link href={`/home?mode=profile&city=${city}`} key={index}>
+                      <Badge
+                        variant='outline'
+                        className='max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
+                      >
+                        {city}
+                      </Badge>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -359,13 +383,17 @@ export default function ProfilePage({
                 </div>
                 <div className='flex gap-2'>
                   {profileDetails.categories.map((category, index) => (
-                    <Badge
+                    <Link
+                      href={`/home?mode=profile&city=${category}`}
                       key={index}
-                      variant='outline'
-                      className='max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
                     >
-                      {category}
-                    </Badge>
+                      <Badge
+                        variant='outline'
+                        className='max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
+                      >
+                        {category}
+                      </Badge>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -433,7 +461,6 @@ export default function ProfilePage({
                   modules={modules}
                   formats={formats}
                   readOnly
-                  placeholder={t('type_your_content_here')}
                   className='border-none text-gray-500 placeholder:text-white'
                 />
               </div>

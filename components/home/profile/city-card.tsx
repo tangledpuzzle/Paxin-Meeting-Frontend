@@ -4,6 +4,7 @@ import { MdOutlineHouseSiding } from 'react-icons/md';
 import { Badge } from '@/components/ui/badge';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 export interface CityCardProps extends React.HTMLAttributes<HTMLDivElement> {
   cities: string[];
@@ -11,6 +12,13 @@ export interface CityCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 function CityCard({ cities }: CityCardProps) {
   const t = useTranslations('main');
+  const searchParams = useSearchParams();
+
+  const queries: { [key: string]: string } = {};
+
+  for (let [key, value] of searchParams.entries()) {
+    queries[key] = value;
+  }
 
   return (
     <div className='border-badge group relative w-full rounded-xl border border-[#ffffff2b] bg-[#9c9c9c1a] p-2 transition-all duration-300 hover:border-primary'>
@@ -23,7 +31,7 @@ function CityCard({ cities }: CityCardProps) {
       <div className='flex w-full flex-wrap gap-1'>
         {cities.map((city, i) => (
           <Link
-            href={`/home?mode=profile&city=${city}`}
+            href={{ query: { ...queries, city } }}
             key={i}
             className='z-10 cursor-pointer'
           >

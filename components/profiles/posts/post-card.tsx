@@ -231,7 +231,7 @@ export function PostCard({
             {subtitle}
           </div>
           <div className='my-2 w-full max-w-full sm:max-w-xl'>
-            <TagSlider tags={hashtags} />
+            <TagSlider tags={hashtags} mode='flow' />
           </div>
           <div
             className='line-clamp-3 w-full text-sm text-muted-foreground md:w-[90%]'
