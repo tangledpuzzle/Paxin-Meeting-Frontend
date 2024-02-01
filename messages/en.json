@@ -274,6 +274,25 @@
     "or": "OR",
     "complain": "Complain",
     "anything_wrong_with_the_post": "Anything wrong with the Post?",
-    "make_a_complaining_about_the_post": "Make a complaining about the post"
+    "make_a_complaining_about_the_post": "Make a complaining about the post",
+    "complaints": "Complaints",
+    "type_of_complaint": "Type of Complaint",
+    "select_type_of_complaint": "Select Type of Complaint",
+    "title_of_complaint": "Title of Complaint",
+    "submit": "Submit",
+    "spam": "Spam",
+    "harmful_misinformation_or_glorifying_violence": "Harmful misinformation or glorifying violence",
+    "exposing_private_identifying_information": "Exposing private identifying information",
+    "something_else": "Something else",
+    "report": "Report",
+    "type_of_report": "Type of Report",
+    "select_type_of_report": "Select Type of Report",
+    "title_of_report": "Title of Report",
+    "bullying_or_harassment": "Bullying or Harassment",
+    "hate_speech_or_discrimination": "Hate Speech or Discrimination",
+    "inappropriate_or_offensive_content": "Inappropriate or Offensive Content",
+    "spam_or_unwanted_content": "Spam or Unwanted Content",
+    "privacy_violations": "Privacy Violations",
+    "intellectual_property_rights_violation": "Intellectual Property Rights Violation"
   }
 }

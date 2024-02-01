@@ -1,24 +1,24 @@
-import Image from 'next/image';
 import { Eye, Mail } from 'lucide-react';
+import Image from 'next/image';
 import { BiLink } from 'react-icons/bi';
-import { BsPersonFillExclamation } from 'react-icons/bs';
-import { FaTelegramPlane } from 'react-icons/fa';
+import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
 
+import { ProfileAvatar } from '@/components/common/profile-avatar';
+import { TagSlider } from '@/components/common/tag-slider';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ProfileAvatar } from '@/components/common/profile-avatar';
-import { TagSlider } from '@/components/common/tag-slider';
 
+import Link from 'next/link';
 import { CategoryBadge } from './category-badge';
 import { LocationBadge } from './location-badge';
 import { PriceBadge } from './price-badge';
-import Link from 'next/link';
 
-import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { useTranslations } from 'next-intl';
-import toast from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
+import toast from 'react-hot-toast';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { ReportModal } from '@/components/common/report-modal';
 
 export interface FlowCardProps {
   id: string;
@@ -164,14 +164,16 @@ function FlowCard(profile: FlowCardProps) {
             </div>
           </Link>
           <div className='flex gap-2'>
-            <Button
-              variant='outline'
-              size='icon'
-              className='rounded-full'
-              data-tooltip-id='my-tooltip-1'
-            >
-              <BsPersonFillExclamation className='size-5 text-gray-500 dark:text-white' />
-            </Button>
+            <ReportModal>
+              <Button
+                variant='outline'
+                size='icon'
+                className='rounded-full'
+                data-tooltip-id='my-tooltip-1'
+              >
+                <FaExclamation className='size-5 text-gray-500 dark:text-white' />
+              </Button>
+            </ReportModal>
             <Button
               variant='outline'
               size='icon'

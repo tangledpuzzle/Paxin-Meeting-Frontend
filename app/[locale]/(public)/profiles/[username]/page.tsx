@@ -42,6 +42,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
 import Link from 'next/link';
+import { ReportModal } from '@/components/common/report-modal';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -227,9 +228,11 @@ export default function ProfilePage({
               />
             </div>
             <div className='my-4 flex gap-3'>
-              <Button variant='outline' className='rounded-full' size='icon'>
-                <FaExclamation className='size-4' />
-              </Button>
+              <ReportModal>
+                <Button variant='outline' className='rounded-full' size='icon'>
+                  <FaExclamation className='size-4' />
+                </Button>
+              </ReportModal>
               {profileDetails.telegram && (
                 <Button
                   variant='outline'
@@ -286,21 +289,23 @@ export default function ProfilePage({
                         fill
                       />
                     </div>
-                    <div>
-                      <CardTitle>{profileDetails.latestblog.title}</CardTitle>
+                    <div className='flex items-center justify-between gap-2'>
+                      <CardTitle className='line-clamp-1'>
+                        {profileDetails.latestblog.title}
+                      </CardTitle>
+                      <div>
+                        <Badge
+                          variant='outline'
+                          className='m-0 bg-muted-foreground text-xs text-white'
+                        >
+                          <FaThumbsUp className='mr-2 size-3' />
+                          {profileDetails.latestblog.review.votes}
+                        </Badge>
+                      </div>
                     </div>
                     <CardDescription>
                       {profileDetails.latestblog.subtitle}
                     </CardDescription>
-                    <div>
-                      <Badge
-                        variant='outline'
-                        className='bg-muted-foreground text-white'
-                      >
-                        <FaThumbsUp className='mr-2 size-3' />
-                        {profileDetails.latestblog.review.votes}
-                      </Badge>
-                    </div>
                   </CardHeader>
                   <CardFooter>
                     <Button className='w-full' asChild>
@@ -481,19 +486,19 @@ export default function ProfilePage({
                     </div>
                     <div>
                       <CardTitle>{profileDetails.latestblog.title}</CardTitle>
+                      <div>
+                        <Badge
+                          variant='outline'
+                          className='bg-muted-foreground text-white'
+                        >
+                          <FaThumbsUp className='mr-2 size-3' />
+                          {profileDetails.latestblog.review.votes}
+                        </Badge>
+                      </div>
                     </div>
                     <CardDescription>
                       {profileDetails.latestblog.subtitle}
                     </CardDescription>
-                    <div>
-                      <Badge
-                        variant='outline'
-                        className='bg-muted-foreground text-white'
-                      >
-                        <FaThumbsUp className='mr-2 size-3' />
-                        {profileDetails.latestblog.review.votes}
-                      </Badge>
-                    </div>
                   </CardHeader>
                   <CardFooter>
                     <Button className='w-full'>
