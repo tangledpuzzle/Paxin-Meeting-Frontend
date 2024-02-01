@@ -55,7 +55,7 @@ export async function SiteHeader() {
                 user={{
                   email: data.data.user.email,
                   avatar: data.data.user.photo,
-                  username: data.data.user.username,
+                  username: data.data.user.name,
                 }}
               />
             ) : (
