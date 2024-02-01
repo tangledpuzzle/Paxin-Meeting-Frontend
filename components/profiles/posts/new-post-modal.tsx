@@ -295,6 +295,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                       <FormControl>
                         <ReactSelect
                           isMulti
+                          placeholder={t('select') + '...'}
+                          noOptionsMessage={() => t('no_options')}
                           options={user?.city.map((city: any) => ({
                             label: city.name,
                             value: city.id * 1,
@@ -323,6 +325,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                       <FormControl>
                         <ReactSelect
                           isMulti
+                          placeholder={t('select') + '...'}
+                          noOptionsMessage={() => t('no_options')}
                           {...field}
                           options={user?.category.map((category: any) => ({
                             label: category.name,
@@ -353,6 +357,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                       <FormControl>
                         <ReactSelect
                           isMulti
+                          placeholder={t('select') + '...'}
+                          noOptionsMessage={() => t('no_options')}
                           options={user?.hashtags.map((hashtag: any) => ({
                             label: hashtag,
                             value: hashtag,

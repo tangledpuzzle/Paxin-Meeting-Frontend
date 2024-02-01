@@ -268,11 +268,12 @@ export function FilterModal() {
               options={cityOptions}
               value={city}
               onChange={(selectedCities: any) => setCity(selectedCities)}
-              placeholder={t('select')}
+              placeholder={t('select') + '...'}
+              noOptionsMessage={() => t('no_options')}
               classNames={{
                 input: () => 'dark:text-white text-black',
                 control: () =>
-                  '!flex !h-10 !text-primary !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium placeholder:!text-muted-foreground focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                  '!flex !text-primary !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium placeholder:!text-muted-foreground focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                 option: () =>
                   '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                 menu: () => '!bg-muted',
@@ -291,11 +292,12 @@ export function FilterModal() {
               onChange={(selectedCategories: any) =>
                 setCategory(selectedCategories)
               }
-              placeholder={t('select')}
+              placeholder={t('select') + '...'}
+              noOptionsMessage={() => t('no_options')}
               classNames={{
                 input: () => 'dark:text-white text-black',
                 control: () =>
-                  '!flex !h-10 !text-primary !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium placeholder:!text-muted-foreground focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                  '!flex !text-primary !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium placeholder:!text-muted-foreground focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                 option: () =>
                   '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                 menu: () => '!bg-muted',

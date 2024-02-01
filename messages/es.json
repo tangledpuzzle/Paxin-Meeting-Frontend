@@ -241,6 +241,7 @@
     "from": "de",
     "to": "a",
     "select": "Seleccionar",
+    "no_options": "Sin opciones",
     "follow": "Seguir",
     "post_feed": "Publicaciones",
     "view_post": "Ver publicación",
