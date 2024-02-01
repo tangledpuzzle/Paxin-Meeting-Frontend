@@ -233,11 +233,22 @@ export function SignUpCard() {
                 </FormItem>
               )}
             />
-            <div className='mb-4'>
-              <div className='flex items-center space-x-2'>
+            <div className='my-4'>
+              <div className='flex items-center space-x-2 text-base'>
                 <Checkbox id='terms' />
-                <Label htmlFor='terms'>
-                  {t('accpet_terms_and_conditions')}
+                <Label htmlFor='terms' className='leading-6'>
+                  {t.rich('terms', {
+                    platform: (children) => (
+                      <Link href='/rules' className='text-primary underline'>
+                        {children}
+                      </Link>
+                    ),
+                    privacy: (children) => (
+                      <Link href='/privacy' className='text-primary underline'>
+                        {children}
+                      </Link>
+                    ),
+                  })}
                 </Label>
               </div>
             </div>

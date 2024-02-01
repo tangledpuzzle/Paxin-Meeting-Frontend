@@ -131,23 +131,25 @@ export function SiteFooter() {
       </div>
       <Separator className='container mx-auto bg-[#8C8C8C]/20' />
       <div className='mt-2 grid grid-cols-1 md:container md:grid-cols-2 '>
-        <div className='flex text-nowrap items-center justify-center font-satoshi text-sm text-muted-foreground md:justify-start'>
+        <div className='flex items-center justify-center text-nowrap font-satoshi text-sm text-muted-foreground md:justify-start'>
           © {t('all_rights_reserved_by_paxintrade')}
         </div>
-        <div className='flex flex-col md:flex-row justify-center md:justify-end'>
+        <div className='flex flex-col justify-center md:flex-row md:justify-end'>
           <Button
             variant='link'
             aria-label='Privacy Policy'
             className='font-satoshi text-sm text-muted-foreground'
+            asChild
           >
-            {t('privacy_policy')}
+            <Link href='/privacy'>{t('privacy_policy')}</Link>
           </Button>
           <Button
             variant='link'
             aria-label='Terms of Use'
             className='font-satoshi text-sm text-muted-foreground'
+            asChild
           >
-            {t('terms_of_use')}
+            <Link href='/rules'>{t('terms_of_use')}</Link>
           </Button>
         </div>
       </div>

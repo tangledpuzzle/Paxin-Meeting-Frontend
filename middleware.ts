@@ -8,6 +8,8 @@ const publicPages = [
   '/home',
   '/about',
   '/contact',
+  '/privacy',
+  '/rules',
   '/auth/signin',
   '/auth/signup',
   '/auth/verify/[slug]',
