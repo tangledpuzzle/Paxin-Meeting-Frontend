@@ -157,17 +157,23 @@ export function FilterModal() {
 
     if (_hashtag && _hashtag !== 'all')
       setHashTag(_hashtag.split(',').map((h) => ({ value: h, label: h })));
+    else if (_hashtag === 'all') setHashTag([]);
     if (_city && _city !== 'all')
       setCity([cityOptions.find((c) => c.label === _city)] as Option[]);
+    else if (_city === 'all') setCity([]);
     if (_category && _category !== 'all')
       setCategory([
         categoryOptions.find((c) => c.label === _category),
       ] as Option[]);
+    else if (_category === 'all') setCategory([]);
     if (_viewMode) setViewMode(_viewMode);
     if (_money && _money !== 'all') {
       const [min, max] = _money.split('-');
       setMinPrice(min);
       setMaxPrice(max);
+    } else if (_money === 'all') {
+      setMinPrice('');
+      setMaxPrice('');
     }
 
     setIsReset(false);
