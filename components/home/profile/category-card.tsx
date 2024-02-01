@@ -3,6 +3,7 @@ import { BiSolidCategory } from 'react-icons/bi';
 
 import { Badge } from '@/components/ui/badge';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 export interface CategoryCardProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -22,13 +23,19 @@ function CategoryCard({ categories }: CategoryCardProps) {
       <div className='mb-0 h-[1.5px] w-2/3 rounded-lg bg-gradient-to-r from-muted-foreground to-transparent'></div>
       <div className='flex w-full flex-wrap gap-1'>
         {categories.map((category, i) => (
-          <Badge
+          <Link
+            href={`/home?mode=profile&category=${category}`}
             key={i}
-            variant='outline'
-            className='w-fit rounded-xl border-[#6060602b] p-2'
+            className='z-10 cursor-pointer'
           >
-            {category}
-          </Badge>
+            <Badge
+              key={i}
+              variant='outline'
+              className='w-fit rounded-xl border-[#6060602b] p-2'
+            >
+              {category}
+            </Badge>
+          </Link>
         ))}
       </div>
     </div>
