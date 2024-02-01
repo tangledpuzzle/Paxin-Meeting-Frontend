@@ -40,6 +40,8 @@ export async function GET(req: NextRequest) {
       throw new Error('Failed to fetch data');
     }
 
+    console.log(blogData.data[0]);
+
     const blog = {
       id: blogData.data[0].id,
       title:
@@ -77,7 +79,9 @@ export async function GET(req: NextRequest) {
       author: {
         username: blogData.data[0].user.name,
         avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${blogData.data[0].user.photo}`,
-        bio: blogData.data[0].user.role,
+        bio: blogData.data[0].userProfile.multilangtitle[
+          locale.charAt(0).toUpperCase() + locale.slice(1)
+        ],
         telegram: blogData.data[0].user.telegramactivated
           ? blogData.data[0].user.telegramname
           : '',
@@ -90,7 +94,7 @@ export async function GET(req: NextRequest) {
       ),
       cities: blogData.data[0].city.map((city: any) => city.name),
       countrycode: blogData.data[0].lang,
-      me: session?.user?.name === blogData.data[0].user.name,
+      me: session?.user?.id === blogData.data[0].user.userID,
     };
 
     return NextResponse.json(blog);

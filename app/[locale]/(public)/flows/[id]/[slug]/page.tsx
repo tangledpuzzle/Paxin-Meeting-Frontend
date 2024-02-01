@@ -457,7 +457,7 @@ export default function FlowPage({
                       @{blogDetails.author?.username}
                     </div>
                   </Link>
-                  <div className='line-clamp-2 text-sm'>
+                  <div className='line-clamp-2 break-all text-sm'>
                     {blogDetails.author?.bio}
                   </div>
                 </div>
