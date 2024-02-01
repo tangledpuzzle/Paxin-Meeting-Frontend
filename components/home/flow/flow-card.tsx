@@ -127,9 +127,15 @@ function FlowCard(profile: FlowCardProps) {
           </div>
         </div>
         <div className='mt-auto flex gap-3'>
-          <PriceBadge>{price}</PriceBadge>
-          <LocationBadge>{location}</LocationBadge>
-          <CategoryBadge>{category}</CategoryBadge>
+          <Link href={`/home?mode=flow&money=${price}`}>
+            <PriceBadge>{price}</PriceBadge>
+          </Link>
+          <Link href={`/home?mode=flow&city=${location}`}>
+            <LocationBadge>{location}</LocationBadge>
+          </Link>
+          <Link href={`/home?mode=flow&category=${category}`}>
+            <CategoryBadge>{category}</CategoryBadge>
+          </Link>
         </div>
         <div className='flex justify-between'>
           <Link href='/profiles/[username]' as={`/profiles/${user.username}`}>
