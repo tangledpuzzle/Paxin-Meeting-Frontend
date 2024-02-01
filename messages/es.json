@@ -293,7 +293,11 @@
     "inappropriate_or_offensive_content": "Contenido inapropiado u ofensivo",
     "spam_or_unwanted_content": "Correo no deseado o contenido no deseado",
     "privacy_violations": "Violación de privacidad",
-    "intellectual_property_rights_violation": "Violación de derechos de propiedad intelectual"
+    "intellectual_property_rights_violation": "Violación de derechos de propiedad intelectual",
+    "telegram": "Telegram",
+    "telegram_integration": "Integración de Telegram",
+    "copy_code_and_send_to_bot": "Copia el código y envíalo al bot <botname>@paxbot</botname>",
+    "you_account_is_already_activated": "Tu cuenta ya está activada"
   },
   "privacy": {
     "rulesprivacy": "política de privacidad",

@@ -804,7 +804,9 @@ export default function SettingPage() {
                   {t('telegram_integration')}
                 </div>
                 {profile?.telegram?.activated ? (
-                  <div className='my-4'>You account is already activated</div>
+                  <div className='my-4'>
+                    {t('you_account_is_already_activated')}
+                  </div>
                 ) : (
                   <>
                     <div className='my-4'>

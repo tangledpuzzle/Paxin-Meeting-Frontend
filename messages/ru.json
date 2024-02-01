@@ -293,7 +293,11 @@
     "inappropriate_or_offensive_content": "Неприемлемый или оскорбительный контент",
     "spam_or_unwanted_content": "Спам или нежелательный контент",
     "privacy_violations": "Нарушение конфиденциальности",
-    "intellectual_property_rights_violation": "Нарушение интеллектуальных прав"
+    "intellectual_property_rights_violation": "Нарушение интеллектуальных прав",
+    "telegram": "Телеграм",
+    "telegram_integration": "Интеграция с Телеграм",
+    "copy_code_and_send_to_bot": "Скопируйте код и отправьте его боту <botname>@paxbot</botname>",
+    "you_account_is_already_activated": "Ваш аккаунт уже активирован"
   },
   "privacy": {
     "rulesprivacy": "Правила конфиденциальности",

@@ -293,7 +293,11 @@
     "inappropriate_or_offensive_content": "არასათაურო ან შეუსასრულო კონტენტი",
     "spam_or_unwanted_content": "სპამი ან არასასარგებლო კონტენტი",
     "privacy_violations": "პირადი უსაფრთხოების დარღვევა",
-    "intellectual_property_rights_violation": "მშობელი უფასოთა უფლებების დარღვევა"
+    "intellectual_property_rights_violation": "მშობელი უფასოთა უფლებების დარღვევა",
+    "telegram": "ტელეგრამი",
+    "telegram_integration": "ტელეგრამის ინტეგრაცია",
+    "copy_code_and_send_to_bot": "კოდის კოპირება და გამოგზავნა ბოტს <botname>@paxbot</botname>-ს",
+    "you_account_is_already_activated": "თქვენი ანგარიში უკვე აქტივირებულია"
   },
   "privacy": {
     "rulesprivacy": "კონფიდენციალურობის წესები",
