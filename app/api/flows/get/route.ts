@@ -17,7 +17,6 @@ export async function GET(req: NextRequest) {
     const data = await res.json();
 
     const flows = data.data.map((item: any) => {
-      console.log(item);
       return {
         id: item.uniqId,
         title:

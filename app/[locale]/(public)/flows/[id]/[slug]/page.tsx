@@ -76,6 +76,7 @@ interface BlogDetails {
   categories: string[];
   cities: string[];
   countrycode: string;
+  me: boolean;
 }
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
@@ -196,7 +197,7 @@ export default function FlowPage({
           </div>
         </div>
         <div className='my-4'>
-          <TagSlider tags={blogDetails?.hashtags || []} />
+          <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
         </div>
         <div className='w-full'>
           <ImageGallery
@@ -216,14 +217,56 @@ export default function FlowPage({
                   <div className='flex gap-2'>
                     {blogDetails.cities &&
                       blogDetails.cities.map((city: string) => (
-                        <Badge
-                          key={city}
-                          variant='outline'
-                          className='rounded-full border-primary bg-primary/10 text-primary'
-                        >
-                          {city}
-                        </Badge>
+                        <Link href={`/home?mode=flow&city=${city}`} key={city}>
+                          <Badge
+                            variant='outline'
+                            className='rounded-full border-primary bg-primary/10 text-primary'
+                          >
+                            {city}
+                          </Badge>
+                        </Link>
                       ))}
+                  </div>
+                </div>
+                <div>
+                  <div className='flex items-center gap-2'>
+                    <BiSolidCategory className='size-4' />
+                    {t('category')}
+                  </div>
+                  <div className='flex gap-2'>
+                    {blogDetails.categories &&
+                      blogDetails.categories.map((category: string) => (
+                        <Link
+                          href={`/home?mode=flow&category=${category}`}
+                          key={category}
+                        >
+                          <Badge
+                            variant='outline'
+                            className='rounded-full border-primary bg-primary/10 text-primary'
+                          >
+                            {category}
+                          </Badge>
+                        </Link>
+                      ))}
+                  </div>
+                </div>
+                <div>
+                  <div className='flex items-center gap-2'>
+                    <FaSackDollar className='size-4' />
+                    {t('price')}
+                  </div>
+                  <div className='flex gap-2'>
+                    <Link
+                      href={`/home?mode=flow&money=${blogDetails.price}`}
+                      key={blogDetails.price}
+                    >
+                      <Badge
+                        variant='outline'
+                        className='rounded-full border-primary bg-primary/10 text-primary'
+                      >
+                        ${blogDetails.price}
+                      </Badge>
+                    </Link>
                   </div>
                 </div>
                 <div>
@@ -238,38 +281,6 @@ export default function FlowPage({
                     >
                       {blogDetails.review?.views}
                     </Badge>
-                  </div>
-                </div>
-                <div>
-                  <div className='flex items-center gap-2'>
-                    <FaSackDollar className='size-4' />
-                    {t('price')}
-                  </div>
-                  <div className='flex gap-2'>
-                    <Badge
-                      variant='outline'
-                      className='rounded-full border-primary bg-primary/10 text-primary'
-                    >
-                      ${blogDetails.price}
-                    </Badge>
-                  </div>
-                </div>
-                <div>
-                  <div className='flex items-center gap-2'>
-                    <BiSolidCategory className='size-4' />
-                    {t('category')}
-                  </div>
-                  <div className='flex gap-2'>
-                    {blogDetails.categories &&
-                      blogDetails.categories.map((category: string) => (
-                        <Badge
-                          key={category}
-                          variant='outline'
-                          className='rounded-full border-primary bg-primary/10 text-primary'
-                        >
-                          {category}
-                        </Badge>
-                      ))}
                   </div>
                 </div>
               </div>
@@ -315,7 +326,9 @@ export default function FlowPage({
                 <div className='grid w-full grid-cols-2 gap-2'>
                   <Button
                     variant={blogDetails?.vote === 1 ? 'default' : 'outline'}
-                    disabled={isUpVoteLoading || isDownVoteLoading}
+                    disabled={
+                      isUpVoteLoading || isDownVoteLoading || blogDetails.me
+                    }
                     onClick={() =>
                       handleVote({ id: blogDetails.id, vote: true })
                     }
@@ -329,7 +342,9 @@ export default function FlowPage({
                   </Button>
                   <Button
                     variant={blogDetails?.vote === -1 ? 'default' : 'outline'}
-                    disabled={isUpVoteLoading || isDownVoteLoading}
+                    disabled={
+                      isUpVoteLoading || isDownVoteLoading || blogDetails.me
+                    }
                     onClick={() =>
                       handleVote({ id: blogDetails.id, vote: false })
                     }

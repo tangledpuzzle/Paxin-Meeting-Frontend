@@ -90,6 +90,7 @@ export async function GET(req: NextRequest) {
       ),
       cities: blogData.data[0].city.map((city: any) => city.name),
       countrycode: blogData.data[0].lang,
+      me: session?.user?.name === blogData.data[0].user.name,
     };
 
     return NextResponse.json(blog);

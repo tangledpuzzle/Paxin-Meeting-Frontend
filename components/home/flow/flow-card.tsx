@@ -18,6 +18,7 @@ import Link from 'next/link';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { useTranslations } from 'next-intl';
 import toast from 'react-hot-toast';
+import { useSearchParams } from 'next/navigation';
 
 export interface FlowCardProps {
   id: string;
@@ -44,6 +45,7 @@ export interface FlowCardProps {
 
 function FlowCard(profile: FlowCardProps) {
   const t = useTranslations('main');
+  const searchParams = useSearchParams();
   const {
     id,
     title,
@@ -59,6 +61,12 @@ function FlowCard(profile: FlowCardProps) {
     countrycode,
     review,
   } = profile;
+
+  const queries: { [key: string]: string } = {};
+
+  for (let [key, value] of searchParams.entries()) {
+    queries[key] = value;
+  }
 
   const handleLinkCopy = async () => {
     await navigator.clipboard.writeText(
@@ -127,13 +135,13 @@ function FlowCard(profile: FlowCardProps) {
           </div>
         </div>
         <div className='mt-auto flex gap-3'>
-          <Link href={`/home?mode=flow&money=${price}`}>
+          <Link href={{ query: { ...queries, money: price } }}>
             <PriceBadge>{price}</PriceBadge>
           </Link>
-          <Link href={`/home?mode=flow&city=${location}`}>
+          <Link href={{ query: { ...queries, city: location } }}>
             <LocationBadge>{location}</LocationBadge>
           </Link>
-          <Link href={`/home?mode=flow&category=${category}`}>
+          <Link href={{ query: { ...queries, category: category } }}>
             <CategoryBadge>{category}</CategoryBadge>
           </Link>
         </div>
