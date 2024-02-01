@@ -3,6 +3,7 @@ import { MdOutlineHouseSiding } from 'react-icons/md';
 
 import { Badge } from '@/components/ui/badge';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 export interface CityCardProps extends React.HTMLAttributes<HTMLDivElement> {
   cities: string[];
@@ -21,13 +22,18 @@ function CityCard({ cities }: CityCardProps) {
       <div className='mb-0 h-[1.5px] w-2/3 rounded-lg bg-gradient-to-r from-muted-foreground to-transparent'></div>
       <div className='flex w-full flex-wrap gap-1'>
         {cities.map((city, i) => (
-          <Badge
+          <Link
+            href={`/home?mode=profile&city=${city}`}
             key={i}
-            variant='outline'
-            className='w-fit rounded-xl border-[#6060602b] p-2'
+            className='z-10 cursor-pointer'
           >
-            {city}
-          </Badge>
+            <Badge
+              variant='outline'
+              className='w-fit rounded-xl border-[#6060602b] p-2'
+            >
+              {city}
+            </Badge>
+          </Link>
         ))}
       </div>
     </div>

@@ -10,7 +10,7 @@ const publicPages = [
   '/contact',
   '/auth/signin',
   '/auth/signup',
-  '/auth/verify',
+  '/auth/verify/[slug]',
   '/auth/forgot-password',
   '/auth/reset-password/[slug]',
   '/flows/[id]/[slug]',

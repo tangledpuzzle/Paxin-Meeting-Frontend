@@ -323,9 +323,11 @@ export default function ProfilePage({
                 </div>
               </div>
               <div className='flex items-start justify-end'>
-                <QRCodeModal qrcode={profileDetails.qrcode}>
+                <QRCodeModal
+                  qrcode={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${profileDetails.username}`}
+                >
                   <QRCode
-                    value={profileDetails.qrcode}
+                    value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${profileDetails.username}`}
                     className='size-[100px] min-w-[100px] cursor-pointer'
                   />
                 </QRCodeModal>

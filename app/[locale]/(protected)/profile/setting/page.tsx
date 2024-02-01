@@ -583,10 +583,12 @@ export default function SettingPage() {
                                   options={cityOptions}
                                   value={field.value}
                                   onChange={field.onChange}
+                                  noOptionsMessage={() => t('no_options')}
+                                  placeholder={t('select') + '...'}
                                   classNames={{
                                     input: () => 'dark:text-white text-black',
                                     control: () =>
-                                      '!flex !h-10 !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                                      '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
                                       '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                                     menu: () => '!bg-muted',
@@ -608,13 +610,15 @@ export default function SettingPage() {
                               <FormControl>
                                 <Select
                                   isMulti
+                                  placeholder={t('select') + '...'}
+                                  noOptionsMessage={() => t('no_options')}
                                   options={categoryOptions}
                                   value={field.value}
                                   onChange={field.onChange}
                                   classNames={{
                                     input: () => 'dark:text-white text-black',
                                     control: () =>
-                                      '!flex !h-10 !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                                      '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
                                       '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                                     menu: () => '!bg-muted',
@@ -636,6 +640,8 @@ export default function SettingPage() {
                               <FormControl>
                                 <CreatableSelect
                                   isMulti
+                                  placeholder={t('select') + '...'}
+                                  noOptionsMessage={() => t('no_options')}
                                   options={hashtagOptions}
                                   value={field.value}
                                   onChange={field.onChange}
@@ -643,7 +649,7 @@ export default function SettingPage() {
                                   classNames={{
                                     input: () => 'dark:text-white text-black',
                                     control: () =>
-                                      '!flex !h-10 !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                                      '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
                                       '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                                     menu: () => '!bg-muted',

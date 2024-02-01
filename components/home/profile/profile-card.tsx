@@ -72,7 +72,9 @@ function ProfileCard(profile: ProfileCardProps) {
           </div>
           <div className='absolute inset-0 flex items-center justify-center rounded-md  bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           <div className='absolute top-3 flex w-full justify-between gap-2 px-4'>
-            <QRCodeModal qrcode={qrcode} />
+            <QRCodeModal
+              qrcode={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${username}`}
+            />
           </div>
         </div>
         <div className='relative h-[40px] w-full max-w-[100%] text-center'>

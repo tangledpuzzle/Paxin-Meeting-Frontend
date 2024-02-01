@@ -241,6 +241,7 @@
     "from": "From",
     "to": "To",
     "select": "Select",
+    "no_options": "No options",
     "follow": "Follow",
     "post_feed": "Post Feed",
     "view_post": "View Post",
@@ -267,6 +268,12 @@
     "follow_failed": "Failed to follow",
     "unfollow_success": "Unfollow successfully",
     "unfollow_failed": "Failed to unfollow",
-    "link_copied_to_clipboard": "Link copied to clipboard"
+    "link_copied_to_clipboard": "Link copied to clipboard",
+    "scan_code": "Scan the Code",
+    "scan_code_description": "Please Scan the QR Code inside the area. Scanning will start automatically.",
+    "or": "OR",
+    "complain": "Complain",
+    "anything_wrong_with_the_post": "Anything wrong with the Post?",
+    "make_a_complaining_about_the_post": "Make a complaining about the post"
   }
 }

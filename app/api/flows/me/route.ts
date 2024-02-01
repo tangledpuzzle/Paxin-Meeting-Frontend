@@ -29,6 +29,8 @@ export async function GET(req: NextRequest) {
 
     const data = await res.json();
 
+    console.log(data);
+
     const blogs = data.data.map((blog: any) => ({
       id: blog.ID,
       title:
@@ -62,6 +64,7 @@ export async function GET(req: NextRequest) {
           : null,
       archived: blog.Status === 'ARCHIVED',
       price: blog.Total,
+      link: `/flows/${blog.UniqId}/${blog.Slug}`,
     }));
 
     return NextResponse.json(blogs);

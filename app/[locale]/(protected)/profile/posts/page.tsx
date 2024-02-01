@@ -62,6 +62,7 @@ export default function MyPostsPage() {
 
   useEffect(() => {
     if (!error && fetchedData) {
+      console.log(fetchedData);
       setBlogs(fetchedData);
     }
   }, [fetchedData, error]);
@@ -223,6 +224,7 @@ export default function MyPostsPage() {
                   gallery={blog.gallery}
                   archived={blog.archived}
                   price={blog.price}
+                  link={blog.link}
                   onArchive={() => {
                     setArchiveID(blog.id);
                     setShowArchiveModal(true);

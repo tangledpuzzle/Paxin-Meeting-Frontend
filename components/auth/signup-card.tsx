@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/form';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 // heyheyhey
 
 export function SignUpCard() {
@@ -98,6 +99,24 @@ export function SignUpCard() {
 
   return (
     <div className='flex size-full flex-col items-center justify-center'>
+      <div className='mb-8'>
+        <Link href='/' className='flex items-center gap-2'>
+          <Image
+            src='/logo-black.svg'
+            alt='logo'
+            width={60}
+            height={60}
+            className='size-[60px] dark:hidden'
+          />
+          <Image
+            src='/logo-white.svg'
+            alt='logo'
+            width={60}
+            height={60}
+            className='hidden size-[60px] dark:block'
+          />
+        </Link>
+      </div>
       <div className='text-center text-2xl sm:text-3xl'>
         {t.rich('welcome_to_paxintrade', {
           paxintrade: (children) => (

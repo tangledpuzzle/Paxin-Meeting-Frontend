@@ -331,10 +331,12 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                       <FormControl>
                         <ReactSelect
                           isMulti
+                          placeholder={t('select') + '...'}
                           options={user?.city.map((city: any) => ({
                             label: city.name,
                             value: city.id * 1,
                           }))}
+                          noOptionsMessage={() => t('no_options')}
                           {...field}
                           classNames={{
                             input: () => 'dark:text-white text-black',
@@ -359,11 +361,13 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                       <FormControl>
                         <ReactSelect
                           isMulti
+                          placeholder={t('select') + '...'}
                           {...field}
                           options={user?.category.map((category: any) => ({
                             label: category.name,
                             value: category.id * 1,
                           }))}
+                          noOptionsMessage={() => t('no_options')}
                           classNames={{
                             input: () => 'dark:text-white text-black',
                             control: () =>
@@ -389,6 +393,8 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                       <FormControl>
                         <ReactSelect
                           isMulti
+                          placeholder={t('select') + '...'}
+                          noOptionsMessage={() => t('no_options')}
                           options={user?.hashtags.map((hashtag: any) => ({
                             label: hashtag,
                             value: hashtag,

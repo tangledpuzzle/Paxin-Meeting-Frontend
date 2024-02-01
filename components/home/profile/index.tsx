@@ -81,7 +81,6 @@ export default function ProfileSection() {
               <ProfileCardSkeleton />
               <ProfileCardSkeleton className='hidden md:block' />
               <ProfileCardSkeleton className='hidden lg:block' />
-              <ProfileCardSkeleton className='hidden 2xl:block' />
             </>
           )
         ) : (

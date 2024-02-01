@@ -78,9 +78,12 @@ export async function GET(req: NextRequest) {
         username: blogData.data[0].user.name,
         avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${blogData.data[0].user.photo}`,
         bio: blogData.data[0].user.role,
+        telegram: blogData.data[0].user.telegramactivated
+          ? blogData.data[0].user.telegramname
+          : '',
       },
       price: blogData.data[0].total,
-      qrcode: blogData.data[0].slug,
+      link: `/${blogData.data[0].uniqId}/${blogData.data[0].slug}`,
       hashtags: blogData.data[0].hashtags,
       categories: blogData.data[0].catygory.map(
         (catygory: any) => catygory.name

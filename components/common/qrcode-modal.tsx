@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import toast from 'react-hot-toast';
+import { useTranslations } from 'next-intl';
 
 interface QRCodeModalProps {
   children?: React.ReactNode;
@@ -16,6 +18,16 @@ interface QRCodeModalProps {
 }
 
 export function QRCodeModal({ qrcode, children }: QRCodeModalProps) {
+  const t = useTranslations('main');
+
+  const handleLinkCopy = async () => {
+    await navigator.clipboard.writeText(qrcode);
+
+    toast.success(t('link_copied_to_clipboard'), {
+      position: 'top-right',
+    });
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -35,16 +47,15 @@ export function QRCodeModal({ qrcode, children }: QRCodeModalProps) {
           >
             <LuScanLine className='size-6' />
           </Badge>
-          <div className='text-xl font-semibold'>Scan the Code</div>
+          <div className='text-xl font-semibold'>{t('scan_code')}</div>
           <div className='text-center text-sm'>
-            Please Scan the QR Code Code inside the area. Scanning will start
-            automatically.
+            P{t('scan_code_description')}
           </div>
           <QRCode value={qrcode} className='mt-4' />
         </div>
         <div className='relative my-2 flex w-full justify-center'>
           <div className='absolute top-[50%] z-[-1] h-[2px] w-full rounded-full bg-muted'></div>
-          <div className='bg-background px-4'>OR</div>
+          <div className='bg-background px-4'>{t('or')}</div>
         </div>
         <div className='flex items-center justify-between gap-3'>
           <Input
@@ -53,7 +64,7 @@ export function QRCodeModal({ qrcode, children }: QRCodeModalProps) {
             value={qrcode}
             readOnly
           />
-          <Button variant='outline' size='icon'>
+          <Button variant='outline' size='icon' onClick={handleLinkCopy}>
             <RxCopy className='size-4' />
           </Button>
         </div>

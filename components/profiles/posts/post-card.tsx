@@ -36,6 +36,7 @@ import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RiEditBoxFill } from 'react-icons/ri';
 import { EditPostModal } from './edit-post-modal';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 export interface PostCardProps {
   id: number;
@@ -64,6 +65,7 @@ export interface PostCardProps {
   };
   archived: boolean;
   price: string;
+  link: string;
   onArchive: () => void;
   onDelete: () => void;
   mutate: () => void;
@@ -84,6 +86,7 @@ export function PostCard({
   gallery,
   archived,
   price,
+  link,
   onArchive,
   onDelete,
   mutate,
@@ -150,9 +153,34 @@ export function PostCard({
             </Button>
           </EditPostModal>
           {archived ? (
-            <Button variant='outline' size='icon' className='rounded-full'>
-              <LuArchiveRestore className='size-4' />
-            </Button>
+            <Popover>
+              <PopoverTrigger>
+                <Button variant='outline' size='icon' className='rounded-full'>
+                  <LuArchiveRestore className='size-4' />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className='flex items-center gap-2'>
+                <Select value={extendsTime} onValueChange={setExtendsTime}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={t('number_of_days')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value='3'>3 {t('days')}</SelectItem>
+                      <SelectItem value='5'>5 {t('days')}</SelectItem>
+                      <SelectItem value='10'>10 {t('days')}</SelectItem>
+                      <SelectItem value='15'>15 {t('days')}</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Button onClick={handleExtendsTime} disabled={isExtendsLoading}>
+                  {isExtendsLoading && (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  )}
+                  {t('extend')}
+                </Button>
+              </PopoverContent>
+            </Popover>
           ) : (
             <Button
               variant='outline'
@@ -178,7 +206,7 @@ export function PostCard({
               gallery.files &&
               gallery.files.map((image, index) => (
                 <CarouselItem key={index}>
-                  <div className='relative h-60 w-full'>
+                  <div className='relative h-72 w-full'>
                     <Image
                       src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${image.path}`}
                       alt='preview image'
@@ -192,10 +220,13 @@ export function PostCard({
           <CarouselPrevious className='left-3' />
           <CarouselNext className='right-3' />
         </Carousel>
-        <div className='relative flex w-full flex-col md:h-60'>
-          <div className='line-clamp-1 w-[calc(100%_-_12rem)] text-3xl font-bold'>
+        <div className='relative flex w-full flex-col md:h-72'>
+          <Link
+            href={link}
+            className='line-clamp-1 w-[calc(100%_-_12rem)] text-3xl font-bold'
+          >
             {title}
-          </div>
+          </Link>
           <div className='line-clamp-1 w-full text-sm text-muted-foreground md:w-[90%]'>
             {subtitle}
           </div>
