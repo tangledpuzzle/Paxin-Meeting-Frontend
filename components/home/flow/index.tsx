@@ -86,7 +86,6 @@ export default function FlowSection() {
               <FlowCardSkeleton />
               <FlowCardSkeleton className='hidden md:block' />
               <FlowCardSkeleton className='hidden lg:block' />
-              <FlowCardSkeleton className='hidden 2xl:block' />
             </>
           )
         ) : (
