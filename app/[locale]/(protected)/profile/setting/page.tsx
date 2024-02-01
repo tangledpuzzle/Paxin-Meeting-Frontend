@@ -3,11 +3,13 @@
 import { FaUser } from 'react-icons/fa6';
 import { MdAccountBalanceWallet } from 'react-icons/md';
 import { RiUserSettingsFill } from 'react-icons/ri';
+import { FaTelegram } from 'react-icons/fa';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { ImageUpload, PreviewImage } from '@/components/common/file-uploader';
 import CTASection from '@/components/profiles/cta';
 import { Button } from '@/components/ui/button';
+import { RxCopy } from 'react-icons/rx';
 import {
   Form,
   FormControl,
@@ -34,6 +36,7 @@ import { Input } from '@/components/ui/input';
 import { useLocale, useTranslations } from 'next-intl';
 import { ConfirmModal } from '@/components/common/confirm-modal';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -55,6 +58,10 @@ interface Profile {
     files: {
       path: string;
     }[];
+  };
+  telegram: {
+    activated: boolean;
+    token: string;
   };
   additionalinfo: string;
 }
@@ -232,6 +239,14 @@ export default function SettingPage() {
       setHashtagOptions([]);
     }
   }, [hashtagFetchError, fetchedHashtags]);
+
+  const handleLinkCopy = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+
+    toast.success(t('link_copied_to_clipboard'), {
+      position: 'top-right',
+    });
+  };
 
   const modules = {
     toolbar: [
@@ -532,6 +547,13 @@ export default function SettingPage() {
               <MdAccountBalanceWallet className='mr-2 size-4' />
               {t('accounting')}
             </TabsTrigger>
+            <TabsTrigger
+              value='telegram'
+              className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
+            >
+              <FaTelegram className='mr-2 size-4' />
+              {t('telegram')}
+            </TabsTrigger>
           </TabsList>
           <div className='w-full'>
             <TabsContent className='my-2 w-full' value='account'>
@@ -774,6 +796,47 @@ export default function SettingPage() {
                     {t('recharge_via_code')}
                   </Button>
                 </div>
+              </div>
+            </TabsContent>
+            <TabsContent className='my-2 w-full' value='telegram'>
+              <div className='px-3'>
+                <div className='text-2xl font-semibold'>
+                  {t('telegram_integration')}
+                </div>
+                {profile?.telegram?.activated ? (
+                  <div className='my-4'>
+                    {t('you_account_is_already_activated')}
+                  </div>
+                ) : (
+                  <>
+                    <div className='my-4'>
+                      {t.rich('copy_code_and_send_to_bot', {
+                        botname: (children) => (
+                          <Link
+                            href='https://t.me/paxintradebot'
+                            target='_blank'
+                          >
+                            {children}
+                          </Link>
+                        ),
+                      })}
+                    </div>
+                    <div className='flex items-center justify-between rounded-lg bg-black/5 p-4 dark:bg-white/10'>
+                      <div>{profile?.telegram?.token}</div>
+                      <div>
+                        <Button
+                          variant='outline'
+                          size='icon'
+                          onClick={() =>
+                            handleLinkCopy(profile?.telegram?.token || '')
+                          }
+                        >
+                          <RxCopy className='size-4' />
+                        </Button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </TabsContent>
           </div>

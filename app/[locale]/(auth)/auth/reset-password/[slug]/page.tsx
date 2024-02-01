@@ -128,12 +128,15 @@ export default function ResetPasswordPage({
                   <Label htmlFor='terms' className='leading-6'>
                     {t.rich('terms', {
                       platform: (children) => (
-                        <Link href='/' className='text-primary underline'>
+                        <Link href='/rules' className='text-primary underline'>
                           {children}
                         </Link>
                       ),
                       privacy: (children) => (
-                        <Link href='/' className='text-primary underline'>
+                        <Link
+                          href='/privacy'
+                          className='text-primary underline'
+                        >
                           {children}
                         </Link>
                       ),

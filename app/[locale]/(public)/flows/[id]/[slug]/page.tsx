@@ -43,6 +43,8 @@ import { Loader2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import { ComplainModal } from '@/components/common/complain-modal';
+import { ReportModal } from '@/components/common/report-modal';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -388,13 +390,15 @@ export default function FlowPage({
                     {t('make_a_complaining_about_the_post')}
                   </div>
                 </div>
-                <Button
-                  variant='outline'
-                  className='w-full !border-primary text-primary'
-                >
-                  <IoFlagOutline className='mr-2 size-4' />
-                  {t('complain')}
-                </Button>
+                <ComplainModal>
+                  <Button
+                    variant='outline'
+                    className='w-full !border-primary text-primary'
+                  >
+                    <IoFlagOutline className='mr-2 size-4' />
+                    {t('complain')}
+                  </Button>
+                </ComplainModal>
               </CardContent>
             </Card>
             <Card className='mx-auto w-full'>
@@ -453,25 +457,22 @@ export default function FlowPage({
                       @{blogDetails.author?.username}
                     </div>
                   </Link>
-                  <div className='line-clamp-2 text-sm'>
+                  <div className='line-clamp-2 break-all text-sm'>
                     {blogDetails.author?.bio}
                   </div>
                 </div>
               </CardHeader>
               <CardFooter className='flex justify-around gap-2'>
                 <div className='flex gap-2'>
-                  <Button
-                    variant='outline'
-                    className='rounded-full'
-                    size='icon'
-                    onClick={() =>
-                      handleLinkCopy(
-                        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${blogDetails.author.username}`
-                      )
-                    }
-                  >
-                    <FaExclamation className='size-4' />
-                  </Button>
+                  <ReportModal>
+                    <Button
+                      variant='outline'
+                      className='rounded-full'
+                      size='icon'
+                    >
+                      <FaExclamation className='size-4' />
+                    </Button>
+                  </ReportModal>
                   <Button
                     variant='outline'
                     className='rounded-full'
