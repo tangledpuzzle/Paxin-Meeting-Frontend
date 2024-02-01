@@ -1,23 +1,24 @@
 'use client';
 
 import { Breadcrumb } from '@/components/common/breadcrumb';
-import { QRCodeModal } from '@/components/common/qrcode-modal';
 import { TagSlider } from '@/components/common/tag-slider';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { BiSolidCategory } from 'react-icons/bi';
-import { FaTelegramPlane, FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
+import {
+  FaExclamation,
+  FaTelegramPlane,
+  FaThumbsDown,
+  FaThumbsUp,
+} from 'react-icons/fa';
 import { FaSackDollar } from 'react-icons/fa6';
 import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
@@ -34,12 +35,13 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 import { useEffect, useState } from 'react';
 
 import FlowDetailSkeleton from '@/components/home/flow/flow-detail-skeleton';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
-import { getInitials } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import toast from 'react-hot-toast';
 
 const ReactQuill =
@@ -66,9 +68,10 @@ interface BlogDetails {
     username: string;
     avatar: string;
     bio: string;
+    telegram: string;
   };
   price: number;
-  qrcode: string;
+  link: string;
   hashtags: string[];
   categories: string[];
   cities: string[];
@@ -166,6 +169,14 @@ export default function FlowPage({
     }
   };
 
+  const handleLinkCopy = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+
+    toast.success(t('link_copied_to_clipboard'), {
+      position: 'top-right',
+    });
+  };
+
   return !error ? (
     fetchedData && blogDetails ? (
       <section className='container py-10'>
@@ -174,7 +185,10 @@ export default function FlowPage({
           <div className='flex gap-3 text-xl font-semibold text-secondary-foreground'>
             {blogDetails?.title}
             <div
-              className={`size-6 rounded-full bg-[url('https://flagcdn.com/${blogDetails?.countrycode}.svg')] bg-cover bg-center bg-no-repeat`}
+              className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
+              style={{
+                backgroundImage: `url('/images/${blogDetails?.countrycode}.svg')`,
+              }}
             />
           </div>
           <div className='text-sm text-muted-foreground'>
@@ -348,15 +362,15 @@ export default function FlowPage({
               </div>
             </div>
           </div>
-          <div className='space-y-4'>
+          <div className='mx-auto max-w-sm space-y-4'>
             <Card className='mx-auto w-full'>
               <CardContent className='space-y-8 px-6 py-8 font-satoshi'>
                 <div>
                   <div className='text-center text-lg font-semibold'>
-                    Anything wrong with the Post?
+                    {t('anything_wrong_with_the_post')}
                   </div>
                   <div className='text-center text-xs text-muted-foreground'>
-                    Make a complaining about the post
+                    {t('make_a_complaining_about_the_post')}
                   </div>
                 </div>
                 <Button
@@ -364,33 +378,70 @@ export default function FlowPage({
                   className='w-full !border-primary text-primary'
                 >
                   <IoFlagOutline className='mr-2 size-4' />
-                  Complain
+                  {t('complain')}
                 </Button>
               </CardContent>
             </Card>
-            <QRCodeModal qrcode={blogDetails.qrcode || ''}>
-              <QRCode
-                value={blogDetails.qrcode || ''}
-                className='mx-auto h-auto max-w-[150px] cursor-pointer'
-              />
-            </QRCodeModal>
             <Card className='mx-auto w-full'>
-              <CardHeader className='flex flex-col items-center justify-center'>
-                <Avatar>
-                  <AvatarImage
-                    src={blogDetails.author?.avatar}
-                    alt={blogDetails.author?.username}
+              <CardContent className='px-6 pt-4 font-satoshi'>
+                <div className='flex flex-col items-center'>
+                  <div className='text-xl font-semibold'>{t('scan_code')}</div>
+                  <div className='text-center text-sm'>
+                    {t('scan_code_description')}
+                  </div>
+                  <QRCode
+                    value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
+                    className='mt-4'
                   />
-                  <AvatarFallback>
-                    {getInitials(blogDetails.author?.username || '')}
-                  </AvatarFallback>
-                </Avatar>
-                <Link href={`/profiles/${blogDetails.author?.username}`}>
-                  <CardTitle>@{blogDetails.author?.username}</CardTitle>
-                </Link>
-                <CardDescription className='text-center'>
-                  {blogDetails.author?.bio}
-                </CardDescription>
+                </div>
+                <div className='relative my-2 flex w-full justify-center'>
+                  <div className='absolute top-[50%] z-[-1] h-[2px] w-full rounded-full bg-muted'></div>
+                  <div className='bg-background px-4'>{t('or')}</div>
+                </div>
+                <div className='flex items-center justify-between gap-3'>
+                  <Input
+                    type='text'
+                    placeholder='Enter the code'
+                    value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
+                    readOnly
+                  />
+                  <Button
+                    variant='outline'
+                    size='icon'
+                    onClick={() =>
+                      handleLinkCopy(
+                        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`
+                      )
+                    }
+                  >
+                    <RxCopy className='size-4' />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className='mx-auto w-full'>
+              <CardHeader className='grid grid-cols-2 items-center gap-2'>
+                <div className='relative h-28 w-full overflow-hidden rounded-lg'>
+                  <Image
+                    src={blogDetails.author?.avatar}
+                    alt=''
+                    layout='fill'
+                    style={{ objectFit: 'cover', objectPosition: 'center' }}
+                  />
+                </div>
+                <div>
+                  <Link
+                    href={`/profiles/${blogDetails.author?.username}`}
+                    className='underline'
+                  >
+                    <div className='w-full max-w-full truncate font-semibold'>
+                      @{blogDetails.author?.username}
+                    </div>
+                  </Link>
+                  <div className='line-clamp-2 text-sm'>
+                    {blogDetails.author?.bio}
+                  </div>
+                </div>
               </CardHeader>
               <CardFooter className='flex justify-around gap-2'>
                 <div className='flex gap-2'>
@@ -398,16 +449,41 @@ export default function FlowPage({
                     variant='outline'
                     className='rounded-full'
                     size='icon'
+                    onClick={() =>
+                      handleLinkCopy(
+                        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${blogDetails.author.username}`
+                      )
+                    }
                   >
-                    <RxCopy className='size-4' />
+                    <FaExclamation className='size-4' />
                   </Button>
                   <Button
                     variant='outline'
                     className='rounded-full'
                     size='icon'
+                    onClick={() =>
+                      handleLinkCopy(
+                        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${blogDetails.author.username}`
+                      )
+                    }
                   >
-                    <FaTelegramPlane className='size-4' />
+                    <RxCopy className='size-4' />
                   </Button>
+                  {blogDetails.author?.telegram && (
+                    <Button
+                      variant='outline'
+                      className='rounded-full'
+                      size='icon'
+                      asChild
+                    >
+                      <Link
+                        href={`tg://resolve?domain=${blogDetails.author?.telegram}`}
+                        target='_blank'
+                      >
+                        <FaTelegramPlane className='size-4' />
+                      </Link>
+                    </Button>
+                  )}
                 </div>
                 <Button className='w-full' asChild>
                   <Link href={`/profiles/${blogDetails.author?.username}`}>

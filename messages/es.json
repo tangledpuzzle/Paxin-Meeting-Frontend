@@ -268,6 +268,12 @@
     "unfollow": "Dejar de seguir",
     "unfollow_success": "Dejado de seguir exitosamente",
     "unfollow_failed": "No se pudo dejar de seguir",
-    "link_copied_to_clipboard": "Enlace copiado al portapapeles"
+    "link_copied_to_clipboard": "Enlace copiado al portapapeles",
+    "scan_code": "Escanear el código",
+    "scan_code_description": "Por favor, escanea el código QR dentro del área. El escaneo se iniciará automáticamente.",
+    "or": "O",
+    "complain": "Quejarse",
+    "anything_wrong_with_the_post": "¿Algo mal con la publicación?",
+    "make_a_complaining_about_the_post": "Presentar una queja sobre la publicación"
   }
 }

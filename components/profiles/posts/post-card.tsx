@@ -153,9 +153,34 @@ export function PostCard({
             </Button>
           </EditPostModal>
           {archived ? (
-            <Button variant='outline' size='icon' className='rounded-full'>
-              <LuArchiveRestore className='size-4' />
-            </Button>
+            <Popover>
+              <PopoverTrigger>
+                <Button variant='outline' size='icon' className='rounded-full'>
+                  <LuArchiveRestore className='size-4' />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className='flex items-center gap-2'>
+                <Select value={extendsTime} onValueChange={setExtendsTime}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={t('number_of_days')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value='3'>3 {t('days')}</SelectItem>
+                      <SelectItem value='5'>5 {t('days')}</SelectItem>
+                      <SelectItem value='10'>10 {t('days')}</SelectItem>
+                      <SelectItem value='15'>15 {t('days')}</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Button onClick={handleExtendsTime} disabled={isExtendsLoading}>
+                  {isExtendsLoading && (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  )}
+                  {t('extend')}
+                </Button>
+              </PopoverContent>
+            </Popover>
           ) : (
             <Button
               variant='outline'

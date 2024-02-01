@@ -45,6 +45,7 @@ export default function FlowDetailSkeleton() {
               <div className='flex gap-2'>
                 <Skeleton className='size-8 rounded-full' />
                 <Skeleton className='size-8 rounded-full' />
+                <Skeleton className='size-8 rounded-full' />
               </div>
               <Skeleton className='h-6 w-full' />
             </div>

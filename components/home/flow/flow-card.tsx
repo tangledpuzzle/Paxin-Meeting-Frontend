@@ -62,7 +62,7 @@ function FlowCard(profile: FlowCardProps) {
 
   const handleLinkCopy = async () => {
     await navigator.clipboard.writeText(
-      `https://paxintrade.com/flows/${id}/${slug}`
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/flows/${id}/${slug}`
     );
 
     toast.success(t('link_copied_to_clipboard'), {

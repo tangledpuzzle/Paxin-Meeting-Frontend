@@ -268,6 +268,12 @@
     "follow_failed": "გამოწერის ვერ მოხერხდა",
     "unfollow_success": "გამოწერის გაუქმება წარმატება",
     "unfollow_failed": "გამოწერის გაუქმების ვერ მოხერხდა",
-    "link_copied_to_clipboard": "ბმული დაკოპირებულია ბუფერში"
+    "link_copied_to_clipboard": "ბმული დაკოპირებულია ბუფერში",
+    "scan_code": "კოდის სკანირება",
+    "scan_code_description": "გთხოვთ, სკანირებას QR-კოდის გარეშე. სკანირება იწყება ავტომატურად.",
+    "or": "ან",
+    "complain": "შეატყობინე",
+    "anything_wrong_with_the_post": "რამე არის არასწორი პოსტით?",
+    "make_a_complaining_about_the_post": "შეატყობინეთ პოსტზე"
   }
 }
