@@ -293,7 +293,10 @@
     "inappropriate_or_offensive_content": "Inappropriate or Offensive Content",
     "spam_or_unwanted_content": "Spam or Unwanted Content",
     "privacy_violations": "Privacy Violations",
-    "intellectual_property_rights_violation": "Intellectual Property Rights Violation"
+    "intellectual_property_rights_violation": "Intellectual Property Rights Violation",
+    "telegram": "Telegram",
+    "telegram_integration": "Telegram Integration",
+    "copy_code_and_send_to_bot": "Copy code and send to bot <botname>@paxbot</botname>"
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",

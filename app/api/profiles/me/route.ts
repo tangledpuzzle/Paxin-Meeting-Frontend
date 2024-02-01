@@ -27,6 +27,8 @@ export async function GET(req: NextRequest) {
 
     const data = await res.json();
 
+    console.log(data.data);
+
     const profile = {
       bio: data.data.MultilangDescr[
         locale.charAt(0).toUpperCase() + locale.slice(1)
@@ -48,6 +50,10 @@ export async function GET(req: NextRequest) {
         ID: data.data.photos[0].ID,
         ProfileID: data.data.photos[0].ProfileID,
         files: data.data.photos[0].files,
+      },
+      telegram: {
+        activated: data.data.User.TelegramActivated,
+        token: data.data.User.PasswordResetToken,
       },
       additionalinfo:
         data.data.MultilangAdditional[

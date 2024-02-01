@@ -33,22 +33,29 @@ export function AvatarWithMenu() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='mr-4 w-60'>
-        <DropdownMenuLabel className='flex w-full items-center gap-2 overflow-hidden'>
-          <Avatar>
-            <AvatarImage
-              src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${user?.avatar}`}
-              alt={user?.username}
-            />
-            <AvatarFallback>{getInitials(user?.username || '')}</AvatarFallback>
-          </Avatar>
-          <div className='w-40'>
-            <div className='overflow-hidden text-ellipsis text-sm font-bold'>
-              {user?.username}
+        <DropdownMenuLabel>
+          <Link
+            href='/profile/dashboard'
+            className='flex w-full items-center gap-2 overflow-hidden'
+          >
+            <Avatar>
+              <AvatarImage
+                src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${user?.avatar}`}
+                alt={user?.username}
+              />
+              <AvatarFallback>
+                {getInitials(user?.username || '')}
+              </AvatarFallback>
+            </Avatar>
+            <div className='w-40'>
+              <div className='overflow-hidden text-ellipsis text-sm font-bold'>
+                {user?.username}
+              </div>
+              <div className='overflow-hidden text-ellipsis text-xs font-normal'>
+                {user?.email}
+              </div>
             </div>
-            <div className='overflow-hidden text-ellipsis text-xs font-normal'>
-              {user?.email}
-            </div>
-          </div>
+          </Link>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className='cursor-pointer text-base' asChild>

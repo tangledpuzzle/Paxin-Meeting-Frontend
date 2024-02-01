@@ -40,8 +40,6 @@ export async function GET(req: NextRequest) {
       throw new Error('Failed to fetch data');
     }
 
-    console.log(blogData.data[0]);
-
     const blog = {
       id: blogData.data[0].id,
       title:
