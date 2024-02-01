@@ -9,17 +9,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { PaxContext } from '@/context/context';
 import { getInitials } from '@/lib/utils';
 import { signOut } from 'next-auth/react';
-import { useContext } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { RiArticleLine, RiUserSettingsFill } from 'react-icons/ri';
 import { FaSignOutAlt } from 'react-icons/fa';
-export function AvatarWithMenu() {
+
+interface AvatarWithMenuProps {
+  user: {
+    email: string;
+    avatar: string;
+    username: string;
+  };
+}
+
+export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
   const t = useTranslations('main');
-  const { user } = useContext(PaxContext);
 
   return (
     <DropdownMenu>
