@@ -9,8 +9,19 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: '/auth/signin',
-    newUser: '/register',
+    newUser: '/auth/signup',
   },
+  // cookies: {
+  //   sessionToken: {
+  //     name: '__Secure-next-auth.session-token',
+  //     options: {
+  //       httpOnly: true,
+  //       secure: true,
+  //       path: '/',
+  //       domain: '.paxintrade.com',
+  //     },
+  //   },
+  // },
   providers: [
     CredentialsProvider({
       id: 'email',
