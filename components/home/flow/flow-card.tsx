@@ -83,11 +83,11 @@ function FlowCard(profile: FlowCardProps) {
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
         <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
           <div className='relative'>
-            <div className='h-auto w-full min-h-[300px] md:min-h-[416px] max-h-auto '>
+            <div className='max-h-auto h-auto min-h-[300px] w-full md:min-h-[416px] '>
               <Image
                 src={hero}
                 layout='fill'
-                style={{objectFit:"contain"}}
+                style={{ objectFit: 'contain' }}
                 className='rounded-b-m rounded-md '
                 alt='profile'
               />
@@ -114,7 +114,7 @@ function FlowCard(profile: FlowCardProps) {
             <div className='absolute inset-0 flex items-center justify-center rounded-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
         </Link>
-        <div className='relative w-full max-w-[100%] h-[40px]'>
+        <div className='relative h-[40px] w-full max-w-[100%]'>
           <TagSlider tags={tags} />
         </div>
         <div className='relative'>
@@ -133,14 +133,29 @@ function FlowCard(profile: FlowCardProps) {
             {subtitle}
           </div>
         </div>
-        <div className='mt-auto flex gap-3 grow'>
-          <Link className='w-full' href={{ query: { ...queries, money: price } }}>
-            <PriceBadge>{price}</PriceBadge>
+        <div className='mt-auto flex grow gap-3'>
+          <Link
+            className='w-full'
+            href={{ query: { ...queries, money: price } }}
+          >
+            <PriceBadge>
+              {price.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 0,
+              })}
+            </PriceBadge>
           </Link>
-          <Link className='w-full' href={{ query: { ...queries, city: location } }}>
+          <Link
+            className='w-full'
+            href={{ query: { ...queries, city: location } }}
+          >
             <LocationBadge>{location}</LocationBadge>
           </Link>
-          <Link className='w-full' href={{ query: { ...queries, category: category } }}>
+          <Link
+            className='w-full'
+            href={{ query: { ...queries, category: category } }}
+          >
             <CategoryBadge>{category}</CategoryBadge>
           </Link>
         </div>
@@ -164,7 +179,7 @@ function FlowCard(profile: FlowCardProps) {
               </div>
             </Link>
           </div>
-          <div className='grid grid-cols-3 gap-2 items-center'>
+          <div className='grid grid-cols-3 items-center gap-2'>
             <ReportModal>
               <Button
                 variant='outline'
