@@ -1,5 +1,8 @@
 'use client';
 
+import { Breadcrumb } from '@/components/common/breadcrumb';
+import { TagSlider } from '@/components/common/tag-slider';
+import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { BiSolidCalendar, BiSolidCategory } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane, FaThumbsUp } from 'react-icons/fa';
@@ -10,13 +13,10 @@ import {
   MdPhoneInTalk,
 } from 'react-icons/md';
 import { RiUserFollowFill } from 'react-icons/ri';
+import { TbPhotoX } from 'react-icons/tb';
 import { VscEye } from 'react-icons/vsc';
 import ImageGallery from 'react-image-gallery';
 import QRCode from 'react-qr-code';
-
-import { Breadcrumb } from '@/components/common/breadcrumb';
-import { TagSlider } from '@/components/common/tag-slider';
-import { Separator } from '@/components/ui/separator';
 
 import 'react-image-gallery/styles/css/image-gallery.css';
 
@@ -35,14 +35,14 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
+import { ReportModal } from '@/components/common/report-modal';
 import ProfileDetailSkeleton from '@/components/home/profile/profile-detail-skeleton';
 import '@/styles/editor.css';
 import { Loader2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
+import Link from 'next/link';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
-import Link from 'next/link';
-import { ReportModal } from '@/components/common/report-modal';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -222,10 +222,14 @@ export default function ProfilePage({
         <div className='grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4'>
           <div className=''>
             <div className='w-full'>
-              <ImageGallery
-                items={profileDetails.gallery}
-                thumbnailPosition='bottom'
-              />
+              {profileDetails.gallery.length > 0 ? (
+                <ImageGallery
+                  items={profileDetails.gallery}
+                  thumbnailPosition='bottom'
+                />
+              ) : (
+                <TbPhotoX className='size-full' />
+              )}
             </div>
             <div className='my-4 flex gap-3'>
               <ReportModal>

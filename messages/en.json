@@ -297,7 +297,21 @@
     "telegram": "Telegram",
     "telegram_integration": "Telegram Integration",
     "copy_code_and_send_to_bot": "Copy code and send to bot <botname>@paxbot</botname>",
-    "you_account_is_already_activated": "You account is already activated"
+    "you_account_is_already_activated": "You account is already activated",
+    "dashboard_publications_description": "Publish posts and advertise in new ways! Your contacts directly through the telegram network",
+    "dashboard_profile_description": "Managing your profile information",
+    "dashboard_accounting_description": "Managing your profile information",
+    "view_all_alerts_description": "View all the alerts related to the applications",
+    "edit_your_user_account_settings": "Edit your user account settings",
+    "post_publication": "Post Publication",
+    "telegram_profile_setup": "Profile Setup",
+    "reset_password_description": "Click here to reset your password",
+    "edit_your_user_account_settings_description": "Click here to edit your user account settings",
+    "post_publication_description": "Click here to see Post Publication",
+    "telegram_profile_setup_description": "Click here to setup your profile",
+    "configure": "Configure",
+    "configure_description": "Here you can view Contract Audits",
+    "hello": "Hello"
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",

@@ -297,7 +297,22 @@
     "telegram": "ტელეგრამი",
     "telegram_integration": "ტელეგრამის ინტეგრაცია",
     "copy_code_and_send_to_bot": "კოდის კოპირება და გამოგზავნა ბოტს <botname>@paxbot</botname>-ს",
-    "you_account_is_already_activated": "თქვენი ანგარიში უკვე აქტივირებულია"
+    "you_account_is_already_activated": "თქვენი ანგარიში უკვე აქტივირებულია",
+    "your_account_is_already_activated": "თქვენი ანგარიში უკვე გააქტიურებულია",
+    "dashboard_publications_description": "გამოქვეყნების პოსტების და რეკლამის გამოყენება ახალ გზებზე! დაკავშირება თქვენს კონტაქტებთან პირდაპირ ტელეგრამის ქსელით",
+    "dashboard_profile_description": "თქვენი პროფილის ინფორმაციის მართვა",
+    "dashboard_accounting_description": "თქვენი ანგარიშის ინფორმაციის მართვა",
+    "view_all_alerts_description": "ყველა გაფრთხილების ნახვა, რომლებიც დაერთებულია აპლიკაციებთან",
+    "edit_your_user_account_settings": "გაასწორეთ თქვენი მომხმარებლის ანგარიშის პარამეტრები",
+    "post_publication": "პოსტის გამოქვეყნება",
+    "telegram_profile_setup": "პროფილის დაყენება",
+    "reset_password_description": "დააბრუნეთ პაროლის აღდგენათან დაკავშირებაში",
+    "edit_your_user_account_settings_description": "დაავარედაქტირეთ თქვენი მომხმარებლის ანგარიშის პარამეტრები",
+    "post_publication_description": "დაათვალიერეთ გამოქვეყნებული პოსტები",
+    "telegram_profile_setup_description": "დააყენეთ თქვენი პროფილი",
+    "configure": "კონფიგურაცია",
+    "configure_description": "აქ შეგიძლიათ ნახოთ კონტრაქტების აუდიტები",
+    "hello": "გამარჯობა"
   },
   "privacy": {
     "rulesprivacy": "კონფიდენციალურობის წესები",
