@@ -219,7 +219,7 @@ export default function ProfilePage({
     fetchedData && profileDetails ? (
       <section className='container py-4'>
         <Breadcrumb contents={breadcrumbs} />
-        <div className='grid gap-4 grid-cols-1 md:grid-cols-3 xl:grid-cols-4'>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4'>
           <div className=''>
             <div className='w-full'>
               <ImageGallery
@@ -253,7 +253,7 @@ export default function ProfilePage({
               </Button>
               {!profileDetails.follow ? (
                 <Button
-                  className='ml-auto rounded-full btn btn--wide !mr-0'
+                  className='btn btn--wide !mr-0 ml-auto rounded-full'
                   disabled={isFollowLoading || profileDetails.me}
                   onClick={handleFollow}
                 >
@@ -308,7 +308,7 @@ export default function ProfilePage({
                     </CardDescription>
                   </CardHeader>
                   <CardFooter>
-                    <Button className='w-full btn btn--wide' asChild>
+                    <Button className='btn btn--wide w-full' asChild>
                       <Link href={`/flows/${profileDetails.latestblog.link}`}>
                         {t('view_post')}
                         <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
@@ -404,7 +404,7 @@ export default function ProfilePage({
               </div>
             </div>
             <Separator />
-            <div className='my-3 flex gap-24 flex-col md:flex-row'>
+            <div className='my-3 flex flex-col gap-24 md:flex-row'>
               <div>
                 <div className='flex items-center gap-2'>
                   <BiSolidCalendar className='size-4' />
@@ -484,12 +484,12 @@ export default function ProfilePage({
                         fill
                       />
                     </div>
-                    <div>
+                    <div className='flex items-center justify-between gap-2'>
                       <CardTitle>{profileDetails.latestblog.title}</CardTitle>
                       <div>
                         <Badge
                           variant='outline'
-                          className='bg-muted-foreground text-white'
+                          className='m-0 bg-muted-foreground text-xs text-white'
                         >
                           <FaThumbsUp className='mr-2 size-3' />
                           {profileDetails.latestblog.review.votes}
@@ -501,7 +501,7 @@ export default function ProfilePage({
                     </CardDescription>
                   </CardHeader>
                   <CardFooter>
-                    <Button className='w-full btn btn--wide'>
+                    <Button className='btn btn--wide w-full'>
                       {t('view_post')}
                       <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Button>
