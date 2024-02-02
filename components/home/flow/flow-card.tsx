@@ -83,12 +83,11 @@ function FlowCard(profile: FlowCardProps) {
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
         <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
           <div className='relative'>
-            <div className='h-auto w-full'>
+            <div className='h-auto w-full min-h-[300px] md:min-h-[416px] max-h-auto '>
               <Image
                 src={hero}
-                width={300}
-                height={300}
-                style={{ width: '100%', height: '100%' }}
+                layout='fill'
+                style={{objectFit:"contain"}}
                 className='rounded-b-m rounded-md '
                 alt='profile'
               />

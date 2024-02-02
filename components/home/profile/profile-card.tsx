@@ -59,13 +59,11 @@ function ProfileCard(profile: ProfileCardProps) {
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
         <div className='relative'>
-          <div className='h-auto w-full'>
+          <div className='min-h-[320px] md:min-h-[416px] w-full'>
             <Image
               src={avatar}
-              width={300}
-              height={300}
-              style={{ width: '100%', height: '100%' }}
-              objectPosition='center'
+              layout='fill'
+              style={{objectFit:"contain"}}
               className='rounded-b-m rounded-md'
               alt='profile'
             />
