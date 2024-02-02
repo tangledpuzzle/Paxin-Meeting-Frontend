@@ -1,17 +1,15 @@
 'use client';
 
-import SiteHeader from '@/components/header/site-header';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslations } from 'next-intl';
-// heyheyhey
 
 export default function VerifyPage({ params }: { params: { slug: string } }) {
   const t = useTranslations('main');
@@ -52,7 +50,6 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <SiteHeader />
       <section className='flex h-[calc(100vh_-_5rem_-_1px)] w-full items-center justify-center'>
         <div className='mb-36 w-full max-w-md space-y-20'>
           <div className='text-center text-2xl font-bold text-primary sm:text-3xl'>
