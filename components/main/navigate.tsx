@@ -1,120 +1,207 @@
-import Image from "next/image"
+import { useTranslations } from 'next-intl';
 
-import { SectionBadge } from "../common/section-badge"
-import { SectionDescription } from "../common/section-description"
-import { SectionTitle } from "../common/section-title"
+import Image from 'next/image';
 
-export function NavigateSection() {
+import { SectionBadge } from '../common/section-badge';
+import { SectionDescription } from '../common/section-description';
+import { SectionTitle } from '../common/section-title';
+
+export default function NavigateSection() {
+  const t = useTranslations('main');
+
   return (
-    <div className="flex flex-col items-center justify-center">
-      <SectionBadge>Search and Share</SectionBadge>
-      <SectionTitle>Navigating Your Digital Universe</SectionTitle>
+    <div className='flex flex-col items-center justify-center px-3 pb-[40px] md:pb-[80px]'>
+      <SectionBadge>{t('search_and_share')}</SectionBadge>
+      <SectionTitle className='px-7 leading-[30px]'>
+        {t('navigating_your_digital_universe')}
+      </SectionTitle>
       <SectionDescription>
-        Explore the unique blend of online publishing and Telegram mailing. From
-        streamlined searches to launching your 3D world.
+        {t('navigating_your_digital_universe_description')}
       </SectionDescription>
-      <div className="relative mt-10 grid w-full grid-cols-1 gap-8 md:grid-cols-3">
-        <div
-          className="bg-gradient flex flex-col justify-center rounded-xl bg-cover bg-no-repeat p-8 md:col-span-2"
-          style={{ backgroundImage: `url("/images/home/navigate-bg.png")` }}
+      <div className='relative mt-10 grid w-full grid-cols-1 gap-4 md:grid-cols-3'>
+        {/* <div
+          className="bg-s hover:navigate-hover flex min-h-72 flex-col justify-center group relative overflow-hidden rounded-xl transition-all hover:bg-none bg-cover p-4 sm:p-8 md:col-span-2"
+          style={{ backgroundImage: `url("/images/home/bg-nav.png")` }}
         >
-          <div className="text-md font-satoshi font-extrabold text-white">
+           <div
+            className="absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            style={{
+              background:
+                "linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6",
+            }}
+          ></div>
+          <div className="font-satoshi text-md md:text-xl font-extrabold text-white">
             Efficient Discovery:
           </div>
-          <div className="font-satoshi text-sm text-white/70">
+          <div className="text-xs md:text-md text-white/70 leading-[25.15px] max-w-md">
             Utilize our advanced search engine for quick and efficient
             information discovery. Highlight your content and create a
             personalized space within our diverse platform.
           </div>
-        </div>
-        <div className="hover:navigate-hover group relative overflow-hidden rounded-xl bg-muted/50 transition-all hover:bg-transparent">
+        </div> */}
+        <div
+          className='hover:navigate-hover bg-with-gradient group relative min-h-72 overflow-hidden rounded-xl bg-cover transition-all hover:bg-none md:col-span-2'
+          style={{
+            backgroundImage: `url("/images/home/bg-nav.webp")`,
+            backgroundSize: `cover`,
+          }}
+        >
           <div
-            className="absolute left-0 top-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
             style={{
               background:
-                "linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6",
+                'linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
+            }}
+          ></div>
+
+          <div
+            className='flex size-full flex-col items-center justify-center bg-[#00000008] bg-cover p-8 pt-2'
+            style={{ backgroundImage: `url("/images/home/bg-nav-dark.webp")` }}
+          >
+            <div className='text-xl font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+              {t('efficient_discovery')}
+            </div>
+            <div className='translate-all md:text-md max-w-md text-center text-xs leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+              {t('efficient_discovery_description')}
+            </div>
+          </div>
+        </div>
+        <div className='hover:navigate-hover bg-with-gradient group relative overflow-hidden rounded-xl transition-all hover:bg-none'>
+          <div
+            className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
+            style={{
+              background:
+                'linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
             }}
           ></div>
           <Image
-            src="/images/home/tg.png"
+            src='/images/home/telegrami.svg'
             width={450}
             height={450}
-            alt="telegram"
-            className="mx-auto my-16 h-32 w-32"
+            alt='telegram'
+            className='mx-auto my-16 size-[154px]'
           />
-          <div className="bg-[#00000008] p-8 pt-2">
-            <div className="text-md font-satoshi font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-secondary">
-              Private Asks
+          <Image
+            src='/images/home/ring.png'
+            style={{ objectFit: 'contain' }}
+            sizes='(max-width: 768px) 100vw, 33vw'
+            alt='ring'
+            className='absolute mx-auto w-full'
+            fill
+          />
+          <div className='bg-[#00000008] p-8 pt-2'>
+            <div className='text-md font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+              {t('private_asks')}
             </div>
-            <div className="translate-all font-satoshi text-sm text-muted-foreground duration-500 group-hover:text-muted">
-              Easily identify and connect with others on the Telegram network
-              for seamless sharing.
+            <div className='translate-all md:text-md text-xs leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+              {t('private_asks_description')}
             </div>
           </div>
         </div>
-        <div className="group relative grid grid-cols-1 overflow-hidden rounded-xl bg-muted p-8 hover:bg-transparent sm:grid-cols-2 md:col-span-3">
+        <div className='bg-with-gradient group relative grid grid-cols-1 overflow-hidden rounded-xl hover:bg-none sm:grid-cols-2 md:col-span-3'>
           <div
-            className="absolute left-0 top-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
             style={{
               background:
-                "linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6",
+                'linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
             }}
           ></div>
-          <div className="order-last mx-auto mt-4 flex w-full max-w-sm justify-between px-8 sm:order-first">
+          <div className='relative order-last mx-auto flex w-full max-w-sm justify-between p-8 sm:order-first'>
             <Image
-              src="/images/home/fire1.svg"
+              src='/images/home/fire1.svg'
               width={15}
               height={22}
-              alt="fire 1"
-              className=""
+              alt='fire 1'
+              className='group-hover:hidden'
             />
             <Image
-              src="/images/home/fire2.svg"
+              src='/images/home/fire2.svg'
               width={26}
               height={34}
-              alt="fire 2"
-              className=""
+              alt='fire 2'
+              className='group-hover:hidden'
             />
             <Image
-              src="/images/home/fire3.svg"
+              src='/images/home/fire3.svg'
               width={35}
               height={44}
-              alt="fire 3"
-              className=""
+              alt='fire 3'
+              className='group-hover:hidden'
             />
             <Image
-              src="/images/home/fire4.svg"
+              src='/images/home/fire4.svg'
               width={26}
               height={34}
-              alt="fire 4"
-              className=""
+              alt='fire 4'
+              className='group-hover:hidden'
             />
             <Image
-              src="/images/home/fire5.svg"
+              src='/images/home/fire5.svg'
               width={15}
               height={21}
-              alt="fire 5"
-              className=""
+              alt='fire 5'
+              className='group-hover:hidden'
+            />
+            <Image
+              src='/images/home/fire1-hover.svg'
+              width={15}
+              height={22}
+              alt='fire 1'
+              className='hidden group-hover:block'
+            />
+            <Image
+              src='/images/home/fire2-hover.svg'
+              width={26}
+              height={34}
+              alt='fire 2'
+              className='hidden group-hover:block'
+            />
+            <Image
+              src='/images/home/fire3-hover.svg'
+              width={35}
+              height={44}
+              alt='fire 3'
+              className='hidden group-hover:block'
+            />
+            <Image
+              src='/images/home/fire4-hover.svg'
+              width={26}
+              height={34}
+              alt='fire 4'
+              className='hidden group-hover:block'
+            />
+            <Image
+              src='/images/home/fire5-hover.svg'
+              width={15}
+              height={21}
+              alt='fire 5'
+              className='hidden group-hover:block'
+            />
+            <Image
+              src='/images/home/ring-2.png'
+              style={{ objectFit: 'contain' }}
+              alt='ring'
+              className='absolute'
+              fill
             />
           </div>
-          <div className="relative">
-            <div className="text-md font-satoshi font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-secondary">
-              Smart Filters for Tailored Content:
+          <div className='relative p-8'>
+            <div className='md:text-md my-2 text-sm font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white'>
+              {t('smart_filters_for_tailored_content')}
             </div>
-            <div className="w-2/3 font-satoshi text-sm text-muted-foreground transition-all duration-500 group-hover:text-muted">
-              Use our advanced filters to tailor your content consumption,
-              ensuring a personalized and relevant digital experience.
+            <div className='md:text-md w-2/3 text-xs text-muted-foreground transition-all duration-500 group-hover:text-white/70'>
+              {t('smart_filters_for_tailored_content_description')}
             </div>
             <Image
-              src="/images/home/navigate-side.png"
+              src='/images/home/navigate-side.png'
               width={191}
               height={167}
-              alt="navigate side"
-              className="absolute right-0 top-0 h-full w-auto"
+              alt='navigate side'
+              className='absolute right-0 top-0 size-auto'
             />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,0 +1,394 @@
+.bg-with-gradient {
+  background: linear-gradient(0deg, #f3f4f6 0%, #f3f4f6 100%),
+    linear-gradient(7deg, #7b2bcc 21.22%, #2296f3 88.72%);
+}
+
+.dark .bg-with-gradient {
+  background: linear-gradient(
+      181deg,
+      rgba(255, 255, 255, 0.06) -3.73%,
+      rgba(255, 255, 255, 0) 99.29%
+    ),
+    rgba(255, 255, 255, 0.06);
+}
+
+.bg-radial-gradient {
+  background: radial-gradient(
+      100% 100% at 50% 50%,
+      rgba(0, 184, 135, 0.75) 0%,
+      rgba(1, 182, 211, 0.58) 100%
+    ),
+    #00b887;
+}
+
+.bg-radial-gradient-2 {
+  background: radial-gradient(
+      100% 100% at 50% 50%,
+      rgba(0, 184, 135, 0.75) 0%,
+      rgba(1, 182, 211, 0.58) 100%
+    ),
+    rgba(0, 0, 0, 0.5);
+}
+
+.border-gradient {
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    #01b6d3 0.01%,
+    #00b887 50.01%,
+    #01b6d3 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .border-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  padding: 1px;
+  background: linear-gradient(90deg, #00b887 0%, #01b6d3 100%),
+  linear-gradient(7deg, #7b2bcc 21.22%, #2296f3 88.72%);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.break-inside {
+  break-inside: avoid
+}
+
+
+.chevron {
+  position: absolute;
+  width: 28px;
+  height: 8px;
+  opacity: 0;
+  transform: scale3d(0.5, 0.5, 0.5);
+  animation: move 3s ease-out infinite;
+}
+
+.chevron:first-child {
+  animation: move 3s ease-out 1s infinite;
+}
+
+.chevron:nth-child(2) {
+  animation: move 3s ease-out 2s infinite;
+}
+
+.chevron:before,
+.chevron:after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 51%;
+  background: #fff;
+}
+
+.chevron:before {
+  left: 0;
+  transform: skew(0deg, 30deg);
+}
+
+.chevron:after {
+  right: 0;
+  width: 50%;
+  transform: skew(0deg, -30deg);
+}
+
+@keyframes move {
+  25% {
+    opacity: 1;
+
+  }
+  33% {
+    opacity: 1;
+    transform: translateY(30px);
+  }
+  67% {
+    opacity: 1;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
+  }
+}
+
+.text {
+  display: block;
+  margin-top: 75px;
+  font-size: 12px;
+  color: #fff;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: .25;
+  animation: pulse 2s linear alternate infinite;
+}
+
+@keyframes pulse {
+  to {
+    opacity: 1;
+  }
+}
+
+
+.hero-gradient{
+  position: absolute;
+  width: 1000px;
+  height: 700px;
+  border-radius: 50%;
+  z-index: -1;
+  /* background: linear-gradient(#00B887, #01B6D3,#01B6D3); */
+  /* animation: animate 3.5s linear infinite; */
+}
+
+
+@media (min-width: 50px) {
+  .hero-gradient {
+    width: 115px;
+    height: 240px;
+  }
+}
+
+@media (min-width: 100px) {
+  .hero-gradient {
+    width: 115px;
+    height: 240px;
+  }
+}
+
+@media (min-width: 200px) {
+  .hero-gradient {
+    width: 115px;
+    height: 240px;
+  }
+}
+
+@media (min-width: 250px) {
+  .hero-gradient {
+    width: 165px;
+    height: 300px;
+  }
+}
+
+
+@media (min-width: 300px) {
+  .hero-gradient {
+    width: 215px;
+    height: 400px;
+  }
+}
+
+@media (min-width: 350px) {
+  .hero-gradient {
+    width: 255px;
+    height: 490px;
+  }
+}
+
+@media (min-width: 375px) {
+  .hero-gradient {
+    width: 265px;
+    height: 500px;
+  }
+}
+
+@media (min-width: 390px) {
+  .hero-gradient {
+    width: 285px;
+    height: 530px;
+  }
+}
+
+@media (min-width: 414px) {
+  .hero-gradient {
+    width: 300px;
+    height: 570px;
+  }
+}
+
+
+@media (min-width: 425px) {
+  .hero-gradient {
+    width: 300px;
+    height: 560px;
+  }
+}
+
+
+@media (min-width: 430px) {
+  .hero-gradient {
+    width: 330px;
+    height: 600px;
+  }
+}
+
+@media (min-width: 470px) {
+  .hero-gradient {
+    width: 380px;
+    height: 660px;
+  }
+}
+
+@media (min-width: 500px) {
+  .hero-gradient {
+    width: 400px;
+    height: 700px;
+  }
+}
+
+@media (min-width: 600px) {
+  .hero-gradient {
+    width: 430px;
+    height: 750px;
+  }
+}
+
+@media (min-width: 700px) {
+  .hero-gradient {
+    width: 500px;
+    height: 850px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-gradient {
+    width: 550px;
+    height: 400px;
+  }
+}
+
+
+@media (min-width: 850px) {
+  .hero-gradient {
+    width: 650px;
+    height: 480px;
+  }
+}
+
+
+@media (min-width: 932px) {
+  .hero-gradient {
+    width: 720px;
+    height: 510px;
+  }
+}
+
+@media (min-width: 992px) {
+  .hero-gradient {
+    width: 795px;
+    height: 560px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .hero-gradient {
+    width: 785px;
+    height: 550px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-gradient {
+    width: 825px;
+    height: 580px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .hero-gradient {
+    width: 900px;
+    height: 640px;
+  }
+}
+
+
+@media (min-width: 1200px) {
+  .hero-gradient {
+    width: 1000px;
+    height: 700px;
+  }
+}
+
+@keyframes animate {
+  0%{
+      transform: rotate(0deg);
+  }
+  100%{
+      transform: rotate(360deg);
+  }
+}
+
+.hero-gradient span{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top:20px;
+  border-radius: 50%;
+  background: linear-gradient(#00B887, #01B6D3,#01B6D3);
+}
+.hero-gradient span:nth-child(1){
+  filter: blur(5px);
+}
+.hero-gradient span:nth-child(2){
+  filter:blur(10px);
+}
+.hero-gradient span:nth-child(3){
+  filter:blur(25px);
+}
+.hero-gradient span:nth-child(4){
+  filter:blur(50px);
+}
+.hero-gradient:after{
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border-radius: 50%;
+}
+
+.block-to-fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.block-to-fade-in.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* line gardient */
+
+@keyframes hueRotate {
+  0% {
+    filter: hue-rotate(0) blur(30px)
+  }
+
+  100% {
+    filter: hue-rotate(360deg) blur(30px)
+  }
+}
+
+footer {
+  position: relative;
+}
+.gradient-line:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  right: 0;
+  bottom: 0px;
+  height: 75px;
+  filter: blur(30px);
+  -webkit-filter: blur(30px);
+  background-image: conic-gradient(from 180deg at 50% 100%,transparent 0,transparent 27%,#ff3998 27%,#d764ff 36.04%,#00b5ff 58.23%,#0fd 63%,#54fa43 73%,transparent 73%,transparent 100%);
+  animation: hueRotate 2.5s linear infinite;
+}

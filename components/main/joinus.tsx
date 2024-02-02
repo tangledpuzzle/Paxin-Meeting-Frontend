@@ -1,31 +1,37 @@
-import Image from "next/image"
+import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
-import { Button } from "../ui/button"
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
-export function JoinUsSection() {
+export default function JoinUsSection() {
+  const t = useTranslations('main');
+
   return (
-    <div className="bg-radial-gradient mt-24 flex flex-col items-center justify-center rounded-xl bg-primary p-8 pt-0">
+    <div className='bg-radial-gradient mx-3 flex flex-col items-center justify-center rounded-xl bg-primary p-8 pt-0'>
       <Image
-        src="/images/home/join-us-banner.png"
+        src='/images/home/join-us-banner.png'
         width={1216}
         height={99}
-        className="h-16"
-        alt="banner image"
+        className='h-16'
+        alt='banner image'
       />
-      <div className="my-2 text-center font-satoshi text-lg font-medium leading-normal text-white sm:text-3xl">
-        Unlock a New Dimension of Connectivity
+      <div className='my-2 text-center font-satoshi text-lg font-medium leading-normal text-white sm:text-3xl'>
+        {t('unlock_new_dimension_of_connectivity')}
       </div>
-      <div className="prose mt-3 max-w-4xl text-center font-satoshi text-sm text-white/70">
-        Ready to experience the next generation of online interaction? Join
-        PaxinTrade now and embark on a journey where seamless communication,
-        personalized content, and a 3D world await you. Create your account and
-        redefine your digital presence today.
+      <div className='prose mt-3 max-w-4xl text-center font-satoshi text-sm text-white/70'>
+        {t('unlock_new_dimension_of_connectivity_description')}
       </div>
-      <div className="relative mt-10 flex w-full items-center justify-center">
-        <Button variant="secondary" className="bg-white text-primary">
-          Join Now
+      <div className='relative mt-10 flex w-full items-center justify-center'>
+        <Button
+          variant='secondary'
+          className='bg-white text-black hover:text-white'
+          aria-label='Join Now'
+          asChild
+        >
+          <Link href='/auth/signup'>{t('join_now')}</Link>
         </Button>
       </div>
     </div>
-  )
+  );
 }

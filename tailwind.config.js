@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "20px",
       screens: {
         "2xl": "1400px",
       },
@@ -44,9 +44,12 @@ module.exports = {
           foreground: "hsl(var(--popover-foreground))",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
+          DEFAULT: "var(--card)",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      backgroundImage: {
+        'card-gradient': 'var(--card-gradient)',
       },
       borderRadius: {
         lg: `var(--radius)`,

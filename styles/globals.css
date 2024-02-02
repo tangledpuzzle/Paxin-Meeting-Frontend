@@ -2,6 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer components {
+  :root {
+    --borderimg: linear-gradient(270deg, rgba(228, 228, 228, 0) 5.23%, #E6E6E6 53.6%, rgba(234, 234, 234, 0) 100%);
+    --bgheader: 0, 0%, 100%;
+    --bgs: linear-gradient(
+      181deg,
+      rgba(255, 255, 255, 0.06) -3.73%,
+      rgba(255, 255, 255, 0) 99.29%
+    ),
+    rgba(255, 255, 255, 0.06);
+  }
+
+  .dark {
+    --borderimg: linear-gradient(270deg, rgba(228, 228, 228, 0) 5.23%, rgba(241, 241, 241, 0.17) 53.6%, rgba(234, 234, 234, 0) 100%); 
+    --bgheader: 0, 0%, 6%, 0.5;
+    --bgs: linear-gradient(
+      181deg,
+      rgba(255, 255, 255, 0.06) -3.73%,
+      rgba(255, 255, 255, 0) 99.29%
+    ),
+    rgba(255, 255, 255, 0.06);
+  }
+
+
+  .bg-ss {
+    background: var(--bgs);
+    background-size: cover;
+  }
+
+
+
+  .border-gardient-header {
+    border-image:var(--borderimg);
+    border-bottom: 1px solid;
+    border-image-slice: 1;
+  }
+  
+  .bg-header {
+    background: hsla(var(--bgheader));
+    backdrop-filter: blur(12px)
+  }
+}
+
+.border-gardient-h {
+  @apply border-gardient-header;
+}
+
+.bg-s {
+  @apply bg-ss;
+}
+
+.bg-h {
+  @apply bg-header
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -17,6 +74,7 @@
     --input: 214.3 31.8% 91.4%;
 
     --card: 0 0% 100%;
+    --card-gradient: linear-gradient(to bottom, #ffffff, #fcfdff);
     --card-foreground: 222.2 47.4% 11.2%;
 
     --primary: 166.2 100% 30.6%;
@@ -41,7 +99,7 @@
     --foreground: 213 31% 91%;
 
     --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+    --muted-foreground: 0 0% 100% / .6;
 
     --accent: 216 34% 17%;
     --accent-foreground: 210 40% 98%;
@@ -49,10 +107,11 @@
     --popover: 224 71% 4%;
     --popover-foreground: 215 20.2% 65.1%;
 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
+    --border: 0 0% 14%;
+    --input: 0 0% 28%;
 
     --card: 224 71% 4%;
+    --card-gradient: linear-gradient(to bottom, #1e1e1e, #131313);
     --card-foreground: 213 31% 91%;
 
     --primary: 166.2 100% 30.6%;
@@ -76,21 +135,14 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 
-  .bg-gradient {
+  .bg-primary {
     background: linear-gradient(90deg, #00b887 0%, #01b6d3 100%),
       linear-gradient(7deg, #7b2bcc 21.22%, #2296f3 88.72%);
-  }
-
-  .bg-radial-gradient {
-    background: radial-gradient(
-        100% 100% at 50% 50%,
-        rgba(0, 184, 135, 0.75) 0%,
-        rgba(1, 182, 211, 0.58) 100%
-      ),
-      #00b887;
   }
 
   .text-gradient {
@@ -119,28 +171,134 @@
     -webkit-text-fill-color: transparent;
   }
 
-  /* This will change the scrollbar color for Webkit browsers like Chrome, Safari */
-  ::-webkit-scrollbar {
-    width: 12px;
-    /* width of the entire scrollbar */
+
+  html {
+    scrollbar-face-color: #646464;
+    scrollbar-base-color: #646464;
+    scrollbar-3dlight-color: #646464;
+    scrollbar-highlight-color: #646464;
+    scrollbar-track-color: #000;
+    scrollbar-arrow-color: #000;
+    scrollbar-shadow-color: #646464;
+  }
+  
+  ::-webkit-scrollbar { width: 8px; height: 3px;}
+  ::-webkit-scrollbar-button {  background-color: #666; }
+  ::-webkit-scrollbar-track {  background-color: #646464;}
+  ::-webkit-scrollbar-track-piece { background-color: #000;}
+  ::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 3px;}
+  ::-webkit-scrollbar-corner { background-color: #646464;}
+  ::-webkit-resizer { background-color: #666;}
+}
+.image-gallery-thumbnails-container {
+  text-align: left !important;
+}
+
+
+.btn {
+  background-size: 50%,100%;
+  }
+  
+  .btn::after {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10em;
+    -webkit-transition: -webkit-box-shadow .4s ease-in-out;
+    transition: -webkit-box-shadow .4s ease-in-out;
+    transition: box-shadow .4s ease-in-out;
+    transition: box-shadow .4s ease-in-out,-webkit-box-shadow .4s ease-in-out;
+  }
+  
+  .btn {
+    position: relative;
+    margin: auto;
+    background: linear-gradient(#00B887, #01B6D3,#01B6D3);
+  
+    background-size: auto, auto;
+    background-size: 35%,100%;
+    background-blend-mode: overlay,normal;
+    border-radius: 10em;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    -webkit-transition: background-size .4s ease-in-out;
+    transition: background-size .4s ease-in-out;
   }
 
-  ::-webkit-scrollbar-track {
-    background: #f0f0f0;
-    /* color of the tracking area */
+  
+  .btn svg {
+    display: inline;
+    width: .8rem;
+    vertical-align: middle;
+    margin-left: .3rem;
+    -webkit-transition: -webkit-transform .15s ease-out;
+    transition: -webkit-transform .15s ease-out;
+    transition: transform .15s ease-out;
+    transition: transform .15s ease-out,-webkit-transform .15s ease-out;
+    position: relative;
+    top: -1px;
+  }
+  
+  .btn:hover:not([disabled]) svg {
+    -webkit-transform: translateX(3px);
+    transform: translateX(3px);
+  }
+  
+  .btn:hover::after {
+    -webkit-box-shadow: 0 0 24px #01B6D3;
+  
+    box-shadow: 0 0 24px #01B6D3;
+  
   }
 
-  ::-webkit-scrollbar-thumb {
-    background-color: #888;
-    /* color of the scroll thumb */
-    border-radius: 20px;
-    /* roundness of the scroll thumb */
-    border: 3px solid #f0f0f0;
-    /* creates padding around scroll thumb */
+@keyframes glow {
+  0% {
+  border-color: #00b887;
+  box-shadow: 0 0 5px rgba(0,255,0,.2), inset 0 0 5px rgba(0,255,0,.1), 0 0px 0 #393;
+  }	
+  100% {
+  border-color: #00b887;
+  box-shadow: 0 0 20px rgba(0,255,0,.6), inset 0 0 10px rgba(0,255,0,.4), 0 0px 0 #393;
   }
+}
 
-  /* change color on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
+input:focus {
+  -webkit-animation: glow 800ms ease-out infinite alternate;
+    animation: glow 800ms ease-out infinite alternate;
+    border-color: #00b887;
+    box-shadow: 0 0 5px rgba(0,255,0,.2), inset 0 0 5px rgba(0,255,0,.1), 0 0px 0 #393;
+    color: #efe;
+    outline: none;
+}
+
+input[type="color"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+select:focus,
+textarea {
+  font-size: 16px;
+}
+
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+  select:focus,
+  textarea:focus,
+  input:focus {
+    font-size: 16px;
   }
 }

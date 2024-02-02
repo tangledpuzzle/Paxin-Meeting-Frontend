@@ -1,6 +1,8 @@
-"use client"
+'use client';
 
-import Image from "next/image"
+import { usePathname } from '@/navigation';
+import { useLocale } from 'next-intl';
+import Image from 'next/image';
 
 import {
   Select,
@@ -9,66 +11,91 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from '@/components/ui/select';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-export function LanguageSelector() {
+interface LanguageSelectorProps {
+  className?: string;
+}
+
+export function LanguageSelector({ className }: LanguageSelectorProps) {
+  // const { i18n } = useTranslation();
+  const router = useRouter();
+  const locale = useLocale();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const newSearchParams = new URLSearchParams(searchParams).toString();
+
+  const changeLang = (lang: string) => {
+    router.push(
+      `/${lang}/${pathname}${newSearchParams ? '?' + newSearchParams : ''}`
+    );
+  };
+
   return (
-    <Select defaultValue="en">
-      <SelectTrigger className="w-auto gap-2 rounded-full !px-4">
-        <SelectValue placeholder="Select a language" />
+    <Select
+      defaultValue={locale}
+      onValueChange={(value) => {
+        changeLang(value);
+      }}
+    >
+      <SelectTrigger
+        className={`w-[150px] gap-2 rounded-full bg-transparent pl-5 ${className ? className : ''}`}
+      >
+        <SelectValue placeholder='Select a language' />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectItem value="en">
-            <div className="flex items-center">
+          <SelectItem value='en'>
+            <div className='flex items-center'>
               <Image
-                src="https://flagcdn.com/us.svg"
-                alt="en"
+                src='/images/us.svg'
+                alt='en'
                 width={24}
                 height={24}
-                className="mr-2 h-4 w-4"
+                className='mr-2 h-auto w-5'
               />
               English
             </div>
           </SelectItem>
-          <SelectItem value="ru">
-            <div className="flex items-center">
+          <SelectItem value='ru'>
+            <div className='flex items-center'>
               <Image
-                src="https://flagcdn.com/ru.svg"
-                alt="ru"
+                src='/images/ru.svg'
+                alt='ru'
                 width={24}
                 height={24}
-                className="mr-2 h-auto w-4"
+                className='mr-2 h-auto w-5'
               />
-              Russian
+              Русский
             </div>
           </SelectItem>
-          <SelectItem value="ge">
-            <div className="flex items-center">
+          <SelectItem value='ka'>
+            <div className='flex items-center'>
               <Image
-                src="https://flagcdn.com/ge.svg"
-                alt="ge"
+                src='/images/ge.svg'
+                alt='ge'
                 width={24}
                 height={24}
-                className="mr-2 h-auto w-4"
+                className='mr-2 h-auto w-5'
               />
-              Georgian
+              ქართული
             </div>
           </SelectItem>
-          <SelectItem value="es">
-            <div className="flex items-center">
+          <SelectItem value='es'>
+            <div className='flex items-center'>
               <Image
-                src="https://flagcdn.com/es.svg"
-                alt="es"
+                src='/images/es.svg'
+                alt='es'
                 width={24}
                 height={24}
-                className="mr-2 h-auto w-4"
+                className='mr-2 h-auto w-5'
               />
-              Spanish
+              Española
             </div>
           </SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
-  )
+  );
 }

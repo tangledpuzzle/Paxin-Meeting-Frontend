@@ -1,0 +1,21 @@
+.ql-editor {
+  min-height: 6rem;
+  font-size: 12pt;
+}
+
+.ql-editor.ql-blank::before {
+  @apply !text-gray-400;
+}
+
+.ql-disabled {
+  border: none !important;
+}
+
+
+.ql-editor {
+  padding:0px !important;
+}
+
+.ql-container {
+  font-family: var(--font-satoshi) !important;
+}

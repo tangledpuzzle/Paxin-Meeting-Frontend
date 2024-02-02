@@ -1,0 +1,416 @@
+// import React, { useState } from "react"
+import Select from 'react-select';
+
+import GlowingButton from '@/components/moderns/black-botton';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import axios from 'axios';
+import { useLocale, useTranslations } from 'next-intl';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+
+interface Option {
+  value: number | string;
+  label: string;
+}
+
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
+export function FilterModal() {
+  const t = useTranslations('main');
+  const locale = useLocale();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
+  const [cityOptions, setCityOptions] = useState<Option[]>([]);
+  const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
+  const [hashtagOptions, setHashtagOptions] = useState<Option[]>([]);
+  const [viewMode, setViewMode] = useState<string>(
+    searchParams.get('mode') || 'profile'
+  );
+
+  const [hashTag, setHashTag] = useState<Option[]>([]);
+  const [hashtagURL, setHashtagURL] = useState<string>('');
+  const [city, setCity] = useState<Option[]>();
+  const [category, setCategory] = useState<Option[]>();
+  const [minPrice, setMinPrice] = useState<string>('');
+  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [priceHasError, setPriceHasError] = useState<boolean>(false);
+  const [isReset, setIsReset] = useState<boolean>(false);
+
+  const { data: fetchedCities, error: cityFetchError } = useSWR(
+    '/api/cities/get',
+    fetcher
+  );
+  const { data: fetchedCategories, error: categoryFetchError } = useSWR(
+    '/api/categories/get',
+    fetcher
+  );
+
+  const { data: fetchedHashtags, error: hashtagFetchError } = useSWR(
+    hashtagURL,
+    fetcher
+  );
+
+  const handleMinPrice = (value: string) => {
+    if (value === '') {
+      setMinPrice(value);
+      setPriceHasError(false);
+    } else {
+      if (maxPrice === '') {
+        setMinPrice(value);
+        setPriceHasError(false);
+      } else if (parseFloat(value) > parseFloat(maxPrice)) {
+        setMinPrice(value);
+        setPriceHasError(true);
+      } else {
+        setMinPrice(value);
+        setPriceHasError(false);
+      }
+    }
+  };
+
+  const handleMaxPrice = (value: string) => {
+    if (value === '') {
+      setMaxPrice(value);
+      setPriceHasError(false);
+    } else {
+      if (minPrice === '') {
+        setMaxPrice(value);
+        setPriceHasError(false);
+      } else if (parseFloat(value) < parseFloat(minPrice)) {
+        setMaxPrice(value);
+        setPriceHasError(true);
+      } else {
+        setMaxPrice(value);
+        setPriceHasError(false);
+      }
+    }
+  };
+
+  const handleApplyFilters = () => {
+    if (isReset) {
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.delete('hashtag');
+      newSearchParams.delete('city');
+      newSearchParams.delete('category');
+      newSearchParams.delete('money');
+      router.push(`?${newSearchParams.toString()}`);
+
+      setIsReset(false);
+
+      return;
+    }
+
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set(
+      'hashtag',
+      hashTag ? hashTag.map((item) => item.value).join(',') || 'all' : 'all'
+    );
+    newSearchParams.set(
+      'city',
+      city && city.length > 0 ? city[0].label : 'all'
+    );
+    newSearchParams.set(
+      'category',
+      category && category.length > 0 ? category[0].label : 'all'
+    );
+    if (minPrice || maxPrice)
+      newSearchParams.set('money', `${minPrice}-${maxPrice}`);
+    else newSearchParams.delete('money');
+
+    router.push(`?${newSearchParams.toString()}`);
+  };
+
+  const handleHashtagSearch = (query: string) => {
+    if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
+  };
+
+  const handleResetFilters = () => {
+    setHashTag([]);
+    setCity([]);
+    setCategory([]);
+    setMinPrice('');
+    setMaxPrice('');
+    setPriceHasError(false);
+    setIsReset(true);
+  };
+
+  useEffect(() => {
+    const _hashtag = searchParams.get('hashtag');
+    const _city = searchParams.get('city');
+    const _category = searchParams.get('category');
+    const _viewMode = searchParams.get('mode');
+    const _money = searchParams.get('money');
+
+    if (_hashtag && _hashtag !== 'all')
+      setHashTag(_hashtag.split(',').map((h) => ({ value: h, label: h })));
+    else if (_hashtag === 'all') setHashTag([]);
+    if (_city && _city !== 'all')
+      setCity([cityOptions.find((c) => c.label === _city)] as Option[]);
+    else if (_city === 'all') setCity([]);
+    if (_category && _category !== 'all')
+      setCategory([
+        categoryOptions.find((c) => c.label === _category),
+      ] as Option[]);
+    else if (_category === 'all') setCategory([]);
+    if (_viewMode) setViewMode(_viewMode);
+    if (_money && _money !== 'all') {
+      const [min, max] = _money.split('-');
+      setMinPrice(min);
+      setMaxPrice(max);
+    } else if (_money === 'all') {
+      setMinPrice('');
+      setMaxPrice('');
+    }
+
+    setIsReset(false);
+  }, [searchParams, isFilterModalOpen]);
+
+  useEffect(() => {
+    if (['profile', 'flow'].includes(viewMode)) {
+      setCity([]);
+      setCategory([]);
+      setHashTag([]);
+    }
+  }, [viewMode]);
+
+  useEffect(() => {
+    let _city, _category;
+    if (!cityFetchError && fetchedCities) {
+      setCityOptions(
+        fetchedCities.data.map((city: any) => ({
+          value: city.ID,
+          label: city.Translations.find((t: any) => t.Language === locale).Name,
+        }))
+      );
+
+      _city = fetchedCities.data.find((city: any) =>
+        city.Translations.map((t: any) => t.Name).includes(
+          searchParams.get('city')
+        )
+      );
+
+      if (_city) {
+        setCity([
+          {
+            value: _city.ID,
+            label: _city.Translations.find((t: any) => t.Language === locale)
+              .Name,
+          },
+        ]);
+
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set(
+          'city',
+          _city.Translations.find((t: any) => t.Language === locale).Name
+        );
+
+        router.push(`?${newSearchParams.toString()}`);
+      }
+    }
+    if (!categoryFetchError && fetchedCategories) {
+      setCategoryOptions(
+        fetchedCategories.data.map((category: any) => ({
+          value: category.ID,
+          label: category.Translations.find((t: any) => t.Language === locale)
+            .Name,
+        }))
+      );
+
+      _category = fetchedCategories.data.find((category: any) =>
+        category.Translations.map((t: any) => t.Name).includes(
+          searchParams.get('category')
+        )
+      );
+
+      if (_category) {
+        setCategory([
+          {
+            value: _category.ID,
+            label: _category.Translations.find(
+              (t: any) => t.Language === locale
+            ).Name,
+          },
+        ]);
+      }
+    }
+
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (_city) {
+      newSearchParams.set(
+        'city',
+        _city.Translations.find((t: any) => t.Language === locale).Name
+      );
+    }
+    if (_category)
+      newSearchParams.set(
+        'category',
+        _category.Translations.find((t: any) => t.Language === locale).Name
+      );
+
+    if (_city || _category) router.push(`?${newSearchParams.toString()}`);
+  }, [fetchedCities, fetchedCategories, locale]);
+
+  useEffect(() => {
+    if (!hashtagFetchError && fetchedHashtags) {
+      setHashtagOptions(
+        fetchedHashtags?.map((hashtag: any) => ({
+          value: hashtag.Hashtag,
+          label: hashtag.Hashtag,
+        })) || []
+      );
+    } else {
+      setHashtagOptions([]);
+    }
+  }, [hashtagFetchError, fetchedHashtags]);
+
+  return (
+    <Dialog open={isFilterModalOpen} onOpenChange={setIsFilterModalOpen}>
+      <DialogTrigger asChild>
+        <Button variant='clear'>
+          {/* <Filter className='mr-2 size-4' /> */}
+          <GlowingButton buttonText={t('filters')} />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className='max-w-xl rounded-lg sm:mx-auto'>
+        <DialogHeader>
+          <DialogTitle>{t('filters')}</DialogTitle>
+        </DialogHeader>
+        <div className='grid gap-4 py-4'>
+          <div className=''>
+            <Label htmlFor='name' className='text-right'>
+              {t('cities')}
+            </Label>
+            <Select
+              isMulti
+              name='city'
+              options={cityOptions}
+              value={city}
+              onChange={(selectedCities: any) => setCity(selectedCities)}
+              placeholder={t('select') + '...'}
+              noOptionsMessage={() => t('no_options')}
+              classNames={{
+                input: () => 'dark:text-white text-black',
+                control: () =>
+                  '!flex !text-primary !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium placeholder:!text-muted-foreground focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                option: () =>
+                  '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                menu: () => '!bg-muted',
+              }}
+            />
+          </div>
+          <div className=''>
+            <Label htmlFor='username' className='text-right'>
+              {t('categories')}
+            </Label>
+            <Select
+              isMulti
+              name='category'
+              options={categoryOptions}
+              value={category}
+              onChange={(selectedCategories: any) =>
+                setCategory(selectedCategories)
+              }
+              placeholder={t('select') + '...'}
+              noOptionsMessage={() => t('no_options')}
+              classNames={{
+                input: () => 'dark:text-white text-black',
+                control: () =>
+                  '!flex !text-primary !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium placeholder:!text-muted-foreground focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                option: () =>
+                  '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                menu: () => '!bg-muted',
+              }}
+            />
+          </div>
+          <div className=''>
+            <Label htmlFor='username' className='text-right'>
+              {t('hashtag')}
+            </Label>
+            <Select
+              isMulti
+              name='category'
+              options={hashtagOptions}
+              value={hashTag}
+              onInputChange={handleHashtagSearch}
+              onChange={(selectedHashtags: any) => setHashTag(selectedHashtags)}
+              placeholder={t('select') + '...'}
+              noOptionsMessage={() => t('no_options')}
+              classNames={{
+                input: () => 'dark:text-white text-black',
+                control: () =>
+                  '!flex !text-primary !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium placeholder:!text-muted-foreground focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                option: () =>
+                  '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                menu: () => '!bg-muted',
+              }}
+            />
+            {/* <div className='relative w-full'>
+              <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
+              <Input
+                type='text'
+                placeholder={t('search')}
+                className='pl-12 pr-4'
+                value={hashTag}
+                onChange={(e) => setHashTag(e.target.value)}
+              />
+            </div> */}
+          </div>
+          {viewMode === 'flow' && (
+            <div className=''>
+              <Label htmlFor='username' className='text-right'>
+                {t('prices')}
+              </Label>
+              <div className='flex gap-3'>
+                <Input
+                  type='number'
+                  min='0'
+                  placeholder={t('from')}
+                  className='sm:w-20'
+                  value={minPrice}
+                  onChange={(e) => handleMinPrice(e.target.value)}
+                />
+                <Input
+                  type='number'
+                  min='0'
+                  placeholder={t('to')}
+                  className='sm:w-20'
+                  defaultValue={maxPrice}
+                  onChange={(e) => handleMaxPrice(e.target.value)}
+                />
+              </div>
+              {priceHasError && (
+                <div className='text-xs text-red-500'>
+                  {t('price_validation_message')}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        <DialogFooter className='ml-auto flex-row gap-3'>
+          <Button type='submit' variant='outline' onClick={handleResetFilters}>
+            {t('reset')}
+          </Button>
+          <DialogClose asChild>
+            <Button type='submit' onClick={handleApplyFilters}>
+              {t('apply')}
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
