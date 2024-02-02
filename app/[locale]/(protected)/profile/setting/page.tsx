@@ -1,15 +1,9 @@
 'use client';
 
-import { FaUser } from 'react-icons/fa6';
-import { MdAccountBalanceWallet } from 'react-icons/md';
-import { RiUserSettingsFill } from 'react-icons/ri';
-import { FaTelegram } from 'react-icons/fa';
-import Select from 'react-select';
-import CreatableSelect from 'react-select/creatable';
+import { ConfirmModal } from '@/components/common/confirm-modal';
 import { ImageUpload, PreviewImage } from '@/components/common/file-uploader';
 import CTASection from '@/components/profiles/cta';
 import { Button } from '@/components/ui/button';
-import { RxCopy } from 'react-icons/rx';
 import {
   Form,
   FormControl,
@@ -18,6 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
@@ -26,17 +21,23 @@ import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
+import { signOut } from 'next-auth/react';
+import { useLocale, useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { FaTelegram } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa6';
+import { MdAccountBalanceWallet } from 'react-icons/md';
+import { RiUserSettingsFill } from 'react-icons/ri';
+import { RxCopy } from 'react-icons/rx';
 import 'react-quill/dist/quill.snow.css';
+import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import useSWR from 'swr';
 import * as z from 'zod';
-import { Input } from '@/components/ui/input';
-import { useLocale, useTranslations } from 'next-intl';
-import { ConfirmModal } from '@/components/common/confirm-modal';
-import { signOut } from 'next-auth/react';
-import Link from 'next/link';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -58,7 +59,7 @@ interface Profile {
     files: {
       path: string;
     }[];
-  };
+  } | null;
   telegram: {
     activated: boolean;
     token: string;
@@ -118,6 +119,7 @@ export default function SettingPage() {
   const t = useTranslations('main');
   const { userMutate } = useContext(PaxContext);
   const locale = useLocale();
+  const searchParams = useSearchParams();
 
   const imageUploadRef = useRef<ImageUploadComponentType>(null);
 
@@ -135,7 +137,7 @@ export default function SettingPage() {
     useState<boolean>(false);
   const [isRechargeLoading, setIsRechargeLoading] = useState<boolean>(false);
 
-  const [hashtagURL, setHashtagURL] = useState<string>('/api/hashtags/get');
+  const [hashtagURL, setHashtagURL] = useState<string>('');
 
   const [isNeededUpdate, setIsNeededUpdate] = useState<boolean>(false);
 
@@ -169,6 +171,7 @@ export default function SettingPage() {
 
   useEffect(() => {
     if (!error && fetchedData) {
+      console.log(fetchedData);
       setProfile(fetchedData);
       setGallery(fetchedData.gallery);
       setAdditionalInfo(fetchedData.additionalinfo);
@@ -528,20 +531,20 @@ export default function SettingPage() {
           loading={isDeleteAccountLoading}
         />
         <Tabs
-          defaultValue='account'
+          defaultValue={searchParams.get('tab') || 'profile'}
           className='h-[calc(100vh_-_13rem)] w-full items-start bg-background py-2 sm:flex'
           orientation='vertical'
         >
           <TabsList className='flex h-auto w-full bg-background px-2 sm:w-60 sm:flex-col'>
             <TabsTrigger
-              value='account'
+              value='profile'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
             >
               <FaUser className='mr-2 size-4' />
               {t('profile_settings')}
             </TabsTrigger>
             <TabsTrigger
-              value='password'
+              value='accounting'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
             >
               <MdAccountBalanceWallet className='mr-2 size-4' />
@@ -709,8 +712,11 @@ export default function SettingPage() {
                           >
                             {t('delete_account')}
                           </Button>
-                          <Button type='submit' disabled={isBasicLoading} className='btn btn--wide !ml-0'
->
+                          <Button
+                            type='submit'
+                            disabled={isBasicLoading}
+                            className='btn btn--wide !ml-0'
+                          >
                             {isBasicLoading && (
                               <Loader2 className='mr-2 size-4 animate-spin' />
                             )}
@@ -744,7 +750,6 @@ export default function SettingPage() {
                         onClick={submitGallery}
                         disabled={isGalleryLoading}
                         className='btn btn--wide'
-
                       >
                         {isGalleryLoading && (
                           <Loader2 className='mr-2 size-4 animate-spin' />
@@ -769,7 +774,7 @@ export default function SettingPage() {
                       />
                     </div>
                     <div className='flex w-full justify-end gap-2'>
-                      <Button 
+                      <Button
                         onClick={submitAddtionalInfo}
                         disabled={isAdditionalLoading}
                         className='btn btn--wide'
@@ -784,7 +789,7 @@ export default function SettingPage() {
                 </Tabs>
               </div>
             </TabsContent>
-            <TabsContent className='w-full' value='password'>
+            <TabsContent className='w-full' value='accounting'>
               <div className='px-3'>
                 <div className='text-2xl font-semibold'>{t('accounting')}</div>
                 <div className='mt-4 flex w-full max-w-lg items-center gap-4'>
@@ -793,7 +798,10 @@ export default function SettingPage() {
                     value={rechargecode}
                     onChange={(e) => setRechargecode(e.target.value)}
                   ></Input>
-                  <Button onClick={submitRechargecode} className='btn btn--wide'>
+                  <Button
+                    onClick={submitRechargecode}
+                    className='btn btn--wide'
+                  >
                     {isRechargeLoading && (
                       <Loader2 className='mr-2 size-4 animate-spin' />
                     )}

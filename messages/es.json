@@ -297,7 +297,22 @@
     "telegram": "Telegram",
     "telegram_integration": "Integración de Telegram",
     "copy_code_and_send_to_bot": "Copia el código y envíalo al bot <botname>@paxbot</botname>",
-    "you_account_is_already_activated": "Tu cuenta ya está activada"
+    "you_account_is_already_activated": "Tu cuenta ya está activada",
+    "your_account_is_already_activated": "Tu cuenta ya está activada",
+    "dashboard_publications_description": "Publica mensajes y anuncia de nuevas formas. Conecta con tus contactos directamente a través de la red de Telegram",
+    "dashboard_profile_description": "Administra la información de tu perfil",
+    "dashboard_accounting_description": "Administra la información de tu cuenta",
+    "view_all_alerts_description": "Ver todas las alertas relacionadas con las aplicaciones",
+    "edit_your_user_account_settings": "Editar la configuración de tu cuenta de usuario",
+    "post_publication": "Publicar",
+    "telegram_profile_setup": "Configuración del perfil",
+    "reset_password_description": "Haz clic aquí para restablecer tu contraseña",
+    "edit_your_user_account_settings_description": "Haz clic aquí para editar la configuración de tu cuenta de usuario",
+    "post_publication_description": "Haz clic aquí para ver las publicaciones",
+    "telegram_profile_setup_description": "Haz clic aquí para configurar tu perfil",
+    "configure": "Configurar",
+    "configure_description": "Aquí puedes ver auditorías de contratos",
+    "hello": "Hola"
   },
   "privacy": {
     "rulesprivacy": "política de privacidad",
