@@ -1,6 +1,5 @@
 'use client';
 
-import SiteHeader from '@/components/header/site-header';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -23,7 +22,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useTranslations } from 'next-intl';
-// heyheyhey
 
 export default function ResetPasswordPage({
   params,
@@ -87,7 +85,6 @@ export default function ResetPasswordPage({
 
   return (
     <>
-      <SiteHeader />
       <section className='flex h-[calc(100vh_-_5rem_-_1px)] w-full items-center justify-center'>
         <div className='mb-36 w-full max-w-md space-y-20'>
           <div className='text-center text-2xl font-bold text-primary sm:text-3xl'>
