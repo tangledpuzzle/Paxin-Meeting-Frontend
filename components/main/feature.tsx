@@ -67,7 +67,7 @@ function FeatureCard({
             <p className='truncate text-base font-bold group-hover:text-white'>
               {title}
             </p>
-            <p className='mt-1 text-[15px] group-hover:text-white'>
+            <p className='mt-1 text-[12px] font-light group-hover:text-white'>
               {description}
             </p>
             <Image

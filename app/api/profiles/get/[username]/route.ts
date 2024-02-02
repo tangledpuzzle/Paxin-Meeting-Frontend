@@ -59,12 +59,15 @@ export async function GET(req: NextRequest) {
         monthposts: data.data.TotalBlogs,
         followers: data.data.Followings.length,
       },
-      gallery: data.data.Profile[0].photos[0].files.map((file: any) => {
-        return {
-          original: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`,
-          thumbnail: `https://proxy.paxintrade.com/50/https://img.paxintrade.com/${file.path}`,
-        };
-      }),
+      gallery:
+        data.data.Profile[0].photos?.length > 0
+          ? data.data.Profile[0].photos[0].files.map((file: any) => {
+              return {
+                original: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`,
+                thumbnail: `https://proxy.paxintrade.com/50/https://img.paxintrade.com/${file.path}`,
+              };
+            })
+          : [],
       description:
         data.data.Profile[0].MultilangDescr[
           locale.charAt(0).toUpperCase() + locale.slice(1)
