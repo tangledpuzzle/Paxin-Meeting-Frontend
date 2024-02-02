@@ -182,10 +182,10 @@ export default function FlowPage({
 
   return !error ? (
     fetchedData && blogDetails ? (
-      <section className='container py-10'>
+      <section className='container py-4'>
         <Breadcrumb contents={breadcrumbs} />
         <div className='font-satoshi'>
-          <div className='flex gap-3 text-xl font-semibold text-secondary-foreground'>
+          <div className='flex gap-3 text-xl font-semibold text-secondary-foreground pb-2'>
             {blogDetails?.title}
             <div
               className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
@@ -216,13 +216,13 @@ export default function FlowPage({
                     <MdOutlineHouseSiding className='size-5' />
                     {t('city')}
                   </div>
-                  <div className='flex gap-2'>
+                  <div className='flex gap-2 l'>
                     {blogDetails.cities &&
                       blogDetails.cities.map((city: string) => (
-                        <Link href={`/home?mode=flow&city=${city}`} key={city}>
+                        <Link className='w-full' href={`/home?mode=flow&city=${city}`} key={city}>
                           <Badge
                             variant='outline'
-                            className='rounded-full border-primary bg-primary/10 text-primary'
+                            className='rounded-full max-w-full border-primary bg-primary/10 text-primary'
                           >
                             {city}
                           </Badge>
@@ -239,12 +239,13 @@ export default function FlowPage({
                     {blogDetails.categories &&
                       blogDetails.categories.map((category: string) => (
                         <Link
+                          className='w-full' 
                           href={`/home?mode=flow&category=${category}`}
                           key={category}
                         >
                           <Badge
                             variant='outline'
-                            className='rounded-full border-primary bg-primary/10 text-primary'
+                            className='rounded-full max-w-full border-primary bg-primary/10 text-primary'
                           >
                             {category}
                           </Badge>
@@ -259,12 +260,13 @@ export default function FlowPage({
                   </div>
                   <div className='flex gap-2'>
                     <Link
+                      className='w-full'
                       href={`/home?mode=flow&money=${blogDetails.price}`}
                       key={blogDetails.price}
                     >
                       <Badge
                         variant='outline'
-                        className='rounded-full border-primary bg-primary/10 text-primary'
+                        className='rounded-full max-w-full border-primary bg-primary/10 text-primary'
                       >
                         ${blogDetails.price}
                       </Badge>
@@ -279,14 +281,14 @@ export default function FlowPage({
                   <div className='flex gap-2'>
                     <Badge
                       variant='outline'
-                      className='rounded-full border-primary bg-primary/10 text-primary'
+                      className='rounded-full max-w-full border-primary bg-primary/10 text-primary'
                     >
                       {blogDetails.review?.views}
                     </Badge>
                   </div>
                 </div>
               </div>
-              <div className='order-first flex w-full flex-col justify-between gap-2 md:order-last'>
+              <div className='flex w-full flex-col justify-between gap-2 md:order-last order-2'>
                 <Card>
                   <CardContent className='space-y-3 p-4'>
                     <div>
@@ -327,6 +329,7 @@ export default function FlowPage({
                 </Card>
                 <div className='grid w-full grid-cols-2 gap-2'>
                   <Button
+                    className='btn btn--wide'
                     variant={blogDetails?.vote === 1 ? 'default' : 'outline'}
                     disabled={
                       isUpVoteLoading || isDownVoteLoading || blogDetails.me

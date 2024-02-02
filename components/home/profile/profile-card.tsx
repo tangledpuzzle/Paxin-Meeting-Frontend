@@ -139,7 +139,7 @@ function ProfileCard(profile: ProfileCardProps) {
           <CategoryCard categories={categories} />
         </div>
         <div className='flex justify-between'>
-          <Button variant='default' className='w-full font-roboto' asChild>
+          <Button variant='default' className='btn btn--wide w-full text-center font-roboto' asChild>
             <Link href='/profiles/[username]' as={`/profiles/${username}`}>
               {t('view_detail')}
             </Link>

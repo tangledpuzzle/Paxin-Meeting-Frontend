@@ -253,7 +253,7 @@ export default function ProfilePage({
               </Button>
               {!profileDetails.follow ? (
                 <Button
-                  className='ml-auto rounded-full'
+                  className='ml-auto rounded-full btn btn--wide !mr-0'
                   disabled={isFollowLoading || profileDetails.me}
                   onClick={handleFollow}
                 >
@@ -308,7 +308,7 @@ export default function ProfilePage({
                     </CardDescription>
                   </CardHeader>
                   <CardFooter>
-                    <Button className='w-full' asChild>
+                    <Button className='w-full btn btn--wide' asChild>
                       <Link href={`/flows/${profileDetails.latestblog.link}`}>
                         {t('view_post')}
                         <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
@@ -501,7 +501,7 @@ export default function ProfilePage({
                     </CardDescription>
                   </CardHeader>
                   <CardFooter>
-                    <Button className='w-full'>
+                    <Button className='w-full btn btn--wide'>
                       {t('view_post')}
                       <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Button>

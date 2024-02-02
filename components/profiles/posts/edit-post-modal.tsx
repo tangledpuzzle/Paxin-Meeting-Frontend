@@ -474,7 +474,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
               />
             </div>
             <DialogFooter>
-              <Button type='submit' disabled={isLoading}>
+              <Button type='submit' className='btn btn--wide'  disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
                 {t('save')}
               </Button>

@@ -252,7 +252,7 @@ export function SignUpCard() {
                 </Label>
               </div>
             </div>
-            <Button type='submit' className='!mt-8 w-full' disabled={loading}>
+            <Button type='submit' className='btn btn--wide w-full !mt-8'  disabled={loading}>
               {loading ? (
                 <Loader2 className='mr-2 size-4 animate-spin' />
               ) : null}
@@ -263,8 +263,8 @@ export function SignUpCard() {
       </div>
       <div className='mt-8 flex w-full max-w-sm items-center justify-center'>
         <div className='text-center'>{t('already_have_account')}</div>
-        <Button variant='link'>
-          <Link href='/auth/signin'>{t('sign_in')}</Link>
+        <Button variant='link' >
+          <Link  href='/auth/signin'>{t('sign_in')}</Link>
         </Button>
       </div>
     </div>

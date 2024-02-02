@@ -158,7 +158,7 @@ export function SignInCard() {
             />
             <div className='flex w-full justify-end'>
               <Button variant='link' asChild>
-                <Link href='/auth/forgot-password'>
+                <Link  href='/auth/forgot-password'>
                   {t('forgot_password_question')}
                 </Link>
               </Button>
@@ -166,7 +166,7 @@ export function SignInCard() {
             <Button
               type='submit'
               variant='default'
-              className='w-full'
+              className='btn btn--wide w-full' 
               disabled={loading}
             >
               {loading && <Loader2 className='mr-2 size-4 animate-spin' />}

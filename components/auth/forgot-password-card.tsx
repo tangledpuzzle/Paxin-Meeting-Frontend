@@ -103,7 +103,7 @@ export function ForgotPasswordCard() {
                 </FormItem>
               )}
             />
-            <Button type='submit' className='w-full' disabled={loading}>
+            <Button type='submit' className='btn btn--wide w-full'  disabled={loading}>
               {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
               {t('reset_password')}
             </Button>

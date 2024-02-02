@@ -108,7 +108,7 @@
     --popover-foreground: 215 20.2% 65.1%;
 
     --border: 0 0% 14%;
-    --input: 216 34% 17%;
+    --input: 0 0% 28%;
 
     --card: 224 71% 4%;
     --card-gradient: linear-gradient(to bottom, #1e1e1e, #131313);
@@ -189,4 +189,88 @@
   ::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 3px;}
   ::-webkit-scrollbar-corner { background-color: #646464;}
   ::-webkit-resizer { background-color: #666;}
+}
+.image-gallery-thumbnails-container {
+  text-align: left !important;
+}
+
+
+.btn {
+  background-size: 50%,100%;
+  }
+  
+  .btn::after {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10em;
+    -webkit-transition: -webkit-box-shadow .4s ease-in-out;
+    transition: -webkit-box-shadow .4s ease-in-out;
+    transition: box-shadow .4s ease-in-out;
+    transition: box-shadow .4s ease-in-out,-webkit-box-shadow .4s ease-in-out;
+  }
+  
+  .btn {
+    position: relative;
+    margin: auto;
+    background: linear-gradient(#00B887, #01B6D3,#01B6D3);
+  
+    background-size: auto, auto;
+    background-size: 35%,100%;
+    background-blend-mode: overlay,normal;
+    border-radius: 10em;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    -webkit-transition: background-size .4s ease-in-out;
+    transition: background-size .4s ease-in-out;
+  }
+
+  
+  .btn svg {
+    display: inline;
+    width: .8rem;
+    vertical-align: middle;
+    margin-left: .3rem;
+    -webkit-transition: -webkit-transform .15s ease-out;
+    transition: -webkit-transform .15s ease-out;
+    transition: transform .15s ease-out;
+    transition: transform .15s ease-out,-webkit-transform .15s ease-out;
+    position: relative;
+    top: -1px;
+  }
+  
+  .btn:hover:not([disabled]) svg {
+    -webkit-transform: translateX(3px);
+    transform: translateX(3px);
+  }
+  
+  .btn:hover::after {
+    -webkit-box-shadow: 0 0 24px #01B6D3;
+  
+    box-shadow: 0 0 24px #01B6D3;
+  
+  }
+
+@keyframes glow {
+  0% {
+  border-color: #00b887;
+  box-shadow: 0 0 5px rgba(0,255,0,.2), inset 0 0 5px rgba(0,255,0,.1), 0 0px 0 #393;
+  }	
+  100% {
+  border-color: #00b887;
+  box-shadow: 0 0 20px rgba(0,255,0,.6), inset 0 0 10px rgba(0,255,0,.4), 0 0px 0 #393;
+  }
+}
+
+input:focus {
+  -webkit-animation: glow 800ms ease-out infinite alternate;
+    animation: glow 800ms ease-out infinite alternate;
+    border-color: #00b887;
+    box-shadow: 0 0 5px rgba(0,255,0,.2), inset 0 0 5px rgba(0,255,0,.1), 0 0px 0 #393;
+    color: #efe;
+    outline: none;
 }

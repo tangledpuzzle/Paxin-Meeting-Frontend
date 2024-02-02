@@ -363,3 +363,32 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* line gardient */
+
+@keyframes hueRotate {
+  0% {
+    filter: hue-rotate(0) blur(30px)
+  }
+
+  100% {
+    filter: hue-rotate(360deg) blur(30px)
+  }
+}
+
+footer {
+  position: relative;
+}
+.gradient-line:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  right: 0;
+  bottom: 0px;
+  height: 75px;
+  filter: blur(30px);
+  -webkit-filter: blur(30px);
+  background-image: conic-gradient(from 180deg at 50% 100%,transparent 0,transparent 27%,#ff3998 27%,#d764ff 36.04%,#00b5ff 58.23%,#0fd 63%,#54fa43 73%,transparent 73%,transparent 100%);
+  animation: hueRotate 2.5s linear infinite;
+}

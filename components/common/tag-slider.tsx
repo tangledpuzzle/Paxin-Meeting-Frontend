@@ -18,7 +18,7 @@ interface TagSliderProps {
 function SliderNextArrow(props: any) {
   const { onClick } = props;
   return (
-    <div className='absolute right-0 top-[10px] z-10 flex h-full justify-center'>
+    <div className='absolute  right-0 top-[10px] z-10 flex h-full justify-center'>
       <Button className='size-6 rounded-full' onClick={onClick} size='icon'>
         <ChevronRightIcon className='size-5 text-white' />
       </Button>

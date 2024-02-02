@@ -96,7 +96,7 @@ export function ContactSection() {
               </Label>
             </div>
           </div>
-          <Button type='submit' variant='default' className='w-full'>
+          <Button type='submit' variant='default' className='w-full btn btn--wide'>
             {t('send_message')}
           </Button>
         </div>

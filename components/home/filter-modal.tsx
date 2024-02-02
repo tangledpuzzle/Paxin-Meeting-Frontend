@@ -19,6 +19,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import GlowingButton from '@/components/moderns/black-botton';
 
 interface Option {
   value: number | string;
@@ -280,9 +281,9 @@ export function FilterModal() {
   return (
     <Dialog open={isFilterModalOpen} onOpenChange={setIsFilterModalOpen}>
       <DialogTrigger asChild>
-        <Button variant='outline'>
-          <Filter className='mr-2 size-4' />
-          {t('filters')}
+        <Button variant='clear'>
+          {/* <Filter className='mr-2 size-4' /> */}
+          <GlowingButton buttonText={t('filters')} />
         </Button>
       </DialogTrigger>
       <DialogContent className='max-w-xl rounded-lg sm:mx-auto'>

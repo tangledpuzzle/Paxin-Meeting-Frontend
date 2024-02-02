@@ -709,7 +709,8 @@ export default function SettingPage() {
                           >
                             {t('delete_account')}
                           </Button>
-                          <Button type='submit' disabled={isBasicLoading}>
+                          <Button type='submit' disabled={isBasicLoading} className='btn btn--wide !ml-0'
+>
                             {isBasicLoading && (
                               <Loader2 className='mr-2 size-4 animate-spin' />
                             )}
@@ -742,6 +743,8 @@ export default function SettingPage() {
                       <Button
                         onClick={submitGallery}
                         disabled={isGalleryLoading}
+                        className='btn btn--wide'
+
                       >
                         {isGalleryLoading && (
                           <Loader2 className='mr-2 size-4 animate-spin' />
@@ -766,9 +769,10 @@ export default function SettingPage() {
                       />
                     </div>
                     <div className='flex w-full justify-end gap-2'>
-                      <Button
+                      <Button 
                         onClick={submitAddtionalInfo}
                         disabled={isAdditionalLoading}
+                        className='btn btn--wide'
                       >
                         {isAdditionalLoading && (
                           <Loader2 className='mr-2 size-4 animate-spin' />
@@ -789,7 +793,7 @@ export default function SettingPage() {
                     value={rechargecode}
                     onChange={(e) => setRechargecode(e.target.value)}
                   ></Input>
-                  <Button onClick={submitRechargecode}>
+                  <Button onClick={submitRechargecode} className='btn btn--wide'>
                     {isRechargeLoading && (
                       <Loader2 className='mr-2 size-4 animate-spin' />
                     )}
