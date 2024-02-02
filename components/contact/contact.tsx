@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 export function ContactSection() {
   const t = useTranslations('main');
@@ -90,13 +91,19 @@ export function ContactSection() {
               <Checkbox id='terms' />
               <Label htmlFor='terms'>
                 {t('you_agree_our_friendly')}{' '}
-                <Button variant='link' className='px-1'>
-                  {t('privacy_policy')}
+                <Button variant='link' className='px-1' asChild>
+                  <Link href='/privacy' target='_blank'>
+                    {t('privacy_policy')}
+                  </Link>
                 </Button>
               </Label>
             </div>
           </div>
-          <Button type='submit' variant='default' className='w-full btn btn--wide'>
+          <Button
+            type='submit'
+            variant='default'
+            className='btn btn--wide w-full'
+          >
             {t('send_message')}
           </Button>
         </div>

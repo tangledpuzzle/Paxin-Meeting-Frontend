@@ -54,10 +54,10 @@ function ServiceCard({
         ))}
       </div>
       <div className='whitespace-nowrap text-center font-satoshi text-xs font-medium text-white sm:text-lg'>
-        {t(title)}
+        {t(title as keyof IntlMessages['main'])}
       </div>
       <div className='prose hidden text-center font-satoshi text-sm text-white/70 sm:block'>
-        {t(description)}
+        {t(description as keyof IntlMessages['main'])}
       </div>
     </div>
   );
