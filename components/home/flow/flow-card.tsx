@@ -179,7 +179,7 @@ function FlowCard(profile: FlowCardProps) {
               </div>
             </Link>
           </div>
-          <div className='grid grid-cols-3 items-center gap-2'>
+          <div className='flex items-center justify-end gap-2'>
             <ReportModal>
               <Button
                 variant='outline'
