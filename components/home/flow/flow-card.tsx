@@ -115,7 +115,7 @@ function FlowCard(profile: FlowCardProps) {
             <div className='absolute inset-0 flex items-center justify-center rounded-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
         </Link>
-        <div className='relative w-full max-w-[100%]'>
+        <div className='relative w-full max-w-[100%] h-[40px]'>
           <TagSlider tags={tags} />
         </div>
         <div className='relative'>
@@ -134,36 +134,38 @@ function FlowCard(profile: FlowCardProps) {
             {subtitle}
           </div>
         </div>
-        <div className='mt-auto flex gap-3'>
-          <Link href={{ query: { ...queries, money: price } }}>
+        <div className='mt-auto flex gap-3 grow'>
+          <Link className='w-full' href={{ query: { ...queries, money: price } }}>
             <PriceBadge>{price}</PriceBadge>
           </Link>
-          <Link href={{ query: { ...queries, city: location } }}>
+          <Link className='w-full' href={{ query: { ...queries, city: location } }}>
             <LocationBadge>{location}</LocationBadge>
           </Link>
-          <Link href={{ query: { ...queries, category: category } }}>
+          <Link className='w-full' href={{ query: { ...queries, category: category } }}>
             <CategoryBadge>{category}</CategoryBadge>
           </Link>
         </div>
-        <div className='flex justify-between'>
-          <Link href='/profiles/[username]' as={`/profiles/${user.username}`}>
-            <div className='flex gap-2'>
-              <ProfileAvatar
-                src={user.avatar}
-                username={user.username}
-                online={user.online}
-              />
-              <div className='flex flex-col justify-between'>
-                <div className='text-md text-secondary-foreground'>
-                  {user.username}
-                </div>
-                <div className='text-xs text-muted-foreground'>
-                  {t('visit_profile')}
+        <div className='grid grid-cols-3'>
+          <div className='col-span-2'>
+            <Link href='/profiles/[username]' as={`/profiles/${user.username}`}>
+              <div className='flex gap-2'>
+                <ProfileAvatar
+                  src={user.avatar}
+                  username={user.username}
+                  online={user.online}
+                />
+                <div className='flex flex-col justify-between'>
+                  <div className='text-md text-secondary-foreground'>
+                    {user.username}
+                  </div>
+                  <div className='text-xs text-muted-foreground'>
+                    {t('visit_profile')}
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
-          <div className='flex gap-2'>
+            </Link>
+          </div>
+          <div className='grid grid-cols-3 gap-2'>
             <ReportModal>
               <Button
                 variant='outline'
@@ -171,7 +173,7 @@ function FlowCard(profile: FlowCardProps) {
                 className='rounded-full'
                 data-tooltip-id='my-tooltip-1'
               >
-                <FaExclamation className='size-5 text-gray-500 dark:text-white' />
+                <FaExclamation className='size-4 text-gray-500 dark:text-white' />
               </Button>
             </ReportModal>
             <Button
@@ -181,7 +183,7 @@ function FlowCard(profile: FlowCardProps) {
               data-tooltip-id='my-tooltip-2'
               onClick={handleLinkCopy}
             >
-              <BiLink className='size-5 text-gray-500 dark:text-white' />
+              <BiLink className='size-4 text-gray-500 dark:text-white' />
             </Button>
             {user.telegram && (
               <Button
@@ -195,7 +197,7 @@ function FlowCard(profile: FlowCardProps) {
                   href={`tg://resolve?domain=${user.telegram}`}
                   target='_blank'
                 >
-                  <FaTelegramPlane className='size-5 text-gray-500 dark:text-white' />
+                  <FaTelegramPlane className='size-4 text-gray-500 dark:text-white' />
                 </Link>
               </Button>
             )}

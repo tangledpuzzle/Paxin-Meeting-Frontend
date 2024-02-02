@@ -217,9 +217,9 @@ export default function ProfilePage({
 
   return !error ? (
     fetchedData && profileDetails ? (
-      <section className='container py-10'>
+      <section className='container py-4'>
         <Breadcrumb contents={breadcrumbs} />
-        <div className='grid gap-4 md:grid-cols-3 xl:grid-cols-4'>
+        <div className='grid gap-4 grid-cols-1 md:grid-cols-3 xl:grid-cols-4'>
           <div className=''>
             <div className='w-full'>
               <ImageGallery
@@ -404,7 +404,7 @@ export default function ProfilePage({
               </div>
             </div>
             <Separator />
-            <div className='my-3 flex gap-24'>
+            <div className='my-3 flex gap-24 flex-col md:flex-row'>
               <div>
                 <div className='flex items-center gap-2'>
                   <BiSolidCalendar className='size-4' />
