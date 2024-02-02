@@ -5,9 +5,9 @@ export async function POST(req: NextRequest) {
     const { code, password } = await req.json();
 
     const res = await fetch(
-      `${process.env.API_URL}//api/auth/resetpassword/${code}`,
+      `${process.env.API_URL}/api/auth/resetpassword/${code}`,
       {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: 'Failed to fetch data' },
       { status: 500 }

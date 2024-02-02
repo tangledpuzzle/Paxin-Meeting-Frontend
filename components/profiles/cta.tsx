@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { PaxContext } from '@/context/context';
 import { useContext } from 'react';
 import { PlanUpgradeModal } from './plan-upgrade-modal';
+import Link from 'next/link';
 
 interface CTAProps {
   title: string;
@@ -42,9 +43,11 @@ export default function CTASection({ title, description, icon }: CTAProps) {
             {user?.storage || 0} / {user?.limitStorage || 0} MB
           </Button>
         </PlanUpgradeModal>
-        <Button variant='outline' className='w-full'>
-          <FaSackDollar className='mr-2 size-4' />
-          {user?.balance || 0}
+        <Button variant='outline' className='w-full' asChild>
+          <Link href='/profile/setting?tab=accounting'>
+            <FaSackDollar className='mr-2 size-4' />
+            {user?.balance || 0}
+          </Link>
         </Button>
         <Button variant='outline' className='w-full'>
           <FaUserClock className='mr-2 size-4 text-primary' />

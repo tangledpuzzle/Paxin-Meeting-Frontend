@@ -6,6 +6,6 @@ export const fontRoboto = localFont({
 })
 
 export const fontSatoshi = localFont({
-  src: "../public/fonts/DejaVuSans.ttf",
+  src: "../public/fonts/softclubhelveticabold.otf",
   variable: "--font-satoshi",
 })
