@@ -19,6 +19,8 @@ export async function GET(req: NextRequest) {
 
     const data = await res.json();
 
+    console.log(data.data);
+
     const profile = {
       id: data.data.ID,
       username: data.data.Name,
@@ -34,11 +36,10 @@ export async function GET(req: NextRequest) {
       ),
       country: data.data.Profile[0].Lang,
       latestblog:
-        data.data.highestIsUpBlog
+        data.data.highestIsUpBlog.ID > 0
           ? {
               title:
-                data.data.highestIsUpBlog
-                .MultilangTitle[
+                data.data.highestIsUpBlog.MultilangTitle[
                   locale.charAt(0).toUpperCase() + locale.slice(1)
                 ],
               subtitle:
@@ -49,11 +50,10 @@ export async function GET(req: NextRequest) {
               review: {
                 votes: data.data.totalVotes,
                 views: data.data.highestIsUpBlog.Views,
-
               },
               link: `${data.data.highestIsUpBlog.UniqId}/${data.data.highestIsUpBlog.Slug}`,
             }
-          : undefined,
+          : null,
       review: {
         totaltime: data.data.TotalOnlineHours[0],
         monthtime: data.data.OnlineHours[0],
@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
         : false,
       me: session?.user?.id === data.data.ID,
     };
-    
+
     return NextResponse.json(profile);
   } catch (error) {
     return NextResponse.json(
