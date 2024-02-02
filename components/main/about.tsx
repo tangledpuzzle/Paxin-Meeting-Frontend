@@ -3,6 +3,7 @@ import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
 import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export default function AboutSection() {
   const t = useTranslations('main');
@@ -23,8 +24,9 @@ export default function AboutSection() {
           style={{
             boxShadow: '0px 4px 15px 8px rgba(88, 170, 241, 0.15)',
           }}
+          asChild
         >
-          {t('about_us')}
+          <Link href='/about'>{t('about_us')}</Link>
         </Button>
       </div>
     </div>

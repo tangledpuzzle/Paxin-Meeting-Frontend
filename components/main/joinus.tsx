@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export default function JoinUsSection() {
   const t = useTranslations('main');
@@ -26,8 +27,9 @@ export default function JoinUsSection() {
           variant='secondary'
           className='bg-white text-black hover:text-white'
           aria-label='Join Now'
+          asChild
         >
-          {t('join_now')}
+          <Link href='/auth/signup'>{t('join_now')}</Link>
         </Button>
       </div>
     </div>
