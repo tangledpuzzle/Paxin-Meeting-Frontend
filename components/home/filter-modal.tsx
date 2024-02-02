@@ -42,7 +42,7 @@ export function FilterModal() {
   );
 
   const [hashTag, setHashTag] = useState<Option[]>([]);
-  const [hashtagURL, setHashtagURL] = useState<string>('/api/hashtags/get');
+  const [hashtagURL, setHashtagURL] = useState<string>('');
   const [city, setCity] = useState<Option[]>();
   const [category, setCategory] = useState<Option[]>();
   const [minPrice, setMinPrice] = useState<string>('');

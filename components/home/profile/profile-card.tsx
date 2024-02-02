@@ -7,7 +7,7 @@ import { TiMessage } from 'react-icons/ti';
 import { TagSlider } from '@/components/common/tag-slider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-
+import { TbPhotoX } from 'react-icons/tb';
 import Link from 'next/link';
 
 import { useTranslations } from 'next-intl';
@@ -60,13 +60,17 @@ function ProfileCard(profile: ProfileCardProps) {
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
         <div className='relative'>
           <div className='min-h-[320px] w-full md:min-h-[416px]'>
-            <Image
-              src={avatar}
-              layout='fill'
-              style={{ objectFit: 'contain' }}
-              className='rounded-b-m rounded-md'
-              alt='profile'
-            />
+            {avatar ? (
+              <Image
+                src={avatar}
+                layout='fill'
+                style={{ objectFit: 'contain' }}
+                className='rounded-b-m rounded-md'
+                alt='profile'
+              />
+            ) : (
+              <TbPhotoX className='size-full' />
+            )}
           </div>
           <Link
             href='/profiles/[username]'
