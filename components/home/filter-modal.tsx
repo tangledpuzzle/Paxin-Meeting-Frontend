@@ -1,5 +1,4 @@
 // import React, { useState } from "react"
-import { Filter } from 'lucide-react';
 import Select from 'react-select';
 
 import { Button } from '@/components/ui/button';
