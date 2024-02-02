@@ -19,8 +19,6 @@ export async function GET(req: NextRequest) {
 
     const data = await res.json();
 
-    console.log(data.data);
-
     const profile = {
       id: data.data.ID,
       username: data.data.Name,
