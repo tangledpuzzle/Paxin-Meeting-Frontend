@@ -74,13 +74,13 @@ export function ReportModal({ children }: ReportModalProps) {
             <Label htmlFor='username' className='text-right'>
               {t('title_of_report')}:
             </Label>
-            <Input id='username' value='' />
+            <Input id='username' />
           </div>
           <div className=''>
             <Label htmlFor='username' className='text-right'>
               {t('description')}:
             </Label>
-            <Textarea id='username' rows={4} value='' />
+            <Textarea id='username' rows={4} />
           </div>
         </div>
         <DialogFooter>

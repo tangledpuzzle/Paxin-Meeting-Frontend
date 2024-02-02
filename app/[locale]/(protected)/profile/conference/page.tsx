@@ -1,52 +1,82 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+// import { useEffect, useState } from 'react';
+// import Image from 'next/image';
+// import Link from 'next/link';
 import { HiUserGroup } from 'react-icons/hi';
 
-import { Button } from '@/components/ui/button';
+// import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { MeetCreateModal } from '@/components/profiles/conference/meet-create-modal';
-import { MeetJoinModal } from '@/components/profiles/conference/meet-join-modal';
+// import { MeetCreateModal } from '@/components/profiles/conference/meet-create-modal';
+// import { MeetJoinModal } from '@/components/profiles/conference/meet-join-modal';
 import CTASection from '@/components/profiles/cta';
 import { useTranslations } from 'next-intl';
+import { useContext, useEffect, useRef } from 'react';
+import { PaxContext } from '@/context/context';
 
 // Custom formatting for date and time
-const timeZone: Intl.DateTimeFormatOptions = {
-  hour: '2-digit',
-  minute: '2-digit',
-  hour12: true,
-};
+// const timeZone: Intl.DateTimeFormatOptions = {
+//   hour: '2-digit',
+//   minute: '2-digit',
+//   hour12: true,
+// };
 
-const dateString: Intl.DateTimeFormatOptions = {
-  weekday: 'short',
-  month: 'short',
-  day: 'numeric',
-};
+// const dateString: Intl.DateTimeFormatOptions = {
+//   weekday: 'short',
+//   month: 'short',
+//   day: 'numeric',
+// };
 
 export default function ConferencePage() {
   const t = useTranslations('main');
-  const [time, setTime] = useState<Date>(new Date());
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const { user, userMutate } = useContext(PaxContext);
+  // const [time, setTime] = useState<Date>(new Date());
 
-  const updateTime = (): void => {
-    setTime(new Date());
-  };
+  // const updateTime = (): void => {
+  //   setTime(new Date());
+  // };
+
+  // useEffect(() => {
+  //   const timer: ReturnType<typeof setInterval> = setInterval(updateTime, 1000);
+
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, []);
+  userMutate();
 
   useEffect(() => {
-    const timer: ReturnType<typeof setInterval> = setInterval(updateTime, 1000);
+    if (iframeRef.current) {
+      console.log(user?.username, user?.email, 'sdf');
+      const doc =
+        iframeRef.current.contentDocument ||
+        iframeRef.current.contentWindow?.document;
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+      doc
+        ?.querySelector('form')
+        ?.querySelectorAll('input')
+        .item(0)
+        .setAttribute('value', user?.username || 'sdf');
+      doc
+        ?.querySelector('form')
+        ?.querySelectorAll('input')
+        .item(1)
+        .setAttribute('value', user?.email || 'sdf');
+    }
+  }, [iframeRef, user]);
 
   return (
     <div className='p-4'>
       <CTASection title={t('conference')} description='' icon={HiUserGroup} />
       <Separator className='my-4' />
       <div className='flex h-[calc(100vh_-_15rem)] w-full flex-col rounded-xl bg-background p-4 sm:h-[calc(100vh_-_13rem)]'>
-        <div className='flex w-full items-center justify-between'>
+        <iframe
+          src='https://meet.paxintrade.com/'
+          className='size-full'
+          ref={iframeRef}
+        />
+        {/* <div className='flex w-full items-center justify-between'>
           <Link href='/' className='flex items-center space-x-2'>
             <Image
               src='/logo-black.svg'
@@ -99,7 +129,7 @@ export default function ConferencePage() {
           <div className='mt-auto w-full justify-center text-center text-sm text-muted-foreground'>
             {t('no_one_can_join_meeting_unless_invited_or_admitted_by_host')}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

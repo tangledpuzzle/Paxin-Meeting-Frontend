@@ -201,7 +201,7 @@ export default function FlowPage({
         <div className='my-4'>
           <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
         </div>
-        <div className='w-full'>
+        <div className='w-1/2'>
           <ImageGallery
             items={blogDetails?.gallery || []}
             thumbnailPosition={`${windowWidth > 640 ? 'right' : 'bottom'}`}
