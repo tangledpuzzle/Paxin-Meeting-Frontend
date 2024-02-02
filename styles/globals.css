@@ -272,7 +272,7 @@ input:focus {
     animation: glow 800ms ease-out infinite alternate;
     border-color: #00b887;
     box-shadow: 0 0 5px rgba(0,255,0,.2), inset 0 0 5px rgba(0,255,0,.1), 0 0px 0 #393;
-    color: #efe;
+    color: #02b79d;
     outline: none;
 }
 
