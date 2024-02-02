@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
       },
       telegram: {
         activated: data.data.User.TelegramActivated,
-        token: data.data.User.PasswordResetToken,
+        token: `code${data.data.User.TelegramToken}`,
       },
       additionalinfo:
         data.data.MultilangAdditional[
