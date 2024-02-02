@@ -89,7 +89,7 @@ const plans = [
 
 export function PlanUpgradeModal({ children }: PlanUpgradeModalProps) {
   const t = useTranslations('main');
-  const { currentPlan, setCurrentPlan } = useContext(PaxContext);
+  const { user, currentPlan, setCurrentPlan } = useContext(PaxContext);
 
   return (
     <Dialog>
@@ -102,7 +102,12 @@ export function PlanUpgradeModal({ children }: PlanUpgradeModalProps) {
           <div className='flex items-center gap-4'>
             <DialogTitle>{t('plans')}</DialogTitle>
             <div className='rounded-lg bg-primary/10 px-2 py-1 text-xs text-primary'>
-              {t('available_to_you')}: 100₽
+              {t('available_to_you')}:{' '}
+              {user?.balance.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 0,
+              })}
             </div>
           </div>
         </DialogHeader>
