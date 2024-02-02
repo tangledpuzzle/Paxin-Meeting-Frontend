@@ -59,11 +59,11 @@ function ProfileCard(profile: ProfileCardProps) {
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-3'>
         <div className='relative'>
-          <div className='min-h-[320px] md:min-h-[416px] w-full'>
+          <div className='min-h-[320px] w-full md:min-h-[416px]'>
             <Image
               src={avatar}
               layout='fill'
-              style={{objectFit:"contain"}}
+              style={{ objectFit: 'contain' }}
               className='rounded-b-m rounded-md'
               alt='profile'
             />
@@ -137,7 +137,11 @@ function ProfileCard(profile: ProfileCardProps) {
           <CategoryCard categories={categories} />
         </div>
         <div className='flex justify-between'>
-          <Button variant='default' className='btn btn--wide w-full text-center font-roboto' asChild>
+          <Button
+            variant='default'
+            className='btn btn--wide w-full text-center font-roboto'
+            asChild
+          >
             <Link href='/profiles/[username]' as={`/profiles/${username}`}>
               {t('view_detail')}
             </Link>

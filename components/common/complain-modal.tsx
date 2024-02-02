@@ -64,13 +64,13 @@ export function ComplainModal({ children }: ComplainModalProps) {
             <Label htmlFor='username' className='text-right'>
               {t('title_of_complaint')}:
             </Label>
-            <Input id='username' value='' />
+            <Input id='username' />
           </div>
           <div className=''>
             <Label htmlFor='username' className='text-right'>
               {t('description')}:
             </Label>
-            <Textarea id='username' rows={4} value='' />
+            <Textarea id='username' rows={4} />
           </div>
         </div>
         <DialogFooter>

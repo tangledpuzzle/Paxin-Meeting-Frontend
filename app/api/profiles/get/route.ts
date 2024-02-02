@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
     const data = await res.json();
 
     const profiles = data.data.map((item: any) => {
+      console.log(item.User);
       return {
         username: item.User.Name,
         bio: item.MultilangDescr[
