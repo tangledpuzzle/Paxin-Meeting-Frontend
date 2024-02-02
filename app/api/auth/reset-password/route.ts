@@ -5,9 +5,9 @@ export async function POST(req: NextRequest) {
     const { code, password } = await req.json();
 
     const res = await fetch(
-      `${process.env.API_URL}//api/auth/resetpassword/${code}`,
+      `${process.env.API_URL}/api/auth/resetpassword/${code}`,
       {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
