@@ -255,7 +255,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className='max-h-[90%] w-full overflow-y-auto sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
+      <DialogContent className='max-h-[100%] md:max-h-[90%] w-full overflow-y-auto sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
         <DialogHeader className='flex flex-row items-center gap-3'>
           <div className='rounded-full bg-primary/10 p-3 text-primary'>
             <TfiWrite className='size-5' />
