@@ -38,7 +38,7 @@ export function ServicesSection() {
         {services.map((service, index) => (
           <div
             key={index}
-            className='rounded-lg bg-white p-6 shadow-primary drop-shadow-[0_25px_25px_rgba(0,156,0,0.1)] dark:bg-secondary'
+            className='rounded-lg bg-white p-6 shadow-primary drop-shadow-[0_25px_25px_rgba(0,156,0,0.1)] dark:bg-black/40'
           >
             <div className='flex size-12 items-center justify-center rounded-full bg-primary/10'>
               <service.icon className='size-6 text-primary' />

@@ -14,7 +14,7 @@ export function ContactSection() {
   const t = useTranslations('main');
   return (
     <div className='grid w-full md:grid-cols-2'>
-      <div className='flex flex-col items-center justify-center px-8 py-24 lg:px-16'>
+      <div className='flex flex-col items-center justify-center px-8 py-4 lg:px-16'>
         <div className='flex w-full max-w-md flex-col text-left text-2xl sm:text-3xl'>
           <span>{t('get_in_touch')}</span>{' '}
           <span className='text-sm text-muted-foreground'>
@@ -103,7 +103,7 @@ export function ContactSection() {
       </div>
       <div className='hidden size-full items-center justify-center p-8 md:flex'>
         <Image
-          src='/images/contact/contact.png'
+          src='/images/contact/ct-glasses.jpg'
           alt='intro'
           width={1024}
           height={1024}

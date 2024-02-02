@@ -10,7 +10,7 @@ export function ContactSection() {
       <div className='w-full max-w-5xl px-8 text-center text-white'>
         {t('join_our_virtual_ecosystem')}
       </div>
-      <Button asChild>
+      <Button className='btn btn--wide !m-0' asChild>
         <Link href='/contact'>{t('contact_us')}</Link>
       </Button>
     </div>

@@ -14,13 +14,13 @@ export function IntroSection() {
           {t('what_is_paxintrade')}
         </div>
         <div className='text-sm'>{t('what_is_paxintrade_description')}</div>
-        <Button asChild className='my-4'>
+        <Button asChild className='my-4 btn btn--wide !m-0 !mt-4'>
           <Link href='/contact'>{t('contact_us')}</Link>
         </Button>
       </div>
       <div className='size-full'>
         <Image
-          src='/images/about/intro.png'
+          src='/images/about/contact-bg.jpg'
           alt='intro'
           width={394}
           height={394}
