@@ -34,21 +34,24 @@ export async function GET(req: NextRequest) {
       ),
       country: data.data.Profile[0].Lang,
       latestblog:
-        data.data.Blogs.length > 0
+        data.data.highestIsUpBlog
           ? {
               title:
-                data.data.Blogs[0].MultilangTitle[
+                data.data.highestIsUpBlog
+                .MultilangTitle[
                   locale.charAt(0).toUpperCase() + locale.slice(1)
                 ],
               subtitle:
-                data.data.Blogs[0].MultilangDescr[
+                data.data.highestIsUpBlog.MultilangDescr[
                   locale.charAt(0).toUpperCase() + locale.slice(1)
                 ],
-              hero: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${data.data.Blogs[0].photos[0].files[0].path}`,
+              hero: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${data.data.highestIsUpBlog.photos[0].files[0].path}`,
               review: {
-                votes: data.data.Blogs[0].Views,
+                votes: data.data.totalVotes,
+                views: data.data.highestIsUpBlog.Views,
+
               },
-              link: `${data.data.Blogs[0].UniqId}/${data.data.Blogs[0].Slug}`,
+              link: `${data.data.highestIsUpBlog.UniqId}/${data.data.highestIsUpBlog.Slug}`,
             }
           : undefined,
       review: {
@@ -81,7 +84,7 @@ export async function GET(req: NextRequest) {
         : false,
       me: session?.user?.id === data.data.ID,
     };
-
+    
     return NextResponse.json(profile);
   } catch (error) {
     return NextResponse.json(
