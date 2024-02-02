@@ -33,6 +33,7 @@ export function ProfileNav({ items, setOpen }: ProfileNavProps) {
               onClick={() => {
                 if (setOpen) setOpen(false);
               }}
+              target={item.external ? '_blank' : undefined}
             >
               <span
                 className={cn(
