@@ -38,6 +38,7 @@ function ServiceCard({
   description: string;
   icons: string[];
 }) {
+  const t = useTranslations('main');
   return (
     <div className='bg-radial-gradient-2 relative flex w-full max-w-5xl flex-col items-center justify-center rounded-xl p-8'>
       <div className='my-4 flex items-center justify-start gap-4 bg-transparent sm:my-8'>
@@ -53,10 +54,10 @@ function ServiceCard({
         ))}
       </div>
       <div className='whitespace-nowrap text-center font-satoshi text-xs font-medium text-white sm:text-lg'>
-        {title}
+        {t(title as keyof IntlMessages['main'])}
       </div>
       <div className='prose hidden text-center font-satoshi text-sm text-white/70 sm:block'>
-        {description}
+        {t(description as keyof IntlMessages['main'])}
       </div>
     </div>
   );
@@ -84,7 +85,7 @@ export default function ServicesSection() {
           />
         ))}
         <div className='absolute flex size-full items-center justify-center'>
-          <div className='size-24 rounded-full bg-white p-3 dark:bg-black sm:h-36 sm:w-36 sm:p-4'>
+          <div className='size-24 rounded-full bg-white p-3 dark:bg-black sm:size-36 sm:p-4'>
             <Image
               src='/logo.svg'
               width={50}

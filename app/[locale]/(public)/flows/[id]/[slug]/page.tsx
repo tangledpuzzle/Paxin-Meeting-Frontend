@@ -185,7 +185,7 @@ export default function FlowPage({
       <section className='container py-4'>
         <Breadcrumb contents={breadcrumbs} />
         <div className='font-satoshi'>
-          <div className='flex gap-3 text-xl font-semibold text-secondary-foreground pb-2'>
+          <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
             {blogDetails?.title}
             <div
               className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
@@ -216,13 +216,17 @@ export default function FlowPage({
                     <MdOutlineHouseSiding className='size-5' />
                     {t('city')}
                   </div>
-                  <div className='flex gap-2 l'>
+                  <div className='l flex gap-2'>
                     {blogDetails.cities &&
                       blogDetails.cities.map((city: string) => (
-                        <Link className='w-full' href={`/home?mode=flow&city=${city}`} key={city}>
+                        <Link
+                          className='w-full'
+                          href={`/home?mode=flow&city=${city}`}
+                          key={city}
+                        >
                           <Badge
                             variant='outline'
-                            className='rounded-full max-w-full border-primary bg-primary/10 text-primary'
+                            className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
                           >
                             {city}
                           </Badge>
@@ -239,13 +243,13 @@ export default function FlowPage({
                     {blogDetails.categories &&
                       blogDetails.categories.map((category: string) => (
                         <Link
-                          className='w-full' 
+                          className='w-full'
                           href={`/home?mode=flow&category=${category}`}
                           key={category}
                         >
                           <Badge
                             variant='outline'
-                            className='rounded-full max-w-full border-primary bg-primary/10 text-primary'
+                            className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
                           >
                             {category}
                           </Badge>
@@ -266,9 +270,13 @@ export default function FlowPage({
                     >
                       <Badge
                         variant='outline'
-                        className='rounded-full max-w-full border-primary bg-primary/10 text-primary'
+                        className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
                       >
-                        ${blogDetails.price}
+                        {blogDetails.price?.toLocaleString('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                          maximumFractionDigits: 0,
+                        })}
                       </Badge>
                     </Link>
                   </div>
@@ -281,14 +289,14 @@ export default function FlowPage({
                   <div className='flex gap-2'>
                     <Badge
                       variant='outline'
-                      className='rounded-full max-w-full border-primary bg-primary/10 text-primary'
+                      className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
                     >
                       {blogDetails.review?.views}
                     </Badge>
                   </div>
                 </div>
               </div>
-              <div className='flex w-full flex-col justify-between gap-2 md:order-last order-2'>
+              <div className='order-2 flex w-full flex-col justify-between gap-2 md:order-last'>
                 <Card>
                   <CardContent className='space-y-3 p-4'>
                     <div>

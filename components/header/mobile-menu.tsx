@@ -3,6 +3,7 @@
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
+import { FaSignInAlt } from 'react-icons/fa';
 import { IoMdInformationCircle } from 'react-icons/io';
 import { MdHome, MdLocalPhone } from 'react-icons/md';
 import { RiMenu3Line } from 'react-icons/ri';
@@ -18,19 +19,24 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenuLabel } from '@/components/ui/dropdown-menu';
-import { PaxContext } from '@/context/context';
 import { getInitials } from '@/lib/utils';
 import { signOut } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { LanguageSelector } from './language';
 
-export function MobileMenu() {
+interface MobileMenuProps {
+  user: {
+    email: string;
+    avatar: string;
+    username: string;
+  } | null;
+}
+
+export function MobileMenu({ user }: MobileMenuProps) {
   const { setTheme, theme } = useTheme();
   const t = useTranslations('main');
-  const { user } = useContext(PaxContext);
   const router = useRouter();
 
   return (
@@ -68,6 +74,14 @@ export function MobileMenu() {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
             </>
+          )}
+          {!user && (
+            <DropdownMenuItem className='cursor-pointer text-base' asChild>
+              <Link href='/auth/signin'>
+                <FaSignInAlt className='mr-2 size-5 text-primary' />
+                {t('sign_in')}
+              </Link>
+            </DropdownMenuItem>
           )}
           <DropdownMenuItem className='cursor-pointer text-base' asChild>
             <Link href='/home'>
