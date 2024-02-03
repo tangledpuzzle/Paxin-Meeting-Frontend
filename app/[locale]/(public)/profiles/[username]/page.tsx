@@ -334,7 +334,7 @@ export default function ProfilePage({
             </div>
           </div>
           <div className='md:col-span-2 xl:col-span-3'>
-            <div className='grid grid-cols-5'>
+            <div className='grid grid-cols-1'>
               <div className='col-span-4 w-full'>
                 <div className=''>
                   <div className='flex gap-3 text-xl font-semibold text-secondary-foreground'>
@@ -350,17 +350,18 @@ export default function ProfilePage({
                     {profileDetails.bio}
                   </div>
                 </div>
-                <div className='my-4'>
+                <div className='my-4 max-w-[390px]'>
                   <TagSlider tags={profileDetails.hashtags} mode='profile' />
                 </div>
               </div>
-              <div className='flex items-start justify-end'>
+              <div className='items-start justify-end hidden'>
+                <div>место для вашей рекламы, <span className='text-green-500 underline'>подбробнее</span></div>
                 <QRCodeModal
                   qrcode={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${profileDetails.username}`}
                 >
                   <QRCode
                     value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${profileDetails.username}`}
-                    className='size-[100px] min-w-[100px] cursor-pointer'
+                    className='size-[50px] min-w-[50px] cursor-pointer mb-4'
                   />
                 </QRCodeModal>
               </div>
@@ -408,7 +409,7 @@ export default function ProfilePage({
               </div>
             </div>
             <Separator />
-            <div className='my-3 flex flex-col gap-24 md:flex-row'>
+            <div className='my-3 flex flex-col gap-4 md:gap-24 md:flex-row'>
               <div>
                 <div className='flex items-center gap-2'>
                   <BiSolidCalendar className='size-4' />

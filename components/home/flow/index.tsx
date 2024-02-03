@@ -75,7 +75,7 @@ export default function FlowSection() {
 
   return (
     <div className='w-full space-y-6'>
-      <div className='grid w-full place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
+      <div className='grid w-full place-items-center gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
         {!error ? (
           fetchedData && flowData ? (
             flowData.map((flow: FlowData) => (
