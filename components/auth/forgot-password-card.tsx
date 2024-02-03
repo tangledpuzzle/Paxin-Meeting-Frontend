@@ -2,6 +2,7 @@
 
 import { ArrowLeft, Loader2, Mail } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -72,6 +73,24 @@ export function ForgotPasswordCard() {
   return (
     <div className='flex size-full flex-col items-center justify-center'>
       <div className='flex flex-col text-center text-2xl sm:text-3xl'>
+      <div className='mb-8'>
+        <Link href='/' className='flex justify-center items-center gap-2'>
+          <Image
+            src='/logo-black.svg'
+            alt='logo'
+            width={60}
+            height={60}
+            className='size-[60px] dark:hidden'
+          />
+          <Image
+            src='/logo-white.svg'
+            alt='logo'
+            width={60}
+            height={60}
+            className='hidden size-[60px] dark:block'
+          />
+        </Link>
+      </div>
         <span>{t('forgot_password_question')}</span>{' '}
         <span className='text-sm text-muted-foreground'>
           {t('forgot_password_description')}
