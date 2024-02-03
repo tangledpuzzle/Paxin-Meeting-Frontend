@@ -198,7 +198,7 @@ export default function FlowPage({
             {blogDetails?.description}
           </div>
         </div>
-        <div className='my-4'>
+        <div className='my-4 max-w-[390px]'>
           <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
         </div>
         <div className='w-1/2'>

@@ -1,103 +1,110 @@
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { Carousel } from 'react-responsive-carousel';
+import React from "react";
+import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+import "react-horizontal-scrolling-menu/dist/styles.css";
 
-import { TagBadge } from '@/components/common/tag-badge';
-import { Button } from '@/components/ui/button';
+import { LeftArrow, RightArrow } from "@/components/ui/arrow";
+import { CardSlide } from "@/components/ui/slidecard";
+import { useSwipe } from "@/components/ui/mobileswipe";
 
-import '@/styles/slider.css';
-import Link from 'next/link';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { useSearchParams } from 'next/navigation';
+import usePreventBodyScroll from "@/components/ui/scrollmouse";
+
+type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
+
 
 interface TagSliderProps {
   tags: string[];
   mode?: string;
 }
 
-function SliderNextArrow(props: any) {
-  const { onClick } = props;
-  return (
-    <div className='absolute  right-0 top-[10px] z-10 flex h-full justify-center'>
-      <Button className='size-6 rounded-full' onClick={onClick} size='icon'>
-        <ChevronRightIcon className='size-5 text-white' />
-      </Button>
-    </div>
-  );
-}
 
-function SliderPrevArrow(props: any) {
-  const { onClick } = props;
-  return (
-    <div className='absolute left-0 top-[10px] z-10 flex h-full  justify-center'>
-      <Button className='size-6 rounded-full' onClick={onClick} size='icon'>
-        <ChevronLeftIcon className='size-5 text-white' />
-      </Button>
-    </div>
-  );
-}
+const elemPrefix = "test";
+const getId = (index: number) => `${elemPrefix}${index}`;
 
 function TagSlider({ tags, mode }: TagSliderProps) {
-  const searchParams = useSearchParams();
-  const [sliderNeeded, setSliderNeeded] = useState(true);
-  const tagContainerRef = useRef<HTMLDivElement>(null);
 
-  const queries: { [key: string]: string } = {};
+  const items = tags.map((tag, index) => ({ id: getId(index), tag }));
 
-  for (let [key, value] of searchParams.entries()) {
-    queries[key] = value;
-  }
+  const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();
+  const { disableScroll, enableScroll } = usePreventBodyScroll();
 
-  useEffect(() => {
-    if (tagContainerRef.current) {
-      let parentWidth = tagContainerRef.current?.offsetWidth;
 
-      let childrenWidth = Array.from(tagContainerRef.current.children).reduce(
-        (acc, child) => acc + (child as HTMLDivElement).offsetWidth,
-        0
-      );
+  const [selected, setSelected] = React.useState<string>("");
+  const handleItemClick = (itemId: string) => () => {
+    setSelected(selected !== itemId ? itemId : "");
+  };
 
-      setSliderNeeded(childrenWidth >= parentWidth);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = React.useState(0);
+
+  const itemWidth = containerWidth / 2  || 160;
+  const itemMargin = `${containerWidth / 4}px` || "50px";
+
+  React.useEffect(() => {
+    if (containerRef.current && !containerWidth) {
+      // 96 is width of both arrows
+      setContainerWidth(containerRef.current.clientWidth - 96);
     }
-  }, [tags]);
+  }, [containerRef, containerWidth]);
 
-  return sliderNeeded ? (
-    <Carousel
-      showIndicators={false}
-      showStatus={false}
-      renderArrowPrev={(onClick) => <SliderPrevArrow onClick={onClick} />}
-      renderArrowNext={(onClick) => <SliderNextArrow onClick={onClick} />}
-    >
-      {tags.map((tag, index) =>
-        mode ? (
-          <Link href={`/home?mode=${mode}&hashtag=${tag}`} key={index}>
-            <TagBadge>{tag}</TagBadge>
-          </Link>
-        ) : (
-          <Link href={{ query: { ...queries, hashtag: tag } }} key={index}>
-            <TagBadge key={tag}>{tag}</TagBadge>
-          </Link>
-        )
-      )}
-    </Carousel>
-  ) : (
-    <div
-      ref={tagContainerRef}
-      className={sliderNeeded ? '' : 'flex w-full max-w-full flex-row gap-2'}
-    >
-      {tags.map((tag, index) =>
-        mode ? (
-          <Link href={`/home?mode=${mode}&hashtag=${tag}`} key={index}>
-            <TagBadge>{tag}</TagBadge>
-          </Link>
-        ) : (
-          <Link href={{ query: { ...queries, hashtag: tag } }} key={index}>
-            <TagBadge key={tag}>{tag}</TagBadge>
-          </Link>
-        )
-      )}
-    </div>
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth - 96);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); 
+
+  return (
+    <>
+      <div ref={containerRef}>
+        <div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
+          <ScrollMenu
+            LeftArrow={LeftArrow}
+            RightArrow={RightArrow}
+            onWheel={onWheel}
+            onTouchEnd={onTouchEnd}
+            onTouchMove={onTouchMove}
+            onTouchStart={onTouchStart}
+          >
+            {items.map(({ id, tag }) => (
+              <CardSlide
+                title={tag}
+                itemId={id} // NOTE: itemId is required for track items
+                key={id}
+                width={itemWidth + "px"}
+                margin={itemMargin}
+                onClick={handleItemClick(id)}
+                selected={id === selected}
+              />
+            ))}
+          </ScrollMenu>
+        </div>
+      </div>
+    </>
   );
 }
 
-export { TagSlider };
+export { TagSlider }
+
+function onWheel(apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void {
+  const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
+
+  if (isThouchpad) {
+    ev.stopPropagation();
+    return;
+  }
+
+  if (ev.deltaY < 0) {
+    apiObj.scrollNext();
+  } else if (ev.deltaY > 0) {
+    apiObj.scrollPrev();
+  }
+}
