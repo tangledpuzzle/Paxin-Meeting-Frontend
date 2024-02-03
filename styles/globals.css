@@ -134,6 +134,7 @@
     @apply border-border;
   }
   body {
+    text-wrap: balance;
     letter-spacing: 0.2px;
     @apply bg-background text-foreground;
     font-feature-settings:

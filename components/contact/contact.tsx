@@ -17,13 +17,13 @@ export function ContactSection() {
     <div className='grid w-full md:grid-cols-2'>
       <div className='flex flex-col items-center justify-center px-8 py-4 lg:px-16'>
         <div className='flex w-full max-w-md flex-col text-left text-2xl sm:text-3xl'>
-          <span>{t('get_in_touch')}</span>{' '}
-          <span className='text-sm text-muted-foreground'>
+          <span className='pb-2'>{t('get_in_touch')}</span>{' '}
+          <span className='text-sm text-muted-foreground '>
             {t('get_in_touch_description')}
           </span>
         </div>
         <div className='mt-8 flex w-full max-w-md flex-col gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid grid-cols-2 gap-4'>
             <div>
               <Label htmlFor='firstname'>{t('firstname')}</Label>
               <div className='relative mx-auto w-full'>
@@ -108,14 +108,10 @@ export function ContactSection() {
           </Button>
         </div>
       </div>
-      <div className='hidden size-full items-center justify-center p-8 md:flex'>
-        <Image
-          src='/images/contact/ct-glasses.jpg'
-          alt='intro'
-          width={1024}
-          height={1024}
-          className='h-auto w-full rounded-lg'
-        />
+      <div className='hidden size-full items-center justify-center p-0 md:flex'>
+      <div className='size-full h-[400px] md:h-screen' 
+      style={{ background: 'url(/images/contact/ct-glasses.jpg)', backgroundSize: 'cover'}}
+      ></div>
       </div>
     </div>
   );
