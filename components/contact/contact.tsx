@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { Mail, Phone, UserRound } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
