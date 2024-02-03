@@ -24,7 +24,7 @@ import { Loader2 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -119,6 +119,7 @@ export default function SettingPage() {
   const t = useTranslations('main');
   const { userMutate } = useContext(PaxContext);
   const locale = useLocale();
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const imageUploadRef = useRef<ImageUploadComponentType>(null);
@@ -539,27 +540,36 @@ export default function SettingPage() {
             <TabsTrigger
               value='profile'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
+              asChild
             >
-              <FaUser className='mr-2 size-4' />
-              {t('profile_settings')}
+              <Link href='/profile/setting?tab=profile'>
+                <FaUser className='mr-2 size-4' />
+                {t('profile_settings')}
+              </Link>
             </TabsTrigger>
             <TabsTrigger
               value='accounting'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
+              asChild
             >
-              <MdAccountBalanceWallet className='mr-2 size-4' />
-              {t('accounting')}
+              <Link href='/profile/setting?tab=accounting'>
+                <MdAccountBalanceWallet className='mr-2 size-4' />
+                {t('accounting')}
+              </Link>
             </TabsTrigger>
             <TabsTrigger
               value='telegram'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
+              asChild
             >
-              <FaTelegram className='mr-2 size-4' />
-              {t('telegram')}
+              <Link href='/profile/setting?tab=telegram'>
+                <FaTelegram className='mr-2 size-4' />
+                {t('telegram')}
+              </Link>
             </TabsTrigger>
           </TabsList>
           <div className='w-full'>
-            <TabsContent className='my-2 w-full' value='account'>
+            <TabsContent className='my-2 w-full' value='profile'>
               <div className='px-3'>
                 <div className='text-2xl font-semibold'>
                   {t('profile_settings')}

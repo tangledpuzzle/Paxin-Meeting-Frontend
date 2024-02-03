@@ -132,7 +132,7 @@ export default function DashboardPage() {
               </Link>
             ))}
           </div>
-          <div className='flex size-full max-h-full flex-col rounded-lg bg-white p-4'>
+          <div className='flex size-full max-h-full flex-col rounded-lg bg-white p-4 dark:bg-black/40'>
             <div>
               <div className='text-lg font-semibold'>{t('configure')}</div>
               <div className='text-xs'>{t('configure_description')}</div>

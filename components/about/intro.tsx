@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '../ui/button';
@@ -9,7 +8,7 @@ export function IntroSection() {
 
   return (
     <div className='grid w-full md:grid-cols-2'>
-      <div className='flex flex-col items-start justify-center px-8 py-24 md:py-0 lg:px-16'>
+      <div className='flex flex-col items-start justify-center px-8 pb-8 md:py-0 lg:px-16'>
         <div className='my-4 text-3xl text-primary'>
           {t('what_is_paxintrade')}
         </div>
@@ -18,15 +17,9 @@ export function IntroSection() {
           <Link href='/contact'>{t('contact_us')}</Link>
         </Button>
       </div>
-      <div className='size-full'>
-        <Image
-          src='/images/about/contact-bg.jpg'
-          alt='intro'
-          width={394}
-          height={394}
-          className='h-auto w-full'
-        />
-      </div>
+      <div className='size-full h-[400px] md:h-screen' 
+      style={{ background: 'url(/images/about/contact-bg.jpg)', backgroundSize: 'cover'}}
+      ></div>
     </div>
   );
 }

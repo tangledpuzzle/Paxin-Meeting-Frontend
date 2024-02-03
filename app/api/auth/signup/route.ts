@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     let data = {
       email: email,
-      name: `${firstname.toLowerCase()}_${lastname.toLowerCase()}`,
+      name: `name${Math.floor(Math.random() * 10000)}`,
       password: password,
       passwordConfirm: confirmPassword,
       DevicesIOS: deviceToken,

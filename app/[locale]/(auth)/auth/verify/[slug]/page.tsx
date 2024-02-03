@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 export default function VerifyPage({ params }: { params: { slug: string } }) {
   const t = useTranslations('main');
@@ -51,11 +52,27 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
   return (
     <>
       <section className='flex h-[calc(100vh_-_5rem_-_1px)] w-full items-center justify-center'>
-        <div className='mb-36 w-full max-w-md space-y-20'>
-          <div className='text-center text-2xl font-bold text-primary sm:text-3xl'>
+        <div className='mb-36 w-full max-w-md space-y-0'>
+          <Link href='/' className='flex justify-center items-center gap-2'>
+            <Image
+              src='/text-logo-white.svg'
+              alt='logo'
+              width={60}
+              height={60}
+              className='size-[160px] dark:hidden'
+            />
+            <Image
+              src='/logo-text.svg'
+              alt='logo'
+              width={60}
+              height={60}
+              className='hidden size-[160px] dark:block'
+            />
+          </Link>
+          <div className='text-center !mt-2 text-2xl font-bold text-primary sm:text-3xl'>
             {t('profile_activation')}
           </div>
-          <div className='space-y-4 rounded-lg p-4 shadow-lg'>
+          <div className='space-y-4 !mt-2 rounded-l p-4 shadow-lg'>
             <div className='flex items-center space-x-2 text-base'>
               <Checkbox
                 id='terms'
