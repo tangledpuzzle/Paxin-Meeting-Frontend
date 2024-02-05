@@ -315,7 +315,8 @@
     "configure_description": "აქ შეგიძლიათ ნახოთ კონტრაქტების აუდიტები",
     "hello": "გამარჯობა",
     "load_more": "მეტი ჩატვირთვა",
-    "n_data_loaded_successfully": "{number} მონაცემი წარმატებით ჩაიტვირთა"
+    "n_data_loaded_successfully": "{number} მონაცემი წარმატებით ჩაიტვირთა",
+    "subscribers": "მგზავრები"
   },
   "privacy": {
     "rulesprivacy": "კონფიდენციალურობის წესები",

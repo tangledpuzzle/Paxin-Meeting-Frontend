@@ -87,7 +87,9 @@ const Providers: React.FC<IProps> = ({ children }) => {
 
           if (data?.session) {
             console.log('Socket message: ', data?.session);
-            setCookie(null, 'session', data?.session);
+            setCookie(null, 'session', data?.session, {
+              path: '/',
+            });
             axios.defaults.headers.common['session'] = data?.session;
           }
         } catch (error) {}
