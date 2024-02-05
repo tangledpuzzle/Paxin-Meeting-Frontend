@@ -51,6 +51,8 @@ module.exports = {
       backgroundImage: {
         'card-gradient': 'var(--card-gradient)',
         'card-gradient-on': 'var(--card-gradient-on)',
+        'card-gradient-menu': 'var(--card-gradient-menu)',
+        'card-gradient-menu-on': 'var(--card-gradient-menu-on)',
 
       },
       borderRadius: {

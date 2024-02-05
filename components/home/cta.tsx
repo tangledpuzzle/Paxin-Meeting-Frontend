@@ -33,10 +33,10 @@ export function CTASection() {
           }
         }}
       >
-        <ToggleGroupItem value='profile' className={`rounded-r-none  bg-card-gradient`}>
+        <ToggleGroupItem value='profile' className={`rounded-r-none  bg-card-gradient-menu`}>
           {t('profile')}
         </ToggleGroupItem>
-        <ToggleGroupItem value='flow' className={`rounded-l-none border-l-0 bg-card-gradient`}>
+        <ToggleGroupItem value='flow' className={`rounded-l-none border-l-0 bg-card-gradient-menu`}>
           {t('flow')}
         </ToggleGroupItem>
       </ToggleGroup>
