@@ -11,7 +11,6 @@ import { PostCard, PostCardProps } from '@/components/profiles/posts/post-card';
 import { PostCardSkeleton } from '@/components/profiles/posts/post-card-skeleton';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import axios from 'axios';
 import { useLocale, useTranslations } from 'next-intl';
