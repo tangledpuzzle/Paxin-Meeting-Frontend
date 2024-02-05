@@ -55,13 +55,13 @@ export default function NavigateSection() {
           ></div>
 
           <div
-            className='flex size-full flex-col items-center justify-center bg-[#00000008] bg-cover p-8 pt-2'
+            className='flex size-full flex-col items-start justify-center bg-[#00000008] bg-cover p-8 pt-2'
             style={{ backgroundImage: `url("/images/home/bg-nav-dark.webp")` }}
           >
-            <div className='text-xl font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+            <div className='text-md font-extrabold text-left text-secondary-foreground pb-2 transition-all duration-500 group-hover:text-white md:text-xl'>
               {t('efficient_discovery')}
             </div>
-            <div className='translate-all md:text-md max-w-md text-center text-xs leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            <div className='translate-all text-sm md:text-md max-w-md text-left  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('efficient_discovery_description')}
             </div>
           </div>
@@ -90,10 +90,10 @@ export default function NavigateSection() {
             fill
           />
           <div className='bg-[#00000008] p-8 pt-2'>
-            <div className='text-md font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+            <div className='text-md font-extrabold text-secondary-foreground pb-2 transition-all duration-500 group-hover:text-white md:text-xl'>
               {t('private_asks')}
             </div>
-            <div className='translate-all md:text-md text-xs leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            <div className='translate-all md:text-sm leading-[25.15px] text-md text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('private_asks_description')}
             </div>
           </div>
@@ -186,10 +186,10 @@ export default function NavigateSection() {
             />
           </div>
           <div className='relative p-8'>
-            <div className='md:text-md my-2 text-sm font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white'>
+            <div className='md:text-md pb-2 text-md font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white'>
               {t('smart_filters_for_tailored_content')}
             </div>
-            <div className='md:text-md w-2/3 text-xs text-muted-foreground transition-all duration-500 group-hover:text-white/70'>
+            <div className='md:text-md w-2/3 text-sm text-muted-foreground transition-all duration-500 group-hover:text-white/70'>
               {t('smart_filters_for_tailored_content_description')}
             </div>
             <Image

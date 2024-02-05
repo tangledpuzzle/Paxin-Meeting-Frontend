@@ -11,17 +11,25 @@ export const authOptions: NextAuthOptions = {
     signIn: '/auth/signin',
     newUser: '/auth/signup',
   },
-  // cookies: {
-  //   sessionToken: {
-  //     name: '__Secure-next-auth.session-token',
-  //     options: {
-  //       httpOnly: true,
-  //       secure: true,
-  //       path: '/',
-  //       domain: '.paxintrade.com',
-  //     },
-  //   },
-  // },
+  cookies: {
+    // sessionToken: {
+    //   name: '__Secure-next-auth.session-token',
+    //   options: {
+    //     httpOnly: true,
+    //     secure: true,
+    //     path: '/',
+    //     domain: '.paxintrade.com',
+    //   },
+    // },
+    // access_token: {
+    //   name: 'access_token',
+    //   options: {
+    //     httpOnly: true,
+    //     secure: true,
+    //     path: '/',
+    //     domain: '.paxintrade.com',
+    //   },
+  },
   providers: [
     CredentialsProvider({
       id: 'email',
@@ -54,6 +62,12 @@ export const authOptions: NextAuthOptions = {
           const data = response.data;
 
           if (data.status === 'success') {
+            console.log(req)
+            // req.setHeader(
+            //   'Set-Cookie',
+            //   `access_token=${encodeURIComponent(data.access_token)}; HttpOnly; Secure; Path=/; Domain=.paxintrade.com;`
+            // );
+
             return {
               id: data.refresh_token.UserID,
               name: '',

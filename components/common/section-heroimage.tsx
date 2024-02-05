@@ -4,11 +4,15 @@ import * as React from "react"
 import Image from "next/image"
 import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils"
+import { useTranslations } from 'next-intl';
 
 export interface SectionHeroImageProps
   extends React.HTMLAttributes<HTMLDivElement> {}
 
 function SectionHeroImage({ }: SectionHeroImageProps) {
+
+  const t = useTranslations('main');
+  
   return (
     <div
       className={cn(
@@ -76,7 +80,7 @@ function SectionHeroImage({ }: SectionHeroImageProps) {
         <div className="chevron"></div>
         <div className="chevron"></div>
         <div className="chevron"></div>
-        <span className="text">Scroll down</span>
+        <span className="text text-black dark:text-white">{t('scroll_down')}</span>
       </div>
     </div>
 
