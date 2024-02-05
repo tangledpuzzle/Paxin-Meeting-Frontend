@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/authOptions';
+import authOptions from '@/lib/authOptions';
 
 export async function PATCH(req: NextRequest) {
   const locale = req.nextUrl.searchParams.get('language') || 'en';

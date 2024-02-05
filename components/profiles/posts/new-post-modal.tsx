@@ -37,7 +37,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
@@ -60,6 +60,15 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   const t = useTranslations('main');
   const { user } = useContext(PaxContext);
   const locale = useLocale();
+  const [cityOptions, setCityOptions] = useState<
+    { value: number; label: string }[]
+  >([]);
+  const [categoryOptions, setCategoryOptions] = useState<
+    { value: number; label: string }[]
+  >([]);
+  const [hashtagOptions, setHashtagOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
 
   const formSchema = z
     .object({
@@ -216,10 +225,33 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    setCityOptions(
+      user?.city.map((city: any) => ({
+        label: city.name,
+        value: city.id * 1,
+      })) || []
+    );
+
+    setCategoryOptions(
+      user?.category.map((category: any) => ({
+        label: category.name,
+        value: category.id * 1,
+      })) || []
+    );
+
+    setHashtagOptions(
+      user?.hashtags.map((hashtag: any) => ({
+        label: hashtag,
+        value: hashtag,
+      })) || []
+    );
+  }, [user]);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className='max-h-[100%] md:max-h-[100%] !h-full w-full overflow-y-auto sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
+      <DialogContent className='!h-full max-h-[100%] w-full overflow-y-auto sm:max-w-xl md:max-h-[100%] md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
         <DialogHeader className='flex flex-row items-center gap-3'>
           <div className='rounded-full bg-primary/10 p-3 text-primary'>
             <TfiWrite className='size-5' />
@@ -297,10 +329,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           isMulti
                           placeholder={t('select') + '...'}
                           noOptionsMessage={() => t('no_options')}
-                          options={user?.city.map((city: any) => ({
-                            label: city.name,
-                            value: city.id * 1,
-                          }))}
+                          options={cityOptions}
                           {...field}
                           classNames={{
                             input: () => 'dark:text-white text-black',
@@ -328,10 +357,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           placeholder={t('select') + '...'}
                           noOptionsMessage={() => t('no_options')}
                           {...field}
-                          options={user?.category.map((category: any) => ({
-                            label: category.name,
-                            value: category.id * 1,
-                          }))}
+                          options={categoryOptions}
                           classNames={{
                             input: () => 'dark:text-white text-black',
                             control: () =>
@@ -359,10 +385,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           isMulti
                           placeholder={t('select') + '...'}
                           noOptionsMessage={() => t('no_options')}
-                          options={user?.hashtags.map((hashtag: any) => ({
-                            label: hashtag,
-                            value: hashtag,
-                          }))}
+                          options={hashtagOptions}
                           {...field}
                           classNames={{
                             input: () => 'dark:text-white text-black',

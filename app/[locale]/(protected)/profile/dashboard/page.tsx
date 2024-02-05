@@ -86,20 +86,24 @@ export default function DashboardPage() {
               </div>
               <div className='relative mt-8 flex items-center gap-2'>
                 <div className='space-y-4 text-center'>
-                  <div className='text-sm text-muted-foreground text-left'>
-                    Подписчиков
+                  <div className='text-center text-sm text-muted-foreground'>
+                    {t('subscribers')}
                   </div>
-                  <div className='text-3xl font-extrabold text-left'>100</div>
+                  <div className='text-center text-3xl font-extrabold'>
+                    {user?.followers || 0}
+                  </div>
                 </div>
                 <Separator
                   orientation='vertical'
-                  className='relative mx-2 h-10 w-[1px]'
+                  className='relative mx-2 h-14 w-[1px]'
                 />
                 <div className='space-y-4 text-center'>
-                  <div className='text-sm text-muted-foreground text-left'>
-                    Публикаций
+                  <div className='text-center text-sm text-muted-foreground'>
+                    {t('publications')}
                   </div>
-                  <div className='text-3xl font-extrabold text-left'>100</div>
+                  <div className='text-center text-3xl font-extrabold'>
+                    {user?.totalposts || 0}
+                  </div>
                 </div>
               </div>
             </div>
@@ -139,7 +143,7 @@ export default function DashboardPage() {
             <Separator className='my-2' />
             <div className='size-full'>
               <div>
-              {audits.map((audit, index) => (
+                {audits.map((audit, index) => (
                   <Link href={audit.link} key={index}>
                     <div className='flex cursor-pointer items-center gap-3 rounded-lg p-2'>
                       <div className='flex size-8 min-w-8 items-center justify-center rounded-full bg-primary/10'>

@@ -129,7 +129,7 @@ export function PostCard({
   };
   return (
     <div>
-      <div className='relative h-[calc(100svh_-_16rem)] md:h-full flex w-full flex-col gap-4 md:flex-row'>
+      <div className='relative flex h-[calc(100svh_-_18rem)] w-full flex-col gap-4 md:h-full md:flex-row'>
         <div
           aria-label='actions'
           className='absolute right-2 top-60 z-10 flex gap-2 md:top-0'
@@ -221,10 +221,7 @@ export function PostCard({
           <CarouselNext className='right-3' />
         </Carousel>
         <div className='relative flex w-full flex-col md:h-72'>
-          <Link
-            href={link}
-            className='line-clamp-1 text-3xl font-bold'
-          >
+          <Link href={link} className='line-clamp-1 text-3xl font-bold'>
             {title}
           </Link>
           <div className='line-clamp-1 w-full text-sm text-muted-foreground md:w-[90%]'>
