@@ -80,19 +80,19 @@ function FlowCard(profile: FlowCardProps) {
 
   return (
     <Card className='size-full w-full'>
-      <CardContent className='relative flex size-full flex-col gap-4 p-3'>
+      <CardContent className='relative flex size-full flex-col gap-4 p-0'>
         <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
           <div className='relative'>
             <div className='max-h-auto h-auto min-h-[300px] w-full md:min-h-[416px] '>
               <Image
                 src={hero}
                 layout='fill'
-                style={{ objectFit: 'contain' }}
-                className='rounded-b-m rounded-md '
+                style={{ objectFit: 'cover' }}
+                className='rounded-b-none rounded-md '
                 alt='profile'
               />
             </div>
-            <div className='absolute right-3 top-3 flex gap-2'>
+            <div className='absolute right-0 top-3 flex gap-2 px-3'>
               {regularpost && (
                 <Badge
                   variant='default'
@@ -111,29 +111,29 @@ function FlowCard(profile: FlowCardProps) {
                 {review.totalviews}
               </Badge>
             </div>
-            <div className='absolute inset-0 flex items-center justify-center rounded-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
+            <div className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
         </Link>
-        <div className='relative h-[40px] w-full max-w-[100%]'>
+        <div className='relative h-[40px] w-full max-w-[100%] px-3'>
           <TagSlider tags={tags} />
         </div>
         <div className='relative'>
           <div
-            className={`absolute right-0 top-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
+            className={`absolute right-0 top-3 size-8 rounded-full bg-cover bg-center bg-no-repeat mr-3`}
             style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
           />
         </div>
-        <div className='font-satoshi'>
+        <div className='font-satoshi px-3'>
           <div className='line-clamp-1 text-xl font-semibold text-secondary-foreground'>
             <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
               {title}
             </Link>
           </div>
-          <div className='line-clamp-3 text-sm text-muted-foreground'>
+          <div className='line-clamp-3 text-sm text-muted-foregroun'>
             {subtitle}
           </div>
         </div>
-        <div className='mt-auto flex grow gap-3'>
+        <div className='mt-auto flex grow gap-3 px-3'>
           <Link
             className='w-full'
             href={{ query: { ...queries, money: price } }}
@@ -159,7 +159,7 @@ function FlowCard(profile: FlowCardProps) {
             <CategoryBadge>{category}</CategoryBadge>
           </Link>
         </div>
-        <div className='grid grid-cols-3'>
+        <div className='grid grid-cols-3 px-3 pb-3'>
           <div className='col-span-2'>
             <Link href='/profiles/[username]' as={`/profiles/${user.username}`}>
               <div className='flex gap-2'>

@@ -57,15 +57,15 @@ function ProfileCard(profile: ProfileCardProps) {
 
   return (
     <Card className='size-full w-full'>
-      <CardContent className='relative flex size-full flex-col gap-4 p-3'>
+      <CardContent className='relative flex size-full flex-col gap-4 p-0'>
         <div className='relative'>
           <div className='min-h-[320px] w-full md:min-h-[416px]'>
             {avatar ? (
               <Image
                 src={avatar}
                 layout='fill'
-                style={{ objectFit: 'contain' }}
-                className='rounded-b-m rounded-md'
+                style={{ objectFit: 'cover' }}
+                className='rounded-b-none rounded-md'
                 alt='profile'
               />
             ) : (
@@ -75,7 +75,7 @@ function ProfileCard(profile: ProfileCardProps) {
           <Link
             href='/profiles/[username]'
             as={`/profiles/${username}`}
-            className='absolute inset-0 flex items-center justify-center rounded-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'
+            className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'
           ></Link>
           <div className='absolute top-3 flex w-full justify-between gap-2 px-4'>
             <QRCodeModal
@@ -83,16 +83,16 @@ function ProfileCard(profile: ProfileCardProps) {
             />
           </div>
         </div>
-        <div className='relative h-[40px] w-full max-w-[100%] text-center'>
+        <div className='relative h-[40px] w-full max-w-[100%] text-center px-3'>
           <TagSlider tags={tags} />
         </div>
         <div className='relative'>
           <div
-            className={`absolute right-0 top-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
+            className={`absolute right-0 top-3 size-8 rounded-full bg-cover bg-center bg-no-repeat mr-3`}
             style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
           ></div>
         </div>
-        <div className='font-satoshi'>
+        <div className='font-satoshi px-3'>
           <Link
             href='/profiles/[username]'
             as={`/profiles/${username}`}
@@ -104,7 +104,7 @@ function ProfileCard(profile: ProfileCardProps) {
             {bio}
           </div>
         </div>
-        <div className='mt-auto grid grid-cols-2'>
+        <div className='mt-auto grid grid-cols-2 px-3'>
           <div>
             <div className='flex items-center justify-start gap-2 pb-2 text-muted-foreground'>
               <IoCalendarNumberOutline className='size-5 text-black dark:text-white' />
@@ -136,11 +136,11 @@ function ProfileCard(profile: ProfileCardProps) {
             </div>
           </div>
         </div>
-        <div className='flex gap-3'>
+        <div className='flex gap-3 px-3'>
           <CityCard cities={cities} />
           <CategoryCard categories={categories} />
         </div>
-        <div className='flex justify-between'>
+        <div className='flex justify-between px-3 pb-3'>
           <Button
             variant='default'
             className='btn btn--wide w-full text-center font-roboto'
