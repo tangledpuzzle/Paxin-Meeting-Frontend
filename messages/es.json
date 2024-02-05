@@ -4,6 +4,7 @@
     "description": ""
   },
   "main": {
+    "scroll_down": "continuación",
     "home": "Inicio",
     "about": "Acerca de",
     "contact": "Contacto",

@@ -4,6 +4,7 @@
     "description": ""
   },
   "main": {
+    "scroll_down": "продолжение",
     "home": "Главная",
     "about": "О нас",
     "contact": "Контакты",
