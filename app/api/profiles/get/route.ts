@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
       };
     });
 
-    return NextResponse.json(profiles);
+    return NextResponse.json({ data: profiles, meta: data.meta });
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to fetch data' },
