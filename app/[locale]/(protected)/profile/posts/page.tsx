@@ -157,9 +157,13 @@ export default function MyPostsPage() {
               }
               onClick={() => {
                 const newSearchParams = new URLSearchParams(searchParams);
-                newSearchParams.delete('isArchive');
 
-                router.push(`?${newSearchParams.toString()}`);
+                if (searchParams.get('isArchive') === 'true') {
+                  newSearchParams.delete('isArchive');
+                  newSearchParams.set('page', '1');
+
+                  router.push(`?${newSearchParams.toString()}`);
+                }
               }}
             >
               {t('all')}
@@ -171,9 +175,12 @@ export default function MyPostsPage() {
               }
               onClick={() => {
                 const newSearchParams = new URLSearchParams(searchParams);
-                newSearchParams.set('isArchive', 'true');
+                if (!searchParams.get('isArchive')) {
+                  newSearchParams.set('isArchive', 'true');
+                  newSearchParams.set('page', '1');
 
-                router.push(`?${newSearchParams.toString()}`);
+                  router.push(`?${newSearchParams.toString()}`);
+                }
               }}
             >
               {t('archive')}
@@ -209,10 +216,10 @@ export default function MyPostsPage() {
           loading={isArchiveLoading}
         />
       </div>
-      <div className='w-full'>
-        {!error ? (
-          fetchedData && blogs ? (
-            blogs.map((blog) => (
+      {!error ? (
+        fetchedData && blogs ? (
+          <div className='w-full'>
+            {blogs.map((blog) => (
               <PostCard
                 key={blog.id}
                 id={blog.id}
@@ -240,26 +247,30 @@ export default function MyPostsPage() {
                 }}
                 mutate={blogsMutate}
               />
-            ))
-          ) : (
-            <PostCardSkeleton />
-          )
-        ) : (
-          <div></div>
-        )}
-      </div>
-      <PaginationComponent
-        currentPage={
-          searchParams.get('page') ? Number(searchParams.get('page')) : 1
-        }
-        maxPage={maxPage}
-        gotoPage={(page) => {
-          const newSearchParams = new URLSearchParams(searchParams);
-          newSearchParams.set('page', page.toString());
+            ))}
+            {maxPage > 1 && (
+              <PaginationComponent
+                currentPage={
+                  searchParams.get('page')
+                    ? Number(searchParams.get('page'))
+                    : 1
+                }
+                maxPage={maxPage}
+                gotoPage={(page) => {
+                  const newSearchParams = new URLSearchParams(searchParams);
+                  newSearchParams.set('page', page.toString());
 
-          router.push(`?${newSearchParams.toString()}`);
-        }}
-      />
+                  router.push(`?${newSearchParams.toString()}`);
+                }}
+              />
+            )}
+          </div>
+        ) : (
+          <PostCardSkeleton />
+        )
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }
