@@ -203,8 +203,7 @@ export default function MyPostsPage() {
         />
       </div>
       <div className='w-full'>
-        <ScrollArea className='h-[calc(100vh_-_18rem)] rounded-lg bg-background p-4'>
-          {!error ? (
+      {!error ? (
             fetchedData && blogs ? (
               blogs.map((blog) => (
                 <PostCard
@@ -241,7 +240,6 @@ export default function MyPostsPage() {
           ) : (
             <div></div>
           )}
-        </ScrollArea>
       </div>
     </div>
   );

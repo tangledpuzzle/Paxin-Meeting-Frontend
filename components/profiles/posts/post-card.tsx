@@ -129,7 +129,7 @@ export function PostCard({
   };
   return (
     <div>
-      <div className='relative flex w-full flex-col gap-4 md:flex-row'>
+      <div className='relative h-[calc(100svh_-_18rem)] md:h-full flex w-full flex-col gap-4 md:flex-row'>
         <div
           aria-label='actions'
           className='absolute right-0 top-64 z-10 flex gap-2 md:top-0'
@@ -223,7 +223,7 @@ export function PostCard({
         <div className='relative flex w-full flex-col md:h-72'>
           <Link
             href={link}
-            className='line-clamp-1 w-[calc(100%_-_12rem)] text-3xl font-bold'
+            className='line-clamp-1 text-3xl font-bold'
           >
             {title}
           </Link>

@@ -343,3 +343,7 @@ textarea {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
+.css-12a83d4-MultiValueRemove {
+  color: #f00
+}

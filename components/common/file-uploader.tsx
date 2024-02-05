@@ -178,7 +178,7 @@ export const ImageUpload = forwardRef<
   return (
     <div className='flex flex-col items-center space-y-4'>
       <div
-        className='flex h-36 w-full items-center justify-center rounded-md border-2 border-dashed border-gray-300 p-6'
+        className='flex w-full items-center justify-center rounded-md border-2 border-dashed border-gray-300 p-6'
         onDragOver={onDragOver}
         onDrop={onDrop}
       >
@@ -196,10 +196,9 @@ export const ImageUpload = forwardRef<
               >
                 {t('click_to_upload')}
               </Button>{' '}
-              {t('or_drag_and_drop')}
             </Label>
             <span className='text-sm text-muted-foreground'>
-              ({t('upload_no_more_than_10')})
+            {t('or_drag_and_drop')}  ({t('upload_no_more_than_10')})
             </span>
           </div>
         </div>
