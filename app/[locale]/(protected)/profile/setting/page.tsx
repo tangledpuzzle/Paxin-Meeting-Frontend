@@ -533,7 +533,7 @@ export default function SettingPage() {
         />
         <Tabs
           defaultValue={searchParams.get('tab') || 'profile'}
-          className='h-[calc(100svh_-_7rem)] w-full items-start bg-background py-2 sm:flex'
+          className='h-[calc(100svh_-_5rem)] w-full items-start bg-background py-2 sm:flex'
           orientation='vertical'
         >
           <TabsList className='flex h-auto w-full bg-background px-2 sm:w-60 sm:flex-col'>
@@ -571,7 +571,7 @@ export default function SettingPage() {
           <div className='w-full'>
             <TabsContent className='my-2 w-full' value='profile'>
               <div className='px-3'>
-                <div className='text-2xl font-semibold'>
+                <div className='text-2xl font-semibold mb-2'>
                   {t('profile_settings')}
                 </div>
                 <Tabs defaultValue='basic' className='w-full'>
@@ -725,7 +725,7 @@ export default function SettingPage() {
                           <Button
                             type='submit'
                             disabled={isBasicLoading}
-                            className='btn btn--wide !ml-0'
+                            className='btn btn--wide w-full !ml-0'
                           >
                             {isBasicLoading && (
                               <Loader2 className='mr-2 size-4 animate-spin' />

@@ -75,10 +75,12 @@
 
     --card: 0 0% 100%;
     --card-gradient: linear-gradient(to bottom, #ffffff, #fcfdff);
+    --card-gradient-on: linear-gradient(to bottom, #fafafa, #e7e7e7);
     --card-foreground: 222.2 47.4% 11.2%;
 
     --primary: 166.2 100% 30.6%;
     --primary-foreground: 0 0% 100%;
+    --chevron: 0 0% 50%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -100,6 +102,7 @@
 
     --muted: 223 47% 11%;
     --muted-foreground: 0 0% 100% / .6;
+    --chevron: 0 0% 100%;
 
     --accent: 216 34% 17%;
     --accent-foreground: 210 40% 98%;
@@ -112,6 +115,7 @@
 
     --card: 224 71% 4%;
     --card-gradient: linear-gradient(to bottom, #1e1e1e, #131313);
+    --card-gradient-on: linear-gradient(to bottom, #00B887, #01B6D3);
     --card-foreground: 213 31% 91%;
 
     --primary: 166.2 100% 30.6%;
@@ -346,4 +350,79 @@ textarea {
 
 .css-12a83d4-MultiValueRemove {
   color: #f00
+}
+
+
+.chevron {
+  position: absolute;
+  width: 28px;
+  height: 8px;
+  opacity: 0;
+  transform: scale3d(0.5, 0.5, 0.5);
+  animation: move 3s ease-out infinite;
+}
+
+.chevron:first-child {
+  animation: move 3s ease-out 1s infinite;
+}
+
+.chevron:nth-child(2) {
+  animation: move 3s ease-out 2s infinite;
+}
+
+.chevron:before,
+.chevron:after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 51%;
+  background: hsla(var(--chevron));
+}
+
+.chevron:before {
+  left: 0;
+  transform: skew(0deg, 30deg);
+}
+
+.chevron:after {
+  right: 0;
+  width: 50%;
+  transform: skew(0deg, -30deg);
+}
+
+@keyframes move {
+  25% {
+    opacity: 1;
+
+  }
+  33% {
+    opacity: 1;
+    transform: translateY(30px);
+  }
+  67% {
+    opacity: 1;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
+  }
+}
+
+
+.text {
+  display: block;
+  margin-top: 75px;
+  font-size: 12px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: .25;
+  animation: pulse 2s linear alternate infinite;
+}
+
+@keyframes pulse {
+  to {
+    opacity: 1;
+  }
 }

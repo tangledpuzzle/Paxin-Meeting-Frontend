@@ -4,6 +4,7 @@
     "description": ""
   },
   "main": {
+    "scroll_down": "გაგრძელება",
     "home": "მთავარი",
     "about": "ჩვენ შესახებ",
     "contact": "კონტაქტი",

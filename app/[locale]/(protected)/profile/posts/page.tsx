@@ -135,7 +135,7 @@ export default function MyPostsPage() {
         icon={RiArticleLine}
       />
       <Separator className='my-4' />
-      <div className='mb-2 flex w-full flex-col-reverse items-center justify-between gap-2 sm:flex-row'>
+      <div className='mb-4 flex w-full flex-col-reverse items-center justify-between gap-2 sm:flex-row'>
         <div className='relative w-full sm:w-80'>
           <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
           <Input type='text' placeholder={t('search')} className='pl-12 pr-4' />
@@ -172,7 +172,7 @@ export default function MyPostsPage() {
             </Button>
           </div>
           <NewPostModal mutate={blogsMutate}>
-            <Button className='btn btn--wide' >
+            <Button className='btn btn--wide !m-0' >
               <MdOutlinePostAdd className='mr-2 size-5' />
               {t('new_post')}
             </Button>

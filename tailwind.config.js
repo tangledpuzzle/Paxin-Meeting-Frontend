@@ -50,6 +50,8 @@ module.exports = {
       },
       backgroundImage: {
         'card-gradient': 'var(--card-gradient)',
+        'card-gradient-on': 'var(--card-gradient-on)',
+
       },
       borderRadius: {
         lg: `var(--radius)`,
