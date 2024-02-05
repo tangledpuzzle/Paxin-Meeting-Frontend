@@ -314,7 +314,8 @@
     "configure_description": "Here you can view Contract Audits",
     "hello": "Hello",
     "load_more": "Load More",
-    "n_data_loaded_successfully": "{number} data loaded successfully"
+    "n_data_loaded_successfully": "{number} data loaded successfully",
+    "subscribers": "Subscribers"
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",

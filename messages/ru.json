@@ -315,7 +315,8 @@
     "configure_description": "Здесь вы можете просмотреть Проверки контрактов",
     "hello": "Привет",
     "load_more": "Загрузить еще",
-    "n_data_loaded_successfully": "{number} данных успешно загружены"
+    "n_data_loaded_successfully": "{number} данных успешно загружены",
+    "subscribers": "подписчики"
   },
   "privacy": {
     "rulesprivacy": "Правила конфиденциальности",

@@ -315,7 +315,8 @@
     "configure_description": "Aquí puedes ver auditorías de contratos",
     "hello": "Hola",
     "load_more": "Cargar más",
-    "n_data_loaded_successfully": "{number} datos cargados exitosamente"
+    "n_data_loaded_successfully": "{number} datos cargados exitosamente",
+    "subscribers": "Suscriptores"
   },
   "privacy": {
     "rulesprivacy": "política de privacidad",
