@@ -201,7 +201,7 @@ export default function FlowPage({
         <div className='my-4 max-w-[390px]'>
           <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
         </div>
-        <div className='w-1/2'>
+        <div className='w-full md:1/2'>
           <ImageGallery
             items={blogDetails?.gallery || []}
             thumbnailPosition={`${windowWidth > 640 ? 'right' : 'bottom'}`}
@@ -337,7 +337,7 @@ export default function FlowPage({
                 </Card>
                 <div className='grid w-full grid-cols-2 gap-2'>
                   <Button
-                    className='btn btn--wide'
+                    className='btn btn--wide w-full'
                     variant={blogDetails?.vote === 1 ? 'default' : 'outline'}
                     disabled={
                       isUpVoteLoading || isDownVoteLoading || blogDetails.me

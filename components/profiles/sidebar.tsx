@@ -40,7 +40,7 @@ const navItems: NavItem[] = [
   {
     title: 'conference',
     href: 'https://meet.paxintrade.com',
-    external: true,
+    external: false,
     disabled: false,
     icon: HiUserGroup,
     label: 'Conference',
