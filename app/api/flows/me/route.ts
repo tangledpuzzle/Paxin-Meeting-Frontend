@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
       link: `/flows/${blog.UniqId}/${blog.Slug}`,
     }));
 
-    return NextResponse.json(blogs);
+    return NextResponse.json({ data: blogs, meta: data.meta });
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to fetch data' },

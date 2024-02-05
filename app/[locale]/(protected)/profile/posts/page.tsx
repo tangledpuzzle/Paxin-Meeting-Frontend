@@ -18,14 +18,18 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
+import { PaginationComponent } from '@/components/profiles/posts/pagination';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
+const pageSize = 10;
 
 export default function MyPostsPage() {
   const locale = useLocale();
   const t = useTranslations('main');
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [maxPage, setMaxPage] = useState<number>(1);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showArchiveModal, setShowArchiveModal] = useState<boolean>(false);
   const [isArchiveLoading, setIsArchiveLoading] = useState<boolean>(false);
@@ -43,7 +47,10 @@ export default function MyPostsPage() {
 
   useEffect(() => {
     const generateFetchURL = () => {
-      let baseURL = `/api/flows/me?language=${locale}`;
+      const currentPage = searchParams.get('page')
+        ? Number(searchParams.get('page'))
+        : 1;
+      let baseURL = `/api/flows/me?language=${locale}&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}`;
       const queryParams = ['skip', 'limit', 'search', 'isArchive'];
 
       queryParams.forEach((param) => {
@@ -61,7 +68,8 @@ export default function MyPostsPage() {
 
   useEffect(() => {
     if (!error && fetchedData) {
-      setBlogs(fetchedData);
+      setBlogs(fetchedData.data);
+      setMaxPage(Math.ceil(fetchedData.meta.total / pageSize));
     }
   }, [fetchedData, error]);
 
@@ -172,7 +180,7 @@ export default function MyPostsPage() {
             </Button>
           </div>
           <NewPostModal mutate={blogsMutate}>
-            <Button className='btn btn--wide !m-0' >
+            <Button className='btn btn--wide !m-0'>
               <MdOutlinePostAdd className='mr-2 size-5' />
               {t('new_post')}
             </Button>
@@ -202,44 +210,56 @@ export default function MyPostsPage() {
         />
       </div>
       <div className='w-full'>
-      {!error ? (
-            fetchedData && blogs ? (
-              blogs.map((blog) => (
-                <PostCard
-                  key={blog.id}
-                  id={blog.id}
-                  title={blog.title}
-                  original_title={blog.original_title}
-                  subtitle={blog.subtitle}
-                  original_subtitle={blog.original_subtitle}
-                  content={blog.content}
-                  original_content={blog.original_content}
-                  hashtags={blog.hashtags}
-                  expireDate={blog.expireDate}
-                  cities={blog.cities}
-                  categories={blog.categories}
-                  gallery={blog.gallery}
-                  archived={blog.archived}
-                  price={blog.price}
-                  link={blog.link}
-                  onArchive={() => {
-                    setArchiveID(blog.id);
-                    setShowArchiveModal(true);
-                  }}
-                  onDelete={() => {
-                    setDeleteID(blog.id);
-                    setShowDeleteModal(true);
-                  }}
-                  mutate={blogsMutate}
-                />
-              ))
-            ) : (
-              <PostCardSkeleton />
-            )
+        {!error ? (
+          fetchedData && blogs ? (
+            blogs.map((blog) => (
+              <PostCard
+                key={blog.id}
+                id={blog.id}
+                title={blog.title}
+                original_title={blog.original_title}
+                subtitle={blog.subtitle}
+                original_subtitle={blog.original_subtitle}
+                content={blog.content}
+                original_content={blog.original_content}
+                hashtags={blog.hashtags}
+                expireDate={blog.expireDate}
+                cities={blog.cities}
+                categories={blog.categories}
+                gallery={blog.gallery}
+                archived={blog.archived}
+                price={blog.price}
+                link={blog.link}
+                onArchive={() => {
+                  setArchiveID(blog.id);
+                  setShowArchiveModal(true);
+                }}
+                onDelete={() => {
+                  setDeleteID(blog.id);
+                  setShowDeleteModal(true);
+                }}
+                mutate={blogsMutate}
+              />
+            ))
           ) : (
-            <div></div>
-          )}
+            <PostCardSkeleton />
+          )
+        ) : (
+          <div></div>
+        )}
       </div>
+      <PaginationComponent
+        currentPage={
+          searchParams.get('page') ? Number(searchParams.get('page')) : 1
+        }
+        maxPage={maxPage}
+        gotoPage={(page) => {
+          const newSearchParams = new URLSearchParams(searchParams);
+          newSearchParams.set('page', page.toString());
+
+          router.push(`?${newSearchParams.toString()}`);
+        }}
+      />
     </div>
   );
 }
