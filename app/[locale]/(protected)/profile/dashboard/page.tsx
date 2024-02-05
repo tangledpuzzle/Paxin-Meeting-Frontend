@@ -3,7 +3,6 @@
 import { MdDashboard } from 'react-icons/md';
 
 import CTASection from '@/components/profiles/cta';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { PaxContext } from '@/context/context';
 import { ChevronRight } from 'lucide-react';
@@ -85,22 +84,22 @@ export default function DashboardPage() {
               <div className='text-sm text-muted-foreground'>
                 {t('view_all_alerts_description')}
               </div>
-              <div className='relative mt-8 flex items-center gap-2 px-6'>
+              <div className='relative mt-8 flex items-center gap-2'>
                 <div className='space-y-4 text-center'>
-                  <div className='text-sm text-muted-foreground'>
-                    Lorem Ipsum
+                  <div className='text-sm text-muted-foreground text-left'>
+                    Подписчиков
                   </div>
-                  <div className='text-3xl font-extrabold'>100</div>
+                  <div className='text-3xl font-extrabold text-left'>100</div>
                 </div>
                 <Separator
                   orientation='vertical'
                   className='relative mx-2 h-10 w-[1px]'
                 />
                 <div className='space-y-4 text-center'>
-                  <div className='text-sm text-muted-foreground'>
-                    Lorem Ipsum
+                  <div className='text-sm text-muted-foreground text-left'>
+                    Публикаций
                   </div>
-                  <div className='text-3xl font-extrabold'>100</div>
+                  <div className='text-3xl font-extrabold text-left'>100</div>
                 </div>
               </div>
             </div>
@@ -139,8 +138,8 @@ export default function DashboardPage() {
             </div>
             <Separator className='my-2' />
             <div className='size-full'>
-              <ScrollArea className='size-full max-h-72 rounded-lg'>
-                {audits.map((audit, index) => (
+              <div>
+              {audits.map((audit, index) => (
                   <Link href={audit.link} key={index}>
                     <div className='flex cursor-pointer items-center gap-3 rounded-lg p-2'>
                       <div className='flex size-8 min-w-8 items-center justify-center rounded-full bg-primary/10'>
@@ -159,7 +158,7 @@ export default function DashboardPage() {
                     <Separator className='my-1' />
                   </Link>
                 ))}
-              </ScrollArea>
+              </div>
             </div>
           </div>
         </div>

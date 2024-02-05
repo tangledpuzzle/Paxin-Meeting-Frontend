@@ -18,7 +18,7 @@ export default function ProfilePageLayout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <SiteHeader />
-      <div className='absolute top-0 flex h-screen w-full'>
+      <div className='absolute top-0 flex w-full'>
         <Sidebar />
         <main className='mt-20 w-full bg-secondary/60'>{children}</main>
       </div>
