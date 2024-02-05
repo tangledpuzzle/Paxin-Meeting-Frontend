@@ -1,7 +1,7 @@
 import { formatDate } from '@/lib/utils';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/authOptions';
+import authOptions from '@/lib/authOptions';
 
 export async function GET(req: NextRequest) {
   const query = req.nextUrl.searchParams.toString();
