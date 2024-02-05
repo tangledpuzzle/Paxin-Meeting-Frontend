@@ -89,7 +89,7 @@ export default function ResetPasswordPage({
       <section className='flex h-[calc(100vh_-_5rem_-_1px)] w-full items-center justify-center'>
         <div className='mb-36 w-full max-w-md space-y-20'>
           <div className='text-center text-2xl font-bold text-primary sm:text-3xl'>
-            <Link href='/' className='flex justify-center items-center gap-2'>
+            <Link href='/' className='flex items-center justify-center gap-2'>
               <Image
                 src='/text-logo-white.svg'
                 alt='logo'
@@ -104,10 +104,10 @@ export default function ResetPasswordPage({
                 height={60}
                 className='hidden size-[160px] dark:block'
               />
-          </Link>
+            </Link>
             {t('reset_password')}
           </div>
-          <div className='space-y-4 !mt-2 rounded-lg p-4 shadow-lg'>
+          <div className='!mt-2 space-y-4 rounded-lg p-4 shadow-lg'>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
