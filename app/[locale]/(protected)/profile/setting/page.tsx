@@ -122,6 +122,8 @@ export default function SettingPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [currentTab, setCurrentTab] = useState<string>('profile');
+
   const imageUploadRef = useRef<ImageUploadComponentType>(null);
 
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -169,6 +171,10 @@ export default function SettingPage() {
     hashtagURL,
     fetcher
   );
+
+  useEffect(() => {
+    setCurrentTab(searchParams.get('tab') || 'profile');
+  }, [searchParams]);
 
   useEffect(() => {
     if (!error && fetchedData) {
@@ -532,7 +538,7 @@ export default function SettingPage() {
           loading={isDeleteAccountLoading}
         />
         <Tabs
-          defaultValue={searchParams.get('tab') || 'profile'}
+          value={currentTab}
           className='h-[calc(100svh_-_5rem)] w-full items-start bg-background py-2 sm:flex'
           orientation='vertical'
         >
@@ -571,7 +577,7 @@ export default function SettingPage() {
           <div className='w-full'>
             <TabsContent className='my-2 w-full' value='profile'>
               <div className='px-3'>
-                <div className='text-2xl font-semibold mb-2'>
+                <div className='mb-2 text-2xl font-semibold'>
                   {t('profile_settings')}
                 </div>
                 <Tabs defaultValue='basic' className='w-full'>
@@ -725,7 +731,7 @@ export default function SettingPage() {
                           <Button
                             type='submit'
                             disabled={isBasicLoading}
-                            className='btn btn--wide w-full !ml-0'
+                            className='btn btn--wide !ml-0 w-full'
                           >
                             {isBasicLoading && (
                               <Loader2 className='mr-2 size-4 animate-spin' />
