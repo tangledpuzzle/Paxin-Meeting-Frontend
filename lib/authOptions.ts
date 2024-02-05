@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   debug: true,
   session: {
     strategy: 'jwt',
@@ -10,25 +10,6 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/auth/signin',
     newUser: '/auth/signup',
-  },
-  cookies: {
-    // sessionToken: {
-    //   name: '__Secure-next-auth.session-token',
-    //   options: {
-    //     httpOnly: true,
-    //     secure: true,
-    //     path: '/',
-    //     domain: '.paxintrade.com',
-    //   },
-    // },
-    // access_token: {
-    //   name: 'access_token',
-    //   options: {
-    //     httpOnly: true,
-    //     secure: true,
-    //     path: '/',
-    //     domain: '.paxintrade.com',
-    //   },
   },
   providers: [
     CredentialsProvider({
@@ -62,7 +43,7 @@ export const authOptions: NextAuthOptions = {
           const data = response.data;
 
           if (data.status === 'success') {
-            console.log(req)
+            console.log(req);
             // req.setHeader(
             //   'Set-Cookie',
             //   `access_token=${encodeURIComponent(data.access_token)}; HttpOnly; Secure; Path=/; Domain=.paxintrade.com;`
@@ -116,3 +97,19 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
+
+if (process.env.NODE_ENV === 'production') {
+  authOptions.cookies = {
+    sessionToken: {
+      name: '__Secure-next-auth.session-token',
+      options: {
+        httpOnly: true,
+        secure: true,
+        path: '/',
+        domain: '.paxintrade.com',
+      },
+    },
+  };
+}
+
+export default authOptions;

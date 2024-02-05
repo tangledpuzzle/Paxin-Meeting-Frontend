@@ -313,7 +313,10 @@
     "telegram_profile_setup_description": "Haz clic aquí para configurar tu perfil",
     "configure": "Configurar",
     "configure_description": "Aquí puedes ver auditorías de contratos",
-    "hello": "Hola"
+    "hello": "Hola",
+    "load_more": "Cargar más",
+    "n_data_loaded_successfully": "{number} datos cargados exitosamente",
+    "subscribers": "Suscriptores"
   },
   "privacy": {
     "rulesprivacy": "política de privacidad",

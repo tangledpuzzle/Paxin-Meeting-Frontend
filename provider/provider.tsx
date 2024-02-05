@@ -28,18 +28,23 @@ const Providers: React.FC<IProps> = ({ children }) => {
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const locale = useLocale();
+  const [userFetchURL, setUserFetchURL] = useState<string>(
+    `/api/users/me?language=${locale}`
+  );
 
   const {
     data: fetchedData,
     error,
     mutate: userMutate,
-  } = useSWR(
-    session.status === 'authenticated' ? `/api/users/me?lang=${locale}` : null,
-    fetcher
-  );
+  } = useSWR(session.status === 'authenticated' ? userFetchURL : null, fetcher);
+
+  useEffect(() => {
+    setUserFetchURL(`/api/users/me?language=${locale}`);
+  }, [locale]);
 
   useEffect(() => {
     if (!error && fetchedData) {
+      console.log(fetchedData);
       setUser({
         id: fetchedData.data?.user?.id,
         username: fetchedData.data?.user?.name,
@@ -82,7 +87,9 @@ const Providers: React.FC<IProps> = ({ children }) => {
 
           if (data?.session) {
             console.log('Socket message: ', data?.session);
-            setCookie(null, 'session', data?.session);
+            setCookie(null, 'session', data?.session, {
+              path: '/',
+            });
             axios.defaults.headers.common['session'] = data?.session;
           }
         } catch (error) {}
