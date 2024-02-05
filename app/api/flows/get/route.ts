@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
       };
     });
 
-    return NextResponse.json(flows);
+    return NextResponse.json({ data: flows, meta: data.meta });
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to fetch data' },

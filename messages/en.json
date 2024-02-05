@@ -312,7 +312,9 @@
     "telegram_profile_setup_description": "Click here to setup your profile",
     "configure": "Configure",
     "configure_description": "Here you can view Contract Audits",
-    "hello": "Hello"
+    "hello": "Hello",
+    "load_more": "Load More",
+    "n_data_loaded_successfully": "{number} data loaded successfully"
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",

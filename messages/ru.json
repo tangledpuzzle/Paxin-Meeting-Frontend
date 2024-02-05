@@ -313,7 +313,9 @@
     "telegram_profile_setup_description": "Нажмите здесь, чтобы настроить ваш профиль",
     "configure": "Настроить",
     "configure_description": "Здесь вы можете просмотреть Проверки контрактов",
-    "hello": "Привет"
+    "hello": "Привет",
+    "load_more": "Загрузить еще",
+    "n_data_loaded_successfully": "{number} данных успешно загружены"
   },
   "privacy": {
     "rulesprivacy": "Правила конфиденциальности",

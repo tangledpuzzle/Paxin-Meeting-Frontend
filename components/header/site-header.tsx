@@ -2,7 +2,7 @@ import { MainNav } from '@/components/header/main-nav';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { siteConfig } from '@/config/site';
 
-import { authOptions } from '@/lib/authOptions';
+import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
