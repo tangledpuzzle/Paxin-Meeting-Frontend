@@ -129,7 +129,7 @@ export function PostCard({
   };
   return (
     <div>
-      <div className='relative flex h-[calc(100svh_-_18rem)] w-full flex-col gap-4 md:h-full md:flex-row'>
+      <div className='relative flex h-[calc(100svh_-_14rem)] w-full flex-col gap-4 md:h-full md:flex-row'>
         <div
           aria-label='actions'
           className='absolute right-2 top-60 z-10 flex gap-2 md:top-0'

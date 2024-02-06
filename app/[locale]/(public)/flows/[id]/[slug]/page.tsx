@@ -1,7 +1,7 @@
 'use client';
 
 import { Breadcrumb } from '@/components/common/breadcrumb';
-import { TagSlider } from '@/components/common/tag-slider';
+// import { TagSlider } from '@/components/common/tag-slider';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -109,7 +109,7 @@ export default function FlowPage({
   const breadcrumbs = [
     {
       name: t('flow'),
-      url: '/home',
+      url: '/home?mode=flow',
     },
     {
       name: params.slug,
@@ -194,13 +194,13 @@ export default function FlowPage({
               }}
             />
           </div>
-          <div className='text-sm text-muted-foreground'>
+          <div className='text-sm text-muted-foreground pb-4'>
             {blogDetails?.description}
           </div>
         </div>
-        <div className='my-4 max-w-[390px]'>
+        {/* <div className='my-4 max-w-[390px]'>
           <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
-        </div>
+        </div> */}
         <div className='md:1/2 w-full'>
           <ImageGallery
             items={blogDetails?.gallery || []}
@@ -377,24 +377,15 @@ export default function FlowPage({
               <Label className='text-xl font-semibold'>
                 {t('description')}:
               </Label>
-              <div className='text-muted-foreground'>
-                <ReactQuill
-                  theme='snow'
-                  value={blogDetails.content}
-                  modules={{ toolbar: false }}
-                  formats={[]}
-                  readOnly
-                  placeholder={t('type_your_content_here')}
-                  className='border-none text-gray-500 placeholder:text-white'
-                />
-              </div>
+              <div className='text-sm text-muted-foreground pt-2'
+                 dangerouslySetInnerHTML={{ __html:blogDetails.content}}></div>
             </div>
           </div>
           <div className='mx-auto max-w-sm space-y-4'>
             <Card className='mx-auto w-full'>
               <CardContent className='space-y-8 px-6 py-8 font-satoshi'>
                 <div>
-                  <div className='text-center text-lg font-semibold'>
+                  <div className='text-center text-lg font-semibold '>
                     {t('anything_wrong_with_the_post')}
                   </div>
                   <div className='text-center text-xs text-muted-foreground'>
