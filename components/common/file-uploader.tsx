@@ -198,7 +198,7 @@ export const ImageUpload = forwardRef<
               </Button>{' '}
             </Label>
             <span className='text-sm text-muted-foreground'>
-            {t('or_drag_and_drop')}  ({t('upload_no_more_than_10')})
+              {t('or_drag_and_drop')} ({t('upload_no_more_than_10')})
             </span>
           </div>
         </div>

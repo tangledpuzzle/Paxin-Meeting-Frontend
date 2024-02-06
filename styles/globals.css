@@ -6,7 +6,7 @@
 @layer components {
   :root {
     --borderimg: linear-gradient(270deg, rgba(228, 228, 228, 0) 5.23%, #E6E6E6 53.6%, rgba(234, 234, 234, 0) 100%);
-    --bgheader: 0, 0%, 100%;
+    --bgheader: linear-gradient(180deg, rgb(255 255 255) 0%, rgb(255 255 255 / 37%) 37%, rgb(255 255 255 / 24%) 100%);
     --bgs: linear-gradient(
       181deg,
       rgba(255, 255, 255, 0.06) -3.73%,
@@ -17,7 +17,7 @@
 
   .dark {
     --borderimg: linear-gradient(270deg, rgba(228, 228, 228, 0) 5.23%, rgba(241, 241, 241, 0.17) 53.6%, rgba(234, 234, 234, 0) 100%); 
-    --bgheader: 0, 0%, 6%, 0.5;
+    --bgheader: linear-gradient(180deg, rgb(34 34 34) 0%, rgb(0 0 0 / 37%) 37%, rgb(0 0 0 / 24%) 100%);
     --bgs: linear-gradient(
       181deg,
       rgba(255, 255, 255, 0.06) -3.73%,
@@ -41,7 +41,7 @@
   }
   
   .bg-header {
-    background: hsla(var(--bgheader));
+    background: var(--bgheader);
     backdrop-filter: blur(12px)
   }
 }
@@ -99,7 +99,7 @@
   }
 
   .dark {
-    --background: 0 0% 5%;
+    --background: 0 0% 3%;
     --foreground: 213 31% 91%;
 
     --muted: 223 47% 11%;
@@ -113,7 +113,7 @@
     --popover-foreground: 215 20.2% 65.1%;
 
     --border: 0 0% 14%;
-    --input: 0 0% 28%;
+    --input: 0 0% 10%;
 
     --card: 224 71% 4%;
     --card-gradient: linear-gradient(to bottom, #1e1e1e, #131313);
@@ -162,8 +162,8 @@
       90deg,
       #575757 0%,
       rgba(82, 93, 90, 0.98) 36.43%,
-      rgba(0, 184, 135, 0.7) 46.56%,
-      rgba(0, 184, 135, 0.7) 100%
+      #00B887,
+      #00B887
     );
     background-clip: text;
     -webkit-background-clip: text;
@@ -175,8 +175,8 @@
       90deg,
       #fff 0%,
       rgba(255, 255, 255, 0.98) 36.43%,
-      rgb(103, 255, 215) 46.56%,
-      rgb(103, 255, 215) 100%
+      #00B887,
+      #00B887
     );
     background-clip: text;
     -webkit-background-clip: text;

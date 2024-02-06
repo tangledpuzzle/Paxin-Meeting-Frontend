@@ -13,12 +13,16 @@ export function IntroSection() {
           {t('what_is_paxintrade')}
         </div>
         <div className='text-sm'>{t('what_is_paxintrade_description')}</div>
-        <Button asChild className='my-4 btn btn--wide !m-0 !mt-4'>
+        <Button asChild className='btn btn--wide !m-0 my-4 !mt-4'>
           <Link href='/contact'>{t('contact_us')}</Link>
         </Button>
       </div>
-      <div className='size-full h-[400px] md:h-screen' 
-      style={{ background: 'url(/images/about/contact-bg.jpg)', backgroundSize: 'cover'}}
+      <div
+        className='size-full h-[400px] md:h-screen'
+        style={{
+          background: 'url(/images/about/contact-bg.jpg)',
+          backgroundSize: 'cover',
+        }}
       ></div>
     </div>
   );

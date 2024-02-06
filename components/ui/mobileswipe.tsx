@@ -1,22 +1,19 @@
-import React from "react";
-import { VisibilityContext } from "react-horizontal-scrolling-menu";
+import React from 'react';
+import { VisibilityContext } from 'react-horizontal-scrolling-menu';
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
-
 interface SwipeProps {
-    containerRef: React.RefObject<HTMLDivElement>;
-    containerWidth: number;
-    onSwipePrev: () => void;
-    onSwipeNext: () => void;
-  }
+  containerRef: React.RefObject<HTMLDivElement>;
+  containerWidth: number;
+  onSwipePrev: () => void;
+  onSwipeNext: () => void;
+}
 
-  
 export const useSwipe = () => {
-  
   const [touchStart, setTouchStart] = React.useState<number | null>(null);
   const [touchEnd, setTouchEnd] = React.useState<number | null>(null);
-    
+
   // the required distance between touchStart and touchEnd to be detected as a swipe
   const minSwipeDistance = 50;
 
