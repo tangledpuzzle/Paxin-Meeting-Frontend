@@ -8,20 +8,15 @@ import { usePathname } from 'next/navigation';
 import { NavItem } from '@/types/nav';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 interface MainNavProps {
   items?: NavItem[];
 }
 
 export function MainNav({ items }: MainNavProps) {
+  const pathname = usePathname();
   const t = useTranslations('main');
-
-  const locale = useLocale();
-  let pathname = usePathname();
-  if (pathname.startsWith('/' + locale)) {
-    pathname = pathname.slice(locale.length + 1);
-  }
 
   return (
     <div className='flex gap-6 md:gap-10'>
@@ -45,7 +40,7 @@ export function MainNav({ items }: MainNavProps) {
         </span>
       </Link>
       {items?.length ? (
-        <nav className='my-auto hidden h-10 gap-6 md:flex'>
+        <nav className='my-auto bg-card-gradient-menu border rounded-full p-4 hidden h-10 gap-6 md:flex'>
           {items?.map(
             (item, index) =>
               item.href && (
