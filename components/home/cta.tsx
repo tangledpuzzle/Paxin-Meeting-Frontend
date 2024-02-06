@@ -33,10 +33,16 @@ export function CTASection() {
           }
         }}
       >
-        <ToggleGroupItem value='profile' className={`rounded-r-none  bg-card-gradient-menu`}>
+        <ToggleGroupItem
+          value='profile'
+          className={`rounded-r-none  bg-card-gradient-menu`}
+        >
           {t('profile')}
         </ToggleGroupItem>
-        <ToggleGroupItem value='flow' className={`rounded-l-none border-l-0 bg-card-gradient-menu`}>
+        <ToggleGroupItem
+          value='flow'
+          className={`rounded-l-none border-l-0 bg-card-gradient-menu`}
+        >
           {t('flow')}
         </ToggleGroupItem>
       </ToggleGroup>
@@ -47,7 +53,7 @@ export function CTASection() {
           <Input
             type='text'
             placeholder={t('search')}
-            className='pl-12 pr-4'
+            className='pl-12 pr-4 dark:bg-input'
             value={keyword}
             onChange={(e) => {
               setKeyword(e.target.value);

@@ -40,7 +40,7 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
       }}
     >
       <SelectTrigger
-        className={`w-[150px] gap-2 rounded-full bg-transparent pl-5 ${className ? className : ''}`}
+        className={`w-[150px] gap-2 rounded-full bg-transparent pl-5 bg-card-gradient-menu ${className ? className : ''}`}
       >
         <SelectValue placeholder='Select a language' />
       </SelectTrigger>

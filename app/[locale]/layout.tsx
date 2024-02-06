@@ -18,7 +18,6 @@ export const viewport: Viewport = {
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: dark)', color: 'black' },
   ],
-  
 };
 
 interface RootLayoutProps {
@@ -59,10 +58,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-     <head>
+      <head>
         <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          name='viewport'
+          content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
         />
       </head>
       <body

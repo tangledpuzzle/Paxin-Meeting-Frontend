@@ -108,9 +108,13 @@ export function ContactSection() {
         </div>
       </div>
       <div className='hidden size-full items-center justify-center p-0 md:flex'>
-      <div className='size-full h-[400px] md:h-screen' 
-      style={{ background: 'url(/images/contact/ct-glasses.jpg)', backgroundSize: 'cover'}}
-      ></div>
+        <div
+          className='size-full h-[400px] md:h-screen'
+          style={{
+            background: 'url(/images/contact/ct-glasses.jpg)',
+            backgroundSize: 'cover',
+          }}
+        ></div>
       </div>
     </div>
   );

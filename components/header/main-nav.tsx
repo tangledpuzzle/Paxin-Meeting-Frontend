@@ -40,7 +40,7 @@ export function MainNav({ items }: MainNavProps) {
         </span>
       </Link>
       {items?.length ? (
-        <nav className='my-auto hidden h-10 gap-6 md:flex'>
+        <nav className='my-auto bg-card-gradient-menu border rounded-full p-4 hidden h-10 gap-6 md:flex'>
           {items?.map(
             (item, index) =>
               item.href && (

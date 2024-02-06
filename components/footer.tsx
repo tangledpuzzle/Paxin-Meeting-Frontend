@@ -30,7 +30,7 @@ export function SiteFooter() {
             height={50}
             className='hidden h-auto w-32 dark:block'
           />
-          <span className='my-2 block max-w-md text-center font-satoshi text-sm text-muted-foreground text-balance'>
+          <span className='my-2 block max-w-md text-balance text-center font-satoshi text-sm text-muted-foreground'>
             {t('pax_footer_description')}
           </span>
         </div>

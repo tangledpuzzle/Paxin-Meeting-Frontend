@@ -11,7 +11,7 @@ function LocationBadge({ children }: SectionBadgeProps) {
   return (
     <Badge
       variant='outline'
-      className='group max-w-full relative flex w-full flex-col gap-3 overflow-hidden rounded-xl border-[#ffffff2b] bg-[#9c9c9c1a] py-3 text-primary hover:border-primary'
+      className='group relative flex w-full max-w-full flex-col gap-3 overflow-hidden rounded-xl border-[#ffffff2b] bg-[#9c9c9c1a] py-3 text-primary hover:border-primary'
     >
       <div className='absolute inset-0 size-full bg-gradient-to-b from-transparent to-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100'></div>
       <MdOutlineHouseSiding className='size-4 text-gray-500 dark:text-white' />

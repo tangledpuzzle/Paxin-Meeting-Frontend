@@ -88,7 +88,7 @@ function FlowCard(profile: FlowCardProps) {
                 src={hero}
                 layout='fill'
                 style={{ objectFit: 'cover' }}
-                className='rounded-b-none rounded-md '
+                className='rounded-md rounded-b-none '
                 alt='profile'
               />
             </div>
@@ -119,17 +119,17 @@ function FlowCard(profile: FlowCardProps) {
         </div>
         <div className='relative'>
           <div
-            className={`absolute right-0 top-3 size-8 rounded-full bg-cover bg-center bg-no-repeat mr-3`}
+            className={`absolute right-0 top-3 mr-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
             style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
           />
         </div>
-        <div className='font-satoshi px-3'>
+        <div className='px-3 font-satoshi'>
           <div className='line-clamp-1 text-xl font-semibold text-secondary-foreground'>
             <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
               {title}
             </Link>
           </div>
-          <div className='line-clamp-3 text-sm text-muted-foregroun'>
+          <div className='text-muted-foregroun line-clamp-3 text-sm'>
             {subtitle}
           </div>
         </div>
