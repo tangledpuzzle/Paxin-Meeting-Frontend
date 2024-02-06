@@ -354,14 +354,17 @@ export default function ProfilePage({
                   <TagSlider tags={profileDetails.hashtags} mode='profile' />
                 </div>
               </div>
-              <div className='items-start justify-end hidden'>
-                <div>место для вашей рекламы, <span className='text-green-500 underline'>подбробнее</span></div>
+              <div className='hidden items-start justify-end'>
+                <div>
+                  место для вашей рекламы,{' '}
+                  <span className='text-green-500 underline'>подбробнее</span>
+                </div>
                 <QRCodeModal
                   qrcode={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${profileDetails.username}`}
                 >
                   <QRCode
                     value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/profiles/${profileDetails.username}`}
-                    className='size-[50px] min-w-[50px] cursor-pointer mb-4'
+                    className='mb-4 size-[50px] min-w-[50px] cursor-pointer'
                   />
                 </QRCodeModal>
               </div>
@@ -409,7 +412,7 @@ export default function ProfilePage({
               </div>
             </div>
             <Separator />
-            <div className='my-3 flex flex-col gap-4 md:gap-24 md:flex-row'>
+            <div className='my-3 flex flex-col gap-4 md:flex-row md:gap-24'>
               <div>
                 <div className='flex items-center gap-2'>
                   <BiSolidCalendar className='size-4' />

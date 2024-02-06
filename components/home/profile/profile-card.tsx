@@ -65,7 +65,7 @@ function ProfileCard(profile: ProfileCardProps) {
                 src={avatar}
                 layout='fill'
                 style={{ objectFit: 'cover' }}
-                className='rounded-b-none rounded-md'
+                className='rounded-md rounded-b-none'
                 alt='profile'
               />
             ) : (
@@ -83,16 +83,16 @@ function ProfileCard(profile: ProfileCardProps) {
             />
           </div>
         </div>
-        <div className='relative h-[40px] w-full max-w-[100%] text-center px-3'>
+        <div className='relative h-[40px] w-full max-w-[100%] px-3 text-center'>
           <TagSlider tags={tags} />
         </div>
         <div className='relative'>
           <div
-            className={`absolute right-0 top-3 size-8 rounded-full bg-cover bg-center bg-no-repeat mr-3`}
+            className={`absolute right-0 top-3 mr-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
             style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
           ></div>
         </div>
-        <div className='font-satoshi px-3'>
+        <div className='px-3 font-satoshi'>
           <Link
             href='/profiles/[username]'
             as={`/profiles/${username}`}

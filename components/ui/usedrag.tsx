@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function useDrag() {
   const [clicked, setClicked] = React.useState(false);
@@ -41,6 +41,6 @@ export default function useDrag() {
     dragMove,
     dragging,
     position,
-    setDragging
+    setDragging,
   };
 }

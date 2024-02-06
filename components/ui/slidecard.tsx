@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { VisibilityContext } from "react-horizontal-scrolling-menu";
+import { VisibilityContext } from 'react-horizontal-scrolling-menu';
 
 export function CardSlide({
   itemId,
@@ -8,8 +8,7 @@ export function CardSlide({
   width,
   onClick,
   title,
-  margin
-
+  margin,
 }: {
   itemId: string;
   selected: boolean;
@@ -17,7 +16,6 @@ export function CardSlide({
   width: string;
   title: string;
   margin: string;
-
 }) {
   const visibility = React.useContext(VisibilityContext);
 
@@ -26,22 +24,24 @@ export function CardSlide({
   return (
     <div
       onClick={() => onClick()}
-      role="button"
+      role='button'
       style={{
-        border: "0px solid",
-        display: "inline-block",
-        margin: "0 10px",
-        textAlign: "center",
+        border: '0px solid',
+        display: 'inline-block',
+        margin: '0 10px',
+        textAlign: 'center',
         width,
         marginLeft: margin,
         marginRight: margin,
-        userSelect: "none"
+        userSelect: 'none',
       }}
       tabIndex={0}
-      className="card border-gradient"
+      className='card border-gradient'
     >
       <div>
-        <div className="text-base whitespace-nowrap text-ellipsis overflow-hidden px-4"># {title}</div>
+        <div className='overflow-hidden text-ellipsis whitespace-nowrap px-4 text-base'>
+          # {title}
+        </div>
         {/* <div style={{ backgroundColor: visible ? "transparent" : "gray" }}>
           visible: {JSON.stringify(visible)}
         </div> */}
@@ -49,7 +49,7 @@ export function CardSlide({
       </div>
       <div
         style={{
-          backgroundColor: selected ? "green" : "bisque",
+          backgroundColor: selected ? 'green' : 'bisque',
         }}
       />
     </div>

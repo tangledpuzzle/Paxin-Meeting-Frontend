@@ -65,7 +65,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
         followers: fetchedData.data?.user?.totalfollowers,
         followings: fetchedData.data?.user?.followings?.length,
         onlinehours: fetchedData.data?.user?.total_online_hours[0],
-        totalposts: fetchedData.data?.user?.totalblogs,
+        totalposts: fetchedData.data?.user?.totalrestblog,
       });
     }
 
