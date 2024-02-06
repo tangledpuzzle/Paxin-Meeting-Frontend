@@ -1,7 +1,7 @@
 'use client';
 
 import { Breadcrumb } from '@/components/common/breadcrumb';
-import { TagSlider } from '@/components/common/tag-slider';
+// import { TagSlider } from '@/components/common/tag-slider';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { BiSolidCalendar, BiSolidCategory } from 'react-icons/bi';
@@ -257,7 +257,7 @@ export default function ProfilePage({
               </Button>
               {!profileDetails.follow ? (
                 <Button
-                  className='btn btn--wide !mr-0 ml-auto rounded-full'
+                  className='btn btn--wide !mr-0 ml-auto rounded-full w-[60%]'
                   disabled={isFollowLoading || profileDetails.me}
                   onClick={handleFollow}
                 >
@@ -281,7 +281,7 @@ export default function ProfilePage({
               )}
             </div>
             <div className='hidden md:block'>
-              <div className='text-lg font-semibold'>{t('post_feed')}: </div>
+              <div className='text-lg font-semibold pb-2'>{t('post_feed')}: </div>
               {profileDetails.latestblog && (
                 <Card className='w-full'>
                   <CardHeader>
@@ -337,7 +337,7 @@ export default function ProfilePage({
             <div className='grid grid-cols-1'>
               <div className='col-span-4 w-full'>
                 <div className=''>
-                  <div className='flex gap-3 text-xl font-semibold text-secondary-foreground'>
+                  <div className='flex pb-2 gap-3 text-xl font-semibold text-secondary-foreground'>
                     @{profileDetails.username}
                     <div
                       className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
@@ -346,13 +346,13 @@ export default function ProfilePage({
                       }}
                     />
                   </div>
-                  <div className='text-sm text-muted-foreground'>
+                  <div className='text-sm text-muted-foreground pb-4'>
                     {profileDetails.bio}
                   </div>
                 </div>
-                <div className='my-4 max-w-[390px]'>
+                {/* <div className='my-4 max-w-[390px]'>
                   <TagSlider tags={profileDetails.hashtags} mode='profile' />
-                </div>
+                </div> */}
               </div>
               <div className='hidden items-start justify-end'>
                 <div>
@@ -414,11 +414,11 @@ export default function ProfilePage({
             <Separator />
             <div className='my-3 flex flex-col gap-4 md:flex-row md:gap-24'>
               <div>
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2 pb-2'>
                   <BiSolidCalendar className='size-4' />
                   {t('online_status')}
                 </div>
-                <div className='text-gray-500'>
+                <div className='text-sm text-muted-foreground'>
                   <div>
                     {t('this_month')}: {profileDetails.review.monthtime.hour}h{' '}
                     {profileDetails.review.monthtime.minutes}m
@@ -430,11 +430,11 @@ export default function ProfilePage({
                 </div>
               </div>
               <div>
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2 pb-2'>
                   <MdOutlinePostAdd className='size-4' />
                   {t('publications')}
                 </div>
-                <div className='text-gray-500'>
+                <div className='text-sm text-muted-foreground'>
                   <div>
                     {t('this_month')}: {profileDetails.review.monthposts}
                   </div>
@@ -444,11 +444,11 @@ export default function ProfilePage({
                 </div>
               </div>
               <div>
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2 pb-2'>
                   <RiUserFollowFill className='size-4' />
                   {t('followers')}
                 </div>
-                <div className='text-gray-500'>
+                <div className='text-sm text-muted-foreground'>
                   <div>
                     {t('total')}: {profileDetails.review.followers}
                   </div>
@@ -456,31 +456,25 @@ export default function ProfilePage({
               </div>
             </div>
             <div className='space-y-3'>
-              <div>
-                <div className='text-lg font-semibold'>
+              {/* <div>
+                <div className='text-lg font-semibold pb-2'>
                   {t('profile_description')}
                 </div>
-                <div className='text-gray-500'>
+                <div className='text-sm text-muted-foreground pb-4'>
                   {profileDetails.description}
                 </div>
-              </div>
+              </div> */}
               <div>
-                <div className='text-lg font-semibold'>
+                <div className='text-lg font-semibold pb-2'>
                   {t('additional_info')}
                 </div>
-                <ReactQuill
-                  theme='snow'
-                  value={profileDetails.additionalinfo}
-                  modules={modules}
-                  formats={formats}
-                  readOnly
-                  className='border-none text-gray-500 placeholder:text-white'
-                />
+                <div className='text-sm text-muted-foreground pb-4'
+                 dangerouslySetInnerHTML={{ __html:profileDetails.additionalinfo}}></div>
               </div>
             </div>
 
             <div className='mx-auto max-w-sm md:hidden'>
-              <div className='text-lg font-semibold'>{t('post_feed')}: </div>
+              <div className='text-lg font-semibold pb-2'>{t('post_feed')}: </div>
               {profileDetails.latestblog && (
                 <Card className='w-full'>
                   <CardHeader>
@@ -509,20 +503,24 @@ export default function ProfilePage({
                     </CardDescription>
                   </CardHeader>
                   <CardFooter>
+                  <Link href={`/flows/${profileDetails.latestblog.link}`}>
                     <Button className='btn btn--wide w-full'>
                       {t('view_post')}
                       <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Button>
+                  </Link>
                   </CardFooter>
                 </Card>
               )}
-              <Button
-                variant='outline'
-                className='mt-3 w-full rounded-full border-primary text-primary'
-              >
-                <VscEye className='mr-2 size-5' />
-                {t('view_more_topics')}
-              </Button>
+              <Link href={`/home?mode=flow`}>
+                <Button
+                  variant='outline'
+                  className='mt-3 w-full rounded-full border-primary text-primary'
+                >
+                  <VscEye className='mr-2 size-5' />
+                  {t('view_more_topics')}
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

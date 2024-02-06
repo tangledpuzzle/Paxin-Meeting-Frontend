@@ -8,15 +8,21 @@ import { usePathname } from 'next/navigation';
 import { NavItem } from '@/types/nav';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface MainNavProps {
   items?: NavItem[];
 }
 
 export function MainNav({ items }: MainNavProps) {
-  const pathname = usePathname();
   const t = useTranslations('main');
+
+  const locale = useLocale();
+  let pathname = usePathname();
+  if (pathname.startsWith('/' + locale)) {
+    pathname = pathname.slice(locale.length + 1);
+  }
+
 
   return (
     <div className='flex gap-6 md:gap-10'>
