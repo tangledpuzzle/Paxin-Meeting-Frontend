@@ -101,7 +101,7 @@ export function ContactSection() {
           <Button
             type='submit'
             variant='default'
-            className='btn btn--wide w-full'
+            className='btn btn--wide !rounded-md w-full'
           >
             {t('send_message')}
           </Button>

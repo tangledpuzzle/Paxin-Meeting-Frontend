@@ -254,7 +254,7 @@ export function SignUpCard() {
             </div>
             <Button
               type='submit'
-              className='btn btn--wide !mt-8 w-full'
+              className='btn btn--wide !rounded-md !mt-8 w-full'
               disabled={loading}
             >
               {loading ? (
