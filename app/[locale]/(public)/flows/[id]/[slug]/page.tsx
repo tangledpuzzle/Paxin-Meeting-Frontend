@@ -173,7 +173,7 @@ export default async function FlowPage({
   const breadcrumbs = [
     {
       name: t('flow'),
-      url: '/home',
+      url: '/home?mode=flow',
     },
     {
       name: params.slug,

@@ -130,7 +130,7 @@ export default function ProfileSection() {
       {isLoadable && (
         <div className='flex w-full justify-center'>
           <Button
-            className='btn btn--wide mx-auto'
+            className='btn btn--wide !rounded-md mx-auto'
             disabled={loading}
             onClick={() => handleLoadMore()}
           >

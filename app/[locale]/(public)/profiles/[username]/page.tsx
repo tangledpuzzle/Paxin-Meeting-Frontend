@@ -15,10 +15,6 @@ import { TbPhotoX } from 'react-icons/tb';
 import { VscEye } from 'react-icons/vsc';
 import QRCode from 'react-qr-code';
 
-import 'react-image-gallery/styles/css/image-gallery.css';
-
-import axios from 'axios';
-
 import { QRCodeModal } from '@/components/common/qrcode-modal';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -38,12 +34,6 @@ import '@/styles/editor.css';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
-import 'react-quill/dist/quill.snow.css';
-
-const ReactQuill =
-  typeof window === 'object' ? require('react-quill') : () => false;
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 async function getData(locale: string, username: string) {
   const session = await getServerSession(authOptions);

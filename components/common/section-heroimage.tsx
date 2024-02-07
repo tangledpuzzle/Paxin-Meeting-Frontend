@@ -1,13 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
+import Slideshow from '@/components/ui/slideshow';
 
 export interface SectionHeroImageProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
+extends React.HTMLAttributes<HTMLDivElement> {}
+
+
+const images = ['images/6.avif', 'images/3.avif', 'images/2.avif', 'images/9.avif', 'images/10.avif'];
+const interval = 5000; // Интервал в миллисекундах (5 секунд)
+
 
 function SectionHeroImage({}: SectionHeroImageProps) {
   const t = useTranslations('main');
@@ -18,6 +23,7 @@ function SectionHeroImage({}: SectionHeroImageProps) {
         'pt- relative mt-12 flex w-full items-center justify-center px-7'
       )}
     >
+
       <motion.div
         initial='hidden'
         animate='visible'
@@ -42,28 +48,14 @@ function SectionHeroImage({}: SectionHeroImageProps) {
           <span></span>
           <span></span>
         </div>
+
         <div className='absolute z-[-1] h-[110%] min-h-full w-full max-w-7xl' />
 
         <div className='w-full dark:hidden'>
-          <Image
-            src='/images/home/hero-light.avif'
-            width={1440}
-            height={3000}
-            alt='hero'
-            loading='lazy'
-            className='mx-auto hidden h-auto w-full max-w-5xl md:block'
-          />
-          <Image
-            src='/images/home/hero-mobile-light.avif'
-            width={400}
-            height={658}
-            alt='hero'
-            loading='lazy'
-            className='mx-auto h-auto w-full max-w-5xl md:hidden'
-          />
+          <Slideshow images={images} interval={interval} />
         </div>
         <div className='hidden w-full px-2 dark:block sm:px-16'>
-          <Image
+          {/* <Image
             src='/images/home/hero-dark.avif'
             width={1440}
             height={3000}
@@ -76,7 +68,9 @@ function SectionHeroImage({}: SectionHeroImageProps) {
             height={658}
             alt='hero'
             className='mx-auto h-auto w-full max-w-5xl pt-[20px] md:hidden'
-          />
+          /> */}
+          <Slideshow images={images} interval={interval} />
+
         </div>
       </motion.div>
 

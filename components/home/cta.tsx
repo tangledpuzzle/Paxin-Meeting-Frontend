@@ -53,7 +53,7 @@ export function CTASection() {
           <Input
             type='text'
             placeholder={t('search')}
-            className='pl-12 pr-4'
+            className='pl-12 pr-4 dark:bg-input'
             value={keyword}
             onChange={(e) => {
               setKeyword(e.target.value);

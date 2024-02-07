@@ -23,6 +23,7 @@ export function MainNav({ items }: MainNavProps) {
     pathname = pathname.slice(locale.length + 1);
   }
 
+
   return (
     <div className='flex gap-6 md:gap-10'>
       <Link href='/' className='flex items-center gap-2'>
@@ -45,7 +46,7 @@ export function MainNav({ items }: MainNavProps) {
         </span>
       </Link>
       {items?.length ? (
-        <nav className='my-auto hidden h-10 gap-6 md:flex'>
+        <nav className='my-auto bg-card-gradient-menu border rounded-full p-4 hidden h-10 gap-6 md:flex'>
           {items?.map(
             (item, index) =>
               item.href && (

@@ -42,8 +42,8 @@ export async function SiteHeader() {
 
   return (
     <header
-      className={`border-gardient-h bg-h sticky top-0 z-40 w-full bg-background`}
-    >
+      className={`bg-h sticky top-0 z-40 w-full bg-background`}
+    ><div className='border-gardient-h w-full relative top-[80px]'></div>
       <div className='flex h-20 items-center space-x-4 px-4 sm:justify-between sm:space-x-0 md:px-8'>
         <MainNav items={siteConfig.mainNav} />
         <div className='flex flex-1 items-center justify-end space-x-4'>
@@ -60,7 +60,7 @@ export async function SiteHeader() {
               />
             ) : (
               <Button asChild>
-                <Link className='btn btn--wide' href='/auth/signin'>
+                <Link className='btn btn--wide !rounded-md' href='/auth/signin'>
                   {t('sign_in')}
                 </Link>
               </Button>
