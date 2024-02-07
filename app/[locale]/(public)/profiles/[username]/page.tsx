@@ -313,7 +313,7 @@ export default function ProfilePage({
                     </CardDescription>
                   </CardHeader>
                   <CardFooter>
-                    <Button className='btn btn--wide !rounded-md w-full !rounded-md' asChild>
+                    <Button className='btn btn--wide w-full !rounded-md' asChild>
                       <Link href={`/flows/${profileDetails.latestblog.link}`}>
                         {t('view_post')}
                         <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
@@ -324,7 +324,7 @@ export default function ProfilePage({
               )}
               <Button
                 variant='outline'
-                className='mt-3 w-full rounded-md border-primary text-primary !border-green-600'
+                className='mt-3 w-full rounded-md text-primary !border-green-600'
                 asChild
               >
                 <Link href={`/home?mode=flow`}>
@@ -506,7 +506,7 @@ export default function ProfilePage({
                   </CardHeader>
                   <CardFooter className='flex justify-center'>
                   <Link href={`/flows/${profileDetails.latestblog.link}`}>
-                    <Button className='btn btn--wide !rounded-md !rounded-md'>
+                    <Button className='btn btn--wide !rounded-md'>
                       {t('view_post')}
                       <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Button>
@@ -517,7 +517,7 @@ export default function ProfilePage({
               <Link href={`/home?mode=flow`}>
                 <Button
                   variant='outline'
-                  className='mt-3 w-full rounded-md border-primary text-primary !border-green-700'
+                  className='mt-3 w-full rounded-md text-primary !border-green-600'
                 >
                   <VscEye className='mr-2 size-5' />
                   {t('view_more_topics')}
