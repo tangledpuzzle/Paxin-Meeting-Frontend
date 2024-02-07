@@ -303,8 +303,8 @@ export default function ProfilePage({
                         className='rounded-full'
                       />
                     </div>
-                    <div className='flex items-center justify-between gap-2'>
-                      <CardTitle className='line-clamp-1 text-center'>
+                    <div className='flex items-center justify-center gap-2'>
+                      <CardTitle className='line-clamp-1 text-center '>
                         {profileDetails.latestblog.title}
                       </CardTitle>
                     </div>
@@ -314,7 +314,7 @@ export default function ProfilePage({
                   </CardHeader>
                   <CardFooter>
                     <Button className='btn btn--wide w-full !rounded-md' asChild>
-                      <Link href={`/flows/${profileDetails.latestblog.link}`}>
+                      <Link href={`/flows/${profileDetails.latestblog.link}`} className='text-center'>
                         {t('view_post')}
                         <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                       </Link>
@@ -506,7 +506,7 @@ export default function ProfilePage({
                   </CardHeader>
                   <CardFooter className='flex justify-center'>
                   <Link href={`/flows/${profileDetails.latestblog.link}`}>
-                    <Button className='btn btn--wide !rounded-md'>
+                    <Button className='btn btn--wide !rounded-md !text-center'>
                       {t('view_post')}
                       <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Button>

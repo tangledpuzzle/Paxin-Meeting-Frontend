@@ -92,21 +92,21 @@
 @media (min-width: 375px) {
   .hero-gradient {
     width: 265px;
-    height: 500px;
+    height: 300px;
   }
 }
 
 @media (min-width: 390px) {
   .hero-gradient {
     width: 285px;
-    height: 530px;
+    height: 300px;
   }
 }
 
 @media (min-width: 414px) {
   .hero-gradient {
     width: 300px;
-    height: 570px;
+    height: 300px;
   }
 }
 
@@ -114,7 +114,7 @@
 @media (min-width: 425px) {
   .hero-gradient {
     width: 300px;
-    height: 560px;
+    height: 300px;
   }
 }
 
@@ -122,7 +122,7 @@
 @media (min-width: 430px) {
   .hero-gradient {
     width: 330px;
-    height: 600px;
+    height: 340px;
   }
 }
 
