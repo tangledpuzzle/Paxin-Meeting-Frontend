@@ -10,7 +10,7 @@ export interface SectionHeroImageProps
 extends React.HTMLAttributes<HTMLDivElement> {}
 
 
-const images = ['images/6.avif', 'images/3.avif', 'images/2.avif', 'images/9.avif'];
+const images = ['images/6.avif', 'images/3.avif', 'images/2.avif', 'images/9.avif', 'images/10.avif'];
 const interval = 5000; // Интервал в миллисекундах (5 секунд)
 
 
