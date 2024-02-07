@@ -187,7 +187,7 @@ export default function MyPostsPage() {
             </Button>
           </div>
           <NewPostModal mutate={blogsMutate}>
-            <Button className='btn btn--wide !m-0'>
+            <Button className='btn btn--wide !rounded-md !m-0 !rounded-md'>
               <MdOutlinePostAdd className='mr-2 size-5' />
               {t('new_post')}
             </Button>

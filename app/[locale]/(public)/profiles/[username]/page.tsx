@@ -257,7 +257,7 @@ export default function ProfilePage({
               </Button>
               {!profileDetails.follow ? (
                 <Button
-                  className='btn btn--wide !mr-0 ml-auto rounded-full w-[60%]'
+                  className='btn btn--wide !rounded-md !mr-0 ml-auto w-[60%] !rounded-md'
                   disabled={isFollowLoading || profileDetails.me}
                   onClick={handleFollow}
                 >
@@ -285,34 +285,35 @@ export default function ProfilePage({
               {profileDetails.latestblog && (
                 <Card className='w-full'>
                   <CardHeader>
-                    <div className='relative h-[150px] w-full xl:h-[200px]'>
+                  <div className='flex justify-end'>
+                      <Badge
+                        variant='outline'
+                        className='m-0  text-xs text-white bg-black/20'
+                      >
+                        <FaThumbsUp className='mr-2 size-3' />
+                        {profileDetails.latestblog.review.votes}
+                      </Badge>
+                    </div>
+                    <div className='flex justify-center'>
                       <Image
                         src={profileDetails.latestblog.hero}
                         alt='preview image'
-                        style={{ objectFit: 'cover' }}
-                        fill
+                        width={100}
+                        height={100}
+                        className='rounded-full'
                       />
                     </div>
                     <div className='flex items-center justify-between gap-2'>
-                      <CardTitle className='line-clamp-1'>
+                      <CardTitle className='line-clamp-1 text-center'>
                         {profileDetails.latestblog.title}
                       </CardTitle>
-                      <div>
-                        <Badge
-                          variant='outline'
-                          className='m-0 bg-muted-foreground text-xs text-white'
-                        >
-                          <FaThumbsUp className='mr-2 size-3' />
-                          {profileDetails.latestblog.review.votes}
-                        </Badge>
-                      </div>
                     </div>
-                    <CardDescription>
+                    <CardDescription className='text-center'>
                       {profileDetails.latestblog.subtitle}
                     </CardDescription>
                   </CardHeader>
                   <CardFooter>
-                    <Button className='btn btn--wide w-full' asChild>
+                    <Button className='btn btn--wide !rounded-md w-full !rounded-md' asChild>
                       <Link href={`/flows/${profileDetails.latestblog.link}`}>
                         {t('view_post')}
                         <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
@@ -323,7 +324,7 @@ export default function ProfilePage({
               )}
               <Button
                 variant='outline'
-                className='mt-3 w-full rounded-full border-primary text-primary'
+                className='mt-3 w-full rounded-md border-primary text-primary !border-green-600'
                 asChild
               >
                 <Link href={`/home?mode=flow`}>
@@ -478,33 +479,34 @@ export default function ProfilePage({
               {profileDetails.latestblog && (
                 <Card className='w-full'>
                   <CardHeader>
-                    <div className='relative h-[150px] w-full xl:h-[200px]'>
+                    <div className='flex justify-end'>
+                      <Badge
+                        variant='outline'
+                        className='m-0  text-xs text-white bg-black/20'
+                      >
+                        <FaThumbsUp className='mr-2 size-3' />
+                        {profileDetails.latestblog.review.votes}
+                      </Badge>
+                    </div>
+                    <div className='flex justify-center'>
                       <Image
                         src={profileDetails.latestblog.hero}
                         alt='preview image'
-                        style={{ objectFit: 'cover' }}
-                        fill
+                        width={100}
+                        height={100}
+                        className='rounded-full'
                       />
                     </div>
-                    <div className='flex items-center justify-between gap-2'>
+                    <div className='flex items-center justify-center gap-2'>
                       <CardTitle>{profileDetails.latestblog.title}</CardTitle>
-                      <div>
-                        <Badge
-                          variant='outline'
-                          className='m-0 bg-muted-foreground text-xs text-white'
-                        >
-                          <FaThumbsUp className='mr-2 size-3' />
-                          {profileDetails.latestblog.review.votes}
-                        </Badge>
-                      </div>
                     </div>
-                    <CardDescription>
+                    <CardDescription className='text-center'>
                       {profileDetails.latestblog.subtitle}
                     </CardDescription>
                   </CardHeader>
-                  <CardFooter>
+                  <CardFooter className='flex justify-center'>
                   <Link href={`/flows/${profileDetails.latestblog.link}`}>
-                    <Button className='btn btn--wide w-full'>
+                    <Button className='btn btn--wide !rounded-md !rounded-md'>
                       {t('view_post')}
                       <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Button>
@@ -515,7 +517,7 @@ export default function ProfilePage({
               <Link href={`/home?mode=flow`}>
                 <Button
                   variant='outline'
-                  className='mt-3 w-full rounded-full border-primary text-primary'
+                  className='mt-3 w-full rounded-md border-primary text-primary !border-green-700'
                 >
                   <VscEye className='mr-2 size-5' />
                   {t('view_more_topics')}

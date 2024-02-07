@@ -731,7 +731,7 @@ export default function SettingPage() {
                           <Button
                             type='submit'
                             disabled={isBasicLoading}
-                            className='btn btn--wide !ml-0 w-full'
+                            className='btn btn--wide !rounded-md !ml-0 w-full'
                           >
                             {isBasicLoading && (
                               <Loader2 className='mr-2 size-4 animate-spin' />
@@ -765,7 +765,7 @@ export default function SettingPage() {
                       <Button
                         onClick={submitGallery}
                         disabled={isGalleryLoading}
-                        className='btn btn--wide'
+                        className='btn btn--wide !rounded-md'
                       >
                         {isGalleryLoading && (
                           <Loader2 className='mr-2 size-4 animate-spin' />
@@ -793,7 +793,7 @@ export default function SettingPage() {
                       <Button
                         onClick={submitAddtionalInfo}
                         disabled={isAdditionalLoading}
-                        className='btn btn--wide'
+                        className='btn btn--wide !rounded-md'
                       >
                         {isAdditionalLoading && (
                           <Loader2 className='mr-2 size-4 animate-spin' />
@@ -816,7 +816,7 @@ export default function SettingPage() {
                   ></Input>
                   <Button
                     onClick={submitRechargecode}
-                    className='btn btn--wide'
+                    className='btn btn--wide !rounded-md'
                   >
                     {isRechargeLoading && (
                       <Loader2 className='mr-2 size-4 animate-spin' />

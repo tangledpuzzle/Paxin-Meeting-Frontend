@@ -166,7 +166,7 @@ export function SignInCard() {
             <Button
               type='submit'
               variant='default'
-              className='btn btn--wide w-full'
+              className='btn btn--wide !rounded-md w-full'
               disabled={loading}
             >
               {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
