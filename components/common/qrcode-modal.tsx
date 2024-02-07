@@ -1,4 +1,4 @@
-// import React, { useState } from "react"
+'use client';
 
 import { IoQrCodeOutline } from 'react-icons/io5';
 import { LuScanLine } from 'react-icons/lu';

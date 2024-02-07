@@ -50,6 +50,12 @@ export async function POST(req: NextRequest) {
         throw new Error('Failed to fetch data');
       }
 
+      const data = await res.json();
+
+      console.log('============');
+      console.log(data);
+      console.log('============');
+
       return NextResponse.json({ success: true });
     }
   } catch (error) {
