@@ -52,7 +52,7 @@ const Slideshow: React.FC<SlideshowProps> = ({ images, interval }) => {
   };
 
   return (
-    <div className="slideshow-container relative h-[340px] md:h-[680px] top-4">
+    <div className="slideshow-container relative slider-h top-4">
       {images.map((image, index) => (
         <div
           key={index}
