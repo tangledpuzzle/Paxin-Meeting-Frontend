@@ -53,22 +53,7 @@ function SectionHeroImage({}: SectionHeroImageProps) {
         <div className='absolute z-[-1] h-[110%] min-h-full w-full max-w-7xl' />
 
         <div className='w-full dark:hidden'>
-          <Image
-            src='/images/home/hero-light.avif'
-            width={1440}
-            height={3000}
-            alt='hero'
-            loading='lazy'
-            className='mx-auto hidden h-auto w-full max-w-5xl md:block'
-          />
-          <Image
-            src='/images/home/hero-mobile-light.avif'
-            width={400}
-            height={658}
-            alt='hero'
-            loading='lazy'
-            className='mx-auto h-auto w-full max-w-5xl md:hidden'
-          />
+          <Slideshow images={images} interval={interval} />
         </div>
         <div className='hidden w-full px-2 dark:block sm:px-16'>
           {/* <Image
@@ -85,7 +70,7 @@ function SectionHeroImage({}: SectionHeroImageProps) {
             alt='hero'
             className='mx-auto h-auto w-full max-w-5xl pt-[20px] md:hidden'
           /> */}
-                  <Slideshow images={images} interval={interval} />
+          <Slideshow images={images} interval={interval} />
 
         </div>
       </motion.div>
