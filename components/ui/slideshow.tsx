@@ -63,10 +63,10 @@ const Slideshow: React.FC<SlideshowProps> = ({ images, interval }) => {
         </div>
       ))}
       <div className='absolute flex justify-between w-full px-4 items-center h-full'>
-        <div className='text-[24px] bg-cyan-500 rounded-md cursor-pointer' onClick={prevSlide}>
+        <div className='text-[24px] bg-green-600/80 rounded-md cursor-pointer' onClick={prevSlide}>
           <RiArrowLeftSLine />
         </div>
-        <div className='text-[24px] bg-cyan-500 rounded-md cursor-pointer' onClick={nextSlide}>
+        <div className='text-[24px] bg-green-600/80 rounded-md cursor-pointer' onClick={nextSlide}>
           <RiArrowRightSLine />
         </div>
       </div>
