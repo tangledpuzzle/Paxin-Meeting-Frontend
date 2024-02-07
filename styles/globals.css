@@ -116,7 +116,7 @@
     --input: 0 0% 10%;
 
     --card: 224 71% 4%;
-    --card-gradient: linear-gradient(to bottom, #1e1e1e, #131313);
+    --card-gradient: linear-gradient(to bottom, #131313, #000000);
     --card-gradient-on: linear-gradient(to bottom, #00B887, #01B6D3);
 
     --card-gradient-menu: linear-gradient(to bottom, #1e1e1e, #131313);

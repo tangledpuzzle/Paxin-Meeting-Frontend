@@ -60,7 +60,7 @@ export async function SiteHeader() {
               />
             ) : (
               <Button asChild>
-                <Link className='btn btn--wide' href='/auth/signin'>
+                <Link className='btn btn--wide !rounded-md' href='/auth/signin'>
                   {t('sign_in')}
                 </Link>
               </Button>

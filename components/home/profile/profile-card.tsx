@@ -143,7 +143,7 @@ function ProfileCard(profile: ProfileCardProps) {
         <div className='flex justify-between px-3 pb-3'>
           <Button
             variant='default'
-            className='btn btn--wide w-full text-center font-roboto'
+            className='btn btn--wide !rounded-md w-full text-center font-roboto'
             asChild
           >
             <Link href='/profiles/[username]' as={`/profiles/${username}`}>
