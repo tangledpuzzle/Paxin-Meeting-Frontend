@@ -1,3 +1,5 @@
+'use client';
+
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { VisibilityContext } from 'react-horizontal-scrolling-menu';

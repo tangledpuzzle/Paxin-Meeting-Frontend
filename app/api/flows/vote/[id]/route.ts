@@ -26,7 +26,26 @@ export async function POST(req: NextRequest) {
       throw new Error('Failed to fetch data');
     }
 
-    return NextResponse.json({ success: true });
+    let upvotes = 0;
+    let downvotes = 0;
+
+    const voteRes = await fetch(
+      `${process.env.API_URL}/api/blog/allvotes/${id}`
+    );
+
+    if (voteRes.ok) {
+      const data = await voteRes.json();
+
+      data.votes.forEach((vote: any) => {
+        if (vote.IsUP) {
+          upvotes++;
+        } else {
+          downvotes++;
+        }
+      });
+    }
+
+    return NextResponse.json({ success: true, upvotes, downvotes });
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to fetch data' },
