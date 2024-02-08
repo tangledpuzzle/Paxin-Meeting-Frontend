@@ -316,7 +316,8 @@
     "hello": "Привет",
     "load_more": "Загрузить еще",
     "n_data_loaded_successfully": "{number} данных успешно загружены",
-    "subscribers": "подписчики"
+    "subscribers": "подписчики",
+    "no_blogs_yet": "Пока нет блогов..."
   },
   "privacy": {
     "rulesprivacy": "Правила конфиденциальности",

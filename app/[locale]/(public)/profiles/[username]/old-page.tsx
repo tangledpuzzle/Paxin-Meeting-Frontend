@@ -222,7 +222,7 @@ export default function ProfilePage({
         <div className='grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4'>
           <div className=''>
             <div className='w-full'>
-              {profileDetails.gallery.length > 0 ? (
+              {profileDetails.gallery?.length > 0 ? (
                 <ImageGallery
                   items={profileDetails.gallery}
                   thumbnailPosition='bottom'

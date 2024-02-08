@@ -81,7 +81,7 @@ export async function GET(req: NextRequest) {
       follow: session
         ? data.data.Followings.filter(
             (item: any) => item.ID === session?.user?.id
-          ).length > 0
+          )?.length > 0
         : false,
       me: session?.user?.id === data.data.ID,
     };
