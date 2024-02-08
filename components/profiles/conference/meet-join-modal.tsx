@@ -22,6 +22,7 @@ interface MeetJoinModalProps {
 
 export function MeetJoinModal({ children }: MeetJoinModalProps) {
   const t = useTranslations('main');
+
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   const handleJoin = () => {

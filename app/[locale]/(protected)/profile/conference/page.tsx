@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HiUserGroup } from 'react-icons/hi';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -29,10 +30,15 @@ const dateString: Intl.DateTimeFormatOptions = {
 
 export default function ConferencePage() {
   const t = useTranslations('main');
+  const router = useRouter();
+
   // const iframeRef = useRef<HTMLIFrameElement>(null);
   // const { user, userMutate } = useContext(PaxContext);
-  const [time, setTime] = useState<Date>(new Date());
 
+  const [time, setTime] = useState<Date>(new Date());
+  function navigate2Meet() {
+    router.push('/meet');
+  }
   // const updateTime = (): void => {
   //   setTime(new Date());
   // };
@@ -108,7 +114,7 @@ export default function ConferencePage() {
               </div>
             </div>
             <div className='flex w-full justify-center gap-4'>
-              <MeetCreateModal>
+              <MeetCreateModal onCreate={navigate2Meet}>
                 <Button
                   variant='outline'
                   className='border-primary text-primary'

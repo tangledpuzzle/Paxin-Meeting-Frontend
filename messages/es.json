@@ -349,5 +349,6 @@
     "platRespDesc": "La plataforma no es responsable de la información publicada por los autores de la plataforma. Los usuarios son autores independientes de su contenido y son responsables de su licitud, confiabilidad y cumplimiento de las reglas de la plataforma.",
     "accBlock": "Bloqueo de cuenta si se violan las reglas:",
     "accBlockDesc": "En caso de violación de cualquiera de las reglas de publicación establecidas, la plataforma se reserva el derecho de bloquear la cuenta del usuario sin previo aviso. El bloqueo de cuenta puede ser temporal o permanente según la naturaleza de la infracción."
-  }
+  },
+  "meet": {}
 }

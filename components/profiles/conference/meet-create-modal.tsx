@@ -15,9 +15,10 @@ import { useTranslations } from 'next-intl';
 
 interface MeetCreateModalProps {
   children: React.ReactNode;
+  onCreate: () => void;
 }
 
-export function MeetCreateModal({ children }: MeetCreateModalProps) {
+export function MeetCreateModal({ onCreate, children }: MeetCreateModalProps) {
   const t = useTranslations('main');
   return (
     <Dialog>
@@ -68,7 +69,9 @@ export function MeetCreateModal({ children }: MeetCreateModalProps) {
           </div>
         </div>
         <DialogFooter>
-          <Button type='submit'>{t('create')}</Button>
+          <Button type='submit' onClick={onCreate}>
+            {t('create')}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
