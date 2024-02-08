@@ -127,7 +127,7 @@ async function getData(locale: string, username: string) {
       follow: session
         ? data.data.Followings.filter(
             (item: any) => item.ID === session?.user?.id
-          ).length > 0
+          )?.length > 0
         : false,
       me: session?.user?.id === data.data.ID,
     };
@@ -236,7 +236,7 @@ export default async function ProfilePage({
       <div className='grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4'>
         <div className=''>
           <div className='w-full'>
-            {profileDetails.gallery.length > 0 ? (
+            {profileDetails.gallery?.length > 0 ? (
               <ProfileImageGallery images={profileDetails.gallery} />
             ) : (
               <TbPhotoX className='size-full' />
@@ -277,10 +277,10 @@ export default async function ProfilePage({
             {profileDetails.latestblog && (
               <Card className='w-full'>
                 <CardHeader>
-                <div className='flex justify-end'>
+                  <div className='flex justify-end'>
                     <Badge
                       variant='outline'
-                      className='m-0  text-xs text-white bg-black/20'
+                      className='m-0  bg-black/20 text-xs text-white'
                     >
                       <FaThumbsUp className='mr-2 size-3' />
                       {profileDetails.latestblog.review.votes}
@@ -306,7 +306,10 @@ export default async function ProfilePage({
                 </CardHeader>
                 <CardFooter>
                   <Button className='btn btn--wide w-full !rounded-md' asChild>
-                    <Link href={`/flows/${profileDetails.latestblog.link}`} className='text-center'>
+                    <Link
+                      href={`/flows/${profileDetails.latestblog.link}`}
+                      className='text-center'
+                    >
                       {t('view_post')}
                       <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Link>
@@ -316,7 +319,7 @@ export default async function ProfilePage({
             )}
             <Button
               variant='outline'
-              className='mt-3 w-full rounded-md text-primary !border-green-600'
+              className='mt-3 w-full rounded-md !border-green-600 text-primary'
               asChild
             >
               <Link href={`/home?mode=flow`}>
@@ -330,7 +333,7 @@ export default async function ProfilePage({
           <div className='grid grid-cols-1'>
             <div className='col-span-4 w-full'>
               <div className=''>
-                <div className='flex gap-3 text-xl font-semibold text-secondary-foreground pb-2'>
+                <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
                   @{profileDetails.username}
                   <div
                     className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
@@ -339,7 +342,7 @@ export default async function ProfilePage({
                     }}
                   />
                 </div>
-                <div className='text-sm text-muted-foreground pb-2'>
+                <div className='pb-2 text-sm text-muted-foreground'>
                   {profileDetails.bio}
                 </div>
               </div>
@@ -458,7 +461,7 @@ export default async function ProfilePage({
               <div className='text-gray-500'>{profileDetails.description}</div>
             </div> */}
             <div>
-              <div className='text-lg font-semibold pb-2'>
+              <div className='pb-2 text-lg font-semibold'>
                 {t('additional_info')}
               </div>
               <div
@@ -471,14 +474,14 @@ export default async function ProfilePage({
           </div>
 
           <div className='mx-auto max-w-sm md:hidden'>
-            <div className='text-lg font-semibold pb-2'>{t('post_feed')}: </div>
+            <div className='pb-2 text-lg font-semibold'>{t('post_feed')}: </div>
             {profileDetails.latestblog && (
               <Card className='w-full'>
                 <CardHeader>
                   <div className='flex justify-end'>
                     <Badge
                       variant='outline'
-                      className='m-0  text-xs text-white bg-black/20'
+                      className='m-0  bg-black/20 text-xs text-white'
                     >
                       <FaThumbsUp className='mr-2 size-3' />
                       {profileDetails.latestblog.review.votes}
@@ -501,19 +504,19 @@ export default async function ProfilePage({
                   </CardDescription>
                 </CardHeader>
                 <CardFooter className='flex justify-center'>
-                <Link href={`/flows/${profileDetails.latestblog.link}`}>
-                  <Button className='btn btn--wide !rounded-md !text-center'>
-                    {t('view_post')}
-                    <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
-                  </Button>
-                </Link>
+                  <Link href={`/flows/${profileDetails.latestblog.link}`}>
+                    <Button className='btn btn--wide !rounded-md !text-center'>
+                      {t('view_post')}
+                      <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
+                    </Button>
+                  </Link>
                 </CardFooter>
               </Card>
             )}
             <Link href={`/home?mode=flow`}>
               <Button
                 variant='outline'
-                className='mt-3 w-full rounded-md text-primary !border-green-600'
+                className='mt-3 w-full rounded-md !border-green-600 text-primary'
               >
                 <VscEye className='mr-2 size-5' />
                 {t('view_more_topics')}

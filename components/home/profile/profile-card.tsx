@@ -63,7 +63,7 @@ function ProfileCard(profile: ProfileCardProps) {
             {avatar ? (
               <Image
                 src={avatar}
-                layout='fill'
+                fill
                 style={{ objectFit: 'cover' }}
                 className='rounded-md rounded-b-none'
                 alt='profile'
@@ -143,7 +143,7 @@ function ProfileCard(profile: ProfileCardProps) {
         <div className='flex justify-between px-3 pb-3'>
           <Button
             variant='default'
-            className='btn btn--wide !rounded-md w-full text-center font-roboto'
+            className='btn btn--wide w-full !rounded-md text-center font-roboto'
             asChild
           >
             <Link href='/profiles/[username]' as={`/profiles/${username}`}>

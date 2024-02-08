@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { cookies } from 'next/headers';
 
 const authOptions: NextAuthOptions = {
   debug: true,
@@ -43,11 +44,13 @@ const authOptions: NextAuthOptions = {
           const data = response.data;
 
           if (data.status === 'success') {
-            console.log(req);
-            // req.setHeader(
-            //   'Set-Cookie',
-            //   `access_token=${encodeURIComponent(data.access_token)}; HttpOnly; Secure; Path=/; Domain=.paxintrade.com;`
-            // );
+            cookies().set('access_token', data.access_token, {
+              maxAge: 60 * 60 * 24 * 30,
+              path: '/',
+              secure: process.env.NODE_ENV === 'production',
+              httpOnly: false,
+              domain: 'meet.paxintrade.com',
+            });
 
             return {
               id: data.refresh_token.UserID,
@@ -97,19 +100,5 @@ const authOptions: NextAuthOptions = {
     },
   },
 };
-
-if (process.env.NODE_ENV === 'production') {
-  authOptions.cookies = {
-    sessionToken: {
-      name: '__Secure-next-auth.session-token',
-      options: {
-        httpOnly: true,
-        secure: true,
-        path: '/',
-        domain: '.paxintrade.com',
-      },
-    },
-  };
-}
 
 export default authOptions;

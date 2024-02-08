@@ -110,7 +110,7 @@ export default function ProfileSection() {
     <div className='w-full space-y-6'>
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
         {!error ? (
-          profileData.length > 0 ? (
+          profileData?.length > 0 ? (
             profileData.map((profile: ProfileData) => (
               <ProfileCard key={profile.username} {...profile} />
             ))
@@ -130,7 +130,7 @@ export default function ProfileSection() {
       {isLoadable && (
         <div className='flex w-full justify-center'>
           <Button
-            className='btn btn--wide !rounded-md mx-auto'
+            className='btn btn--wide mx-auto !rounded-md'
             disabled={loading}
             onClick={() => handleLoadMore()}
           >

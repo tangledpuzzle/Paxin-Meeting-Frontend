@@ -7,12 +7,16 @@ import { useTranslations } from 'next-intl';
 import Slideshow from '@/components/ui/slideshow';
 
 export interface SectionHeroImageProps
-extends React.HTMLAttributes<HTMLDivElement> {}
+  extends React.HTMLAttributes<HTMLDivElement> {}
 
-
-const images = ['images/6.avif', 'images/3.avif', 'images/2.avif', 'images/9.avif', 'images/10.avif'];
+const images = [
+  '/images/6.avif',
+  '/images/3.avif',
+  '/images/2.avif',
+  '/images/9.avif',
+  '/images/10.avif',
+];
 const interval = 5000; // Интервал в миллисекундах (5 секунд)
-
 
 function SectionHeroImage({}: SectionHeroImageProps) {
   const t = useTranslations('main');
@@ -23,7 +27,6 @@ function SectionHeroImage({}: SectionHeroImageProps) {
         'pt- relative mt-12 flex w-full items-center justify-center px-7'
       )}
     >
-
       <motion.div
         initial='hidden'
         animate='visible'
@@ -70,7 +73,6 @@ function SectionHeroImage({}: SectionHeroImageProps) {
             className='mx-auto h-auto w-full max-w-5xl pt-[20px] md:hidden'
           /> */}
           <Slideshow images={images} interval={interval} />
-
         </div>
       </motion.div>
 

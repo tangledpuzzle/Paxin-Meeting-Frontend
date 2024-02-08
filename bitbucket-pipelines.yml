@@ -1,0 +1,30 @@
+image: node:18
+
+pipelines:
+  # default:
+  #   - parallel:
+  #       - step:
+  #           name: "Build and Test"
+  #           caches:
+  #             - node
+  #           script:
+  #             - npm install
+  #             - npm run build
+  branches:
+    release/prod:
+      - step:
+          name: "Build"
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run build
+          # artifacts:
+          #   - build/**
+      - step:
+          name: "Deploy to Production Environment"
+          deployment: Production
+          script:
+            - echo "Deploying to production environment"
+            - chmod +x ./deploy_release-prod.sh
+            - ./deploy_release-prod.sh

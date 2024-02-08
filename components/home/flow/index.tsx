@@ -114,7 +114,7 @@ export default function FlowSection() {
     <div className='w-full space-y-6'>
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
         {!error ? (
-          flowData.length > 0 ? (
+          flowData?.length > 0 ? (
             flowData.map((flow: FlowData) => (
               <FlowCard key={flow.id} {...flow} />
             ))
@@ -134,7 +134,7 @@ export default function FlowSection() {
       {isLoadable && (
         <div className='flex w-full justify-center'>
           <Button
-            className='btn btn--wide !rounded-md mx-auto'
+            className='btn btn--wide mx-auto !rounded-md'
             disabled={loading}
             onClick={() => handleLoadMore()}
           >
