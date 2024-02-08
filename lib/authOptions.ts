@@ -106,7 +106,7 @@ if (process.env.NODE_ENV === 'production') {
         httpOnly: true,
         secure: true,
         path: '/',
-        domain: '.paxintrade.com',
+        // domain: '.paxintrade.com',
       },
     },
   };
