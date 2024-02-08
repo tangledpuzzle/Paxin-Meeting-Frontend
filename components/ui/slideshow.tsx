@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import { RiArrowRightSLine } from 'react-icons/ri';
 import { RiArrowLeftSLine } from 'react-icons/ri';
@@ -52,17 +53,23 @@ const Slideshow: React.FC<SlideshowProps> = ({ images, interval }) => {
   };
 
   return (
-    <div className='slideshow-container slider-h relative top-4 overflow-hidden'>
+    <div className='slideshow-container slider-h relative top-4'>
       {images.map((image, index) => (
         <div
           key={index}
-          className={`fade ${index === currentIndex ? 'active' : ''}`}
+          className={`fade slider-h size-full ${index === currentIndex ? 'active' : ''}`}
           style={{ animationDelay: `${index * interval}ms` }}
         >
-          <img src={image} alt={`Slide ${index + 1}`} className='rounded-md' />
+          <Image
+            src={image}
+            alt={`Slide ${index + 1}`}
+            className='rounded-md'
+            layout='fill'
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+          />
         </div>
       ))}
-      <div className='absolute flex h-full w-full items-center justify-between px-4'>
+      <div className='absolute flex size-full items-center justify-between px-4'>
         <div
           className='cursor-pointer rounded-md bg-green-600/80 text-[24px]'
           onClick={prevSlide}
