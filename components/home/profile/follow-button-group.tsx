@@ -86,7 +86,7 @@ function FollowButtonGroup({ me, follow, followerID }: FollowButtonGroupProps) {
     <>
       {isFollowable ? (
         <Button
-          className='btn btn--wide !mr-0 ml-auto rounded-full !rounded-md'
+          className='btn btn--wide !mr-0 ml-auto !rounded-md'
           disabled={isFollowLoading || me}
           onClick={handleFollow}
         >
