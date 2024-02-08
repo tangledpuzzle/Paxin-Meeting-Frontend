@@ -134,18 +134,20 @@ function FlowCard(profile: FlowCardProps) {
           </div>
         </div>
         <div className='mt-auto flex grow gap-3 px-3'>
-          <Link
-            className='w-full'
-            href={{ query: { ...queries, money: price } }}
-          >
-            <PriceBadge>
-              {price.toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                maximumFractionDigits: 0,
-              })}
-            </PriceBadge>
-          </Link>
+          {price !== 0 && (
+            <Link
+              className='w-full'
+              href={{ query: { ...queries, money: price } }}
+            >
+              <PriceBadge>
+                {price.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                  maximumFractionDigits: 0,
+                })}
+              </PriceBadge>
+            </Link>
+          )}
           <Link
             className='w-full'
             href={{ query: { ...queries, city: location } }}
