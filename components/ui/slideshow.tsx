@@ -1,6 +1,7 @@
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
-import { RiArrowRightSLine } from "react-icons/ri";
-import { RiArrowLeftSLine } from "react-icons/ri";
+import { RiArrowRightSLine } from 'react-icons/ri';
+import { RiArrowLeftSLine } from 'react-icons/ri';
 
 interface SlideshowProps {
   images: string[];
@@ -16,7 +17,7 @@ const Slideshow: React.FC<SlideshowProps> = ({ images, interval }) => {
 
     if (currentIndex < images.length) {
       let progress = 0;
-      const step = 1; 
+      const step = 1;
 
       progressInterval = setInterval(() => {
         progress += step;
@@ -28,10 +29,10 @@ const Slideshow: React.FC<SlideshowProps> = ({ images, interval }) => {
             setCurrentIndex((prevIndex) =>
               prevIndex === images.length - 1 ? 0 : prevIndex + 1
             );
-            setProgressWidth(0); 
-          }, 400); 
+            setProgressWidth(0);
+          }, 400);
         }
-      }, interval / 100); 
+      }, interval / 100);
     }
 
     return () => clearInterval(progressInterval);
@@ -41,40 +42,49 @@ const Slideshow: React.FC<SlideshowProps> = ({ images, interval }) => {
     setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
-    setProgressWidth(0); 
+    setProgressWidth(0);
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
-    setProgressWidth(0); 
+    setProgressWidth(0);
   };
 
   return (
-    <div className="slideshow-container relative slider-h top-4">
+    <div className='slideshow-container slider-h relative top-4'>
       {images.map((image, index) => (
         <div
           key={index}
-          className={`fade ${index === currentIndex ? 'active' : ''}`}
+          className={`fade slider-h size-full ${index === currentIndex ? 'active' : ''}`}
           style={{ animationDelay: `${index * interval}ms` }}
         >
-          <img src={image} alt={`Slide ${index + 1}`} className='rounded-md' />
+          <Image
+            src={image}
+            alt={`Slide ${index + 1}`}
+            className='rounded-md'
+            fill
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+          />
         </div>
       ))}
-      <div className='absolute flex justify-between w-full px-4 items-center h-full'>
-        <div className='text-[24px] bg-green-600/80 rounded-md cursor-pointer' onClick={prevSlide}>
+      <div className='absolute flex size-full items-center justify-between px-4'>
+        <div
+          className='cursor-pointer rounded-md bg-green-600/80 text-[24px]'
+          onClick={prevSlide}
+        >
           <RiArrowLeftSLine />
         </div>
-        <div className='text-[24px] bg-green-600/80 rounded-md cursor-pointer' onClick={nextSlide}>
+        <div
+          className='cursor-pointer rounded-md bg-green-600/80 text-[24px]'
+          onClick={nextSlide}
+        >
           <RiArrowRightSLine />
         </div>
       </div>
-      <div className="progress-bar">
-        <div
-          className="progress"
-          style={{ width: `${progressWidth}%` }}
-        ></div>
+      <div className='progress-bar'>
+        <div className='progress' style={{ width: `${progressWidth}%` }}></div>
       </div>
     </div>
   );

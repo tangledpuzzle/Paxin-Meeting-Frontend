@@ -316,7 +316,8 @@
     "hello": "Hola",
     "load_more": "Cargar más",
     "n_data_loaded_successfully": "{number} datos cargados exitosamente",
-    "subscribers": "Suscriptores"
+    "subscribers": "Suscriptores",
+    "no_blogs_yet": "Aún no hay blogs..."
   },
   "privacy": {
     "rulesprivacy": "política de privacidad",
