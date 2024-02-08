@@ -1,7 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { cookies } from 'next/headers';
 
 const authOptions: NextAuthOptions = {
   debug: true,
@@ -44,14 +43,6 @@ const authOptions: NextAuthOptions = {
           const data = response.data;
 
           if (data.status === 'success') {
-            cookies().set('access_token', data.access_token, {
-              maxAge: 60 * 60 * 24 * 30,
-              path: '/',
-              secure: process.env.NODE_ENV === 'production',
-              httpOnly: false,
-              domain: 'meet.paxintrade.com',
-            });
-
             return {
               id: data.refresh_token.UserID,
               name: '',
