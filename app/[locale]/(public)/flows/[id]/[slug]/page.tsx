@@ -2,7 +2,7 @@ import { Breadcrumb } from '@/components/common/breadcrumb';
 import { ComplainModal } from '@/components/common/complain-modal';
 import { CopyButton } from '@/components/common/copy-button';
 import { ReportModal } from '@/components/common/report-modal';
-import { TagSlider } from '@/components/common/tag-slider';
+// import { TagSlider } from '@/components/common/tag-slider';
 import { FlowImageGallery } from '@/components/home/flow/flow-image-gallery';
 import { UpvoteCard } from '@/components/home/flow/upvote-card';
 import { Badge } from '@/components/ui/badge';
@@ -194,13 +194,13 @@ export default async function FlowPage({
             }}
           />
         </div>
-        <div className='text-sm text-muted-foreground'>
+        <div className='text-sm text-muted-foreground mb-4'>
           {blogDetails?.description}
         </div>
       </div>
-      <div className='my-4 max-w-[390px]'>
+      {/* <div className='my-4 max-w-[390px]'>
         <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
-      </div>
+      </div> */}
       <div className='md:1/2 w-full'>
         <FlowImageGallery images={blogDetails?.gallery || []} />
       </div>
@@ -303,9 +303,9 @@ export default async function FlowPage({
           </div>
           <Separator className='my-4' />
           <div>
-            <Label className='text-xl font-semibold'>{t('description')}:</Label>
+            <Label className='text-xl font-semibold '>{t('description')}:</Label>
             <div
-              className='text-muted-foreground'
+              className='text-muted-foreground mt-2'
               dangerouslySetInnerHTML={{ __html: blogDetails.content }}
             />
           </div>
@@ -366,13 +366,14 @@ export default async function FlowPage({
             </CardContent>
           </Card>
           <Card className='mx-auto w-full'>
-            <CardHeader className='grid grid-cols-2 items-center gap-2'>
-              <div className='relative h-28 w-full overflow-hidden rounded-lg'>
+            <CardHeader className='items-center gap-2'>
+              <div className='relative h-28  overflow-hidden rounded-lg'>
                 <Image
                   src={blogDetails.author?.avatar}
+                  className='rounded-full'
                   alt=''
-                  layout='fill'
-                  style={{ objectFit: 'cover', objectPosition: 'center' }}
+                  width={100}
+                  height={100}
                 />
               </div>
               <div>
@@ -380,11 +381,11 @@ export default async function FlowPage({
                   href={`/profiles/${blogDetails.author?.username}`}
                   className='underline'
                 >
-                  <div className='w-full max-w-full truncate font-semibold'>
+                  <div className='w-full max-w-full truncate font-semibold text-center'>
                     @{blogDetails.author?.username}
                   </div>
                 </Link>
-                <div className='line-clamp-2 break-all text-sm'>
+                <div className='line-clamp-2 break-all text-sm text-center'>
                   {blogDetails.author?.bio}
                 </div>
               </div>
@@ -424,7 +425,7 @@ export default async function FlowPage({
                   </Button>
                 )}
               </div>
-              <Button className='w-full' asChild>
+              <Button className='w-full btn !rounded-md' asChild>
                 <Link href={`/profiles/${blogDetails.author?.username}`}>
                   {t('visit_profile')}
                 </Link>

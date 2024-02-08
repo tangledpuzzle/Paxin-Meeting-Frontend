@@ -106,7 +106,7 @@ function UpvoteCard({ upvotes, downvotes, vote, me, id }: UpvoteCardProps) {
       </Card>
       <div className='grid w-full grid-cols-2 gap-2'>
         <Button
-          className='btn btn--wide w-full'
+          className='btn btn--wide w-full !rounded-md'
           variant={vote === 1 ? 'default' : 'outline'}
           disabled={isUpVoteLoading || isDownVoteLoading || me}
           onClick={() => handleVote({ id: id, vote: true })}

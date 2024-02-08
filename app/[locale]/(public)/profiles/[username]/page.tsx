@@ -1,5 +1,5 @@
 import { Breadcrumb } from '@/components/common/breadcrumb';
-import { TagSlider } from '@/components/common/tag-slider';
+// import { TagSlider } from '@/components/common/tag-slider';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { BiSolidCalendar, BiSolidCategory } from 'react-icons/bi';
@@ -277,35 +277,36 @@ export default async function ProfilePage({
             {profileDetails.latestblog && (
               <Card className='w-full'>
                 <CardHeader>
-                  <div className='relative h-[150px] w-full xl:h-[200px]'>
+                <div className='flex justify-end'>
+                    <Badge
+                      variant='outline'
+                      className='m-0  text-xs text-white bg-black/20'
+                    >
+                      <FaThumbsUp className='mr-2 size-3' />
+                      {profileDetails.latestblog.review.votes}
+                    </Badge>
+                  </div>
+                  <div className='flex justify-center'>
                     <Image
                       src={profileDetails.latestblog.hero}
                       alt='preview image'
-                      style={{ objectFit: 'cover' }}
-                      fill
+                      width={100}
+                      height={100}
+                      className='rounded-full'
                     />
                   </div>
-                  <div className='flex items-center justify-between gap-2'>
-                    <CardTitle className='line-clamp-1'>
+                  <div className='flex items-center justify-center gap-2'>
+                    <CardTitle className='line-clamp-1 text-center '>
                       {profileDetails.latestblog.title}
                     </CardTitle>
-                    <div>
-                      <Badge
-                        variant='outline'
-                        className='m-0 bg-muted-foreground text-xs text-white'
-                      >
-                        <FaThumbsUp className='mr-2 size-3' />
-                        {profileDetails.latestblog.review.votes}
-                      </Badge>
-                    </div>
                   </div>
-                  <CardDescription>
+                  <CardDescription className='text-center'>
                     {profileDetails.latestblog.subtitle}
                   </CardDescription>
                 </CardHeader>
                 <CardFooter>
-                  <Button className='btn btn--wide w-full' asChild>
-                    <Link href={`/flows/${profileDetails.latestblog.link}`}>
+                  <Button className='btn btn--wide w-full !rounded-md' asChild>
+                    <Link href={`/flows/${profileDetails.latestblog.link}`} className='text-center'>
                       {t('view_post')}
                       <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                     </Link>
@@ -315,7 +316,7 @@ export default async function ProfilePage({
             )}
             <Button
               variant='outline'
-              className='mt-3 w-full rounded-full border-primary text-primary'
+              className='mt-3 w-full rounded-md text-primary !border-green-600'
               asChild
             >
               <Link href={`/home?mode=flow`}>
@@ -329,7 +330,7 @@ export default async function ProfilePage({
           <div className='grid grid-cols-1'>
             <div className='col-span-4 w-full'>
               <div className=''>
-                <div className='flex gap-3 text-xl font-semibold text-secondary-foreground'>
+                <div className='flex gap-3 text-xl font-semibold text-secondary-foreground pb-2'>
                   @{profileDetails.username}
                   <div
                     className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
@@ -338,13 +339,13 @@ export default async function ProfilePage({
                     }}
                   />
                 </div>
-                <div className='text-sm text-muted-foreground'>
+                <div className='text-sm text-muted-foreground pb-2'>
                   {profileDetails.bio}
                 </div>
               </div>
-              <div className='my-4 max-w-[390px]'>
+              {/* <div className='my-4 max-w-[390px]'>
                 <TagSlider tags={profileDetails.hashtags} mode='profile' />
-              </div>
+              </div> */}
             </div>
             <div className='hidden items-start justify-end'>
               <div>
@@ -408,11 +409,11 @@ export default async function ProfilePage({
           <Separator />
           <div className='my-3 flex flex-col gap-4 md:flex-row md:gap-24'>
             <div>
-              <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-2 pb-2'>
                 <BiSolidCalendar className='size-4' />
                 {t('online_status')}
               </div>
-              <div className='text-gray-500'>
+              <div className='text-sm text-muted-foreground'>
                 <div>
                   {t('this_month')}: {profileDetails.review.monthtime.hour}h{' '}
                   {profileDetails.review.monthtime.minutes}m
@@ -424,11 +425,11 @@ export default async function ProfilePage({
               </div>
             </div>
             <div>
-              <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-2 pb-2'>
                 <MdOutlinePostAdd className='size-4' />
                 {t('publications')}
               </div>
-              <div className='text-gray-500'>
+              <div className='text-sm text-muted-foreground'>
                 <div>
                   {t('this_month')}: {profileDetails.review.monthposts}
                 </div>
@@ -438,11 +439,11 @@ export default async function ProfilePage({
               </div>
             </div>
             <div>
-              <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-2 pb-2'>
                 <RiUserFollowFill className='size-4' />
                 {t('followers')}
               </div>
-              <div className='text-gray-500'>
+              <div className='text-sm text-muted-foreground'>
                 <div>
                   {t('total')}: {profileDetails.review.followers}
                 </div>
@@ -450,18 +451,18 @@ export default async function ProfilePage({
             </div>
           </div>
           <div className='space-y-3'>
-            <div>
+            {/* <div>
               <div className='text-lg font-semibold'>
                 {t('profile_description')}
               </div>
               <div className='text-gray-500'>{profileDetails.description}</div>
-            </div>
+            </div> */}
             <div>
-              <div className='text-lg font-semibold'>
+              <div className='text-lg font-semibold pb-2'>
                 {t('additional_info')}
               </div>
               <div
-                className='w-full text-gray-500'
+                className='text-sm text-muted-foreground'
                 dangerouslySetInnerHTML={{
                   __html: profileDetails.additionalinfo,
                 }}
@@ -470,49 +471,54 @@ export default async function ProfilePage({
           </div>
 
           <div className='mx-auto max-w-sm md:hidden'>
-            <div className='text-lg font-semibold'>{t('post_feed')}: </div>
+            <div className='text-lg font-semibold pb-2'>{t('post_feed')}: </div>
             {profileDetails.latestblog && (
               <Card className='w-full'>
                 <CardHeader>
-                  <div className='relative h-[150px] w-full xl:h-[200px]'>
+                  <div className='flex justify-end'>
+                    <Badge
+                      variant='outline'
+                      className='m-0  text-xs text-white bg-black/20'
+                    >
+                      <FaThumbsUp className='mr-2 size-3' />
+                      {profileDetails.latestblog.review.votes}
+                    </Badge>
+                  </div>
+                  <div className='flex justify-center'>
                     <Image
                       src={profileDetails.latestblog.hero}
                       alt='preview image'
-                      style={{ objectFit: 'cover' }}
-                      fill
+                      width={100}
+                      height={100}
+                      className='rounded-full'
                     />
                   </div>
-                  <div className='flex items-center justify-between gap-2'>
+                  <div className='flex items-center justify-center gap-2'>
                     <CardTitle>{profileDetails.latestblog.title}</CardTitle>
-                    <div>
-                      <Badge
-                        variant='outline'
-                        className='m-0 bg-muted-foreground text-xs text-white'
-                      >
-                        <FaThumbsUp className='mr-2 size-3' />
-                        {profileDetails.latestblog.review.votes}
-                      </Badge>
-                    </div>
                   </div>
-                  <CardDescription>
+                  <CardDescription className='text-center'>
                     {profileDetails.latestblog.subtitle}
                   </CardDescription>
                 </CardHeader>
-                <CardFooter>
-                  <Button className='btn btn--wide w-full'>
+                <CardFooter className='flex justify-center'>
+                <Link href={`/flows/${profileDetails.latestblog.link}`}>
+                  <Button className='btn btn--wide !rounded-md !text-center'>
                     {t('view_post')}
                     <MdOutlineKeyboardArrowRight className='ml-2 size-5' />
                   </Button>
+                </Link>
                 </CardFooter>
               </Card>
             )}
-            <Button
-              variant='outline'
-              className='mt-3 w-full rounded-full border-primary text-primary'
-            >
-              <VscEye className='mr-2 size-5' />
-              {t('view_more_topics')}
-            </Button>
+            <Link href={`/home?mode=flow`}>
+              <Button
+                variant='outline'
+                className='mt-3 w-full rounded-md text-primary !border-green-600'
+              >
+                <VscEye className='mr-2 size-5' />
+                {t('view_more_topics')}
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
