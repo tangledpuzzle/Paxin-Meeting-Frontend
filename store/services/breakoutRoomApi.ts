@@ -11,7 +11,7 @@ import {
 export const breakoutRoomApi = createApi({
   reducerPath: 'breakoutRoomApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: (window as any).PAXMEET_SERVER_URL + '/api/breakoutRoom',
+    baseUrl: process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL + '/api/breakoutRoom',
     prepareHeaders: (headers, api) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

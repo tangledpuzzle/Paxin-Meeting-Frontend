@@ -4,7 +4,7 @@ import { CommonResponse } from '../proto/plugnmeet_common_api_pb';
 import { getAccessToken } from '../utils';
 
 const API = axios.create({
-  baseURL: (window as any).PAXMEET_SERVER_URL + '/api',
+  baseURL: process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL + '/api',
 });
 
 const getToken = () => {
@@ -22,7 +22,7 @@ const sendAPIRequest = async (
   body: any,
   json_encode = true,
   content_type = 'application/json',
-  response_type: ResponseType = 'json',
+  response_type: ResponseType = 'json'
 ) => {
   try {
     if (json_encode) {

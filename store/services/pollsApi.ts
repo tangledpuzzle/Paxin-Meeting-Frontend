@@ -9,7 +9,7 @@ import {
 export const pollsApi = createApi({
   reducerPath: 'pollsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: (window as any).PAXMEET_SERVER_URL + '/api/polls',
+    baseUrl: process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL + '/api/polls',
     prepareHeaders: (headers, api) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

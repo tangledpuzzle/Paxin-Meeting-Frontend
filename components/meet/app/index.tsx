@@ -40,7 +40,7 @@ import { IConnectLivekit } from '@/helpers/livekit/types';
 import { getAccessToken } from '@/helpers/utils';
 import { useTranslations } from 'next-intl';
 
-declare const IS_PRODUCTION: boolean;
+// declare const IS_PRODUCTION: boolean;
 const waitingForApprovalSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata,
   (metadata) => metadata?.wait_for_approval
@@ -59,13 +59,12 @@ const Meet = () => {
   const [isRecorder, setIsRecorder] = useState<boolean>(false);
   const [userTypeClass, setUserTypeClass] = useState('participant');
   const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
-  const [Comp, setComp] = useState<() => JSX.Element>(() => <></>);
   const [currentConnection, setCurrentConnection] = useState<IConnectLivekit>();
   const waitForApproval = useAppSelector(waitingForApprovalSelector);
 
   // // we'll require making ready virtual background
   // // elements as early as possible.
-  // useBodyPix();
+  useBodyPix();
 
   // // some custom hooks
   const {
@@ -76,141 +75,141 @@ const Meet = () => {
     startLivekitConnection,
   } = useLivekitConnect();
 
-  // useKeyboardShortcuts(currentConnection?.room);
-  // useDesignCustomization();
-  // useWatchVisibilityChange();
+  useKeyboardShortcuts(currentConnection?.room);
+  useDesignCustomization();
+  useWatchVisibilityChange();
   const { deviceClass, orientationClass, screenHeight } = useWatchWindowSize(
     currentConnection?.room
   );
+
+  useThemeSettings();
+
   useEffect(() => {
-    // @ts-ignore
-    // import('@excalidraw/excalidraw').then((comp) => setComp(comp.default));
-  }, []);
-  // useThemeSettings();
+    const accessToken = getAccessToken();
+    let timeout: any;
+    if (!accessToken) {
+      // window.location.href = '/login.html';
+      setLoading(false);
+      setError({
+        title: t('app.token-missing-title'),
+        text: t('app.token-missing-des'),
+      });
+    } else if (
+      window.location.protocol === 'http:' &&
+      window.location.hostname !== 'localhost'
+    ) {
+      setLoading(false);
+      setError({
+        title: t('app.require-ssl-title'),
+        text: t('app.require-ssl-des'),
+      });
+    } else {
+      const verifyToken = async () => {
+        let res: VerifyTokenRes;
+        try {
+          console.log('1231');
+          const reqObj = new VerifyTokenReq({
+            isProduction: process.env.NEXT_PUBLIC_IS_PRODUCTION,
+          })();
+          console.log(123, reqObj);
+          const r = await sendAPIRequest(
+            'verifyToken',
+            reqObj.toBinary(),
+            false,
+            'application/protobuf',
+            'arraybuffer'
+          );
+          res = VerifyTokenRes.fromBinary(new Uint8Array(r));
+        } catch (error: any) {
+          console.error(error);
 
-  // useEffect(() => {
-  //   const accessToken = getAccessToken();
-  //   let timeout: any;
-  //   if (!accessToken) {
-  //     window.location.href = '/login.html';
-  //     setLoading(false);
-  //     setError({
-  //       title: t('app.token-missing-title'),
-  //       text: t('app.token-missing-des'),
-  //     });
-  //   } else if (
-  //     window.location.protocol === 'http:' &&
-  //     window.location.hostname !== 'localhost'
-  //   ) {
-  //     setLoading(false);
-  //     setError({
-  //       title: t('app.require-ssl-title'),
-  //       text: t('app.require-ssl-des'),
-  //     });
-  //   } else {
-  //     const verifyToken = async () => {
-  //       let res: VerifyTokenRes;
-  //       try {
-  //         const r = await sendAPIRequest(
-  //           'verifyToken',
-  //           new VerifyTokenReq({
-  //             isProduction: IS_PRODUCTION,
-  //           }).toBinary(),
-  //           false,
-  //           'application/protobuf',
-  //           'arraybuffer'
-  //         );
-  //         res = VerifyTokenRes.fromBinary(new Uint8Array(r));
-  //       } catch (error: any) {
-  //         console.error(error);
+          setRoomConnectionStatus('ready');
+          setLoading(false);
+          setError({
+            title: t('app.verification-failed-title'),
+            text: t('app.token-not-valid'),
+          });
+          return;
+        }
 
-  //         setRoomConnectionStatus('ready');
-  //         setLoading(false);
-  //         setError({
-  //           title: t('app.verification-failed-title'),
-  //           text: t('app.token-not-valid'),
-  //         });
-  //         return;
-  //       }
+        setRoomConnectionStatus('ready');
+        setLoading(false);
+        if (res.status && res.livekitHost && res.token) {
+          // we'll store token that we received from URL
+          dispatch(addToken(accessToken));
+          dispatch(addServerVersion(res.serverVersion ?? ''));
 
-  //       setRoomConnectionStatus('ready');
-  //       setLoading(false);
-  //       if (res.status && res.livekitHost && res.token) {
-  //         // we'll store token that we received from URL
-  //         dispatch(addToken(accessToken));
-  //         dispatch(addServerVersion(res.serverVersion ?? ''));
+          // for livekit need to use generated token & host
+          setLivekitInfo({
+            livekit_host: res.livekitHost,
+            token: res.token,
+            enabledE2EE: res.enabledE2ee,
+          });
+        } else {
+          setError({
+            title: t('app.verification-failed-title'),
+            text: t(res.msg),
+          });
+        }
+      };
 
-  //         // for livekit need to use generated token & host
-  //         setLivekitInfo({
-  //           livekit_host: res.livekitHost,
-  //           token: res.token,
-  //           enabledE2EE: res.enabledE2ee,
-  //         });
-  //       } else {
-  //         setError({
-  //           title: t('app.verification-failed-title'),
-  //           text: t(res.msg),
-  //         });
-  //       }
-  //     };
+      if (!currentConnection) {
+        setRoomConnectionStatus('checking');
+        timeout = setTimeout(() => {
+          verifyToken();
+        }, 300);
+      }
+    }
 
-  //     if (!currentConnection) {
-  //       setRoomConnectionStatus('checking');
-  //       timeout = setTimeout(() => {
-  //         verifyToken();
-  //       }, 300);
-  //     }
-  //   }
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [t, dispatch, currentConnection, setError, setRoomConnectionStatus]);
 
-  //   return () => {
-  //     if (timeout) {
-  //       clearTimeout(timeout);
-  //     }
-  //   };
-  // }, [t, dispatch, currentConnection, setError, setRoomConnectionStatus]);
+  useEffect(() => {
+    if (
+      roomConnectionStatus === 'connecting' ||
+      roomConnectionStatus === 'checking'
+    ) {
+      setLoading(true);
+    } else if (roomConnectionStatus === 're-connecting') {
+      //eslint-disable-next-line
+      // @ts-ignore
+      toastId.current = toast.loading(
+        t('notifications.room-disconnected-reconnecting'),
+        {
+          type: toast.TYPE.WARNING,
+          closeButton: false,
+          autoClose: false,
+        }
+      );
+    } else {
+      setLoading(false);
+      if (toastId.current) {
+        toast.dismiss(toastId.current);
+      }
+    }
+    //eslint-disable-next-line
+  }, [roomConnectionStatus]);
 
-  // useEffect(() => {
-  //   if (
-  //     roomConnectionStatus === 'connecting' ||
-  //     roomConnectionStatus === 'checking'
-  //   ) {
-  //     setLoading(true);
-  //   } else if (roomConnectionStatus === 're-connecting') {
-  //     //eslint-disable-next-line
-  //     // @ts-ignore
-  //     toastId.current = toast.loading(
-  //       t('notifications.room-disconnected-reconnecting'),
-  //       {
-  //         type: toast.TYPE.WARNING,
-  //         closeButton: false,
-  //         autoClose: false,
-  //       }
-  //     );
-  //   } else {
-  //     setLoading(false);
-  //     if (toastId.current) {
-  //       toast.dismiss(toastId.current);
-  //     }
-  //   }
-  //   //eslint-disable-next-line
-  // }, [roomConnectionStatus]);
+  useEffect(() => {
+    if (roomConnectionStatus === 'connected') {
+      if (
+        currentConnection?.room.localParticipant.identity === 'RECORDER_BOT' ||
+        currentConnection?.room.localParticipant.identity === 'RTMP_BOT'
+      ) {
+        setIsRecorder(true);
+        dispatch(updateIsActiveChatPanel(false));
+      }
 
-  // useEffect(() => {
-  //   if (roomConnectionStatus === 'connected') {
-  //     if (
-  //       currentConnection?.room.localParticipant.identity === 'RECORDER_BOT' ||
-  //       currentConnection?.room.localParticipant.identity === 'RTMP_BOT'
-  //     ) {
-  //       setIsRecorder(true);
-  //       dispatch(updateIsActiveChatPanel(false));
-  //     }
-
-  //     if (store.getState().session.currentUser?.metadata?.is_admin) {
-  //       setUserTypeClass('admin');
-  //     }
-  //   }
-  //   //eslint-disable-next-line
-  // }, [roomConnectionStatus]);
+      if (store.getState().session.currentUser?.metadata?.is_admin) {
+        setUserTypeClass('admin');
+      }
+    }
+    //eslint-disable-next-line
+  }, [roomConnectionStatus]);
 
   const renderMainApp = useCallback(() => {
     if (currentConnection) {

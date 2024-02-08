@@ -10,14 +10,14 @@ import { TFLite } from './useTFLite';
 import { createTimerWorker } from '../helpers/timerHelper';
 import { buildWebGL2Pipeline } from '../pipelines/webgl2/webgl2Pipeline';
 import { buildCanvas2dPipeline } from '../pipelines/canvas2d/canvas2dPipeline';
-declare const IS_PRODUCTION: boolean;
+// declare const process.env.NEXT_PUBLIC_IS_PRODUCTION: boolean;
 
 function useRenderingPipeline(
   sourcePlayback: SourcePlayback,
   backgroundConfig: BackgroundConfig,
   segmentationConfig: SegmentationConfig,
   bodyPix: BodyPix,
-  tflite: TFLite,
+  tflite: TFLite
 ) {
   const [pipeline, setPipeline] = useState<RenderingPipeline | null>(null);
   const backgroundImageRef = useRef<HTMLImageElement>(null);
@@ -48,7 +48,7 @@ function useRenderingPipeline(
             canvasRef.current,
             tflite,
             timerWorker,
-            addFrameEvent,
+            addFrameEvent
           )
         : buildCanvas2dPipeline(
             sourcePlayback,
@@ -57,7 +57,7 @@ function useRenderingPipeline(
             canvasRef.current,
             bodyPix,
             tflite,
-            addFrameEvent,
+            addFrameEvent
           );
 
     async function render() {
@@ -69,7 +69,7 @@ function useRenderingPipeline(
 
       renderTimeoutId = timerWorker.setTimeout(
         render,
-        Math.max(0, targetTimerTimeoutMs - (performance.now() - startTime)),
+        Math.max(0, targetTimerTimeoutMs - (performance.now() - startTime))
       );
     }
 
@@ -98,12 +98,12 @@ function useRenderingPipeline(
     }
 
     render();
-    if (!IS_PRODUCTION) {
+    if (!process.env.NEXT_PUBLIC_IS_PRODUCTION) {
       console.log(
         'Animation started:',
         sourcePlayback,
         backgroundConfig,
-        segmentationConfig,
+        segmentationConfig
       );
     }
 
@@ -113,12 +113,12 @@ function useRenderingPipeline(
       timerWorker.clearTimeout(renderTimeoutId);
       timerWorker.terminate();
       newPipeline.cleanUp();
-      if (!IS_PRODUCTION) {
+      if (!process.env.NEXT_PUBLIC_IS_PRODUCTION) {
         console.log(
           'Animation stopped:',
           sourcePlayback,
           backgroundConfig,
-          segmentationConfig,
+          segmentationConfig
         );
       }
 

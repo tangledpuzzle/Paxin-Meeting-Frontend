@@ -1,9 +1,8 @@
 import { Room, Track } from 'livekit-client';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
-import { store, useAppDispatch } from '../../store';
+import { store, useAppDispatch } from '@/store';
 import {
   updateIsActiveChatPanel,
   updateIsActiveMicrophone,
@@ -16,23 +15,24 @@ import {
   updateShowMicrophoneModal,
   updateShowVideoShareModal,
   updateVirtualBackground,
-} from '../../store/slices/bottomIconsActivitySlice';
+} from '@/store/slices/bottomIconsActivitySlice';
 import {
   updateSelectedAudioDevice,
   updateSelectedVideoDevice,
   updateShowRoomSettingsModal,
-} from '../../store/slices/roomSettingsSlice';
-import { SystemMsgType } from '../../store/slices/interfaces/dataMessages';
+} from '@/store/slices/roomSettingsSlice';
+import { SystemMsgType } from '@/store/slices/interfaces/dataMessages';
 import sendAPIRequest from '../api/plugNmeetAPI';
 import {
   CommonResponse,
   DataMessageReq,
 } from '../proto/plugnmeet_common_api_pb';
 import { DataMsgBodyType } from '../proto/plugnmeet_datamessage_pb';
+import { useTranslations } from 'next-intl';
 
 const useKeyboardShortcuts = (currentRoom?: Room) => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   // muteUnmute start (ctrl+option+m)
   const muteUnmute = (currentRoom: Room) => {
@@ -61,7 +61,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
         muteUnmute(currentRoom);
       }
     },
-    [currentRoom],
+    [currentRoom]
   );
   // muteUnmute end (ctrl+option+m)
 
@@ -95,7 +95,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
         leaveMic(currentRoom);
       }
     },
-    [currentRoom],
+    [currentRoom]
   );
   // leaveMic end (ctrl+alt+o)
 
@@ -125,7 +125,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
     dispatch(
       updateVirtualBackground({
         type: 'none',
-      }),
+      })
     );
   };
 
@@ -140,7 +140,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
         }
       }
     },
-    [currentRoom],
+    [currentRoom]
   );
   // close video (ctrl+alt+x) end
 
@@ -186,7 +186,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
   // toggle raise hand (ctrl+alt+r) start
   const toggleRaiseHand = async (
     isActiveRaisehand: boolean,
-    currentRoom: Room,
+    currentRoom: Room
   ) => {
     if (!isActiveRaisehand) {
       const body = new DataMessageReq({
@@ -203,7 +203,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
         body.toBinary(),
         false,
         'application/protobuf',
-        'arraybuffer',
+        'arraybuffer'
       );
       const res = CommonResponse.fromBinary(new Uint8Array(r));
       if (res.status) {
@@ -230,7 +230,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
         body.toBinary(),
         false,
         'application/protobuf',
-        'arraybuffer',
+        'arraybuffer'
       );
       const res = CommonResponse.fromBinary(new Uint8Array(r));
       if (res.status) {
@@ -252,7 +252,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
         toggleRaiseHand(isActiveRaisehand, currentRoom);
       }
     },
-    [currentRoom],
+    [currentRoom]
   );
   // toggle raise hand (ctrl+alt+r) end
 };
