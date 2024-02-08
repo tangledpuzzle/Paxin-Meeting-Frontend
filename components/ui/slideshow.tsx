@@ -64,7 +64,7 @@ const Slideshow: React.FC<SlideshowProps> = ({ images, interval }) => {
             src={image}
             alt={`Slide ${index + 1}`}
             className='rounded-md'
-            layout='fill'
+            fill
             style={{ objectFit: 'cover', objectPosition: 'center' }}
           />
         </div>

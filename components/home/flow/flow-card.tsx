@@ -86,7 +86,7 @@ function FlowCard(profile: FlowCardProps) {
             <div className='max-h-auto h-auto min-h-[300px] w-full md:min-h-[416px] '>
               <Image
                 src={hero}
-                layout='fill'
+                fill
                 style={{ objectFit: 'cover' }}
                 className='rounded-md rounded-b-none '
                 alt='profile'

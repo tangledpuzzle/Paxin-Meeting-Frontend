@@ -455,7 +455,7 @@ export default function FlowPage({
                   <Image
                     src={blogDetails.author?.avatar}
                     alt=''
-                    layout='fill'
+                    fill
                     style={{ objectFit: 'cover', objectPosition: 'center' }}
                   />
                 </div>

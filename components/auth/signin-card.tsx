@@ -1,12 +1,11 @@
 'use client';
 
-import { PaxContext } from '@/context/context';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Lock, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { parseCookies } from 'nookies';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
@@ -26,14 +25,13 @@ import Image from 'next/image';
 
 export function SignInCard() {
   const t = useTranslations('main');
-  const { socket, userMutate } = useContext(PaxContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const session = useSession();
+  const { data: session, status } = useSession();
 
-  if (session.status === 'authenticated') {
-    router.push('/profile/dashboard');
-  }
+  // if (status === 'authenticated') {
+  //   router.push('/profile/dashboard');
+  // }
 
   const formSchema = z.object({
     email: z.string().email(t('invalid_email')),

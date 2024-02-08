@@ -71,7 +71,7 @@ function TestimonialCard({
 }) {
   return (
     <div className='break-inside-avoid'>
-      <div className='bg-with-gradient relative rounded-none md:rounded-xl shadow'>
+      <div className='bg-with-gradient relative rounded-none shadow md:rounded-xl'>
         <div className='flex flex-col px-7 py-5 sm:p-6'>
           <div>
             <q className='text-gray-600 dark:text-gray-300'>{comment}</q>
@@ -81,7 +81,7 @@ function TestimonialCard({
                   src={avatar}
                   alt=''
                   style={{ objectFit: 'cover', objectPosition: 'center' }}
-                  layout='fill'
+                  fill
                 />
               </div>
               <div>
@@ -104,14 +104,14 @@ export default function TestimonialSection() {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-start md:items-center px-0 justify-center pb-[40px] md:pb-[80px]'>
+    <div className='flex flex-col items-start justify-center px-0 pb-[40px] md:items-center md:pb-[80px]'>
       <div className='px-7'>
         <SectionBadge>{t('why_paxintrade')}</SectionBadge>
       </div>
-      <SectionTitle className='px-7 leading-[30px text-left md:center'>
+      <SectionTitle className='leading-[30px md:center px-7 text-left'>
         {t('positive_experience_from_early_users')}
       </SectionTitle>
-      <SectionDescription className='px-7 leading-[25.15px] text-left md:text-center'>
+      <SectionDescription className='px-7 text-left leading-[25.15px] md:text-center'>
         {t('positive_experience_from_early_users_description')}
       </SectionDescription>
       <div className='relative mt-10 flex w-full items-center justify-center px-0 md:px-7'>
