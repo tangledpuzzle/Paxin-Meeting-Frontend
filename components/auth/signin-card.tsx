@@ -23,7 +23,6 @@ import { Input } from '@/components/ui/input';
 import { getSession, signIn, useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-// heyheyhey
 
 export function SignInCard() {
   const t = useTranslations('main');
@@ -166,7 +165,7 @@ export function SignInCard() {
             <Button
               type='submit'
               variant='default'
-              className='btn btn--wide !rounded-md w-full'
+              className='btn btn--wide w-full !rounded-md'
               disabled={loading}
             >
               {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
