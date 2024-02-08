@@ -29,6 +29,7 @@ export async function DELETE(req: NextRequest) {
 
     return NextResponse.json(data);
   } catch (error) {
+    console.error(error, id);
     return NextResponse.json(
       { error: 'Failed to fetch data' },
       { status: 500 }

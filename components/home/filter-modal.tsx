@@ -121,11 +121,11 @@ export function FilterModal() {
     );
     newSearchParams.set(
       'city',
-      city && city.length > 0 ? city[0].label : 'all'
+      city && city?.length > 0 ? city[0].label : 'all'
     );
     newSearchParams.set(
       'category',
-      category && category.length > 0 ? category[0].label : 'all'
+      category && category?.length > 0 ? category[0].label : 'all'
     );
     if (minPrice || maxPrice)
       newSearchParams.set('money', `${minPrice}-${maxPrice}`);

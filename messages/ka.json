@@ -316,7 +316,8 @@
     "hello": "გამარჯობა",
     "load_more": "მეტი ჩატვირთვა",
     "n_data_loaded_successfully": "{number} მონაცემი წარმატებით ჩაიტვირთა",
-    "subscribers": "მგზავრები"
+    "subscribers": "მგზავრები",
+    "no_blogs_yet": "ჯერ არც ბლოგი არ არსებობს..."
   },
   "privacy": {
     "rulesprivacy": "კონფიდენციალურობის წესები",
