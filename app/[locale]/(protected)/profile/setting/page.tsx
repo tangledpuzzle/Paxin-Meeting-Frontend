@@ -627,7 +627,7 @@ export default function SettingPage() {
                                   noOptionsMessage={() => t('no_options')}
                                   placeholder={t('select') + '...'}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black',
+                                    input: () => 'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -657,7 +657,7 @@ export default function SettingPage() {
                                   value={field.value}
                                   onChange={field.onChange}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black',
+                                    input: () => 'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -688,7 +688,7 @@ export default function SettingPage() {
                                   onChange={field.onChange}
                                   onInputChange={handleHashtagSearch}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black',
+                                    input: () => 'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
