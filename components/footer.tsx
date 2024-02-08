@@ -138,7 +138,7 @@ export function SiteFooter() {
           <Button
             variant='link'
             aria-label='Privacy Policy'
-            className='font-satoshi text-sm text-muted-foreground'
+            className='font-satoshi text-sm text-muted-foreground !pb-0'
             asChild
           >
             <Link href='/privacy'>{t('privacy_policy')}</Link>

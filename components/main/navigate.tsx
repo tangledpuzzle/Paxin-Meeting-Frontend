@@ -10,15 +10,17 @@ export default function NavigateSection() {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-center justify-center px-3 pb-[40px] md:pb-[80px]'>
-      <SectionBadge>{t('search_and_share')}</SectionBadge>
-      <SectionTitle className='px-7 leading-[30px]'>
+    <div className='flex flex-col items-start md:items-center justify-center px-0 pb-[40px] md:pb-[80px]'>
+      <div className='px-7'>
+        <SectionBadge>{t('search_and_share')}</SectionBadge>
+      </div>
+      <SectionTitle className='px-7 leading-[30px] text-left md:text-center'>
         {t('navigating_your_digital_universe')}
       </SectionTitle>
-      <SectionDescription>
+      <SectionDescription className='text-left md:text-center px-7'>
         {t('navigating_your_digital_universe_description')}
       </SectionDescription>
-      <div className='relative mt-10 grid w-full grid-cols-1 gap-4 md:grid-cols-3'>
+      <div className='relative mt-10 grid w-full grid-cols-1 gap-4 md:grid-cols-3 px-0 md:px-7'>
         {/* <div
           className="bg-s hover:navigate-hover flex min-h-72 flex-col justify-center group relative overflow-hidden rounded-xl transition-all hover:bg-none bg-cover p-4 sm:p-8 md:col-span-2"
           style={{ backgroundImage: `url("/images/home/bg-nav.png")` }}
@@ -40,7 +42,7 @@ export default function NavigateSection() {
           </div>
         </div> */}
         <div
-          className='hover:navigate-hover bg-with-gradient group relative min-h-72 overflow-hidden rounded-xl bg-cover transition-all hover:bg-none md:col-span-2'
+          className='hover:navigate-hover bg-with-gradient group relative min-h-72 overflow-hidden  rounded-none md:rounded-xl bg-cover transition-all hover:bg-none md:col-span-2'
           style={{
             backgroundImage: `url("/images/home/bg-nav.webp")`,
             backgroundSize: `cover`,
@@ -55,18 +57,18 @@ export default function NavigateSection() {
           ></div>
 
           <div
-            className='flex size-full flex-col items-start justify-center bg-[#00000008] bg-cover p-8 pt-2'
+            className='flex size-full flex-col items-start justify-center bg-[#00000008] bg-cover px-7 pt-2'
             style={{ backgroundImage: `url("/images/home/bg-nav-dark.webp")` }}
           >
             <div className='text-md pb-2 text-left font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               {t('efficient_discovery')}
             </div>
-            <div className='translate-all md:text-md max-w-md text-left text-sm  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            <div className='translate-all md:text-md max-w-xl text-left text-sm  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('efficient_discovery_description')}
             </div>
           </div>
         </div>
-        <div className='hover:navigate-hover bg-with-gradient group relative overflow-hidden rounded-xl transition-all hover:bg-none'>
+        <div className='hover:navigate-hover bg-with-gradient group relative overflow-hidden rounded-none md:rounded-xl transition-all hover:bg-none'>
           <div
             className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
             style={{
@@ -89,16 +91,16 @@ export default function NavigateSection() {
             className='absolute mx-auto w-full'
             fill
           />
-          <div className='bg-[#00000008] p-8 pt-2'>
+          <div className='bg-[#00000008] px-7 pb-4 pt-2'>
             <div className='text-md pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               {t('private_asks')}
             </div>
-            <div className='translate-all text-md leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70 md:text-sm'>
+            <div className='translate-all md:text-md max-w-xl text-left text-sm  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('private_asks_description')}
             </div>
           </div>
         </div>
-        <div className='bg-with-gradient group relative grid grid-cols-1 overflow-hidden rounded-xl hover:bg-none sm:grid-cols-2 md:col-span-3'>
+        <div className='bg-with-gradient group relative grid grid-cols-1 overflow-hidden rounded-none md:rounded-xl hover:bg-none sm:grid-cols-2 md:col-span-3'>
           <div
             className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
             style={{
@@ -106,7 +108,7 @@ export default function NavigateSection() {
                 'linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
             }}
           ></div>
-          <div className='relative order-last mx-auto flex w-full max-w-sm justify-between p-8 sm:order-first'>
+          <div className='relative order-last mx-auto flex w-full max-w-sm justify-between p-4 sm:order-first'>
             <Image
               src='/images/home/fire1.svg'
               width={15}
@@ -185,11 +187,11 @@ export default function NavigateSection() {
               fill
             />
           </div>
-          <div className='relative p-8'>
+          <div className='relative p-4 px-7 pt-7'>
             <div className='md:text-md text-md pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white'>
               {t('smart_filters_for_tailored_content')}
             </div>
-            <div className='md:text-md w-2/3 text-sm text-muted-foreground transition-all duration-500 group-hover:text-white/70'>
+            <div className='translate-all md:text-md max-w-xl text-left text-sm  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('smart_filters_for_tailored_content_description')}
             </div>
             <Image

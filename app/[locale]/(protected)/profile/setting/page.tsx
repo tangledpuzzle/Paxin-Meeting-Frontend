@@ -539,7 +539,7 @@ export default function SettingPage() {
         />
         <Tabs
           value={currentTab}
-          className='h-[calc(100svh_-_5rem)] w-full items-start bg-background py-2 sm:flex'
+          className='w-full items-start bg-background py-2 sm:flex'
           orientation='vertical'
         >
           <TabsList className='flex h-auto w-full bg-background px-2 sm:w-60 sm:flex-col'>

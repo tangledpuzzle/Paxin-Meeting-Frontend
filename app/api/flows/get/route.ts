@@ -30,12 +30,15 @@ export async function GET(req: NextRequest) {
           avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${item.user.photo}`,
         },
         slug: item.slug,
-        hero: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${item.photos[0].files[0].path}`,
+        hero:
+          item.photos?.length > 0 && item.photos[0].files?.length > 0
+            ? `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${item.photos[0].files[0].path}`
+            : '',
         price: item.total,
         regularpost: item.user.role === 'user',
         tags: item.hashtags,
-        location: item.city[0].name,
-        category: item.catygory[0].name,
+        location: item.city?.length > 0 ? item.city[0].name : '',
+        category: item.catygory?.length > 0 ? item.catygory[0].name : '',
         countrycode: item.lang,
         review: {
           totalviews: item.views,

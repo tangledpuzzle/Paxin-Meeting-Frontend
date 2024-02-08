@@ -74,7 +74,7 @@ export default function DashboardPage() {
         icon={MdDashboard}
       />
       <Separator className='my-4' />
-      <div className='mb-20 grid grid-cols-2 md:mb-0'>
+      <div className='mb-0 grid grid-cols-2 md:mb-0'>
         <div className='col-span-2 grid gap-3 md:grid-cols-2'>
           <div className='relative flex justify-between rounded-lg bg-white p-6 dark:bg-black md:col-span-2'>
             <div>

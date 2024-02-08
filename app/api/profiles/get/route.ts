@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
           locale.charAt(0).toUpperCase() + locale.slice(1)
         ],
         avatar:
-          item.photos?.length > 0
+          item.photos?.length > 0 && item.photos[0].files?.length > 0
             ? `https://proxy.paxintrade.com/300/https://img.paxintrade.com/${item.photos[0].files[0].path}`
             : '',
         tags: item.Hashtags.map((tag: any) => tag.Hashtag),
