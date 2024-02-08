@@ -1,21 +1,21 @@
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
-import { useTranslation } from 'react-i18next';
 import { Room, Track } from 'livekit-client';
 import { Dialog, Transition } from '@headlessui/react';
 import { toast } from 'react-toastify';
 import copy from 'copy-text-to-clipboard';
 
-import { RootState, useAppDispatch, useAppSelector } from '../../store';
-import { updateReceivedInvitationFor } from '../../store/slices/breakoutRoomSlice';
-import { useJoinRoomMutation } from '../../store/services/breakoutRoomApi';
+import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { updateReceivedInvitationFor } from '@/store/slices/breakoutRoomSlice';
+import { useJoinRoomMutation } from '@/store/services/breakoutRoomApi';
 import {
   updateIsActiveWebcam,
   updateIsMicMuted,
   updateVirtualBackground,
-} from '../../store/slices/bottomIconsActivitySlice';
-import { updateSelectedVideoDevice } from '../../store/slices/roomSettingsSlice';
-import { JoinBreakoutRoomReq } from '../../helpers/proto/plugnmeet_breakout_room_pb';
+} from '@/store/slices/bottomIconsActivitySlice';
+import { updateSelectedVideoDevice } from '@/store/slices/roomSettingsSlice';
+import { JoinBreakoutRoomReq } from '@/helpers/proto/plugnmeet_breakout_room_pb';
+import { useTranslations } from 'next-intl';
 
 interface IBreakoutRoomInvitationProps {
   currentRoom: Room;
@@ -23,19 +23,19 @@ interface IBreakoutRoomInvitationProps {
 
 const receivedInvitationForSelector = createSelector(
   (state: RootState) => state.breakoutRoom,
-  (breakoutRoom) => breakoutRoom.receivedInvitationFor,
+  (breakoutRoom) => breakoutRoom.receivedInvitationFor
 );
 
 const BreakoutRoomInvitation = ({
   currentRoom,
 }: IBreakoutRoomInvitationProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const receivedInvitationFor = useAppSelector(receivedInvitationForSelector);
   const [joinRoom, { isLoading, data }] = useJoinRoomMutation();
   const [joinLink, setJoinLink] = useState<string>('');
   const [copyText, setCopyText] = useState<string>(
-    t('breakout-room.copy').toString(),
+    t('breakout-room.copy').toString()
   );
   const [token, setToken] = useState<string>('');
 
@@ -51,7 +51,7 @@ const BreakoutRoomInvitation = ({
         dispatch(
           updateVirtualBackground({
             type: 'none',
-          }),
+          })
         );
       } else if (publication.track.source === Track.Source.Microphone) {
         if (!publication.isMuted) {
@@ -113,7 +113,7 @@ const BreakoutRoomInvitation = ({
       new JoinBreakoutRoomReq({
         breakoutRoomId: receivedInvitationFor,
         userId: currentRoom.localParticipant.identity,
-      }),
+      })
     );
   };
 
@@ -127,84 +127,84 @@ const BreakoutRoomInvitation = ({
       <>
         <Transition appear show={receivedInvitationFor !== ''} as={Fragment}>
           <Dialog
-            as="div"
-            className="fixed inset-0 z-[9999] overflow-y-auto"
+            as='div'
+            className='fixed inset-0 z-[9999] overflow-y-auto'
             onClose={() => false}
             static={false}
           >
-            <div className="min-h-screen px-4 text-center flex items-end justify-end">
+            <div className='flex min-h-screen items-end justify-end px-4 text-center'>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0'
+                enterTo='opacity-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
               >
-                <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+                <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
               </Transition.Child>
 
               <span
-                className="inline-block h-screen align-middle"
-                aria-hidden="true"
+                className='inline-block h-screen align-middle'
+                aria-hidden='true'
               >
                 &#8203;
               </span>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
               >
-                <div className="inline-block w-max h-full p-6 my-4 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-darkPrimary shadow-xl rounded-lg">
+                <div className='my-4 inline-block h-full w-max transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className="close-btn absolute top-8 right-6 w-[25px] h-[25px] outline-none"
-                    type="button"
+                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                    type='button'
                     onClick={() => closeModal()}
                   >
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 rotate-45" />
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 -rotate-45" />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] rotate-45 bg-primaryColor dark:bg-darkText' />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] -rotate-45 bg-primaryColor dark:bg-darkText' />
                   </button>
 
                   <Dialog.Title
-                    as="h3"
-                    className="text-base font-medium leading-6 text-gray-900 dark:text-darkText text-left mb-2"
+                    as='h3'
+                    className='mb-2 text-left text-base font-medium leading-6 text-gray-900 dark:text-darkText'
                   >
                     {t('breakout-room.invitation-title')}
                   </Dialog.Title>
                   <hr />
-                  <div className="mt-2">
-                    <span className="text-black dark:text-darkText text-sm">
+                  <div className='mt-2'>
+                    <span className='text-sm text-black dark:text-darkText'>
                       {t('breakout-room.invitation-msg')}
                     </span>
 
                     {joinLink !== '' ? (
-                      <div className="invite-link">
-                        <label className="text-black dark:text-darkText text-sm">
+                      <div className='invite-link'>
+                        <label className='text-sm text-black dark:text-darkText'>
                           {t('breakout-room.join-text-label')}
                         </label>
                         <input
-                          type="text"
+                          type='text'
                           readOnly={true}
                           value={joinLink}
-                          className="inline-block outline-none border border-solid rounded p-1 h-7 text-sm mx-1 bg-transparent dark:text-darkText dark:border-darkText"
+                          className='mx-1 inline-block h-7 rounded border border-solid bg-transparent p-1 text-sm outline-none dark:border-darkText dark:text-darkText'
                         />
                         <button
                           onClick={copyUrl}
-                          className="text-center py-1 px-3 text-xs transition ease-in bg-primaryColor hover:bg-secondaryColor text-white font-semibold rounded-lg"
+                          className='rounded-lg bg-primaryColor px-3 py-1 text-center text-xs font-semibold text-white transition ease-in hover:bg-secondaryColor'
                         >
                           {copyText}
                         </button>
                       </div>
                     ) : null}
 
-                    <div className="button-section flex items-center justify-start">
+                    <div className='button-section flex items-center justify-start'>
                       <button
-                        className="text-center py-1 px-3 mt-1 text-xs transition ease-in bg-primaryColor hover:bg-secondaryColor text-white font-semibold rounded-lg"
+                        className='mt-1 rounded-lg bg-primaryColor px-3 py-1 text-center text-xs font-semibold text-white transition ease-in hover:bg-secondaryColor'
                         onClick={join}
                       >
                         {t('breakout-room.join')}

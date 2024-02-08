@@ -1,21 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
-import { setWebcamPaginating } from '../../../store/slices/sessionSlice';
-import { UserDeviceType } from '../../../store/slices/interfaces/session';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { setWebcamPaginating } from '@/store/slices/sessionSlice';
+import { UserDeviceType } from '@/store/slices/interfaces/session';
 import {
   setForMobileAndTablet,
   setForMobileLandscape,
   setForPC,
 } from './helpers/utils';
-import { ColumnCameraPosition } from '../../../store/slices/interfaces/roomSettings';
+import { ColumnCameraPosition } from '@/store/slices/interfaces/roomSettings';
 
 interface IVideosComponentElmsProps {
   allParticipants: JSX.Element[];
@@ -36,15 +30,15 @@ const MOBILE_PER_PAGE = 6,
 
 const screenWidthSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.screenWidth,
+  (bottomIconsActivity) => bottomIconsActivity.screenWidth
 );
 const deviceOrientationSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.deviceOrientation,
+  (bottomIconsActivity) => bottomIconsActivity.deviceOrientation
 );
 const columnCameraPositionSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.columnCameraPosition,
+  (roomSettings) => roomSettings.columnCameraPosition
 );
 
 const VideosComponentElms = ({
@@ -53,7 +47,7 @@ const VideosComponentElms = ({
   isVertical,
 }: IVideosComponentElmsProps) => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const screenWidth = useAppSelector(screenWidthSelector);
   const deviceOrientation = useAppSelector(deviceOrientationSelector);
   const columnCameraPosition = useAppSelector(columnCameraPositionSelector);
@@ -63,7 +57,7 @@ const VideosComponentElms = ({
     Array<JSX.Element>
   >([]);
   const [webcamPerPage, setWebcamPerPage] = useState<number>(
-    isVertical ? VERTICAL_PER_PAGE : DESKTOP_PER_PAGE,
+    isVertical ? VERTICAL_PER_PAGE : DESKTOP_PER_PAGE
   );
 
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -119,11 +113,11 @@ const VideosComponentElms = ({
   const setParticipantsToDisplay = (
     [...allParticipants]: Array<JSX.Element>,
     page_number: number,
-    per_page: number,
+    per_page: number
   ) => {
     const display = allParticipants.slice(
       (page_number - 1) * per_page,
-      page_number * per_page,
+      page_number * per_page
     );
 
     setParticipantsToRender(display);
@@ -207,11 +201,11 @@ const VideosComponentElms = ({
       <>
         {showPre ? (
           <button
-            type="button"
-            className="previous-cam"
+            type='button'
+            className='previous-cam'
             onClick={() => prePage()}
           >
-            <i className="pnm-arrow-up" />
+            <i className='pnm-arrow-up' />
           </button>
         ) : null}
 
@@ -219,8 +213,8 @@ const VideosComponentElms = ({
         <>{videoParticipantsElms}</>
 
         {showNext ? (
-          <button type="button" className="next-cam" onClick={() => nextPage()}>
-            <i className="pnm-arrow-down" />
+          <button type='button' className='next-cam' onClick={() => nextPage()}>
+            <i className='pnm-arrow-down' />
           </button>
         ) : null}
       </>
@@ -235,27 +229,27 @@ const VideosComponentElms = ({
             isVertical ? 'vertical-webcams' : ''
           }`}
         >
-          <div className="all-webcam-wrapper-inner">{render()}</div>
+          <div className='all-webcam-wrapper-inner'>{render()}</div>
         </div>
       ) : null}
       {deviceType === UserDeviceType.DESKTOP &&
       totalNumWebcams > 6 &&
       !isVertical ? (
-        <div className="select-camera-number">
+        <div className='select-camera-number'>
           <select
-            name="select-camera-num"
-            id="select-camera-num"
-            defaultValue="24"
+            name='select-camera-num'
+            id='select-camera-num'
+            defaultValue='24'
             onChange={(e) => setWebcamPerPage(Number(e.currentTarget.value))}
           >
-            <option value="6">6</option>
-            <option value="8">8</option>
-            <option value="12">12</option>
-            <option value="15">15</option>
-            <option value="18">18</option>
-            <option value="24">24</option>
+            <option value='6'>6</option>
+            <option value='8'>8</option>
+            <option value='12'>12</option>
+            <option value='15'>15</option>
+            <option value='18'>18</option>
+            <option value='24'>24</option>
           </select>
-          <label htmlFor="select-camera-num">{t('app.webcams-per-page')}</label>
+          <label htmlFor='select-camera-num'>{t('app.webcams-per-page')}</label>
         </div>
       ) : null}
     </>

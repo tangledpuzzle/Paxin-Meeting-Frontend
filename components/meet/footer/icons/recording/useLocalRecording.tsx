@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { LocalParticipant, Track } from 'livekit-client';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
 import {
   IUseLocalRecordingReturn,
@@ -12,16 +11,17 @@ import {
   DataMessage,
   DataMsgBodyType,
   DataMsgType,
-} from '../../../../helpers/proto/plugnmeet_datamessage_pb';
-import { store } from '../../../../store';
-import { sendWebsocketMessage } from '../../../../helpers/websocket';
+} from '@/helpers/proto/plugnmeet_datamessage_pb';
+import { store } from '@/store';
+import { sendWebsocketMessage } from '@/helpers/websocket';
+import { useTranslations } from 'next-intl';
 
 const useLocalRecording = (
   localParticipant: LocalParticipant,
-  roomId: string,
+  roomId: string
 ): IUseLocalRecordingReturn => {
   const [recordingEvent, setRecordingEvent] = useState<RecordingEvent>(
-    RecordingEvent.NONE,
+    RecordingEvent.NONE
   );
   const [hasError, setHasError] = useState<boolean>(false);
   const [captureStream, setCaptureStream] = useState<MediaStream | null>(null);
@@ -35,7 +35,7 @@ const useLocalRecording = (
     audio: true,
   };
   const session = store.getState().session;
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const startRecording = async () => {
     if (captureStream) {

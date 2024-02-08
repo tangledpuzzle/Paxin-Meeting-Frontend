@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 // @ts-ignore
 import { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js';
 
-import { store } from '../../../store';
-import { sendWebsocketMessage } from '../../../helpers/websocket';
+import { store } from '@/store';
+import { sendWebsocketMessage } from '@/helpers/websocket';
 import PlayerComponent from './player';
 import {
   DataMessage,
   DataMsgBodyType,
   DataMsgType,
-} from '../../../helpers/proto/plugnmeet_datamessage_pb';
+} from '@/helpers/proto/plugnmeet_datamessage_pb';
 
 interface IVideoJsPlayerComponentProps {
   src: string;

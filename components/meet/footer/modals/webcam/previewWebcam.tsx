@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { SourcePlayback } from '../../../virtual-background/helpers/sourceHelper';
 import { BackgroundConfig } from '../../../virtual-background/helpers/backgroundHelper';
 import VideoBox from './videoBox';
-import { store, useAppDispatch } from '../../../../store';
+import { store, useAppDispatch } from '@/store';
 import VirtualBackground from '../../../virtual-background/virtualBackground';
 import BackgroundItems from './backgroundItems';
-import { updateVirtualBackground } from '../../../../store/slices/bottomIconsActivitySlice';
+import { updateVirtualBackground } from '@/store/slices/bottomIconsActivitySlice';
 
 interface IPreviewWebcamProps {
   deviceId: string;
@@ -68,7 +68,7 @@ const PreviewWebcam = ({ deviceId }: IPreviewWebcamProps) => {
   };
 
   return (
-    <div className="mt-5">
+    <div className='mt-5'>
       {deviceId ? (
         <div
           style={

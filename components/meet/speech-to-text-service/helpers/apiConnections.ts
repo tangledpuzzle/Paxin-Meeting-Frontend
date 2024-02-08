@@ -16,23 +16,23 @@ import {
   DataMessage,
   DataMsgBodyType,
   DataMsgType,
-} from '../../../helpers/proto/plugnmeet_datamessage_pb';
-import { sendWebsocketMessage } from '../../../helpers/websocket';
+} from '@/helpers/proto/plugnmeet_datamessage_pb';
+import { sendWebsocketMessage } from '@/helpers/websocket';
 import {
   GenerateAzureTokenReq,
   SpeechServiceUserStatusReq,
   SpeechServiceUserStatusTasks,
   SpeechToTextTranslationReq,
-} from '../../../helpers/proto/plugnmeet_speech_services_pb';
-import sendAPIRequest from '../../../helpers/api/plugNmeetAPI';
-import { CommonResponse } from '../../../helpers/proto/plugnmeet_common_api_pb';
-import { store } from '../../../store';
-import { SpeechTextBroadcastFormat } from '../../../store/slices/interfaces/speechServices';
+} from '@/helpers/proto/plugnmeet_speech_services_pb';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import { CommonResponse } from '@/helpers/proto/plugnmeet_common_api_pb';
+import { store } from '@/store';
+import { SpeechTextBroadcastFormat } from '@/store/slices/interfaces/speechServices';
 import {
   ISession,
   SpeechToTextTranslationFeatures,
-} from '../../../store/slices/interfaces/session';
-import i18n from '../../../helpers/i18n';
+} from '@/store/slices/interfaces/session';
+// import i18n from '../../../helpers/i18n';
 import { supportedSpeechToTextLangs } from './supportedLangs';
 
 export interface AzureTokenInfo {
@@ -54,7 +54,7 @@ export const openConnectionWithAzure = (
   speechService: SpeechToTextTranslationFeatures,
   setOptionSelectionDisabled: Dispatch<boolean>,
   setRecognizer: Dispatch<SpeechRecognizer | TranslationRecognizer>,
-  unsetRecognizer: () => void,
+  unsetRecognizer: () => void
 ) => {
   let audioConfig: AudioConfig,
     speechConfig: SpeechConfig | SpeechTranslationConfig,
@@ -75,14 +75,14 @@ export const openConnectionWithAzure = (
   if (speechService.is_enabled_translation) {
     if (speechService.allowed_trans_langs?.length) {
       transLangs = speechService.allowed_trans_langs.filter(
-        (l) => l !== sl.locale,
+        (l) => l !== sl.locale
       );
     }
     speechService.allowed_speech_langs
       ?.filter((l) => l !== sl.code)
       .forEach((s) => {
         const speechObj = supportedSpeechToTextLangs.filter(
-          (l) => l.code === s,
+          (l) => l.code === s
         );
         if (speechObj[0].locale === sl.locale) {
           // same locale, so we can avoid to add
@@ -98,15 +98,15 @@ export const openConnectionWithAzure = (
   if (transLangs.length) {
     speechConfig = SpeechTranslationConfig.fromAuthorizationToken(
       azureInfo.token,
-      azureInfo.serviceRegion,
+      azureInfo.serviceRegion
     );
     transLangs.forEach((l) =>
-      (speechConfig as SpeechTranslationConfig).addTargetLanguage(l),
+      (speechConfig as SpeechTranslationConfig).addTargetLanguage(l)
     );
   } else {
     speechConfig = SpeechConfig.fromAuthorizationToken(
       azureInfo.token,
-      azureInfo.serviceRegion,
+      azureInfo.serviceRegion
     );
   }
 
@@ -116,7 +116,7 @@ export const openConnectionWithAzure = (
   if (transLangs.length) {
     recognizer = new TranslationRecognizer(
       speechConfig as SpeechTranslationConfig,
-      audioConfig,
+      audioConfig
     );
   } else {
     recognizer = new SpeechRecognizer(speechConfig, audioConfig);
@@ -126,7 +126,7 @@ export const openConnectionWithAzure = (
     setOptionSelectionDisabled(false);
     const res = await sendUserSessionStatus(
       SpeechServiceUserStatusTasks.SPEECH_TO_TEXT_SESSION_STARTED,
-      azureInfo.keyId,
+      azureInfo.keyId
     );
     if (!res.status) {
       toast(i18n.t('speech-services.status-change-error', { error: res.msg }), {
@@ -145,7 +145,7 @@ export const openConnectionWithAzure = (
   recognizer.sessionStopped = async () => {
     await sendUserSessionStatus(
       SpeechServiceUserStatusTasks.SPEECH_TO_TEXT_SESSION_ENDED,
-      azureInfo.keyId,
+      azureInfo.keyId
     );
     toast(i18n.t('speech-services.speech-to-text-stopped'), {
       type: 'success',
@@ -207,7 +207,7 @@ export const openConnectionWithAzure = (
     setOptionSelectionDisabled(false);
     await sendUserSessionStatus(
       SpeechServiceUserStatusTasks.SPEECH_TO_TEXT_SESSION_ENDED,
-      azureInfo.keyId,
+      azureInfo.keyId
     );
     if (
       e.reason === CancellationReason.Error ||
@@ -258,14 +258,14 @@ export const getAzureToken = async () => {
     body.toBinary(),
     false,
     'application/protobuf',
-    'arraybuffer',
+    'arraybuffer'
   );
   return CommonResponse.fromBinary(new Uint8Array(r));
 };
 
 export const sendUserSessionStatus = async (
   task: SpeechServiceUserStatusTasks,
-  keyId: string,
+  keyId: string
 ) => {
   if (!session) {
     session = getSession();
@@ -284,20 +284,20 @@ export const sendUserSessionStatus = async (
     body.toBinary(),
     false,
     'application/protobuf',
-    'arraybuffer',
+    'arraybuffer'
   );
   return CommonResponse.fromBinary(new Uint8Array(r));
 };
 
 export const enableOrDisableSpeechService = async (
-  body: SpeechToTextTranslationReq,
+  body: SpeechToTextTranslationReq
 ) => {
   const r = await sendAPIRequest(
     'speechServices/serviceStatus',
     body.toBinary(),
     false,
     'application/protobuf',
-    'arraybuffer',
+    'arraybuffer'
   );
   return CommonResponse.fromBinary(new Uint8Array(r));
 };

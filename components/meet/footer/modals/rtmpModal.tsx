@@ -3,30 +3,25 @@ import { Transition, Dialog } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 import { isURL, isEmpty } from 'validator';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
-import { updateShowRtmpModal } from '../../../store/slices/bottomIconsActivitySlice';
-import sendAPIRequest from '../../../helpers/api/plugNmeetAPI';
-import { RecordingTasks } from '../../../helpers/proto/plugnmeet_recorder_pb';
-import { RecordingReq } from '../../../helpers/proto/plugnmeet_recording_pb';
-import { CommonResponse } from '../../../helpers/proto/plugnmeet_common_api_pb';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { updateShowRtmpModal } from '@/store/slices/bottomIconsActivitySlice';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import { RecordingTasks } from '@/helpers/proto/plugnmeet_recorder_pb';
+import { RecordingReq } from '@/helpers/proto/plugnmeet_recording_pb';
+import { CommonResponse } from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 const isActiveRtmpBroadcastingSelector = createSelector(
   (state: RootState) => state.session,
-  (session) => session.isActiveRtmpBroadcasting,
+  (session) => session.isActiveRtmpBroadcasting
 );
 
 const RtmpModal = () => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const isActiveRtmpBroadcasting = useAppSelector(
-    isActiveRtmpBroadcastingSelector,
+    isActiveRtmpBroadcastingSelector
   );
   const [provider, setProvider] = useState<string>('youtube');
   const [showServerUrl, setShowServerUrl] = useState<boolean>(false);
@@ -81,7 +76,7 @@ const RtmpModal = () => {
     if (typeof (window as any).DESIGN_CUSTOMIZATION !== 'undefined') {
       body.customDesign = `${(window as any).DESIGN_CUSTOMIZATION}`.replace(
         /\s/g,
-        '',
+        ''
       );
     }
 
@@ -90,7 +85,7 @@ const RtmpModal = () => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
     let msg = 'footer.notice.rtmp-starting';
@@ -112,128 +107,128 @@ const RtmpModal = () => {
       <>
         <Transition appear show={!isActiveRtmpBroadcasting} as={Fragment}>
           <Dialog
-            as="div"
-            className="RtmpModal fixed inset-0 z-[9999] overflow-y-auto"
+            as='div'
+            className='RtmpModal fixed inset-0 z-[9999] overflow-y-auto'
             onClose={() => false}
           >
-            <div className="min-h-screen px-4 text-center">
+            <div className='min-h-screen px-4 text-center'>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0'
+                enterTo='opacity-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
               >
-                <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+                <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
               </Transition.Child>
 
               <span
-                className="inline-block h-screen align-middle"
-                aria-hidden="true"
+                className='inline-block h-screen align-middle'
+                aria-hidden='true'
               >
                 &#8203;
               </span>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
               >
-                <div className="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-darkPrimary shadow-xl rounded-2xl">
+                <div className='my-8 inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className="close-btn absolute top-8 ltr:right-6 rtl:left-6 w-[25px] h-[25px] outline-none"
-                    type="button"
+                    className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
+                    type='button'
                     onClick={() => closeStartModal()}
                   >
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 rotate-45" />
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 -rotate-45" />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] rotate-45 bg-primaryColor dark:bg-darkText' />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] -rotate-45 bg-primaryColor dark:bg-darkText' />
                   </button>
 
                   <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white ltr:text-left rtl:text-right mb-2"
+                    as='h3'
+                    className='mb-2 text-lg font-medium leading-6 text-gray-900 dark:text-white ltr:text-left rtl:text-right'
                   >
                     {t('footer.modal.rtmp-title')}
                   </Dialog.Title>
                   <hr />
-                  <div className="mt-6">
+                  <div className='mt-6'>
                     <form
-                      action="#"
-                      method="POST"
+                      action='#'
+                      method='POST'
                       onSubmit={(e) => startBroadcasting(e)}
                     >
-                      <div className="s">
-                        <div className="grid grid-cols-6 gap-6">
-                          <div className="col-span-6 sm:col-span-4">
+                      <div className='s'>
+                        <div className='grid grid-cols-6 gap-6'>
+                          <div className='col-span-6 sm:col-span-4'>
                             <label
-                              htmlFor="provider"
-                              className="block text-sm font-medium text-gray-700 dark:text-darkText"
+                              htmlFor='provider'
+                              className='block text-sm font-medium text-gray-700 dark:text-darkText'
                             >
                               {t('footer.modal.rtmp-select-provider')}
                             </label>
                             <select
-                              id="provider"
-                              name="provider"
-                              className="mt-1 block w-full py-2 px-3 bg-transparent border border-gray-300 dark:border-darkText rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:text-darkText"
+                              id='provider'
+                              name='provider'
+                              className='mt-1 block w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
                               onChange={(e) =>
                                 setProvider(e.currentTarget.value)
                               }
                               value={provider}
                             >
-                              <option value="youtube">YouTube</option>
-                              <option value="facebook">Facebook</option>
-                              <option value="other">Other</option>
+                              <option value='youtube'>YouTube</option>
+                              <option value='facebook'>Facebook</option>
+                              <option value='other'>Other</option>
                             </select>
                           </div>
                           {showServerUrl ? (
-                            <div className="col-span-6 sm:col-span-4">
+                            <div className='col-span-6 sm:col-span-4'>
                               <label
-                                htmlFor="stream-url"
-                                className="block text-sm font-medium text-gray-700 dark:text-darkText"
+                                htmlFor='stream-url'
+                                className='block text-sm font-medium text-gray-700 dark:text-darkText'
                               >
                                 {t('footer.modal.rtmp-server-url')}
                               </label>
                               <input
-                                type="text"
-                                name="stream-url"
-                                id="stream-url"
+                                type='text'
+                                name='stream-url'
+                                id='stream-url'
                                 value={serverUrl}
                                 onChange={(e) =>
                                   setServerUrl(e.currentTarget.value)
                                 }
-                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 dark:border-darkText rounded-md h-10 border border-solid border-black/50 bg-transparent dark:text-darkText"
+                                className='mt-1 block h-10 w-full rounded-md border border-solid border-black/50 border-gray-300 bg-transparent shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
                               />
                             </div>
                           ) : null}
-                          <div className="col-span-6 sm:col-span-4">
+                          <div className='col-span-6 sm:col-span-4'>
                             <label
-                              htmlFor="stream-key"
-                              className="block text-sm font-medium text-gray-700 dark:text-darkText"
+                              htmlFor='stream-key'
+                              className='block text-sm font-medium text-gray-700 dark:text-darkText'
                             >
                               {t('footer.modal.rtmp-stream-key')}
                             </label>
                             <input
-                              type="text"
-                              name="stream-key"
-                              id="stream-key"
+                              type='text'
+                              name='stream-key'
+                              id='stream-key'
                               value={serverKey}
                               onChange={(e) =>
                                 setServerKey(e.currentTarget.value)
                               }
-                              className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 dark:border-darkText rounded-md h-10 border border-solid border-black/50 bg-transparent dark:text-darkText"
+                              className='mt-1 block h-10 w-full rounded-md border border-solid border-black/50 border-gray-300 bg-transparent shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
                             />
                           </div>
                         </div>
                       </div>
-                      <div className="py-3 bg-gray-50 dark:bg-transparent text-right mt-4">
+                      <div className='mt-4 bg-gray-50 py-3 text-right dark:bg-transparent'>
                         <button
-                          type="submit"
-                          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primaryColor hover:bg-secondaryColor focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-secondaryColor"
+                          type='submit'
+                          className='inline-flex justify-center rounded-md border border-transparent bg-primaryColor px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondaryColor focus:bg-secondaryColor focus:outline-none focus:ring-2 focus:ring-offset-2'
                         >
                           {t('footer.modal.rtmp-start-broadcast')}
                         </button>
@@ -265,7 +260,7 @@ const RtmpModal = () => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
     let msg = t('footer.notice.rtmp-ending');
@@ -285,70 +280,70 @@ const RtmpModal = () => {
       <>
         <Transition appear show={isActiveRtmpBroadcasting} as={Fragment}>
           <Dialog
-            as="div"
-            className="fixed inset-0 z-[9999] overflow-y-auto"
+            as='div'
+            className='fixed inset-0 z-[9999] overflow-y-auto'
             onClose={onCloseAlertModal}
           >
-            <div className="min-h-screen px-4 text-center">
+            <div className='min-h-screen px-4 text-center'>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0'
+                enterTo='opacity-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
               >
-                <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+                <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
               </Transition.Child>
 
               <span
-                className="inline-block h-screen align-middle"
-                aria-hidden="true"
+                className='inline-block h-screen align-middle'
+                aria-hidden='true'
               >
                 &#8203;
               </span>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
               >
-                <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className='my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                   <button
-                    className="close-btn absolute top-8 right-6 w-[25px] h-[25px] outline-none"
-                    type="button"
+                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                    type='button'
                     onClick={() => onCloseAlertModal()}
                   >
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor absolute top-0 left-0 rotate-45" />
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor absolute top-0 left-0 -rotate-45" />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] rotate-45 bg-primaryColor' />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] -rotate-45 bg-primaryColor' />
                   </button>
 
                   <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    as='h3'
+                    className='text-lg font-medium leading-6 text-gray-900'
                   >
                     {t('footer.modal.rtmp-close-confirm')}
                   </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
+                  <div className='mt-2'>
+                    <p className='text-sm text-gray-500'>
                       {t('footer.modal.rtmp-close-msg')}
                     </p>
                   </div>
 
-                  <div className="mt-4">
+                  <div className='mt-4'>
                     <button
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 mr-4 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      className='mr-4 inline-flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
                       onClick={() => onCloseAlertModal(true)}
                     >
                       {t('ok')}
                     </button>
                     <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      type='button'
+                      className='inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
                       onClick={() => onCloseAlertModal(false)}
                     >
                       {t('close')}

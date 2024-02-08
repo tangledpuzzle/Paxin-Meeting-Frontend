@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Resumable from 'resumablejs';
 import ResumableFile = Resumable.ResumableFile;
 
-import { store } from '../../store';
+import { store } from '@/store';
+import { useTranslations } from 'next-intl';
 
 export interface IUseResumableFilesUpload {
   allowedFileTypes: Array<string>;
@@ -26,7 +26,7 @@ const useResumableFilesUpload = ({
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [result, setResult] = useState<IUseResumableFilesUploadResult>();
 
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const session = store.getState().session;
 
   useEffect(() => {
@@ -121,7 +121,7 @@ const useResumableFilesUpload = ({
         {
           closeButton: false,
           progress: 0,
-        },
+        }
       );
     });
 

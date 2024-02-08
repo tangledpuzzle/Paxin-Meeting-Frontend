@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import type { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '../../store';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import ScreenShareElements from '../media-elements/screenshare';
 import AudioElements from '../media-elements/audios';
 import SharedNotepadElement from '../shared-notepad';
@@ -10,15 +10,15 @@ import Whiteboard from '../whiteboard';
 import ExternalMediaPlayer from '../external-media-player';
 import DisplayExternalLink from '../display-external-link';
 import VideosComponent from '../media-elements/videos';
-import { doRefreshWhiteboard } from '../../store/slices/whiteboard';
+import { doRefreshWhiteboard } from '@/store/slices/whiteboard';
 import {
   CurrentConnectionEvents,
   IConnectLivekit,
-} from '../../helpers/livekit/types';
+} from '@/helpers/livekit/types';
 import {
   updateIsActiveChatPanel,
   updateIsActiveParticipantsPanel,
-} from '../../store/slices/bottomIconsActivitySlice';
+} from '@/store/slices/bottomIconsActivitySlice';
 import SpeechToTextService from '../speech-to-text-service';
 import { useCallbackRefState } from '../whiteboard/helpers/hooks/useCallbackRefState';
 import { savePageData } from '../whiteboard/helpers/utils';
@@ -33,7 +33,7 @@ interface IMainComponentsProps {
 
 const activateWebcamsViewSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.activateWebcamsView,
+  (roomSettings) => roomSettings.activateWebcamsView
 );
 
 const activateSpeechServiceSelector = createSelector(
@@ -41,13 +41,13 @@ const activateSpeechServiceSelector = createSelector(
     state.session.currentRoom.metadata?.room_features
       .speech_to_text_translation_features,
   (speech_to_text_translation_features) =>
-    speech_to_text_translation_features?.is_enabled,
+    speech_to_text_translation_features?.is_enabled
 );
 
 const isActiveSharedNotepadSelector = createSelector(
   (state: RootState) =>
     state.session.currentRoom.metadata?.room_features.shared_note_pad_features,
-  (shared_note_pad_features) => shared_note_pad_features?.is_active,
+  (shared_note_pad_features) => shared_note_pad_features?.is_active
 );
 
 const MainComponents = ({
@@ -80,16 +80,16 @@ const MainComponents = ({
     setIsActiveScreenShare(currentConnection.screenShareTracksMap.size > 0);
     currentConnection.on(
       CurrentConnectionEvents.ScreenShareStatus,
-      setIsActiveScreenShare,
+      setIsActiveScreenShare
     );
     return () => {
       currentConnection.off(
         CurrentConnectionEvents.VideoStatus,
-        setHasVideoElms,
+        setHasVideoElms
       );
       currentConnection.off(
         CurrentConnectionEvents.ScreenShareStatus,
-        setIsActiveScreenShare,
+        setIsActiveScreenShare
       );
     };
   }, [currentConnection]);
@@ -230,7 +230,7 @@ const MainComponents = ({
     const cssClasses: Array<string> = [];
     if (isActiveScreenSharingView && isActiveScreenShare) {
       cssClasses.push(
-        'middle-fullscreen-wrapper share-screen-wrapper is-share-screen-running',
+        'middle-fullscreen-wrapper share-screen-wrapper is-share-screen-running'
       );
       if (showVideoElms && showVerticalVideoView) {
         cssClasses.push('verticalsWebcamsActivated');
@@ -240,7 +240,7 @@ const MainComponents = ({
         cssClasses.push('h-full');
       } else if (showVideoElms && showVerticalVideoView) {
         cssClasses.push(
-          'middle-fullscreen-wrapper h-full flex verticalsWebcamsActivated',
+          'middle-fullscreen-wrapper h-full flex verticalsWebcamsActivated'
         );
       } else {
         cssClasses.push('middle-fullscreen-wrapper h-full flex');

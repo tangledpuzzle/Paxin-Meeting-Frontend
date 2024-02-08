@@ -1,3 +1,4 @@
+'use client';
 import React, {
   useState,
   useEffect,
@@ -8,7 +9,7 @@ import React, {
 // import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-
+import dynamic from 'next/dynamic';
 import ErrorPage from '../extra-pages/Error';
 import Loading from '../extra-pages/Loading';
 import Footer from '../footer';
@@ -58,21 +59,22 @@ const Meet = () => {
   const [isRecorder, setIsRecorder] = useState<boolean>(false);
   const [userTypeClass, setUserTypeClass] = useState('participant');
   const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
+  const [Comp, setComp] = useState<() => JSX.Element>(() => <></>);
   const [currentConnection, setCurrentConnection] = useState<IConnectLivekit>();
-  // const waitForApproval = useAppSelector(waitingForApprovalSelector);
+  const waitForApproval = useAppSelector(waitingForApprovalSelector);
 
   // // we'll require making ready virtual background
   // // elements as early as possible.
   // useBodyPix();
 
   // // some custom hooks
-  // const {
-  //   error,
-  //   setError,
-  //   roomConnectionStatus,
-  //   setRoomConnectionStatus,
-  //   startLivekitConnection,
-  // } = useLivekitConnect();
+  const {
+    error,
+    setError,
+    roomConnectionStatus,
+    setRoomConnectionStatus,
+    startLivekitConnection,
+  } = useLivekitConnect();
 
   // useKeyboardShortcuts(currentConnection?.room);
   // useDesignCustomization();
@@ -80,6 +82,10 @@ const Meet = () => {
   const { deviceClass, orientationClass, screenHeight } = useWatchWindowSize(
     currentConnection?.room
   );
+  useEffect(() => {
+    // @ts-ignore
+    // import('@excalidraw/excalidraw').then((comp) => setComp(comp.default));
+  }, []);
   // useThemeSettings();
 
   // useEffect(() => {
@@ -206,53 +212,58 @@ const Meet = () => {
   //   //eslint-disable-next-line
   // }, [roomConnectionStatus]);
 
-  // const renderMainApp = useCallback(() => {
-  //   if (currentConnection) {
-  //     return (
-  //       <div className='plugNmeet-app h-screen overflow-hidden'>
-  //         {!isRecorder ? <Header currentRoom={currentConnection.room} /> : null}
-  //         <MainArea
-  //           isRecorder={isRecorder}
-  //           currentConnection={currentConnection}
-  //         />
-  //         <Footer
-  //           currentRoom={currentConnection.room}
-  //           isRecorder={isRecorder}
-  //         />
-  //         <AudioNotification />
-  //       </div>
-  //     );
-  //   }
-  //   return null;
-  // }, [isRecorder, currentConnection]);
+  const renderMainApp = useCallback(() => {
+    if (currentConnection) {
+      return (
+        <div className='plugNmeet-app h-screen overflow-hidden'>
+          {!isRecorder ? <Header currentRoom={currentConnection.room} /> : null}
+          <MainArea
+            isRecorder={isRecorder}
+            currentConnection={currentConnection}
+          />
+          <Footer
+            currentRoom={currentConnection.room}
+            isRecorder={isRecorder}
+          />
+          <AudioNotification />
+        </div>
+      );
+    }
+    return null;
+  }, [isRecorder, currentConnection]);
 
-  // const onCloseStartupModal = async () => {
-  //   if (livekitInfo) {
-  //     const currentConnection = startLivekitConnection(livekitInfo);
-  //     setCurrentConnection(currentConnection);
-  //   }
-  // };
+  const onCloseStartupModal = async () => {
+    if (livekitInfo) {
+      const currentConnection = startLivekitConnection(
+        livekitInfo,
+        //@ts-ignore
+        (e: string) => t(e) as string
+      );
+      setCurrentConnection(currentConnection);
+    }
+  };
 
-  // const renderElms = useMemo(() => {
-  //   // if (loading) {
-  //   //   return <Loading text={t('app.' + roomConnectionStatus)} />;
-  //   // } else if (error && !loading) {
-  //   //   return <ErrorPage title={error.title} text={error.text} />;
-  //   // } else if (
-  //   //   roomConnectionStatus === 'connected' ||
-  //   //   roomConnectionStatus === 're-connecting'
-  //   // ) {
-  //   //   if (waitForApproval) {
-  //   //     return <WaitingRoomPage />;
-  //   //   }
-  //   //   return renderMainApp();
-  //   // } else if (roomConnectionStatus === 'ready') {
-  //   //   return <StartupJoinModal onCloseModal={onCloseStartupModal} />;
-  //   // } else {
-  //   //   return null;
-  //   // }
-  //   //eslint-disable-next-line
-  // }, [loading, error, roomConnectionStatus, waitForApproval, renderMainApp]);
+  const renderElms = useMemo(() => {
+    if (loading) {
+      // @ts-ignore
+      return <Loading text={t('app.' + roomConnectionStatus)} />;
+    } else if (error && !loading) {
+      return <ErrorPage title={error.title} text={error.text} />;
+    } else if (
+      roomConnectionStatus === 'connected' ||
+      roomConnectionStatus === 're-connecting'
+    ) {
+      if (waitForApproval) {
+        return <WaitingRoomPage />;
+      }
+      return renderMainApp();
+    } else if (roomConnectionStatus === 'ready') {
+      return <StartupJoinModal onCloseModal={onCloseStartupModal} />;
+    } else {
+      return null;
+    }
+    //eslint-disable-next-line
+  }, [loading, error, roomConnectionStatus, waitForApproval, renderMainApp]);
 
   return (
     <div
@@ -260,7 +271,7 @@ const Meet = () => {
       style={{ height: screenHeight }}
     >
       {t('app.ready')}
-      {/* {renderElms} */}
+      {renderElms}
     </div>
   );
 };

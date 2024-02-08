@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import { LocalTrackPublication, RemoteTrackPublication } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppSelector } from '../../../../store';
+import { RootState, useAppSelector } from '@/store';
 import './style.scss';
-import { sleep } from '../../../../helpers/utils';
+import { sleep } from '@/helpers/utils';
 
 interface IVideoElmProps {
   track: RemoteTrackPublication | LocalTrackPublication;
@@ -12,11 +12,11 @@ interface IVideoElmProps {
 
 const roomVideoQualitySelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.roomVideoQuality,
+  (roomSettings) => roomSettings.roomVideoQuality
 );
 const videoObjectFitSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.videoObjectFit,
+  (roomSettings) => roomSettings.videoObjectFit
 );
 
 const VideoElm = ({ track }: IVideoElmProps) => {
@@ -61,7 +61,7 @@ const VideoElm = ({ track }: IVideoElmProps) => {
     if (!document.fullscreenElement) {
       ref.current?.requestFullscreen().catch((err) => {
         alert(
-          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`,
+          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
         );
       });
     } else {
@@ -81,31 +81,31 @@ const VideoElm = ({ track }: IVideoElmProps) => {
   };
 
   return (
-    <div className="camera-video-player">
+    <div className='camera-video-player'>
       {!loaded ? (
-        <div className="loading absolute text-center top-3 z-[999] left-0 right-0 m-auto">
-          <div className="lds-ripple">
-            <div className="border-secondaryColor" />
-            <div className="border-secondaryColor" />
+        <div className='loading absolute left-0 right-0 top-3 z-[999] m-auto text-center'>
+          <div className='lds-ripple'>
+            <div className='border-secondaryColor' />
+            <div className='border-secondaryColor' />
           </div>
         </div>
       ) : null}
       <button
-        className="absolute z-[999] top-2 right-2 p-1 bg-black/50 w-6 h-6 flex"
+        className='absolute right-2 top-2 z-[999] flex h-6 w-6 bg-black/50 p-1'
         onClick={fullScreen}
       >
-        <i className="icon pnm-fullscreen text[14px] text-white" />
+        <i className='icon pnm-fullscreen text[14px] text-white' />
       </button>
       {document.pictureInPictureEnabled ? (
         <button
-          className="absolute z-[999] top-2 right-10 p-1 bg-black/50 w-6 h-6 flex"
+          className='absolute right-10 top-2 z-[999] flex h-6 w-6 bg-black/50 p-1'
           onClick={pictureInPicture}
         >
-          <i className="icon pnm-pip text[14px] text-white" />
+          <i className='icon pnm-pip text[14px] text-white' />
         </button>
       ) : null}
       <video
-        className="camera-video"
+        className='camera-video'
         onLoadedData={onLoadedData}
         ref={ref}
         style={{ objectFit: videoFit }}

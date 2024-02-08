@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player/lazy';
-import { sendWebsocketMessage } from '../../helpers/websocket';
-import { RootState, store, useAppSelector } from '../../store';
+import { sendWebsocketMessage } from '@/helpers/websocket';
+import { RootState, store, useAppSelector } from '@/store';
 import { createSelector } from '@reduxjs/toolkit';
 import {
   DataMessage,
   DataMsgBodyType,
   DataMsgType,
-} from '../../helpers/proto/plugnmeet_datamessage_pb';
+} from '@/helpers/proto/plugnmeet_datamessage_pb';
 
 interface IReactPlayerComponentProps {
   src: string;
@@ -18,11 +18,11 @@ interface IReactPlayerComponentProps {
 
 const heightSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.screenHeight,
+  (bottomIconsActivity) => bottomIconsActivity.screenHeight
 );
 const widthSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.screenWidth,
+  (bottomIconsActivity) => bottomIconsActivity.screenWidth
 );
 
 const ReactPlayerComponent = ({

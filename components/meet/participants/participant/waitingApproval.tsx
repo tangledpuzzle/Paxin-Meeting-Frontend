@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '../../../store';
-import { participantsSelector } from '../../../store/slices/participantSlice';
-import sendAPIRequest from '../../../helpers/api/plugNmeetAPI';
+import { useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 import {
   ApproveWaitingUsersReq,
   CommonResponse,
-} from '../../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 interface IWaitingApprovalProps {
   userId: string;
@@ -21,9 +21,9 @@ const WaitingApproval = ({
   openRemoveParticipantAlert,
 }: IWaitingApprovalProps) => {
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const approve = async () => {
     const body = new ApproveWaitingUsersReq({
@@ -35,7 +35,7 @@ const WaitingApproval = ({
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -57,15 +57,15 @@ const WaitingApproval = ({
   const render = useMemo(() => {
     if (participant?.metadata.wait_for_approval) {
       return (
-        <div className="approve-btn-wrap rtl:pt-2">
+        <div className='approve-btn-wrap rtl:pt-2'>
           <button
-            className="text-xs text-white py-[1px] px-2 rounded-lg transition ease-in bg-primaryColor hover:bg-secondaryColor"
+            className='rounded-lg bg-primaryColor px-2 py-[1px] text-xs text-white transition ease-in hover:bg-secondaryColor'
             onClick={approve}
           >
             {t('left-panel.approve')}
           </button>
           <button
-            className="text-xs text-white py-[1px] px-2 rounded-lg transition ease-in bg-red-600 hover:bg-red-800 ltr:ml-2 rtl:mr-2"
+            className='rounded-lg bg-red-600 px-2 py-[1px] text-xs text-white transition ease-in hover:bg-red-800 ltr:ml-2 rtl:mr-2'
             onClick={reject}
           >
             {t('left-panel.reject')}

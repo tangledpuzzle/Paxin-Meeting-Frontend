@@ -1,11 +1,11 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
-import { store, useAppDispatch } from '../../store';
+import { store, useAppDispatch } from '@/store';
 import {
   updateShowKeyboardShortcutsModal,
   updateShowRoomSettingsModal,
-} from '../../store/slices/roomSettingsSlice';
-import { useTranslation } from 'react-i18next';
+} from '@/store/slices/roomSettingsSlice';
+import { useTranslations } from 'next-intl';
 
 interface IHeaderMenusProps {
   onOpenAlert(task: string): void;
@@ -14,7 +14,7 @@ interface IHeaderMenusProps {
 const HeaderMenus = ({ onOpenAlert }: IHeaderMenusProps) => {
   const isAdmin = store.getState().session.currentUser?.metadata?.is_admin;
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const logout = () => {
     onOpenAlert('logout');
@@ -35,49 +35,49 @@ const HeaderMenus = ({ onOpenAlert }: IHeaderMenusProps) => {
     return (
       <Menu.Items
         static
-        className="HeaderSettingMenu origin-top-right z-10 absolute ltr:right-0 rtl:-left-4 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-darkPrimary ring-1 ring-black dark:ring-secondaryColor ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
+        className='HeaderSettingMenu absolute z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-darkPrimary dark:ring-secondaryColor ltr:right-0 rtl:-left-4'
       >
-        <div className="py-1" role="none">
+        <div className='py-1' role='none'>
           <Menu.Item>
             <button
-              className="text-gray-700 dark:text-darkText rounded group flex items-center py-2 px-4 text-sm text-left w-full transition ease-in hover:text-secondaryColor"
+              className='group flex w-full items-center rounded px-4 py-2 text-left text-sm text-gray-700 transition ease-in hover:text-secondaryColor dark:text-darkText'
               onClick={() => showRoomSettings()}
             >
-              <i className="pnm-settings text-primaryColor dark:text-secondaryColor ltr:mr-2 rtl:ml-2 transition ease-in group-hover:text-secondaryColor dark:group-hover:text-white" />
+              <i className='pnm-settings text-primaryColor transition ease-in group-hover:text-secondaryColor dark:text-secondaryColor dark:group-hover:text-white ltr:mr-2 rtl:ml-2' />
               {t('header.menus.settings')}
             </button>
           </Menu.Item>
         </div>
-        <div className="py-1" role="none">
+        <div className='py-1' role='none'>
           <Menu.Item>
             <button
-              className="text-gray-700 dark:text-darkText rounded group flex items-center py-2 px-4 text-sm text-left w-full transition ease-in hover:text-secondaryColor"
+              className='group flex w-full items-center rounded px-4 py-2 text-left text-sm text-gray-700 transition ease-in hover:text-secondaryColor dark:text-darkText'
               onClick={() => showKeyboardShortcuts()}
             >
-              <i className="pnm-keyboard text-primaryColor dark:text-secondaryColor ltr:mr-2 rtl:ml-2 transition ease-in group-hover:text-secondaryColor dark:group-hover:text-white" />
+              <i className='pnm-keyboard text-primaryColor transition ease-in group-hover:text-secondaryColor dark:text-secondaryColor dark:group-hover:text-white ltr:mr-2 rtl:ml-2' />
               {t('header.menus.keyboard-shortcuts')}
             </button>
           </Menu.Item>
         </div>
-        <div className="py-1" role="none">
+        <div className='py-1' role='none'>
           <Menu.Item>
             <button
-              className="text-gray-700 dark:text-darkText rounded group flex items-center py-2 px-4 text-sm text-left w-full transition ease-in hover:text-secondaryColor"
+              className='group flex w-full items-center rounded px-4 py-2 text-left text-sm text-gray-700 transition ease-in hover:text-secondaryColor dark:text-darkText'
               onClick={() => logout()}
             >
-              <i className="pnm-logout text-primaryColor dark:text-secondaryColor ltr:mr-2 rtl:ml-2 transition ease-in group-hover:text-secondaryColor dark:group-hover:text-white" />
+              <i className='pnm-logout text-primaryColor transition ease-in group-hover:text-secondaryColor dark:text-secondaryColor dark:group-hover:text-white ltr:mr-2 rtl:ml-2' />
               {t('header.menus.logout')}
             </button>
           </Menu.Item>
         </div>
         {isAdmin ? (
-          <div className="py-1" role="none">
+          <div className='py-1' role='none'>
             <Menu.Item>
               <button
-                className="text-red-900 dark:text-brandRed rounded group flex items-center py-2 px-4 text-sm text-left w-full transition ease-in"
+                className='group flex w-full items-center rounded px-4 py-2 text-left text-sm text-red-900 transition ease-in dark:text-brandRed'
                 onClick={() => endRoom()}
               >
-                <i className="pnm-call text-red-900 dark:text-brandRed ltr:mr-2 rtl:ml-2 transition ease-in " />
+                <i className='pnm-call text-red-900 transition ease-in dark:text-brandRed ltr:mr-2 rtl:ml-2 ' />
                 {t('header.menus.end')}
               </button>
             </Menu.Item>

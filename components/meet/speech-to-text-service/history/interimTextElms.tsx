@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppSelector } from '../../../store';
+import { RootState, useAppSelector } from '@/store';
 
 const interimTextSelector = createSelector(
   (state: RootState) => state.speechServices,
-  (speechServices) => speechServices.interimText,
+  (speechServices) => speechServices.interimText
 );
 const InterimTextElms = () => {
   const interimText = useAppSelector(interimTextSelector);
@@ -29,17 +29,17 @@ const InterimTextElms = () => {
   return (
     <>
       {interimText ? (
-        <div className="sentence w-full pt-2">
-          <p className="date text-sm pb-1 primaryColor dark:text-darkText">
-            <span className="text-xs">{interimText.time}</span>{' '}
+        <div className='sentence w-full pt-2'>
+          <p className='date primaryColor pb-1 text-sm dark:text-darkText'>
+            <span className='text-xs'>{interimText.time}</span>{' '}
             {interimText.from}:
           </p>
-          <p className="message-content max-w-fit shadow-footer text-sm bg-secondaryColor text-white py-1 px-2 rounded">
+          <p className='message-content max-w-fit rounded bg-secondaryColor px-2 py-1 text-sm text-white shadow-footer'>
             {interimText.text}
           </p>
         </div>
       ) : null}
-      <div className="pt-[5px]" ref={scrollToRef} />
+      <div className='pt-[5px]' ref={scrollToRef} />
     </>
   );
 };

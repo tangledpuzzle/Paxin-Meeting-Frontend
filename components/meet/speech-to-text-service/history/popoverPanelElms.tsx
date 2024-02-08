@@ -1,11 +1,11 @@
 import React, { Dispatch, useCallback, useRef } from 'react';
 import { Popover } from '@headlessui/react';
 import Draggable from 'react-draggable';
-import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, store, useAppSelector } from '../../../store';
+import { RootState, store, useAppSelector } from '@/store';
 import InterimTextElms from './interimTextElms';
+import { useTranslations } from 'next-intl';
 
 interface PopoverPanelElmsProps {
   showPopover: boolean;
@@ -14,14 +14,14 @@ interface PopoverPanelElmsProps {
 
 const lastFinalTextsSelector = createSelector(
   (state: RootState) => state.speechServices,
-  (speechServices) => speechServices.lastFinalTexts,
+  (speechServices) => speechServices.lastFinalTexts
 );
 
 const PopoverPanelElms = ({
   showPopover,
   setShowPopover,
 }: PopoverPanelElmsProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const lastFinalTexts = useAppSelector(lastFinalTextsSelector);
 
   const nodeRef = useRef(null);
@@ -52,34 +52,34 @@ const PopoverPanelElms = ({
   return (
     <Draggable nodeRef={nodeRef}>
       <Popover.Panel
-        className="SpeechHistory absolute left-0 z-10 mx-1 bottom-14 w-full max-w-md bg-white dark:bg-darkPrimary shadow-xl rounded-2xl h-ful"
+        className='SpeechHistory h-ful absolute bottom-14 left-0 z-10 mx-1 w-full max-w-md rounded-2xl bg-white shadow-xl dark:bg-darkPrimary'
         ref={nodeRef}
         static={showPopover}
       >
-        <h2 className="relative text-lg font-medium leading-6 text-gray-900 dark:text-white p-5 pb-3 px-3 cursor-move">
+        <h2 className='relative cursor-move p-5 px-3 pb-3 text-lg font-medium leading-6 text-gray-900 dark:text-white'>
           {t('speech-services.subtitle-history-modal-title')}
           <button
-            className="absolute ltr:right-10 rtl:left-10 w-[25px] h-[25px] outline-none"
+            className='absolute h-[25px] w-[25px] outline-none ltr:right-10 rtl:left-10'
             onClick={() => downloadTexts()}
           >
-            <i className="pnm-download" />
+            <i className='pnm-download' />
           </button>
           <button
-            className="absolute top-7 ltr:right-3 rtl:left-3 w-[25px] h-[25px] outline-none"
+            className='absolute top-7 h-[25px] w-[25px] outline-none ltr:right-3 rtl:left-3'
             onClick={() => setShowPopover(!showPopover)}
           >
-            <span className="inline-block h-[2px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 -rotate-0" />
+            <span className='absolute left-0 top-0 inline-block h-[2px] w-[20px] -rotate-0 bg-primaryColor dark:bg-darkText' />
           </button>
         </h2>
         <hr />
-        <div className="p-3 pb-8 text-primary dark:text-white h-[200px] overflow-hidden overflow-y-auto scrollBar scrollBar4">
+        <div className='scrollBar scrollBar4 h-[200px] overflow-hidden overflow-y-auto p-3 pb-8 text-primary dark:text-white'>
           {lastFinalTexts.slice(-50).map((t) => {
             return (
-              <div key={t.id} className="sentence w-full pt-2">
-                <p className="date text-sm pb-1 primaryColor dark:text-darkText">
-                  <span className="text-xs">{t.time}</span> {t.from}:
+              <div key={t.id} className='sentence w-full pt-2'>
+                <p className='date primaryColor pb-1 text-sm dark:text-darkText'>
+                  <span className='text-xs'>{t.time}</span> {t.from}:
                 </p>
-                <p className="message-content max-w-fit shadow-footer text-sm bg-secondaryColor text-white py-1 px-2 rounded">
+                <p className='message-content max-w-fit rounded bg-secondaryColor px-2 py-1 text-sm text-white shadow-footer'>
                   {t.text}
                 </p>
               </div>

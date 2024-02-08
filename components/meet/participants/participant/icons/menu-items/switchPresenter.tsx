@@ -1,16 +1,17 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+
 import { Menu } from '@headlessui/react';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '../../../../../store';
-import { participantsSelector } from '../../../../../store/slices/participantSlice';
-import sendAPIRequest from '../../../../../helpers/api/plugNmeetAPI';
+import { useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 import {
   CommonResponse,
   SwitchPresenterReq,
   SwitchPresenterTask,
-} from '../../../../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 interface ISwitchPresenterMenuItemProps {
   userId: string;
@@ -18,9 +19,9 @@ interface ISwitchPresenterMenuItemProps {
 
 const SwitchPresenterMenuItem = ({ userId }: ISwitchPresenterMenuItemProps) => {
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const onClick = async () => {
     const body = new SwitchPresenterReq({
@@ -35,7 +36,7 @@ const SwitchPresenterMenuItem = ({ userId }: ISwitchPresenterMenuItemProps) => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -54,11 +55,11 @@ const SwitchPresenterMenuItem = ({ userId }: ISwitchPresenterMenuItemProps) => {
 
   const render = () => {
     return (
-      <div className="" role="none">
+      <div className='' role='none'>
         <Menu.Item>
           {() => (
             <button
-              className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+              className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
               onClick={() => onClick()}
             >
               {participant?.metadata.is_presenter

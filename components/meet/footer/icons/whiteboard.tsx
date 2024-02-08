@@ -1,32 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import {
   updateIsActiveChatPanel,
   updateIsActiveWhiteboard,
-} from '../../../store/slices/bottomIconsActivitySlice';
-import sendAPIRequest from '../../../helpers/api/plugNmeetAPI';
-import { ChangeVisibilityRes } from '../../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/store/slices/bottomIconsActivitySlice';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import { ChangeVisibilityRes } from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 const isActiveWhiteboardSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveWhiteboard,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveWhiteboard
 );
 const isWhiteboardVisibleSelector = createSelector(
   (state: RootState) =>
     state.session.currentRoom.metadata?.room_features.whiteboard_features,
-  (whiteboard_features) => whiteboard_features?.visible,
+  (whiteboard_features) => whiteboard_features?.visible
 );
 
 const WhiteboardIcon = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const showTooltip = store.getState().session.userDeviceType === 'desktop';
   const [iconCSS, setIconCSS] = useState<string>('primaryColor');
@@ -86,7 +81,7 @@ const WhiteboardIcon = () => {
         'changeVisibility',
         body.toBinary(),
         false,
-        'application/protobuf',
+        'application/protobuf'
       );
     };
 
@@ -135,12 +130,12 @@ const WhiteboardIcon = () => {
   const render = () => {
     return (
       <div
-        className={`whiteboard h-[35px] lg:h-[40px] w-[35px] lg:w-[40px] relative rounded-full bg-[#F2F2F2] dark:bg-darkSecondary2 hover:bg-[#ECF4FF] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 flex items-center justify-center cursor-pointer ${
+        className={`whiteboard relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
           showTooltip ? 'has-tooltip' : ''
         }`}
         onClick={() => toggleWhiteboard()}
       >
-        <span className="tooltip">{text()}</span>
+        <span className='tooltip'>{text()}</span>
         <>
           <i
             className={`pnm-whiteboard ${iconCSS} text-[14px] lg:text-[16px]`}

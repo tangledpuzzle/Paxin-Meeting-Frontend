@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import useVirtual from 'react-cool-virtual';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, store, useAppSelector } from '../../store';
+import { RootState, store, useAppSelector } from '@/store';
 import ParticipantComponent from './participant';
-import { participantsSelector } from '../../store/slices/participantSlice';
-import { IParticipant } from '../../store/slices/interfaces/participant';
+import { participantsSelector } from '@/store/slices/participantSlice';
+import { IParticipant } from '@/store/slices/interfaces/participant';
 import RemoveParticipantAlertModal, {
   IRemoveParticipantAlertModalData,
 } from './removeParticipantAlertModal';
+import { useTranslations } from 'next-intl';
 
 const screenHeightSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.screenHeight,
+  (bottomIconsActivity) => bottomIconsActivity.screenHeight
 );
 
 const ParticipantsComponent = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const allParticipants = useAppSelector(participantsSelector.selectAll);
   const screenHeight = useAppSelector(screenHeightSelector);
 
@@ -45,15 +45,15 @@ const ParticipantsComponent = () => {
         (p) =>
           p.name !== '' &&
           p.userId !== 'RECORDER_BOT' &&
-          p.userId !== 'RTMP_BOT',
-      ),
+          p.userId !== 'RTMP_BOT'
+      )
     );
   }, [allParticipants]);
 
   const onOpenRemoveParticipantAlert = (
     name: string,
     user_id: string,
-    type: string,
+    type: string
   ) => {
     setRemoveParticipantData({
       name,
@@ -93,9 +93,9 @@ const ParticipantsComponent = () => {
 
   return (
     <>
-      <div className="inner-wrapper relative z-20">
-        <div className="top flex items-center justify-between font-medium mb-3 xl:mb-5">
-          <p className="text-sm text-black dark:text-white">
+      <div className='inner-wrapper relative z-20'>
+        <div className='top mb-3 flex items-center justify-between font-medium xl:mb-5'>
+          <p className='text-sm text-black dark:text-white'>
             {t('left-panel.participants', {
               total: participants.length,
             })}
@@ -105,17 +105,17 @@ const ParticipantsComponent = () => {
         <div
           ref={outerRef as any}
           style={{ height: screenHeight - 215, overflow: 'auto' }}
-          className="-mx-2 xl:-mx-4 scrollBar"
+          className='scrollBar -mx-2 xl:-mx-4'
         >
           <div
-            className="all-participants-wrap px-2 xl:px-4"
+            className='all-participants-wrap px-2 xl:px-4'
             ref={innerRef as any}
           >
             {items.map(({ index, measureRef }) => (
               <li
                 key={index}
                 ref={measureRef}
-                className="mb-3 w-full list-none"
+                className='mb-3 w-full list-none'
               >
                 {renderParticipant(index)}
               </li>

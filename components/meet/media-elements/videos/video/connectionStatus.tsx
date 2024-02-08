@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { ConnectionQuality } from 'livekit-client';
-import { useAppSelector } from '../../../../store';
-import { participantsSelector } from '../../../../store/slices/participantSlice';
+import { useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
 
 interface IConnectionStatusProps {
   userId: string;
 }
 const ConnectionStatus = ({ userId }: IConnectionStatusProps) => {
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
   const [color, setColor] = useState<string>('#FFFFFF');
 
@@ -32,10 +32,10 @@ const ConnectionStatus = ({ userId }: IConnectionStatusProps) => {
   }, [participant?.connectionQuality]);
 
   const render = () => {
-    return <i style={{ color: color }} className="pnm-network text-[7px]" />;
+    return <i style={{ color: color }} className='pnm-network text-[7px]' />;
   };
 
-  return <div className="connection-status">{render()}</div>;
+  return <div className='connection-status'>{render()}</div>;
 };
 
 export default ConnectionStatus;

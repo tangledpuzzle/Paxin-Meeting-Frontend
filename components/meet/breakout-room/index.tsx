@@ -1,14 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { useTranslation } from 'react-i18next';
 
-import { store, useAppDispatch } from '../../store';
-import { updateShowManageBreakoutRoomModal } from '../../store/slices/bottomIconsActivitySlice';
+import { store, useAppDispatch } from '@/store';
+import { updateShowManageBreakoutRoomModal } from '@/store/slices/bottomIconsActivitySlice';
 import FromElems from './form';
 import BreakoutRoomLists from './list';
+import { useTranslations } from 'next-intl';
 
 const BreakoutRoom = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const breakoutRoomIsActive =
     store.getState().session.currentRoom.metadata?.room_features
@@ -25,57 +25,57 @@ const BreakoutRoom = () => {
       <>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
-            as="div"
-            className="breakout-room-modal fixed inset-0 z-[9999] overflow-y-auto"
+            as='div'
+            className='breakout-room-modal fixed inset-0 z-[9999] overflow-y-auto'
             onClose={() => false}
             static={false}
           >
-            <div className="min-h-screen px-4 text-center flex items-center justify-center">
+            <div className='flex min-h-screen items-center justify-center px-4 text-center'>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0'
+                enterTo='opacity-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
               >
-                <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+                <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
               </Transition.Child>
 
               <span
-                className="inline-block h-screen align-middle"
-                aria-hidden="true"
+                className='inline-block h-screen align-middle'
+                aria-hidden='true'
               >
                 &#8203;
               </span>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
               >
-                <div className="inline-block w-full max-w-5xl h-full p-4 md:p-6 my-16 overflow-hidden text-left transition-all transform bg-white dark:bg-darkPrimary shadow-xl rounded-2xl">
+                <div className='my-16 inline-block h-full w-full max-w-5xl transform overflow-hidden rounded-2xl bg-white p-4 text-left shadow-xl transition-all dark:bg-darkPrimary md:p-6'>
                   <button
-                    className="close-btn absolute top-8 ltr:right-6 rtl:left-6 w-[25px] h-[25px] outline-none"
-                    type="button"
+                    className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
+                    type='button'
                     onClick={() => closeModal()}
                   >
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 rotate-45" />
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 -rotate-45" />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] rotate-45 bg-primaryColor dark:bg-darkText' />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] -rotate-45 bg-primaryColor dark:bg-darkText' />
                   </button>
 
                   <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white ltr:text-left rtl:text-right mb-2"
+                    as='h3'
+                    className='mb-2 text-lg font-medium leading-6 text-gray-900 dark:text-white ltr:text-left rtl:text-right'
                   >
                     {t('breakout-room.modal-title')}
                   </Dialog.Title>
                   <hr />
-                  <div className="mt-2">
+                  <div className='mt-2'>
                     {breakoutRoomIsActive ? (
                       <BreakoutRoomLists />
                     ) : (

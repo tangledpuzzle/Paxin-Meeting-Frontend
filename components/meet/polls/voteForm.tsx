@@ -1,13 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { useTranslation } from 'react-i18next';
 import {
   useAddResponseMutation,
   useGetPollListsQuery,
-} from '../../store/services/pollsApi';
-import { store } from '../../store';
+} from '@/store/services/pollsApi';
+import { store } from '@/store';
 import { toast } from 'react-toastify';
-import { SubmitPollResponseReq } from '../../helpers/proto/plugnmeet_polls_pb';
+import { SubmitPollResponseReq } from '@/helpers/proto/plugnmeet_polls_pb';
+import { useTranslations } from 'next-intl';
 
 interface IVoteFormProps {
   onCloseForm(): void;
@@ -15,7 +15,7 @@ interface IVoteFormProps {
 }
 
 const VoteForm = ({ onCloseForm, pollId }: IVoteFormProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [selectedOption, setSelectedOption] = useState<number>(0);
 
@@ -58,27 +58,27 @@ const VoteForm = ({ onCloseForm, pollId }: IVoteFormProps) => {
         userId: store.getState().session.currentUser?.userId ?? '',
         name: store.getState().session.currentUser?.name ?? '',
         selectedOption: BigInt(selectedOption),
-      }),
+      })
     );
   };
 
   const renderForm = () => {
     return (
       <form onSubmit={onSubmit}>
-        <label className="text-base text-black dark:text-darkText block mb-2 pb-1 border-b border-solid border-primaryColor/20 dark:border-darkText/20">
-          <span className="text-primaryColor dark:text-secondaryColor">Q:</span>
+        <label className='mb-2 block border-b border-solid border-primaryColor/20 pb-1 text-base text-black dark:border-darkText/20 dark:text-darkText'>
+          <span className='text-primaryColor dark:text-secondaryColor'>Q:</span>
           {poll?.question}
         </label>
-        <div className="">
-          <p className="text-base text-black dark:text-white block mb-2 pb-1 border-b border-solid border-primaryColor/20 dark:border-darkText/20">
+        <div className=''>
+          <p className='mb-2 block border-b border-solid border-primaryColor/20 pb-1 text-base text-black dark:border-darkText/20 dark:text-white'>
             {t('polls.select-option')}
           </p>
-          <div className="mb-2 relative min-h-[75px]">
+          <div className='relative mb-2 min-h-[75px]'>
             {poll?.options.map((o) => {
               return (
-                <div key={o.id} className="flex items-center">
+                <div key={o.id} className='flex items-center'>
                   <input
-                    type="radio"
+                    type='radio'
                     id={`option-${o.id}`}
                     value={o.id}
                     name={`option-${o.id}`}
@@ -88,7 +88,7 @@ const VoteForm = ({ onCloseForm, pollId }: IVoteFormProps) => {
                     }
                   />
                   <label
-                    className="ml-2 dark:text-darkText"
+                    className='ml-2 dark:text-darkText'
                     htmlFor={`option-${o.id}`}
                   >
                     {o.text}
@@ -97,20 +97,20 @@ const VoteForm = ({ onCloseForm, pollId }: IVoteFormProps) => {
               );
             })}
             {isLoading ? (
-              <div className="loading absolute text-center top-1/2 -translate-y-1/2 z-[999] left-0 right-0 m-auto">
-                <div className="lds-ripple">
-                  <div className="border-secondaryColor" />
-                  <div className="border-secondaryColor" />
+              <div className='loading absolute left-0 right-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
+                <div className='lds-ripple'>
+                  <div className='border-secondaryColor' />
+                  <div className='border-secondaryColor' />
                 </div>
               </div>
             ) : null}
           </div>
         </div>
 
-        <div className="button-section flex items-center justify-end">
+        <div className='button-section flex items-center justify-end'>
           <button
-            className="h-7 px-6 leading-[28px] text-center transition ease-in bg-primaryColor hover:bg-secondaryColor text-white text-base font-semibold rounded-lg"
-            type="submit"
+            className='h-7 rounded-lg bg-primaryColor px-6 text-center text-base font-semibold leading-[28px] text-white transition ease-in hover:bg-secondaryColor'
+            type='submit'
           >
             {t('polls.submit')}
           </button>
@@ -124,56 +124,56 @@ const VoteForm = ({ onCloseForm, pollId }: IVoteFormProps) => {
       <>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
-            as="div"
-            className="fixed inset-0 z-[9999] overflow-y-auto"
+            as='div'
+            className='fixed inset-0 z-[9999] overflow-y-auto'
             onClose={() => false}
           >
-            <div className="min-h-screen px-4 text-center">
+            <div className='min-h-screen px-4 text-center'>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0'
+                enterTo='opacity-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
               >
-                <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+                <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
               </Transition.Child>
 
               <span
-                className="inline-block h-screen align-middle"
-                aria-hidden="true"
+                className='inline-block h-screen align-middle'
+                aria-hidden='true'
               >
                 &#8203;
               </span>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
               >
-                <div className="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-darkPrimary shadow-xl rounded-2xl">
+                <div className='my-8 inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className="close-btn absolute top-8 right-6 w-[25px] h-[25px] outline-none"
-                    type="button"
+                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                    type='button'
                     onClick={() => closeModal()}
                   >
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 rotate-45" />
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 -rotate-45" />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] rotate-45 bg-primaryColor dark:bg-darkText' />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] -rotate-45 bg-primaryColor dark:bg-darkText' />
                   </button>
 
                   <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white text-left mb-2"
+                    as='h3'
+                    className='mb-2 text-left text-lg font-medium leading-6 text-gray-900 dark:text-white'
                   >
                     {t('polls.submit-vote-form-title')}
                   </Dialog.Title>
                   <hr />
-                  <div className="mt-2">{renderForm()}</div>
+                  <div className='mt-2'>{renderForm()}</div>
                 </div>
               </Transition.Child>
             </div>

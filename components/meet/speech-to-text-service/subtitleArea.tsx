@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { RootState, useAppSelector } from '../../store';
-import { TextWithInfo } from '../../store/slices/interfaces/speechServices';
+import { RootState, useAppSelector } from '@/store';
+import { TextWithInfo } from '@/store/slices/interfaces/speechServices';
 
 interface FinalTexts {
   first?: TextWithInfo;
@@ -18,7 +18,7 @@ const SubtitleArea = () => {
     second: undefined,
   });
   const [subtitleText, setSubtitleText] = useState<string | undefined>(
-    undefined,
+    undefined
   );
 
   useMemo(() => {
@@ -51,7 +51,7 @@ const SubtitleArea = () => {
       if (finalTexts.first) {
         text.push(
           `${finalTexts.first.from}:`,
-          finalTexts.first.text.slice(-20),
+          finalTexts.first.text.slice(-20)
         );
         if (finalTexts.second) {
           // if second data exist, then we'll require adding a new line
@@ -63,7 +63,7 @@ const SubtitleArea = () => {
       if (finalTexts.second) {
         text.push(
           `${finalTexts.second.from}:`,
-          finalTexts.second.text.slice(-50),
+          finalTexts.second.text.slice(-50)
         );
         lastLineFrom = finalTexts.second.from;
       }
@@ -83,7 +83,7 @@ const SubtitleArea = () => {
           text.push(
             '\n',
             `${speechServices.interimText.from}:`,
-            speechServices.interimText.text,
+            speechServices.interimText.text
           );
         }
       }
@@ -110,10 +110,10 @@ const SubtitleArea = () => {
       {speechServices.selectedSubtitleLang !== '' &&
       subtitleText !== undefined ? (
         <div
-          className="sub-title w-11/12 absolute bottom-4  left-1/2 -translate-x-1/2 pointer-events-none px-10 flex items-center"
+          className='sub-title pointer-events-none absolute bottom-4  left-1/2 flex w-11/12 -translate-x-1/2 items-center px-10'
           style={{ fontSize: speechServices.subtitleFontSize }}
         >
-          <p className="py-1 px-2 bg-black text-white m-auto inline-block break-words text-center whitespace-pre-wrap">
+          <p className='m-auto inline-block whitespace-pre-wrap break-words bg-black px-2 py-1 text-center text-white'>
             {subtitleText}
           </p>
         </div>

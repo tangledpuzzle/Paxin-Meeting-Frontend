@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { useGetCountTotalResponsesQuery } from '../../../store/services/pollsApi';
+import { useGetCountTotalResponsesQuery } from '@/store/services/pollsApi';
+import { useTranslations } from 'next-intl';
 
 interface ITotalResponsesProps {
   pollId: string;
@@ -9,7 +9,7 @@ interface ITotalResponsesProps {
 const TotalResponses = ({ pollId }: ITotalResponsesProps) => {
   const { data, isLoading } = useGetCountTotalResponsesQuery(pollId);
   const [total, setTotal] = useState<number>(0);
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   useEffect(() => {
     if (!isLoading && data) {
@@ -20,7 +20,7 @@ const TotalResponses = ({ pollId }: ITotalResponsesProps) => {
   }, [data, isLoading]);
 
   return (
-    <div className="total-vote rounded-bl-lg bg-secondaryColor absolute top-0 right-0 text-white text-[10px] py-1 px-3 uppercase">
+    <div className='total-vote absolute right-0 top-0 rounded-bl-lg bg-secondaryColor px-3 py-1 text-[10px] uppercase text-white'>
       <strong>{t('polls.total')}: </strong> {total}
     </div>
   );

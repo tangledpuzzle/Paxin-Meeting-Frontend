@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
-import { store } from '../../store';
+import { store } from '@/store';
+import { useTranslations } from 'next-intl';
 
 interface IDurationViewProps {
   duration: number;
 }
 const DurationView = ({ duration }: IDurationViewProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const isRecorder = store.getState().session.currentUser?.isRecorder;
 
   const [remaining, setRemaining] = useState<string>('00:00');
@@ -65,7 +65,7 @@ const DurationView = ({ duration }: IDurationViewProps) => {
           }),
           {
             type: 'warning',
-          },
+          }
         );
     }
   }, [isRecorder, remaining, t]);
@@ -73,7 +73,7 @@ const DurationView = ({ duration }: IDurationViewProps) => {
   return (
     <>
       {showClock ? (
-        <div className="timer text-xs md:text-sm border border-solid border-primaryColor dark:border-darkText/80 dark:text-darkText/80 sm:py-[2px] px-3 rounded-lg mt-[2px] mr-[6px]">
+        <div className='timer mr-[6px] mt-[2px] rounded-lg border border-solid border-primaryColor px-3 text-xs dark:border-darkText/80 dark:text-darkText/80 sm:py-[2px] md:text-sm'>
           {remaining}
         </div>
       ) : null}

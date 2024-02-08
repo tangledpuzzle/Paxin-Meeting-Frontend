@@ -1,37 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import {
   updateIsActiveChatPanel,
   updateIsActiveSharedNotePad,
-} from '../../../store/slices/bottomIconsActivitySlice';
-import sendAPIRequest from '../../../helpers/api/plugNmeetAPI';
-import { ChangeVisibilityRes } from '../../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/store/slices/bottomIconsActivitySlice';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import { ChangeVisibilityRes } from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 const isActiveSharedNotePadSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveSharedNotePad,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveSharedNotePad
 );
 const sharedNotepadStatusSelector = createSelector(
   (state: RootState) =>
     state.session.currentRoom.metadata?.room_features.shared_note_pad_features,
-  (shared_note_pad_features) => shared_note_pad_features?.is_active,
+  (shared_note_pad_features) => shared_note_pad_features?.is_active
 );
 const isSharedNotepadVisibleSelector = createSelector(
   (state: RootState) =>
     state.session.currentRoom.metadata?.room_features.shared_note_pad_features,
-  (shared_note_pad_features) => shared_note_pad_features?.visible,
+  (shared_note_pad_features) => shared_note_pad_features?.visible
 );
 
 const SharedNotePadIcon = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const showTooltip = store.getState().session.userDeviceType === 'desktop';
   const [iconCSS, setIconCSS] = useState<string>('primaryColor');
@@ -97,7 +92,7 @@ const SharedNotePadIcon = () => {
         'changeVisibility',
         body.toBinary(),
         false,
-        'application/protobuf',
+        'application/protobuf'
       );
     };
 
@@ -141,12 +136,12 @@ const SharedNotePadIcon = () => {
   const render = () => {
     return (
       <div
-        className={`shared-notepad h-[35px] lg:h-[40px] w-[35px] lg:w-[40px] relative rounded-full bg-[#F2F2F2] dark:bg-darkSecondary2 hover:bg-[#ECF4FF] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 flex items-center justify-center cursor-pointer ${
+        className={`shared-notepad relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
           showTooltip ? 'has-tooltip' : ''
         }`}
         onClick={() => toggleSharedNotePad()}
       >
-        <span className="tooltip">{text()}</span>
+        <span className='tooltip'>{text()}</span>
         <>
           <i className={`pnm-notepad ${iconCSS} text-[14px] lg:text-[16px]`} />
         </>

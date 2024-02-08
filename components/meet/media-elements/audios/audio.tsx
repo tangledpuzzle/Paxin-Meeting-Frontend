@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { RemoteTrackPublication } from 'livekit-client';
 
-import { useAppSelector } from '../../../store';
-import { participantsSelector } from '../../../store/slices/participantSlice';
+import { useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
 
 interface IAudioElmProps {
   track: RemoteTrackPublication;
@@ -12,7 +12,7 @@ interface IAudioElmProps {
 const AudioElm = ({ track, userId }: IAudioElmProps) => {
   const ref = useRef<HTMLAudioElement>(null);
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
 
   useEffect(() => {

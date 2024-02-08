@@ -9,7 +9,7 @@ import LockSettingMenuItem from './menu-items/lock';
 import RemoveUserMenuItem from './menu-items/removeUser';
 import PrivateChatMenuItem from './menu-items/privateChatMenuItem';
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState, store, useAppSelector } from '../../../../store';
+import { RootState, store, useAppSelector } from '@/store';
 
 interface IMenuIconProps {
   userId: string;
@@ -20,12 +20,12 @@ interface IMenuIconProps {
 
 const defaultLockSettingsSelector = createSelector(
   (state: RootState) => state.session.currentRoom.metadata,
-  (metadata) => metadata?.default_lock_settings,
+  (metadata) => metadata?.default_lock_settings
 );
 
 const currentUserLockSettingsSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata,
-  (metadata) => metadata?.lock_settings,
+  (metadata) => metadata?.lock_settings
 );
 
 const MenuIcon = ({
@@ -36,7 +36,7 @@ const MenuIcon = ({
 }: IMenuIconProps) => {
   const defaultLockSettings = useAppSelector(defaultLockSettingsSelector);
   const currentUserLockSettings = useAppSelector(
-    currentUserLockSettingsSelector,
+    currentUserLockSettingsSelector
   );
   const currentUser = store.getState().session.currentUser;
 
@@ -86,24 +86,24 @@ const MenuIcon = ({
         <Menu>
           {({ open }) => (
             <>
-              <Menu.Button className="relative flex-shrink-0 mt-2">
-                <i className="pnm-menu-small primaryColor dark:text-secondaryColor opacity-50" />
+              <Menu.Button className='relative mt-2 flex-shrink-0'>
+                <i className='pnm-menu-small primaryColor opacity-50 dark:text-secondaryColor' />
               </Menu.Button>
 
               {/* Use the Transition component. */}
               <Transition
                 show={open}
-                enter="transition duration-100 ease-out"
-                enterFrom="transform scale-95 opacity-0"
-                enterTo="transform scale-100 opacity-100 z-10"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform scale-100 opacity-100"
-                leaveTo="transform scale-95 opacity-0"
+                enter='transition duration-100 ease-out'
+                enterFrom='transform scale-95 opacity-0'
+                enterTo='transform scale-100 opacity-100 z-10'
+                leave='transition duration-75 ease-out'
+                leaveFrom='transform scale-100 opacity-100'
+                leaveTo='transform scale-95 opacity-0'
               >
                 {/* Mark this component as `static` */}
                 <Menu.Items
                   static
-                  className="origin-top-right z-10 absolute ltr:right-0 rtl:left-0 mt-2 w-44 rounded-md shadow-lg bg-white dark:bg-darkPrimary ring-1 ring-black dark:ring-secondaryColor ring-opacity-5 divide-y divide-gray-100 dark:divide-secondaryColor focus:outline-none"
+                  className='absolute z-10 mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-secondaryColor dark:bg-darkPrimary dark:ring-secondaryColor ltr:right-0 rtl:left-0'
                 >
                   {renderMenuItems()}
                 </Menu.Items>

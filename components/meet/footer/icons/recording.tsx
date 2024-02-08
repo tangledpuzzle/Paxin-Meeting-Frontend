@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 import { Room } from 'livekit-client';
 
-import { RootState, store, useAppSelector } from '../../../store';
-import { IRoomMetadata } from '../../../store/slices/interfaces/session';
+import { RootState, store, useAppSelector } from '@/store';
+import { IRoomMetadata } from '@/store/slices/interfaces/session';
 import RecordingModal from './recording/recordingModal';
 import { RecordingEvent, RecordingType } from './recording/IRecording';
 import useLocalRecording from './recording/useLocalRecording';
 import useCloudRecording from './recording/useCloudRecording';
+import { useTranslations } from 'next-intl';
 
 interface IRecordingIconProps {
   currentRoom: Room;
@@ -17,7 +17,7 @@ interface IRecordingIconProps {
 
 const isRecordingSelector = createSelector(
   (state: RootState) => state.session,
-  (session) => session.isActiveRecording,
+  (session) => session.isActiveRecording
 );
 const RecordingIcon = ({ currentRoom }: IRecordingIconProps) => {
   const showTooltip = store.getState().session.userDeviceType === 'desktop';
@@ -36,7 +36,7 @@ const RecordingIcon = ({ currentRoom }: IRecordingIconProps) => {
     stopRecording: stopCloudRecording,
   } = useCloudRecording(currentRoom.sid);
 
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const roomMetadata = store.getState().session.currentRoom
     .metadata as IRoomMetadata;
   const isAllowRecording =
@@ -51,7 +51,7 @@ const RecordingIcon = ({ currentRoom }: IRecordingIconProps) => {
   const [allowRecording, setAllowRecording] = useState<boolean>(true);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [recordingType, setRecordingType] = useState<RecordingType>(
-    RecordingType.RECORDING_TYPE_NONE,
+    RecordingType.RECORDING_TYPE_NONE
   );
   const [timer, setTimer] = useState<NodeJS.Timeout | undefined>(undefined);
   const [checkedAutoRecording, setCheckedAutoRecording] =
@@ -224,18 +224,18 @@ const RecordingIcon = ({ currentRoom }: IRecordingIconProps) => {
         <button
           className={`${
             isRecording ? 'record' : ''
-          } footer-icon h-[35px] lg:h-[40px] w-[35px] lg:w-[40px] overflow-hidden rounded-full bg-[#F2F2F2] dark:bg-darkSecondary2 hover:bg-[#ECF4FF] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 flex items-center justify-center cursor-pointer ${
+          } footer-icon flex h-[35px] w-[35px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
             showTooltip ? 'has-tooltip' : ''
           }`}
           onClick={() => onClickRecordingBtn()}
           disabled={disable}
         >
-          <span className="tooltip !bottom-[62px]">
+          <span className='tooltip !bottom-[62px]'>
             {isRecording
               ? t('footer.icons.stop-recording')
               : t('footer.icons.start-recording')}
           </span>
-          <i className="pnm-rec primaryColor dark:text-darkText text-[11px] lg:text-[12px] font-['Nunito Sans'] font-bold" />
+          <i className="pnm-rec primaryColor font-['Nunito Sans'] text-[11px] font-bold dark:text-darkText lg:text-[12px]" />
         </button>
       </>
     );

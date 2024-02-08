@@ -2,28 +2,23 @@ import React, { Fragment } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { Transition, Dialog, Switch } from '@headlessui/react';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
-import { updateShowLockSettingsModal } from '../../../store/slices/bottomIconsActivitySlice';
-import sendAPIRequest from '../../../helpers/api/plugNmeetAPI';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { updateShowLockSettingsModal } from '@/store/slices/bottomIconsActivitySlice';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 import {
   CommonResponse,
   UpdateUserLockSettingsReq,
-} from '../../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 const roomLockSettingsSelector = createSelector(
   (state: RootState) => state.session.currentRoom.metadata,
-  (metadata) => metadata?.default_lock_settings,
+  (metadata) => metadata?.default_lock_settings
 );
 const LockSettingsModal = () => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const roomLockSettings = useAppSelector(roomLockSettingsSelector);
   const session = store.getState().session;
 
@@ -43,7 +38,7 @@ const LockSettingsModal = () => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -66,8 +61,8 @@ const LockSettingsModal = () => {
   const showLockItems = () => {
     return (
       <Switch.Group>
-        <div className="flex items-center justify-between mb-4">
-          <Switch.Label className="ltr:pr-4 rtl:pl-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+        <div className='mb-4 flex items-center justify-between'>
+          <Switch.Label className='w-full dark:text-darkText ltr:pr-4 ltr:text-left rtl:pl-4 rtl:text-right'>
             {t('footer.modal.lock-microphone')}
           </Switch.Label>
           <Switch
@@ -77,20 +72,20 @@ const LockSettingsModal = () => {
               roomLockSettings?.lock_microphone
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 roomLockSettings?.lock_microphone
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
 
-        <div className="flex items-center justify-between mb-4">
-          <Switch.Label className="ltr:pr-4 rtl:pl-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+        <div className='mb-4 flex items-center justify-between'>
+          <Switch.Label className='w-full dark:text-darkText ltr:pr-4 ltr:text-left rtl:pl-4 rtl:text-right'>
             {t('footer.modal.lock-webcams')}
           </Switch.Label>
           <Switch
@@ -100,20 +95,20 @@ const LockSettingsModal = () => {
               roomLockSettings?.lock_webcam
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 roomLockSettings?.lock_webcam
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
 
-        <div className="flex items-center justify-between mb-4">
-          <Switch.Label className="ltr:pr-4 rtl:pl-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+        <div className='mb-4 flex items-center justify-between'>
+          <Switch.Label className='w-full dark:text-darkText ltr:pr-4 ltr:text-left rtl:pl-4 rtl:text-right'>
             {t('footer.modal.lock-screen-sharing')}
           </Switch.Label>
           <Switch
@@ -123,20 +118,20 @@ const LockSettingsModal = () => {
               roomLockSettings?.lock_screen_sharing
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 roomLockSettings?.lock_screen_sharing
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
 
-        <div className="flex items-center justify-between mb-4">
-          <Switch.Label className="ltr:pr-4 rtl:pl-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+        <div className='mb-4 flex items-center justify-between'>
+          <Switch.Label className='w-full dark:text-darkText ltr:pr-4 ltr:text-left rtl:pl-4 rtl:text-right'>
             {t('footer.modal.lock-whiteboard')}
           </Switch.Label>
           <Switch
@@ -146,20 +141,20 @@ const LockSettingsModal = () => {
               roomLockSettings?.lock_whiteboard
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 roomLockSettings?.lock_whiteboard
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
 
-        <div className="flex items-center justify-between mb-4">
-          <Switch.Label className="ltr:pr-4 rtl:pl-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+        <div className='mb-4 flex items-center justify-between'>
+          <Switch.Label className='w-full dark:text-darkText ltr:pr-4 ltr:text-left rtl:pl-4 rtl:text-right'>
             {t('footer.modal.lock-shared-notepad')}
           </Switch.Label>
           <Switch
@@ -169,20 +164,20 @@ const LockSettingsModal = () => {
               roomLockSettings?.lock_shared_notepad
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 roomLockSettings?.lock_shared_notepad
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
 
-        <div className="flex items-center justify-between mb-4">
-          <Switch.Label className="ltr:pr-4 rtl:pl-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+        <div className='mb-4 flex items-center justify-between'>
+          <Switch.Label className='w-full dark:text-darkText ltr:pr-4 ltr:text-left rtl:pl-4 rtl:text-right'>
             {t('footer.modal.lock-chat')}
           </Switch.Label>
           <Switch
@@ -192,20 +187,20 @@ const LockSettingsModal = () => {
               roomLockSettings?.lock_chat
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 roomLockSettings?.lock_chat
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
 
-        <div className="flex items-center justify-between mb-4">
-          <Switch.Label className="ltr:pr-4 rtl:pl-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+        <div className='mb-4 flex items-center justify-between'>
+          <Switch.Label className='w-full dark:text-darkText ltr:pr-4 ltr:text-left rtl:pl-4 rtl:text-right'>
             {t('footer.modal.lock-send-message')}
           </Switch.Label>
           <Switch
@@ -215,20 +210,20 @@ const LockSettingsModal = () => {
               roomLockSettings?.lock_chat_send_message
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 roomLockSettings?.lock_chat_send_message
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
 
-        <div className="flex items-center justify-between mb-4">
-          <Switch.Label className="ltr:pr-4 rtl:pl-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+        <div className='mb-4 flex items-center justify-between'>
+          <Switch.Label className='w-full dark:text-darkText ltr:pr-4 ltr:text-left rtl:pl-4 rtl:text-right'>
             {t('footer.modal.lock-chat-file-share')}
           </Switch.Label>
           <Switch
@@ -238,20 +233,20 @@ const LockSettingsModal = () => {
               roomLockSettings?.lock_chat_file_share
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 roomLockSettings?.lock_chat_file_share
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
 
-        <div className="flex items-center justify-between mb-4">
-          <Switch.Label className="ltr:pr-4 rtl:pl-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+        <div className='mb-4 flex items-center justify-between'>
+          <Switch.Label className='w-full dark:text-darkText ltr:pr-4 ltr:text-left rtl:pl-4 rtl:text-right'>
             {t('footer.modal.lock-private-chat')}
           </Switch.Label>
           <Switch
@@ -261,14 +256,14 @@ const LockSettingsModal = () => {
               roomLockSettings?.lock_private_chat
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 roomLockSettings?.lock_private_chat
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -281,56 +276,56 @@ const LockSettingsModal = () => {
       <>
         <Transition appear show={true} as={Fragment}>
           <Dialog
-            as="div"
-            className="lockSettingsModal fixed inset-0 z-[9999] overflow-y-auto"
+            as='div'
+            className='lockSettingsModal fixed inset-0 z-[9999] overflow-y-auto'
             onClose={() => false}
           >
-            <div className="min-h-screen px-4 text-center">
+            <div className='min-h-screen px-4 text-center'>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0'
+                enterTo='opacity-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
               >
-                <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+                <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
               </Transition.Child>
 
               <span
-                className="inline-block h-screen align-middle"
-                aria-hidden="true"
+                className='inline-block h-screen align-middle'
+                aria-hidden='true'
               >
                 &#8203;
               </span>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
               >
-                <div className="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-darkPrimary shadow-xl rounded-2xl">
+                <div className='my-8 inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className="close-btn absolute top-8 ltr:right-6 rtl:left-6 w-[25px] h-[25px] outline-none"
-                    type="button"
+                    className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
+                    type='button'
                     onClick={() => closeModal()}
                   >
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 rotate-45" />
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 -rotate-45" />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] rotate-45 bg-primaryColor dark:bg-darkText' />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] -rotate-45 bg-primaryColor dark:bg-darkText' />
                   </button>
 
                   <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-2 ltr:text-left rtl:text-right"
+                    as='h3'
+                    className='mb-2 text-lg font-medium leading-6 text-gray-900 dark:text-white ltr:text-left rtl:text-right'
                   >
                     {t('footer.modal.lock-settings-title')}
                   </Dialog.Title>
                   <hr />
-                  <div className="mt-6">{showLockItems()}</div>
+                  <div className='mt-6'>{showLockItems()}</div>
                 </div>
               </Transition.Child>
             </div>

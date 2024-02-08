@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { Dialog, Transition } from '@headlessui/react';
-import { useTranslation } from 'react-i18next';
 
-import { useAppSelector, RootState, useAppDispatch } from '../../../../store';
+import { useAppSelector, RootState, useAppDispatch } from '@/store';
 import {
   updateIsActiveWebcam,
   updateShowVideoShareModal,
-} from '../../../../store/slices/bottomIconsActivitySlice';
-import { getDevices } from '../../../../helpers/utils';
+} from '@/store/slices/bottomIconsActivitySlice';
+import { getDevices } from '@/helpers/utils';
 import PreviewWebcam from './previewWebcam';
-import { addVideoDevices } from '../../../../store/slices/roomSettingsSlice';
-import { IMediaDevice } from '../../../../store/slices/interfaces/roomSettings';
+import { addVideoDevices } from '@/store/slices/roomSettingsSlice';
+import { IMediaDevice } from '@/store/slices/interfaces/roomSettings';
+import { useTranslations } from 'next-intl';
 
 interface IShareWebcamModal {
   onSelectedDevice: (deviceId: string) => void;
@@ -19,7 +19,7 @@ interface IShareWebcamModal {
 
 const showVideoShareModalSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.showVideoShareModal,
+  (bottomIconsActivity) => bottomIconsActivity.showVideoShareModal
 );
 
 const ShareWebcamModal = ({ onSelectedDevice }: IShareWebcamModal) => {
@@ -28,7 +28,7 @@ const ShareWebcamModal = ({ onSelectedDevice }: IShareWebcamModal) => {
   const [selectedWebcam, setSelectWebcam] = useState<string>('');
   const [devices, setDevices] = useState<Array<JSX.Element>>([]);
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   useEffect(() => {
     const getDeviceWebcams = async () => {
@@ -86,51 +86,51 @@ const ShareWebcamModal = ({ onSelectedDevice }: IShareWebcamModal) => {
     return (
       <Transition
         show={isOpen}
-        enter="transition duration-100 ease-out"
-        enterFrom="transform scale-95 opacity-0"
-        enterTo="transform scale-100 opacity-100"
-        leave="transition duration-75 ease-out"
-        leaveFrom="transform scale-100 opacity-100"
-        leaveTo="transform scale-95 opacity-0"
+        enter='transition duration-100 ease-out'
+        enterFrom='transform scale-95 opacity-0'
+        enterTo='transform scale-100 opacity-100'
+        leave='transition duration-75 ease-out'
+        leaveFrom='transform scale-100 opacity-100'
+        leaveTo='transform scale-95 opacity-0'
       >
         <Dialog
           open={isOpen}
           onClose={() => false}
-          className="share-webcam-popup-wrap fixed z-[99999] inset-0 overflow-y-auto"
+          className='share-webcam-popup-wrap fixed inset-0 z-[99999] overflow-y-auto'
         >
-          <div className="flex items-center justify-center min-h-screen">
-            <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+          <div className='flex min-h-screen items-center justify-center'>
+            <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
 
-            <div className="popup-inner bg-white dark:bg-darkPrimary w-full max-w-md rounded-3xl shadow-header relative px-6 py-14">
+            <div className='popup-inner relative w-full max-w-md rounded-3xl bg-white px-6 py-14 shadow-header dark:bg-darkPrimary'>
               <button
-                className="close-btn absolute top-8 right-6 w-[25px] h-[25px] outline-none"
-                type="button"
+                className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                type='button'
                 onClick={() => onClose()}
               >
-                <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 rotate-45" />
-                <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 -rotate-45" />
+                <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] rotate-45 bg-primaryColor dark:bg-darkText' />
+                <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] -rotate-45 bg-primaryColor dark:bg-darkText' />
               </button>
-              <Dialog.Title className="mb-6 dark:text-darkText">
+              <Dialog.Title className='mb-6 dark:text-darkText'>
                 {t('footer.modal.select-webcam')}
               </Dialog.Title>
 
-              <div className="col-span-6 sm:col-span-3">
+              <div className='col-span-6 sm:col-span-3'>
                 <select
                   value={selectedWebcam}
                   onChange={(e) => setSelectWebcam(e.target.value)}
-                  className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-transparent dark:border-darkText dark:text-darkText rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className='mt-1 block w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
                 >
                   {devices}
                 </select>
               </div>
 
-              <div className="col-span-6 sm:col-span-3">
+              <div className='col-span-6 sm:col-span-3'>
                 <PreviewWebcam deviceId={selectedWebcam} />
               </div>
 
-              <div className="py-3 bg-gray-50 dark:bg-transparent text-right">
+              <div className='bg-gray-50 py-3 text-right dark:bg-transparent'>
                 <button
-                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primaryColor hover:bg-secondaryColor focus:outline-none"
+                  className='inline-flex justify-center rounded-md border border-transparent bg-primaryColor px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondaryColor focus:outline-none'
                   onClick={() => shareWebcam()}
                 >
                   {t('share')}

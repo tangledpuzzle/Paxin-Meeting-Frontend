@@ -5,15 +5,15 @@ import { Transition } from '@headlessui/react';
 import LeftPanel from '../left-panel';
 import RightPanel from '../right-panel';
 
-import { useAppSelector, RootState, store, useAppDispatch } from '../../store';
+import { useAppSelector, RootState, store, useAppDispatch } from '@/store';
 import ActiveSpeakers from '../active-speakers';
 import MainComponents from './mainComponents';
-import { IRoomMetadata } from '../../store/slices/interfaces/session';
-import { updateIsActiveChatPanel } from '../../store/slices/bottomIconsActivitySlice';
+import { IRoomMetadata } from '@/store/slices/interfaces/session';
+import { updateIsActiveChatPanel } from '@/store/slices/bottomIconsActivitySlice';
 import {
   CurrentConnectionEvents,
   IConnectLivekit,
-} from '../../helpers/livekit/types';
+} from '@/helpers/livekit/types';
 
 interface IMainAreaProps {
   isRecorder: boolean; // it could be recorder or RTMP bot.
@@ -22,68 +22,68 @@ interface IMainAreaProps {
 
 const columnCameraWidthSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.columnCameraWidth,
+  (roomSettings) => roomSettings.columnCameraWidth
 );
 const columnCameraPositionSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.columnCameraPosition,
+  (roomSettings) => roomSettings.columnCameraPosition
 );
 const isActiveParticipantsPanelSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveParticipantsPanel,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveParticipantsPanel
 );
 const isActiveChatPanelSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveChatPanel,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveChatPanel
 );
 const activeScreenSharingViewSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.activeScreenSharingView,
+  (roomSettings) => roomSettings.activeScreenSharingView
 );
 const isActiveWhiteboardSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveWhiteboard,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveWhiteboard
 );
 const isActiveExternalMediaPlayerSelector = createSelector(
   (state: RootState) =>
     state.session.currentRoom.metadata?.room_features
       .external_media_player_features,
-  (external_media_player_features) => external_media_player_features?.is_active,
+  (external_media_player_features) => external_media_player_features?.is_active
 );
 const isActiveDisplayExternalLinkSelector = createSelector(
   (state: RootState) =>
     state.session.currentRoom.metadata?.room_features
       .display_external_link_features,
-  (display_external_link_features) => display_external_link_features?.is_active,
+  (display_external_link_features) => display_external_link_features?.is_active
 );
 const screenHeightSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.screenHeight,
+  (bottomIconsActivity) => bottomIconsActivity.screenHeight
 );
 const headerVisibilitySelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.visibleHeader,
+  (roomSettings) => roomSettings.visibleHeader
 );
 const footerVisibilitySelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.visibleFooter,
+  (roomSettings) => roomSettings.visibleFooter
 );
 
 const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
   const columnCameraWidth = useAppSelector(columnCameraWidthSelector);
   const columnCameraPosition = useAppSelector(columnCameraPositionSelector);
   const isActiveParticipantsPanel = useAppSelector(
-    isActiveParticipantsPanelSelector,
+    isActiveParticipantsPanelSelector
   );
   const isActiveScreenSharingView = useAppSelector(
-    activeScreenSharingViewSelector,
+    activeScreenSharingViewSelector
   );
   const isActiveWhiteboard = useAppSelector(isActiveWhiteboardSelector);
   const isActiveExternalMediaPlayer = useAppSelector(
-    isActiveExternalMediaPlayerSelector,
+    isActiveExternalMediaPlayerSelector
   );
   const isActiveDisplayExternalLink = useAppSelector(
-    isActiveDisplayExternalLinkSelector,
+    isActiveDisplayExternalLinkSelector
   );
   const isActiveChatPanel = useAppSelector(isActiveChatPanelSelector);
   const screenHeight = useAppSelector(screenHeightSelector);
@@ -111,12 +111,12 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
     setIsActiveScreenShare(currentConnection.screenShareTracksMap.size > 0);
     currentConnection.on(
       CurrentConnectionEvents.ScreenShareStatus,
-      setIsActiveScreenShare,
+      setIsActiveScreenShare
     );
     return () => {
       currentConnection.off(
         CurrentConnectionEvents.ScreenShareStatus,
-        setIsActiveScreenShare,
+        setIsActiveScreenShare
       );
     };
   }, [currentConnection]);
@@ -162,15 +162,15 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
   const renderLeftPanel = useMemo(() => {
     return (
       <Transition
-        className="transition-left-panel"
+        className='transition-left-panel'
         show={isActiveParticipantsPanel}
         unmount={false}
-        enter="transform transition duration-[400ms]"
-        enterFrom="opacity-0 translate-x-0"
-        enterTo="opacity-100"
-        leave="transform transition duration-[400ms]"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0 -translate-x-full"
+        enter='transform transition duration-[400ms]'
+        enterFrom='opacity-0 translate-x-0'
+        enterTo='opacity-100'
+        leave='transform transition duration-[400ms]'
+        leaveFrom='opacity-100'
+        leaveTo='opacity-0 -translate-x-full'
       >
         <LeftPanel />
       </Transition>
@@ -199,15 +199,15 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
     if (allowChat) {
       return (
         <Transition
-          className="transition-right-panel"
+          className='transition-right-panel'
           show={isActiveChatPanel}
           unmount={false}
-          enter="transform transition duration-[400ms]"
-          enterFrom="opacity-0 translate-x-0"
-          enterTo="opacity-100"
-          leave="transform transition duration-[400ms]"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0 translate-x-full"
+          enter='transform transition duration-[400ms]'
+          enterFrom='opacity-0 translate-x-0'
+          enterTo='opacity-100'
+          leave='transform transition duration-[400ms]'
+          leaveFrom='opacity-100'
+          leaveTo='opacity-0 translate-x-full'
         >
           <RightPanel
             currentRoom={currentConnection.room}
@@ -238,20 +238,20 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
 
   return (
     <div
-      id="main-area"
-      className={`plugNmeet-app-main-area overflow-hidden relative flex ${customCSS} column-camera-width-${columnCameraWidth} column-camera-position-${columnCameraPosition}`}
+      id='main-area'
+      className={`plugNmeet-app-main-area relative flex overflow-hidden ${customCSS} column-camera-width-${columnCameraWidth} column-camera-position-${columnCameraPosition}`}
       style={{ height: `${height}px` }}
     >
       <div
-        className={`main-app-bg absolute w-full h-full left-0 top-0 object-cover pointer-events-none bg-cover bg-center bg-no-repeat`}
+        className={`main-app-bg pointer-events-none absolute left-0 top-0 h-full w-full bg-cover bg-center bg-no-repeat object-cover`}
         style={{
           backgroundImage: `url("${assetPath}/imgs/app-banner.jpg")`,
         }}
       />
-      <div className="inner flex justify-between w-full rtl:flex-row-reverse">
+      <div className='inner flex w-full justify-between rtl:flex-row-reverse'>
         {renderLeftPanel}
 
-        <div className="middle-area relative flex-auto">
+        <div className='middle-area relative flex-auto'>
           <ActiveSpeakers />
           {renderMainComponentElms}
         </div>

@@ -1,21 +1,20 @@
 import React from 'react';
 import { Switch } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
-import { useTranslation } from 'react-i18next';
 
-import { RootState, useAppDispatch, useAppSelector } from '../../../store';
-import { updateAllowPlayAudioNotification } from '../../../store/slices/roomSettingsSlice';
+import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { updateAllowPlayAudioNotification } from '@/store/slices/roomSettingsSlice';
+import { useTranslations } from 'next-intl';
 
 const allowPlayAudioNotificationSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.allowPlayAudioNotification,
+  (roomSettings) => roomSettings.allowPlayAudioNotification
 );
 const Notification = () => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
-
+  const t = useTranslations('meet');
   const allowPlayAudioNotification = useAppSelector(
-    allowPlayAudioNotificationSelector,
+    allowPlayAudioNotificationSelector
   );
 
   const toggleAudioNotification = () => {
@@ -25,8 +24,8 @@ const Notification = () => {
   const render = () => {
     return (
       <Switch.Group>
-        <div className="flex items-center justify-between mb-2">
-          <Switch.Label className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+        <div className='mb-2 flex items-center justify-between'>
+          <Switch.Label className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'>
             {t('header.room-settings.allow-audio-notification')}
           </Switch.Label>
           <Switch
@@ -36,14 +35,14 @@ const Notification = () => {
               allowPlayAudioNotification
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 allowPlayAudioNotification
                   ? 'ltr:translate-x-6 rtl:-translate-x-6'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -51,7 +50,7 @@ const Notification = () => {
     );
   };
 
-  return <div className="mt-2">{render()}</div>;
+  return <div className='mt-2'>{render()}</div>;
 };
 
 export default Notification;

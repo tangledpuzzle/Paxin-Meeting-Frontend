@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
-import { useAppSelector } from '../../../../store';
-import { participantsSelector } from '../../../../store/slices/participantSlice';
+import { useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
 
 interface WebcamIconProps {
   userId: string;
@@ -9,14 +9,14 @@ interface WebcamIconProps {
 
 const WebcamIcon = ({ userId }: WebcamIconProps) => {
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
 
   const render = useMemo(() => {
     if (participant?.videoTracks) {
       return (
-        <div className="mic ltr:mr-2 rtl:ml-2 cursor-pointer">
-          <i className="pnm-webcam secondaryColor text-[10px]" />
+        <div className='mic cursor-pointer ltr:mr-2 rtl:ml-2'>
+          <i className='pnm-webcam secondaryColor text-[10px]' />
         </div>
       );
     }

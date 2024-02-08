@@ -1,5 +1,5 @@
-import { store } from '../../../store';
-import i18n from '../../../helpers/i18n';
+import { store } from '@/store';
+// import i18n from '../../../helpers/i18n';
 
 export type SupportedLangs = {
   name: string;
@@ -255,7 +255,7 @@ const supportedTranslationLangs = [
 
 const getSubtitleLangs = (
   speechLangs?: string[],
-  transLangs?: string[],
+  transLangs?: string[]
 ): Array<SupportedLangs> => {
   if (!speechLangs || !transLangs) {
     const speechService =
@@ -286,7 +286,7 @@ const getSubtitleLangs = (
       const find = langs.find((ll) => ll.code === r[0].locale);
       if (!find) {
         const obj = supportedTranslationLangs.filter(
-          (lang) => lang.code === r[0].locale,
+          (lang) => lang.code === r[0].locale
         );
         langs.push(...obj);
       }

@@ -1,14 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Listbox, Switch, Transition } from '@headlessui/react';
-import { useTranslation } from 'react-i18next';
+
 import {
   SpeechRecognizer,
   TranslationRecognizer,
 } from 'microsoft-cognitiveservices-speech-sdk';
 
 import { supportedSpeechToTextLangs } from '../helpers/supportedLangs';
-import { SpeechToTextTranslationFeatures } from '../../../store/slices/interfaces/session';
+import { SpeechToTextTranslationFeatures } from '@/store/slices/interfaces/session';
 import MicElms from './micElms';
+import { useTranslations } from 'next-intl';
 
 interface SpeechToTextLangElmsPros {
   speechService: SpeechToTextTranslationFeatures;
@@ -27,7 +28,7 @@ const SpeechToTextLangElms = ({
   selectedMicDevice,
   setSelectedMicDevice,
 }: SpeechToTextLangElmsPros) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const [enableSpeechToText, setEnableSpeechToText] = useState<boolean>(true);
 
   useEffect(() => {
@@ -41,10 +42,10 @@ const SpeechToTextLangElms = ({
   const speechLangElms = () => {
     return (
       <>
-        <div className="flex items-center justify-between">
+        <div className='flex items-center justify-between'>
           <label
-            htmlFor="speech-lang"
-            className="pr-4 w-auto dark:text-darkText text-sm"
+            htmlFor='speech-lang'
+            className='w-auto pr-4 text-sm dark:text-darkText'
           >
             {t('speech-services.speech-lang-label')}
           </label>
@@ -53,29 +54,29 @@ const SpeechToTextLangElms = ({
             onChange={setSelectedSpeechLang}
             disabled={recognizer !== undefined}
           >
-            <div className="relative mt-1 w-[150px] sm:w-[250px]">
+            <div className='relative mt-1 w-[150px] sm:w-[250px]'>
               <Listbox.Button
-                className={`relative h-9 w-full cursor-default py-1 pl-3 pr-7 text-left border border-gray-300 dark:border-darkText dark:text-darkText bg-transparent rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm ${
+                className={`relative h-9 w-full cursor-default rounded-md border border-gray-300 bg-transparent py-1 pl-3 pr-7 text-left text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText ${
                   recognizer !== undefined ? 'opacity-70' : ''
                 }`}
               >
-                <span className="block truncate">
+                <span className='block truncate'>
                   {supportedSpeechToTextLangs
                     .map((l) => (l.code === selectedSpeechLang ? l.name : null))
                     .join('')}
                 </span>
-                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 ">
-                  <i className="pnm-updown text-xl primaryColor dark:text-darkText" />
+                <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 '>
+                  <i className='pnm-updown primaryColor text-xl dark:text-darkText' />
                 </span>
               </Listbox.Button>
 
               <Transition
                 as={Fragment}
-                leave="transition ease-in duration-100"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+                leave='transition ease-in duration-100'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
               >
-                <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-full scrollBar scrollBar4 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Listbox.Options className='scrollBar scrollBar4 absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
                   {speechService.allowed_speech_langs?.map((l) => (
                     <Listbox.Option
                       key={l}
@@ -97,13 +98,13 @@ const SpeechToTextLangElms = ({
                           >
                             {
                               supportedSpeechToTextLangs.filter(
-                                (lang) => lang.code === l,
+                                (lang) => lang.code === l
                               )[0].name
                             }
                           </span>
                           {selected ? (
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-1 text-amber-600">
-                              <i className="pnm-check w-4 h-4" />
+                            <span className='absolute inset-y-0 left-0 flex items-center pl-1 text-amber-600'>
+                              <i className='pnm-check h-4 w-4' />
                             </span>
                           ) : null}
                         </>
@@ -128,8 +129,8 @@ const SpeechToTextLangElms = ({
   return (
     <>
       <Switch.Group>
-        <div className="flex items-center justify-between my-4">
-          <Switch.Label className="ltr:pr-4 rtl:pl-4 w-full dark:text-darkText">
+        <div className='my-4 flex items-center justify-between'>
+          <Switch.Label className='w-full dark:text-darkText ltr:pr-4 rtl:pl-4'>
             {t('speech-services.enable-speech-to-text')}
           </Switch.Label>
           <Switch
@@ -140,14 +141,14 @@ const SpeechToTextLangElms = ({
               enableSpeechToText
                 ? 'bg-primaryColor dark:bg-darkSecondary2'
                 : 'bg-gray-200 dark:bg-secondaryColor'
-            } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
           >
             <span
               className={`${
                 enableSpeechToText
                   ? 'ltr:translate-x-6 rtl:-translate-x-6'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>

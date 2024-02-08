@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
-import { useTranslation } from 'react-i18next';
+
 import { toast } from 'react-toastify';
 import {
   createLocalScreenTracks,
@@ -9,16 +9,12 @@ import {
   Track,
 } from 'livekit-client';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
-import { updateIsActiveScreenshare } from '../../../store/slices/bottomIconsActivitySlice';
-import { updateScreenSharing } from '../../../store/slices/sessionSlice';
-import { IRoomMetadata } from '../../../store/slices/interfaces/session';
-import { getScreenShareResolution } from '../../../helpers/utils';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { updateIsActiveScreenshare } from '@/store/slices/bottomIconsActivitySlice';
+import { updateScreenSharing } from '@/store/slices/sessionSlice';
+import { IRoomMetadata } from '@/store/slices/interfaces/session';
+import { getScreenShareResolution } from '@/helpers/utils';
+import { useTranslations } from 'next-intl';
 
 interface IScrenshareIconProps {
   currentRoom: Room;
@@ -26,21 +22,21 @@ interface IScrenshareIconProps {
 
 const isActiveScreenshareSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveScreenshare,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveScreenshare
 );
 const sessionScreenSharingSelector = createSelector(
   (state: RootState) => state.session,
-  (session) => session.screenSharing,
+  (session) => session.screenSharing
 );
 const isScreenshareLockSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata?.lock_settings,
-  (lock_settings) => lock_settings?.lock_screen_sharing,
+  (lock_settings) => lock_settings?.lock_screen_sharing
 );
 
 const ScrenshareIcon = ({ currentRoom }: IScrenshareIconProps) => {
   const showTooltip = store.getState().session.userDeviceType === 'desktop';
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const isActiveScreenshare = useAppSelector(isActiveScreenshareSelector);
   const sessionScreenSharing = useAppSelector(sessionScreenSharingSelector);
@@ -75,7 +71,7 @@ const ScrenshareIcon = ({ currentRoom }: IScrenshareIconProps) => {
         ) {
           await currentRoom.localParticipant.unpublishTrack(
             publication.track,
-            true,
+            true
           );
         }
       }
@@ -84,7 +80,7 @@ const ScrenshareIcon = ({ currentRoom }: IScrenshareIconProps) => {
         updateScreenSharing({
           isActive: false,
           sharedBy: '',
-        }),
+        })
       );
     }
   }, [isActiveScreenshare, dispatch, currentRoom]);
@@ -132,7 +128,7 @@ const ScrenshareIcon = ({ currentRoom }: IScrenshareIconProps) => {
       // because of one bug we'll disable to set regulation for safari
       // https://bugs.webkit.org/show_bug.cgi?id=263015
       const isSafari = /^((?!chrome|android).)*safari/i.test(
-        navigator.userAgent,
+        navigator.userAgent
       );
       if (!isSafari) {
         option.resolution = getScreenShareResolution();
@@ -149,7 +145,7 @@ const ScrenshareIcon = ({ currentRoom }: IScrenshareIconProps) => {
         updateScreenSharing({
           isActive: true,
           sharedBy: currentRoom.localParticipant.identity,
-        }),
+        })
       );
     } else {
       endScreenShare();
@@ -175,19 +171,19 @@ const ScrenshareIcon = ({ currentRoom }: IScrenshareIconProps) => {
   const render = () => {
     return (
       <div
-        className={`share-screen footer-icon h-[35px] lg:h-[40px] w-[35px] lg:w-[40px] relative rounded-full bg-[#F2F2F2] dark:bg-darkSecondary2 hover:bg-[#ECF4FF] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 hidden md:flex items-center justify-center cursor-pointer ${
+        className={`share-screen footer-icon relative hidden h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 md:flex lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
           showTooltip ? 'has-tooltip' : ''
         }`}
         onClick={() => toggleScreenShare()}
       >
-        <span className="tooltip">{text()}</span>
+        <span className='tooltip'>{text()}</span>
         <>
           <i
             className={`pnm-screen-share ${iconCSS} text-[14px] lg:text-[16px]`}
           />
           {lock ? (
-            <div className="arrow-down absolute -bottom-1 -right-1 w-[16px] h-[16px] rounded-full bg-white flex items-center justify-center">
-              <i className="pnm-lock primaryColor" />
+            <div className='arrow-down absolute -bottom-1 -right-1 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-white'>
+              <i className='pnm-lock primaryColor' />
             </div>
           ) : null}
         </>

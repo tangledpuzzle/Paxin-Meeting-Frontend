@@ -1,27 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
-import { store, useAppDispatch } from '../../store';
-import { ISession } from '../../store/slices/interfaces/session';
-import { IWhiteboardFile } from '../../store/slices/interfaces/whiteboard';
-import { addWhiteboardOtherImageFile } from '../../store/slices/whiteboard';
+import { store, useAppDispatch } from '@/store';
+import { ISession } from '@/store/slices/interfaces/session';
+import { IWhiteboardFile } from '@/store/slices/interfaces/whiteboard';
+import { addWhiteboardOtherImageFile } from '@/store/slices/whiteboard';
 import {
   sendAnalyticsByWebsocket,
   sendWebsocketMessage,
-} from '../../helpers/websocket';
-import { randomString, sleep } from '../../helpers/utils';
-import sendAPIRequest from '../../helpers/api/plugNmeetAPI';
+} from '@/helpers/websocket';
+import { randomString, sleep } from '@/helpers/utils';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 import { broadcastWhiteboardOfficeFile } from './helpers/handleRequestedWhiteboardData';
-import useResumableFilesUpload from '../../helpers/hooks/useResumableFilesUpload';
+import useResumableFilesUpload from '@/helpers/hooks/useResumableFilesUpload';
 // eslint-disable-next-line import/no-unresolved
 import { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
-import useStorePreviousInt from '../../helpers/hooks/useStorePreviousInt';
+import useStorePreviousInt from '@/helpers/hooks/useStorePreviousInt';
 import {
   DataMessage,
   DataMsgBodyType,
   DataMsgType,
-} from '../../helpers/proto/plugnmeet_datamessage_pb';
+} from '@/helpers/proto/plugnmeet_datamessage_pb';
 import {
   formatStorageKey,
   handleToAddWhiteboardUploadedOfficeNewFile,
@@ -29,7 +28,8 @@ import {
 import {
   AnalyticsEvents,
   AnalyticsEventType,
-} from '../../helpers/proto/plugnmeet_analytics_pb';
+} from '@/helpers/proto/plugnmeet_analytics_pb';
+import { useTranslations } from 'next-intl';
 
 interface IUploadFilesProps {
   refreshFileBrowser: number;
@@ -46,7 +46,7 @@ const UploadFilesUI = ({
 }: IUploadFilesProps) => {
   const inputFile = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<Array<File>>();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const session = store.getState().session;
   const preRefreshFileBrowser = useStorePreviousInt(refreshFileBrowser);
@@ -96,12 +96,12 @@ const UploadFilesUI = ({
         sendAnalyticsByWebsocket(
           AnalyticsEvents.ANALYTICS_EVENT_USER_WHITEBOARD_FILES,
           AnalyticsEventType.USER,
-          fileName,
+          fileName
         );
         sendAnalyticsByWebsocket(
           AnalyticsEvents.ANALYTICS_EVENT_ROOM_WHITEBOARD_FILES,
           AnalyticsEventType.ROOM,
-          fileName,
+          fileName
         );
         break;
       default:
@@ -140,7 +140,7 @@ const UploadFilesUI = ({
     const newFile = handleToAddWhiteboardUploadedOfficeNewFile(
       res,
       excalidrawAPI.getAppState().height,
-      excalidrawAPI.getAppState().width,
+      excalidrawAPI.getAppState().width
     );
 
     await sleep(500);
@@ -150,12 +150,12 @@ const UploadFilesUI = ({
     sendAnalyticsByWebsocket(
       AnalyticsEvents.ANALYTICS_EVENT_USER_WHITEBOARD_FILES,
       AnalyticsEventType.USER,
-      newFile.fileName,
+      newFile.fileName
     );
     sendAnalyticsByWebsocket(
       AnalyticsEvents.ANALYTICS_EVENT_ROOM_WHITEBOARD_FILES,
       AnalyticsEventType.ROOM,
-      newFile.fileName,
+      newFile.fileName
     );
 
     toast.update(id, {
@@ -207,7 +207,7 @@ const UploadFilesUI = ({
       const currentPageNumber = store.getState().whiteboard.currentPage;
       sessionStorage.setItem(
         formatStorageKey(currentPageNumber),
-        JSON.stringify(elms),
+        JSON.stringify(elms)
       );
     }
   };
@@ -216,8 +216,8 @@ const UploadFilesUI = ({
     return (
       <>
         <input
-          type="file"
-          id="chat-file"
+          type='file'
+          id='chat-file'
           ref={inputFile}
           style={{ display: 'none' }}
           onChange={(e) => onChange(e)}

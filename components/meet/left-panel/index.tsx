@@ -1,26 +1,26 @@
 import React, { useMemo } from 'react';
 import { Tab } from '@headlessui/react';
-import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 
 import ParticipantsComponent from '../participants';
 import PollsComponent from '../polls';
-import { useGetPollsStatsQuery } from '../../store/services/pollsApi';
-import { RootState, store, useAppDispatch, useAppSelector } from '../../store';
-import { updateSelectedTabLeftPanel } from '../../store/slices/roomSettingsSlice';
-import { useGetMyBreakoutRoomsQuery } from '../../store/services/breakoutRoomApi';
+import { useGetPollsStatsQuery } from '@/store/services/pollsApi';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { updateSelectedTabLeftPanel } from '@/store/slices/roomSettingsSlice';
+import { useGetMyBreakoutRoomsQuery } from '@/store/services/breakoutRoomApi';
 import MyBreakoutRooms from '../breakout-room/my/myBreakoutRooms';
-import { updateIsActiveParticipantsPanel } from '../../store/slices/bottomIconsActivitySlice';
+import { updateIsActiveParticipantsPanel } from '@/store/slices/bottomIconsActivitySlice';
+import { useTranslations } from 'next-intl';
 
 const selectedTabLeftPanelSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.selectedTabLeftPanel,
+  (roomSettings) => roomSettings.selectedTabLeftPanel
 );
 
 const LeftPanel = () => {
   const { data } = useGetPollsStatsQuery();
   const { data: myRooms } = useGetMyBreakoutRoomsQuery();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const allow_polls =
     store.getState().session.currentRoom.metadata?.room_features.allow_polls;
@@ -42,7 +42,7 @@ const LeftPanel = () => {
           <>
             {t('left-panel.polls-tab')}
             {total_running > 0 ? (
-              <span className="absolute ltr:-right-5 rtl:-left-5 -top-[7px] w-5 h-5 bg-primaryColor rounded-full text-white text-[10px]">
+              <span className='absolute -top-[7px] size-5 rounded-full bg-primaryColor text-[10px] text-white ltr:-right-5 rtl:-left-5'>
                 {total_running ?? 0}
               </span>
             ) : null}
@@ -78,44 +78,44 @@ const LeftPanel = () => {
 
   return (
     <div
-      id="main-left-panel"
-      className="participants-wrapper relative z-10 left-0 top-0 h-full w-[330px] multi-gradient"
+      id='main-left-panel'
+      className='participants-wrapper multi-gradient relative left-0 top-0 z-10 h-full w-[330px]'
     >
       <div
-        className="hidden md:inline-block close absolute z-10 -right-[14px] top-1 w-6 h-6 rounded-full border border-solid border-primaryColor dark:border-darkText bg-white dark:bg-darkPrimary cursor-pointer"
+        className='close absolute -right-[14px] top-1 z-10 hidden size-6 cursor-pointer rounded-full border border-solid border-primaryColor bg-white dark:border-darkText dark:bg-darkPrimary md:inline-block'
         onClick={closePanel}
       >
-        <span className="inline-block w-[18px] h-[1px] bg-primaryColor dark:bg-darkText absolute rotate-45 top-[11px] left-[2px]"></span>
-        <span className="inline-block w-[18px] h-[1px] bg-primaryColor dark:bg-darkText absolute -rotate-45 top-[11px] right-[2px]"></span>
+        <span className='absolute left-[2px] top-[11px] inline-block h-[1px] w-[18px] rotate-45 bg-primaryColor dark:bg-darkText'></span>
+        <span className='absolute right-[2px] top-[11px] inline-block h-[1px] w-[18px] -rotate-45 bg-primaryColor dark:bg-darkText'></span>
       </div>
       <Tab.Group
         vertical
         selectedIndex={selectedTabLeftPanel}
         onChange={changeTabIndex}
       >
-        <Tab.List className="flex">
+        <Tab.List className='flex'>
           {items.map((item) => (
             <Tab
               key={item.id}
               className={({ selected }) =>
                 classNames(
-                  'w-full py-2 text-xs text-black dark:text-white font-bold leading-5 border-b-4 border-solid transition ease-in',
-                  selected ? 'border-[#004d90]' : 'border-[#004d90]/20',
+                  'w-full border-b-4 border-solid py-2 text-xs font-bold leading-5 text-black transition ease-in dark:text-white',
+                  selected ? 'border-[#004d90]' : 'border-[#004d90]/20'
                 )
               }
             >
-              <div className="name relative inline-block">{item.title}</div>
+              <div className='name relative inline-block'>{item.title}</div>
             </Tab>
           ))}
         </Tab.List>
-        <Tab.Panels className="relative h-[calc(100%-45px)]">
+        <Tab.Panels className='relative h-[calc(100%-45px)]'>
           {items.map((item) => (
             <Tab.Panel
               key={item.id}
               className={`${
                 item.id === 2 || item.id === 3
                   ? 'polls h-full'
-                  : 'px-2 xl:px-4 pt-2 xl:pt-5 h-full'
+                  : 'h-full px-2 pt-2 xl:px-4 xl:pt-5'
               }`}
             >
               <>{item.elm}</>

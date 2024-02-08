@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { useEndSingleRoomMutation } from '../../../../store/services/breakoutRoomApi';
-import { EndBreakoutRoomReq } from '../../../../helpers/proto/plugnmeet_breakout_room_pb';
+import { useEndSingleRoomMutation } from '@/store/services/breakoutRoomApi';
+import { EndBreakoutRoomReq } from '@/helpers/proto/plugnmeet_breakout_room_pb';
+import { useTranslations } from 'next-intl';
 
 interface IEndBtnProps {
   breakoutRoomId: string;
 }
 const EndBtn = ({ breakoutRoomId }: IEndBtnProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const [endSingleRoom, { isLoading, data }] = useEndSingleRoomMutation();
   const [disable, setDisable] = useState<boolean>(false);
 
@@ -37,9 +37,9 @@ const EndBtn = ({ breakoutRoomId }: IEndBtnProps) => {
   };
 
   return (
-    <div className="end-room-btn">
+    <div className='end-room-btn'>
       <button
-        className="text-center py-1 px-3 mt-1 text-xs transition ease-in bg-brandRed hover:bg-brandRed/90 text-white font-semibold rounded-lg"
+        className='mt-1 rounded-lg bg-brandRed px-3 py-1 text-center text-xs font-semibold text-white transition ease-in hover:bg-brandRed/90'
         onClick={endRoom}
         disabled={disable}
       >

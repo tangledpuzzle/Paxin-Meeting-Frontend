@@ -3,9 +3,9 @@ import { LocalParticipant, RemoteParticipant, Track } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
 import { concat, isEmpty } from 'lodash';
 
-import { RootState, useAppSelector } from '../../../store';
-import { ICurrentUserMetadata } from '../../../store/slices/interfaces/session';
-import { participantsSelector } from '../../../store/slices/participantSlice';
+import { RootState, useAppSelector } from '@/store';
+import { ICurrentUserMetadata } from '@/store/slices/interfaces/session';
+import { participantsSelector } from '@/store/slices/participantSlice';
 import VideosComponentElms, {
   VideoParticipantType,
 } from './videosComponentElms';
@@ -13,7 +13,7 @@ import VideoParticipant from './videoParticipant';
 import {
   CurrentConnectionEvents,
   IConnectLivekit,
-} from '../../../helpers/livekit/types';
+} from '@/helpers/livekit/types';
 
 interface IVideosComponentProps {
   currentConnection: IConnectLivekit;
@@ -22,7 +22,7 @@ interface IVideosComponentProps {
 
 const refreshWebcamsSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.refreshWebcams,
+  (roomSettings) => roomSettings.refreshWebcams
 );
 
 const VideosComponent = ({
@@ -34,7 +34,7 @@ const VideosComponent = ({
   const [videoSubscribers, setVideoSubscribers] =
     useState<Map<string, LocalParticipant | RemoteParticipant>>();
   const [allParticipants, setAllParticipants] = useState<Array<JSX.Element>>(
-    [],
+    []
   );
   const [totalNumWebcams, setTotalNumWebcams] = useState<number>(0);
 
@@ -44,12 +44,12 @@ const VideosComponent = ({
     }
     currentConnection.on(
       CurrentConnectionEvents.VideoSubscribers,
-      setVideoSubscribers,
+      setVideoSubscribers
     );
     return () => {
       currentConnection.off(
         CurrentConnectionEvents.VideoSubscribers,
-        setVideoSubscribers,
+        setVideoSubscribers
       );
     };
   }, [currentConnection]);
@@ -75,12 +75,12 @@ const VideosComponent = ({
       if (videoTracks.length) {
         let isAdmin = false;
         const pinWebcam = participants.find(
-          (p) => p.userId === participant.identity && p.pinWebcam,
+          (p) => p.userId === participant.identity && p.pinWebcam
         );
 
         if (participant.metadata && !isEmpty(participant.metadata)) {
           const metadata: ICurrentUserMetadata = JSON.parse(
-            participant.metadata,
+            participant.metadata
           );
           isAdmin = metadata.is_admin;
         }
@@ -121,7 +121,7 @@ const VideosComponent = ({
       adminSubscribers,
       otherPinSubscribers,
       localSubscribers,
-      otherSubscribers,
+      otherSubscribers
     );
 
     setAllParticipants(allParticipants);

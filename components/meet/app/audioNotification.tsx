@@ -1,17 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppDispatch, useAppSelector } from '../../store';
-import { updatePlayAudioNotification } from '../../store/slices/roomSettingsSlice';
+import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { updatePlayAudioNotification } from '@/store/slices/roomSettingsSlice';
 
 const playAudioNotificationSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.playAudioNotification,
+  (roomSettings) => roomSettings.playAudioNotification
 );
 
 const allowPlayAudioNotificationSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.allowPlayAudioNotification,
+  (roomSettings) => roomSettings.allowPlayAudioNotification
 );
 
 const AudioNotification = () => {
@@ -19,7 +19,7 @@ const AudioNotification = () => {
   const ref = useRef<HTMLAudioElement>(null);
   const playAudioNotification = useAppSelector(playAudioNotificationSelector);
   const allowPlayAudioNotification = useAppSelector(
-    allowPlayAudioNotificationSelector,
+    allowPlayAudioNotificationSelector
   );
   const [playing, setPlaying] = useState(false);
   const assetPath = (window as any).STATIC_ASSETS_PATH ?? './assets';

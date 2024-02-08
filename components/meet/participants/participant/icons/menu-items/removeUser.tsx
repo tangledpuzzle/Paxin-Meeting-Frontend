@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 interface IRemoveUserMenuItemProps {
   userId: string;
@@ -11,7 +11,7 @@ const RemoveUserMenuItem = ({
   userId,
   onOpenAlert,
 }: IRemoveUserMenuItemProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const onClose = () => {
     onOpenAlert(userId, 'remove');
@@ -20,11 +20,11 @@ const RemoveUserMenuItem = ({
   const render = () => {
     return (
       <>
-        <div className="" role="none">
+        <div className='' role='none'>
           <Menu.Item>
             {() => (
               <button
-                className="text-red-900 group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-red-400 hover:text-white"
+                className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-red-900 transition ease-in hover:bg-red-400 hover:text-white lg:text-sm'
                 onClick={() => onClose()}
               >
                 {t('left-panel.menus.items.remove-participant')}

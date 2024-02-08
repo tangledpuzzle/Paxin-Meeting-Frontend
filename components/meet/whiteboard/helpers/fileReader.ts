@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import { BinaryFileData, DataURL } from '@excalidraw/excalidraw/types/types';
-import { randomInteger } from '../../../helpers/utils';
+import { randomInteger } from '@/helpers/utils';
 import {
   ExcalidrawElement,
   ExcalidrawImageElement,
@@ -28,7 +28,7 @@ export const fetchFileWithElm = async (
   last_version: number,
   is_office_file: boolean,
   uploaderWhiteboardHeight?: number,
-  uploaderWhiteboardWidth?: number,
+  uploaderWhiteboardWidth?: number
 ) => {
   return new Promise<FileReaderResult>(async (resolve, reject) => {
     const res = await fetch(url);
@@ -52,7 +52,7 @@ export const fetchFileWithElm = async (
       imgData = readerBase64.result as string;
       fileMimeType = imgData.substring(
         'data:'.length,
-        imgData.indexOf(';base64'),
+        imgData.indexOf(';base64')
       );
 
       if (

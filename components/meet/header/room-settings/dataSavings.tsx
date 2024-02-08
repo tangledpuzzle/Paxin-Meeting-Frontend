@@ -1,36 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Switch } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
-import { useTranslation } from 'react-i18next';
 import { VideoQuality } from 'livekit-client';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import {
   updateActivateWebcamsView,
   updateActiveScreenSharingView,
   updateRoomVideoQuality,
-} from '../../../store/slices/roomSettingsSlice';
+} from '@/store/slices/roomSettingsSlice';
+import { useTranslations } from 'next-intl';
 
 const activateWebcamsViewSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.activateWebcamsView,
+  (roomSettings) => roomSettings.activateWebcamsView
 );
 
 const activeScreenSharingViewSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.activeScreenSharingView,
+  (roomSettings) => roomSettings.activeScreenSharingView
 );
 
 const DataSavings = () => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [videoQuality, setVideoQuality] = useState<VideoQuality>(
-    store.getState().roomSettings.roomVideoQuality,
+    store.getState().roomSettings.roomVideoQuality
   );
 
   useEffect(() => {
@@ -39,7 +34,7 @@ const DataSavings = () => {
 
   const activateWebcamsView = useAppSelector(activateWebcamsViewSelector);
   const activeScreenSharingView = useAppSelector(
-    activeScreenSharingViewSelector,
+    activeScreenSharingViewSelector
   );
 
   const toggleWebcamView = () => {
@@ -53,17 +48,17 @@ const DataSavings = () => {
   const render = () => {
     return (
       <>
-        <div className="flex items-center justify-between mb-2">
+        <div className='mb-2 flex items-center justify-between'>
           <label
-            htmlFor="quality"
-            className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right"
+            htmlFor='quality'
+            className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'
           >
             {t('header.room-settings.video-quality')}
           </label>
           <select
-            id="quality"
-            name="quality"
-            className="mt-1 block py-2 px-3 border border-gray-300 dark:border-darkText dark:text-darkText bg-transparent rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            id='quality'
+            name='quality'
+            className='mt-1 block rounded-md border border-gray-300 bg-transparent px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
             value={videoQuality}
             onChange={(e) => setVideoQuality(Number(e.target.value))}
           >
@@ -80,8 +75,8 @@ const DataSavings = () => {
         </div>
 
         <Switch.Group>
-          <div className="flex items-center justify-between mb-2">
-            <Switch.Label className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+          <div className='mb-2 flex items-center justify-between'>
+            <Switch.Label className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'>
               {t('header.room-settings.show-webcams')}
             </Switch.Label>
             <Switch
@@ -91,19 +86,19 @@ const DataSavings = () => {
                 activateWebcamsView
                   ? 'bg-primaryColor dark:bg-darkSecondary2'
                   : 'bg-gray-200 dark:bg-secondaryColor'
-              } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+              } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
             >
               <span
                 className={`${
                   activateWebcamsView
                     ? 'ltr:translate-x-6 rtl:-translate-x-6'
                     : 'ltr:translate-x-1 rtl:translate-x-0'
-                } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+                } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
               />
             </Switch>
           </div>
-          <div className="flex items-center justify-between">
-            <Switch.Label className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+          <div className='flex items-center justify-between'>
+            <Switch.Label className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'>
               {t('header.room-settings.show-screen-share')}
             </Switch.Label>
             <Switch
@@ -113,14 +108,14 @@ const DataSavings = () => {
                 activeScreenSharingView
                   ? 'bg-primaryColor dark:bg-darkSecondary2'
                   : 'bg-gray-200 dark:bg-secondaryColor'
-              } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+              } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
             >
               <span
                 className={`${
                   activeScreenSharingView
                     ? 'ltr:translate-x-6 rtl:-translate-x-6'
                     : 'ltr:translate-x-1 rtl:translate-x-0'
-                } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+                } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
               />
             </Switch>
           </div>
@@ -129,7 +124,7 @@ const DataSavings = () => {
     );
   };
 
-  return <div className="mt-2">{render()}</div>;
+  return <div className='mt-2'>{render()}</div>;
 };
 
 export default DataSavings;

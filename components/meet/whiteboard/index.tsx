@@ -22,7 +22,7 @@ import {
   ReconciledElements,
   reconcileElements,
 } from './helpers/reconciliation';
-import { participantsSelector } from '.@/store/slices/participantSlice';
+import { participantsSelector } from '@/store/slices/participantSlice';
 
 import { IWhiteboardFile } from '@/store/slices/interfaces/whiteboard';
 import { fetchFileWithElm } from './helpers/fileReader';
@@ -43,7 +43,7 @@ import {
 } from './helpers/utils';
 
 import './style.scss';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 
 interface WhiteboardProps {
   onReadyExcalidrawAPI: (excalidrawAPI: ExcalidrawImperativeAPI) => void;

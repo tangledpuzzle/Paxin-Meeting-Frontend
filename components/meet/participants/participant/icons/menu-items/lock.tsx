@@ -1,16 +1,16 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
-import { store, useAppSelector } from '../../../../../store';
-import { participantsSelector } from '../../../../../store/slices/participantSlice';
-import sendAPIRequest from '../../../../../helpers/api/plugNmeetAPI';
-import { ICurrentUserMetadata } from '../../../../../store/slices/interfaces/session';
+import { store, useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import { ICurrentUserMetadata } from '@/store/slices/interfaces/session';
 import {
   CommonResponse,
   UpdateUserLockSettingsReq,
-} from '../../../../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 interface ILockSettingMenuItemProps {
   userId: string;
@@ -18,10 +18,10 @@ interface ILockSettingMenuItemProps {
 const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
   const roomFeatures =
     store.getState().session.currentRoom.metadata?.room_features;
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
 
   const onClick = async (task: string) => {
@@ -78,7 +78,7 @@ const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -97,11 +97,11 @@ const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
   const render = () => {
     return (
       <>
-        <div className="" role="none">
+        <div className='' role='none'>
           <Menu.Item>
             {() => (
               <button
-                className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+                className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
                 onClick={() => onClick('mic')}
               >
                 {participant?.metadata.lock_settings.lock_microphone
@@ -113,11 +113,11 @@ const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
         </div>
 
         {roomFeatures?.allow_webcams && !roomFeatures?.admin_only_webcams ? (
-          <div className="" role="none">
+          <div className='' role='none'>
             <Menu.Item>
               {() => (
                 <button
-                  className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+                  className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
                   onClick={() => onClick('webcam')}
                 >
                   {participant?.metadata.lock_settings.lock_webcam
@@ -130,11 +130,11 @@ const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
         ) : null}
 
         {roomFeatures?.allow_screen_share ? (
-          <div className="" role="none">
+          <div className='' role='none'>
             <Menu.Item>
               {() => (
                 <button
-                  className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+                  className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
                   onClick={() => onClick('screenShare')}
                 >
                   {participant?.metadata.lock_settings.lock_screen_sharing
@@ -147,11 +147,11 @@ const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
         ) : null}
 
         {roomFeatures?.whiteboard_features.allowed_whiteboard ? (
-          <div className="" role="none">
+          <div className='' role='none'>
             <Menu.Item>
               {() => (
                 <button
-                  className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+                  className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
                   onClick={() => onClick('whiteboard')}
                 >
                   {participant?.metadata.lock_settings.lock_whiteboard
@@ -164,11 +164,11 @@ const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
         ) : null}
 
         {roomFeatures?.shared_note_pad_features.allowed_shared_note_pad ? (
-          <div className="" role="none">
+          <div className='' role='none'>
             <Menu.Item>
               {() => (
                 <button
-                  className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+                  className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
                   onClick={() => onClick('sharedNotepad')}
                 >
                   {participant?.metadata.lock_settings.lock_shared_notepad
@@ -182,11 +182,11 @@ const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
 
         {roomFeatures?.chat_features.allow_chat ? (
           <>
-            <div className="" role="none">
+            <div className='' role='none'>
               <Menu.Item>
                 {() => (
                   <button
-                    className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+                    className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
                     onClick={() => onClick('chat')}
                   >
                     {participant?.metadata.lock_settings.lock_chat
@@ -197,11 +197,11 @@ const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
               </Menu.Item>
             </div>
 
-            <div className="" role="none">
+            <div className='' role='none'>
               <Menu.Item>
                 {() => (
                   <button
-                    className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+                    className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
                     onClick={() => onClick('sendChatMsg')}
                   >
                     {participant?.metadata.lock_settings.lock_chat_send_message
@@ -213,11 +213,11 @@ const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
             </div>
 
             {roomFeatures.chat_features.allow_file_upload ? (
-              <div className="" role="none">
+              <div className='' role='none'>
                 <Menu.Item>
                   {() => (
                     <button
-                      className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+                      className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
                       onClick={() => onClick('chatFile')}
                     >
                       {participant?.metadata.lock_settings.lock_chat_file_share

@@ -1,6 +1,6 @@
 import React from 'react';
-import { useAppSelector } from '../../../../store';
-import { participantsSelector } from '../../../../store/slices/participantSlice';
+import { useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
 
 interface IMicStatusProps {
   userId: string;
@@ -8,20 +8,20 @@ interface IMicStatusProps {
 
 const MicStatus = ({ userId }: IMicStatusProps) => {
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
 
   const render = () => {
     if (participant?.isMuted) {
       return (
-        <p className="mute">
-          <i className="pnm-mic-mute text-white text-[9px]" />
+        <p className='mute'>
+          <i className='pnm-mic-mute text-[9px] text-white' />
         </p>
       );
     } else {
       return (
-        <p className="mute">
-          <i className="pnm-mic-unmute text-white text-[9px]" />
+        <p className='mute'>
+          <i className='pnm-mic-unmute text-[9px] text-white' />
         </p>
       );
     }
@@ -30,7 +30,7 @@ const MicStatus = ({ userId }: IMicStatusProps) => {
   return (
     <>
       {participant?.audioTracks ? (
-        <div className="mic-status">{render()}</div>
+        <div className='mic-status'>{render()}</div>
       ) : null}
     </>
   );

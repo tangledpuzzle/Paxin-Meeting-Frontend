@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { useGetUserSelectedOptionQuery } from '../../../store/services/pollsApi';
-import { store } from '../../../store';
+import { useGetUserSelectedOptionQuery } from '@/store/services/pollsApi';
+import { store } from '@/store';
 import VoteForm from '../voteForm';
+import { useTranslations } from 'next-intl';
 
 interface IMyVoteStatusProps {
   pollId: string;
 }
 const MyVoteStatus = ({ pollId }: IMyVoteStatusProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const { data, isLoading } = useGetUserSelectedOptionQuery({
     pollId,
     userId: store.getState().session.currentUser?.userId || '',
@@ -35,14 +35,14 @@ const MyVoteStatus = ({ pollId }: IMyVoteStatusProps) => {
 
   return (
     <>
-      <div className="has-voted">
+      <div className='has-voted'>
         {hasVoted ? (
-          <p className="absolute left-2 bottom-2 text-xs dark:text-white">
+          <p className='absolute bottom-2 left-2 text-xs dark:text-white'>
             {t('polls.you-voted')}
           </p>
         ) : (
           <button
-            className="absolute left-0 bottom-0 transition ease-in bg-primaryColor hover:bg-secondaryColor text-[10px] text-white pt-1 pb-[2px] px-3 uppercase rounded-tr-lg"
+            className='absolute bottom-0 left-0 rounded-tr-lg bg-primaryColor px-3 pb-[2px] pt-1 text-[10px] uppercase text-white transition ease-in hover:bg-secondaryColor'
             onClick={() => vote()}
           >
             {t('polls.vote')}

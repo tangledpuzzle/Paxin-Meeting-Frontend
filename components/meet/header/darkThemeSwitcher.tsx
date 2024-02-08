@@ -1,12 +1,12 @@
 import React from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppDispatch, useAppSelector } from '../../store';
-import { updateTheme } from '../../store/slices/roomSettingsSlice';
+import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { updateTheme } from '@/store/slices/roomSettingsSlice';
 
 const themeSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.theme,
+  (roomSettings) => roomSettings.theme
 );
 
 const DarkThemeSwitcher = () => {
@@ -18,16 +18,16 @@ const DarkThemeSwitcher = () => {
   };
 
   return (
-    <div className="dark-mode mt-1">
+    <div className='dark-mode mt-1'>
       <button onClick={toggleDarkMode}>
         <>
           {theme === 'dark' ? (
-            <div className="moon w-8 h-8 rounded-full flex items-center justify-center">
-              <i className="pnm-moon w-4 h-4 text-primaryColor dark:text-secondaryColor" />
+            <div className='moon flex h-8 w-8 items-center justify-center rounded-full'>
+              <i className='pnm-moon h-4 w-4 text-primaryColor dark:text-secondaryColor' />
             </div>
           ) : (
-            <div className="sun w-8 h-8 rounded-full flex items-center justify-center">
-              <i className="pnm-sun w-4 h-4 text-primaryColor dark:text-secondaryColor" />
+            <div className='sun flex h-8 w-8 items-center justify-center rounded-full'>
+              <i className='pnm-sun h-4 w-4 text-primaryColor dark:text-secondaryColor' />
             </div>
           )}
         </>

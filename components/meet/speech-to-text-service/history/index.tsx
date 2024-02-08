@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Popover } from '@headlessui/react';
-import { useTranslation } from 'react-i18next';
 
 import PopoverPanelElms from './popoverPanelElms';
-import { store } from '../../../store';
+import { store } from '@/store';
+import { useTranslations } from 'next-intl';
 
 interface SubtitleTextsHistoryProps {
   isOpenPopover: (open: boolean) => void;
 }
 
 const SubtitleTextsHistory = ({ isOpenPopover }: SubtitleTextsHistoryProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const [showPopover, setShowPopover] = useState<boolean>(false);
 
   useEffect(() => {
@@ -27,17 +27,17 @@ const SubtitleTextsHistory = ({ isOpenPopover }: SubtitleTextsHistoryProps) => {
   }, [showPopover]);
 
   return (
-    <Popover className="subtitleTextsHistory relative">
+    <Popover className='subtitleTextsHistory relative'>
       <button
-        className="absolute left-[2.7rem] lg:left-[3.1rem] bottom-1"
+        className='absolute bottom-1 left-[2.7rem] lg:left-[3.1rem]'
         onClick={() => setShowPopover(!showPopover)}
       >
-        <div className="microphone footer-icon relative h-[35px] lg:h-[40px] w-[35px] lg:w-[40px] rounded-full bg-[#F2F2F2] dark:bg-darkSecondary2 hover:bg-[#ECF4FF] flex items-center justify-center cursor-pointer has-tooltip">
-          <span className="tooltip">
+        <div className='microphone footer-icon has-tooltip relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px]'>
+          <span className='tooltip'>
             {t('speech-services.subtitle-history-modal-title')}
           </span>
           <i
-            className={`pnm-timeline-solid dark:text-darkText text-[12px] lg:text-[14px] ${
+            className={`pnm-timeline-solid text-[12px] dark:text-darkText lg:text-[14px] ${
               showPopover ? 'secondaryColor' : 'primaryColor'
             }`}
           ></i>

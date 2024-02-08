@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Menu } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 import { Room, Track } from 'livekit-client';
-import { useTranslation } from 'react-i18next';
 
-import { RootState, useAppDispatch, useAppSelector } from '../../../../store';
-import { updateSelectedAudioDevice } from '../../../../store/slices/roomSettingsSlice';
+import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { updateSelectedAudioDevice } from '@/store/slices/roomSettingsSlice';
 import {
   updateIsActiveMicrophone,
   updateIsMicMuted,
-} from '../../../../store/slices/bottomIconsActivitySlice';
+} from '@/store/slices/bottomIconsActivitySlice';
+import { useTranslations } from 'next-intl';
 
 interface IMicMenuItemsProps {
   currentRoom: Room;
@@ -17,20 +17,20 @@ interface IMicMenuItemsProps {
 
 const audioDevicesSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.audioDevices,
+  (roomSettings) => roomSettings.audioDevices
 );
 const isMicMutedSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isMicMuted,
+  (bottomIconsActivity) => bottomIconsActivity.isMicMuted
 );
 const selectedAudioDeviceSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.selectedAudioDevice,
+  (roomSettings) => roomSettings.selectedAudioDevice
 );
 
 const MicMenuItems = ({ currentRoom }: IMicMenuItemsProps) => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const audioDevices = useAppSelector(audioDevicesSelector);
   const isMicMuted = useAppSelector(isMicMutedSelector);
@@ -42,7 +42,7 @@ const MicMenuItems = ({ currentRoom }: IMicMenuItemsProps) => {
   useEffect(() => {
     const devicesMenu = audioDevices.map((device) => {
       return (
-        <div className="" role="none" key={device.id}>
+        <div className='' role='none' key={device.id}>
           <Menu.Item>
             {() => (
               <p
@@ -50,7 +50,7 @@ const MicMenuItems = ({ currentRoom }: IMicMenuItemsProps) => {
                   selectedAudioDevice === device.id
                     ? 'secondaryColor'
                     : 'text-gray-700 dark:text-darkText'
-                } rounded group flex items-center px-3 py-[0.4rem] text-[10px] lg:text-xs transition ease-in hover:bg-primaryColor hover:text-white cursor-pointer`}
+                } group flex cursor-pointer items-center rounded px-3 py-[0.4rem] text-[10px] transition ease-in hover:bg-primaryColor hover:text-white lg:text-xs`}
                 onClick={() => setNewDevice(device.id)}
               >
                 {device.label}
@@ -105,14 +105,14 @@ const MicMenuItems = ({ currentRoom }: IMicMenuItemsProps) => {
     return (
       <Menu.Items
         static
-        className="origin-bottom-right z-[9999] absolute ltr:left-0 rtl:-left-4 mt-2 w-40 bottom-[40px] rounded-md shadow-lg bg-white dark:bg-darkPrimary ring-1 ring-black dark:ring-secondaryColor ring-opacity-5 divide-y divide-gray-100 dark:divide-secondaryColor focus:outline-none"
+        className='absolute bottom-[40px] z-[9999] mt-2 w-40 origin-bottom-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-secondaryColor dark:bg-darkPrimary dark:ring-secondaryColor ltr:left-0 rtl:-left-4'
       >
         {devicesMenu}
-        <div className="" role="none">
+        <div className='' role='none'>
           <Menu.Item>
             {() => (
               <p
-                className="text-gray-700 dark:text-darkText rounded group flex items-center px-3 py-[0.4rem] text-xs transition ease-in hover:bg-primaryColor hover:text-white cursor-pointer"
+                className='group flex cursor-pointer items-center rounded px-3 py-[0.4rem] text-xs text-gray-700 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText'
                 onClick={() => muteUnmuteMic()}
               >
                 {isMicMuted
@@ -122,11 +122,11 @@ const MicMenuItems = ({ currentRoom }: IMicMenuItemsProps) => {
             )}
           </Menu.Item>
         </div>
-        <div className="" role="none">
+        <div className='' role='none'>
           <Menu.Item>
             {() => (
               <p
-                className="text-red-900 group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs transition ease-in hover:bg-red-400 hover:text-white cursor-pointer"
+                className='group flex w-full cursor-pointer items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-red-900 transition ease-in hover:bg-red-400 hover:text-white'
                 onClick={() => leaveMic()}
               >
                 {t('footer.menus.leave-microphone')}

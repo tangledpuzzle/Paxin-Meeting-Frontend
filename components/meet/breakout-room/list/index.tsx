@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 import BroadcastingMsg from './broadcastingMsg';
 import RoomLists from './roomLists';
-import { useEndAllRoomsMutation } from '../../../store/services/breakoutRoomApi';
-import { useAppDispatch } from '../../../store';
-import { updateShowManageBreakoutRoomModal } from '../../../store/slices/bottomIconsActivitySlice';
+import { useEndAllRoomsMutation } from '@/store/services/breakoutRoomApi';
+import { useAppDispatch } from '@/store';
+import { updateShowManageBreakoutRoomModal } from '@/store/slices/bottomIconsActivitySlice';
+import { useTranslations } from 'next-intl';
 
 const BreakoutRoomLists = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const [disable, setDisable] = useState<boolean>(false);
   const [endAllRooms, { isLoading, data }] = useEndAllRoomsMutation();
@@ -40,12 +40,12 @@ const BreakoutRoomLists = () => {
 
   const render = () => {
     return (
-      <div className="manage-breakout-room-wrap">
+      <div className='manage-breakout-room-wrap'>
         <BroadcastingMsg />
         <RoomLists />
-        <div className="btn pb-3 pt-4 bg-gray-50 dark:bg-transparent flex items-end justify-end">
+        <div className='btn flex items-end justify-end bg-gray-50 pb-3 pt-4 dark:bg-transparent'>
           <button
-            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primaryColor hover:bg-secondaryColor focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-secondaryColor"
+            className='inline-flex justify-center rounded-md border border-transparent bg-primaryColor px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondaryColor focus:bg-secondaryColor focus:outline-none focus:ring-2 focus:ring-offset-2'
             onClick={() => endAll()}
             disabled={disable}
           >

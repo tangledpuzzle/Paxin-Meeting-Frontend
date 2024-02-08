@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useBroadcastBreakoutRoomMsgMutation } from '../../../store/services/breakoutRoomApi';
+import { useBroadcastBreakoutRoomMsgMutation } from '@/store/services/breakoutRoomApi';
 import { toast } from 'react-toastify';
-import { BroadcastBreakoutRoomMsgReq } from '../../../helpers/proto/plugnmeet_breakout_room_pb';
+import { BroadcastBreakoutRoomMsgReq } from '@/helpers/proto/plugnmeet_breakout_room_pb';
+import { useTranslations } from 'next-intl';
 
 const BroadcastingMsg = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const [msg, setMsg] = useState<string>('');
   const [disable, setDisable] = useState<boolean>(false);
   const [broadcastMsg, { isLoading, data }] =
@@ -38,21 +38,21 @@ const BroadcastingMsg = () => {
     broadcastMsg(
       new BroadcastBreakoutRoomMsgReq({
         msg,
-      }),
+      })
     );
   };
 
   return (
-    <div className="broadcasting-message pb-4 mb-4 border-b border-solid border-primaryColor/50 flex flex-wrap items-end">
+    <div className='broadcasting-message mb-4 flex flex-wrap items-end border-b border-solid border-primaryColor/50 pb-4'>
       <textarea
         value={msg}
         onChange={(e) => setMsg(e.currentTarget.value)}
-        className="w-full sm:w-[calc(100%-12rem)] block outline-none border border-solid border-primaryColor dark:border-darkText rounded p-2 min-h-[60px] bg-transparent dark:text-darkText"
+        className='block min-h-[60px] w-full rounded border border-solid border-primaryColor bg-transparent p-2 outline-none dark:border-darkText dark:text-darkText sm:w-[calc(100%-12rem)]'
       ></textarea>
       <button
         onClick={send}
         disabled={disable}
-        className="inline-flex w-44 sm:ml-4 mt-2 justify-center px-3 py-1 text-sm font-medium text-white bg-primaryColor rounded-md hover:bg-secondaryColor focus:outline-none"
+        className='mt-2 inline-flex w-44 justify-center rounded-md bg-primaryColor px-3 py-1 text-sm font-medium text-white hover:bg-secondaryColor focus:outline-none sm:ml-4'
       >
         {t('breakout-room.broadcast-msg')}
       </button>

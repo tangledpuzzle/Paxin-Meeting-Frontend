@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 import {
   SpeechRecognizer,
   TranslationRecognizer,
@@ -15,16 +14,17 @@ import {
 } from 'livekit-client';
 
 import SubtitleArea from './subtitleArea';
-import { RootState, store, useAppDispatch, useAppSelector } from '../../store';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 
 import {
   getAzureToken,
   openConnectionWithAzure,
 } from './helpers/apiConnections';
-import { updateAzureTokenInfo } from '../../store/slices/roomSettingsSlice';
+import { updateAzureTokenInfo } from '@/store/slices/roomSettingsSlice';
 import SelectOptions, { OnCloseSelectedOptions } from './selectOptions';
-import { updateSelectedSubtitleLang } from '../../store/slices/speechServicesSlice';
+import { updateSelectedSubtitleLang } from '@/store/slices/speechServicesSlice';
 import SubtitleTextsHistory from './history';
+import { useTranslations } from 'next-intl';
 
 interface SpeechToTextServiceProps {
   currentRoom: Room;
@@ -32,15 +32,15 @@ interface SpeechToTextServiceProps {
 
 const speechServiceFeaturesSelector = createSelector(
   (state: RootState) => state.session.currentRoom.metadata?.room_features,
-  (room_features) => room_features?.speech_to_text_translation_features,
+  (room_features) => room_features?.speech_to_text_translation_features
 );
 const azureTokenInfoSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.azureTokenInfo,
+  (roomSettings) => roomSettings.azureTokenInfo
 );
 
 const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const speechService = useAppSelector(speechServiceFeaturesSelector);
   const azureTokenInfo = useAppSelector(azureTokenInfoSelector);
@@ -52,7 +52,7 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
   const [deviceId, setDeviceId] = useState<string>('');
   // this stream from livekit mic stream
   const [mediaStream, setMediaStream] = useState<MediaStream | undefined>(
-    undefined,
+    undefined
   );
   // this one we had created from either device id or stream
   const [createdMediaStream, setCreatedMediaStream] = useState<
@@ -88,7 +88,7 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
         });
       }
     },
-    [createdMediaStream],
+    [createdMediaStream]
   );
 
   // if we've an active mic for room + speech to text on
@@ -97,20 +97,20 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
   useEffect(() => {
     currentRoom.localParticipant.on(
       ParticipantEvent.TrackMuted,
-      handleUserMutedMic,
+      handleUserMutedMic
     );
     currentRoom.localParticipant.on(
       ParticipantEvent.TrackUnmuted,
-      handleUserMutedMic,
+      handleUserMutedMic
     );
     return () => {
       currentRoom.localParticipant.off(
         ParticipantEvent.TrackMuted,
-        handleUserMutedMic,
+        handleUserMutedMic
       );
       currentRoom.localParticipant.off(
         ParticipantEvent.TrackUnmuted,
-        handleUserMutedMic,
+        handleUserMutedMic
       );
     };
     //eslint-disable-next-line
@@ -202,7 +202,7 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
           speechService,
           setOptionSelectionDisabled,
           setRecognizer,
-          unsetRecognizer,
+          unsetRecognizer
         );
         dispatch(updateAzureTokenInfo(undefined));
       }
@@ -242,7 +242,7 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
       }
     },
     //eslint-disable-next-line
-    [currentRoom.localParticipant.audioTracks, recognizer],
+    [currentRoom.localParticipant.audioTracks, recognizer]
   );
 
   const onOpenSelectedOptionsModal = () => {
@@ -255,8 +255,8 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
   return (
     <>
       {speechService ? (
-        <div className="speechService absolute bottom-0 w-full z-50 left-0">
-          <div className="wrap">
+        <div className='speechService absolute bottom-0 left-0 z-50 w-full'>
+          <div className='wrap'>
             <SelectOptions
               optionSelectionDisabled={optionSelectionDisabled}
               speechService={speechService}

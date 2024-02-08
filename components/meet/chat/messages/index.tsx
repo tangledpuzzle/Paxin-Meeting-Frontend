@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import useVirtual from 'react-cool-virtual';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, store, useAppSelector } from '../../../store';
-import { IChatMsg } from '../../../store/slices/interfaces/dataMessages';
-import { chatMessagesSelector } from '../../../store/slices/chatMessagesSlice';
+import { RootState, store, useAppSelector } from '@/store';
+import { IChatMsg } from '@/store/slices/interfaces/dataMessages';
+import { chatMessagesSelector } from '@/store/slices/chatMessagesSlice';
 import Message from './message';
 
 interface IMessagesProps {
@@ -13,7 +13,7 @@ interface IMessagesProps {
 
 const isActiveChatPanelSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveChatPanel,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveChatPanel
 );
 
 const Messages = ({ userId }: IMessagesProps) => {
@@ -42,7 +42,7 @@ const Messages = ({ userId }: IMessagesProps) => {
       chatMessages = allMessages.filter((m) => !m.isPrivate);
     } else {
       chatMessages = allMessages.filter(
-        (m) => m.isPrivate && (m.from.userId === userId || m.to === userId),
+        (m) => m.isPrivate && (m.from.userId === userId || m.to === userId)
       );
     }
 
@@ -67,7 +67,7 @@ const Messages = ({ userId }: IMessagesProps) => {
               inline: 'nearest',
             });
           }
-        },
+        }
       );
     }
   };
@@ -104,15 +104,15 @@ const Messages = ({ userId }: IMessagesProps) => {
 
   return (
     <div
-      className="relative h-full px-2 xl:px-4 pt-2 xl:pt-4 overflow-auto scrollBar scrollBar4 messages-item-wrap"
+      className='scrollBar scrollBar4 messages-item-wrap relative h-full overflow-auto px-2 pt-2 xl:px-4 xl:pt-4'
       ref={outerRef as any}
     >
-      <div ref={innerRef as any} className="inner">
+      <div ref={innerRef as any} className='inner'>
         {items.map(({ index, measureRef }) => (
           <div
             key={index}
             ref={measureRef}
-            className="message-item mb-2 xl:mb-3"
+            className='message-item mb-2 xl:mb-3'
           >
             {renderMsg(index)}
           </div>

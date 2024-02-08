@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import useResumableFilesUpload from '../../../../helpers/hooks/useResumableFilesUpload';
-import sendAPIRequest from '../../../../helpers/api/plugNmeetAPI';
-import { updateShowExternalMediaPlayerModal } from '../../../../store/slices/bottomIconsActivitySlice';
-import { useAppDispatch } from '../../../../store';
+import useResumableFilesUpload from '@/helpers/hooks/useResumableFilesUpload';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import { updateShowExternalMediaPlayerModal } from '@/store/slices/bottomIconsActivitySlice';
+import { useAppDispatch } from '@/store';
 import {
   CommonResponse,
   ExternalMediaPlayerReq,
   ExternalMediaPlayerTask,
-} from '../../../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 const Upload = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
 
   const [files, setFiles] = useState<Array<File>>();
@@ -32,7 +32,7 @@ const Upload = () => {
         t('footer.notice.external-media-player-starting'),
         {
           type: 'info',
-        },
+        }
       );
 
       const body = new ExternalMediaPlayerReq({
@@ -44,7 +44,7 @@ const Upload = () => {
         body.toBinary(),
         false,
         'application/protobuf',
-        'arraybuffer',
+        'arraybuffer'
       );
       const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -88,23 +88,23 @@ const Upload = () => {
 
   return (
     <>
-      <div className="ex-m-p-file-upload relative h-[80px] mt-[10px] mb-[50px]">
-        <div className="absolute -bottom-[30px] dark:text-darkText">
+      <div className='ex-m-p-file-upload relative mb-[50px] mt-[10px] h-[80px]'>
+        <div className='absolute -bottom-[30px] dark:text-darkText'>
           {t('footer.modal.external-media-player-upload-supported-files', {
             files: allowedFileTypes.map((type) => '.' + type).join(', '),
           })}
         </div>
         <input
-          type="file"
-          id="chat-file"
+          type='file'
+          id='chat-file'
           accept={allowedFileTypes.map((type) => '.' + type).join(',')}
           onChange={(e) => onChange(e)}
-          className="absolute left-0 w-full h-full top-0 py-[28px] px-5 border border-dashed border-primaryColor dark:border-darkText dark:text-darkText cursor-pointer rounded"
+          className='absolute left-0 top-0 h-full w-full cursor-pointer rounded border border-dashed border-primaryColor px-5 py-[28px] dark:border-darkText dark:text-darkText'
         />
       </div>
-      <div className="pb-3 pt-4 bg-gray-50 dark:bg-transparent text-right mt-4">
+      <div className='mt-4 bg-gray-50 pb-3 pt-4 text-right dark:bg-transparent'>
         <button
-          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primaryColor hover:bg-secondaryColor focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-secondaryColor"
+          className='inline-flex justify-center rounded-md border border-transparent bg-primaryColor px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondaryColor focus:bg-secondaryColor focus:outline-none focus:ring-2 focus:ring-offset-2'
           disabled={isUploading}
           onClick={() => upload()}
         >

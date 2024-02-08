@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 // eslint-disable-next-line import/no-unresolved
 import { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 
 import UploadFilesUI from './uploadFilesUI';
-import { IWhiteboardOfficeFile } from '../../store/slices/interfaces/whiteboard';
-import { RootState, store, useAppDispatch, useAppSelector } from '../../store';
-import { sleep } from '../../helpers/utils';
+import { IWhiteboardOfficeFile } from '@/store/slices/interfaces/whiteboard';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { sleep } from '@/helpers/utils';
 import { broadcastWhiteboardOfficeFile } from './helpers/handleRequestedWhiteboardData';
-import { updateCurrentWhiteboardOfficeFileId } from '../../store/slices/whiteboard';
+import { updateCurrentWhiteboardOfficeFileId } from '@/store/slices/whiteboard';
 import { formatStorageKey } from './helpers/utils';
+import { useTranslations } from 'next-intl';
 
 interface IManageFilesProps {
   excalidrawAPI: ExcalidrawImperativeAPI;
@@ -19,20 +19,20 @@ interface IManageFilesProps {
 
 const currentPageSelector = createSelector(
   (state: RootState) => state.whiteboard,
-  (whiteboard) => whiteboard.currentPage,
+  (whiteboard) => whiteboard.currentPage
 );
 const whiteboardUploadedOfficeFilesSelector = createSelector(
   (state: RootState) => state.whiteboard,
-  (whiteboard) => whiteboard.whiteboardUploadedOfficeFiles,
+  (whiteboard) => whiteboard.whiteboardUploadedOfficeFiles
 );
 
 const ManageFiles = ({ excalidrawAPI }: IManageFilesProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
 
   const currentPage = useAppSelector(currentPageSelector);
   const whiteboardUploadedOfficeFiles = useAppSelector(
-    whiteboardUploadedOfficeFilesSelector,
+    whiteboardUploadedOfficeFilesSelector
   );
   const [refreshFileBrowser, setRefreshFileBrowser] = useState<number>(0);
   const [menuItems, setMenuItems] = useState<JSX.Element[]>([]);
@@ -42,13 +42,13 @@ const ManageFiles = ({ excalidrawAPI }: IManageFilesProps) => {
     const elms = whiteboardUploadedOfficeFiles.map((f) => {
       return (
         <div
-          role="none"
-          className="border-b border-solid border-primaryColor/10 last:border-none"
+          role='none'
+          className='border-b border-solid border-primaryColor/10 last:border-none'
           key={f.fileId}
         >
           <Menu.Item>
             <button
-              className="!rounded !w-full flex items-center !px-3 !py-[0.4rem] !text-[10px] lg:!text-xs transition ease-in !bg-transparent hover:!bg-primaryColor hover:text-white text-gray-700 dark:text-darkText"
+              className='flex !w-full items-center !rounded !bg-transparent !px-3 !py-[0.4rem] !text-[10px] text-gray-700 transition ease-in hover:!bg-primaryColor hover:text-white dark:text-darkText lg:!text-xs'
               onClick={() => switchOfficeFile(f)}
             >
               {f.fileName}
@@ -87,7 +87,7 @@ const ManageFiles = ({ excalidrawAPI }: IManageFilesProps) => {
       const currentPageNumber = store.getState().whiteboard.currentPage;
       sessionStorage.setItem(
         formatStorageKey(currentPageNumber),
-        JSON.stringify(elms),
+        JSON.stringify(elms)
       );
     }
   };
@@ -96,19 +96,19 @@ const ManageFiles = ({ excalidrawAPI }: IManageFilesProps) => {
     return (
       <>
         <button
-          className="h-[30px] lg:h-[32px] max-w text-xs !px-2 rounded-lg border border-solid border-[#3d3d3d] text-[#3d3d3d] dark:text-[#b8b8b8] dark:bg-[#262627] dark:hover:bg-[#3d3d3d] hover:bg-[#3d3d3d] hover:text-[#b8b8b8] font-semibold flex items-center justify-center cursor-pointer"
+          className='max-w flex h-[30px] cursor-pointer items-center justify-center rounded-lg border border-solid border-[#3d3d3d] !px-2 text-xs font-semibold text-[#3d3d3d] hover:bg-[#3d3d3d] hover:text-[#b8b8b8] dark:bg-[#262627] dark:text-[#b8b8b8] dark:hover:bg-[#3d3d3d] lg:h-[32px]'
           onClick={() => openFileBrowser('image')}
         >
-          <i className="pnm-blank-img text-[14px] ltr:mr-1 rtl:ml-1" />
+          <i className='pnm-blank-img text-[14px] ltr:mr-1 rtl:ml-1' />
           {t('whiteboard.upload-image')}
         </button>
-        <div className="menu relative z-10">
+        <div className='menu relative z-10'>
           <Menu>
             {({ open }) => (
               <>
-                <Menu.Button className="manage-icon h-[30px] lg:h-[32px] max-w text-xs !px-2 rounded-lg border border-solid border-[#3d3d3d] text-[#3d3d3d] dark:text-[#b8b8b8] dark:bg-[#262627] dark:hover:bg-[#3d3d3d] hover:bg-[#3d3d3d] hover:text-[#b8b8b8] font-semibold flex items-center justify-center cursor-pointer">
+                <Menu.Button className='manage-icon max-w flex h-[30px] cursor-pointer items-center justify-center rounded-lg border border-solid border-[#3d3d3d] !px-2 text-xs font-semibold text-[#3d3d3d] hover:bg-[#3d3d3d] hover:text-[#b8b8b8] dark:bg-[#262627] dark:text-[#b8b8b8] dark:hover:bg-[#3d3d3d] lg:h-[32px]'>
                   <>
-                    <i className="pnm-attachment text-[14px] ltr:mr-1 rtl:ml-1" />
+                    <i className='pnm-attachment text-[14px] ltr:mr-1 rtl:ml-1' />
                     {t('whiteboard.manage-files')}
                   </>
                 </Menu.Button>
@@ -116,28 +116,28 @@ const ManageFiles = ({ excalidrawAPI }: IManageFilesProps) => {
                 {/* Use the Transition component. */}
                 <Transition
                   show={open}
-                  enter="transition duration-100 ease-out"
-                  enterFrom="transform scale-95 opacity-0"
-                  enterTo="transform scale-100 opacity-100"
-                  leave="transition duration-75 ease-out"
-                  leaveFrom="transform scale-100 opacity-100"
-                  leaveTo="transform scale-95 opacity-0"
+                  enter='transition duration-100 ease-out'
+                  enterFrom='transform scale-95 opacity-0'
+                  enterTo='transform scale-100 opacity-100'
+                  leave='transition duration-75 ease-out'
+                  leaveFrom='transform scale-100 opacity-100'
+                  leaveTo='transform scale-95 opacity-0'
                 >
                   {/* Mark this component as `static` */}
                   <Menu.Items
                     static
-                    className="origin-top-right z-10 absolute ltr:right-0 rtl:left-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-darkPrimary ring-1 ring-black dark:ring-secondaryColor ring-opacity-5 divide-y divide-gray-100 dark:divide-secondaryColor focus:outline-none"
+                    className='absolute z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-secondaryColor dark:bg-darkPrimary dark:ring-secondaryColor ltr:right-0 rtl:left-0'
                   >
-                    <div className="item-wrapper-uploaded-file overflow-x-hidden overflow-y-auto max-h-[170px] scrollBar scrollBar2">
+                    <div className='item-wrapper-uploaded-file scrollBar scrollBar2 max-h-[170px] overflow-y-auto overflow-x-hidden'>
                       {menuItems}
                     </div>
-                    <div className="py-3 !border-t-2 border-solid !border-primaryColor !mt-2">
+                    <div className='!mt-2 !border-t-2 border-solid !border-primaryColor py-3'>
                       <Menu.Item>
                         <button
                           onClick={() => openFileBrowser('office')}
-                          className="w-[100px] !m-auto text-xs h-7 flex items-center justify-center !bg-primaryColor hover:!bg-secondaryColor text-white"
+                          className='!m-auto flex h-7 w-[100px] items-center justify-center !bg-primaryColor text-xs text-white hover:!bg-secondaryColor'
                         >
-                          <i className="pnm-attachment text-white text-[14px] opacity-50 ltr:mr-1 rtl:ml-1" />
+                          <i className='pnm-attachment text-[14px] text-white opacity-50 ltr:mr-1 rtl:ml-1' />
                           {t('whiteboard.upload-file')}
                         </button>
                       </Menu.Item>

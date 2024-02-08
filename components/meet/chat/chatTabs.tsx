@@ -1,28 +1,28 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Listbox, Transition } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '../../store';
-import { chatMessagesSelector } from '../../store/slices/chatMessagesSlice';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { chatMessagesSelector } from '@/store/slices/chatMessagesSlice';
 import Messages from './messages';
-import { participantsSelector } from '../../store/slices/participantSlice';
+import { participantsSelector } from '@/store/slices/participantSlice';
 import {
   updateSelectedChatOption,
   updateUnreadMsgFrom,
-} from '../../store/slices/roomSettingsSlice';
+} from '@/store/slices/roomSettingsSlice';
+import { useTranslations } from 'next-intl';
 
 const selectedChatOptionSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.selectedChatOption,
+  (roomSettings) => roomSettings.selectedChatOption
 );
 const initiatePrivateChatSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.initiatePrivateChat,
+  (roomSettings) => roomSettings.initiatePrivateChat
 );
 const unreadMsgFromSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.unreadMsgFrom,
+  (roomSettings) => roomSettings.unreadMsgFrom
 );
 
 interface IChatOptions {
@@ -31,12 +31,12 @@ interface IChatOptions {
 }
 
 const ChatTabs = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const initiatePrivateChat = useAppSelector(initiatePrivateChatSelector);
   const chatMessages = useAppSelector(chatMessagesSelector.selectAll);
   const [privateChatUsers, setPrivateChatUsers] = useState<Map<string, string>>(
-    new Map(),
+    new Map()
   );
   const currentUser = store.getState().session.currentUser;
   const unreadMsgFrom = useAppSelector(unreadMsgFromSelector);
@@ -49,14 +49,14 @@ const ChatTabs = () => {
     },
   ]);
   const [selectedTitle, setSelectedTitle] = useState<string>(
-    t('left-panel.public-chat').toString(),
+    t('left-panel.public-chat').toString()
   );
 
   useEffect(() => {
     if (initiatePrivateChat.userId !== '') {
       privateChatUsers.set(
         initiatePrivateChat.userId,
-        initiatePrivateChat.name,
+        initiatePrivateChat.name
       );
       setPrivateChatUsers(new Map(privateChatUsers));
     }
@@ -75,7 +75,7 @@ const ChatTabs = () => {
           if (!privateChatUsers.has(m.to)) {
             const user = participantsSelector.selectById(
               store.getState(),
-              m.to,
+              m.to
             );
             if (user) {
               privateChatUsers.set(user.userId, user.name);
@@ -118,43 +118,43 @@ const ChatTabs = () => {
       updateUnreadMsgFrom({
         task: 'DEL',
         id: id,
-      }),
+      })
     );
   };
 
   return (
-    <div className="h-full">
+    <div className='h-full'>
       <Listbox value={selectedChatOption} onChange={onChange}>
-        <div className="relative h-10 z-10">
-          <Listbox.Button className="flex items-center justify-between py-2 text-sm text-black dark:text-darkText font-bold leading-5 border-b-4 border-solid transition ease-in shrink-0 border-primaryColor w-full">
-            <span className="block truncate pl-4 md:pl-6">{selectedTitle}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+        <div className='relative z-10 h-10'>
+          <Listbox.Button className='flex w-full shrink-0 items-center justify-between border-b-4 border-solid border-primaryColor py-2 text-sm font-bold leading-5 text-black transition ease-in dark:text-darkText'>
+            <span className='block truncate pl-4 md:pl-6'>{selectedTitle}</span>
+            <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
               {unreadMsgFrom.length ? (
-                <span className="shake pr-1 -mb-1">
-                  <i className="pnm-chat shake" />
+                <span className='shake -mb-1 pr-1'>
+                  <i className='pnm-chat shake' />
                 </span>
               ) : null}
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-5 w-5'
+                viewBox='0 0 20 20'
+                fill='currentColor'
               >
                 <path
-                  fillRule="evenodd"
-                  d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                  clipRule="evenodd"
+                  fillRule='evenodd'
+                  d='M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z'
+                  clipRule='evenodd'
                 />
               </svg>
             </span>
           </Listbox.Button>
           <Transition
             as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100 z-90"
-            leaveTo="opacity-0"
+            leave='transition ease-in duration-100'
+            leaveFrom='opacity-100 z-90'
+            leaveTo='opacity-0'
           >
-            <Listbox.Options className="absolute max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-darkPrimary py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className='absolute max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-darkPrimary sm:text-sm'>
               {chatOptions.map((option) => (
                 <Listbox.Option
                   key={option.id}
@@ -170,32 +170,32 @@ const ChatTabs = () => {
                   {({ selected }) => (
                     <>
                       <span
-                        className={`flex truncate items-center justify-between ${
+                        className={`flex items-center justify-between truncate ${
                           selected ? 'font-medium' : 'font-normal'
                         }`}
                       >
                         {option.title}
                         {unreadMsgFrom.filter((id) => id === option.id)
                           .length ? (
-                          <span className="shake pr-1">
-                            <i className="pnm-chat shake" />
+                          <span className='shake pr-1'>
+                            <i className='pnm-chat shake' />
                           </span>
                         ) : null}
                       </span>
                       {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-secondaryColor">
+                        <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-secondaryColor'>
                           <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                            xmlns='http://www.w3.org/2000/svg'
+                            className='h-5 w-5'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            stroke='currentColor'
                             strokeWidth={2}
                           >
                             <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 13l4 4L19 7"
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              d='M5 13l4 4L19 7'
                             />
                           </svg>
                         </span>
@@ -208,7 +208,7 @@ const ChatTabs = () => {
           </Transition>
         </div>
       </Listbox>
-      <div className="h-[calc(100%-40px)]">
+      <div className='h-[calc(100%-40px)]'>
         <Messages userId={selectedChatOption} />
       </div>
     </div>

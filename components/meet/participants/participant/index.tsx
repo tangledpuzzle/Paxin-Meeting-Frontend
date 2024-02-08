@@ -7,11 +7,11 @@ import MicIcon from './icons/mic';
 import WebcamIcon from './icons/webcam';
 import ScreenShareIcon from './icons/screenShare';
 import MenuIcon from './icons/menu';
-import { store } from '../../../store';
+import { store } from '@/store';
 import VisibilityIcon from './icons/visibility';
 import PresenterIcon from './icons/presenterIcon';
 import WaitingApproval from './waitingApproval';
-import { IParticipant } from '../../../store/slices/interfaces/participant';
+import { IParticipant } from '@/store/slices/interfaces/participant';
 
 interface IParticipantComponentProps {
   participant: IParticipant;
@@ -34,15 +34,15 @@ const ParticipantComponent = ({
 
   return (
     <>
-      <div className="flex items-center justify-between relative">
-        <div className="left flex items-center ">
+      <div className='relative flex items-center justify-between'>
+        <div className='left flex items-center '>
           <Avatar participant={participant} />
           <ParticipantName
             name={participant.name}
             isCurrentUser={currentUser?.userId === participant.userId}
           />
         </div>
-        <div className="right ltr:ml-2 rtl:mr-2 flex-auto flex items-center justify-end">
+        <div className='right flex flex-auto items-center justify-end ltr:ml-2 rtl:mr-2'>
           <RaiseHandIcon userId={participant.userId} />
           <VisibilityIcon userId={participant.userId} />
           <PresenterIcon userId={participant.userId} />
@@ -62,7 +62,7 @@ const ParticipantComponent = ({
           ) : null}
         </div>
         {currentUser?.metadata?.is_admin ? (
-          <div className="approve-wrap absolute ltr:right-0 rtl:left-0 top-5">
+          <div className='approve-wrap absolute top-5 ltr:right-0 rtl:left-0'>
             <WaitingApproval
               userId={participant.userId}
               name={participant.name}

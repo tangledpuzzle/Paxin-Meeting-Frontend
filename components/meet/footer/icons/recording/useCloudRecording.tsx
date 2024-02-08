@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
 import { IUseCloudRecordingReturn, RecordingType } from './IRecording';
-import { RecordingReq } from '../../../../helpers/proto/plugnmeet_recording_pb';
-import { RecordingTasks } from '../../../../helpers/proto/plugnmeet_recorder_pb';
-import sendAPIRequest from '../../../../helpers/api/plugNmeetAPI';
-import { CommonResponse } from '../../../../helpers/proto/plugnmeet_common_api_pb';
+import { RecordingReq } from '@/helpers/proto/plugnmeet_recording_pb';
+import { RecordingTasks } from '@/helpers/proto/plugnmeet_recorder_pb';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import { CommonResponse } from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 const useCloudRecording = (roomSid: string): IUseCloudRecordingReturn => {
   const TYPE_OF_RECORDING = RecordingType.RECORDING_TYPE_LOCAL;
   const [hasError, setHasError] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const startRecording = async () => {
     const body = new RecordingReq({
@@ -21,7 +21,7 @@ const useCloudRecording = (roomSid: string): IUseCloudRecordingReturn => {
     if (typeof (window as any).DESIGN_CUSTOMIZATION !== 'undefined') {
       body.customDesign = `${(window as any).DESIGN_CUSTOMIZATION}`.replace(
         /\s/g,
-        '',
+        ''
       );
     }
     const r = await sendAPIRequest(
@@ -29,7 +29,7 @@ const useCloudRecording = (roomSid: string): IUseCloudRecordingReturn => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
     let msg = 'footer.notice.start-recording-progress';
@@ -54,7 +54,7 @@ const useCloudRecording = (roomSid: string): IUseCloudRecordingReturn => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
     let msg = 'footer.notice.stop-recording-service-in-progress';

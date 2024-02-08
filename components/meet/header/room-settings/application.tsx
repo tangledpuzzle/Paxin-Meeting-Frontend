@@ -1,41 +1,42 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Switch } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import languages from '../../../helpers/languages';
-import { RootState, useAppDispatch, useAppSelector } from '../../../store';
+import languages from '@/helpers/languages';
+import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import {
   updateColumnCameraPosition,
   updateColumnCameraWidth,
   updateTheme,
   updateVideoObjectFit,
-} from '../../../store/slices/roomSettingsSlice';
+} from '@/store/slices/roomSettingsSlice';
 import {
   ColumnCameraPosition,
   ColumnCameraWidth,
   VideoObjectFit,
-} from '../../../store/slices/interfaces/roomSettings';
+} from '@/store/slices/interfaces/roomSettings';
+import { useTranslations } from 'next-intl';
 
 const themeSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.theme,
+  (roomSettings) => roomSettings.theme
 );
 const videoObjectFitSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.videoObjectFit,
+  (roomSettings) => roomSettings.videoObjectFit
 );
 const columnCameraWidthSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.columnCameraWidth,
+  (roomSettings) => roomSettings.columnCameraWidth
 );
 const columnCameraPositionSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.columnCameraPosition,
+  (roomSettings) => roomSettings.columnCameraPosition
 );
 
 const ApplicationSettings = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const theme = useAppSelector(themeSelector);
   const videoObjectFit = useAppSelector(videoObjectFitSelector);
@@ -48,21 +49,21 @@ const ApplicationSettings = () => {
 
   const render = () => {
     return (
-      <div className="s">
-        <div className="grid">
-          <div className="flex items-center justify-start">
+      <div className='s'>
+        <div className='grid'>
+          <div className='flex items-center justify-start'>
             <label
-              htmlFor="language"
-              className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right"
+              htmlFor='language'
+              className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'
             >
               {t('header.room-settings.language')}
             </label>
             <select
-              id="language"
-              name="language"
+              id='language'
+              name='language'
               value={i18n.languages[0]}
               onChange={(e) => i18n.changeLanguage(e.target.value)}
-              className="mt-1 block w-3/5 py-2 px-3 border border-gray-300 dark:border-darkText dark:text-darkText bg-transparent rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className='mt-1 block w-3/5 rounded-md border border-gray-300 bg-transparent px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
             >
               {languages.map(({ code, text }) => {
                 return (
@@ -75,8 +76,8 @@ const ApplicationSettings = () => {
           </div>
         </div>
         <Switch.Group>
-          <div className="flex items-center justify-between my-4">
-            <Switch.Label className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right">
+          <div className='my-4 flex items-center justify-between'>
+            <Switch.Label className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'>
               {t('header.room-settings.enable-dark-theme')}
             </Switch.Label>
             <Switch
@@ -86,34 +87,34 @@ const ApplicationSettings = () => {
                 theme === 'dark'
                   ? 'bg-primaryColor dark:bg-darkSecondary2'
                   : 'bg-gray-200 dark:bg-secondaryColor'
-              } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
+              } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`}
             >
               <span
                 className={`${
                   theme === 'dark'
                     ? 'ltr:translate-x-6 rtl:-translate-x-5'
                     : 'ltr:translate-x-1 rtl:-translate-x-0.5'
-                } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+                } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
               />
             </Switch>
           </div>
         </Switch.Group>
-        <div className="grid">
-          <div className="flex items-center justify-start">
+        <div className='grid'>
+          <div className='flex items-center justify-start'>
             <label
-              htmlFor="video-object-fit"
-              className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right"
+              htmlFor='video-object-fit'
+              className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'
             >
               {t('header.room-settings.video-object-fit')}
             </label>
             <select
-              id="video-object-fit"
-              name="video-object-fit"
+              id='video-object-fit'
+              name='video-object-fit'
               value={videoObjectFit}
               onChange={(e) =>
                 dispatch(updateVideoObjectFit(e.target.value as VideoObjectFit))
               }
-              className="mt-1 block w-3/5 py-2 px-3 border border-gray-300 dark:border-darkText dark:text-darkText bg-transparent rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className='mt-1 block w-3/5 rounded-md border border-gray-300 bg-transparent px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
             >
               <option key={VideoObjectFit.COVER} value={VideoObjectFit.COVER}>
                 {t('header.room-settings.video-object-fit-cover')}
@@ -127,24 +128,24 @@ const ApplicationSettings = () => {
             </select>
           </div>
         </div>
-        <div className="grid py-2">
-          <div className="flex items-center justify-start">
+        <div className='grid py-2'>
+          <div className='flex items-center justify-start'>
             <label
-              htmlFor="column-camera-width"
-              className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right"
+              htmlFor='column-camera-width'
+              className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'
             >
               {t('header.room-settings.column-camera-width')}
             </label>
             <select
-              id="column-camera-width"
-              name="column-camera-width"
+              id='column-camera-width'
+              name='column-camera-width'
               value={columnCameraWidth}
               onChange={(e) =>
                 dispatch(
-                  updateColumnCameraWidth(e.target.value as ColumnCameraWidth),
+                  updateColumnCameraWidth(e.target.value as ColumnCameraWidth)
                 )
               }
-              className="mt-1 block w-3/5 py-2 px-3 border border-gray-300 dark:border-darkText dark:text-darkText bg-transparent rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className='mt-1 block w-3/5 rounded-md border border-gray-300 bg-transparent px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
             >
               <option
                 key={ColumnCameraWidth.FULL_WIDTH}
@@ -167,26 +168,26 @@ const ApplicationSettings = () => {
             </select>
           </div>
         </div>
-        <div className="grid">
-          <div className="flex items-center justify-start">
+        <div className='grid'>
+          <div className='flex items-center justify-start'>
             <label
-              htmlFor="column-camera-position"
-              className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right"
+              htmlFor='column-camera-position'
+              className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'
             >
               {t('header.room-settings.column-camera-position')}
             </label>
             <select
-              id="column-camera-position"
-              name="column-camera-position"
+              id='column-camera-position'
+              name='column-camera-position'
               value={columnCameraPosition}
               onChange={(e) =>
                 dispatch(
                   updateColumnCameraPosition(
-                    e.target.value as ColumnCameraPosition,
-                  ),
+                    e.target.value as ColumnCameraPosition
+                  )
                 )
               }
-              className="mt-1 block w-3/5 py-2 px-3 border border-gray-300 dark:border-darkText dark:text-darkText bg-transparent rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className='mt-1 block w-3/5 rounded-md border border-gray-300 bg-transparent px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
             >
               <option
                 key={ColumnCameraPosition.LEFT}

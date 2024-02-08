@@ -1,30 +1,25 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { Transition, Dialog, Tab } from '@headlessui/react';
-import { useTranslation } from 'react-i18next';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
-import { updateShowRoomSettingsModal } from '../../../store/slices/roomSettingsSlice';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { updateShowRoomSettingsModal } from '@/store/slices/roomSettingsSlice';
 import DataSavings from './dataSavings';
 import Notification from './notification';
 import ApplicationSettings from './application';
 import Ingress from './ingress';
+import { useTranslations } from 'next-intl';
 
 declare const PNM_VERSION: string;
 
 const isShowRoomSettingsModalSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.isShowRoomSettingsModal,
+  (roomSettings) => roomSettings.isShowRoomSettingsModal
 );
 
 const RoomSettings = () => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const s = store.getState();
   const serverVersion = s.session.serverVersion;
   const copyright_conf = s.session.currentRoom?.metadata?.copyright_conf;
@@ -32,7 +27,7 @@ const RoomSettings = () => {
     s.session.currentRoom?.metadata?.room_features.ingress_features;
 
   const isShowRoomSettingsModal = useAppSelector(
-    isShowRoomSettingsModalSelector,
+    isShowRoomSettingsModalSelector
   );
 
   const [categories, setCategories] = useState({
@@ -89,7 +84,7 @@ const RoomSettings = () => {
     });
     return (
       <div
-        className="absolute inset-x-0 bottom-0 text-center text-xs dark:text-darkText"
+        className='absolute inset-x-0 bottom-0 text-center text-xs dark:text-darkText'
         dangerouslySetInnerHTML={{ __html: text }}
       ></div>
     );
@@ -97,19 +92,19 @@ const RoomSettings = () => {
 
   const showTabItems = () => {
     return (
-      <div className="max-w-full">
+      <div className='max-w-full'>
         <Tab.Group vertical>
-          <Tab.List className="flex p-1 space-x-1 bg-primaryColor rounded-xl">
+          <Tab.List className='flex space-x-1 rounded-xl bg-primaryColor p-1'>
             {Object.keys(categories).map((category) => (
               <Tab
                 key={category}
                 className={({ selected }) =>
                   classNames(
-                    'w-full py-1 text-xs sm:text-sm leading-5 font-medium text-secondaryColor rounded-lg outline-none',
+                    'w-full rounded-lg py-1 text-xs font-medium leading-5 text-secondaryColor outline-none sm:text-sm',
                     'ring-white ring-opacity-60',
                     selected
-                      ? 'bg-white dark:bg-secondaryColor shadow text-primaryColor dark:text-white'
-                      : 'hover:bg-white/[0.12] hover:text-white',
+                      ? 'bg-white text-primaryColor shadow dark:bg-secondaryColor dark:text-white'
+                      : 'hover:bg-white/[0.12] hover:text-white'
                   )
                 }
               >
@@ -117,9 +112,9 @@ const RoomSettings = () => {
               </Tab>
             ))}
           </Tab.List>
-          <Tab.Panels className="mt-2">
+          <Tab.Panels className='mt-2'>
             {Object.values(categories).map((posts, idx) => (
-              <Tab.Panel key={idx} className="bg-transparent rounded-xl p-3">
+              <Tab.Panel key={idx} className='rounded-xl bg-transparent p-3'>
                 <ul>
                   {posts.map((post) => (
                     <li key={post.id}>{post.elm}</li>
@@ -138,57 +133,57 @@ const RoomSettings = () => {
       <>
         <Transition appear show={isShowRoomSettingsModal} as={Fragment}>
           <Dialog
-            as="div"
-            className="fixed inset-0 z-[9999] overflow-y-auto"
+            as='div'
+            className='fixed inset-0 z-[9999] overflow-y-auto'
             onClose={() => false}
           >
-            <div className="min-h-screen px-4 text-center">
+            <div className='min-h-screen px-4 text-center'>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0'
+                enterTo='opacity-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
               >
-                <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+                <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
               </Transition.Child>
 
               <span
-                className="inline-block h-screen align-middle"
-                aria-hidden="true"
+                className='inline-block h-screen align-middle'
+                aria-hidden='true'
               >
                 &#8203;
               </span>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
               >
-                <div className="inline-block w-full h-[25rem] max-w-2xl py-6 px-4 lg:px-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-darkPrimary shadow-xl rounded-2xl">
+                <div className='my-8 inline-block h-[25rem] w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white px-4 py-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary lg:px-6'>
                   <button
-                    className="close-btn absolute top-8 ltr:right-6 rtl:left-6 w-[25px] h-[25px] outline-none"
-                    type="button"
+                    className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
+                    type='button'
                     onClick={() => closeModal()}
                   >
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 rotate-45" />
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 -rotate-45" />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] rotate-45 bg-primaryColor dark:bg-darkText' />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] -rotate-45 bg-primaryColor dark:bg-darkText' />
                   </button>
 
                   <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-2 ltr:text-left rtl:text-right"
+                    as='h3'
+                    className='mb-2 text-lg font-medium leading-6 text-gray-900 dark:text-white ltr:text-left rtl:text-right'
                   >
                     {t('header.room-settings.title')}
                   </Dialog.Title>
                   <hr />
-                  <div className="mt-2">{showTabItems()}</div>
-                  <div className="hidden">{displayBottomText()}</div>
+                  <div className='mt-2'>{showTabItems()}</div>
+                  <div className='hidden'>{displayBottomText()}</div>
                   {/* {displayBottomText()} */}
                 </div>
               </Transition.Child>

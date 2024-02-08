@@ -1,22 +1,22 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { IParticipant } from '../../store/slices/interfaces/participant';
-import sendAPIRequest from '../../helpers/api/plugNmeetAPI';
+import { IParticipant } from '@/store/slices/interfaces/participant';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 import { toast } from 'react-toastify';
-import { store } from '../../store';
+import { store } from '@/store';
 import {
   ApproveWaitingUsersReq,
   CommonResponse,
   RemoveParticipantReq,
-} from '../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 interface IBulkActionProps {
   waitingParticipants: IParticipant[];
 }
 
 const BulkAction = ({ waitingParticipants }: IBulkActionProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const approveEveryone = () => {
     waitingParticipants.forEach(async (p) => {
@@ -29,7 +29,7 @@ const BulkAction = ({ waitingParticipants }: IBulkActionProps) => {
         body.toBinary(),
         false,
         'application/protobuf',
-        'arraybuffer',
+        'arraybuffer'
       );
       const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -57,7 +57,7 @@ const BulkAction = ({ waitingParticipants }: IBulkActionProps) => {
         body.toBinary(),
         false,
         'application/protobuf',
-        'arraybuffer',
+        'arraybuffer'
       );
       const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -70,16 +70,16 @@ const BulkAction = ({ waitingParticipants }: IBulkActionProps) => {
   };
 
   return (
-    <div className="mb-4 flex flex-wrap items-center justify-start">
+    <div className='mb-4 flex flex-wrap items-center justify-start'>
       <button
         onClick={approveEveryone}
-        className="py-1 px-6 ltr:mr-4 rtl:ml-4 rounded-xl text-white text-sm block transition ease-in bg-primaryColor hover:bg-secondaryColor"
+        className='block rounded-xl bg-primaryColor px-6 py-1 text-sm text-white transition ease-in hover:bg-secondaryColor ltr:mr-4 rtl:ml-4'
       >
         {t('waiting-room.accept-all')}
       </button>
       <button
         onClick={rejectEveryone}
-        className="py-1 px-6 rounded-xl text-white text-sm block transition ease-in bg-primaryColor hover:bg-secondaryColor"
+        className='block rounded-xl bg-primaryColor px-6 py-1 text-sm text-white transition ease-in hover:bg-secondaryColor'
       >
         {t('waiting-room.reject-all')}
       </button>

@@ -10,7 +10,7 @@ import AudioElm from './audioElm';
 import {
   CurrentConnectionEvents,
   IConnectLivekit,
-} from '../../../helpers/livekit/types';
+} from '@/helpers/livekit/types';
 
 interface IScreenShareElementsProps {
   currentConnection: IConnectLivekit;
@@ -30,12 +30,12 @@ const ScreenShareElements = ({
     }
     currentConnection.on(
       CurrentConnectionEvents.ScreenShareTracks,
-      setScreenShareTracks,
+      setScreenShareTracks
     );
     return () => {
       currentConnection.off(
         CurrentConnectionEvents.ScreenShareTracks,
-        setScreenShareTracks,
+        setScreenShareTracks
       );
     };
   }, [currentConnection]);

@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { Menu } from '@headlessui/react';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
-import { store, useAppSelector } from '../../../../../store';
-import { participantsSelector } from '../../../../../store/slices/participantSlice';
-import { sendWebsocketMessage } from '../../../../../helpers/websocket';
-import sendAPIRequest from '../../../../../helpers/api/plugNmeetAPI';
+import { store, useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
+import { sendWebsocketMessage } from '@/helpers/websocket';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 import {
   DataMessage,
   DataMsgBodyType,
   DataMsgType,
-} from '../../../../../helpers/proto/plugnmeet_datamessage_pb';
+} from '@/helpers/proto/plugnmeet_datamessage_pb';
 import {
   CommonResponse,
   MuteUnMuteTrackReq,
-} from '../../../../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 interface IMicMenuItemProps {
   userId: string;
 }
 const MicMenuItem = ({ userId }: IMicMenuItemProps) => {
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
   const session = store.getState().session;
   const [text, setText] = useState<string>('Ask to share Microphone');
   const [task, setTask] = useState<string>('');
-  const { t } = useTranslation();
-
+  const t = useTranslations('meet');
   useEffect(() => {
     if (participant?.audioTracks === 0) {
       setText(t('left-panel.menus.items.ask-to-share-microphone').toString());
@@ -75,7 +74,7 @@ const MicMenuItem = ({ userId }: IMicMenuItemProps) => {
       {
         toastId: 'asked-status',
         type: 'info',
-      },
+      }
     );
   };
 
@@ -93,7 +92,7 @@ const MicMenuItem = ({ userId }: IMicMenuItemProps) => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -105,7 +104,7 @@ const MicMenuItem = ({ userId }: IMicMenuItemProps) => {
         {
           toastId: 'asked-status',
           type: 'info',
-        },
+        }
       );
     } else {
       toast(t(res.msg), {
@@ -117,11 +116,11 @@ const MicMenuItem = ({ userId }: IMicMenuItemProps) => {
 
   const render = () => {
     return (
-      <div className="" role="none">
+      <div className='' role='none'>
         <Menu.Item>
           {() => (
             <button
-              className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+              className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
               onClick={() => onClick()}
             >
               {text}

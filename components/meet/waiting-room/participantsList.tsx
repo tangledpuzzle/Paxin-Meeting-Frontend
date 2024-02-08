@@ -1,23 +1,22 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { IParticipant } from '../../store/slices/interfaces/participant';
-import sendAPIRequest from '../../helpers/api/plugNmeetAPI';
+import { IParticipant } from '@/store/slices/interfaces/participant';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 import { toast } from 'react-toastify';
-import { store } from '../../store';
+import { store } from '@/store';
 import {
   ApproveWaitingUsersReq,
   CommonResponse,
   RemoveParticipantReq,
-} from '../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
+import { useTranslations } from 'next-intl';
 
 interface IParticipantsListProps {
   waitingParticipants: IParticipant[];
 }
 
 const ParticipantsList = ({ waitingParticipants }: IParticipantsListProps) => {
-  const { t } = useTranslation();
-
+  const t = useTranslations('meet');
   const acceptUser = async (userId: string) => {
     const body = new ApproveWaitingUsersReq({
       userId: userId,
@@ -28,7 +27,7 @@ const ParticipantsList = ({ waitingParticipants }: IParticipantsListProps) => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -58,7 +57,7 @@ const ParticipantsList = ({ waitingParticipants }: IParticipantsListProps) => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -78,25 +77,25 @@ const ParticipantsList = ({ waitingParticipants }: IParticipantsListProps) => {
     return waitingParticipants.map((p) => {
       return (
         <div
-          className="waiting-list-item mb-2 pb-2 border-b border-solid border-primaryColor w-full max-w-max"
+          className='waiting-list-item mb-2 w-full max-w-max border-b border-solid border-primaryColor pb-2'
           key={p.userId}
         >
-          <p className="text-base text-black dark:text-darkText">{p.name}</p>
+          <p className='text-base text-black dark:text-darkText'>{p.name}</p>
           <button
             onClick={() => acceptUser(p.userId)}
-            className="text-xs text-white py-[1px] px-2 rounded-lg transition ease-in bg-primaryColor hover:bg-secondaryColor"
+            className='rounded-lg bg-primaryColor px-2 py-[1px] text-xs text-white transition ease-in hover:bg-secondaryColor'
           >
             {t('left-panel.approve')}
           </button>
           <button
             onClick={() => rejectUser(p.userId, false)}
-            className="text-xs text-white py-[1px] px-2 rounded-lg transition ease-in bg-red-600 hover:bg-red-800 ltr:ml-2 rtl:mr-2"
+            className='rounded-lg bg-red-600 px-2 py-[1px] text-xs text-white transition ease-in hover:bg-red-800 ltr:ml-2 rtl:mr-2'
           >
             {t('left-panel.reject')}
           </button>
           <button
             onClick={() => rejectUser(p.userId, true)}
-            className="text-xs text-white py-[1px] px-2 rounded-lg transition ease-in bg-red-600 hover:bg-red-800 ltr:ml-2 rtl:mr-2"
+            className='rounded-lg bg-red-600 px-2 py-[1px] text-xs text-white transition ease-in hover:bg-red-800 ltr:ml-2 rtl:mr-2'
           >
             {t('waiting-room.reject-and-block-user')}
           </button>
@@ -106,14 +105,14 @@ const ParticipantsList = ({ waitingParticipants }: IParticipantsListProps) => {
   };
 
   return (
-    <div className="waiting-list-wrap">
-      <p className="text-lg my-4 text-black dark:text-white font-bold ltr:text-left rtl:text-right">
+    <div className='waiting-list-wrap'>
+      <p className='my-4 text-lg font-bold text-black dark:text-white ltr:text-left rtl:text-right'>
         {t('waiting-room.list-waiting-participants', {
           count: waitingParticipants.length,
         })}
       </p>
-      <div className="waiting-list scrollBar h-[130px] overflow-auto">
-        <div className="waiting-list-inner">{renderWaitingParticipants()}</div>
+      <div className='waiting-list scrollBar h-[130px] overflow-auto'>
+        <div className='waiting-list-inner'>{renderWaitingParticipants()}</div>
       </div>
     </div>
   );

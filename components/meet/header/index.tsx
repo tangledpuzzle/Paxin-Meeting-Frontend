@@ -3,11 +3,10 @@ import { createSelector } from '@reduxjs/toolkit';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { Room } from 'livekit-client';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import { useAppSelector, RootState, store, useAppDispatch } from '../../store';
-import sendAPIRequest from '../../helpers/api/plugNmeetAPI';
+import { useAppSelector, RootState, store, useAppDispatch } from '@/store';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 
 import HeaderMenus from './menus';
 import RoomSettings from './room-settings';
@@ -19,9 +18,10 @@ import DarkThemeSwitcher from './darkThemeSwitcher';
 import {
   CommonResponse,
   RoomEndAPIReq,
-} from '../../helpers/proto/plugnmeet_common_api_pb';
-import { toggleHeaderVisibility } from '../../store/slices/roomSettingsSlice';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
+import { toggleHeaderVisibility } from '@/store/slices/roomSettingsSlice';
 import HeaderLogo from './headerLogo';
+import { useTranslations } from 'next-intl';
 
 interface IHeaderProps {
   currentRoom: Room;
@@ -29,19 +29,19 @@ interface IHeaderProps {
 
 const roomTitleSelector = createSelector(
   (state: RootState) => state.session.currentRoom.metadata,
-  (metadata) => metadata?.room_title,
+  (metadata) => metadata?.room_title
 );
 const roomIdSelector = createSelector(
   (state: RootState) => state.session.currentRoom.room_id,
-  (room_id) => room_id,
+  (room_id) => room_id
 );
 const roomDurationSelector = createSelector(
   (state: RootState) => state.session.currentRoom.metadata?.room_features,
-  (room_features) => room_features?.room_duration,
+  (room_features) => room_features?.room_duration
 );
 const headerVisibilitySelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.visibleHeader,
+  (roomSettings) => roomSettings.visibleHeader
 );
 
 const Header = ({ currentRoom }: IHeaderProps) => {
@@ -51,7 +51,7 @@ const Header = ({ currentRoom }: IHeaderProps) => {
   const headerVisible = useAppSelector(headerVisibilitySelector);
   const dispatch = useAppDispatch();
 
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const [showModal, setShowModal] = useState<boolean>(false);
   const [alertText, setAlertText] = useState('');
   const [task, setTask] = useState('');
@@ -87,7 +87,7 @@ const Header = ({ currentRoom }: IHeaderProps) => {
         body.toBinary(),
         false,
         'application/protobuf',
-        'arraybuffer',
+        'arraybuffer'
       );
       const res = CommonResponse.fromBinary(new Uint8Array(r));
       if (!res.status) {
@@ -103,70 +103,70 @@ const Header = ({ currentRoom }: IHeaderProps) => {
       <>
         <Transition appear show={showModal} as={Fragment}>
           <Dialog
-            as="div"
-            className="AlertModal fixed inset-0 z-[9999] overflow-y-auto"
+            as='div'
+            className='AlertModal fixed inset-0 z-[9999] overflow-y-auto'
             onClose={() => false}
           >
-            <div className="min-h-screen px-4 text-center">
+            <div className='min-h-screen px-4 text-center'>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0'
+                enterTo='opacity-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
               >
-                <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+                <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
               </Transition.Child>
 
               <span
-                className="inline-block h-screen align-middle"
-                aria-hidden="true"
+                className='inline-block h-screen align-middle'
+                aria-hidden='true'
               >
                 &#8203;
               </span>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
               >
-                <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-darkPrimary shadow-xl rounded-2xl">
+                <div className='my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className="close-btn absolute top-8 right-6 w-[25px] h-[25px] outline-none"
-                    type="button"
+                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                    type='button'
                     onClick={() => onCloseAlertModal()}
                   >
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 rotate-45" />
-                    <span className="inline-block h-[1px] w-[20px] bg-primaryColor dark:bg-darkText absolute top-0 left-0 -rotate-45" />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] rotate-45 bg-primaryColor dark:bg-darkText' />
+                    <span className='absolute left-0 top-0 inline-block h-[1px] w-[20px] -rotate-45 bg-primaryColor dark:bg-darkText' />
                   </button>
 
                   <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
+                    as='h3'
+                    className='text-lg font-medium leading-6 text-gray-900 dark:text-white'
                   >
                     {t('header.menus.alert.confirm')}
                   </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500 dark:text-darkText">
+                  <div className='mt-2'>
+                    <p className='text-sm text-gray-500 dark:text-darkText'>
                       {alertText}
                     </p>
                   </div>
 
-                  <div className="mt-4">
+                  <div className='mt-4'>
                     <button
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 ltr:mr-4 rtl:ml-4 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      className='inline-flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ltr:mr-4 rtl:ml-4'
                       onClick={() => onCloseAlertModal(true)}
                     >
                       {t('ok')}
                     </button>
                     <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-primaryColor hover:bg-secondaryColor text-white border border-transparent rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      type='button'
+                      className='inline-flex justify-center rounded-md border border-transparent bg-primaryColor px-4 py-2 text-sm font-medium text-white hover:bg-secondaryColor focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
                       onClick={() => onCloseAlertModal(false)}
                     >
                       {t('close')}
@@ -186,30 +186,30 @@ const Header = ({ currentRoom }: IHeaderProps) => {
       <Transition
         show={headerVisible}
         unmount={false}
-        enter="transform duration-200 transition ease-in"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transform duration-200 transition ease-in"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
+        enter='transform duration-200 transition ease-in'
+        enterFrom='opacity-0'
+        enterTo='opacity-100'
+        leave='transform duration-200 transition ease-in'
+        leaveFrom='opacity-100'
+        leaveTo='opacity-0'
       >
         <header
-          id="main-header"
-          className={`relative z-[99999] px-4 h-[50px] shadow-header flex items-center justify-between bg-white dark:bg-darkPrimary transition-transform ${
+          id='main-header'
+          className={`relative z-[99999] flex h-[50px] items-center justify-between bg-white px-4 shadow-header transition-transform dark:bg-darkPrimary ${
             headerVisible ? 'ac' : ''
           }`}
         >
           <div
-            className={`header-before-start absolute top-0 left-[-35px] w-[300px] pointer-events-none bg-cover bg-center h-full`}
+            className={`header-before-start pointer-events-none absolute left-[-35px] top-0 h-full w-[300px] bg-cover bg-center`}
             style={{
               backgroundImage: `url("${assetPath}/imgs/header-before2.png")`,
             }}
           />
-          <div className="logo w-28 relative z-20">
+          <div className='logo relative z-20 w-28'>
             <HeaderLogo />
           </div>
-          <div className="middle flex-auto relative z-20">
-            <h2 className="header-title text-base text-black dark:text-white text-center leading-8">
+          <div className='middle relative z-20 flex-auto'>
+            <h2 className='header-title text-center text-base leading-8 text-black dark:text-white'>
               {roomTitle} (Room ID: {roomId})
               <CopyToClipboard
                 text={roomId}
@@ -233,13 +233,13 @@ const Header = ({ currentRoom }: IHeaderProps) => {
                   });
                 }}
               >
-                <div className="notepad w-8 h-8 rounded-full items-center justify-center inline-block">
-                  <i className="pnm-notepad w-4 h-4 text-primaryColor dark:text-secondaryColor" />
+                <div className='notepad inline-block h-8 w-8 items-center justify-center rounded-full'>
+                  <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
                 </div>
               </CopyToClipboard>
             </h2>
           </div>
-          <div className="dark-area w-28 flex items-center justify-end relative z-20 -right-3">
+          <div className='dark-area relative -right-3 z-20 flex w-28 items-center justify-end'>
             {roomDuration && Number(roomDuration) > 0 ? (
               <DurationView duration={Number(roomDuration)} />
             ) : null}
@@ -248,21 +248,21 @@ const Header = ({ currentRoom }: IHeaderProps) => {
             <Menu>
               {({ open }) => (
                 <>
-                  <Menu.Button className="relative flex-shrink-0 p-2 rtl:-ml-4">
-                    <div className="h-5 w-5 rotate-90 ">
-                      <i className="pnm-menu-small dark:text-secondaryColor" />
+                  <Menu.Button className='relative flex-shrink-0 p-2 rtl:-ml-4'>
+                    <div className='h-5 w-5 rotate-90 '>
+                      <i className='pnm-menu-small dark:text-secondaryColor' />
                     </div>
                   </Menu.Button>
 
                   {/* Use the Transition component. */}
                   <Transition
                     show={open}
-                    enter="transition duration-100 ease-out"
-                    enterFrom="transform scale-95 opacity-0"
-                    enterTo="transform scale-100 opacity-100"
-                    leave="transition duration-75 ease-out"
-                    leaveFrom="transform scale-100 opacity-100"
-                    leaveTo="transform scale-95 opacity-0"
+                    enter='transition duration-100 ease-out'
+                    enterFrom='transform scale-95 opacity-0'
+                    enterTo='transform scale-100 opacity-100'
+                    leave='transition duration-75 ease-out'
+                    leaveFrom='transform scale-100 opacity-100'
+                    leaveTo='transform scale-95 opacity-0'
                   >
                     <HeaderMenus onOpenAlert={(e) => onOpenAlert(e)} />
                   </Transition>
@@ -271,7 +271,7 @@ const Header = ({ currentRoom }: IHeaderProps) => {
             </Menu>
           </div>
           <div
-            className={`header-before-end absolute top-0 right-[-100px] w-[350px] lg:w-[380px] rotate-[156deg] pointer-events-none bg-cover bg-center h-full`}
+            className={`header-before-end pointer-events-none absolute right-[-100px] top-0 h-full w-[350px] rotate-[156deg] bg-cover bg-center lg:w-[380px]`}
             style={{
               backgroundImage: `url("${assetPath}/imgs/header-before2.png")`,
             }}
@@ -280,17 +280,17 @@ const Header = ({ currentRoom }: IHeaderProps) => {
         </header>
       </Transition>
       <div
-        className={`header-collapse-arrow group fixed right-0 flex items-start justify-center h-5 w-[50px] cursor-pointer z-[2] bg-white dark:bg-darkPrimary rounded-bl-lg ${
+        className={`header-collapse-arrow group fixed right-0 z-[2] flex h-5 w-[50px] cursor-pointer items-start justify-center rounded-bl-lg bg-white dark:bg-darkPrimary ${
           headerVisible ? 'top-[50px] pt-[3px]' : 'top-0 pt-[6px]'
         }`}
         onClick={() => dispatch(toggleHeaderVisibility())}
       >
         <i
-          className={`text-[10px] sm:text-[12px] dark:text-secondaryColor pnm-arrow-below ${
+          className={`pnm-arrow-below text-[10px] dark:text-secondaryColor sm:text-[12px] ${
             headerVisible ? 'rotate-180' : ''
           }`}
         ></i>
-        <span className="absolute right-0 top-7 w-max bg-white text-darkPrimary dark:text-white dark:bg-darkPrimary text-[10px] py-1 px-[12px] rounded opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible">
+        <span className='invisible absolute right-0 top-7 w-max rounded bg-white px-[12px] py-1 text-[10px] text-darkPrimary opacity-0 transition-all group-hover:visible group-hover:opacity-100 dark:bg-darkPrimary dark:text-white'>
           {headerVisible ? t('header.hide-header') : t('header.show-header')}
         </span>
       </div>

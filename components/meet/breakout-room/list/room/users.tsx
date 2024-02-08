@@ -1,19 +1,19 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { BreakoutRoomUser } from '../../../../helpers/proto/plugnmeet_breakout_room_pb';
+import { BreakoutRoomUser } from '@/helpers/proto/plugnmeet_breakout_room_pb';
+import { useTranslations } from 'next-intl';
 
 interface IBreakoutRoomUsersProps {
   users: Array<BreakoutRoomUser>;
 }
 const BreakoutRoomUsers = ({ users }: IBreakoutRoomUsersProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   return (
-    <div className="">
+    <div className=''>
       {users.map((user) => {
         return (
           <p
-            className="inline-block pr-2 mr-2 border-r border-solid border-black leading-4 last:border-none last:mr-0 last:pr-0"
+            className='mr-2 inline-block border-r border-solid border-black pr-2 leading-4 last:mr-0 last:border-none last:pr-0'
             key={user.id}
           >
             {user.name} (

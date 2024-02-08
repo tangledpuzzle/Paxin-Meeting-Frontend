@@ -1,33 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import { RoomType, UserType } from './types';
-import { participantsSelector } from '../../../store/slices/participantSlice';
-import useStorePreviousInt from '../../../helpers/hooks/useStorePreviousInt';
-import { updateBreakoutRoomDroppedUser } from '../../../store/slices/breakoutRoomSlice';
-import { useCreateBreakoutRoomsMutation } from '../../../store/services/breakoutRoomApi';
-import { updateShowManageBreakoutRoomModal } from '../../../store/slices/bottomIconsActivitySlice';
+import { participantsSelector } from '@/store/slices/participantSlice';
+import useStorePreviousInt from '@/helpers/hooks/useStorePreviousInt';
+import { updateBreakoutRoomDroppedUser } from '@/store/slices/breakoutRoomSlice';
+import { useCreateBreakoutRoomsMutation } from '@/store/services/breakoutRoomApi';
+import { updateShowManageBreakoutRoomModal } from '@/store/slices/bottomIconsActivitySlice';
 import { RoomBox } from './roomBox';
 import {
   CreateBreakoutRoomsReq,
   BreakoutRoom,
-} from '../../../helpers/proto/plugnmeet_breakout_room_pb';
+} from '@/helpers/proto/plugnmeet_breakout_room_pb';
+import { useTranslations } from 'next-intl';
 
 const droppedUserSelector = createSelector(
   (state: RootState) => state.breakoutRoom,
-  (breakoutRoom) => breakoutRoom.droppedUser,
+  (breakoutRoom) => breakoutRoom.droppedUser
 );
 
 const FromElems = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
   const participants = useAppSelector(participantsSelector.selectAll);
   const droppedUser = useAppSelector(droppedUserSelector);
@@ -36,7 +31,7 @@ const FromElems = () => {
   const preTotalRooms = useStorePreviousInt(totalRooms);
   const [roomDuration, setRoomDuration] = useState<number>(15);
   const [welcomeMsg, setWelcomeMsg] = useState<string>(
-    store.getState().session.currentRoom.metadata?.welcome_message ?? '',
+    store.getState().session.currentRoom.metadata?.welcome_message ?? ''
   );
   const [rooms, setRooms] = useState<Array<RoomType>>();
   const [users, setUsers] = useState<Array<UserType>>([]);
@@ -50,7 +45,7 @@ const FromElems = () => {
         updateBreakoutRoomDroppedUser({
           id: '',
           roomId: 0,
-        }),
+        })
       );
     };
   }, [dispatch]);
@@ -156,21 +151,21 @@ const FromElems = () => {
       options.push(
         <option key={i} value={i + 1}>
           {i + 1}
-        </option>,
+        </option>
       );
     }
 
     return (
-      <div className="numbers-of-room w-full sm:w-56 mb-4 sm:ltr:mr-10 sm:rtl:ml-10">
+      <div className='numbers-of-room mb-4 w-full sm:w-56 sm:ltr:mr-10 sm:rtl:ml-10'>
         <label
-          className="block text-base text-black dark:text-darkText mb-1"
-          htmlFor="breakout-room-number"
+          className='mb-1 block text-base text-black dark:text-darkText'
+          htmlFor='breakout-room-number'
         >
           {t('breakout-room.num-rooms')}
         </label>
         <select
-          className="w-full block outline-none border border-solid rounded p-1 h-9 bg-transparent dark:border-darkText dark:text-darkText"
-          id="breakout-room-number"
+          className='block h-9 w-full rounded border border-solid bg-transparent p-1 outline-none dark:border-darkText dark:text-darkText'
+          id='breakout-room-number'
           onChange={(e) => setTotalRooms(Number(e.currentTarget.value))}
         >
           {options}
@@ -230,54 +225,54 @@ const FromElems = () => {
   };
 
   return (
-    <div className="break-out-room-main-area">
-      <div className="row flex flex-wrap justify-start items-end">
+    <div className='break-out-room-main-area'>
+      <div className='row flex flex-wrap items-end justify-start'>
         {renderBreakoutRoomNumbers()}
-        <div className="room-durations w-full sm:w-56 mb-4">
+        <div className='room-durations mb-4 w-full sm:w-56'>
           <label
-            className="block text-base text-black dark:text-darkText mb-1"
-            htmlFor="breakout-room-duration"
+            className='mb-1 block text-base text-black dark:text-darkText'
+            htmlFor='breakout-room-duration'
           >
             {t('breakout-room.duration')}
           </label>
           <input
-            className="w-full block outline-none border border-solid rounded p-1 h-9 dark:text-darkText dark:border-darkText bg-transparent"
-            id="breakout-room-duration"
-            type="number"
+            className='block h-9 w-full rounded border border-solid bg-transparent p-1 outline-none dark:border-darkText dark:text-darkText'
+            id='breakout-room-duration'
+            type='number'
             value={roomDuration}
             onChange={(e) => setRoomDuration(Number(e.currentTarget.value))}
           />
         </div>
       </div>
-      <div className="row flex flex-wrap justify-between items-end">
-        <div className="room-welcome-messages w-full sm:max-w-[30.5rem] mb-4 sm:ltr:mr-10 sm:rtl:ml-10">
+      <div className='row flex flex-wrap items-end justify-between'>
+        <div className='room-welcome-messages mb-4 w-full sm:max-w-[30.5rem] sm:ltr:mr-10 sm:rtl:ml-10'>
           <label
-            className="block text-base text-black dark:text-darkText mb-1"
-            htmlFor="breakout-room-welcome"
+            className='mb-1 block text-base text-black dark:text-darkText'
+            htmlFor='breakout-room-welcome'
           >
             {t('breakout-room.welcome-msg')}
           </label>
           <textarea
-            className="w-full block outline-none border border-solid rounded p-2 min-h-[60px] dark:text-white/90 dark:border-darkText bg-transparent"
-            id="breakout-room-welcome"
+            className='block min-h-[60px] w-full rounded border border-solid bg-transparent p-2 outline-none dark:border-darkText dark:text-white/90'
+            id='breakout-room-welcome'
             onChange={(e) => setWelcomeMsg(e.currentTarget.value)}
             value={welcomeMsg}
           ></textarea>
         </div>
-        <div className="random-room-select mb-4 ltr:mr-6 rtl:ml-6">
+        <div className='random-room-select mb-4 ltr:mr-6 rtl:ml-6'>
           <button
-            className="text-base text-primaryColor dark:text-secondaryColor"
+            className='text-base text-primaryColor dark:text-secondaryColor'
             onClick={randomSelection}
           >
             {t('breakout-room.random-selection')}
           </button>
         </div>
       </div>
-      <div className="draggable-room-area overflow-hidden clear-both flex flex-wrap">
+      <div className='draggable-room-area clear-both flex flex-wrap overflow-hidden'>
         {rooms?.map((room) => {
           return (
             <div
-              className="room-box-wrap w-[calc(50%-6px)] m-[3px] sm:m-0 sm:w-auto"
+              className='room-box-wrap m-[3px] w-[calc(50%-6px)] sm:m-0 sm:w-auto'
               key={room.id}
             >
               <RoomBox
@@ -289,9 +284,9 @@ const FromElems = () => {
           );
         })}
       </div>
-      <div className="pb-3 pt-4 bg-gray-50 dark:bg-transparent text-right mt-4">
+      <div className='mt-4 bg-gray-50 pb-3 pt-4 text-right dark:bg-transparent'>
         <button
-          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primaryColor hover:bg-secondaryColor focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-secondaryColor"
+          className='inline-flex justify-center rounded-md border border-transparent bg-primaryColor px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondaryColor focus:bg-secondaryColor focus:outline-none focus:ring-2 focus:ring-offset-2'
           onClick={startBreakoutRooms}
         >
           {t('breakout-room.start')}

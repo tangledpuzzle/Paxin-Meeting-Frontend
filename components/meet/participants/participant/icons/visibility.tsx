@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import { useAppSelector } from '../../../../store';
-import { participantsSelector } from '../../../../store/slices/participantSlice';
+import { useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
 
 interface VisibilityIconProps {
   userId: string;
@@ -8,14 +8,14 @@ interface VisibilityIconProps {
 
 const VisibilityIcon = ({ userId }: VisibilityIconProps) => {
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
 
   const render = useMemo(() => {
     if (participant?.visibility === 'hidden') {
       return (
-        <div className="visibility ltr:mr-2 rtl:ml-2 cursor-pointer mt-[2px]">
-          <i className="pnm-eye-slash secondaryColor text-xs" />
+        <div className='visibility mt-[2px] cursor-pointer ltr:mr-2 rtl:ml-2'>
+          <i className='pnm-eye-slash secondaryColor text-xs' />
         </div>
       );
     }

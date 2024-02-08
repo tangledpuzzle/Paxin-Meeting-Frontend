@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { useJoinRoomMutation } from '../../../../store/services/breakoutRoomApi';
-import { store } from '../../../../store';
-import { JoinBreakoutRoomReq } from '../../../../helpers/proto/plugnmeet_breakout_room_pb';
+import { useJoinRoomMutation } from '@/store/services/breakoutRoomApi';
+import { store } from '@/store';
+import { JoinBreakoutRoomReq } from '@/helpers/proto/plugnmeet_breakout_room_pb';
+import { useTranslations } from 'next-intl';
 
 interface IJoinBtnProps {
   breakoutRoomId: string;
 }
 
 const JoinBtn = ({ breakoutRoomId }: IJoinBtnProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const [disable, setDisable] = useState<boolean>(false);
   const [token, setToken] = useState<string>('');
   const [joinRoom, { isLoading, data }] = useJoinRoomMutation();
@@ -61,14 +61,14 @@ const JoinBtn = ({ breakoutRoomId }: IJoinBtnProps) => {
       new JoinBreakoutRoomReq({
         breakoutRoomId: breakoutRoomId,
         userId: store.getState().session.currentUser?.userId ?? '',
-      }),
+      })
     );
   };
 
   return (
-    <div className="join-btn mr-4">
+    <div className='join-btn mr-4'>
       <button
-        className="text-center py-1 px-3 mt-1 text-xs transition ease-in bg-primaryColor hover:bg-secondaryColor text-white font-semibold rounded-lg"
+        className='mt-1 rounded-lg bg-primaryColor px-3 py-1 text-center text-xs font-semibold text-white transition ease-in hover:bg-secondaryColor'
         onClick={join}
         disabled={disable}
       >

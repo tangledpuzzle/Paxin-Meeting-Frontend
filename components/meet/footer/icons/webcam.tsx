@@ -1,26 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 import { createLocalVideoTrack, Room, Track } from 'livekit-client';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import {
   updateIsActiveWebcam,
   updateShowVideoShareModal,
   updateVirtualBackground,
-} from '../../../store/slices/bottomIconsActivitySlice';
+} from '@/store/slices/bottomIconsActivitySlice';
 import ShareWebcamModal from '../modals/webcam/shareWebcam';
 import WebcamMenu from './webcam-menu';
-import { participantsSelector } from '../../../store/slices/participantSlice';
-import { updateSelectedVideoDevice } from '../../../store/slices/roomSettingsSlice';
+import { participantsSelector } from '@/store/slices/participantSlice';
+import { updateSelectedVideoDevice } from '@/store/slices/roomSettingsSlice';
 import VirtualBackground from '../../virtual-background/virtualBackground';
 import { SourcePlayback } from '../../virtual-background/helpers/sourceHelper';
-import { getWebcamResolution } from '../../../helpers/utils';
+import { getWebcamResolution } from '@/helpers/utils';
+import { useTranslations } from 'next-intl';
 
 interface IWebcamIconProps {
   currentRoom: Room;
@@ -28,23 +23,23 @@ interface IWebcamIconProps {
 
 const isActiveWebcamPanelSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveWebcam,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveWebcam
 );
 const showVideoShareModalSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.showVideoShareModal,
+  (bottomIconsActivity) => bottomIconsActivity.showVideoShareModal
 );
 const isWebcamLockSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata?.lock_settings,
-  (lock_settings) => lock_settings?.lock_webcam,
+  (lock_settings) => lock_settings?.lock_webcam
 );
 const virtualBackgroundSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.virtualBackground,
+  (bottomIconsActivity) => bottomIconsActivity.virtualBackground
 );
 const selectedVideoDeviceSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.selectedVideoDevice,
+  (roomSettings) => roomSettings.selectedVideoDevice
 );
 
 const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
@@ -57,7 +52,7 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
   const isWebcamLock = useAppSelector(isWebcamLockSelector);
   const virtualBackground = useAppSelector(virtualBackgroundSelector);
   const selectedVideoDevice = useAppSelector(selectedVideoDeviceSelector);
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const [lockWebcam, setLockWebcam] = useState<boolean>(false);
   const [deviceId, setDeviceId] = useState<string>();
@@ -75,7 +70,7 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
         if (publication.track && publication.source === Track.Source.Camera) {
           await currentRoom.localParticipant.unpublishTrack(
             publication.track,
-            true,
+            true
           );
         }
       }
@@ -86,7 +81,7 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
       setLockWebcam(true);
       const currentUser = participantsSelector.selectById(
         store.getState(),
-        currentRoom.localParticipant.identity,
+        currentRoom.localParticipant.identity
       );
       if (currentUser?.videoTracks) {
         closeMicOnLock();
@@ -196,7 +191,7 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
         ) {
           await currentRoom.localParticipant.unpublishTrack(
             publication.track,
-            true,
+            true
           );
         }
       }
@@ -205,7 +200,7 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
       dispatch(
         updateVirtualBackground({
           type: 'none',
-        }),
+        })
       );
     }
   };
@@ -250,7 +245,7 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
 
   // handle virtual background canvas
   const onCanvasRef = (
-    canvasRef: React.MutableRefObject<HTMLCanvasElement>,
+    canvasRef: React.MutableRefObject<HTMLCanvasElement>
   ) => {
     const stream = canvasRef.current.captureStream(25);
     stream.getTracks().forEach(async (track) => {
@@ -293,28 +288,28 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
 
   const showButtons = () => {
     return (
-      <div className="relative z-10">
+      <div className='relative z-10'>
         <div
-          className={`camera footer-icon relative h-[35px] lg:h-[40px] w-[35px] lg:w-[40px] rounded-full bg-[#F2F2F2] dark:bg-darkSecondary2 hover:bg-[#ECF4FF] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 flex items-center justify-center cursor-pointer ${
+          className={`camera footer-icon relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
             showTooltip ? 'has-tooltip' : ''
           }`}
           onClick={() => toggleWebcam()}
         >
-          <span className="tooltip !-left-3 tooltip-left">
+          <span className='tooltip tooltip-left !-left-3'>
             {getTooltipText()}
           </span>
 
           {!isActiveWebcam ? (
-            <i className="pnm-webcam primaryColor dark:text-darkText text-[12px] lg:text-[14px]" />
+            <i className='pnm-webcam primaryColor text-[12px] dark:text-darkText lg:text-[14px]' />
           ) : null}
           {lockWebcam ? (
-            <div className="arrow-down absolute -bottom-1 -right-1 w-[16px] h-[16px] rounded-full bg-white dark:bg-darkSecondary3 flex items-center justify-center">
-              <i className="pnm-lock primaryColor" />
+            <div className='arrow-down absolute -bottom-1 -right-1 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-white dark:bg-darkSecondary3'>
+              <i className='pnm-lock primaryColor' />
             </div>
           ) : null}
 
           {isActiveWebcam ? (
-            <i className="pnm-webcam secondaryColor text-[12px] lg:text-[14px]" />
+            <i className='pnm-webcam secondaryColor text-[12px] lg:text-[14px]' />
           ) : null}
         </div>
 

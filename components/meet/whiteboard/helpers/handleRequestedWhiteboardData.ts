@@ -1,9 +1,8 @@
-// eslint-disable-next-line import/no-unresolved
+'use client';
 import { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
 import {
   ExcalidrawImperativeAPI,
   NormalizedZoomValue,
-  // eslint-disable-next-line import/no-unresolved
 } from '@excalidraw/excalidraw/types/types';
 import { isInvisiblySmallElement } from '@excalidraw/excalidraw';
 
@@ -67,12 +66,12 @@ export const sendRequestedForWhiteboardData = () => {
 
 export const sendWhiteboardDataAsDonor = (
   excalidrawAPI: ExcalidrawImperativeAPI,
-  sendTo: string,
+  sendTo: string
 ) => {
   // broadcast page info first
   const whiteboard = store.getState().whiteboard;
   const currentFile = whiteboard.whiteboardUploadedOfficeFiles.filter(
-    (f) => f.fileId === whiteboard.currentWhiteboardOfficeFileId,
+    (f) => f.fileId === whiteboard.currentWhiteboardOfficeFileId
   );
   if (!currentFile.length) {
     return;
@@ -99,7 +98,7 @@ export const sendWhiteboardDataAsDonor = (
     updateRequestedWhiteboardData({
       requested: false,
       sendTo: '',
-    }),
+    })
   );
 };
 
@@ -113,7 +112,7 @@ export const isSyncableElement = (element: ExcalidrawElement) => {
 export const broadcastSceneOnChange = (
   allElements: readonly ExcalidrawElement[],
   syncAll: boolean,
-  sendTo?: string,
+  sendTo?: string
 ) => {
   // sync out only the elements we think we need to save bandwidth.
   const syncableElements = allElements.reduce(
@@ -133,7 +132,7 @@ export const broadcastSceneOnChange = (
       }
       return acc;
     },
-    [] as BroadcastedExcalidrawElement[],
+    [] as BroadcastedExcalidrawElement[]
   );
 
   for (const syncableElement of syncableElements) {
@@ -145,7 +144,7 @@ export const broadcastSceneOnChange = (
 
 export const broadcastScreenDataBySocket = (
   elements: readonly ExcalidrawElement[],
-  sendTo?: string,
+  sendTo?: string
 ) => {
   const session = store.getState().session;
   const dataMsg = new DataMessage({
@@ -194,7 +193,7 @@ export const broadcastCurrentPageNumber = (page: number, sendTo?: string) => {
 
 export const broadcastWhiteboardOfficeFile = (
   newFile: IWhiteboardOfficeFile,
-  sendTo?: string,
+  sendTo?: string
 ) => {
   const session = store.getState().session;
   const dataMsg = new DataMessage({
@@ -246,7 +245,7 @@ export const broadcastAppStateChanges = (
   theme: string,
   viewBackgroundColor: string,
   zenModeEnabled: boolean,
-  gridSize: number | null,
+  gridSize: number | null
 ) => {
   if (preScrollX === scrollX && preScrollY === scrollY) {
     // if both same then we don't need to update

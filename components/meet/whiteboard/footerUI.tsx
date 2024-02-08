@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 import usePreviousPage from './helpers/hooks/usePreviousPage';
-import { RootState, store, useAppDispatch, useAppSelector } from '../../store';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import { createSelector } from '@reduxjs/toolkit';
-import { setWhiteboardCurrentPage } from '../../store/slices/whiteboard';
-import { useTranslation } from 'react-i18next';
+import { setWhiteboardCurrentPage } from '@/store/slices/whiteboard';
 import { broadcastCurrentPageNumber } from './helpers/handleRequestedWhiteboardData';
-import sendAPIRequest from '../../helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 import { toast } from 'react-toastify';
 import {
   CommonResponse,
   SwitchPresenterReq,
   SwitchPresenterTask,
-} from '../../helpers/proto/plugnmeet_common_api_pb';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
 import usePreviousFileId from './helpers/hooks/usePreviousFileId';
 import { displaySavedPageData, savePageData } from './helpers/utils';
+import { useTranslations } from 'next-intl';
 
 interface IFooterUIProps {
   excalidrawAPI: ExcalidrawImperativeAPI | null;
@@ -23,22 +23,22 @@ interface IFooterUIProps {
 }
 const totalPagesSelector = createSelector(
   (state: RootState) => state.whiteboard,
-  (whiteboard) => whiteboard.totalPages,
+  (whiteboard) => whiteboard.totalPages
 );
 const currentPageSelector = createSelector(
   (state: RootState) => state.whiteboard,
-  (whiteboard) => whiteboard.currentPage,
+  (whiteboard) => whiteboard.currentPage
 );
 const currentWhiteboardOfficeFileIdSelector = createSelector(
   (state: RootState) => state.whiteboard,
-  (whiteboard) => whiteboard.currentWhiteboardOfficeFileId,
+  (whiteboard) => whiteboard.currentWhiteboardOfficeFileId
 );
 
 const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
   const totalPages = useAppSelector(totalPagesSelector);
   const currentPage = useAppSelector(currentPageSelector);
   const currentWhiteboardOfficeFileId = useAppSelector(
-    currentWhiteboardOfficeFileIdSelector,
+    currentWhiteboardOfficeFileIdSelector
   );
   const previousFileId = usePreviousFileId(currentWhiteboardOfficeFileId);
   const [options, setOptions] = useState<Array<JSX.Element>>();
@@ -46,8 +46,7 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
   const [disableNext, setDisableNext] = useState(false);
   const previousPage = usePreviousPage(currentPage);
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
-
+  const t = useTranslations('meet');
   const currentUser = store.getState().session.currentUser;
   const isAdmin = currentUser?.metadata?.is_admin;
   const isRecorder = currentUser?.isRecorder;
@@ -84,7 +83,7 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
       element.push(
         <option key={i} value={i + 1}>
           {t('whiteboard.page', { count: i + 1 })}
-        </option>,
+        </option>
       );
     }
     setOptions(element);
@@ -141,29 +140,29 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
 
   const renderForAdmin = () => {
     return (
-      <div className="flex wb-page-navigation ml-2">
+      <div className='wb-page-navigation ml-2 flex'>
         <button
-          className="pre w-8 h-8 flex items-center justify-center"
+          className='pre flex h-8 w-8 items-center justify-center'
           onClick={handlePre}
           disabled={disablePre}
         >
-          <i className="pnm-arrow-left-short text-black dark:text-white text-xl opacity-50 rtl:rotate-180" />
+          <i className='pnm-arrow-left-short text-xl text-black opacity-50 dark:text-white rtl:rotate-180' />
         </button>
         <select
-          id="pages"
-          name="pages"
-          className="pagesOpts block h-8 py-1 px-3 border border-gray-300 bg-white dark:bg-darkSecondary rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          id='pages'
+          name='pages'
+          className='pagesOpts block h-8 rounded-md border border-gray-300 bg-white px-3 py-1 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:bg-darkSecondary sm:text-sm'
           onChange={(e) => setCurrentPage(Number(e.currentTarget.value))}
           value={currentPage}
         >
           {options}
         </select>
         <button
-          className="next w-8 h-8 flex items-center justify-center"
+          className='next flex h-8 w-8 items-center justify-center'
           onClick={handleNext}
           disabled={disableNext}
         >
-          <i className="pnm-arrow-right-short text-black dark:text-white text-xl opacity-50 rtl:rotate-180" />
+          <i className='pnm-arrow-right-short text-xl text-black opacity-50 dark:text-white rtl:rotate-180' />
         </button>
       </div>
     );
@@ -180,7 +179,7 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -200,18 +199,18 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
   const renderForParticipant = () => {
     return (
       <div
-        className={`flex text-sm items-center justify-start md:justify-center relative ${
+        className={`relative flex items-center justify-start text-sm md:justify-center ${
           isAdmin && !isRecorder
-            ? 'ltr:pl-3 rtl:pr-3 md:pl-12  md:rtl:pr-4'
+            ? 'md:pl-12 ltr:pl-3 rtl:pr-3  md:rtl:pr-4'
             : 'ltr:pl-3 rtl:pr-3'
         } `}
       >
         {isAdmin && !isRecorder ? (
           <button
-            className="w-8 h-8 rounded-lg border border-solid border-[#3d3d3d] text-[#3d3d3d] dark:text-[#b8b8b8] dark:bg-[#262627] dark:hover:bg-[#3d3d3d] hover:bg-[#3d3d3d] hover:text-[#b8b8b8] flex items-center justify-center ltr:mr-2 rtl:ml-2"
+            className='flex h-8 w-8 items-center justify-center rounded-lg border border-solid border-[#3d3d3d] text-[#3d3d3d] hover:bg-[#3d3d3d] hover:text-[#b8b8b8] dark:bg-[#262627] dark:text-[#b8b8b8] dark:hover:bg-[#3d3d3d] ltr:mr-2 rtl:ml-2'
             onClick={takeOverPresenter}
           >
-            <i className="pnm-presenter text-[14px]" />
+            <i className='pnm-presenter text-[14px]' />
           </button>
         ) : null}
         {t('whiteboard.page', { count: currentPage })}

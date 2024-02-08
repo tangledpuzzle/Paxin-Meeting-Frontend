@@ -3,7 +3,7 @@ import { Room } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
 import EmojiPicker, { EmojiClickData, Theme } from 'emoji-picker-react';
 
-import { RootState, store, useAppSelector } from '../../store';
+import { RootState, store, useAppSelector } from '@/store';
 import TextBoxArea from './text-box';
 import ChatTabs from './chatTabs';
 
@@ -14,11 +14,11 @@ interface IChatComponentProps {
 
 const isChatLockSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata?.lock_settings,
-  (lock_settings) => lock_settings?.lock_chat,
+  (lock_settings) => lock_settings?.lock_chat
 );
 const themeSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.theme,
+  (roomSettings) => roomSettings.theme
 );
 
 const ChatComponent = ({ currentRoom, isRecorder }: IChatComponentProps) => {
@@ -73,21 +73,21 @@ const ChatComponent = ({ currentRoom, isRecorder }: IChatComponentProps) => {
 
   return (
     <>
-      <div className="h-[calc(100%)] messageModule-wrapper relative z-10 right-0 top-0 w-[250px] xl:w-[320px] multi-gradient">
-        <div className="all-MessageModule-wrap h-full">
+      <div className='messageModule-wrapper multi-gradient relative right-0 top-0 z-10 h-[calc(100%)] w-[250px] xl:w-[320px]'>
+        <div className='all-MessageModule-wrap h-full'>
           <ChatTabs />
         </div>
       </div>
       {isRecorder ? (
-        <div className="w-[100%] h-[1px] hiddenAnimation absolute z-50 bottom-0 bg-gradient-to-r from-primaryColor to-secondaryColor" />
+        <div className='hiddenAnimation absolute bottom-0 z-50 h-[1px] w-[100%] bg-gradient-to-r from-primaryColor to-secondaryColor' />
       ) : null}
       {show ? (
         <>
           <div
-            className={`emoji-selection-wrap w-[250px] xl:w-[300px] fixed z-[99] bottom-[120px] lg:bottom-[65px] right-0 left-10 md:left-auto transition ease-in ${
+            className={`emoji-selection-wrap fixed bottom-[120px] left-10 right-0 z-[99] w-[250px] transition ease-in md:left-auto lg:bottom-[65px] xl:w-[300px] ${
               isOpenEmojiPanel
-                ? 'emoji-active opacity-100 visible pointer-events-auto'
-                : 'opacity-0 invisible pointer-events-none'
+                ? 'emoji-active pointer-events-auto visible opacity-100'
+                : 'pointer-events-none invisible opacity-0'
             }`}
           >
             {isOpenEmojiPanel ? (
@@ -98,22 +98,22 @@ const ChatComponent = ({ currentRoom, isRecorder }: IChatComponentProps) => {
               />
             ) : null}
           </div>
-          <div className="message-form fixed z-[99] xl:z-0 bottom-1 w-[250px] xl:w-[320px] bg-white">
+          <div className='message-form fixed bottom-1 z-[99] w-[250px] bg-white xl:z-0 xl:w-[320px]'>
             <TextBoxArea
               currentRoom={currentRoom}
               chosenEmoji={chosenEmoji}
               onAfterSendMessage={onAfterSendMessage}
             />
             <div
-              className={`emoji-picker absolute left-2 md:-left-6 bottom-5 w-5 h-5 cursor-pointer text-secondaryColor dark:text-darkText ${
+              className={`emoji-picker absolute bottom-5 left-2 h-5 w-5 cursor-pointer text-secondaryColor dark:text-darkText md:-left-6 ${
                 isOpenEmojiPanel ? 'emoji-active' : ''
               }`}
               onClick={() => setIsOpenEmojiPanel(!isOpenEmojiPanel)}
             >
               {isOpenEmojiPanel ? (
-                <i className="pnm-cross" />
+                <i className='pnm-cross' />
               ) : (
-                <i className="pnm-emoji" />
+                <i className='pnm-emoji' />
               )}
             </div>
           </div>

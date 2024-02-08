@@ -1,30 +1,30 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
-import { useTranslation } from 'react-i18next';
 import Draggable, {
   ControlPosition,
   DraggableData,
   DraggableEvent,
 } from 'react-draggable';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '../../store';
-import { updateIsActiveSharedNotePad } from '../../store/slices/bottomIconsActivitySlice';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { updateIsActiveSharedNotePad } from '@/store/slices/bottomIconsActivitySlice';
+import { useLocale } from 'next-intl';
 
 const sharedNotepadFeaturesSelector = createSelector(
   (state: RootState) => state.session.currentRoom.metadata?.room_features,
-  (room_features) => room_features?.shared_note_pad_features,
+  (room_features) => room_features?.shared_note_pad_features
 );
 const lockSharedNotepadSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata?.lock_settings,
-  (lock_settings) => lock_settings?.lock_shared_notepad,
+  (lock_settings) => lock_settings?.lock_shared_notepad
 );
 const themeSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.theme,
+  (roomSettings) => roomSettings.theme
 );
 const isActiveSharedNotePadSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveSharedNotePad,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveSharedNotePad
 );
 
 const SharedNotepadElement = () => {
@@ -32,7 +32,7 @@ const SharedNotepadElement = () => {
   const lockSharedNotepad = useAppSelector(lockSharedNotepadSelector);
   const theme = useAppSelector(themeSelector);
   const isActiveSharedNotePad = useAppSelector(isActiveSharedNotePadSelector);
-  const { i18n } = useTranslation();
+  const lang = useLocale();
   const dispatch = useAppDispatch();
   const nodeRef = useRef(null);
 
@@ -64,7 +64,7 @@ const SharedNotepadElement = () => {
 
       if (currentUser?.isRecorder) {
         setUrl(
-          `${url}/p/${sharedNotepadFeatures.read_only_pad_id}?userName=${currentUser?.name}`,
+          `${url}/p/${sharedNotepadFeatures.read_only_pad_id}?userName=${currentUser?.name}`
         );
         return;
       }
@@ -75,7 +75,7 @@ const SharedNotepadElement = () => {
         url = `${url}/p/${sharedNotepadFeatures.read_only_pad_id}?userName=${currentUser?.name}`;
       }
 
-      url += '&userColor=%23' + getUserColor() + '&lang=' + i18n.languages[0];
+      url += '&userColor=%23' + getUserColor() + '&lang=' + lang;
 
       if (theme === 'dark') {
         url += '&theme=monokai';
@@ -88,7 +88,7 @@ const SharedNotepadElement = () => {
       setUrl(null);
     }
     //eslint-disable-next-line
-  }, [sharedNotepadFeatures, lockSharedNotepad, theme, i18n.languages]);
+  }, [sharedNotepadFeatures, lockSharedNotepad, theme, lang]);
 
   const onLoad = () => {
     setLoaded(true);
@@ -108,13 +108,13 @@ const SharedNotepadElement = () => {
         <div
           className={
             isActiveSharedNotePad
-              ? 'w-full notepadMainParent absolute h-full z-10 top-0 left-0 pointer-events-none'
+              ? 'notepadMainParent pointer-events-none absolute left-0 top-0 z-10 h-full w-full'
               : 'hidden'
           }
         >
-          <div className="h-[calc(100%-50px)] mt-9 flex items-end justify-end">
+          <div className='mt-9 flex h-[calc(100%-50px)] items-end justify-end'>
             <Draggable
-              handle="#draggable-h1"
+              handle='#draggable-h1'
               nodeRef={nodeRef}
               onStop={onStopDrag}
               position={
@@ -122,31 +122,31 @@ const SharedNotepadElement = () => {
               }
             >
               <div
-                className="notepad-wrapper h-[calc(100%-80px)] w-full max-w-[400px] max-h-[500px] cursor-move relative pointer-events-auto"
+                className='notepad-wrapper pointer-events-auto relative h-[calc(100%-80px)] max-h-[500px] w-full max-w-[400px] cursor-move'
                 ref={nodeRef}
               >
                 <div
-                  id="draggable-h1"
-                  className="absolute top-2 md:top-0 left-0 h-7 w-full text-white flex items-center justify-center text-sm"
+                  id='draggable-h1'
+                  className='absolute left-0 top-2 flex h-7 w-full items-center justify-center text-sm text-white md:top-0'
                 ></div>
                 <div
-                  className="hide-icon absolute pl-2 w-16 h-7 cursor-pointer flex items-center"
+                  className='hide-icon absolute flex h-7 w-16 cursor-pointer items-center pl-2'
                   onClick={minimizePad}
                 >
-                  <div className="line h-0.5 w-6 bg-white"></div>
+                  <div className='line h-0.5 w-6 bg-white'></div>
                 </div>
-                <div className="inner w-full h-full border-t-[28px] border-solid border-primaryColor">
+                <div className='inner h-full w-full border-t-[28px] border-solid border-primaryColor'>
                   {!loaded ? (
-                    <div className="loading absolute left-[50%] top-[40%] flex justify-center">
-                      <div className="lds-ripple">
-                        <div className="border-secondaryColor"></div>
-                        <div className="border-secondaryColor"></div>
+                    <div className='loading absolute left-[50%] top-[40%] flex justify-center'>
+                      <div className='lds-ripple'>
+                        <div className='border-secondaryColor'></div>
+                        <div className='border-secondaryColor'></div>
                       </div>
                     </div>
                   ) : null}
                   <iframe
-                    height="100%"
-                    width="100%"
+                    height='100%'
+                    width='100%'
                     src={url}
                     onLoad={onLoad}
                   />

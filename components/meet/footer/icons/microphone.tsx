@@ -6,57 +6,52 @@ import {
   Room,
   Track,
 } from 'livekit-client';
-import { useTranslation } from 'react-i18next';
 import { proto3 } from '@bufbuild/protobuf';
 import { isEmpty } from 'lodash';
 
-import {
-  RootState,
-  store,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../store';
+import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import {
   updateIsActiveMicrophone,
   updateIsMicMuted,
   updateShowMicrophoneModal,
-} from '../../../store/slices/bottomIconsActivitySlice';
+} from '@/store/slices/bottomIconsActivitySlice';
 import MicMenu from './mic-menu';
-import { participantsSelector } from '../../../store/slices/participantSlice';
+import { participantsSelector } from '@/store/slices/participantSlice';
 import MicrophoneModal from '../modals/microphoneModal';
-import { updateMuteOnStart } from '../../../store/slices/sessionSlice';
-import { updateSelectedAudioDevice } from '../../../store/slices/roomSettingsSlice';
-import { sendAnalyticsByWebsocket } from '../../../helpers/websocket';
+import { updateMuteOnStart } from '@/store/slices/sessionSlice';
+import { updateSelectedAudioDevice } from '@/store/slices/roomSettingsSlice';
+import { sendAnalyticsByWebsocket } from '@/helpers/websocket';
 import {
   AnalyticsEvents,
   AnalyticsEventType,
   AnalyticsStatus,
-} from '../../../helpers/proto/plugnmeet_analytics_pb';
-import { getAudioPreset } from '../../../helpers/utils';
+} from '@/helpers/proto/plugnmeet_analytics_pb';
+import { getAudioPreset } from '@/helpers/utils';
+import { useTranslations } from 'next-intl';
 
 interface IMicrophoneIconProps {
   currentRoom: Room;
 }
 const isActiveMicrophoneSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveMicrophone,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveMicrophone
 );
 const showMicrophoneModalSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.showMicrophoneModal,
+  (bottomIconsActivity) => bottomIconsActivity.showMicrophoneModal
 );
 const isMicLockSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata?.lock_settings,
-  (lock_settings) => lock_settings?.lock_microphone,
+  (lock_settings) => lock_settings?.lock_microphone
 );
 const isMicMutedSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isMicMuted,
+  (bottomIconsActivity) => bottomIconsActivity.isMicMuted
 );
 
 const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const session = store.getState().session;
   const showTooltip = session.userDeviceType === 'desktop';
@@ -83,7 +78,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
         ) {
           await currentRoom.localParticipant.unpublishTrack(
             publication.track,
-            true,
+            true
           );
         }
       }
@@ -97,7 +92,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
 
       const currentUser = participantsSelector.selectById(
         store.getState(),
-        currentRoom.localParticipant.identity,
+        currentRoom.localParticipant.identity
       );
       if (currentUser?.audioTracks) {
         closeMicOnLock();
@@ -138,7 +133,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
             AnalyticsEventType.USER,
             undefined,
             undefined,
-            BigInt(cal),
+            BigInt(cal)
           );
         }
       } else {
@@ -148,19 +143,19 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
           AnalyticsEventType.USER,
           undefined,
           undefined,
-          BigInt(1),
+          BigInt(1)
         );
       }
     };
 
     currentRoom.localParticipant.on(
       ParticipantEvent.IsSpeakingChanged,
-      speakingHandler,
+      speakingHandler
     );
     return () => {
       currentRoom.localParticipant.off(
         ParticipantEvent.IsSpeakingChanged,
-        speakingHandler,
+        speakingHandler
       );
     };
   }, [currentRoom]);
@@ -182,7 +177,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
             AnalyticsEvents.ANALYTICS_EVENT_USER_MIC_STATUS,
             AnalyticsEventType.USER,
             proto3.getEnumType(AnalyticsStatus).values[AnalyticsStatus.UNMUTED]
-              .name,
+              .name
           );
         } else {
           await publication.track.mute();
@@ -192,7 +187,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
             AnalyticsEvents.ANALYTICS_EVENT_USER_MIC_STATUS,
             AnalyticsEventType.USER,
             proto3.getEnumType(AnalyticsStatus).values[AnalyticsStatus.MUTED]
-              .name,
+              .name
           );
         }
       }
@@ -273,7 +268,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
   };
 
   return (
-    <div className="relative z-10">
+    <div className='relative z-10'>
       {showMicrophoneModal ? (
         <MicrophoneModal
           show={showMicrophoneModal}
@@ -281,32 +276,32 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
         />
       ) : null}
       <div
-        className={`microphone footer-icon relative h-[35px] lg:h-[40px] w-[35px] lg:w-[40px] rounded-full bg-[#F2F2F2] dark:bg-darkSecondary2 hover:bg-[#ECF4FF] ltr:mr-3 lg:ltr:mr-6 flex items-center justify-center cursor-pointer ${
+        className={`microphone footer-icon relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 ${
           showTooltip ? 'has-tooltip' : ''
         }`}
         onClick={() => manageMic()}
       >
-        <span className="tooltip rtl:-left-3 rtl:microphone-rtl-left">
+        <span className='tooltip rtl:microphone-rtl-left rtl:-left-3'>
           {getTooltipText()}
         </span>
 
         {!isActiveMicrophone ? (
           <>
-            <i className="pnm-mic-unmute primaryColor dark:text-darkText text-[12px] lg:text-[14px]" />
+            <i className='pnm-mic-unmute primaryColor text-[12px] dark:text-darkText lg:text-[14px]' />
             {lockMic ? (
-              <div className="arrow-down absolute -bottom-1 -right-1 w-[16px] h-[16px] rounded-full bg-white dark:bg-darkSecondary3 flex items-center justify-center">
-                <i className="pnm-lock primaryColor dark:text-darkText" />
+              <div className='arrow-down absolute -bottom-1 -right-1 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-white dark:bg-darkSecondary3'>
+                <i className='pnm-lock primaryColor dark:text-darkText' />
               </div>
             ) : null}
           </>
         ) : null}
 
         {!isMicMuted && isActiveMicrophone ? (
-          <i className="pnm-mic-unmute secondaryColor  text-[12px] lg:text-[14px]" />
+          <i className='pnm-mic-unmute secondaryColor  text-[12px] lg:text-[14px]' />
         ) : null}
 
         {isMicMuted && isActiveMicrophone ? (
-          <i className="pnm-mic-mute secondaryColor text-[12px] lg:text-[14px]" />
+          <i className='pnm-mic-mute secondaryColor text-[12px] lg:text-[14px]' />
         ) : null}
       </div>
 

@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Menu } from '@headlessui/react';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
-import { store, useAppSelector } from '../../../../../store';
-import { participantsSelector } from '../../../../../store/slices/participantSlice';
-import { sendWebsocketMessage } from '../../../../../helpers/websocket';
+import { store, useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
+import { sendWebsocketMessage } from '@/helpers/websocket';
 import {
   DataMessage,
   DataMsgBodyType,
   DataMsgType,
-} from '../../../../../helpers/proto/plugnmeet_datamessage_pb';
+} from '@/helpers/proto/plugnmeet_datamessage_pb';
+import { useTranslations } from 'next-intl';
 
 interface IWebcamMenuItemProps {
   userId: string;
 }
 const WebcamMenuItem = ({ userId }: IWebcamMenuItemProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
   const roomFeatures =
     store.getState().session.currentRoom.metadata?.room_features;
@@ -65,17 +65,17 @@ const WebcamMenuItem = ({ userId }: IWebcamMenuItemProps) => {
       {
         toastId: 'asked-status',
         type: 'info',
-      },
+      }
     );
   };
 
   const render = () => {
     return (
-      <div className="" role="none">
+      <div className='' role='none'>
         <Menu.Item>
           {() => (
             <button
-              className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+              className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
               onClick={() => onClick()}
             >
               {text}

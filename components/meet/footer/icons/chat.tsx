@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
-import { useTranslation } from 'react-i18next';
 
-import {
-  useAppSelector,
-  RootState,
-  useAppDispatch,
-  store,
-} from '../../../store';
-import { updateIsActiveChatPanel } from '../../../store/slices/bottomIconsActivitySlice';
-import { IRoomMetadata } from '../../../store/slices/interfaces/session';
+import { useAppSelector, RootState, useAppDispatch, store } from '@/store';
+import { updateIsActiveChatPanel } from '@/store/slices/bottomIconsActivitySlice';
+import { IRoomMetadata } from '@/store/slices/interfaces/session';
+import { useTranslations } from 'next-intl';
 
 const isActiveChatPanelSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveChatPanel,
+  (bottomIconsActivity) => bottomIconsActivity.isActiveChatPanel
 );
 
 const totalUnreadChatMsgsSelector = createSelector(
   (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.totalUnreadChatMsgs,
+  (bottomIconsActivity) => bottomIconsActivity.totalUnreadChatMsgs
 );
 
 const ChatIcon = () => {
   const dispatch = useAppDispatch();
   const showTooltip = store.getState().session.userDeviceType === 'desktop';
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const isActiveChatPanel = useAppSelector(isActiveChatPanelSelector);
   const totalUnreadChatMsgs = useAppSelector(totalUnreadChatMsgsSelector);
@@ -55,12 +50,12 @@ const ChatIcon = () => {
   const render = () => {
     return (
       <div
-        className={`message footer-icon h-[35px] lg:h-[40px] w-[35px] lg:w-[40px] relative rounded-full bg-[#F2F2F2] dark:bg-darkSecondary2 hover:bg-[#ECF4FF] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 flex items-center justify-center cursor-pointer ${
+        className={`message footer-icon relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
           showTooltip ? 'has-tooltip' : ''
         }`}
         onClick={() => toggleChatPanel()}
       >
-        <span className="tooltip">
+        <span className='tooltip'>
           {isActiveChatPanel
             ? t('footer.icons.hide-chat-panel')
             : t('footer.icons.show-chat-panel')}
@@ -68,7 +63,7 @@ const ChatIcon = () => {
 
         <i className={`pnm-chat ${iconCSS} text-[14px] lg:text-[16px]`} />
         {!isActiveChatPanel && totalUnreadChatMsgs > 0 ? (
-          <div className="unseen-message-count bg-brandRed w-5 h-5 rounded-full text-xs text-white absolute -top-2 -right-1 flex justify-center items-center">
+          <div className='unseen-message-count absolute -right-1 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-brandRed text-xs text-white'>
             {totalUnreadChatMsgs}
           </div>
         ) : null}

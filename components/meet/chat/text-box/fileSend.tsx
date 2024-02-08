@@ -1,25 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Room } from 'livekit-client';
-import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, store, useAppSelector } from '../../../store';
+import { RootState, store, useAppSelector } from '@/store';
 import {
   isSocketConnected,
   sendAnalyticsByWebsocket,
   sendWebsocketMessage,
-} from '../../../helpers/websocket';
-import useResumableFilesUpload from '../../../helpers/hooks/useResumableFilesUpload';
+} from '@/helpers/websocket';
+import useResumableFilesUpload from '@/helpers/hooks/useResumableFilesUpload';
 import {
   DataMessage,
   DataMsgBodyType,
   DataMsgType,
-} from '../../../helpers/proto/plugnmeet_datamessage_pb';
+} from '@/helpers/proto/plugnmeet_datamessage_pb';
 import {
   AnalyticsEvents,
   AnalyticsEventType,
-} from '../../../helpers/proto/plugnmeet_analytics_pb';
+} from '@/helpers/proto/plugnmeet_analytics_pb';
+import { useTranslations } from 'next-intl';
 
 interface IFileSendProps {
   isChatServiceReady: boolean;
@@ -29,7 +29,7 @@ interface IFileSendProps {
 
 const selectedChatOptionSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.selectedChatOption,
+  (roomSettings) => roomSettings.selectedChatOption
 );
 
 const FileSend = ({
@@ -38,7 +38,7 @@ const FileSend = ({
   currentRoom,
 }: IFileSendProps) => {
   const inputFile = useRef<HTMLInputElement>(null);
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const [files, setFiles] = useState<Array<File>>();
   const selectedChatOption = useAppSelector(selectedChatOptionSelector);
 
@@ -112,7 +112,7 @@ const FileSend = ({
     sendAnalyticsByWebsocket(
       AnalyticsEvents.ANALYTICS_EVENT_USER_CHAT_FILES,
       AnalyticsEventType.USER,
-      fileName,
+      fileName
     );
   };
 
@@ -120,8 +120,8 @@ const FileSend = ({
     return (
       <>
         <input
-          type="file"
-          id="chat-file"
+          type='file'
+          id='chat-file'
           ref={inputFile}
           accept={accept}
           style={{ display: 'none' }}
@@ -130,9 +130,9 @@ const FileSend = ({
         <button
           disabled={!isChatServiceReady || lockSendFile || isUploading}
           onClick={() => openFileBrowser()}
-          className="w-4 h-6 px-2"
+          className='h-6 w-4 px-2'
         >
-          <i className="pnm-attachment primaryColor text-[20px] opacity-50 dark:text-secondaryColor" />
+          <i className='pnm-attachment primaryColor text-[20px] opacity-50 dark:text-secondaryColor' />
         </button>
       </>
     );

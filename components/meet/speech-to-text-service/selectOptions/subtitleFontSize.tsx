@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
-import useStorePreviousInt from '../../../helpers/hooks/useStorePreviousInt';
-import { useAppDispatch } from '../../../store';
-import { updateSubtitleFontSize } from '../../../store/slices/speechServicesSlice';
+import useStorePreviousInt from '@/helpers/hooks/useStorePreviousInt';
+import { useAppDispatch } from '@/store';
+import { updateSubtitleFontSize } from '@/store/slices/speechServicesSlice';
+import { useTranslations } from 'next-intl';
 
 const SubtitleFontSize = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const dispatch = useAppDispatch();
 
   const [fontSize, setFontSize] = useState<number>(14);
@@ -19,13 +19,13 @@ const SubtitleFontSize = () => {
   }, [dispatch, fontSize, previousFontSize]);
 
   return (
-    <div className="flex items-center justify-between mt-2">
-      <p className="text-sm dark:text-darkText">
+    <div className='mt-2 flex items-center justify-between'>
+      <p className='text-sm dark:text-darkText'>
         {t('speech-services.subtitle-font-size')}
       </p>
-      <section className="flex items-center w-[150px] sm:w-[250px]">
+      <section className='flex w-[150px] items-center sm:w-[250px]'>
         <input
-          type="range"
+          type='range'
           min={0}
           max={30}
           step={1}
@@ -33,9 +33,9 @@ const SubtitleFontSize = () => {
           onChange={(event) => {
             setFontSize(event.target.valueAsNumber);
           }}
-          className="range flex-1"
+          className='range flex-1'
         />
-        <p className="w-10 text-center text-sm dark:text-white">{fontSize}</p>
+        <p className='w-10 text-center text-sm dark:text-white'>{fontSize}</p>
       </section>
     </div>
   );

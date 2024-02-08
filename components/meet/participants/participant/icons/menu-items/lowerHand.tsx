@@ -1,17 +1,17 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
 
-import { store, useAppDispatch, useAppSelector } from '../../../../../store';
-import { participantsSelector } from '../../../../../store/slices/participantSlice';
-import sendAPIRequest from '../../../../../helpers/api/plugNmeetAPI';
-import { updateIsActiveRaisehand } from '../../../../../store/slices/bottomIconsActivitySlice';
+import { store, useAppDispatch, useAppSelector } from '@/store';
+import { participantsSelector } from '@/store/slices/participantSlice';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import { updateIsActiveRaisehand } from '@/store/slices/bottomIconsActivitySlice';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 import {
   CommonResponse,
   DataMessageReq,
-} from '../../../../../helpers/proto/plugnmeet_common_api_pb';
-import { DataMsgBodyType } from '../../../../../helpers/proto/plugnmeet_datamessage_pb';
+} from '@/helpers/proto/plugnmeet_common_api_pb';
+import { DataMsgBodyType } from '@/helpers/proto/plugnmeet_datamessage_pb';
+import { useTranslations } from 'next-intl';
 
 interface ILowerHandMenuItemProps {
   userId: string;
@@ -19,10 +19,10 @@ interface ILowerHandMenuItemProps {
 
 const LowerHandMenuItem = ({ userId }: ILowerHandMenuItemProps) => {
   const participant = useAppSelector((state) =>
-    participantsSelector.selectById(state, userId),
+    participantsSelector.selectById(state, userId)
   );
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
 
   const onClick = async () => {
     const session = store.getState().session;
@@ -38,7 +38,7 @@ const LowerHandMenuItem = ({ userId }: ILowerHandMenuItemProps) => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CommonResponse.fromBinary(new Uint8Array(r));
 
@@ -53,11 +53,11 @@ const LowerHandMenuItem = ({ userId }: ILowerHandMenuItemProps) => {
 
   const render = () => {
     return (
-      <div className="" role="none">
+      <div className='' role='none'>
         <Menu.Item>
           {() => (
             <button
-              className="text-gray-900 dark:text-darkText group flex rounded-md items-center text-left w-full px-2 py-[0.4rem] text-xs lg:text-sm transition ease-in hover:bg-primaryColor hover:text-white"
+              className='group flex w-full items-center rounded-md px-2 py-[0.4rem] text-left text-xs text-gray-900 transition ease-in hover:bg-primaryColor hover:text-white dark:text-darkText lg:text-sm'
               onClick={() => onClick()}
             >
               {t('footer.icons.lower-hand')}

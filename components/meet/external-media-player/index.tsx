@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppDispatch, useAppSelector } from '../../store';
-import { resetExternalMediaPlayer } from '../../store/slices/externalMediaPlayer';
+import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { resetExternalMediaPlayer } from '@/store/slices/externalMediaPlayer';
 import VideoJsPlayerComponent from './video-js';
 import ReactPlayerComponent from './reactPlayerComponent';
 
@@ -10,26 +10,26 @@ const isActiveSelector = createSelector(
   (state: RootState) =>
     state.session.currentRoom.metadata?.room_features
       .external_media_player_features,
-  (external_media_player_features) => external_media_player_features?.is_active,
+  (external_media_player_features) => external_media_player_features?.is_active
 );
 const playBackUrlSelector = createSelector(
   (state: RootState) =>
     state.session.currentRoom.metadata?.room_features
       .external_media_player_features,
-  (external_media_player_features) => external_media_player_features?.url,
+  (external_media_player_features) => external_media_player_features?.url
 );
 const actionSelector = createSelector(
   (state: RootState) => state.externalMediaPlayer,
-  (externalMediaPlayer) => externalMediaPlayer.action,
+  (externalMediaPlayer) => externalMediaPlayer.action
 );
 const seekToSelector = createSelector(
   (state: RootState) => state.externalMediaPlayer,
-  (externalMediaPlayer) => externalMediaPlayer.seekTo,
+  (externalMediaPlayer) => externalMediaPlayer.seekTo
 );
 
 const isPresenterSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata,
-  (metadata) => metadata?.is_presenter,
+  (metadata) => metadata?.is_presenter
 );
 
 const ExternalMediaPlayer = () => {
@@ -55,7 +55,7 @@ const ExternalMediaPlayer = () => {
         AUDIO_EXTENSIONS.test(playBackUrl) ||
           VIDEO_EXTENSIONS.test(playBackUrl) ||
           HLS_EXTENSIONS.test(playBackUrl) ||
-          DASH_EXTENSIONS.test(playBackUrl),
+          DASH_EXTENSIONS.test(playBackUrl)
       );
     }
     //eslint-disable-next-line
@@ -63,8 +63,8 @@ const ExternalMediaPlayer = () => {
 
   const render = () => {
     return (
-      <div className="externalMediaPlayerWrapper m-auto w-full flex items-center justify-center max-w-[1000px] flex-1 p-4">
-        <div className="media-player-inner">
+      <div className='externalMediaPlayerWrapper m-auto flex w-full max-w-[1000px] flex-1 items-center justify-center p-4'>
+        <div className='media-player-inner'>
           {showVideoJsPlayer ? (
             <VideoJsPlayerComponent
               src={playBackUrl ?? ''}

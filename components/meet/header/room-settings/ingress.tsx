@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { createSelector } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
@@ -8,26 +7,27 @@ import {
   CreateIngressReq,
   CreateIngressRes,
   IngressInput,
-} from '../../../helpers/proto/plugnmeet_ingress_pb';
-import { RootState, store, useAppSelector } from '../../../store';
-import sendAPIRequest from '../../../helpers/api/plugNmeetAPI';
+} from '@/helpers/proto/plugnmeet_ingress_pb';
+import { RootState, store, useAppSelector } from '@/store';
+import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import { useTranslations } from 'next-intl';
 
 const ingressFeaturesSelector = createSelector(
   (state: RootState) => state.session.currentRoom?.metadata?.room_features,
-  (room_features) => room_features?.ingress_features,
+  (room_features) => room_features?.ingress_features
 );
 
 const Ingress = () => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const [name, setName] = useState<string>('broadcaster');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [ingressType, setIngressType] = useState<IngressInput>(
-    IngressInput.RTMP_INPUT,
+    IngressInput.RTMP_INPUT
   );
   const session = store.getState().session;
   const ingressFeatures = useAppSelector(ingressFeaturesSelector);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault();
     setErrorMsg(null);
 
@@ -52,7 +52,7 @@ const Ingress = () => {
       body.toBinary(),
       false,
       'application/protobuf',
-      'arraybuffer',
+      'arraybuffer'
     );
     const res = CreateIngressRes.fromBinary(new Uint8Array(r));
     if (!res.status) {
@@ -67,18 +67,18 @@ const Ingress = () => {
   const renderFrom = () => {
     return (
       <>
-        <form method="POST" onSubmit={(e) => onSubmit(e)}>
-          <div className="flex items-center justify-between mb-2">
+        <form method='POST' onSubmit={(e) => onSubmit(e)}>
+          <div className='mb-2 flex items-center justify-between'>
             <label
-              htmlFor="quality"
-              className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right"
+              htmlFor='quality'
+              className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'
             >
               {t('ingress-features.ingress-type')}
             </label>
             <select
-              id="quality"
-              name="quality"
-              className="mt-1 block py-2 px-3 border border-gray-300 dark:border-darkText dark:text-darkText bg-transparent rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              id='quality'
+              name='quality'
+              className='mt-1 block rounded-md border border-gray-300 bg-transparent px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
               value={ingressType}
               onChange={(e) => setIngressType(Number(e.target.value))}
             >
@@ -90,31 +90,31 @@ const Ingress = () => {
               </option>
             </select>
           </div>
-          <div className="flex items-center justify-between mb-2">
+          <div className='mb-2 flex items-center justify-between'>
             <label
-              htmlFor="stream-key"
-              className="pr-4 w-full dark:text-darkText ltr:text-left rtl:text-right"
+              htmlFor='stream-key'
+              className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'
             >
               {t('ingress-features.join-as-name')}
             </label>
             <input
-              type="text"
-              name="name"
-              id="name"
+              type='text'
+              name='name'
+              id='name'
               value={name}
               onChange={(e) => setName(e.currentTarget.value)}
-              className="mt-1 px-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md h-10 border border-solid border-black/50 dark:border-darkText bg-transparent dark:text-darkText"
+              className='mt-1 block h-10 w-full rounded-md border border-solid border-black/50 bg-transparent px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
             />
             {errorMsg ? (
-              <div className="error-msg text-xs text-red-600 py-2">
+              <div className='error-msg py-2 text-xs text-red-600'>
                 {errorMsg}
               </div>
             ) : null}
           </div>
-          <div className="pb-3 pt-4 bg-gray-50 dark:bg-transparent text-right mt-4">
+          <div className='mt-4 bg-gray-50 pb-3 pt-4 text-right dark:bg-transparent'>
             <button
-              type="submit"
-              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primaryColor hover:bg-secondaryColor focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-secondaryColor"
+              type='submit'
+              className='inline-flex justify-center rounded-md border border-transparent bg-primaryColor px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondaryColor focus:bg-secondaryColor focus:outline-none focus:ring-2 focus:ring-offset-2'
             >
               {t('ingress-features.gen-link')}
             </button>
@@ -127,54 +127,54 @@ const Ingress = () => {
   const render = () => {
     return (
       <>
-        <div className="grid">
-          <div className="flex items-center justify-start">
+        <div className='grid'>
+          <div className='flex items-center justify-start'>
             <label
-              htmlFor="ingress_type"
-              className="pr-4 w-full dark:text-darkText"
+              htmlFor='ingress_type'
+              className='w-full pr-4 dark:text-darkText'
             >
               {t('ingress-features.ingress-type')}
             </label>
             <input
-              type="text"
+              type='text'
               readOnly={true}
-              name="ingress_type"
-              id="ingress_type"
+              name='ingress_type'
+              id='ingress_type'
               value={ingressFeatures?.input_type?.toString()}
-              className="mt-1 px-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md h-10 border border-solid border-black/50 dark:border-darkText bg-transparent dark:text-darkText"
+              className='mt-1 block h-10 w-full rounded-md border border-solid border-black/50 bg-transparent px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
             />
           </div>
         </div>
-        <div className="grid">
-          <div className="flex items-center justify-start">
-            <label htmlFor="url" className="pr-4 w-full dark:text-darkText">
+        <div className='grid'>
+          <div className='flex items-center justify-start'>
+            <label htmlFor='url' className='w-full pr-4 dark:text-darkText'>
               {t('ingress-features.stream-url')}
             </label>
             <input
-              type="text"
+              type='text'
               readOnly={true}
-              name="url"
-              id="url"
+              name='url'
+              id='url'
               value={ingressFeatures?.url}
-              className="mt-1 px-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md h-10 border border-solid border-black/50 dark:border-darkText bg-transparent dark:text-darkText"
+              className='mt-1 block h-10 w-full rounded-md border border-solid border-black/50 bg-transparent px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
             />
           </div>
         </div>
-        <div className="grid">
-          <div className="flex items-center justify-start">
+        <div className='grid'>
+          <div className='flex items-center justify-start'>
             <label
-              htmlFor="stream_key"
-              className="pr-4 w-full dark:text-darkText"
+              htmlFor='stream_key'
+              className='w-full pr-4 dark:text-darkText'
             >
               {t('ingress-features.stream-key')}
             </label>
             <input
-              type="text"
+              type='text'
               readOnly={true}
-              name="stream_key"
-              id="stream_key"
+              name='stream_key'
+              id='stream_key'
               value={ingressFeatures?.stream_key}
-              className="mt-1 px-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md h-10 border border-solid border-black/50 dark:border-darkText bg-transparent dark:text-darkText"
+              className='mt-1 block h-10 w-full rounded-md border border-solid border-black/50 bg-transparent px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
             />
           </div>
         </div>
@@ -183,7 +183,7 @@ const Ingress = () => {
   };
 
   return (
-    <div className="mt-2">
+    <div className='mt-2'>
       {isEmpty(ingressFeatures?.url) && isEmpty(ingressFeatures?.stream_key)
         ? renderFrom()
         : render()}

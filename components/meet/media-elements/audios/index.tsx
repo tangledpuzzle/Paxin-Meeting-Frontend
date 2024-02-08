@@ -5,7 +5,7 @@ import AudioElm from './audio';
 import {
   CurrentConnectionEvents,
   IConnectLivekit,
-} from '../../../helpers/livekit/types';
+} from '@/helpers/livekit/types';
 
 interface IAudioElementsProps {
   currentConnection: IConnectLivekit;
@@ -20,12 +20,12 @@ const AudioElements = ({ currentConnection }: IAudioElementsProps) => {
     }
     currentConnection.on(
       CurrentConnectionEvents.AudioSubscribers,
-      setAudioSubscribers,
+      setAudioSubscribers
     );
     return () => {
       currentConnection.off(
         CurrentConnectionEvents.AudioSubscribers,
-        setAudioSubscribers,
+        setAudioSubscribers
       );
     };
   }, [currentConnection]);
@@ -42,7 +42,7 @@ const AudioElements = ({ currentConnection }: IAudioElementsProps) => {
             userId={participant.identity}
             track={track}
             key={track.trackSid}
-          />,
+          />
         );
       });
     });

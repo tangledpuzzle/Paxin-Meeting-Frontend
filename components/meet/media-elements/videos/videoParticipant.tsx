@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import { LocalParticipant, RemoteParticipant, Track } from 'livekit-client';
 
 import VideoComponent from './video';
-import { useAppSelector } from '../../../store';
-import { activeSpeakersSelector } from '../../../store/slices/activeSpeakersSlice';
+import { useAppSelector } from '@/store';
+import { activeSpeakersSelector } from '@/store/slices/activeSpeakersSlice';
 import { VideoParticipantType } from './videosComponentElms';
 
 interface VideoParticipantProps {
@@ -15,7 +15,7 @@ const VideoParticipant = ({
   participant,
 }: VideoParticipantProps) => {
   const isSpeaking = useAppSelector((state) =>
-    activeSpeakersSelector.selectById(state, participant.identity),
+    activeSpeakersSelector.selectById(state, participant.identity)
   );
 
   const renderVideoElms = useMemo(() => {
@@ -23,8 +23,8 @@ const VideoParticipant = ({
     participant.tracks.forEach((track) => {
       if (track.source === Track.Source.Camera) {
         const elm = (
-          <div className="video-camera-item-inner" key={track.trackSid}>
-            <div className="name">
+          <div className='video-camera-item-inner' key={track.trackSid}>
+            <div className='name'>
               {participant.name} {participantType.isLocal ? '(me)' : null}
             </div>
             <VideoComponent userId={participant.identity} track={track} />

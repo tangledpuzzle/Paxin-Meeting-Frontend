@@ -1,39 +1,39 @@
 import React, { useState } from 'react';
 import TotalResponses from './totalResponses';
 import MyVoteStatus from './myVoteStatus';
-import { useTranslation } from 'react-i18next';
-import { store } from '../../../store';
+import { store } from '@/store';
 import ViewDetails from '../viewDetails';
 import ViewResult from '../viewResult';
-import { PollInfo } from '../../../helpers/proto/plugnmeet_polls_pb';
+import { PollInfo } from '@/helpers/proto/plugnmeet_polls_pb';
+import { useTranslations } from 'next-intl';
 
 interface IPollPros {
   item: PollInfo;
 }
 
 const Poll = ({ item }: IPollPros) => {
-  const { t } = useTranslation();
+  const t = useTranslations('meet');
   const isAdmin = store.getState().session.currentUser?.metadata?.is_admin;
   const [viewDetails, setViewDetails] = useState<boolean>(false);
   const [viewResult, setViewResult] = useState<boolean>(false);
 
   return (
     <>
-      <div className="poll-title text-md text-primaryColor dark:text-darkText">
+      <div className='poll-title text-md text-primaryColor dark:text-darkText'>
         {item.question}
       </div>
       <TotalResponses pollId={item.id} />
-      <div className="status absolute top-0 left-0 bg-secondaryColor text-[10px] text-white py-1 px-3 uppercase rounded-br-lg">
+      <div className='status absolute left-0 top-0 rounded-br-lg bg-secondaryColor px-3 py-1 text-[10px] uppercase text-white'>
         {item.isRunning ? t('polls.poll-running') : t('polls.poll-closed')}
       </div>
 
-      <div className="btn">
+      <div className='btn'>
         {item.isRunning ? <MyVoteStatus pollId={item.id} /> : null}
 
         {isAdmin ? (
           <button
             onClick={() => setViewDetails(true)}
-            className="absolute right-0 bottom-0 transition ease-in bg-primaryColor hover:bg-secondaryColor text-[10px] text-white pt-1 pb-[2px] px-3 uppercase rounded-tl-lg"
+            className='absolute bottom-0 right-0 rounded-tl-lg bg-primaryColor px-3 pb-[2px] pt-1 text-[10px] uppercase text-white transition ease-in hover:bg-secondaryColor'
           >
             {t('polls.view-details')}
           </button>
@@ -42,7 +42,7 @@ const Poll = ({ item }: IPollPros) => {
         {!isAdmin && !item.isRunning ? (
           <button
             onClick={() => setViewResult(true)}
-            className="absolute right-0 bottom-0 transition ease-in bg-primaryColor hover:bg-secondaryColor text-[10px] text-white pt-1 pb-[2px] px-3 uppercase rounded-tl-lg"
+            className='absolute bottom-0 right-0 rounded-tl-lg bg-primaryColor px-3 pb-[2px] pt-1 text-[10px] uppercase text-white transition ease-in hover:bg-secondaryColor'
           >
             {t('polls.view-result')}
           </button>
