@@ -467,5 +467,40 @@ textarea {
   height: 100%;
   background-color: #4caf50;
   transition: width 0.1s ease-out;
+}
 
+.box-s {
+  width: 100%;
+}
+.box-s:before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(-7deg, #ff3d00 0%, #0400ff 100% );
+  transform: translate3d(-1px, 7px, 0) scale(1.03);
+  filter: blur(16px);
+  opacity: var(0.53);
+  transition: opacity 0.3s;
+  border-radius: inherit;
+}
+
+/* 
+* Prevents issues when the parent creates a 
+* stacking context. (For example, using the transform
+* property )
+*/
+.box-s::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: inherit;
+  border-radius: inherit;
 }
