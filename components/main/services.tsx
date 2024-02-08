@@ -67,15 +67,17 @@ export default function ServicesSection() {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-center justify-center px-3 pb-[40px] md:pb-[80px]'>
+    <div className='flex flex-col items-start md:items-center justify-center px-0 pb-[40px] md:pb-[80px]'>
+      <div className='px-7'>
       <SectionBadge>{t('services')}</SectionBadge>
-      <SectionTitle className='px-7 leading-[30px]'>
+      </div>
+      <SectionTitle className='px-7 leading-[30px] text-left md:text-center'>
         {t('combination_of_services_in_one_platform')}
       </SectionTitle>
-      <SectionDescription className='px-7 leading-[25.15px]'>
+      <SectionDescription className='px-7 leading-[25.15px] text-left md:text-center'>
         {t('combination_of_services_in_one_platform_description')}
       </SectionDescription>
-      <div className='relative mt-10 grid w-full max-w-5xl grid-cols-2 gap-4'>
+      <div className='relative mt-10 grid w-full max-w-5xl grid-cols-2 gap-4 px-4'>
         {services.map((service) => (
           <ServiceCard
             key={service.title}
