@@ -373,7 +373,7 @@ export default function SettingPage() {
           ID: hashtag.value,
           Hashtag: hashtag.label,
         })),
-        Descr: data.bio,
+        bio: data.bio,
       });
 
       if (res.status === 200) {
@@ -627,7 +627,8 @@ export default function SettingPage() {
                                   noOptionsMessage={() => t('no_options')}
                                   placeholder={t('select') + '...'}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black text-[16px]',
+                                    input: () =>
+                                      'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -657,7 +658,8 @@ export default function SettingPage() {
                                   value={field.value}
                                   onChange={field.onChange}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black text-[16px]',
+                                    input: () =>
+                                      'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -688,7 +690,8 @@ export default function SettingPage() {
                                   onChange={field.onChange}
                                   onInputChange={handleHashtagSearch}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black text-[16px]',
+                                    input: () =>
+                                      'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -731,7 +734,7 @@ export default function SettingPage() {
                           <Button
                             type='submit'
                             disabled={isBasicLoading}
-                            className='btn btn--wide !rounded-md !ml-0 w-full'
+                            className='btn btn--wide !ml-0 w-full !rounded-md'
                           >
                             {isBasicLoading && (
                               <Loader2 className='mr-2 size-4 animate-spin' />
