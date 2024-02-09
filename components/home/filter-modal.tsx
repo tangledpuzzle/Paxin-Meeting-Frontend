@@ -50,12 +50,17 @@ export function FilterModal() {
   const [priceHasError, setPriceHasError] = useState<boolean>(false);
   const [isReset, setIsReset] = useState<boolean>(false);
 
+  const [cityKeyword, setCityKeyword] = useState<string>('');
+  const [categoryKeyword, setCategoryKeyword] = useState<string>('');
+
   const { data: fetchedCities, error: cityFetchError } = useSWR(
-    '/api/cities/get',
+    cityKeyword ? `/api/cities/query?name=${cityKeyword}&lang=${locale}` : '',
     fetcher
   );
   const { data: fetchedCategories, error: categoryFetchError } = useSWR(
-    '/api/categories/get',
+    categoryKeyword
+      ? `/api/categories/query?name=${categoryKeyword}&lang=${locale}`
+      : '',
     fetcher
   );
 
@@ -121,11 +126,11 @@ export function FilterModal() {
     );
     newSearchParams.set(
       'city',
-      city && city?.length > 0 ? city[0].label : 'all'
+      city && city.length > 0 ? city[0].label : 'all'
     );
     newSearchParams.set(
       'category',
-      category && category?.length > 0 ? category[0].label : 'all'
+      category && category.length > 0 ? category[0].label : 'all'
     );
     if (minPrice || maxPrice)
       newSearchParams.set('money', `${minPrice}-${maxPrice}`);
@@ -148,25 +153,141 @@ export function FilterModal() {
     setIsReset(true);
   };
 
+  const getTranslations = async (city: string, category: string) => {
+    let _city: string = '',
+      _category: string = '';
+
+    if (city && city !== 'all') {
+      const res = await axios.get(
+        `/api/cities/query?name=${city}&lang=${locale}&mode=translate`
+      );
+      if (res.status === 200) {
+        _city = res.data.data;
+      }
+    }
+
+    if (category && category !== 'all') {
+      const res = await axios.get(
+        `/api/categories/query?name=${category}&lang=${locale}&mode=translate`
+      );
+      if (res.status === 200) {
+        _category = res.data.data;
+      }
+    }
+
+    if ((_city && _city !== city) || (_category && _category !== category)) {
+      const newSearchParams = new URLSearchParams(searchParams);
+      if (_city) newSearchParams.set('city', _city);
+      if (_category) newSearchParams.set('category', _category);
+
+      router.push(`?${newSearchParams.toString()}`);
+
+      if (_city) {
+        setCityKeyword(_city);
+        // setCity([cityOptions.find((c) => c.label === _city) as Option]);
+      }
+      if (_category) {
+        setCategoryKeyword(_category);
+        // setCategory([
+        //   categoryOptions.find((c) => c.label === _category) as Option,
+        // ]);
+      }
+    }
+  };
+
+  // const getCityTranslation = async (city: string) => {
+  //   const res = await axios.get(
+  //     `/api/cities/query?name=${city}&lang=${locale}&mode=translate`
+  //   );
+  //   if (res.status === 200) {
+  //     const newCity = res.data.data;
+
+  //     if (newCity && city !== newCity) {
+  //       const newSearchParams = new URLSearchParams(searchParams);
+
+  //       newSearchParams.set('city', newCity);
+  //       router.push(`?${newSearchParams.toString()}`);
+
+  //       // setCity([cityOptions.find((c) => c.label === newCity) as Option]);
+  //     }
+
+  //     setCityKeyword(newCity);
+  //   }
+  // };
+
+  // const getCategoryTranslation = async (category: string) => {
+  //   const res = await axios.get(
+  //     `/api/categories/query?name=${category}&lang=${locale}&mode=translate`
+  //   );
+  //   if (res.status === 200) {
+  //     const newCategory = res.data.data;
+
+  //     if (newCategory && category !== newCategory) {
+  //       const newSearchParams = new URLSearchParams(searchParams);
+
+  //       newSearchParams.set('category', newCategory);
+  //       router.push(`?${newSearchParams.toString()}`);
+
+  //       // setCategory([
+  //       //   categoryOptions.find((c) => c.label === newCategory) as Option,
+  //       // ]);
+  //     }
+
+  //     setCategoryKeyword(newCategory);
+  //   }
+  // };
+
   useEffect(() => {
     const _hashtag = searchParams.get('hashtag');
     const _city = searchParams.get('city');
     const _category = searchParams.get('category');
     const _viewMode = searchParams.get('mode');
+
+    if (_hashtag && _hashtag !== 'all') handleHashtagSearch(_hashtag);
+    if (_city && _city !== 'all') setCityKeyword(_city);
+    if (_category && _category !== 'all') setCategoryKeyword(_category);
+    if (_viewMode) setViewMode(_viewMode);
+  }, [searchParams]);
+
+  useEffect(() => {
+    const _hashtag = searchParams.get('hashtag');
+    const _city = searchParams.get('city');
+    const _category = searchParams.get('category');
     const _money = searchParams.get('money');
 
     if (_hashtag && _hashtag !== 'all')
       setHashTag(_hashtag.split(',').map((h) => ({ value: h, label: h })));
     else if (_hashtag === 'all') setHashTag([]);
-    if (_city && _city !== 'all')
-      setCity([cityOptions.find((c) => c.label === _city)] as Option[]);
-    else if (_city === 'all') setCity([]);
-    if (_category && _category !== 'all')
-      setCategory([
-        categoryOptions.find((c) => c.label === _category),
-      ] as Option[]);
-    else if (_category === 'all') setCategory([]);
-    if (_viewMode) setViewMode(_viewMode);
+    if (_city && _city !== 'all') {
+      let newCity: Option[] = city || [];
+
+      // _city.split(',').forEach((c) => {
+      const cityFound = newCity.find((cat) => cat.label === _city);
+      const cityOptionFound = cityOptions.find((cat) => cat.label === _city);
+
+      if (!cityFound && cityOptionFound) {
+        newCity.push(cityOptionFound);
+      }
+      // });
+
+      setCity(newCity);
+    } else if (_city === 'all') setCity([]);
+    if (_category && _category !== 'all') {
+      let newCategory: Option[] = category || [];
+
+      // _category.split(',').forEach((c) => {
+      const categoryFound = newCategory.find((cat) => cat.label === _category);
+      const categoryOptionFound = categoryOptions.find(
+        (cat) => cat.label === _category
+      );
+
+      if (!categoryFound && categoryOptionFound) {
+        newCategory.push(categoryOptionFound);
+      }
+      // });
+
+      setCategory(newCategory);
+    } else if (_category === 'all') setCategory([]);
     if (_money && _money !== 'all') {
       const [min, max] = _money.split('-');
       setMinPrice(min);
@@ -177,7 +298,14 @@ export function FilterModal() {
     }
 
     setIsReset(false);
-  }, [searchParams, isFilterModalOpen]);
+  }, [isFilterModalOpen]);
+
+  useEffect(() => {
+    const _city = searchParams.get('city') || '';
+    const _category = searchParams.get('category') || '';
+
+    getTranslations(_city, _category);
+  }, [locale]);
 
   useEffect(() => {
     if (['profile', 'flow'].includes(viewMode)) {
@@ -188,84 +316,69 @@ export function FilterModal() {
   }, [viewMode]);
 
   useEffect(() => {
-    let _city, _category;
-    if (!cityFetchError && fetchedCities) {
+    // let _city;
+    if (fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
-          value: city.ID,
-          label: city.Translations.find((t: any) => t.Language === locale).Name,
+          value: city.Translations[0].Name,
+          label: city.Translations[0].Name,
         }))
       );
 
-      _city = fetchedCities.data.find((city: any) =>
-        city.Translations.map((t: any) => t.Name).includes(
-          searchParams.get('city')
-        )
-      );
+      // _city = fetchedCities.data.find(
+      //   (city: any) => city.Translations[0].Name === searchParams.get('city')
+      // );
 
-      if (_city) {
-        setCity([
-          {
-            value: _city.ID,
-            label: _city.Translations.find((t: any) => t.Language === locale)
-              .Name,
-          },
-        ]);
+      // if (_city && !cityKeyword) {
+      //   setCity([
+      //     {
+      //       value: _city.Translations[0].Name,
+      //       label: _city.Translations[0].Name,
+      //     },
+      //   ]);
+      // }
 
-        const newSearchParams = new URLSearchParams(searchParams);
-        newSearchParams.set(
-          'city',
-          _city.Translations.find((t: any) => t.Language === locale).Name
-        );
+      //   const newSearchParams = new URLSearchParams(searchParams);
+      //   newSearchParams.set('city', _city.Translations[0].Name);
 
-        router.push(`?${newSearchParams.toString()}`);
-      }
+      //   router.push(`?${newSearchParams.toString()}`);
+      // }
     }
-    if (!categoryFetchError && fetchedCategories) {
-      setCategoryOptions(
-        fetchedCategories.data.map((category: any) => ({
-          value: category.ID,
-          label: category.Translations.find((t: any) => t.Language === locale)
-            .Name,
-        }))
-      );
-
-      _category = fetchedCategories.data.find((category: any) =>
-        category.Translations.map((t: any) => t.Name).includes(
-          searchParams.get('category')
-        )
-      );
-
-      if (_category) {
-        setCategory([
-          {
-            value: _category.ID,
-            label: _category.Translations.find(
-              (t: any) => t.Language === locale
-            ).Name,
-          },
-        ]);
-      }
-    }
-
-    const newSearchParams = new URLSearchParams(searchParams);
-    if (_city) {
-      newSearchParams.set(
-        'city',
-        _city.Translations.find((t: any) => t.Language === locale).Name
-      );
-    }
-    if (_category)
-      newSearchParams.set(
-        'category',
-        _category.Translations.find((t: any) => t.Language === locale).Name
-      );
-
-    if (_city || _category) router.push(`?${newSearchParams.toString()}`);
-  }, [fetchedCities, fetchedCategories, locale]);
+  }, [fetchedCities]);
 
   useEffect(() => {
-    if (!hashtagFetchError && fetchedHashtags) {
+    // let _category;
+    if (fetchedCategories) {
+      setCategoryOptions(
+        fetchedCategories.data.map((category: any) => ({
+          value: category.Translations[0].Name,
+          label: category.Translations[0].Name,
+        }))
+      );
+
+      // _category = fetchedCategories.data.find(
+      //   (category: any) =>
+      //     category.Translations[0].Name === searchParams.get('category')
+      // );
+
+      // if (_category) {
+      //   setCategory([
+      //     {
+      //       value: _category.Translations[0].Name,
+      //       label: _category.Translations[0].Name,
+      //     },
+      //   ]);
+
+      //   const newSearchParams = new URLSearchParams(searchParams);
+      //   newSearchParams.set('category', _category.Translations[0].Name);
+
+      //   router.push(`?${newSearchParams.toString()}`);
+      // }
+    }
+  }, [fetchedCategories]);
+
+  useEffect(() => {
+    if (fetchedHashtags) {
       setHashtagOptions(
         fetchedHashtags?.map((hashtag: any) => ({
           value: hashtag.Hashtag,
@@ -275,7 +388,7 @@ export function FilterModal() {
     } else {
       setHashtagOptions([]);
     }
-  }, [hashtagFetchError, fetchedHashtags]);
+  }, [fetchedHashtags]);
 
   return (
     <Dialog open={isFilterModalOpen} onOpenChange={setIsFilterModalOpen}>
@@ -299,6 +412,7 @@ export function FilterModal() {
               name='city'
               options={cityOptions}
               value={city}
+              onInputChange={(value) => setCityKeyword(value)}
               onChange={(selectedCities: any) => setCity(selectedCities)}
               placeholder={t('select') + '...'}
               noOptionsMessage={() => t('no_options')}
@@ -321,6 +435,7 @@ export function FilterModal() {
               name='category'
               options={categoryOptions}
               value={category}
+              onInputChange={(value) => setCategoryKeyword(value)}
               onChange={(selectedCategories: any) =>
                 setCategory(selectedCategories)
               }
@@ -342,7 +457,7 @@ export function FilterModal() {
             </Label>
             <Select
               isMulti
-              name='category'
+              name='hashtag'
               options={hashtagOptions}
               value={hashTag}
               onInputChange={handleHashtagSearch}

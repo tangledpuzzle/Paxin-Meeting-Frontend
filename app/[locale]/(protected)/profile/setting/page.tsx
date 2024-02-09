@@ -147,6 +147,8 @@ export default function SettingPage() {
   const [cityOptions, setCityOptions] = useState<Option[]>();
   const [categoryOptions, setCategoryOptions] = useState<Option[]>();
   const [hashtagOptions, setHashtagOptions] = useState<Option[]>([]);
+  const [cityKeyword, setCityKeyword] = useState<string>('');
+  const [categoryKeyword, setCategoryKeyword] = useState<string>('');
 
   const basicForm = useForm<BasicFormData>({
     resolver: zodResolver(basicFormSchema),
@@ -159,11 +161,15 @@ export default function SettingPage() {
   } = useSWR(`/api/profiles/me?language=${locale}`, fetcher);
 
   const { data: fetchedCities, error: cityFetchError } = useSWR(
-    '/api/cities/get',
+    cityKeyword
+      ? `/api/cities/query?name=${cityKeyword}&lang=${locale}`
+      : undefined,
     fetcher
   );
   const { data: fetchedCategories, error: categoryFetchError } = useSWR(
-    '/api/categories/get',
+    categoryKeyword
+      ? `/api/categories/query?name=${categoryKeyword}&lang=${locale}`
+      : undefined,
     fetcher
   );
 
@@ -212,7 +218,7 @@ export default function SettingPage() {
   }, [fetchedData, error]);
 
   useEffect(() => {
-    if (!cityFetchError && fetchedCities) {
+    if (fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
           value: city.ID,
@@ -220,7 +226,10 @@ export default function SettingPage() {
         }))
       );
     }
-    if (!categoryFetchError && fetchedCategories) {
+  }, [fetchedCities]);
+
+  useEffect(() => {
+    if (fetchedCategories) {
       setCategoryOptions(
         fetchedCategories.data.map((category: any) => ({
           value: category.ID,
@@ -229,13 +238,7 @@ export default function SettingPage() {
         }))
       );
     }
-  }, [
-    fetchedCities,
-    fetchedCategories,
-    locale,
-    cityFetchError,
-    categoryFetchError,
-  ]);
+  }, [fetchedCategories]);
 
   useEffect(() => {
     if (!hashtagFetchError && fetchedHashtags) {
@@ -624,6 +627,9 @@ export default function SettingPage() {
                                   options={cityOptions}
                                   value={field.value}
                                   onChange={field.onChange}
+                                  onInputChange={(value) =>
+                                    setCityKeyword(value)
+                                  }
                                   noOptionsMessage={() => t('no_options')}
                                   placeholder={t('select') + '...'}
                                   classNames={{
@@ -656,6 +662,9 @@ export default function SettingPage() {
                                   noOptionsMessage={() => t('no_options')}
                                   options={categoryOptions}
                                   value={field.value}
+                                  onInputChange={(value) =>
+                                    setCategoryKeyword(value)
+                                  }
                                   onChange={field.onChange}
                                   classNames={{
                                     input: () =>

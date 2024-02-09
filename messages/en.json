@@ -316,7 +316,8 @@
     "load_more": "Load More",
     "n_data_loaded_successfully": "{number} data loaded successfully",
     "subscribers": "Subscribers",
-    "no_blogs_yet": "There are no blogs yet..."
+    "no_blogs_yet": "There are no blogs yet...",
+    "empty_search_result": "There is no result for your search query..."
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",
