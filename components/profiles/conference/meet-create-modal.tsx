@@ -20,6 +20,10 @@ interface MeetCreateModalProps {
 
 export function MeetCreateModal({ onCreate, children }: MeetCreateModalProps) {
   const t = useTranslations('main');
+  // const locale = useLocale();
+
+  // const data = await getData(locale);
+  console.log(123);
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>

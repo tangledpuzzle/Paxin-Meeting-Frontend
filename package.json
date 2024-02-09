@@ -43,6 +43,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "copy-text-to-clipboard": "^3.2.0",
+    "crypto-js": "^4.2.0",
     "embla-carousel-react": "^8.0.0-rc20",
     "emoji-picker-react": "^4.7.12",
     "formidable": "^3.5.1",
@@ -94,6 +95,7 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/crypto-js": "^4.2.2",
     "@types/formidable": "^3.4.5",
     "@types/lodash": "^4.14.202",
     "@types/node": "^20.11.6",

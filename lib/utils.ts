@@ -36,3 +36,13 @@ export function generateRandomString(length: number): string {
   }
   return result;
 }
+export function hashTimestamp(timestamp: number): string {
+  let hash = 0;
+  const timestampString = timestamp.toString();
+  for (let i = 0; i < timestampString.length; i++) {
+    let char = timestampString.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(36);
+}
