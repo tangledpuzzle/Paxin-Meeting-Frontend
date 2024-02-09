@@ -317,7 +317,8 @@
     "load_more": "Загрузить еще",
     "n_data_loaded_successfully": "{number} данных успешно загружены",
     "subscribers": "подписчики",
-    "no_blogs_yet": "Пока нет блогов..."
+    "no_blogs_yet": "Пока нет блогов...",
+    "empty_search_result": "По вашему запросу ничего не найдено..."
   },
   "privacy": {
     "rulesprivacy": "Правила конфиденциальности",

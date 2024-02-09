@@ -317,7 +317,8 @@
     "load_more": "მეტი ჩატვირთვა",
     "n_data_loaded_successfully": "{number} მონაცემი წარმატებით ჩაიტვირთა",
     "subscribers": "მგზავრები",
-    "no_blogs_yet": "ჯერ არც ბლოგი არ არსებობს..."
+    "no_blogs_yet": "ჯერ არც ბლოგი არ არსებობს...",
+    "empty_search_result": "თქვენი ძებნის შესახებ არაფერია ნაპოვნი..."
   },
   "privacy": {
     "rulesprivacy": "კონფიდენციალურობის წესები",

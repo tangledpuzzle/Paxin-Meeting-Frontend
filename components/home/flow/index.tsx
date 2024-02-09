@@ -11,6 +11,7 @@ import { FlowCardSkeleton } from './flow-card-skeleton';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -89,7 +90,13 @@ export default function FlowSection() {
     if (!error && fetchedData) {
       if (currentPage === 0) {
         setFlowData(fetchedData.data);
+
+        setIsLoadable(fetchedData.meta.total > pageSize);
       } else {
+        setIsLoadable(
+          flowData.length + fetchedData.data.length >= fetchedData.meta.total
+        );
+
         setFlowData([...flowData, ...fetchedData.data]);
 
         toast.success(
@@ -112,12 +119,28 @@ export default function FlowSection() {
 
   return (
     <div className='w-full space-y-6'>
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3'>
         {!error ? (
-          flowData?.length > 0 ? (
-            flowData.map((flow: FlowData) => (
-              <FlowCard key={flow.id} {...flow} />
-            ))
+          fetchedData && flowData ? (
+            flowData?.length > 0 ? (
+              flowData.map((flow: FlowData) => (
+                <FlowCard key={flow.id} {...flow} />
+              ))
+            ) : (
+              <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
+                <div className='flex flex-col items-center'>
+                  <Image
+                    src={'/images/home/empty-search-result.svg'}
+                    width={200}
+                    height={200}
+                    alt='Empty Search Result'
+                  />
+                  <p className='text-center text-lg font-bold'>
+                    {t('empty_search_result')}
+                  </p>
+                </div>
+              </div>
+            )
           ) : (
             currentPage === 0 && (
               <>

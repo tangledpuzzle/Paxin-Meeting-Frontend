@@ -317,7 +317,8 @@
     "load_more": "Cargar más",
     "n_data_loaded_successfully": "{number} datos cargados exitosamente",
     "subscribers": "Suscriptores",
-    "no_blogs_yet": "Aún no hay blogs..."
+    "no_blogs_yet": "Aún no hay blogs...",
+    "empty_search_result": "No hay resultados para tu búsqueda..."
   },
   "privacy": {
     "rulesprivacy": "política de privacidad",
