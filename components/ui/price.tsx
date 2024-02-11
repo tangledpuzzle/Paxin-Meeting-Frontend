@@ -90,24 +90,24 @@ const OverlayCards = () => {
     <div>
         
     <div className="main flow !max-w-full !px-7 !p-0 !mb-8">
-      <h1 className="main__heading text-gradient">Pricing</h1>
+      <h1 className="main__heading !text-[1.5em]  text-gradient">Pricing</h1>
       <div className="main__cards cards" ref={cardsContainerRef}>
       <div className="cards__inner bg-tra">
         
       <div className="card" ref={(el) => { if (el) cardsRef.current.push(el); }}>
-        <h2 className="card__headin text-black dark:text-white">Basic</h2>
-        <p className="card__price text-black dark:text-white">$9.99</p>
-        <ul role="list" className="card__bullets flow text-black dark:text-white">
+        <h2 className="card__headin text-black dark:text-white text-center">Basic</h2>
+        <p className="card__price text-black dark:text-white text-center">$9.99</p>
+        <ul role="list" className="card__bullets flow text-black dark:text-white text-center">
           <li>Access to standard workouts and nutrition plans</li>
           <li>Email support</li>
         </ul>
-        <a href="#basic" className="card__cta cta !underline underline-offset-4 !text-black dark:!text-white">Get Started</a>
+        <a href="#basic" className="card__cta cta !underline underline-offset-4 !text-black dark:!text-white text-center">Get Started</a>
       </div>
 
       <div className="card" ref={(el) => { if (el) cardsRef.current.push(el); }}>
-        <h2 className="card__heading text-black dark:text-white">Pro</h2>
-        <p className="card__price text-black dark:text-white">$19.99</p>
-        <ul role="list" className="card__bullets flow text-black dark:text-white">
+        <h2 className="card__heading text-black dark:text-white text-center">Pro</h2>
+        <p className="card__price text-black dark:text-white text-center">$19.99</p>
+        <ul role="list" className="card__bullets flow text-black dark:text-white text-center">
           <li>Access to advanced workouts and nutrition plans</li>
           <li>Priority Email support</li>
           <li>Exclusive access to live Q&A sessions</li>
@@ -116,9 +116,9 @@ const OverlayCards = () => {
       </div>
 
       <div className="card" ref={(el) => { if (el) cardsRef.current.push(el); }}>
-        <h2 className="card__heading text-black dark:text-white">Ultimate</h2>
-        <p className="card__price text-black dark:text-white">$29.99</p>
-        <ul role="list" className="card__bullets flow text-black dark:text-white">
+        <h2 className="card__heading text-black dark:text-white text-center">Ultimate</h2>
+        <p className="card__price text-black dark:text-white text-center">$29.99</p>
+        <ul role="list" className="card__bullets flow text-black dark:text-white text-center">
           <li>Access to all premium workouts and nutrition plans</li>
           <li>24/7 Priority support</li>
           <li>1-on-1 virtual coaching session every month</li>

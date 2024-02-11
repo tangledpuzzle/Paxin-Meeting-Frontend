@@ -10,7 +10,7 @@ export default function JoinUsSection() {
   return (
     <div className="px-7">
       <div>
-          <div className='my-2 font-satoshi text-lg font-medium leading-normal text-gradient dark:text-white sm:text-3xl text-left md:text-center'>
+          <div className='my-2 font-satoshi  leading-normal text-gradient dark:text-white  text-center text-2xl md:text-center'>
             <Image
               src='/images/home/join-us-banner.png'
               width={1216}
@@ -20,7 +20,7 @@ export default function JoinUsSection() {
             />
           {t('unlock_new_dimension_of_connectivity')}
       </div>
-      <div className='prose mt-3 max-w-full text-left md:text-center font-satoshi text-sm text-gray-700/70 dark:text-white/70'>
+      <div className='prose  mt-3 max-w-full md:text-center text-center break-all	 text-[1rem]	 font-satoshi text-gray-700/70 dark:text-white/70'>
         {t('unlock_new_dimension_of_connectivity_description')}
       </div>
       <div className='relative mt-10 flex w-full items-center justify-center'>
