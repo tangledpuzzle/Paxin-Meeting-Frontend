@@ -56,7 +56,7 @@ function ServiceCard({
       <div className='whitespace-nowrap text-center font-satoshi text-xs font-medium text-white sm:text-lg'>
         {t(title as keyof IntlMessages['main'])}
       </div>
-      <div className='prose hidden text-center font-satoshi text-sm text-white/70 sm:block'>
+      <div className='prose hidden text-center font-satoshi text-[1rem] text-white/70 sm:block'>
         {t(description as keyof IntlMessages['main'])}
       </div>
     </div>
@@ -77,7 +77,7 @@ export default function ServicesSection() {
       <SectionDescription className='px-7 leading-[25.15px] text-left md:text-center'>
         {t('combination_of_services_in_one_platform_description')}
       </SectionDescription>
-      <div className='relative mt-10 grid w-full max-w-5xl grid-cols-2 gap-4 px-4'>
+      <div className='relative mt-10 grid w-full max-w-full px-7 grid-cols-2 gap-4'>
         {services.map((service) => (
           <ServiceCard
             key={service.title}
@@ -87,7 +87,7 @@ export default function ServicesSection() {
           />
         ))}
         <div className='absolute flex size-full items-center justify-center'>
-          <div className='size-24 rounded-full bg-white p-3 dark:bg-black sm:size-36 sm:p-4'>
+          <div className='size-24 rounded-full bg-white p-3 dark:bg-black sm:size-36 sm:p-4 '>
             <Image
               src='/logo.svg'
               width={50}

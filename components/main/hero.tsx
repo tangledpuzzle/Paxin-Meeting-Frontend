@@ -7,7 +7,7 @@ const HeroSection = () => {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-start justify-center overflow-hidden pb-[90px] pt-[50px] md:items-center md:pt-[88px]'>
+    <div className='flex flex-col items-start justify-center overflow-hidden pb-[90px] pt-[50px] md:items-center md:pt-[40px]'>
       <SectionTitle className='px-7 text-left leading-[30px] md:text-center'>
         {t('empowering_connections_metaverse')}
       </SectionTitle>
