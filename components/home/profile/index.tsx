@@ -11,6 +11,7 @@ import { ProfileCardSkeleton } from './profile-card-skeleton';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 interface ProfileData {
   username: string;
@@ -61,6 +62,10 @@ export default function ProfileSection() {
   };
 
   useEffect(() => {
+    setCurrentPage(0);
+  }, [searchParams]);
+
+  useEffect(() => {
     const generateFetchURL = () => {
       let baseURL = `/api/profiles/get?language=${locale}&limit=${pageSize}&skip=${currentPage * pageSize}`;
       const queryParams = ['title', 'city', 'category', 'hashtag'];
@@ -82,7 +87,13 @@ export default function ProfileSection() {
     if (!error && fetchedData) {
       if (currentPage === 0) {
         setProfileData(fetchedData.data);
+
+        setIsLoadable(fetchedData.meta.total > pageSize);
       } else {
+        setIsLoadable(
+          profileData.length + fetchedData.data.length >= fetchedData.meta.total
+        );
+
         setProfileData([...profileData, ...fetchedData.data]);
 
         toast.success(
@@ -93,15 +104,6 @@ export default function ProfileSection() {
         );
       }
 
-      if (
-        profileData.length + fetchedData.data.length >=
-        fetchedData.meta.total
-      ) {
-        setIsLoadable(false);
-      } else {
-        setIsLoadable(true);
-      }
-
       setLoading(false);
     }
   }, [fetchedData, error]);
@@ -110,10 +112,26 @@ export default function ProfileSection() {
     <div className='w-full space-y-6'>
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
         {!error ? (
-          profileData?.length > 0 ? (
-            profileData.map((profile: ProfileData) => (
-              <ProfileCard key={profile.username} {...profile} />
-            ))
+          fetchedData && profileData ? (
+            profileData?.length > 0 ? (
+              profileData.map((profile: ProfileData) => (
+                <ProfileCard key={profile.username} {...profile} />
+              ))
+            ) : (
+              <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
+                <div className='flex flex-col items-center'>
+                  <Image
+                    src={'/images/home/empty-search-result.svg'}
+                    width={200}
+                    height={200}
+                    alt='Empty Search Result'
+                  />
+                  <p className='text-center text-lg font-bold'>
+                    {t('empty_search_result')}
+                  </p>
+                </div>
+              </div>
+            )
           ) : (
             currentPage === 0 && (
               <>

@@ -3,31 +3,37 @@ import Image from 'next/image';
 import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
+import { Button } from '../ui/button';
+import { IoMdArrowDropright } from "react-icons/io";
 
 const features = [
   {
-    title: 'hybrid_vision',
-    description: 'hybrid_vision_description',
+    title: 'meta_vision',
+    description: 'meta_vision_description',
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/eye.svg',
+    read: 'read_text'
   },
   {
-    title: 'swift_identification',
-    description: 'swift_identification_description',
+    title: 'meta_identification',
+    description: 'meta_identification_description',
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/swift.svg',
+    read: 'read_text'
   },
   {
-    title: 'advanced_communication',
-    description: 'advanced_communication_description',
+    title: 'meta_communication',
+    description: 'meta_communication_description',
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/smscall.svg',
+    read: 'read_text'
   },
   {
-    title: '3d_world_experience',
-    description: '3d_world_experience_description',
+    title: 'meta_world_experience',
+    description: 'meta_world_experience_description',
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/city360.svg',
+    read: 'read_text'
   },
 ];
 
@@ -36,11 +42,13 @@ function FeatureCard({
   description,
   bottomImage,
   icon,
+  read
 }: {
   title: string;
   description: string;
   bottomImage: string;
   icon: string;
+  read: string;
 }) {
   return (
     <div className='bg-with-gradient hover:ring-primary-500 dark:hover:ring-primary-400 group relative isolate flex flex-1 flex-col rounded-none md:rounded-xl shadow transition-shadow duration-200 before:absolute before:-inset-[2px] before:z-[-1] before:hidden before:size-[calc(100%+4px)] before:rounded-[13px] before:lg:block'>
@@ -64,10 +72,10 @@ function FeatureCard({
         <div className='flex flex-1 flex-col gap-x-8 gap-y-4 rounded-xl px-7 py-5 sm:p-6 '>
           <div className=''>
             <div className='pointer-events-none mb-2'></div>
-            <p className='truncate text-base font-bold group-hover:text-white'>
+            <p className='truncate font-bold group-hover:text-white text-[1.2em]'>
               {title}
             </p>
-            <p className='mt-1 text-[12px] font-light group-hover:text-white'>
+            <p className='mt-1 text-[1em] font-light group-hover:text-white min-h-0 md:min-h-[140px] text-muted-foreground'>
               {description}
             </p>
             <Image
@@ -75,9 +83,10 @@ function FeatureCard({
               width={291}
               height={152}
               alt='feature'
-              className='absolute inset-y-0 right-2 mt-auto hidden w-full overflow-hidden opacity-0 transition-opacity duration-500 group-hover:opacity-20 md:block'
+              className='absolute z-[-1] inset-y-0 right-2 mt-auto hidden w-full overflow-hidden opacity-0 transition-opacity duration-500 group-hover:opacity-20 md:block'
             />
           </div>
+          <Button variant='outline' className='cursor-point !rounded-md p-2 w-[150px'>{read} <IoMdArrowDropright className='mt-1' /></Button>
         </div>
       </div>
     </div>
@@ -95,7 +104,7 @@ export default function FeatureSection() {
       <SectionTitle className='leading-[30px] text-left md:text-center px-7'>
         {t('unleashing_future_online_interaction')}
       </SectionTitle>
-      <SectionDescription className='pb-[36px] max-w-lg text-left md:text-center px-7'>
+      <SectionDescription className='pb-[36px] max-w-full text-left md:text-center px-7'>
         {t('unleashing_future_online_interaction_description')}
       </SectionDescription>
       <div className='grid grid-cols-1 gap-8 px-0 md:px-7 pb-[40px] sm:grid-cols-2 md:pb-[80px] xl:grid-cols-4'>
@@ -106,6 +115,8 @@ export default function FeatureSection() {
             description={t(feature.description as keyof IntlMessages['main'])}
             bottomImage={feature.bottomImage}
             icon={feature.icon}
+            read={t(feature.read as keyof IntlMessages['main'])}
+
           />
         ))}
       </div>

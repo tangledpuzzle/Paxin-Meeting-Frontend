@@ -10,7 +10,7 @@ export default function NavigateSection() {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-start md:items-center justify-center px-0 pb-[40px] md:pb-[80px]'>
+    <div className='flex flex-col items-start md:items-center justify-center px-0 pb-[40px] md:pb-[0px]'>
       <div className='px-7'>
         <SectionBadge>{t('search_and_share')}</SectionBadge>
       </div>
@@ -63,7 +63,7 @@ export default function NavigateSection() {
             <div className='text-md pb-2 text-left font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               {t('efficient_discovery')}
             </div>
-            <div className='translate-all md:text-md max-w-xl text-left text-sm  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            <div className='translate-all text-[1rem] max-w-xl text-left leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('efficient_discovery_description')}
             </div>
           </div>
@@ -92,10 +92,10 @@ export default function NavigateSection() {
             fill
           />
           <div className='bg-[#00000008] px-7 pb-4 pt-2'>
-            <div className='text-md pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+            <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               {t('private_asks')}
             </div>
-            <div className='translate-all md:text-md max-w-xl text-left text-sm  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            <div className='translate-all text-[1rem] font-[1em] md:text-md max-w-xl text-left  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('private_asks_description')}
             </div>
           </div>
@@ -191,7 +191,7 @@ export default function NavigateSection() {
             <div className='md:text-md text-md pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white'>
               {t('smart_filters_for_tailored_content')}
             </div>
-            <div className='translate-all md:text-md max-w-xl text-left text-sm  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            <div className='translate-all text-[1rem] max-w-xl text-left   leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('smart_filters_for_tailored_content_description')}
             </div>
             <Image
