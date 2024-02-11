@@ -76,7 +76,7 @@ export default function NavigateSection() {
                 'linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
             }}
           ></div>
-          <Image
+          {/* <Image
             src='/images/home/telegrami.svg'
             width={450}
             height={450}
@@ -90,7 +90,7 @@ export default function NavigateSection() {
             alt='ring'
             className='absolute mx-auto w-full'
             fill
-          />
+          /> */}
           <div className='bg-[#00000008] px-7 pb-4 pt-2'>
             <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               {t('private_asks')}
