@@ -194,7 +194,7 @@ export default async function FlowPage({
             }}
           />
         </div>
-        <div className='text-sm text-muted-foreground mb-4'>
+        <div className='mb-4 text-sm text-muted-foreground'>
           {blogDetails?.description}
         </div>
       </div>
@@ -303,9 +303,11 @@ export default async function FlowPage({
           </div>
           <Separator className='my-4' />
           <div>
-            <Label className='text-xl font-semibold '>{t('description')}:</Label>
+            <Label className='text-xl font-semibold '>
+              {t('description')}:
+            </Label>
             <div
-              className='text-muted-foreground mt-2'
+              className='mt-2 text-muted-foreground'
               dangerouslySetInnerHTML={{ __html: blogDetails.content }}
             />
           </div>
@@ -381,11 +383,11 @@ export default async function FlowPage({
                   href={`/profiles/${blogDetails.author?.username}`}
                   className='underline'
                 >
-                  <div className='w-full max-w-full truncate font-semibold text-center'>
+                  <div className='w-full max-w-full truncate text-center font-semibold'>
                     @{blogDetails.author?.username}
                   </div>
                 </Link>
-                <div className='line-clamp-2 break-all text-sm text-center'>
+                <div className='line-clamp-2 break-all text-center text-sm'>
                   {blogDetails.author?.bio}
                 </div>
               </div>
@@ -425,7 +427,7 @@ export default async function FlowPage({
                   </Button>
                 )}
               </div>
-              <Button className='w-full btn !rounded-md' asChild>
+              <Button className='btn w-full !rounded-md' asChild>
                 <Link href={`/profiles/${blogDetails.author?.username}`}>
                   {t('visit_profile')}
                 </Link>

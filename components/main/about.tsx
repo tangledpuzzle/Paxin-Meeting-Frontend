@@ -7,7 +7,6 @@ import Link from 'next/link';
 
 export default function AboutSection() {
   const t = useTranslations('main');
-
   return (
     <div className='flex flex-col items-start md:items-center px-0 pb-[40px] md:pb-[80px]'>
       <div className='px-7'>

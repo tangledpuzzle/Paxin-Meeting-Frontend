@@ -147,6 +147,8 @@ export default function SettingPage() {
   const [cityOptions, setCityOptions] = useState<Option[]>();
   const [categoryOptions, setCategoryOptions] = useState<Option[]>();
   const [hashtagOptions, setHashtagOptions] = useState<Option[]>([]);
+  const [cityKeyword, setCityKeyword] = useState<string>('');
+  const [categoryKeyword, setCategoryKeyword] = useState<string>('');
 
   const basicForm = useForm<BasicFormData>({
     resolver: zodResolver(basicFormSchema),
@@ -159,11 +161,15 @@ export default function SettingPage() {
   } = useSWR(`/api/profiles/me?language=${locale}`, fetcher);
 
   const { data: fetchedCities, error: cityFetchError } = useSWR(
-    '/api/cities/get',
+    cityKeyword
+      ? `/api/cities/query?name=${cityKeyword}&lang=${locale}`
+      : undefined,
     fetcher
   );
   const { data: fetchedCategories, error: categoryFetchError } = useSWR(
-    '/api/categories/get',
+    categoryKeyword
+      ? `/api/categories/query?name=${categoryKeyword}&lang=${locale}`
+      : undefined,
     fetcher
   );
 
@@ -212,7 +218,7 @@ export default function SettingPage() {
   }, [fetchedData, error]);
 
   useEffect(() => {
-    if (!cityFetchError && fetchedCities) {
+    if (fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
           value: city.ID,
@@ -220,7 +226,10 @@ export default function SettingPage() {
         }))
       );
     }
-    if (!categoryFetchError && fetchedCategories) {
+  }, [fetchedCities]);
+
+  useEffect(() => {
+    if (fetchedCategories) {
       setCategoryOptions(
         fetchedCategories.data.map((category: any) => ({
           value: category.ID,
@@ -229,13 +238,7 @@ export default function SettingPage() {
         }))
       );
     }
-  }, [
-    fetchedCities,
-    fetchedCategories,
-    locale,
-    cityFetchError,
-    categoryFetchError,
-  ]);
+  }, [fetchedCategories]);
 
   useEffect(() => {
     if (!hashtagFetchError && fetchedHashtags) {
@@ -373,7 +376,7 @@ export default function SettingPage() {
           ID: hashtag.value,
           Hashtag: hashtag.label,
         })),
-        Descr: data.bio,
+        bio: data.bio,
       });
 
       if (res.status === 200) {
@@ -624,10 +627,14 @@ export default function SettingPage() {
                                   options={cityOptions}
                                   value={field.value}
                                   onChange={field.onChange}
+                                  onInputChange={(value) =>
+                                    setCityKeyword(value)
+                                  }
                                   noOptionsMessage={() => t('no_options')}
                                   placeholder={t('select') + '...'}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black text-[16px]',
+                                    input: () =>
+                                      'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -655,9 +662,13 @@ export default function SettingPage() {
                                   noOptionsMessage={() => t('no_options')}
                                   options={categoryOptions}
                                   value={field.value}
+                                  onInputChange={(value) =>
+                                    setCategoryKeyword(value)
+                                  }
                                   onChange={field.onChange}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black text-[16px]',
+                                    input: () =>
+                                      'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -688,7 +699,8 @@ export default function SettingPage() {
                                   onChange={field.onChange}
                                   onInputChange={handleHashtagSearch}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black text-[16px]',
+                                    input: () =>
+                                      'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -731,7 +743,7 @@ export default function SettingPage() {
                           <Button
                             type='submit'
                             disabled={isBasicLoading}
-                            className='btn btn--wide !rounded-md !ml-0 w-full'
+                            className='btn btn--wide !ml-0 w-full !rounded-md'
                           >
                             {isBasicLoading && (
                               <Loader2 className='mr-2 size-4 animate-spin' />
