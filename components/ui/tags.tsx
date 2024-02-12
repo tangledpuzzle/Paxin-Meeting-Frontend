@@ -40,7 +40,7 @@ const ScrollerComponent2 = () => {
 
   return (
     <> 
-      <div className="scroller2 mt-8" data-speed="fast">
+      <div className="scroller2 mt-0" data-speed="fast">
         <ul className="tag-list2 scroller__inner2">
           <li>HTML</li>
           <li>CSS</li>

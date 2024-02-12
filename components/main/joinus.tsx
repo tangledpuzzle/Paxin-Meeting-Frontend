@@ -10,7 +10,15 @@ export default function JoinUsSection() {
   return (
     <div className="px-7">
       <div>
-          <div className='my-2 font-satoshi  leading-normal text-gradient dark:text-white  text-center text-2xl md:text-center'>
+          <div className='flex justify-center   bottom-[0px]  md:justify-center px-7 pb-0'>
+              <div className='chevron'></div>
+              <div className='chevron'></div>
+              <div className='chevron'></div>
+              <span className='text text-black dark:text-white'>
+                {t('scroll_down')}
+              </span>
+          </div>
+          <div className='my-2 relative -top-[20px] font-satoshi  leading-normal text-gradient dark:text-white  text-center text-2xl md:text-center'>
             <Image
               src='/images/home/join-us-banner.png'
               width={1216}
