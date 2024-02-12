@@ -209,8 +209,6 @@ export default async function ProfilePage({
     },
   ];
 
-  alert(searchParams['callback']);
-
   return profileDetails ? (
     <section className='container py-4'>
       <BackButton callback={searchParams['callback']} />
