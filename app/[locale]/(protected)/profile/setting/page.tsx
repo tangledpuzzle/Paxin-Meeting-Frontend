@@ -163,13 +163,13 @@ export default function SettingPage() {
   const { data: fetchedCities, error: cityFetchError } = useSWR(
     cityKeyword
       ? `/api/cities/query?name=${cityKeyword}&lang=${locale}`
-      : undefined,
+      : `/api/cities/get?lang=${locale}`,
     fetcher
   );
   const { data: fetchedCategories, error: categoryFetchError } = useSWR(
     categoryKeyword
       ? `/api/categories/query?name=${categoryKeyword}&lang=${locale}`
-      : undefined,
+      : `/api/categories/get?lang=${locale}&limit=100`,
     fetcher
   );
 
