@@ -105,7 +105,7 @@ export default function FlowSection() {
 
     setFetchURL(generateFetchURL(page));
 
-    if (page > 0) {
+    if (page > -1) {
       const newSearchParams = new URLSearchParams(searchParams.toString());
       newSearchParams.delete('page');
 
@@ -116,7 +116,6 @@ export default function FlowSection() {
   }, [title, city, category, hashtag, money, locale, currentPage]);
 
   useEffect(() => {
-    console.log(currentPage, 'currentPgae');
     if (!error && fetchedData) {
       if (currentPage === 0) {
         setFlowData(fetchedData.data);

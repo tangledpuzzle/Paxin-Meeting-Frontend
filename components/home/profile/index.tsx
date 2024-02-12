@@ -103,7 +103,7 @@ export default function ProfileSection() {
 
     setFetchURL(generateFetchURL(page));
 
-    if (page > 0) {
+    if (page > -1) {
       const newSearchParams = new URLSearchParams(searchParams.toString());
       newSearchParams.delete('page');
 
