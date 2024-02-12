@@ -1,6 +1,7 @@
 import { ComplainModal } from '@/components/common/complain-modal';
 import { CopyButton } from '@/components/common/copy-button';
 import { ReportModal } from '@/components/common/report-modal';
+import BackButton from '@/components/home/back-button';
 // import { TagSlider } from '@/components/common/tag-slider';
 import { FlowImageGallery } from '@/components/home/flow/flow-image-gallery';
 import { UpvoteCard } from '@/components/home/flow/upvote-card';
@@ -16,7 +17,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import authOptions from '@/lib/authOptions';
-import { MoveLeft } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
@@ -160,7 +160,7 @@ export default async function FlowPage({
   searchParams,
 }: {
   params: { id: string; slug: string; locale: string };
-  searchParams: { [key: string]: string | null };
+  searchParams: { [key: string]: string | undefined | null };
 }) {
   const t = await getTranslations('main');
 
@@ -185,16 +185,7 @@ export default async function FlowPage({
 
   return blogDetails ? (
     <section className='container py-4'>
-      {searchParams['callback'] !== null && (
-        <div>
-          <Button variant='link' asChild>
-            <Link href={searchParams['callback']}>
-              <MoveLeft className='mr-2 size-4' />
-              Back
-            </Link>
-          </Button>
-        </div>
-      )}
+      <BackButton callback={searchParams['callback']} />
       {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='font-satoshi'>
         <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
