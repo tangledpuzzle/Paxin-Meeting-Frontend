@@ -808,7 +808,7 @@ footer {
 }
 
 .scroller__inner2 {
-  padding-block: 1rem;
+  padding-block: 0rem;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
