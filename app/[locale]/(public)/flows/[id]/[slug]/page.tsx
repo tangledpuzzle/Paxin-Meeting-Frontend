@@ -1,4 +1,3 @@
-import { Breadcrumb } from '@/components/common/breadcrumb';
 import { ComplainModal } from '@/components/common/complain-modal';
 import { CopyButton } from '@/components/common/copy-button';
 import { ReportModal } from '@/components/common/report-modal';
@@ -196,7 +195,7 @@ export default async function FlowPage({
           </Button>
         </div>
       )}
-      <Breadcrumb contents={breadcrumbs} />
+      {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='font-satoshi'>
         <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
           {blogDetails?.title}

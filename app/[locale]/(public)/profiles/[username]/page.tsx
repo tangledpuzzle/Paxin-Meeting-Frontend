@@ -1,4 +1,3 @@
-import { Breadcrumb } from '@/components/common/breadcrumb';
 // import { TagSlider } from '@/components/common/tag-slider';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
@@ -31,10 +30,10 @@ import { FollowButtonGroup } from '@/components/home/profile/follow-button-group
 import { ProfileImageGallery } from '@/components/home/profile/profile-image-gallery';
 import authOptions from '@/lib/authOptions';
 import '@/styles/editor.css';
+import { MoveLeft } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
-import { MoveLeft } from 'lucide-react';
 
 async function getData(locale: string, username: string) {
   const session = await getServerSession(authOptions);
@@ -222,7 +221,7 @@ export default async function ProfilePage({
           </Button>
         </div>
       )}
-      <Breadcrumb contents={breadcrumbs} />
+      {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4'>
         <div className=''>
           <div className='w-full'>
