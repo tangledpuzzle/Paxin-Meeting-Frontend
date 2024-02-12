@@ -1,4 +1,3 @@
-import { Breadcrumb } from '@/components/common/breadcrumb';
 import { ComplainModal } from '@/components/common/complain-modal';
 import { CopyButton } from '@/components/common/copy-button';
 import { ReportModal } from '@/components/common/report-modal';
@@ -17,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import authOptions from '@/lib/authOptions';
+import { MoveLeft } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
@@ -157,8 +157,10 @@ async function getData(locale: string, id: string, slug: string) {
 
 export default async function FlowPage({
   params,
+  searchParams,
 }: {
   params: { id: string; slug: string; locale: string };
+  searchParams: { [key: string]: string | null };
 }) {
   const t = await getTranslations('main');
 
@@ -183,7 +185,17 @@ export default async function FlowPage({
 
   return blogDetails ? (
     <section className='container py-4'>
-      <Breadcrumb contents={breadcrumbs} />
+      {searchParams['callback'] !== null && (
+        <div>
+          <Button variant='link' asChild>
+            <Link href={searchParams['callback']}>
+              <MoveLeft className='mr-2 size-4' />
+              Back
+            </Link>
+          </Button>
+        </div>
+      )}
+      {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='font-satoshi'>
         <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
           {blogDetails?.title}
