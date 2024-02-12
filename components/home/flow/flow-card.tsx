@@ -41,6 +41,7 @@ export interface FlowCardProps {
   review: {
     totalviews: number;
   };
+  callbackURL: string;
 }
 
 function FlowCard(profile: FlowCardProps) {
@@ -60,6 +61,7 @@ function FlowCard(profile: FlowCardProps) {
     category,
     countrycode,
     review,
+    callbackURL,
   } = profile;
 
   const queries: { [key: string]: string } = {};
@@ -81,7 +83,10 @@ function FlowCard(profile: FlowCardProps) {
   return (
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-0'>
-        <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
+        <Link
+          href='/flows/[id]/[slug]'
+          as={`/flows/${id}/${slug}?callback=${callbackURL}`}
+        >
           <div className='relative'>
             <div className='max-h-auto h-auto min-h-[300px] w-full md:min-h-[416px] '>
               <Image
@@ -125,7 +130,10 @@ function FlowCard(profile: FlowCardProps) {
         </div>
         <div className='px-3 font-satoshi'>
           <div className='line-clamp-1 text-xl font-semibold text-secondary-foreground'>
-            <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
+            <Link
+              href='/flows/[id]/[slug]'
+              as={`/flows/${id}/${slug}?callback=${callbackURL}`}
+            >
               {title}
             </Link>
           </div>

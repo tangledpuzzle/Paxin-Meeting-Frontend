@@ -34,6 +34,7 @@ import '@/styles/editor.css';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
+import { MoveLeft } from 'lucide-react';
 
 async function getData(locale: string, username: string) {
   const session = await getServerSession(authOptions);
@@ -189,35 +190,14 @@ interface ProfileDetails {
 
 export default async function ProfilePage({
   params,
+  searchParams,
 }: {
   params: { username: string; locale: string };
+  searchParams: { [key: string]: string | null };
 }) {
   const t = await getTranslations('main');
 
   const profileDetails = await getData(params.locale, params.username);
-
-  console.log(profileDetails);
-
-  const modules = {
-    toolbar: false,
-  };
-
-  const formats = [
-    'header',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'align',
-    'list',
-    'bullet',
-    'indent',
-    'link',
-    'image',
-    'video',
-    'code-block',
-  ];
 
   const breadcrumbs = [
     {
@@ -232,6 +212,16 @@ export default async function ProfilePage({
 
   return profileDetails ? (
     <section className='container py-4'>
+      {searchParams['callback'] !== null && (
+        <div>
+          <Button variant='link' asChild>
+            <Link href={searchParams['callback']}>
+              <MoveLeft className='mr-2 size-4' />
+              Back
+            </Link>
+          </Button>
+        </div>
+      )}
       <Breadcrumb contents={breadcrumbs} />
       <div className='grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4'>
         <div className=''>
