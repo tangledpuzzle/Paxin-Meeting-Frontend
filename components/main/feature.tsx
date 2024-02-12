@@ -120,7 +120,7 @@ export default function FeatureSection() {
       <SectionDescription className='pb-[36px] max-w-full text-left md:text-center px-7'>
         {t('unleashing_future_online_interaction_description')}
       </SectionDescription>
-      <div className='grid grid-cols-1 gap-8 px-0 md:px-7 pb-[40px] sm:grid-cols-2 md:pb-[80px] xl:grid-cols-4'>
+      <div className='grid grid-cols-1 gap-8 px-0 md:px-7 pb-[0px] sm:grid-cols-2 md:pb-[0px] xl:grid-cols-4'>
         {features.map((feature, index) => (
           <FeatureCard
             link={feature.link}

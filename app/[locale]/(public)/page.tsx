@@ -28,6 +28,11 @@ const ProfilestagsWithSSR = dynamic(
   { ssr: true }
 );
 
+const DynamicLiAds = dynamic(
+  () => import('@/components/main/tt'),
+  { ssr: true }
+);
+
 
 export default function LandingPage({
   params,
@@ -40,6 +45,7 @@ export default function LandingPage({
     <section className='container grid items-center gap-0 px-0 pb-8'>
       <HeroSection />
       <FeatureSection />
+      <DynamicLiAds />
       <NavigateSection />
       <ProfilesComponentWithSSR />
       <ServiceList />
