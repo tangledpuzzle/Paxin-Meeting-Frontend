@@ -39,7 +39,7 @@ export interface FlowData {
   callbackURL: string;
 }
 
-const pageSize = 2;
+const pageSize = 6;
 
 export default function FlowSection() {
   const t = useTranslations('main');
