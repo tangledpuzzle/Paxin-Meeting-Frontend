@@ -36,7 +36,7 @@ export function CardSlide({
         userSelect: 'none',
       }}
       tabIndex={0}
-      className='card border-gradient'
+      className=' border-gradient'
     >
       <div>
         <div className='overflow-hidden text-ellipsis whitespace-nowrap px-4 text-base'>
