@@ -46,9 +46,9 @@ export default function middleware(req: NextRequest) {
       p === '/'
         ? ['', '/']
         : p
-            .replace('[slug]', '[a-zA-Z0-9-_]+')
+            .replace('[slug]', '[a-zA-Z0-9-,:_]+')
             .replace('[id]', '[a-zA-Z0-9-_]+')
-            .replace('[username]', '[a-zA-Z0-9-_]+')
+            .replace('[username]', '[\\p{L}\\d_.-]+') // Обновлено регулярное выражение для имени пользователя
     )
     .flat(); // Flatten the array here to ensure proper joining
 

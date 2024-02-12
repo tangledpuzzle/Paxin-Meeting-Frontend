@@ -376,7 +376,7 @@ export default function SettingPage() {
           ID: hashtag.value,
           Hashtag: hashtag.label,
         })),
-        Descr: data.bio,
+        bio: data.bio,
       });
 
       if (res.status === 200) {
