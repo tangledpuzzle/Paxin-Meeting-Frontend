@@ -148,7 +148,10 @@ function ProfileCard(profile: ProfileCardProps) {
             className='btn btn--wide w-full !rounded-md text-center font-roboto'
             asChild
           >
-            <Link href='/profiles/[username]' as={`/profiles/${username}`}>
+            <Link
+              href='/profiles/[username]'
+              as={`/profiles/${username}?callback=${callbackURL}`}
+            >
               {t('view_detail')}
             </Link>
           </Button>

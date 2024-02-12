@@ -26,11 +26,11 @@ import {
 } from '@/components/ui/card';
 
 import { ReportModal } from '@/components/common/report-modal';
+import BackButton from '@/components/home/back-button';
 import { FollowButtonGroup } from '@/components/home/profile/follow-button-group';
 import { ProfileImageGallery } from '@/components/home/profile/profile-image-gallery';
 import authOptions from '@/lib/authOptions';
 import '@/styles/editor.css';
-import { MoveLeft } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
@@ -192,7 +192,7 @@ export default async function ProfilePage({
   searchParams,
 }: {
   params: { username: string; locale: string };
-  searchParams: { [key: string]: string | null };
+  searchParams: { [key: string]: string | undefined | null };
 }) {
   const t = await getTranslations('main');
 
@@ -211,16 +211,7 @@ export default async function ProfilePage({
 
   return profileDetails ? (
     <section className='container py-4'>
-      {searchParams['callback'] !== null && (
-        <div>
-          <Button variant='link' asChild>
-            <Link href={searchParams['callback']}>
-              <MoveLeft className='mr-2 size-4' />
-              Back
-            </Link>
-          </Button>
-        </div>
-      )}
+      <BackButton callback={searchParams['callback']} />
       {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4'>
         <div className=''>
