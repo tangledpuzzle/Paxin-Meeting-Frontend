@@ -57,9 +57,8 @@ export function CTASection() {
             value={keyword}
             onChange={(e) => {
               setKeyword(e.target.value);
-
               const newSearchParams = new URLSearchParams(searchParams);
-              newSearchParams.set('title', e.target.value || 'all');
+              newSearchParams.set('title', e.target.value.trim() || 'all');
 
               router.push(`?${newSearchParams.toString()}`);
             }}

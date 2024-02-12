@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FlowCard } from './flow-card';
 import { FlowCardSkeleton } from './flow-card-skeleton';
 import { Button } from '@/components/ui/button';
@@ -36,6 +36,7 @@ export interface FlowData {
   review: {
     totalviews: number;
   };
+  callbackURL: string;
 }
 
 const pageSize = 6;
@@ -43,61 +44,93 @@ const pageSize = 6;
 export default function FlowSection() {
   const t = useTranslations('main');
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [isLoadable, setIsLoadable] = useState<boolean>(false);
-  const [flowData, setFlowData] = useState<FlowData[]>([]);
+  const [flowData, setFlowData] = useState<FlowData[] | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const locale = useLocale();
   const [fetchURL, setFetchURL] = useState(
     `/api/flows/get?language=en&limit=${pageSize}&skip=${currentPage * pageSize}`
+  );
+  const [title, setTitle] = useState<string>(
+    searchParams.get('title') ? searchParams.get('title') || 'all' : 'all'
+  );
+  const [city, setCity] = useState<string | null>(
+    searchParams.get('city') ? searchParams.get('title') || 'all' : 'all'
+  );
+  const [category, setCategory] = useState<string | null>(
+    searchParams.get('category') ? searchParams.get('category') || 'all' : 'all'
+  );
+  const [hashtag, setHashtag] = useState<string | null>(
+    searchParams.get('hashtag') ? searchParams.get('hashtag') || 'all' : 'all'
+  );
+  const [money, setMoney] = useState<string | null>(
+    searchParams.get('money') ? searchParams.get('money') || 'all' : 'all'
   );
 
   const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
 
   const handleLoadMore = () => {
     setLoading(true);
-    setCurrentPage(currentPage + 1);
+    setCurrentPage(Math.ceil(flowData?.length || 0) / pageSize);
   };
 
   useEffect(() => {
-    const generateFetchURL = () => {
-      let baseURL = `/api/flows/get?language=${locale}&limit=${pageSize}&skip=${currentPage * pageSize}`;
-      const queryParams = [
-        'mode',
-        'title',
-        'city',
-        'category',
-        'hashtag',
-        'money',
-      ];
+    const _title = searchParams.get('title');
+    const _city = searchParams.get('city');
+    const _category = searchParams.get('category');
+    const _hashtag = searchParams.get('hashtag');
+    const _money = searchParams.get('money');
 
-      queryParams.forEach((param) => {
-        const value = searchParams.get(param);
-        if (value) {
-          baseURL += `&${param}=${value}`;
-        }
-      });
+    if (_title || _city || _category || _hashtag || _money) setCurrentPage(0);
 
-      console.log(baseURL);
+    if (_title) setTitle(_title);
+    if (_city) setCity(_city);
+    if (_category) setCategory(_category);
+    if (_hashtag) setHashtag(_hashtag);
+    if (_money) setMoney(_money);
+  }, [searchParams]);
+
+  useEffect(() => {
+    const generateFetchURL = (page: number) => {
+      let baseURL = `/api/flows/get?language=${locale}&limit=${page > 0 ? pageSize * (page + 1) : pageSize}&skip=${page > 0 ? 0 : currentPage * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}`;
 
       return baseURL;
     };
 
-    setFetchURL(generateFetchURL());
-  }, [searchParams, locale, currentPage]);
+    const page = searchParams.get('page')
+      ? Number(searchParams.get('page'))
+      : -1;
+
+    setFetchURL(generateFetchURL(page));
+
+    if (page > -1) {
+      const newSearchParams = new URLSearchParams(searchParams.toString());
+      newSearchParams.delete('page');
+
+      router.push(`?${newSearchParams.toString()}`);
+    }
+
+    setFetchURL(generateFetchURL(page));
+  }, [title, city, category, hashtag, money, locale, currentPage]);
 
   useEffect(() => {
     if (!error && fetchedData) {
       if (currentPage === 0) {
         setFlowData(fetchedData.data);
 
-        setIsLoadable(fetchedData.meta.total > pageSize);
+        setIsLoadable(
+          fetchedData.meta.total >
+            Number(fetchedData.meta.skip) + fetchedData.data.length
+        );
       } else {
         setIsLoadable(
-          flowData.length + fetchedData.data.length >= fetchedData.meta.total
+          fetchedData.meta.total >
+            Number(fetchedData.meta.skip) + fetchedData.data.length
         );
 
-        setFlowData([...flowData, ...fetchedData.data]);
+        setFlowData([...(flowData || []), ...fetchedData.data]);
 
         toast.success(
           t('n_data_loaded_successfully', { number: fetchedData.data.length }),
@@ -105,12 +138,8 @@ export default function FlowSection() {
             position: 'top-right',
           }
         );
-      }
 
-      if (flowData.length + fetchedData.data.length >= fetchedData.meta.total) {
-        setIsLoadable(false);
-      } else {
-        setIsLoadable(true);
+        console.log(flowData, 'FLOW', 1);
       }
 
       setLoading(false);
@@ -121,10 +150,16 @@ export default function FlowSection() {
     <div className='w-full space-y-6'>
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3'>
         {!error ? (
-          fetchedData && flowData ? (
+          flowData ? (
             flowData?.length > 0 ? (
               flowData.map((flow: FlowData) => (
-                <FlowCard key={flow.id} {...flow} />
+                <FlowCard
+                  key={flow.id}
+                  {...flow}
+                  callbackURL={encodeURIComponent(
+                    `/home?mode=flow&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}&page=${Math.ceil(flowData?.length || 1) / pageSize - 1}`
+                  )}
+                />
               ))
             ) : (
               <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
