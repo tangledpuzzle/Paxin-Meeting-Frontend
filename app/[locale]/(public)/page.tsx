@@ -4,7 +4,9 @@ import HeroSection from '@/components/main/hero';
 import JoinUsSection from '@/components/main/joinus';
 import NavigateSection from '@/components/main/navigate';
 import ServicesSection from '@/components/main/services';
-import TestimonialSection from '@/components/main/testimonial';
+// import TestimonialSection from '@/components/main/testimonial';
+import ServiceList from '@/components/main/servicelist';
+
 import { useTranslations } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
 import dynamic from 'next/dynamic';
@@ -40,8 +42,8 @@ export default function LandingPage({
       <FeatureSection />
       <NavigateSection />
       <ProfilesComponentWithSSR />
-
-      <TestimonialSection />
+      <ServiceList />
+      {/* <TestimonialSection /> */}
       {/* <AboutSection /> */}
       <ServicesSection />
       <DynamicComponentWithSSR />

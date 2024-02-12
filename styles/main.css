@@ -536,7 +536,7 @@ footer {
 
 .main__heading {
   font-weight: 600;
-  font-size: 2.25em;
+  /* font-size: 2.25em; */
   margin-bottom: 0.75em;
   text-align: center;
   color: #eceff1;

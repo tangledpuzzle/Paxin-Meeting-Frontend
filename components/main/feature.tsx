@@ -5,6 +5,7 @@ import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
 import { Button } from '../ui/button';
 import { IoMdArrowDropright } from "react-icons/io";
+import Link from 'next/link';
 
 const features = [
   {
@@ -12,28 +13,35 @@ const features = [
     description: 'meta_vision_description',
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/eye.svg',
-    read: 'read_text'
+    read: 'read_text',
+    link: '/flows/xclvTWWZzIo/meta-platformy-stroiteljstvo-soobschestv-v-tsifrovoy-ere'
   },
   {
     title: 'meta_identification',
     description: 'meta_identification_description',
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/swift.svg',
-    read: 'read_text'
+    read: 'read_text',
+    link: '/flows/1DDsmzx1p3I/meta-platformy---katalizatory-razvitiya-tsifrovyh-soobschestv'
+
   },
   {
     title: 'meta_communication',
     description: 'meta_communication_description',
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/smscall.svg',
-    read: 'read_text'
+    read: 'read_text',
+    link: '/flows/8d1FoDaIe50/tsifrovye-instrumenty-i-funktsional-meta-platform'
+
   },
   {
     title: 'meta_world_experience',
     description: 'meta_world_experience_description',
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/city360.svg',
-    read: 'read_text'
+    read: 'read_text',
+    link: '/flows/B6pSpoN71hE/meta-platformy-takie-kak-facebook-instagram-whatsapp-i-drugie-deystviteljno-okazyvayut-znachiteljnoe-vliyanie-na-formirovanie-novyh-kuljturnyh-trendov-stereotipov-i-sotsialjnyh-norm-a-takzhe-na-ekonomiku-politiku-i-obrazovanie'
+
   },
 ];
 
@@ -42,13 +50,15 @@ function FeatureCard({
   description,
   bottomImage,
   icon,
-  read
+  read,
+  link
 }: {
   title: string;
   description: string;
   bottomImage: string;
   icon: string;
   read: string;
+  link: string;
 }) {
   return (
     <div className='bg-with-gradient hover:ring-primary-500 dark:hover:ring-primary-400 group relative isolate flex flex-1 flex-col rounded-none md:rounded-xl shadow transition-shadow duration-200 before:absolute before:-inset-[2px] before:z-[-1] before:hidden before:size-[calc(100%+4px)] before:rounded-[13px] before:lg:block'>
@@ -86,7 +96,10 @@ function FeatureCard({
               className='absolute z-[-1] inset-y-0 right-2 mt-auto hidden w-full overflow-hidden opacity-0 transition-opacity duration-500 group-hover:opacity-20 md:block'
             />
           </div>
-          <Button variant='outline' className='cursor-point !rounded-md p-2 w-[150px'>{read} <IoMdArrowDropright className='mt-1' /></Button>
+          <Link href={link}>
+          <Button variant='outline' className='cursor-point !rounded-md p-2 w-[150px'>
+          {read}
+           <IoMdArrowDropright className='mt-1' />{}</Button></Link>
         </div>
       </div>
     </div>
@@ -110,6 +123,7 @@ export default function FeatureSection() {
       <div className='grid grid-cols-1 gap-8 px-0 md:px-7 pb-[40px] sm:grid-cols-2 md:pb-[80px] xl:grid-cols-4'>
         {features.map((feature, index) => (
           <FeatureCard
+            link={feature.link}
             key={index}
             title={t(feature.title as keyof IntlMessages['main'])}
             description={t(feature.description as keyof IntlMessages['main'])}
