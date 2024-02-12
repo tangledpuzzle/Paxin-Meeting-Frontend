@@ -54,13 +54,15 @@ export function FilterModal() {
   const [categoryKeyword, setCategoryKeyword] = useState<string>('');
 
   const { data: fetchedCities, error: cityFetchError } = useSWR(
-    cityKeyword ? `/api/cities/query?name=${cityKeyword}&lang=${locale}` : '',
+    cityKeyword
+      ? `/api/cities/query?name=${cityKeyword}&lang=${locale}`
+      : `/api/cities/get?lang=${locale}`,
     fetcher
   );
   const { data: fetchedCategories, error: categoryFetchError } = useSWR(
     categoryKeyword
       ? `/api/categories/query?name=${categoryKeyword}&lang=${locale}`
-      : '',
+      : `/api/categories/get?lang=${locale}&limit=100`,
     fetcher
   );
 
@@ -320,8 +322,10 @@ export function FilterModal() {
     if (fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
-          value: city.Translations[0].Name,
-          label: city.Translations[0].Name,
+          value: city.Translations.find((t: any) => t.Language === locale)
+            ?.Name,
+          label: city.Translations.find((t: any) => t.Language === locale)
+            ?.Name,
         }))
       );
 
@@ -351,8 +355,10 @@ export function FilterModal() {
     if (fetchedCategories) {
       setCategoryOptions(
         fetchedCategories.data.map((category: any) => ({
-          value: category.Translations[0].Name,
-          label: category.Translations[0].Name,
+          value: category.Translations.find((t: any) => t.Language === locale)
+            ?.Name,
+          label: category.Translations.find((t: any) => t.Language === locale)
+            ?.Name,
         }))
       );
 
