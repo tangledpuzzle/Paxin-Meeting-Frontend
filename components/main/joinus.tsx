@@ -20,7 +20,7 @@ export default function JoinUsSection() {
             />
           {t('unlock_new_dimension_of_connectivity')}
       </div>
-      <div className='prose  mt-3 max-w-full md:text-center text-center break-all	 text-[1rem]	 font-satoshi text-gray-700/70 dark:text-white/70'>
+      <div className='prose  mt-3 max-w-full md:text-center text-justify tracking-[-0.09rem] text-[1rem]	 font-satoshi text-gray-700/70 dark:text-white/70'>
         {t('unlock_new_dimension_of_connectivity_description')}
       </div>
       <div className='relative mt-10 flex w-full items-center justify-center'>
@@ -33,7 +33,6 @@ export default function JoinUsSection() {
           <Link href='/auth/signup'>{t('join_now')}</Link>
         </Button>
       </div>
-
     <div className='flex flex-col items-start md:items-center justify-center rounded-xl bg-card-gradient-menu p-8 pt-0 absolute blur-[40px]'>
       <Image
         src='/images/home/join-us-banner.png'

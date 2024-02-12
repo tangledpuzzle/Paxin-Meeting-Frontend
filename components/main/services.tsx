@@ -53,12 +53,10 @@ function ServiceCard({
           />
         ))}
       </div>
-      <div className='whitespace-nowrap text-center font-satoshi text-xs font-medium text-white sm:text-lg'>
+      <div className=' text-center font-satoshi text-xs font-medium text-white sm:text-lg'>
         {t(title as keyof IntlMessages['main'])}
       </div>
-      <div className='prose hidden text-center font-satoshi text-[1rem] text-white/70 sm:block'>
-        {t(description as keyof IntlMessages['main'])}
-      </div>
+
     </div>
   );
 }
@@ -103,7 +101,9 @@ export default function ServicesSection() {
               className='m-auto hidden size-full dark:block'
             />
           </div>
+          
         </div>
+
       </div>
     </div>
   );

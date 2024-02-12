@@ -44,6 +44,7 @@ export function SiteFooter() {
           />
           <Card className='w-full max-w-xl rounded-lg border-none bg-white shadow-sm dark:bg-[#17171A]/70'>
             <CardContent>
+              
               <div className='grid grid-cols-1 md:grid-cols-3'>
                 <div className='flex flex-col'>
                   <div className='my-4 font-satoshi text-xl font-semibold  text-center md:text-left'>
