@@ -10,17 +10,17 @@ export default function NavigateSection() {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-start md:items-center justify-center px-0 pb-[40px] md:pb-[0px]'>
+    <div className='flex flex-col items-start justify-center px-0 pb-[40px] md:items-center md:pb-[0px]'>
       <div className='px-7'>
         <SectionBadge>{t('search_and_share')}</SectionBadge>
       </div>
-      <SectionTitle className='px-7 leading-[30px] text-left md:text-center'>
+      <SectionTitle className='px-7 text-left leading-[30px] md:text-center'>
         {t('navigating_your_digital_universe')}
       </SectionTitle>
-      <SectionDescription className='text-left md:text-center px-7'>
+      <SectionDescription className='px-7 text-left md:text-center'>
         {t('navigating_your_digital_universe_description')}
       </SectionDescription>
-      <div className='relative mt-10 grid w-full grid-cols-1 gap-4 md:grid-cols-3 px-0 md:px-7'>
+      <div className='relative mt-10 grid w-full grid-cols-1 gap-4 px-0 md:grid-cols-3 md:px-7'>
         {/* <div
           className="bg-s hover:navigate-hover flex min-h-72 flex-col justify-center group relative overflow-hidden rounded-xl transition-all hover:bg-none bg-cover p-4 sm:p-8 md:col-span-2"
           style={{ backgroundImage: `url("/images/home/bg-nav.png")` }}
@@ -42,7 +42,7 @@ export default function NavigateSection() {
           </div>
         </div> */}
         <div
-          className='hover:navigate-hover bg-with-gradient group relative min-h-72 overflow-hidden  rounded-none md:rounded-xl bg-cover transition-all hover:bg-none md:col-span-2'
+          className='hover:navigate-hover bg-with-gradient group relative min-h-72 overflow-hidden  rounded-none bg-cover transition-all hover:bg-none md:col-span-2 md:rounded-xl'
           style={{
             backgroundImage: `url("/images/home/bg-nav.webp")`,
             backgroundSize: `cover`,
@@ -63,12 +63,12 @@ export default function NavigateSection() {
             <div className='text-md pb-2 text-left font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               {t('efficient_discovery')}
             </div>
-            <div className='translate-all text-[1rem] max-w-xl text-left leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            <div className='translate-all max-w-xl text-left text-[1rem] leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('efficient_discovery_description')}
             </div>
           </div>
         </div>
-        <div className='hover:navigate-hover bg-with-gradient group relative overflow-hidden rounded-none md:rounded-xl transition-all hover:bg-none'>
+        <div className='hover:navigate-hover bg-with-gradient group relative overflow-hidden rounded-none transition-all hover:bg-none md:rounded-xl'>
           <div
             className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
             style={{
@@ -91,16 +91,16 @@ export default function NavigateSection() {
             className='absolute mx-auto w-full'
             fill
           /> */}
-          <div className='bg-[#00000008] px-7 pb-4 pt-2 flex flex-col justify-center h-full'>
+          <div className='flex h-full flex-col justify-center bg-[#00000008] px-7 pb-4 pt-2'>
             <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               {t('private_asks')}
             </div>
-            <div className='translate-all justify-center text-[1rem] font-[1em] md:text-md max-w-xl text-left  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('private_asks_description')}
             </div>
           </div>
         </div>
-        <div className='bg-with-gradient group relative grid grid-cols-1 overflow-hidden rounded-none md:rounded-xl hover:bg-none sm:grid-cols-2 md:col-span-3'>
+        <div className='bg-with-gradient group relative grid grid-cols-1 overflow-hidden rounded-none hover:bg-none sm:grid-cols-2 md:col-span-3 md:rounded-xl'>
           <div
             className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
             style={{
@@ -191,7 +191,7 @@ export default function NavigateSection() {
             <div className='md:text-md text-md pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white'>
               {t('smart_filters_for_tailored_content')}
             </div>
-            <div className='translate-all text-[1rem] max-w-xl text-left   leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            <div className='translate-all max-w-xl text-left text-[1rem]   leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
               {t('smart_filters_for_tailored_content_description')}
             </div>
             <Image
