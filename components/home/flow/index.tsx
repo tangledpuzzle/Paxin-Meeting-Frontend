@@ -68,12 +68,29 @@ export default function FlowSection() {
   const [money, setMoney] = useState<string | null>(
     searchParams.get('money') ? searchParams.get('money') || 'all' : 'all'
   );
+  const [scrollY, setScrollY] = useState<number>(
+    Number(searchParams.get('scrollY') || 0)
+  );
+  const [backedScrollY, setBackedScrollY] = useState<number>(0);
 
   const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
 
   const handleLoadMore = () => {
     setLoading(true);
     setCurrentPage(Math.ceil(flowData?.length || 0) / pageSize);
+  };
+
+  const scrollTo = (scrollY: number) => {
+    if (
+      window !== undefined &&
+      window.document.body.scrollHeight - window.innerHeight >= scrollY
+    ) {
+      window.scrollTo({ top: scrollY, behavior: 'smooth' });
+      setBackedScrollY(0);
+    } else
+      setTimeout(() => {
+        scrollTo(scrollY);
+      }, 100);
   };
 
   useEffect(() => {
@@ -107,8 +124,9 @@ export default function FlowSection() {
 
     if (page > -1) {
       const newSearchParams = new URLSearchParams(searchParams.toString());
+      setBackedScrollY(Number(searchParams.get('scrollY') || 0));
       newSearchParams.delete('page');
-
+      newSearchParams.delete('scrollY');
       router.push(`?${newSearchParams.toString()}`);
     }
 
@@ -146,6 +164,27 @@ export default function FlowSection() {
     }
   }, [fetchedData, error]);
 
+  useEffect(() => {
+    if (window !== undefined) {
+      window.addEventListener('scroll', () => {
+        setScrollY(window.scrollY);
+      });
+
+      return () => {
+        window.removeEventListener('scroll', () => {
+          setScrollY(window.scrollY);
+        });
+      };
+    }
+  });
+
+  useEffect(() => {
+    const scrollY = Number(searchParams.get('scrollY') || 0);
+
+    if (scrollY === 0 && fetchedData && backedScrollY > 0)
+      scrollTo(backedScrollY);
+  }, [searchParams, fetchedData]);
+
   return (
     <div className='w-full space-y-6'>
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3'>
@@ -157,7 +196,7 @@ export default function FlowSection() {
                   key={flow.id}
                   {...flow}
                   callbackURL={encodeURIComponent(
-                    `/home?mode=flow&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}&page=${Math.ceil(flowData?.length || 1) / pageSize - 1}`
+                    `/home?mode=flow&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}&page=${Math.ceil(flowData?.length || 1) / pageSize - 1}&scrollY=${scrollY}`
                   )}
                 />
               ))

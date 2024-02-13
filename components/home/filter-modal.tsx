@@ -252,6 +252,8 @@ export function FilterModal() {
   }, [searchParams]);
 
   useEffect(() => {
+    if (!isFilterModalOpen) return;
+
     const _hashtag = searchParams.get('hashtag');
     const _city = searchParams.get('city');
     const _category = searchParams.get('category');
@@ -273,6 +275,7 @@ export function FilterModal() {
       // });
 
       setCity(newCity);
+      console.log(newCity, _city, '~~~~~');
     } else if (_city === 'all') setCity([]);
     if (_category && _category !== 'all') {
       let newCategory: Option[] = category || [];
