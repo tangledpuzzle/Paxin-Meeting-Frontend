@@ -4,8 +4,6 @@ import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 
 const MyComponent = () => {
   useEffect(() => {
-    alert('useEffect hook is triggered'); // Alert to check if useEffect is triggered
-
     if (!CSS.supports('animation-timeline: view()') && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
       gsap.registerPlugin(ScrollTrigger);
 
@@ -50,8 +48,6 @@ const MyComponent = () => {
           end: window.innerHeight * 0.5
         }
       });
-      alert('ScrollTrigger animations should be working'); // Alert to indicate ScrollTrigger animations should be working
-
     }
   }, []);
 
