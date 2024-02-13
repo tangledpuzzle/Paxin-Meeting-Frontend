@@ -63,7 +63,7 @@ const Upload = () => {
 
     if (result && result.filePath) {
       const playback =
-        (window as any).PAXMEET_SERVER_URL +
+        process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL +
         '/download/uploadedFile/' +
         result.filePath;
 

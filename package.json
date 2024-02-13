@@ -14,7 +14,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
-    "@bufbuild/protobuf": "^1.7.2",
+    "@bufbuild/protobuf": "1.6.0",
     "@excalidraw/excalidraw": "^0.17.2",
     "@headlessui/react": "^1.7.18",
     "@hookform/resolvers": "^3.3.4",

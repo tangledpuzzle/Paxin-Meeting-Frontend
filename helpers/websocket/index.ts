@@ -96,7 +96,7 @@ const onMessage = (event: any) => {
 };
 
 const getURL = () => {
-  const url = new URL((window as any).PAXMEET_SERVER_URL);
+  const url = new URL(process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL);
   const session = store.getState().session;
   let webSocketUrl: string;
   let protocol = 'ws://';

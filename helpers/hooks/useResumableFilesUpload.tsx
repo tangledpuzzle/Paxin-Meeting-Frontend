@@ -40,7 +40,7 @@ const useResumableFilesUpload = ({
     let fileName = '';
 
     const r = new Resumable({
-      target: (window as any).PAXMEET_SERVER_URL + '/api/fileUpload',
+      target: process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL + '/api/fileUpload',
       uploadMethod: 'POST',
       query: {
         sid: session.currentRoom.sid,

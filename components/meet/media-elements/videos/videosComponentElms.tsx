@@ -10,6 +10,7 @@ import {
   setForPC,
 } from './helpers/utils';
 import { ColumnCameraPosition } from '@/store/slices/interfaces/roomSettings';
+import { useTranslations } from 'next-intl';
 
 interface IVideosComponentElmsProps {
   allParticipants: JSX.Element[];

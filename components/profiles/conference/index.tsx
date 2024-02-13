@@ -1,5 +1,16 @@
 'use client';
-import { useEffect, useState } from 'react';
+
+/**
+ * Edited by Ken
+ * To-Do
+ *
+ * 1. Refactor Timer Separate it from this component
+ * 2. API calling move it to the backend. It's vulnerable.
+ *
+ *
+ *
+ */
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HiUserGroup } from 'react-icons/hi';
@@ -13,6 +24,7 @@ import CTASection from '@/components/profiles/cta';
 import { useTranslations } from 'next-intl';
 import CryptoJS from 'crypto-js';
 import { generateRandomString, hashTimestamp } from '@/lib/utils';
+import { setAccessToken } from '@/helpers/utils';
 // Custom formatting for date and time
 const timeZone: Intl.DateTimeFormatOptions = {
   hour: '2-digit',
@@ -123,10 +135,10 @@ const processRequest = async (mode, roomInfo, userInfo) => {
 export default function Conference({ email, userId, name }: IConferenceProps) {
   const router = useRouter();
   const t = useTranslations('main');
-  console.log(email, userId);
   const [time, setTime] = useState<Date>(new Date());
   async function onCreateRoom() {
     const roomId = createRoomId();
+
     console.log('[Conf] Check availability ' + roomId);
     const roomInfo = {
       // room_id: data.get('room_id'),
@@ -213,10 +225,10 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
     };
 
     const token = await processRequest('create', roomInfo, userInfo);
-    console.log(token);
-    router.push(`/meet/?access_token=${token}`);
+    setAccessToken(token);
+    router.push(`/meet/?id=${roomId}`);
   }
-  function createRoomId() {
+  function createRoomId(): string {
     const randomPart = generateRandomString(4);
     const timestampHash = hashTimestamp(Date.now());
     const roomId = `${randomPart}-${timestampHash}`;

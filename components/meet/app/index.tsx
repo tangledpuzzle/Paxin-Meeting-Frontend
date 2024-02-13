@@ -9,7 +9,6 @@ import React, {
 // import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import dynamic from 'next/dynamic';
 import ErrorPage from '../extra-pages/Error';
 import Loading from '../extra-pages/Loading';
 import Footer from '../footer';
@@ -37,8 +36,10 @@ import {
   VerifyTokenRes,
 } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { IConnectLivekit } from '@/helpers/livekit/types';
-import { getAccessToken } from '@/helpers/utils';
+import { clearAccessToken, getAccessToken } from '@/helpers/utils';
 import { useTranslations } from 'next-intl';
+
+import '@/styles/meet/index.scss';
 
 // declare const IS_PRODUCTION: boolean;
 const waitingForApprovalSelector = createSelector(
@@ -107,10 +108,16 @@ const Meet = () => {
       const verifyToken = async () => {
         let res: VerifyTokenRes;
         try {
-          console.log('1231');
+          const isProductionStr = process.env.NEXT_PUBLIC_IS_PRODUCTION;
+          const isProduction: boolean | undefined =
+            isProductionStr === 'true'
+              ? true
+              : isProductionStr === 'false'
+                ? false
+                : undefined;
           const reqObj = new VerifyTokenReq({
-            isProduction: process.env.NEXT_PUBLIC_IS_PRODUCTION,
-          })();
+            isProduction,
+          });
           console.log(123, reqObj);
           const r = await sendAPIRequest(
             'verifyToken',
@@ -129,6 +136,7 @@ const Meet = () => {
             title: t('app.verification-failed-title'),
             text: t('app.token-not-valid'),
           });
+          clearAccessToken();
           return;
         }
 
@@ -269,7 +277,7 @@ const Meet = () => {
       className={`${orientationClass} ${deviceClass} ${userTypeClass} dark:bg-darkPrimary/70`}
       style={{ height: screenHeight }}
     >
-      {t('app.ready')}
+      {/* {t('app.ready')} */}
       {renderElms}
     </div>
   );

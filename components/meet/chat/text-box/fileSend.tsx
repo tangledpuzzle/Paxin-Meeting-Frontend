@@ -87,7 +87,9 @@ const FileSend = ({
     }
 
     const message = `<span class="download"> <i class="pnm-download"></i> <a href="${
-      (window as any).PAXMEET_SERVER_URL + '/download/uploadedFile/' + filePath
+      process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL +
+      '/download/uploadedFile/' +
+      filePath
     }" target="_blank">${fileName}</a></span>`;
 
     const dataMsg = new DataMessage({

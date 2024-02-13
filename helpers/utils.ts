@@ -150,9 +150,14 @@ export const getAudioPreset = () => {
  * from `access_token` GET/Search parameter from URL OR
  * from cookie name `pnm_access_token`
  * */
+export function setAccessToken(token: string) {
+  localStorage.setItem('meetingToken', token);
+}
+export function clearAccessToken() {
+  localStorage.removeItem('meetingToken');
+}
 export const getAccessToken = () => {
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  let accessToken = urlSearchParams.get('access_token');
+  let accessToken = localStorage.getItem('meetingToken');
   if (accessToken) {
     return accessToken;
   }

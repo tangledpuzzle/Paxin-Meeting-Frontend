@@ -322,7 +322,7 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
 
       for (const file of files) {
         const url =
-          (window as any).PAXMEET_SERVER_URL +
+          process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL +
           '/download/uploadedFile/' +
           file.filePath;
 
