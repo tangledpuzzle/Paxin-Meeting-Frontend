@@ -109,7 +109,7 @@ export default function ProfileSection() {
 
   useEffect(() => {
     const generateFetchURL = (page: number) => {
-      let baseURL = `/api/profiles/get?language=${locale}&limit=${page > 0 ? pageSize * (page + 1) : pageSize}&skip=${page > 0 ? 0 : currentPage * pageSize}&city=${city}&category=${category}&hashtag=${hashtag}`;
+      let baseURL = `/api/profiles/get?language=${locale}&limit=${page > 0 ? pageSize * (page + 1) : pageSize}&skip=${page > 0 ? 0 : currentPage * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}`;
 
       return baseURL;
     };
