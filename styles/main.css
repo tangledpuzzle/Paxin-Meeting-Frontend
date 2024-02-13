@@ -1035,6 +1035,7 @@ label, input {
 	--count: 6; /* The number of items you have */
 	--inset: 0; /* Controls the grid animation offset on entry/exit */
 	--outset: 2.5;
+  
 	height: 100%;
 	width: 100%;
 	margin: 0;
@@ -1090,8 +1091,8 @@ li::before {
 .item {
 	align-items: center;
 	background: hsl(0 0% 100%);
-	border: 1px solid hsl(0 0% 90%);
-	color: hsl(0 0% 10%);
+	border: 0px solid hsl(0 0% 90%);
+	/* color: hsl(0 0% 10%); */
 	border-radius: 6px;
 	cursor: pointer;
 	display: flex;
