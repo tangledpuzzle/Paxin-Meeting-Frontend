@@ -615,7 +615,7 @@ footer {
   margin-top: var(--flow-space, 1.25em);
 }
 
-.cta {
+.cta2 {
   display: block;
   align-self: end;
   margin: 1em 0 0.5em 0;
@@ -654,7 +654,7 @@ footer {
   box-shadow: 0 0 0 1px inset hsl(var(--hsl));
 }
 
-.overlay .cta {
+.overlay .cta2 {
   display: block;
   grid-row: -1;
   width: 100%;
@@ -1066,7 +1066,7 @@ li {
 }
 li::before {
 	content: "";
-	position: absolute;
+	/* position: absolute; */
 	inset: 4px 4px -2px -2px;
 	border-radius: 6px;
 	/* background: hsl(0 0% 100%); */
@@ -1090,7 +1090,7 @@ li::before {
 
 .item {
 	align-items: center;
-	background: hsl(0 0% 100%);
+	/* background: hsl(0 0% 100%); */
 	border: 0px solid hsl(0 0% 90%);
 	/* color: hsl(0 0% 10%); */
 	border-radius: 6px;
@@ -1181,6 +1181,211 @@ li:nth-of-type(12) { --index: 5; }
 		li {
 			--duration: calc(var(--speed) * 2);
 			--delay: calc((var(--duration) / var(--count)) * (var(--index, 0) - 8));
+		}
+	}
+}
+
+
+
+.cta {
+	--extended: 100px;
+	--border: 2px;
+	--size: 50px;
+	--starting-scale: 1.5;
+	--bg: black;
+	--color: hsl(0 0% 80%);
+	background: transparent;
+	border-radius: 9999px;
+	bottom: 2rem;
+	box-shadow: 0 10px 20px -5px hsl(0 0% 0% / 0.85);
+	color: var(--color);
+	display: flex;
+	height: var(--size);
+	outline: 4px solid transparent;
+  z-index: 999;
+	outline-offset: -4px;
+  outline-width: 2px;
+	overflow: hidden;
+	place-items: center;
+	position: fixed;
+	right: 2rem;
+	transform-origin: 100% 100%;
+	transition: outline-color 0.2s, outline-offset 0.2s;
+	width: var(--size);
+}
+
+.cta:is(:hover, :focus-visible) {
+	outline-color: hsl(175 80% 50% / 0.65);
+	outline-offset: 0;
+  outline-width: 2px;
+}
+
+.cta::before {
+	background: var(--bg);
+	border: var(--border) solid transparent;
+	border-radius: 9999px;
+	content: "";
+	inset: 0;
+	position: absolute;
+	z-index: -1;
+}
+
+.cta::after {
+	background: linear-gradient(
+		110deg,
+		hsl(0 0% 30%) 50%,
+		hsl(30 80% 50%),
+		hsl(40 80% 50%),
+		hsl(110 80% 50%),
+		hsl(170 80% 50%),
+		hsl(240 80% 50%),
+		hsl(280 80% 50%),
+		hsl(320 80% 50%)
+	) 0% 50% / 200% 100% border-box;
+	border: var(--border) solid transparent;
+	border-radius: 9999px;
+	box-shadow: 0 1px hsl(0 0% 100% / 0.75) inset;
+	content: "";
+	inset: 0;
+	mask:
+  	linear-gradient(#0000, #0000),
+  	linear-gradient(#fff, #fff);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+	position: absolute;
+	z-index: 4;
+}
+
+.icon {
+	aspect-ratio: 1;
+	border-radius: 50%;
+	display: grid;
+	place-items: center;
+	width: var(--size);
+}
+
+/* Glimmer over the top */
+.icon::before {
+	box-shadow: 0 1px hsl(0 0% 100% / 0.75) inset;
+	background: linear-gradient(170deg, hsl(0 0% 100% / 0.2) 39.5%, transparent 40%) padding-box;
+	border: 2px solid transparent;
+	border-radius: 9999px;
+	content: "";
+	inset: 0;
+	position: absolute;
+	z-index: 5;
+}
+
+.icon::after {
+	background: var(--bg);
+	bottom: var(--border);
+	border-radius: 9999px;
+	content: "";
+	left: var(--border);
+	position: absolute;
+	right: var(--border);
+	top: var(--border);
+	mask: radial-gradient(100% 100% at 0% 75%, transparent calc(100% - (var(--size) * 0.15)), white) 100% 50% / 48px 100% no-repeat;
+	z-index: 2;
+}
+
+.icon svg {
+	overflow: visible !important;
+	translate: -10% 0;
+	width: 50%;
+}
+
+.text {
+	left: var(--size);
+	position: absolute;
+	text-align: center;
+	white-space: nowrap;
+}
+
+/* All your CSS animation stuff goes here */
+@supports(animation-timeline: scroll()) {
+	@media(prefers-reduced-motion: no-preference) {
+		/*	Scrub a custom property to scale the width down	*/
+		@property --scrub {
+		  syntax: '<number>';
+		  inherits: true;
+		  initial-value: 0;
+		}
+		body {
+			animation: scrub both steps(1, end);
+			animation-timeline: scroll(root);
+			animation-range: 0vh 10vh;
+		}
+		.icon svg {
+			animation: wave both linear 2;
+			animation-timeline: scroll(root);
+			animation-range: 30vh 50vh;
+			transform-origin: 65% 75%;
+		}
+		.cta {
+      z-index: 99;
+			animation: shrink;
+			animation-fill-mode: both;
+			animation-timing-function: linear;
+			animation-timeline: scroll(root);
+			animation-range: 70vh 100vh;
+			scale: var(--starting-scale);
+			transition: --scrub 0.2s;
+			width: calc(var(--size) + (var(--extended) * (1 - (var(--scrub) / 100))));
+		}
+		.cta::after {
+			animation: flicker both linear;
+		  animation-timeline: scroll(root);
+		  animation-range: 70vh 100vh;
+		}
+		/* nav {
+			animation: shade both linear;
+			animation-timeline: scroll(root);
+			animation-range: 0 25vh;
+		} */
+		.nav__content {
+			display: block;
+			position: absolute;
+			left: 50%;
+			width: var(--content-width);
+			max-width: 100%;
+			padding: 1rem;
+			translate: -50% -100%;
+			animation: drop both linear;
+			animation-timeline: scroll(root);
+			animation-range: 30vh 55vh;
+		}
+		@keyframes drop {
+			to {
+				translate: -50% 0;
+			}
+		}
+		@keyframes shade {
+			to {
+				background: hsl(0 0% 8%);
+				box-shadow: 0 10px 20px -5px black;
+			}
+		}
+		@keyframes wave {
+			50% {
+				rotate: 20deg;
+			}
+		}
+		@keyframes shrink {
+			to {
+				scale: 1;
+			}
+		}
+		/*	Scroll triggered prop for CTA width	*/
+		@keyframes scrub {
+			to {
+				--scrub: 100;
+			}
+		}
+		@keyframes flicker {
+			to {
+				background-position: 200% 50%;
+			}
 		}
 	}
 }

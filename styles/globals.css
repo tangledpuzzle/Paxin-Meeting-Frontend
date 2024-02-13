@@ -419,6 +419,16 @@ textarea {
 
 .text {
   display: block;
+  /* margin-top: 75px; */
+  font-size: 12px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: .25;
+  animation: pulse 2s linear alternate infinite;
+}
+
+.textscroll {
+  display: block;
   margin-top: 75px;
   font-size: 12px;
   text-transform: uppercase;
