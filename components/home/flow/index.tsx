@@ -102,11 +102,11 @@ export default function FlowSection() {
 
     if (_title || _city || _category || _hashtag || _money) setCurrentPage(0);
 
-    if (_title) setTitle(_title);
-    if (_city) setCity(_city);
-    if (_category) setCategory(_category);
-    if (_hashtag) setHashtag(_hashtag);
-    if (_money) setMoney(_money);
+    setTitle(_title || 'all');
+    setCity(_city || 'all');
+    setCategory(_category || 'all');
+    setHashtag(_hashtag || 'all');
+    setMoney(_money || 'all');
   }, [searchParams]);
 
   useEffect(() => {
