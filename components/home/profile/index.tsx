@@ -66,6 +66,10 @@ export default function ProfileSection() {
   const [hashtag, setHashtag] = useState<string | null>(
     searchParams.get('hashtag') ? searchParams.get('hashtag') || 'all' : 'all'
   );
+  const [scrollY, setScrollY] = useState<number>(
+    Number(searchParams.get('scrollY') || 0)
+  );
+  const [backedScrollY, setBackedScrollY] = useState<number>(0);
 
   const locale = useLocale();
 
@@ -74,6 +78,19 @@ export default function ProfileSection() {
   const handleLoadMore = () => {
     setLoading(true);
     setCurrentPage(Math.ceil(profileData?.length || 0) / pageSize);
+  };
+
+  const scrollTo = (scrollY: number) => {
+    if (
+      window !== undefined &&
+      window.document.body.scrollHeight - window.innerHeight >= scrollY
+    ) {
+      window.scrollTo({ top: scrollY, behavior: 'smooth' });
+      setBackedScrollY(0);
+    } else
+      setTimeout(() => {
+        scrollTo(scrollY);
+      }, 100);
   };
 
   useEffect(() => {
@@ -105,8 +122,9 @@ export default function ProfileSection() {
 
     if (page > -1) {
       const newSearchParams = new URLSearchParams(searchParams.toString());
+      setBackedScrollY(Number(searchParams.get('scrollY') || 0));
       newSearchParams.delete('page');
-
+      newSearchParams.delete('scrollY');
       router.push(`?${newSearchParams.toString()}`);
     }
   }, [title, city, category, hashtag, locale, currentPage]);
@@ -142,6 +160,27 @@ export default function ProfileSection() {
     }
   }, [fetchedData, error]);
 
+  useEffect(() => {
+    if (window !== undefined) {
+      window.addEventListener('scroll', () => {
+        setScrollY(window.scrollY);
+      });
+
+      return () => {
+        window.removeEventListener('scroll', () => {
+          setScrollY(window.scrollY);
+        });
+      };
+    }
+  });
+
+  useEffect(() => {
+    const scrollY = Number(searchParams.get('scrollY') || 0);
+
+    if (scrollY === 0 && fetchedData && backedScrollY > 0)
+      scrollTo(backedScrollY);
+  }, [searchParams, fetchedData]);
+
   return (
     <div className='w-full space-y-6'>
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
@@ -153,7 +192,7 @@ export default function ProfileSection() {
                   key={profile.username}
                   {...profile}
                   callbackURL={encodeURIComponent(
-                    `/home?mode=profile&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&page=${Math.ceil(profileData?.length || 0) / pageSize - 1}`
+                    `/home?mode=profile&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&page=${Math.ceil(profileData?.length || 0) / pageSize - 1}&scrollY=${scrollY}`
                   )}
                 />
               ))
