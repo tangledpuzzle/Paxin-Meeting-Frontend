@@ -4,14 +4,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
+import { Button } from '@/components/ui/button';
 import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FlowCard } from './flow-card';
 import { FlowCardSkeleton } from './flow-card-skeleton';
-import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
-import toast from 'react-hot-toast';
-import Image from 'next/image';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -39,19 +37,20 @@ export interface FlowData {
   callbackURL: string;
 }
 
-const pageSize = 6;
+const pageSize = 12;
 
 export default function FlowSection() {
   const t = useTranslations('main');
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [isLoadable, setIsLoadable] = useState<boolean>(false);
   const [flowData, setFlowData] = useState<FlowData[] | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(
+    Number(searchParams.get('page') || 1)
+  );
+  const [maxPage, setMaxPage] = useState<number>(1);
   const locale = useLocale();
   const [fetchURL, setFetchURL] = useState(
-    `/api/flows/get?language=en&limit=${pageSize}&skip=${currentPage * pageSize}`
+    `/api/flows/get?language=en&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}`
   );
   const [title, setTitle] = useState<string>(
     searchParams.get('title') ? searchParams.get('title') || 'all' : 'all'
@@ -68,29 +67,16 @@ export default function FlowSection() {
   const [money, setMoney] = useState<string | null>(
     searchParams.get('money') ? searchParams.get('money') || 'all' : 'all'
   );
-  const [scrollY, setScrollY] = useState<number>(
-    Number(searchParams.get('scrollY') || 0)
-  );
-  const [backedScrollY, setBackedScrollY] = useState<number>(0);
 
   const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
 
-  const handleLoadMore = () => {
-    setLoading(true);
-    setCurrentPage(Math.ceil(flowData?.length || 0) / pageSize);
-  };
+  const goto = (page: number) => {
+    setCurrentPage(page);
 
-  const scrollTo = (scrollY: number) => {
-    if (
-      window !== undefined &&
-      window.document.body.scrollHeight - window.innerHeight >= scrollY
-    ) {
-      window.scrollTo({ top: scrollY, behavior: 'smooth' });
-      setBackedScrollY(0);
-    } else
-      setTimeout(() => {
-        scrollTo(scrollY);
-      }, 100);
+    const newsearchParams = new URLSearchParams(searchParams);
+    newsearchParams.set('page', page.toString());
+
+    router.push(`?${newsearchParams.toString()}`);
   };
 
   useEffect(() => {
@@ -100,7 +86,7 @@ export default function FlowSection() {
     const _hashtag = searchParams.get('hashtag');
     const _money = searchParams.get('money');
 
-    if (_title || _city || _category || _hashtag || _money) setCurrentPage(0);
+    if (_title || _city || _category || _hashtag || _money) setCurrentPage(1);
 
     setTitle(_title || 'all');
     setCity(_city || 'all');
@@ -110,95 +96,47 @@ export default function FlowSection() {
   }, [searchParams]);
 
   useEffect(() => {
-    const generateFetchURL = (page: number) => {
-      let baseURL = `/api/flows/get?language=${locale}&limit=${page > 0 ? pageSize * (page + 1) : pageSize}&skip=${page > 0 ? 0 : currentPage * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}`;
+    const generateFetchURL = () => {
+      let baseURL = `/api/flows/get?language=${locale}&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}`;
 
       return baseURL;
     };
 
-    const page = searchParams.get('page')
-      ? Number(searchParams.get('page'))
-      : -1;
-
-    setFetchURL(generateFetchURL(page));
-
-    if (page > -1) {
-      const newSearchParams = new URLSearchParams(searchParams.toString());
-      setBackedScrollY(Number(searchParams.get('scrollY') || 0));
-      newSearchParams.delete('page');
-      newSearchParams.delete('scrollY');
-      router.push(`?${newSearchParams.toString()}`);
-    }
-
-    setFetchURL(generateFetchURL(page));
+    setFetchURL(generateFetchURL());
   }, [title, city, category, hashtag, money, locale, currentPage]);
 
   useEffect(() => {
     if (!error && fetchedData) {
-      if (currentPage === 0) {
-        setFlowData(fetchedData.data);
+      setFlowData(fetchedData.data);
 
-        setIsLoadable(
-          fetchedData.meta.total >
-            Number(fetchedData.meta.skip) + fetchedData.data.length
-        );
-      } else {
-        setIsLoadable(
-          fetchedData.meta.total >
-            Number(fetchedData.meta.skip) + fetchedData.data.length
-        );
-
-        setFlowData([...(flowData || []), ...fetchedData.data]);
-
-        toast.success(
-          t('n_data_loaded_successfully', { number: fetchedData.data.length }),
-          {
-            position: 'top-right',
-          }
-        );
-
-        console.log(flowData, 'FLOW', 1);
-      }
-
-      setLoading(false);
+      setMaxPage(Math.ceil(fetchedData.meta.total / pageSize));
     }
   }, [fetchedData, error]);
 
-  useEffect(() => {
-    if (window !== undefined) {
-      window.addEventListener('scroll', () => {
-        setScrollY(window.scrollY);
-      });
-
-      return () => {
-        window.removeEventListener('scroll', () => {
-          setScrollY(window.scrollY);
-        });
-      };
-    }
-  });
-
-  useEffect(() => {
-    const scrollY = Number(searchParams.get('scrollY') || 0);
-
-    if (scrollY === 0 && fetchedData && backedScrollY > 0)
-      scrollTo(backedScrollY);
-  }, [searchParams, fetchedData]);
-
   return (
     <div className='w-full space-y-6'>
+      {maxPage > 1 && (
+        <div className='flex w-full justify-between'>
+          <Button
+            disabled={currentPage === 1}
+            onClick={() => goto(currentPage - 1)}
+          >
+            Back
+          </Button>
+          <Button
+            disabled={currentPage === maxPage}
+            onClick={() => goto(currentPage + 1)}
+          >
+            Next
+          </Button>
+        </div>
+      )}
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3'>
         {!error ? (
           flowData ? (
             flowData?.length > 0 ? (
               flowData.map((flow: FlowData) => (
-                <FlowCard
-                  key={flow.id}
-                  {...flow}
-                  callbackURL={encodeURIComponent(
-                    `/home?mode=flow&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}&page=${Math.ceil(flowData?.length || 1) / pageSize - 1}&scrollY=${scrollY}`
-                  )}
-                />
+                <FlowCard key={flow.id} {...flow} callbackURL={''} />
               ))
             ) : (
               <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
@@ -216,27 +154,29 @@ export default function FlowSection() {
               </div>
             )
           ) : (
-            currentPage === 0 && (
-              <>
-                <FlowCardSkeleton />
-                <FlowCardSkeleton className='hidden md:block' />
-                <FlowCardSkeleton className='hidden lg:block' />
-              </>
-            )
+            <>
+              <FlowCardSkeleton />
+              <FlowCardSkeleton className='hidden md:block' />
+              <FlowCardSkeleton className='hidden lg:block' />
+            </>
           )
         ) : (
           <></>
         )}
       </div>
-      {isLoadable && (
-        <div className='flex w-full justify-center'>
+      {maxPage > 1 && (
+        <div className='flex w-full justify-between'>
           <Button
-            className='btn btn--wide mx-auto !rounded-md'
-            disabled={loading}
-            onClick={() => handleLoadMore()}
+            disabled={currentPage === 1}
+            onClick={() => goto(currentPage - 1)}
           >
-            {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
-            {t('load_more')}
+            Back
+          </Button>
+          <Button
+            disabled={currentPage === maxPage}
+            onClick={() => goto(currentPage + 1)}
+          >
+            Next
           </Button>
         </div>
       )}
