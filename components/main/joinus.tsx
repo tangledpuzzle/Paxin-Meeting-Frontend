@@ -14,7 +14,7 @@ export default function JoinUsSection() {
               <div className='chevron'></div>
               <div className='chevron'></div>
               <div className='chevron'></div>
-              <span className='text text-black dark:text-white'>
+              <span className='textscroll text-black dark:text-white'>
                 {t('scroll_down')}
               </span>
           </div>

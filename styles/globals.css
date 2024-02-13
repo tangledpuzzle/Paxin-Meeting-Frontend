@@ -419,6 +419,16 @@ textarea {
 
 .text {
   display: block;
+  /* margin-top: 75px; */
+  font-size: 12px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: .25;
+  animation: pulse 2s linear alternate infinite;
+}
+
+.textscroll {
+  display: block;
   margin-top: 75px;
   font-size: 12px;
   text-transform: uppercase;
@@ -507,4 +517,21 @@ textarea {
 
 .text-muted-foreground {
   font-size:1rem;
+}
+.react-horizontal-scrolling-menu--arrow-left {
+  order:2
+}
+
+.react-horizontal-scrolling-menu--arrow-right {
+  order:3
+}
+.react-horizontal-scrolling-menu--scroll-container {
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 90%, rgba(0,0,0,0));
+}
+.react-horizontal-scrolling-menu--item  {
+  margin-right:5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
