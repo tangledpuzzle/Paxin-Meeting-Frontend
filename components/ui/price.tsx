@@ -29,7 +29,7 @@ const OverlayCards = () => {
     const createOverlayCta = (overlayCard: HTMLElement, ctaEl: HTMLElement) => {
         
       const overlayCta = document.createElement('div');
-      overlayCta.classList.add('cta');
+      overlayCta.classList.add('cta2');
       overlayCta.textContent = ctaEl.textContent || '';
       overlayCta.setAttribute('aria-hidden', 'true');
       overlayCard.append(overlayCta);
@@ -69,7 +69,7 @@ const OverlayCards = () => {
     const updateCtaWidth = () => {
         const cardWidth = cardsRef.current[0]?.getBoundingClientRect().width || 0;
     
-        const overlayCtas = overlay.querySelectorAll('.overlay .cta');
+        const overlayCtas = overlay.querySelectorAll('.overlay .cta2');
     
         overlayCtas.forEach((cta) => {
           (cta as HTMLElement).style.width =  `${cardWidth - 66}px`;
@@ -119,7 +119,7 @@ const OverlayCards = () => {
           <li>Access to standard workouts and nutrition plans</li>
           <li>Email support</li>
         </ul>
-        <a href="#basic" className="card__cta cta !underline underline-offset-4 !text-black dark:!text-white text-center">Get Started</a>
+        <a href="#basic" className="card__cta cta2 !underline underline-offset-4 !text-black dark:!text-white text-center">Get Started</a>
       </div>
 
       <div className="card" ref={(el) => { if (el) cardsRef.current.push(el); }}>
@@ -130,7 +130,7 @@ const OverlayCards = () => {
           <li>Priority Email support</li>
           <li>Exclusive access to live Q&A sessions</li>
         </ul>
-        <a href="#pro" className="card__cta cta !underline underline-offset-4 !text-black dark:!text-white">Upgrade to Pro</a>
+        <a href="#pro" className="card__cta cta2 !underline underline-offset-4 !text-black dark:!text-white">Upgrade to Pro</a>
       </div>
 
       <div className="card" ref={(el) => { if (el) cardsRef.current.push(el); }}>
@@ -142,9 +142,18 @@ const OverlayCards = () => {
           <li>1-on-1 virtual coaching session every month</li>
           <li>Exclusive content and early access to new features</li>
         </ul>
-        <a href="#ultimate" className="card__cta cta !underline underline-offset-4 !text-black dark:!text-white">Go Ultimate</a>
+        <a href="#ultimate" className="card__cta cta2 !underline underline-offset-4 !text-black dark:!text-white">Go Ultimate</a>
       </div>
     </div>
+    {/* <div className='flex justify-center   bottom-[0px]  md:justify-center px-7'>
+        <div className='chevron'></div>
+        <div className='chevron'></div>
+        <div className='chevron'></div>
+        <span className='text text-black dark:text-white'>
+          {t('scroll_down')}
+        </span>
+      </div> */}
+
       <div className="overlay" ref={overlayRef}></div>
       </div>
       </div>
