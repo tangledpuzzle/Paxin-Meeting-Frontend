@@ -2,7 +2,7 @@
 
 import { TfiWrite } from 'react-icons/tfi';
 import ReactSelect from 'react-select';
-
+import CreatableSelect from 'react-select/creatable';
 import { ImageUpload } from '@/components/common/file-uploader';
 import { Button } from '@/components/ui/button';
 import {
@@ -42,6 +42,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import 'react-quill/dist/quill.snow.css';
 import * as z from 'zod';
+import useSWR from 'swr';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -56,6 +57,8 @@ type ImageUploadComponentType = {
   handleReset: () => void;
 };
 
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
 export function NewPostModal({ children, mutate }: NewPostModalProps) {
   const t = useTranslations('main');
   const { user } = useContext(PaxContext);
@@ -69,6 +72,15 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   const [hashtagOptions, setHashtagOptions] = useState<
     { value: string; label: string }[]
   >([]);
+
+  const [newHashtags, setNewHashtags] = useState<string[]>([]);
+
+  const [hashtagKeyword, setHashtagKeyword] = useState<string>('');
+
+  const { data: fetchedHashtags, error: fetchedHashtagsError } = useSWR(
+    hashtagKeyword ? `/api/hashtags/get?name=${hashtagKeyword}` : null,
+    fetcher
+  );
 
   const formSchema = z
     .object({
@@ -175,6 +187,36 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     setIsLoading(true);
 
     try {
+      for (const hashtag of data.hashtags) {
+        if (newHashtags.includes(hashtag.label)) {
+          try {
+            const res = await axios.post('/api/hashtags/create', {
+              hashTag: hashtag.label,
+            });
+
+            if (res.status !== 200) {
+              toast.error(t('add_hashtag_failed'), {
+                position: 'top-right',
+              });
+
+              setIsLoading(false);
+
+              return;
+            } else {
+              setNewHashtags([]);
+            }
+          } catch (error) {
+            toast.error(t('add_hashtag_failed'), {
+              position: 'top-right',
+            });
+
+            setIsLoading(false);
+
+            return;
+          }
+        }
+      }
+
       const files = await imageUploadRef.current?.handleUpload();
 
       if (!files) {
@@ -247,6 +289,24 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
       })) || []
     );
   }, [user]);
+
+  useEffect(() => {
+    if (fetchedHashtags) {
+      setHashtagOptions(
+        fetchedHashtags?.map((hashtag: any) => ({
+          value: hashtag.Hashtag,
+          label: hashtag.Hashtag,
+        })) || []
+      );
+    } else {
+      setHashtagOptions(
+        user?.hashtags.map((hashtag: any) => ({
+          label: hashtag,
+          value: hashtag,
+        })) || []
+      );
+    }
+  }, [fetchedHashtags]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -332,7 +392,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           options={cityOptions}
                           {...field}
                           classNames={{
-                            input: () => 'dark:text-white text-black text-[16px]',
+                            input: () =>
+                              'dark:text-white text-black text-[16px]',
                             control: () =>
                               '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                             option: () =>
@@ -359,7 +420,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           {...field}
                           options={categoryOptions}
                           classNames={{
-                            input: () => 'dark:text-white text-black text-[16px]',
+                            input: () =>
+                              'dark:text-white text-black text-[16px]',
                             control: () =>
                               '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                             option: () =>
@@ -381,14 +443,27 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                     <FormItem>
                       <FormLabel htmlFor='hashtags'>{t('hashtags')}</FormLabel>
                       <FormControl>
-                        <ReactSelect
+                        <CreatableSelect
                           isMulti
                           placeholder={t('select') + '...'}
                           noOptionsMessage={() => t('no_options')}
                           options={hashtagOptions}
+                          onCreateOption={(value) => {
+                            setNewHashtags([...newHashtags, value]);
+                            setHashtagOptions([
+                              ...hashtagOptions,
+                              { value, label: value },
+                            ]);
+                            field.onChange([
+                              ...field.value,
+                              { value, label: value },
+                            ]);
+                          }}
                           {...field}
+                          onInputChange={(value) => setHashtagKeyword(value)}
                           classNames={{
-                            input: () => 'dark:text-white text-black text-[16px]',
+                            input: () =>
+                              'dark:text-white text-black text-[16px]',
                             control: () =>
                               '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                             option: () =>

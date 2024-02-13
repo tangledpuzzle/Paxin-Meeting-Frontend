@@ -41,6 +41,7 @@ export interface FlowCardProps {
   review: {
     totalviews: number;
   };
+  callbackURL: string;
 }
 
 function FlowCard(profile: FlowCardProps) {
@@ -60,6 +61,7 @@ function FlowCard(profile: FlowCardProps) {
     category,
     countrycode,
     review,
+    callbackURL,
   } = profile;
 
   const queries: { [key: string]: string } = {};
@@ -81,7 +83,10 @@ function FlowCard(profile: FlowCardProps) {
   return (
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-0'>
-        <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
+        <Link
+          href='/flows/[id]/[slug]'
+          as={`/flows/${id}/${slug}?callback=${callbackURL}`}
+        >
           <div className='relative'>
             <div className='max-h-auto h-auto min-h-[300px] w-full md:min-h-[416px] '>
               <Image
@@ -111,21 +116,25 @@ function FlowCard(profile: FlowCardProps) {
                 {review.totalviews}
               </Badge>
             </div>
+            <div className=''>
+              <div
+                className={`absolute bottom-10 right-0 mr-3 size-12 rounded-md bg-cover bg-center bg-no-repeat`}
+                style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
+              />
+            </div>
             <div className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
         </Link>
         <div className='relative h-[40px] w-full max-w-[100%] px-3'>
           <TagSlider tags={tags} />
         </div>
-        <div className='relative'>
-          <div
-            className={`absolute right-0 top-3 mr-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
-            style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
-          />
-        </div>
+
         <div className='px-3 font-satoshi'>
           <div className='line-clamp-1 text-xl font-semibold text-secondary-foreground'>
-            <Link href='/flows/[id]/[slug]' as={`/flows/${id}/${slug}`}>
+            <Link
+              href='/flows/[id]/[slug]'
+              as={`/flows/${id}/${slug}?callback=${callbackURL}`}
+            >
               {title}
             </Link>
           </div>

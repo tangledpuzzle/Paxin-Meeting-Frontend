@@ -1,4 +1,3 @@
-import { Breadcrumb } from '@/components/common/breadcrumb';
 // import { TagSlider } from '@/components/common/tag-slider';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
@@ -27,6 +26,7 @@ import {
 } from '@/components/ui/card';
 
 import { ReportModal } from '@/components/common/report-modal';
+import BackButton from '@/components/home/back-button';
 import { FollowButtonGroup } from '@/components/home/profile/follow-button-group';
 import { ProfileImageGallery } from '@/components/home/profile/profile-image-gallery';
 import authOptions from '@/lib/authOptions';
@@ -189,35 +189,14 @@ interface ProfileDetails {
 
 export default async function ProfilePage({
   params,
+  searchParams,
 }: {
   params: { username: string; locale: string };
+  searchParams: { [key: string]: string | undefined | null };
 }) {
   const t = await getTranslations('main');
 
   const profileDetails = await getData(params.locale, params.username);
-
-  console.log(profileDetails);
-
-  const modules = {
-    toolbar: false,
-  };
-
-  const formats = [
-    'header',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'align',
-    'list',
-    'bullet',
-    'indent',
-    'link',
-    'image',
-    'video',
-    'code-block',
-  ];
 
   const breadcrumbs = [
     {
@@ -232,7 +211,8 @@ export default async function ProfilePage({
 
   return profileDetails ? (
     <section className='container py-4'>
-      <Breadcrumb contents={breadcrumbs} />
+      <BackButton callback={searchParams['callback']} />
+      {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4'>
         <div className=''>
           <div className='w-full'>

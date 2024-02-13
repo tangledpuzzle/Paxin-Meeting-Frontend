@@ -30,7 +30,7 @@ export function SiteFooter() {
             height={50}
             className='hidden h-auto w-32 dark:block'
           />
-          <span className='my-2 block max-w-md text-balance text-center font-satoshi text-sm text-muted-foreground'>
+          <span className='my-2 block max-w-md text-balance text-center font-satoshi text-sm text-muted-foreground '>
             {t('pax_footer_description')}
           </span>
         </div>
@@ -44,37 +44,38 @@ export function SiteFooter() {
           />
           <Card className='w-full max-w-xl rounded-lg border-none bg-white shadow-sm dark:bg-[#17171A]/70'>
             <CardContent>
+              
               <div className='grid grid-cols-1 md:grid-cols-3'>
                 <div className='flex flex-col'>
-                  <div className='my-4 font-satoshi text-xl font-semibold'>
+                  <div className='my-4 font-satoshi text-xl font-semibold  text-center md:text-left'>
                     {t('about')}
                   </div>
                   {siteConfig.footer.about.map((item, index) => (
                     <Link
                       key={index}
                       href={item.href}
-                      className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline'
+                      className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline  text-center md:text-left'
                     >
                       {t(item.title as keyof IntlMessages['main'])}
                     </Link>
                   ))}
                 </div>
                 <div className='flex flex-col'>
-                  <div className='my-4 font-satoshi text-xl font-semibold'>
+                  <div className='my-4 font-satoshi text-xl font-semibold  text-center md:text-left'>
                     {t('product')}
                   </div>
                   {siteConfig.footer.product.map((item, index) => (
                     <Link
                       key={index}
                       href={item.href}
-                      className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline'
+                      className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline  text-center md:text-left'
                     >
                       {t(item.title as keyof IntlMessages['main'])}
                     </Link>
                   ))}
                 </div>
-                <div className='flex flex-col md:ml-auto'>
-                  <div className='my-4 font-satoshi text-xl font-semibold'>
+                <div className='flex flex-col md:ml-auto  text-center md:text-left'>
+                  <div className='my-4 font-satoshi text-xl font-semibold  text-center md:text-left'>
                     {t('resources')}
                   </div>
                   {siteConfig.footer.resources.map((item, index) => (

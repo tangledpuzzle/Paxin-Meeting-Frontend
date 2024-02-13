@@ -28,17 +28,17 @@ export function CardSlide({
       style={{
         border: '0px solid',
         display: 'inline-block',
-        margin: '0 10px',
+        margin: '0 0px',
         textAlign: 'center',
-        width,
-        marginLeft: margin,
-        marginRight: margin,
+        width: '100%',
+        // marginLeft: margin,
+        // marginRight: margin,
         userSelect: 'none',
       }}
       tabIndex={0}
-      className='card border-gradient'
+      className=' border-gradient'
     >
-      <div>
+      <div className='mr-8'>
         <div className='overflow-hidden text-ellipsis whitespace-nowrap px-4 text-base'>
           # {title}
         </div>

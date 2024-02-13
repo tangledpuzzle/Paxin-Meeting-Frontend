@@ -1,7 +1,7 @@
-import { Breadcrumb } from '@/components/common/breadcrumb';
 import { ComplainModal } from '@/components/common/complain-modal';
 import { CopyButton } from '@/components/common/copy-button';
 import { ReportModal } from '@/components/common/report-modal';
+import BackButton from '@/components/home/back-button';
 // import { TagSlider } from '@/components/common/tag-slider';
 import { FlowImageGallery } from '@/components/home/flow/flow-image-gallery';
 import { UpvoteCard } from '@/components/home/flow/upvote-card';
@@ -157,8 +157,10 @@ async function getData(locale: string, id: string, slug: string) {
 
 export default async function FlowPage({
   params,
+  searchParams,
 }: {
   params: { id: string; slug: string; locale: string };
+  searchParams: { [key: string]: string | undefined | null };
 }) {
   const t = await getTranslations('main');
 
@@ -183,7 +185,8 @@ export default async function FlowPage({
 
   return blogDetails ? (
     <section className='container py-4'>
-      <Breadcrumb contents={breadcrumbs} />
+      <BackButton callback={searchParams['callback']} />
+      {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='font-satoshi'>
         <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
           {blogDetails?.title}
@@ -194,7 +197,7 @@ export default async function FlowPage({
             }}
           />
         </div>
-        <div className='text-sm text-muted-foreground mb-4'>
+        <div className='mb-4 text-sm text-muted-foreground'>
           {blogDetails?.description}
         </div>
       </div>
@@ -303,9 +306,11 @@ export default async function FlowPage({
           </div>
           <Separator className='my-4' />
           <div>
-            <Label className='text-xl font-semibold '>{t('description')}:</Label>
+            <Label className='text-xl font-semibold '>
+              {t('description')}:
+            </Label>
             <div
-              className='text-muted-foreground mt-2'
+              className='mt-2 text-muted-foreground'
               dangerouslySetInnerHTML={{ __html: blogDetails.content }}
             />
           </div>
@@ -381,11 +386,11 @@ export default async function FlowPage({
                   href={`/profiles/${blogDetails.author?.username}`}
                   className='underline'
                 >
-                  <div className='w-full max-w-full truncate font-semibold text-center'>
+                  <div className='w-full max-w-full truncate text-center font-semibold'>
                     @{blogDetails.author?.username}
                   </div>
                 </Link>
-                <div className='line-clamp-2 break-all text-sm text-center'>
+                <div className='line-clamp-2 break-all text-center text-sm'>
                   {blogDetails.author?.bio}
                 </div>
               </div>
@@ -425,7 +430,7 @@ export default async function FlowPage({
                   </Button>
                 )}
               </div>
-              <Button className='w-full btn !rounded-md' asChild>
+              <Button className='btn w-full !rounded-md' asChild>
                 <Link href={`/profiles/${blogDetails.author?.username}`}>
                   {t('visit_profile')}
                 </Link>
