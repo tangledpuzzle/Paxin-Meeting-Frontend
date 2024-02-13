@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
-import { PaginationComponent } from '@/components/common/pagination';
+import { Button } from '@/components/ui/button';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -37,7 +37,7 @@ export interface FlowData {
   callbackURL: string;
 }
 
-const pageSize = 2;
+const pageSize = 12;
 
 export default function FlowSection() {
   const t = useTranslations('main');
@@ -69,6 +69,15 @@ export default function FlowSection() {
   );
 
   const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
+
+  const goto = (page: number) => {
+    setCurrentPage(page);
+
+    const newsearchParams = new URLSearchParams(searchParams);
+    newsearchParams.set('page', page.toString());
+
+    router.push(`?${newsearchParams.toString()}`);
+  };
 
   useEffect(() => {
     const _title = searchParams.get('title');
@@ -106,6 +115,22 @@ export default function FlowSection() {
 
   return (
     <div className='w-full space-y-6'>
+      {maxPage > 1 && (
+        <div className='flex w-full justify-between'>
+          <Button
+            disabled={currentPage === 1}
+            onClick={() => goto(currentPage - 1)}
+          >
+            Back
+          </Button>
+          <Button
+            disabled={currentPage === maxPage}
+            onClick={() => goto(currentPage + 1)}
+          >
+            Next
+          </Button>
+        </div>
+      )}
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3'>
         {!error ? (
           flowData ? (
@@ -140,20 +165,20 @@ export default function FlowSection() {
         )}
       </div>
       {maxPage > 1 && (
-        <PaginationComponent
-          currentPage={currentPage}
-          maxPage={maxPage}
-          gotoPage={(page) => {
-            setCurrentPage(page);
-
-            const newSearchParams = new URLSearchParams(
-              searchParams.toString()
-            );
-            newSearchParams.set('page', page.toString());
-
-            router.push(`?${newSearchParams.toString()}`);
-          }}
-        />
+        <div className='flex w-full justify-between'>
+          <Button
+            disabled={currentPage === 1}
+            onClick={() => goto(currentPage - 1)}
+          >
+            Back
+          </Button>
+          <Button
+            disabled={currentPage === maxPage}
+            onClick={() => goto(currentPage + 1)}
+          >
+            Next
+          </Button>
+        </div>
       )}
     </div>
   );
