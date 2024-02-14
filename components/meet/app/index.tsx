@@ -87,7 +87,7 @@ const Meet = () => {
     currentConnection?.room
   );
 
-  useThemeSettings();
+  // useThemeSettings();
 
   useEffect(() => {
     const accessToken = getAccessToken();

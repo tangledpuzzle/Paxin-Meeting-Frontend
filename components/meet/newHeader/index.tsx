@@ -1,6 +1,5 @@
-import { MainNav } from '@/components/header/main-nav';
+import { MainNav } from './NavMenu';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { siteConfig } from '@/config/site';
 
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
@@ -10,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import { AvatarWithMenu } from './avatar-with-menu';
 import { LanguageSelector } from './language';
 import { MobileMenu } from './mobile-menu';
-import CenterBar from './CenterBar';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
@@ -35,7 +33,7 @@ async function getData(locale: string) {
   }
 }
 
-export async function SiteHeader() {
+export async function MeetHeader() {
   const t = useTranslations('main');
   const locale = useLocale();
   const data = await getData(locale);
@@ -82,4 +80,4 @@ export async function SiteHeader() {
   );
 }
 
-export default SiteHeader;
+export default MeetHeader;

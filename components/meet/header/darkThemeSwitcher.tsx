@@ -12,7 +12,7 @@ const themeSelector = createSelector(
 const DarkThemeSwitcher = () => {
   const theme = useAppSelector(themeSelector);
   const dispatch = useAppDispatch();
-
+  console.log('React theme:', theme);
   const toggleDarkMode = () => {
     dispatch(updateTheme(theme === 'light' ? 'dark' : 'light'));
   };

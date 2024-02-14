@@ -3,18 +3,15 @@
 import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
-import { NavItem } from '@/types/nav';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { useLocale, useTranslations } from 'next-intl';
 
-interface MainNavProps {
-  items?: NavItem[];
-}
+interface MainNavProps {}
 
-export function MainNav({ items }: MainNavProps) {
+export function MainNav({}: MainNavProps) {
   const t = useTranslations('main');
 
   const locale = useLocale();
@@ -22,6 +19,7 @@ export function MainNav({ items }: MainNavProps) {
   if (pathname.startsWith('/' + locale)) {
     pathname = pathname.slice(locale.length + 1);
   }
+  const searchParams = useSearchParams();
 
   return (
     <div className='flex gap-6 md:gap-10'>
@@ -44,26 +42,7 @@ export function MainNav({ items }: MainNavProps) {
           {siteConfig.name}
         </span>
       </Link>
-      {items?.length ? (
-        <nav className='my-auto hidden h-10 gap-6 rounded-full border bg-card-gradient-menu p-4 md:flex'>
-          {items?.map(
-            (item, index) =>
-              item.href && (
-                <Link
-                  key={index}
-                  href={item.href}
-                  className={cn(
-                    'flex items-center rounded-lg px-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary active:bg-secondary/80',
-                    item.disabled && 'cursor-not-allowed opacity-80',
-                    pathname === item.href && 'bg-secondary text-primary'
-                  )}
-                >
-                  {t(item.title as keyof IntlMessages['main'])}
-                </Link>
-              )
-          )}
-        </nav>
-      ) : null}
+      <div>PAX- Real TIME Meeting(Room ID: {searchParams.get('id')})</div>
     </div>
   );
 }

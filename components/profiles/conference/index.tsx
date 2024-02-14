@@ -25,18 +25,8 @@ import { useTranslations } from 'next-intl';
 import CryptoJS from 'crypto-js';
 import { generateRandomString, hashTimestamp } from '@/lib/utils';
 import { setAccessToken } from '@/helpers/utils';
+import Timer from './Timer';
 // Custom formatting for date and time
-const timeZone: Intl.DateTimeFormatOptions = {
-  hour: '2-digit',
-  minute: '2-digit',
-  hour12: true,
-};
-
-const dateString: Intl.DateTimeFormatOptions = {
-  weekday: 'short',
-  month: 'short',
-  day: 'numeric',
-};
 
 interface IConferenceProps {
   email: string;
@@ -135,7 +125,8 @@ const processRequest = async (mode, roomInfo, userInfo) => {
 export default function Conference({ email, userId, name }: IConferenceProps) {
   const router = useRouter();
   const t = useTranslations('main');
-  const [time, setTime] = useState<Date>(new Date());
+  console.log('render Conference');
+
   async function onCreateRoom() {
     const roomId = createRoomId();
 
@@ -234,18 +225,6 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
     const roomId = `${randomPart}-${timestampHash}`;
     return roomId;
   }
-
-  const updateTime = (): void => {
-    setTime(new Date());
-  };
-
-  //   useEffect(() => {
-  //     const timer: ReturnType<typeof setInterval> = setInterval(updateTime, 1000);
-
-  //     return () => {
-  //       clearInterval(timer);
-  //     };
-  //   }, []);
   // userMutate();
   return (
     <div className='p-4'>
@@ -272,10 +251,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
               PaxMeet
             </span>
           </Link>
-          <span>
-            {time.toLocaleTimeString(undefined, timeZone)} -
-            {time.toLocaleDateString(undefined, dateString)}
-          </span>
+          <Timer />
         </div>
         <div className='flex size-full flex-col justify-center'>
           <div className='mb-48 mt-auto space-y-4'>

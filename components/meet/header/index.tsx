@@ -245,7 +245,7 @@ const Header = ({ currentRoom }: IHeaderProps) => {
               <DurationView duration={Number(roomDuration)} />
             ) : null}
             <ThemeToggle />
-            <DarkThemeSwitcher />
+            {/* <DarkThemeSwitcher /> */}
             <VolumeControl />
             <Menu>
               {({ open }) => (
