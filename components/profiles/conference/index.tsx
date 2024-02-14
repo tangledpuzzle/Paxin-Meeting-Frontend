@@ -225,6 +225,94 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
     const roomId = `${randomPart}-${timestampHash}`;
     return roomId;
   }
+  async function onJoinRoom(roomId: string) {
+    const roomInfo = {
+      // room_id: data.get('room_id'),
+      room_id: roomId,
+      creator: userId,
+      empty_timeout: 60 * 60 * 2,
+      metadata: {
+        room_title: 'Pax Real-Time Meeting',
+        welcome_message:
+          'Welcome to PaxMeet!<br /> To share microphone click mic icon from bottom left side.',
+        //webhook_url: "http://example.com",
+        //logout_url: "http://example.com",
+        room_features: {
+          allow_webcams: true,
+          mute_on_start: false,
+          allow_screen_share: true,
+          allow_rtmp: true,
+          admin_only_webcams: false,
+          allow_view_other_webcams: true,
+          allow_view_other_users_list: true,
+          allow_polls: true,
+          room_duration: 0,
+          enable_analytics: true,
+          recording_features: {
+            is_allow: true,
+            is_allow_cloud: true,
+            is_allow_local: true,
+            enable_auto_cloud_recording: false,
+            only_record_admin_webcams: false,
+          },
+          chat_features: {
+            allow_chat: true,
+            allow_file_upload: true,
+            max_file_size: 50,
+            allowed_file_types: ['jpg', 'png', 'zip'],
+          },
+          shared_note_pad_features: {
+            allowed_shared_note_pad: true,
+          },
+          whiteboard_features: {
+            allowed_whiteboard: true,
+          },
+          external_media_player_features: {
+            allowed_external_media_player: true,
+          },
+          waiting_room_features: {
+            is_active: true,
+          },
+          breakout_room_features: {
+            is_allow: true,
+            allowed_number_rooms: 6,
+          },
+          display_external_link_features: {
+            is_allow: true,
+          },
+          ingress_features: {
+            is_allow: true,
+          },
+          speech_to_text_translation_features: {
+            is_allow: true,
+            is_allow_translation: true,
+          },
+          // end_to_end_encryption_features: {
+          //     is_enabled: true
+          // }
+        },
+        // default_lock_settings: {
+        //     lock_microphone: true,
+        //     lock_screen_sharing: true,
+        //     lock_webcam: true,
+        //     lock_chat_file_share: true,
+        //     lock_chat_send_message: true
+        // }
+      },
+    };
+
+    const userInfo = {
+      is_admin: false,
+      name: name,
+      user_id: userId,
+      /*user_metadata: {
+            record_webcam: false,
+        }*/
+    };
+    const token = await processRequest('join', roomInfo, userInfo);
+    setAccessToken(token);
+    router.push(`/meet/?id=${roomId}`);
+  }
   // userMutate();
   return (
     <div className='p-4'>
@@ -273,7 +361,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
                   {t('create')}
                 </Button>
               </MeetCreateModal>
-              <MeetJoinModal>
+              <MeetJoinModal name={name} onJoin={onJoinRoom}>
                 <Button>{t('join')}</Button>
               </MeetJoinModal>
             </div>

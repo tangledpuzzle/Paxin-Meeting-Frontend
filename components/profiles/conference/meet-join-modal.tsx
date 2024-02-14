@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { UserRound } from 'lucide-react';
 import { PiDoorOpen } from 'react-icons/pi';
@@ -18,15 +18,23 @@ import { useTranslations } from 'next-intl';
 
 interface MeetJoinModalProps {
   children: React.ReactNode;
+  name: string;
+  onJoin: (e: string) => Promise<void>;
 }
 
-export function MeetJoinModal({ children }: MeetJoinModalProps) {
+export function MeetJoinModal({ name, children, onJoin }: MeetJoinModalProps) {
   const t = useTranslations('main');
 
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
+  const [_name, setName] = useState<string>('');
+  const [roomId, setRoomId] = useState<string>('');
 
+  useEffect(() => {
+    setName(name);
+  }, [name]);
   const handleJoin = () => {
-    setIsPrivate(true);
+    // setIsPrivate(true);
+    onJoin(roomId);
   };
 
   return (
@@ -57,11 +65,22 @@ export function MeetJoinModal({ children }: MeetJoinModalProps) {
         <div className='grid gap-4 py-4'>
           <div className='relative w-full'>
             <UserRound className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
-            <Input type='text' placeholder={t('name')} className='pl-12 pr-4' />
+            <Input
+              type='text'
+              placeholder={t('name')}
+              className='pl-12 pr-4'
+              value={_name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
           <div className='relative mx-auto w-full'>
             <PiDoorOpen className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
-            <Input placeholder={t('room_id')} className='pl-12 pr-4' />
+            <Input
+              placeholder={t('room_id')}
+              className='pl-12 pr-4'
+              value={roomId}
+              onChange={(e) => setRoomId(e.target.value)}
+            />
           </div>
         </div>
         <ConfirmPasswordModal open={isPrivate} setOpen={setIsPrivate} />
