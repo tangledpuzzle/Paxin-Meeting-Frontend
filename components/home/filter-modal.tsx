@@ -19,6 +19,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface Option {
   value: number | string;
@@ -70,6 +71,18 @@ export function FilterModal() {
     hashtagURL,
     fetcher
   );
+
+  const handleCitySearch = useDebouncedCallback((value: string) => {
+    setCityKeyword(value);
+  }, 300);
+
+  const handleCategorySearch = useDebouncedCallback((value: string) => {
+    setCategoryKeyword(value);
+  }, 300);
+
+  const handleHashtagSearch = useDebouncedCallback((query: string) => {
+    if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
+  }, 300);
 
   const handleMinPrice = (value: string) => {
     if (value === '') {
@@ -139,10 +152,6 @@ export function FilterModal() {
     else newSearchParams.delete('money');
 
     router.push(`?${newSearchParams.toString()}`);
-  };
-
-  const handleHashtagSearch = (query: string) => {
-    if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
   };
 
   const handleResetFilters = () => {
@@ -421,7 +430,7 @@ export function FilterModal() {
               name='city'
               options={cityOptions}
               value={city}
-              onInputChange={(value) => setCityKeyword(value)}
+              onInputChange={(value) => handleCitySearch(value)}
               onChange={(selectedCities: any) => setCity(selectedCities)}
               placeholder={t('select') + '...'}
               noOptionsMessage={() => t('no_options')}
@@ -444,7 +453,7 @@ export function FilterModal() {
               name='category'
               options={categoryOptions}
               value={category}
-              onInputChange={(value) => setCategoryKeyword(value)}
+              onInputChange={(value) => handleCategorySearch(value)}
               onChange={(selectedCategories: any) =>
                 setCategory(selectedCategories)
               }
