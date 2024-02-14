@@ -4,6 +4,8 @@
     "description": ""
   },
   "main": {
+    "back_flow": "Volver",
+    "next_flow": "Adelante",
     "scroll_down": "continuación",
     "home": "Inicio",
     "about": "Acerca de",

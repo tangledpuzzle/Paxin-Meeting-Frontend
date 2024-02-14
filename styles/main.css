@@ -1086,6 +1086,7 @@ li::before {
 .grid3 {
 	/* transform-style: preserve-3d; */
 	/* gap: rem; */
+  height:230px;
 }
 
 .item {
@@ -1100,7 +1101,9 @@ li::before {
 	height: 100%;
 	justify-content: start;
 	overflow: hidden;
-	padding: 1.25rem;
+	/* padding: 1.25rem; */
+  padding-left:8px;
+  padding-right:8px;
 	text-align: center;
 	width: 100%;
 	transition: transform var(--transition), scale var(--transition), background-color 0.25s, color 0.25s, border 0.25s, box-shadow 0.25s;;

@@ -4,6 +4,8 @@
     "description": ""
   },
   "main": {
+    "back_flow": "უკან",
+    "next_flow": "წინ",
     "scroll_down": "გაგრძელება",
     "home": "მთავარი",
     "about": "ჩვენ შესახებ",
