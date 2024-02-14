@@ -519,7 +519,8 @@ textarea {
   font-size:1rem;
 }
 .react-horizontal-scrolling-menu--arrow-left {
-  order:2
+  order:2;
+  margin-right: 5px;
 }
 
 .react-horizontal-scrolling-menu--arrow-right {
@@ -530,7 +531,7 @@ textarea {
   -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 90%, rgba(0,0,0,0));
 }
 .react-horizontal-scrolling-menu--item  {
-  margin-right:5px;
+  margin-right:15px;
   display: flex;
   justify-content: center;
   align-items: center;

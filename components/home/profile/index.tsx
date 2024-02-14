@@ -10,6 +10,8 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ProfileCard } from './profile-card';
 import { ProfileCardSkeleton } from './profile-card-skeleton';
+import { GrNext } from "react-icons/gr";
+import { GrPrevious } from "react-icons/gr";
 
 interface ProfileData {
   username: string;
@@ -114,18 +116,21 @@ export default function ProfileSection() {
   return (
     <div className='w-full space-y-6'>
       {maxPage > 1 && (
-        <div className='flex w-full justify-between'>
+        <div className='flex w-full justify-start gap-2'>
           <Button
             disabled={currentPage === 1}
             onClick={() => goto(currentPage - 1)}
           >
-            Back
+            {/* {t('back_flow')} */}
+            <GrPrevious />
           </Button>
           <Button
             disabled={currentPage === maxPage}
             onClick={() => goto(currentPage + 1)}
           >
-            Next
+            {/* {t('next_flow')} */}
+             <GrNext />
+
           </Button>
         </div>
       )}
@@ -167,20 +172,23 @@ export default function ProfileSection() {
         )}
       </div>
       {maxPage > 1 && (
-        <div className='flex w-full justify-between'>
-          <Button
-            disabled={currentPage === 1}
-            onClick={() => goto(currentPage - 1)}
-          >
-            Back
-          </Button>
-          <Button
-            disabled={currentPage === maxPage}
-            onClick={() => goto(currentPage + 1)}
-          >
-            Next
-          </Button>
-        </div>
+        <div className='flex w-full justify-start gap-2'>
+        <Button
+          disabled={currentPage === 1}
+          onClick={() => goto(currentPage - 1)}
+        >
+          {/* {t('back_flow')} */}
+          <GrPrevious />
+        </Button>
+        <Button
+          disabled={currentPage === maxPage}
+          onClick={() => goto(currentPage + 1)}
+        >
+          {/* {t('next_flow')} */}
+           <GrNext />
+
+        </Button>
+      </div>
       )}
     </div>
   );
