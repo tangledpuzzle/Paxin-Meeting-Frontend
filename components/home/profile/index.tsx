@@ -4,14 +4,14 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
+import { Button } from '@/components/ui/button';
 import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ProfileCard } from './profile-card';
 import { ProfileCardSkeleton } from './profile-card-skeleton';
-import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
-import toast from 'react-hot-toast';
-import Image from 'next/image';
+import { GrNext } from "react-icons/gr";
+import { GrPrevious } from "react-icons/gr";
 
 interface ProfileData {
   username: string;
@@ -41,18 +41,19 @@ interface ProfileData {
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const pageSize = 6;
+const pageSize = 12;
 
 export default function ProfileSection() {
   const t = useTranslations('main');
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [isLoadable, setIsLoadable] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(
+    Number(searchParams.get('page') || 1)
+  );
+  const [maxPage, setMaxPage] = useState<number>(1);
   const [profileData, setProfileData] = useState<ProfileData[] | null>(null);
   const [fetchURL, setFetchURL] = useState(
-    `/api/profiles/get?language=en&limit=${pageSize}&skip=${currentPage * pageSize}`
+    `/api/profiles/get?language=en&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}`
   );
   const [title, setTitle] = useState<string>(
     searchParams.get('title') ? searchParams.get('title') || 'all' : 'all'
@@ -71,9 +72,13 @@ export default function ProfileSection() {
 
   const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
 
-  const handleLoadMore = () => {
-    setLoading(true);
-    setCurrentPage(Math.ceil(profileData?.length || 0) / pageSize);
+  const goto = (page: number) => {
+    setCurrentPage(page);
+
+    const newsearchParams = new URLSearchParams(searchParams);
+    newsearchParams.set('page', page.toString());
+
+    router.push(`?${newsearchParams.toString()}`);
   };
 
   useEffect(() => {
@@ -82,68 +87,53 @@ export default function ProfileSection() {
     const _category = searchParams.get('category');
     const _hashtag = searchParams.get('hashtag');
 
-    if (_title || _city || _category || _hashtag) setCurrentPage(0);
+    if (_title || _city || _category || _hashtag) setCurrentPage(1);
 
-    if (_title) setTitle(_title);
-    if (_city) setCity(_city);
-    if (_category) setCategory(_category);
-    if (_hashtag) setHashtag(_hashtag);
+    setTitle(_title || 'all');
+    setCity(_city || 'all');
+    setCategory(_category || 'all');
+    setHashtag(_hashtag || 'all');
   }, [searchParams]);
 
   useEffect(() => {
-    const generateFetchURL = (page: number) => {
-      let baseURL = `/api/profiles/get?language=${locale}&limit=${page > 0 ? pageSize * (page + 1) : pageSize}&skip=${page > 0 ? 0 : currentPage * pageSize}&city=${city}&category=${category}&hashtag=${hashtag}`;
+    const generateFetchURL = () => {
+      let baseURL = `/api/profiles/get?language=${locale}&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}`;
 
       return baseURL;
     };
 
-    const page = searchParams.get('page')
-      ? Number(searchParams.get('page'))
-      : -1;
-
-    setFetchURL(generateFetchURL(page));
-
-    if (page > -1) {
-      const newSearchParams = new URLSearchParams(searchParams.toString());
-      newSearchParams.delete('page');
-
-      router.push(`?${newSearchParams.toString()}`);
-    }
+    setFetchURL(generateFetchURL());
   }, [title, city, category, hashtag, locale, currentPage]);
 
   useEffect(() => {
     if (!error && fetchedData) {
-      if (currentPage === 0) {
-        setProfileData(fetchedData.data);
+      setProfileData(fetchedData.data);
 
-        setIsLoadable(
-          fetchedData.meta.total >
-            (Math.ceil(profileData?.length || 1) / pageSize - 1) * pageSize +
-              fetchedData.data.length
-        );
-      } else {
-        setIsLoadable(
-          fetchedData.meta.total >
-            (Math.ceil(profileData?.length || 1) / pageSize - 1) * pageSize +
-              fetchedData.data.length
-        );
-
-        setProfileData([...(profileData || []), ...fetchedData.data]);
-
-        toast.success(
-          t('n_data_loaded_successfully', { number: fetchedData.data.length }),
-          {
-            position: 'top-right',
-          }
-        );
-      }
-
-      setLoading(false);
+      setMaxPage(Math.ceil(fetchedData.meta.total / pageSize));
     }
   }, [fetchedData, error]);
 
   return (
     <div className='w-full space-y-6'>
+      {maxPage > 1 && (
+        <div className='flex w-full justify-start gap-2'>
+          <Button
+            disabled={currentPage === 1}
+            onClick={() => goto(currentPage - 1)}
+          >
+            {/* {t('back_flow')} */}
+            <GrPrevious />
+          </Button>
+          <Button
+            disabled={currentPage === maxPage}
+            onClick={() => goto(currentPage + 1)}
+          >
+            {/* {t('next_flow')} */}
+             <GrNext />
+
+          </Button>
+        </div>
+      )}
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
         {!error ? (
           profileData ? (
@@ -152,9 +142,7 @@ export default function ProfileSection() {
                 <ProfileCard
                   key={profile.username}
                   {...profile}
-                  callbackURL={encodeURIComponent(
-                    `/home?mode=profile&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&page=${Math.ceil(profileData?.length || 0) / pageSize - 1}`
-                  )}
+                  callbackURL={''}
                 />
               ))
             ) : (
@@ -173,29 +161,34 @@ export default function ProfileSection() {
               </div>
             )
           ) : (
-            currentPage === 0 && (
-              <>
-                <ProfileCardSkeleton />
-                <ProfileCardSkeleton className='hidden md:block' />
-                <ProfileCardSkeleton className='hidden lg:block' />
-              </>
-            )
+            <>
+              <ProfileCardSkeleton />
+              <ProfileCardSkeleton className='hidden md:block' />
+              <ProfileCardSkeleton className='hidden lg:block' />
+            </>
           )
         ) : (
           <></>
         )}
       </div>
-      {isLoadable && (
-        <div className='flex w-full justify-center'>
-          <Button
-            className='btn btn--wide mx-auto !rounded-md'
-            disabled={loading}
-            onClick={() => handleLoadMore()}
-          >
-            {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
-            {t('load_more')}
-          </Button>
-        </div>
+      {maxPage > 1 && (
+        <div className='flex w-full justify-start gap-2'>
+        <Button
+          disabled={currentPage === 1}
+          onClick={() => goto(currentPage - 1)}
+        >
+          {/* {t('back_flow')} */}
+          <GrPrevious />
+        </Button>
+        <Button
+          disabled={currentPage === maxPage}
+          onClick={() => goto(currentPage + 1)}
+        >
+          {/* {t('next_flow')} */}
+           <GrNext />
+
+        </Button>
+      </div>
       )}
     </div>
   );

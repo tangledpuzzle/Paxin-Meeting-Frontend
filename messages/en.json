@@ -4,6 +4,8 @@
     "description": ""
   },
   "main": {
+    "back_flow": "Back",
+    "next_flow": "Forward",
     "scroll_down": "continuation",
     "home": "Home",
     "about": "About",

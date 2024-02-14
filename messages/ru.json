@@ -4,6 +4,8 @@
     "description": ""
   },
   "main": {
+    "back_flow": "Назад",
+    "next_flow": "Вперед",
     "scroll_down": "Не отказывайтесь",
     "home": "Главная",
     "about": "О нас",

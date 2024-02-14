@@ -18,7 +18,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
-import { PaginationComponent } from '@/components/profiles/posts/pagination';
+import { PaginationComponent } from '@/components/common/pagination';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
