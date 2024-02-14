@@ -37,9 +37,11 @@ import {
 } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { IConnectLivekit } from '@/helpers/livekit/types';
 import { clearAccessToken, getAccessToken } from '@/helpers/utils';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import '@/styles/meet/index.scss';
+import { getDirectionBasedOnLocale } from '@/helpers/languages';
+import type { Locale } from '@/helpers/languages';
 
 // declare const IS_PRODUCTION: boolean;
 const waitingForApprovalSelector = createSelector(
@@ -50,6 +52,8 @@ const waitingForApprovalSelector = createSelector(
 const Meet = () => {
   const dispatch = useAppDispatch();
   const t = useTranslations('meet');
+  const locale = useLocale();
+  document.dir = getDirectionBasedOnLocale(locale as Locale);
   // // make sure we're using correct body dir
   // // document.dir = i18n.dir();
 

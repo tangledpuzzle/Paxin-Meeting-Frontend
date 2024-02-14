@@ -4,65 +4,31 @@ const languages = [
     text: 'English',
   },
   {
-    code: 'de-DE',
-    text: 'Deutsch',
-  },
-  {
-    code: 'nl-NL',
-    text: 'Dutch',
-  },
-  {
-    code: 'es-ES',
+    code: 'es',
     text: 'Español',
   },
   {
-    code: 'fr-FR',
-    text: 'Français',
-  },
-  {
-    code: 'pt-PT',
-    text: 'Português',
-  },
-  {
-    code: 'it-IT',
-    text: 'Italiano',
-  },
-  {
-    code: 'tr-TR',
-    text: 'Türkçe',
-  },
-  {
-    code: 'ar-SA',
-    text: 'اللغة العربية',
-  },
-  {
-    code: 'bn-BD',
-    text: 'বাংলা',
-  },
-  {
-    code: 'ja-JP',
-    text: '日本語',
-  },
-  {
-    code: 'ru-RU',
+    code: 'ru',
     text: 'Русский',
   },
   {
-    code: 'uk-UA',
-    text: 'Українська',
-  },
-  {
-    code: 'zh-CN',
-    text: '简体中文',
-  },
-  {
-    code: 'zh-HK',
-    text: '繁體中文',
-  },
-  {
-    code: 'fa-IR',
-    text: 'فارسی',
+    code: 'ka',
+    text: 'Русский',
   },
 ];
 
 export default languages;
+
+export type Locale = 'en' | 'ru' | 'ka' | 'es';
+
+export function getDirectionBasedOnLocale(locale: Locale): string {
+  const direction: { [K in Locale]: string } = {
+    en: 'ltr',
+    ru: 'ltr',
+    ka: 'ltr',
+    es: 'ltr',
+    // ar: 'rtl',
+  };
+
+  return direction[locale] || 'ltr'; // default to 'ltr' if undefined
+}

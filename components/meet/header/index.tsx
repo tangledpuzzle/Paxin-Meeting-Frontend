@@ -22,6 +22,7 @@ import {
 import { toggleHeaderVisibility } from '@/store/slices/roomSettingsSlice';
 import HeaderLogo from './headerLogo';
 import { useTranslations } from 'next-intl';
+import ThemeToggle from '@/components/theme-toggle';
 
 interface IHeaderProps {
   currentRoom: Room;
@@ -243,6 +244,7 @@ const Header = ({ currentRoom }: IHeaderProps) => {
             {roomDuration && Number(roomDuration) > 0 ? (
               <DurationView duration={Number(roomDuration)} />
             ) : null}
+            <ThemeToggle />
             <DarkThemeSwitcher />
             <VolumeControl />
             <Menu>

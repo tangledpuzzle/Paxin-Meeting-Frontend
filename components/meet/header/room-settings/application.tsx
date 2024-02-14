@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { Switch } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
@@ -15,7 +16,8 @@ import {
   ColumnCameraWidth,
   VideoObjectFit,
 } from '@/store/slices/interfaces/roomSettings';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 const themeSelector = createSelector(
   (state: RootState) => state.roomSettings,
@@ -35,8 +37,17 @@ const columnCameraPositionSelector = createSelector(
 );
 
 const ApplicationSettings = () => {
-  const { i18n } = useTranslation();
   const t = useTranslations('meet');
+  const router = useRouter();
+  const locale = useLocale();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  console.log(pathname, searchParams);
+  const newSearchParams = new URLSearchParams(searchParams).toString();
+
+  const changeLang = (lang: string) => {
+    router.push(`/${lang}/meet${newSearchParams ? '?' + newSearchParams : ''}`);
+  };
   const dispatch = useAppDispatch();
   const theme = useAppSelector(themeSelector);
   const videoObjectFit = useAppSelector(videoObjectFitSelector);
@@ -61,8 +72,8 @@ const ApplicationSettings = () => {
             <select
               id='language'
               name='language'
-              value={i18n.languages[0]}
-              onChange={(e) => i18n.changeLanguage(e.target.value)}
+              value={locale}
+              onChange={(e) => changeLang(e.target.value)}
               className='mt-1 block w-3/5 rounded-md border border-gray-300 bg-transparent px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
             >
               {languages.map(({ code, text }) => {

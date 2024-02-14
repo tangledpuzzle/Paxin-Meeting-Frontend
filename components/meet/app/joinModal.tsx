@@ -57,7 +57,7 @@ const StartupJoinModal = ({ onCloseModal }: StartupJoinModalProps) => {
           <p className='primaryColor mb-5 text-center text-base font-normal dark:text-darkText md:text-lg'>
             {t('app.how-to-join')}
           </p>
-          <div className='btn flex justify-center'>
+          <div className='flex justify-center'>
             <button
               type='button'
               className='microphone bg-transparent text-center ltr:mr-4 rtl:ml-4'

@@ -10,7 +10,7 @@ import ApplicationSettings from './application';
 import Ingress from './ingress';
 import { useTranslations } from 'next-intl';
 
-declare const PNM_VERSION: string;
+// declare const PNM_VERSION: string;
 
 const isShowRoomSettingsModalSelector = createSelector(
   (state: RootState) => state.roomSettings,
@@ -80,7 +80,7 @@ const RoomSettings = () => {
     let text = copyright_conf?.display ? `${copyright_conf?.text}&nbsp;` : '';
     text += t('plugnmeet-server-client-version', {
       server: serverVersion,
-      client: PNM_VERSION,
+      client: process.env.NEXT_PUBLIC_PNM_VERSION,
     });
     return (
       <div
@@ -128,9 +128,9 @@ const RoomSettings = () => {
     );
   };
 
-  const render = () => {
-    return (
-      <>
+  return (
+    <>
+      {isShowRoomSettingsModal && (
         <Transition appear show={isShowRoomSettingsModal} as={Fragment}>
           <Dialog
             as='div'
@@ -190,11 +190,9 @@ const RoomSettings = () => {
             </div>
           </Dialog>
         </Transition>
-      </>
-    );
-  };
-
-  return <>{isShowRoomSettingsModal ? render() : null}</>;
+      )}
+    </>
+  );
 };
 
 export default RoomSettings;

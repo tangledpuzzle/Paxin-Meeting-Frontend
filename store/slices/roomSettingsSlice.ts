@@ -11,7 +11,7 @@ import {
   UnreadMsgFromPayload,
   VideoObjectFit,
 } from './interfaces/roomSettings';
-import { AzureTokenInfo } from '../../components/speech-to-text-service/helpers/apiConnections';
+import { AzureTokenInfo } from '@/components/meet/speech-to-text-service/helpers/apiConnections';
 
 const initialState: IRoomSettings = {
   isShowRoomSettingsModal: false,
@@ -55,7 +55,7 @@ const roomSettingsSlice = createSlice({
     },
     updateShowKeyboardShortcutsModal: (
       state,
-      action: PayloadAction<boolean>,
+      action: PayloadAction<boolean>
     ) => {
       state.isShowKeyboardShortcuts = action.payload;
     },
@@ -82,7 +82,7 @@ const roomSettingsSlice = createSlice({
     },
     updateAllowPlayAudioNotification: (
       state,
-      action: PayloadAction<boolean>,
+      action: PayloadAction<boolean>
     ) => {
       state.allowPlayAudioNotification = action.payload;
     },
@@ -91,7 +91,7 @@ const roomSettingsSlice = createSlice({
     },
     updateRoomScreenShareAudioVolume: (
       state,
-      action: PayloadAction<number>,
+      action: PayloadAction<number>
     ) => {
       state.roomScreenShareAudioVolume = action.payload;
     },
@@ -112,13 +112,13 @@ const roomSettingsSlice = createSlice({
     },
     updateInitiatePrivateChat: (
       state,
-      action: PayloadAction<InitiatePrivateChat>,
+      action: PayloadAction<InitiatePrivateChat>
     ) => {
       state.initiatePrivateChat = action.payload;
     },
     updateUnreadMsgFrom: (
       state,
-      action: PayloadAction<UnreadMsgFromPayload>,
+      action: PayloadAction<UnreadMsgFromPayload>
     ) => {
       const tmp = [...state.unreadMsgFrom];
       if (action.payload.task === 'ADD') {
@@ -136,13 +136,13 @@ const roomSettingsSlice = createSlice({
     },
     updateColumnCameraWidth: (
       state,
-      action: PayloadAction<ColumnCameraWidth>,
+      action: PayloadAction<ColumnCameraWidth>
     ) => {
       state.columnCameraWidth = action.payload;
     },
     updateColumnCameraPosition: (
       state,
-      action: PayloadAction<ColumnCameraPosition>,
+      action: PayloadAction<ColumnCameraPosition>
     ) => {
       state.columnCameraPosition = action.payload;
     },
@@ -154,7 +154,7 @@ const roomSettingsSlice = createSlice({
     },
     updateAzureTokenInfo: (
       state,
-      action: PayloadAction<AzureTokenInfo | undefined>,
+      action: PayloadAction<AzureTokenInfo | undefined>
     ) => {
       state.azureTokenInfo = action.payload;
     },
