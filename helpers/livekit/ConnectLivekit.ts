@@ -155,7 +155,7 @@ export default class ConnectLivekit
       await this.updateSession();
       await this.initiateParticipants();
       // open websocket
-      openWebsocketConnection();
+      openWebsocketConnection(this.intl);
       // finally
       this.roomConnectionStatusState('connected');
       // start token renew interval

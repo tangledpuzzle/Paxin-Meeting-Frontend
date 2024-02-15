@@ -26,7 +26,7 @@ let isConnected = false,
 let ws: ReconnectingWebSocket;
 const toastId = 'websocketStatus';
 
-const createWS = () => {
+const createWS = (intl: (e: any) => string) => {
   ws = new ReconnectingWebSocket(getURL, [], {
     minReconnectionDelay: 2000,
     maxRetries: 20,
@@ -50,7 +50,7 @@ const createWS = () => {
     store.dispatch(updateIsChatServiceReady(false));
 
     if (!normallyClosed) {
-      toast.loading(i18n.t('notifications.websocket-disconnected'), {
+      toast.loading(intl('notifications.websocket-disconnected'), {
         type: toast.TYPE.ERROR,
         autoClose: false,
         toastId: toastId,
@@ -61,7 +61,7 @@ const createWS = () => {
   };
 
   ws.onerror = () => {
-    toast(i18n.t('notifications.websocket-error'), {
+    toast(intl('notifications.websocket-error'), {
       type: toast.TYPE.ERROR,
       autoClose: 5000,
       toastId: toastId,
@@ -96,7 +96,7 @@ const onMessage = (event: any) => {
 };
 
 const getURL = () => {
-  const url = new URL(process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL);
+  const url = new URL(process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL || '');
   const session = store.getState().session;
   let webSocketUrl: string;
   let protocol = 'ws://';
@@ -129,8 +129,8 @@ const getURL = () => {
   return webSocketUrl;
 };
 
-export const openWebsocketConnection = () => {
-  createWS();
+export const openWebsocketConnection = (intl: (e: string) => string) => {
+  createWS(intl);
 };
 
 export const isSocketConnected = () => isConnected;
