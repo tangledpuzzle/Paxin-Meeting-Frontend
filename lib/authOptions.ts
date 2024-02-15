@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers';
 
 const authOptions: NextAuthOptions = {
   debug: true,
