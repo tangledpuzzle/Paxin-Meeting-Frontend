@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     path: '/',
     maxAge: 60 * 60 * 24 * 30,
     domain: '.paxintrade.com',
-    httpOnly: true,
+    httpOnly: false,
     secure: process.env.NODE_ENV === 'production',
   });
 
