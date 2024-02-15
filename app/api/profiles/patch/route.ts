@@ -72,7 +72,7 @@ export async function PATCH(req: NextRequest) {
 
       return NextResponse.json({ success: true });
     } else {
-      const { city, guilds, hashtags, Descr } = await req.json();
+      const { city, guilds, hashtags, bio } = await req.json();
       const res = await fetch(`${process.env.API_URL}/api/profile/save`, {
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,
@@ -83,7 +83,7 @@ export async function PATCH(req: NextRequest) {
           city,
           guilds,
           hashtags,
-          Descr,
+          descr: bio,
         }),
       });
 

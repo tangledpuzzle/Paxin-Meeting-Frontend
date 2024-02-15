@@ -101,18 +101,6 @@ export function MobileMenu({ user }: MobileMenuProps) {
               {t('contact')}
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuSeparator className='sm:hidden' />
-          <DropdownMenuItem className='text-base sm:hidden' asChild>
-            <LanguageSelector className='w-full border-none' />
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className='cursor-pointer text-base sm:hidden'
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-          >
-            <Sun className='mr-2 hidden h-[1.5rem] w-[1.3rem] text-primary dark:block' />
-            <Moon className='mr-2 size-5 text-primary dark:hidden' />
-            {theme === 'light' ? t('dark_mode') : t('light_mode')}
-          </DropdownMenuItem>
           {user && (
             <>
               <DropdownMenuSeparator />
@@ -125,6 +113,18 @@ export function MobileMenu({ user }: MobileMenuProps) {
               </DropdownMenuItem>
             </>
           )}
+          <DropdownMenuSeparator className='sm:hidden' />
+          <DropdownMenuItem
+            className='cursor-pointer text-base sm:hidden'
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          >
+            <Sun className='mr-2 hidden h-[1.5rem] w-[1.3rem] text-primary dark:block' />
+            <Moon className='mr-2 size-5 text-primary dark:hidden' />
+            {theme === 'light' ? t('dark_mode') : t('light_mode')}
+          </DropdownMenuItem>
+          <DropdownMenuItem className='text-base sm:hidden' asChild>
+            <LanguageSelector className='w-full border-none' />
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

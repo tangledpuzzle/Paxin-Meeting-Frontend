@@ -1,14 +1,14 @@
 'use client';
 
-import { Search } from 'lucide-react';
-
 import { Input } from '@/components/ui/input';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Search } from 'lucide-react';
+import { useDebouncedCallback } from 'use-debounce';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { FilterModal } from './filter-modal';
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { FilterModal } from './filter-modal';
 
 export function CTASection() {
   const t = useTranslations('main');
@@ -19,6 +19,14 @@ export function CTASection() {
       ? searchParams.get('title') || ''
       : ''
   );
+
+  const handleSearch = useDebouncedCallback((value: string) => {
+    setKeyword(value);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('title', value.trim() || 'all');
+
+    router.push(`?${newSearchParams.toString()}`);
+  }, 300);
 
   return (
     <div className='flex flex-col items-start justify-start gap-3 sm:flex-row sm:justify-between'>
@@ -54,15 +62,8 @@ export function CTASection() {
             type='text'
             placeholder={t('search')}
             className='pl-12 pr-4 dark:bg-input'
-            value={keyword}
-            onChange={(e) => {
-              setKeyword(e.target.value);
-
-              const newSearchParams = new URLSearchParams(searchParams);
-              newSearchParams.set('title', e.target.value || 'all');
-
-              router.push(`?${newSearchParams.toString()}`);
-            }}
+            defaultValue={keyword}
+            onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
         <FilterModal />

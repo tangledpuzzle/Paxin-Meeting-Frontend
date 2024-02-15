@@ -1,6 +1,6 @@
 {
-  "name": "next-template",
-  "version": "0.0.2",
+  "name": "paxintrade-frontend",
+  "version": "0.0.9",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -49,6 +49,7 @@
     "formidable": "^3.5.1",
     "framer-motion": "^11.0.3",
     "livekit-client": "^1.15.4",
+    "gsap": "^3.12.5",
     "lucide-react": "^0.315.0",
     "microsoft-cognitiveservices-speech-sdk": "^1.35.0",
     "mobile-detect": "^1.4.5",
@@ -91,6 +92,7 @@
     "tailwindcss-animate": "^1.0.7",
     "validator": "^13.11.0",
     "video.js": "^8.10.0",
+    "use-debounce": "^10.0.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {

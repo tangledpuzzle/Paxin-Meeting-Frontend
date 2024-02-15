@@ -3,7 +3,7 @@
 import { Search } from 'lucide-react';
 import { MdOutlinePostAdd } from 'react-icons/md';
 import { RiArticleLine } from 'react-icons/ri';
-
+import { MdOutlineSpeakerNotesOff } from 'react-icons/md';
 import { ConfirmModal } from '@/components/common/confirm-modal';
 import CTASection from '@/components/profiles/cta';
 import { NewPostModal } from '@/components/profiles/posts/new-post-modal';
@@ -18,7 +18,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
-import { PaginationComponent } from '@/components/profiles/posts/pagination';
+import { PaginationComponent } from '@/components/common/pagination';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -187,7 +187,7 @@ export default function MyPostsPage() {
             </Button>
           </div>
           <NewPostModal mutate={blogsMutate}>
-            <Button className='btn btn--wide !rounded-md !m-0 !rounded-md'>
+            <Button className='btn btn--wide !m-0 !rounded-md'>
               <MdOutlinePostAdd className='mr-2 size-5' />
               {t('new_post')}
             </Button>
@@ -218,53 +218,62 @@ export default function MyPostsPage() {
       </div>
       {!error ? (
         fetchedData && blogs ? (
-          <div className='w-full'>
-            {blogs.map((blog) => (
-              <PostCard
-                key={blog.id}
-                id={blog.id}
-                title={blog.title}
-                original_title={blog.original_title}
-                subtitle={blog.subtitle}
-                original_subtitle={blog.original_subtitle}
-                content={blog.content}
-                original_content={blog.original_content}
-                hashtags={blog.hashtags}
-                expireDate={blog.expireDate}
-                cities={blog.cities}
-                categories={blog.categories}
-                gallery={blog.gallery}
-                archived={blog.archived}
-                price={blog.price}
-                link={blog.link}
-                onArchive={() => {
-                  setArchiveID(blog.id);
-                  setShowArchiveModal(true);
-                }}
-                onDelete={() => {
-                  setDeleteID(blog.id);
-                  setShowDeleteModal(true);
-                }}
-                mutate={blogsMutate}
-              />
-            ))}
-            {maxPage > 1 && (
-              <PaginationComponent
-                currentPage={
-                  searchParams.get('page')
-                    ? Number(searchParams.get('page'))
-                    : 1
-                }
-                maxPage={maxPage}
-                gotoPage={(page) => {
-                  const newSearchParams = new URLSearchParams(searchParams);
-                  newSearchParams.set('page', page.toString());
+          blogs?.length > 0 ? (
+            <div className='w-full'>
+              {blogs.map((blog) => (
+                <PostCard
+                  key={blog.id}
+                  id={blog.id}
+                  title={blog.title}
+                  original_title={blog.original_title}
+                  subtitle={blog.subtitle}
+                  original_subtitle={blog.original_subtitle}
+                  content={blog.content}
+                  original_content={blog.original_content}
+                  hashtags={blog.hashtags}
+                  expireDate={blog.expireDate}
+                  cities={blog.cities}
+                  categories={blog.categories}
+                  gallery={blog.gallery}
+                  archived={blog.archived}
+                  price={blog.price}
+                  link={blog.link}
+                  onArchive={() => {
+                    setArchiveID(blog.id);
+                    setShowArchiveModal(true);
+                  }}
+                  onDelete={() => {
+                    setDeleteID(blog.id);
+                    setShowDeleteModal(true);
+                  }}
+                  mutate={blogsMutate}
+                />
+              ))}
+              {maxPage > 1 && (
+                <PaginationComponent
+                  currentPage={
+                    searchParams.get('page')
+                      ? Number(searchParams.get('page'))
+                      : 1
+                  }
+                  maxPage={maxPage}
+                  gotoPage={(page) => {
+                    const newSearchParams = new URLSearchParams(searchParams);
+                    newSearchParams.set('page', page.toString());
 
-                  router.push(`?${newSearchParams.toString()}`);
-                }}
-              />
-            )}
-          </div>
+                    router.push(`?${newSearchParams.toString()}`);
+                  }}
+                />
+              )}
+            </div>
+          ) : (
+            <div className='flex h-60 w-full items-center justify-center rounded-md bg-background/30 p-8'>
+              <div className='flex flex-col items-center text-gray-400'>
+                <MdOutlineSpeakerNotesOff className='size-20' />
+                {t('no_blogs_yet')}
+              </div>
+            </div>
+          )
         ) : (
           <PostCardSkeleton />
         )

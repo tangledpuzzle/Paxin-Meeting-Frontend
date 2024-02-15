@@ -22,9 +22,17 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  typescript: {
-    ignoreBuildErrors: true,
+  output: 'standalone',
+  async redirects() {
+    return [
+      {
+        source: '/profile/blog/new',
+        destination: '/home',
+        permanent: true,
+      },
+    ];
   },
+  output: 'standalone',
 };
 
 export default withNextIntl(nextConfig);

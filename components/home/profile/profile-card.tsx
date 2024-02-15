@@ -38,6 +38,7 @@ export interface ProfileCardProps {
     };
     totalposts: number;
   };
+  callbackURL: string;
 }
 
 function ProfileCard(profile: ProfileCardProps) {
@@ -53,6 +54,7 @@ function ProfileCard(profile: ProfileCardProps) {
     countrycode,
     review,
     totalfollowers,
+    callbackURL,
   } = profile;
 
   return (
@@ -63,7 +65,7 @@ function ProfileCard(profile: ProfileCardProps) {
             {avatar ? (
               <Image
                 src={avatar}
-                layout='fill'
+                fill
                 style={{ objectFit: 'cover' }}
                 className='rounded-md rounded-b-none'
                 alt='profile'
@@ -74,7 +76,7 @@ function ProfileCard(profile: ProfileCardProps) {
           </div>
           <Link
             href='/profiles/[username]'
-            as={`/profiles/${username}`}
+            as={`/profiles/${username}?callback=${callbackURL}`}
             className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'
           ></Link>
           <div className='absolute top-3 flex w-full justify-between gap-2 px-4'>
@@ -95,7 +97,7 @@ function ProfileCard(profile: ProfileCardProps) {
         <div className='px-3 font-satoshi'>
           <Link
             href='/profiles/[username]'
-            as={`/profiles/${username}`}
+            as={`/profiles/${username}?callback=${callbackURL}`}
             className='line-clamp-1 pb-4 text-xl font-semibold text-secondary-foreground'
           >
             @{username}
@@ -143,10 +145,13 @@ function ProfileCard(profile: ProfileCardProps) {
         <div className='flex justify-between px-3 pb-3'>
           <Button
             variant='default'
-            className='btn btn--wide !rounded-md w-full text-center font-roboto'
+            className='btn btn--wide w-full !rounded-md text-center font-roboto'
             asChild
           >
-            <Link href='/profiles/[username]' as={`/profiles/${username}`}>
+            <Link
+              href='/profiles/[username]'
+              as={`/profiles/${username}?callback=${callbackURL}`}
+            >
               {t('view_detail')}
             </Link>
           </Button>

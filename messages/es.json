@@ -4,6 +4,8 @@
     "description": ""
   },
   "main": {
+    "back_flow": "Volver",
+    "next_flow": "Adelante",
     "scroll_down": "continuación",
     "home": "Inicio",
     "about": "Acerca de",
@@ -93,10 +95,21 @@
     "room_id": "ID de Sala",
     "explore_paxintrade": "Explora PaxinTrade",
     "empowering_connections_metaverse": "Potenciando las conexiones del metaverso",
-    "empowering_connections_metaverse_description": "Adéntrate en un mundo 3D de infinitas posibilidades. Tu entrada a una metarelación conectada. Únete a PaxinTrade y revisita tu presencia online con funciones e interacciones revolucionarias.",
+    "empowering_connections_metaverse_description": "¡Sumérjase en un mundo 3D de posibilidades ilimitadas con PaxinTrade! La plataforma ofrece una metaexperiencia única donde cada miembro de la comunidad puede unirse y redefinir su presencia en línea a través de funciones e interacciones innovadoras.",
     "discover_paxintrade": "Descubre PaxinTrade",
-    "unleashing_future_online_interaction": "Liberando el futuro de la interacción online",
-    "unleashing_future_online_interaction_description": "Descubre la exclusiva combinación de publicaciones online y boletines de Telegram. Desde búsquedas optimizadas hasta el lanzamiento de tu mundo 3D.",
+    "unleashing_future_online_interaction": "Creamos un espacio donde la conexión es más profunda y la colaboración es más productiva.",
+    "unleashing_future_online_interaction_description": "En un momento en que la tecnología digital está impregnando todos los aspectos de la vida, es importante reconocer la importancia de fortalecer las conexiones en el Metauniverso, un espacio compartido que conecta a personas, ideas e información digitalmente.",
+    "read_text": "Lee sobre ello",
+
+    "meta_vision": "Conexiones de red",
+    "meta_vision_description": "Cómo las metaplataformas ayudan a fortalecer las conexiones entre las personas y a encontrar personas con ideas afines en el espacio digital.",
+    "meta_identification": "Comunidades digitales",
+    "meta_identification_description": "Cómo las MetaPlataformas apoyan la formación y el desarrollo de comunidades digitales en torno a diferentes intereses, causas o identidades.",
+    "meta_communication": "Área de cooperación",
+    "meta_communication_description": "Cómo las herramientas digitales y la funcionalidad de las metaplataformas promueven la colaboración entre personas y organizaciones",
+    "meta_world_experience": "Impacto social",
+    "meta_world_experience_description": "Cómo el fortalecimiento de las conexiones en el Metauniverso influye en la formación de nuevas tendencias culturales, estereotipos y normas sociales, así como en las esferas de la economía, la política y la educación.",
+   
     "hybrid_vision": "Visión híbrida",
     "hybrid_vision_description": "Una integración perfecta de publicaciones online y boletines de Telegram para una nueva experiencia digital.",
     "swift_identification": "Identificación ágil",
@@ -105,9 +118,11 @@
     "advanced_communication_description": "Mejora tus comunicaciones en Telegram con características para una indexación y compartición de información eficientes.",
     "3d_world_experience": "Experiencia de mundo 3D",
     "3d_world_experience_description": "Sumérgete en una nueva dimensión de creatividad donde se puede interactuar con actividades familiares en un formato único.",
-    "search_and_share": "Buscar y compartir",
-    "navigating_your_digital_universe": "Navegando por tu universo digital",
-    "navigating_your_digital_universe_description": "Descubre la exclusiva combinación de publicaciones online y boletines de Telegram. Desde búsquedas optimizadas hasta el lanzamiento de tu mundo 3D.",
+  
+    "search_and_share": "Servicios y características",
+    "navigating_your_digital_universe": "Navegando por el universo digital de PaxInTrade",
+    "navigating_your_digital_universe_description": "Su viaje a través del universo digital de PaxInTrade comienza con una combinación única de servicios de plataforma que lo ayudarán a desbloquear todo su potencial. Nuestro objetivo es brindarle la máxima comodidad y productividad en su presencia en línea.",
+
     "efficient_discovery": "Descubrimiento eficiente",
     "efficient_discovery_description": "Utiliza nuestro avanzado sistema de búsqueda para un descubrimiento rápido y eficiente de información. Destaca tu contenido y crea un espacio personalizado en nuestra variada plataforma.",
     "private_asks": "Preguntas privadas",
@@ -316,7 +331,9 @@
     "hello": "Hola",
     "load_more": "Cargar más",
     "n_data_loaded_successfully": "{number} datos cargados exitosamente",
-    "subscribers": "Suscriptores"
+    "subscribers": "Suscriptores",
+    "no_blogs_yet": "Aún no hay blogs...",
+    "empty_search_result": "No hay resultados para tu búsqueda..."
   },
   "privacy": {
     "rulesprivacy": "política de privacidad",

@@ -1,12 +1,13 @@
 import axios, { AxiosError } from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+// import { cookies } from 'next/headers';
 
 const authOptions: NextAuthOptions = {
   debug: true,
   session: {
     strategy: 'jwt',
-  },
+  },  
   pages: {
     signIn: '/auth/signin',
     newUser: '/auth/signup',
@@ -21,34 +22,54 @@ const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
         session: { label: 'Session', type: 'text' },
       },
-      async authorize(credentials, req) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
+        async authorize(credentials, req,) {
 
-        try {
-          const response = await axios.post(
-            `${process.env.API_URL}/api/auth/login`,
-            {
-              email: credentials.email,
-              password: credentials.password,
-            },
-            {
-              headers: {
-                session: credentials.session,
+          if (!credentials?.email || !credentials?.password) {
+            return null;
+          }
+
+          try {
+            const response = await axios.post(
+              `${process.env.API_URL}/api/auth/login`,
+              {
+                email: credentials.email,
+                password: credentials.password,
               },
-            }
-          );
+              {
+                headers: {
+                  session: credentials.session,
+                },
+              }
+            );
+
+
+          const token = response.headers['set-cookie']
+
+          console.log(token)
+          // if (token) {
+          //   let accessToken;
+            
+          //   token.forEach(cookie => {
+          //     const cookieParts = cookie.split(';');
+          //     const tokenCookie = cookieParts.find(part => part.trim().startsWith('access_token='));
+          //     if (tokenCookie) {
+          //       accessToken = tokenCookie.split('=')[1];
+          //     }
+          //   });
+          
+          //   if (accessToken) {
+          //     cookies().set('access_token', accessToken, { secure: false, domain: process.env.DOMAIN_SUB });
+          //   } else {
+          //       console.log("Access token not found in cookies.");
+          //   }
+            
+          //   } else {
+          //     console.log("No cookies found in the response.");
+          //   }
 
           const data = response.data;
 
           if (data.status === 'success') {
-            console.log(req);
-            // req.setHeader(
-            //   'Set-Cookie',
-            //   `access_token=${encodeURIComponent(data.access_token)}; HttpOnly; Secure; Path=/; Domain=.paxintrade.com;`
-            // );
-
             return {
               id: data.refresh_token.UserID,
               name: '',
@@ -97,19 +118,5 @@ const authOptions: NextAuthOptions = {
     },
   },
 };
-
-if (process.env.NODE_ENV === 'production') {
-  authOptions.cookies = {
-    sessionToken: {
-      name: '__Secure-next-auth.session-token',
-      options: {
-        httpOnly: true,
-        secure: true,
-        path: '/',
-        domain: '.paxintrade.com',
-      },
-    },
-  };
-}
 
 export default authOptions;

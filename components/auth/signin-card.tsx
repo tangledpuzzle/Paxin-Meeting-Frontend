@@ -1,12 +1,11 @@
 'use client';
 
-import { PaxContext } from '@/context/context';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Lock, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { parseCookies } from 'nookies';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
@@ -23,18 +22,16 @@ import { Input } from '@/components/ui/input';
 import { getSession, signIn, useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-// heyheyhey
 
 export function SignInCard() {
   const t = useTranslations('main');
-  const { socket, userMutate } = useContext(PaxContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const session = useSession();
+  const { data: session, status } = useSession();
 
-  if (session.status === 'authenticated') {
-    router.push('/profile/dashboard');
-  }
+  // if (status === 'authenticated') {
+  //   router.push('/profile/dashboard');
+  // }
 
   const formSchema = z.object({
     email: z.string().email(t('invalid_email')),
@@ -166,7 +163,7 @@ export function SignInCard() {
             <Button
               type='submit'
               variant='default'
-              className='btn btn--wide !rounded-md w-full'
+              className='btn btn--wide w-full !rounded-md'
               disabled={loading}
             >
               {loading && <Loader2 className='mr-2 size-4 animate-spin' />}

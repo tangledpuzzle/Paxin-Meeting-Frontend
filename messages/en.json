@@ -4,6 +4,8 @@
     "description": ""
   },
   "main": {
+    "back_flow": "Back",
+    "next_flow": "Forward",
     "scroll_down": "continuation",
     "home": "Home",
     "about": "About",
@@ -93,10 +95,21 @@
     "room_id": "Room ID",
     "explore_paxintrade": "Explore PaxinTrade",
     "empowering_connections_metaverse": "Empowering Connections in the Metaverse",
-    "empowering_connections_metaverse_description": "Immerse yourself in a 3D world of endless possibilities. Your gateway to a connected metaverse experience. Join PaxinTrade and redefine your online presence with innovative features and interactions.",
+    "empowering_connections_metaverse_description": "Immerse yourself in a 3D world of limitless possibilities with PaxinTrade! The platform offers a unique meta experience where every member of the community can join and redefine their online presence through innovative features and interactions.",
     "discover_paxintrade": "Discover PaxinTrade",
-    "unleashing_future_online_interaction": "Unleashing the Future of Online Interaction",
-    "unleashing_future_online_interaction_description": "Explore the unique blend of online publishing and Telegram mailing. From streamlined searches to launching your 3D world.",
+    "unleashing_future_online_interaction": "We create a space where connection is deeper and collaboration is more productive.",
+    "unleashing_future_online_interaction_description": "At a time when digital technology is permeating every aspect of life, it is important to recognize the importance of strengthening connections in the Meta-Universe - a shared space that connects people, ideas and information digitally.",
+    "read_text": "Read more",
+
+    "meta_vision": "Network Connections",
+    "meta_vision_description": "How Meta Platforms help strengthen connections between people and find like-minded people in the digital space.",
+    "meta_identification": "Digital Communities",
+    "meta_identification_description": "How Meta Platforms support the formation and development of digital communities around different interests, causes or identities.",
+    "meta_communication": "Area of cooperation",
+    "meta_communication_description": "How digital tools and functionality of Meta platforms promote collaboration between people and organizations",
+    "meta_world_experience": "Social Impact",
+    "meta_world_experience_description": "How strengthening connections in the Meta-Universe influences the formation of new cultural trends, stereotypes and social norms, as well as the spheres of economics, politics and education.",
+   
     "hybrid_vision": "Hybrid Vision",
     "hybrid_vision_description": "Seamlessly combining online publishing with Telegram mailing for a novel digital experience.",
     "swift_identification": "Swift Identification",
@@ -105,9 +118,11 @@
     "advanced_communication_description": "Enhance your Telegram communications with features for efficient indexing and information sharing.",
     "3d_world_experience": "3D World Experience",
     "3d_world_experience_description": "Immerse yourself in a new dimension of creativity, where you can interact with familiar activities in a unique format.",
-    "search_and_share": "Search and Share",
-    "navigating_your_digital_universe": "Navigating Your Digital Universe",
-    "navigating_your_digital_universe_description": "Explore the unique blend of online publishing and Telegram mailing. From streamlined searches to launching your 3D world.",
+  
+    "search_and_share": "Services and Features",
+    "navigating_your_digital_universe": "Navigating through the PaxInTrade digital universe",
+    "navigating_your_digital_universe_description": "Your journey through the digital universe of PaxInTrade begins with a unique combination of platform services that will help you unlock its full potential. Our goal is to provide you with the utmost convenience and productivity in your online presence.",
+
     "efficient_discovery": "Efficient Discovery",
     "efficient_discovery_description": "Utilize our advanced search engine for quick and efficient information discovery. Highlight your content and create a personalized space within our diverse platform.",
     "private_asks": "Private Asks",
@@ -315,7 +330,9 @@
     "hello": "Hello",
     "load_more": "Load More",
     "n_data_loaded_successfully": "{number} data loaded successfully",
-    "subscribers": "Subscribers"
+    "subscribers": "Subscribers",
+    "no_blogs_yet": "There are no blogs yet...",
+    "empty_search_result": "There is no result for your search query..."
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",

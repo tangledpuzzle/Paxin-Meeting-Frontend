@@ -37,6 +37,7 @@ import 'react-quill/dist/quill.snow.css';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useSWR from 'swr';
+import { useDebouncedCallback } from 'use-debounce';
 import * as z from 'zod';
 
 const ReactQuill =
@@ -147,6 +148,8 @@ export default function SettingPage() {
   const [cityOptions, setCityOptions] = useState<Option[]>();
   const [categoryOptions, setCategoryOptions] = useState<Option[]>();
   const [hashtagOptions, setHashtagOptions] = useState<Option[]>([]);
+  const [cityKeyword, setCityKeyword] = useState<string>('');
+  const [categoryKeyword, setCategoryKeyword] = useState<string>('');
 
   const basicForm = useForm<BasicFormData>({
     resolver: zodResolver(basicFormSchema),
@@ -159,11 +162,15 @@ export default function SettingPage() {
   } = useSWR(`/api/profiles/me?language=${locale}`, fetcher);
 
   const { data: fetchedCities, error: cityFetchError } = useSWR(
-    '/api/cities/get',
+    cityKeyword
+      ? `/api/cities/query?name=${cityKeyword}&lang=${locale}`
+      : `/api/cities/get?lang=${locale}`,
     fetcher
   );
   const { data: fetchedCategories, error: categoryFetchError } = useSWR(
-    '/api/categories/get',
+    categoryKeyword
+      ? `/api/categories/query?name=${categoryKeyword}&lang=${locale}`
+      : `/api/categories/get?lang=${locale}&limit=100`,
     fetcher
   );
 
@@ -171,6 +178,14 @@ export default function SettingPage() {
     hashtagURL,
     fetcher
   );
+
+  const handleCitySearch = useDebouncedCallback((value: string) => {
+    setCityKeyword(value);
+  }, 300);
+
+  const handleCategorySearch = useDebouncedCallback((value: string) => {
+    setCategoryKeyword(value);
+  }, 300);
 
   useEffect(() => {
     setCurrentTab(searchParams.get('tab') || 'profile');
@@ -212,7 +227,7 @@ export default function SettingPage() {
   }, [fetchedData, error]);
 
   useEffect(() => {
-    if (!cityFetchError && fetchedCities) {
+    if (fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
           value: city.ID,
@@ -220,7 +235,10 @@ export default function SettingPage() {
         }))
       );
     }
-    if (!categoryFetchError && fetchedCategories) {
+  }, [fetchedCities]);
+
+  useEffect(() => {
+    if (fetchedCategories) {
       setCategoryOptions(
         fetchedCategories.data.map((category: any) => ({
           value: category.ID,
@@ -229,13 +247,7 @@ export default function SettingPage() {
         }))
       );
     }
-  }, [
-    fetchedCities,
-    fetchedCategories,
-    locale,
-    cityFetchError,
-    categoryFetchError,
-  ]);
+  }, [fetchedCategories]);
 
   useEffect(() => {
     if (!hashtagFetchError && fetchedHashtags) {
@@ -373,7 +385,7 @@ export default function SettingPage() {
           ID: hashtag.value,
           Hashtag: hashtag.label,
         })),
-        Descr: data.bio,
+        bio: data.bio,
       });
 
       if (res.status === 200) {
@@ -488,9 +500,9 @@ export default function SettingPage() {
     setIsNeededUpdate(true);
   };
 
-  const handleHashtagSearch = (query: string) => {
+  const handleHashtagSearch = useDebouncedCallback((query: string) => {
     if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
-  };
+  }, 300);
 
   const handleDeleteAccount = async () => {
     setIsDeleteAccountLoading(true);
@@ -539,7 +551,7 @@ export default function SettingPage() {
         />
         <Tabs
           value={currentTab}
-          className='h-[calc(100svh_-_5rem)] w-full items-start bg-background py-2 sm:flex'
+          className='w-full items-start bg-background py-2 sm:flex'
           orientation='vertical'
         >
           <TabsList className='flex h-auto w-full bg-background px-2 sm:w-60 sm:flex-col'>
@@ -624,10 +636,14 @@ export default function SettingPage() {
                                   options={cityOptions}
                                   value={field.value}
                                   onChange={field.onChange}
+                                  onInputChange={(value) =>
+                                    handleCitySearch(value)
+                                  }
                                   noOptionsMessage={() => t('no_options')}
                                   placeholder={t('select') + '...'}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black',
+                                    input: () =>
+                                      'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -655,9 +671,13 @@ export default function SettingPage() {
                                   noOptionsMessage={() => t('no_options')}
                                   options={categoryOptions}
                                   value={field.value}
+                                  onInputChange={(value) =>
+                                    handleCategorySearch(value)
+                                  }
                                   onChange={field.onChange}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black',
+                                    input: () =>
+                                      'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -688,7 +708,8 @@ export default function SettingPage() {
                                   onChange={field.onChange}
                                   onInputChange={handleHashtagSearch}
                                   classNames={{
-                                    input: () => 'dark:text-white text-black',
+                                    input: () =>
+                                      'dark:text-white text-black text-[16px]',
                                     control: () =>
                                       '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
                                     option: () =>
@@ -731,7 +752,7 @@ export default function SettingPage() {
                           <Button
                             type='submit'
                             disabled={isBasicLoading}
-                            className='btn btn--wide !rounded-md !ml-0 w-full'
+                            className='btn btn--wide !ml-0 w-full !rounded-md'
                           >
                             {isBasicLoading && (
                               <Loader2 className='mr-2 size-4 animate-spin' />
