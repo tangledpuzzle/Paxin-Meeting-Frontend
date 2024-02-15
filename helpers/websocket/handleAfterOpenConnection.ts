@@ -1,5 +1,5 @@
-import { participantsSelector } from '../../store/slices/participantSlice';
-import { store } from '../../store';
+import { participantsSelector } from '@/store/slices/participantSlice';
+import { store } from '@/store';
 import { sendWebsocketMessage } from './index';
 import {
   DataMessage,

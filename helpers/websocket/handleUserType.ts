@@ -1,20 +1,20 @@
-import { store } from '../../store';
-import { addChatMessage } from '../../store/slices/chatMessagesSlice';
+import { store } from '@/store';
+import { addChatMessage } from '@/store/slices/chatMessagesSlice';
 import {
   updateIsActiveChatPanel,
   updateTotalUnreadChatMsgs,
-} from '../../store/slices/bottomIconsActivitySlice';
-import { updateUnreadMsgFrom } from '../../store/slices/roomSettingsSlice';
+} from '@/store/slices/bottomIconsActivitySlice';
+import { updateUnreadMsgFrom } from '@/store/slices/roomSettingsSlice';
 import {
   DataMsgBody,
   DataMsgBodyType,
 } from '../proto/plugnmeet_datamessage_pb';
-import { IChatMsg } from '../../store/slices/interfaces/dataMessages';
+import { IChatMsg } from '@/store/slices/interfaces/dataMessages';
 
 export const handleUserTypeData = (
   body: DataMsgBody,
   message_id?: string,
-  to?: string,
+  to?: string
 ) => {
   if (body.type === DataMsgBodyType.CHAT) {
     if (!body.messageId) {
@@ -60,7 +60,7 @@ export const handleUserTypeData = (
         updateUnreadMsgFrom({
           task: 'ADD',
           id: 'public',
-        }),
+        })
       );
     } else if (
       body.isPrivate &&
@@ -71,7 +71,7 @@ export const handleUserTypeData = (
         updateUnreadMsgFrom({
           task: 'ADD',
           id: body.from?.userId ?? '',
-        }),
+        })
       );
     }
   }

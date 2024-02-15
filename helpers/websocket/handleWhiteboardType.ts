@@ -1,4 +1,4 @@
-import { store } from '../../store';
+import { store } from '@/store';
 import {
   addWhiteboardFileAsJSON,
   addWhiteboardUploadedOfficeFiles,
@@ -6,8 +6,8 @@ import {
   updateExcalidrawElements,
   updateMouseAppStateChanges,
   updateMousePointerLocation,
-} from '../../store/slices/whiteboard';
-import { IWhiteboardOfficeFile } from '../../store/slices/interfaces/whiteboard';
+} from '@/store/slices/whiteboard';
+import { IWhiteboardOfficeFile } from '@/store/slices/interfaces/whiteboard';
 import {
   DataMsgBody,
   DataMsgBodyType,

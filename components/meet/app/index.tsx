@@ -163,6 +163,7 @@ const Meet = () => {
         } else {
           setError({
             title: t('app.verification-failed-title'),
+            //@ts-ignore
             text: t(res.msg),
           });
         }
