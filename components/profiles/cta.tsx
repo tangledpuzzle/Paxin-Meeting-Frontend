@@ -1,4 +1,5 @@
 import { FaHardDrive, FaSackDollar, FaUserClock } from 'react-icons/fa6';
+import React, { useState, useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 
@@ -13,9 +14,55 @@ interface CTAProps {
   icon: React.ComponentType<any>;
 }
 
+
+function formatTime(hours: number, minutes: number, seconds: number) {
+  return `${String(hours).padStart(2, '0')}h : ${String(minutes).padStart(2, '0')}m : ${String(seconds).padStart(2, '0')}s`;
+}
+
+function Clock({ initialHours, initialMinutes, initialSeconds }: { initialHours: number, initialMinutes: number, initialSeconds: number }) {
+  const [currentTime, setCurrentTime] = useState({
+    hours: initialHours,
+    minutes: initialMinutes,
+    seconds: initialSeconds,
+  });
+
+  useEffect(() => {
+    const intervalID = setInterval(() => {
+      setCurrentTime(prevTime => {
+        let { hours, minutes, seconds } = prevTime;
+        seconds++;
+        if (seconds === 60) {
+          seconds = 0;
+          minutes++;
+          if (minutes === 60) {
+            minutes = 0;
+            hours++;
+            if (hours === 24) {
+              hours = 0;
+            }
+          }
+        }
+        return { hours, minutes, seconds };
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalID);
+  }, []);
+
+  return (
+    <div className='clock'>
+      <span className='clock-time'>{formatTime(currentTime.hours, currentTime.minutes, currentTime.seconds)}</span>
+    </div>
+  );
+}
+
+
 export default function CTASection({ title, description, icon }: CTAProps) {
   const { user } = useContext(PaxContext);
   const Icon = icon;
+  const initialHours = user?.onlinehours?.hour || 0; 
+  const initialMinutes = user?.onlinehours?.minutes || 0; 
+  const initialSeconds = user?.onlinehours?.seconds || 0;
 
   return (
     <div className='flex w-full flex-col justify-between gap-2 sm:flex-row sm:items-center'>
@@ -51,8 +98,7 @@ export default function CTASection({ title, description, icon }: CTAProps) {
         </Button>
         <Button variant='outline' className='w-full'>
           <FaUserClock className='mr-2 size-4 text-primary' />
-          {user?.onlinehours?.hour || 0}h : {user?.onlinehours?.minutes || 0}m :{' '}
-          {user?.onlinehours?.seconds || 0}s
+          <Clock initialHours={initialHours} initialMinutes={initialMinutes} initialSeconds={initialSeconds} />
         </Button>
       </div>
     </div>
