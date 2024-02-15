@@ -37,6 +37,7 @@ import 'react-quill/dist/quill.snow.css';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useSWR from 'swr';
+import { useDebouncedCallback } from 'use-debounce';
 import * as z from 'zod';
 
 const ReactQuill =
@@ -177,6 +178,14 @@ export default function SettingPage() {
     hashtagURL,
     fetcher
   );
+
+  const handleCitySearch = useDebouncedCallback((value: string) => {
+    setCityKeyword(value);
+  }, 300);
+
+  const handleCategorySearch = useDebouncedCallback((value: string) => {
+    setCategoryKeyword(value);
+  }, 300);
 
   useEffect(() => {
     setCurrentTab(searchParams.get('tab') || 'profile');
@@ -491,9 +500,9 @@ export default function SettingPage() {
     setIsNeededUpdate(true);
   };
 
-  const handleHashtagSearch = (query: string) => {
+  const handleHashtagSearch = useDebouncedCallback((query: string) => {
     if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
-  };
+  }, 300);
 
   const handleDeleteAccount = async () => {
     setIsDeleteAccountLoading(true);
@@ -628,7 +637,7 @@ export default function SettingPage() {
                                   value={field.value}
                                   onChange={field.onChange}
                                   onInputChange={(value) =>
-                                    setCityKeyword(value)
+                                    handleCitySearch(value)
                                   }
                                   noOptionsMessage={() => t('no_options')}
                                   placeholder={t('select') + '...'}
@@ -663,7 +672,7 @@ export default function SettingPage() {
                                   options={categoryOptions}
                                   value={field.value}
                                   onInputChange={(value) =>
-                                    setCategoryKeyword(value)
+                                    handleCategorySearch(value)
                                   }
                                   onChange={field.onChange}
                                   classNames={{
