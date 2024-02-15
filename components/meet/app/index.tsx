@@ -287,7 +287,7 @@ const Meet = () => {
       className={`${orientationClass} ${deviceClass} ${userTypeClass} h-[calc(100vh-80px)] dark:bg-darkPrimary/70`}
       // style={{ height: screenHeight }}
     >
-      {roomConnectionStatus}
+      {/* {roomConnectionStatus} */}
       {renderElms}
     </div>
   );
