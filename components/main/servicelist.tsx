@@ -102,8 +102,6 @@ export default function ServiceList() {
 
   return (
     <div className='flex flex-col items-start justify-center px-0 pb-[40px] md:items-center md:pb-[80px]'>
-
-
       <div className='relative mt-0 flex w-full items-center justify-center px-0 md:px-7'>
         <div className='column-1 gap-8 space-y-8 md:columns-2 lg:columns-3'>
           {data.map((item) => (
@@ -117,7 +115,7 @@ export default function ServiceList() {
             />
           ))}
         </div>
-        <div className='absolute bottom-0 top-20 md:top-40 size-full bg-gradient-to-b from-transparent to-white dark:to-background'></div>
+        <div className='absolute bottom-0 top-20 size-full bg-gradient-to-b from-transparent to-white dark:to-background md:top-40'></div>
       </div>
     </div>
   );

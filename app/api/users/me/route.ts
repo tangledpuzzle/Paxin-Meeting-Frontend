@@ -1,6 +1,7 @@
-import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '@/lib/authOptions';
+import { getServerSession } from 'next-auth';
+import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const locale = req.nextUrl.searchParams.get('language') || 'en';
@@ -10,6 +11,14 @@ export async function GET(req: NextRequest) {
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+
+  cookies().set('access_token', session?.accessToken || '', {
+    path: '/',
+    maxAge: 60 * 60 * 24 * 30,
+    domain: '.paxintrade.com',
+    httpOnly: false,
+    secure: process.env.NODE_ENV === 'production',
+  });
 
   try {
     const res = await fetch(

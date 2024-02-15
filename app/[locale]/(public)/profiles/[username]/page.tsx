@@ -346,31 +346,39 @@ export default async function ProfilePage({
             </div>
           </div>
           <Separator />
-          <div className='my-3 grid grid-cols-2'>
-            <div>
+          <div className='my-3 flex flex-row'>
+            <div style={{'width': '-webkit-fill-available'}}>
               <div className='flex items-center gap-2'>
-                <MdOutlineHouseSiding className='size-5' />
+                <MdOutlineHouseSiding className='size-5 pb0-8' />
                 {t('city')}
               </div>
-              <div className='flex gap-2'>
+              <div className='flex gap-2 flex-col' style={{
+                overflow: 'auto',
+                'whiteSpace': 'nowrap',
+                'WebkitMaskImage': 'linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0))'
+              }}>
                 {profileDetails.cities.map((city: string, index: number) => (
                   <Link href={`/home?mode=profile&city=${city}`} key={index}>
                     <Badge
                       variant='outline'
-                      className='max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
+                      className='max-w-fit mb-2 rounded-full border-primary bg-primary/10 p-2 text-primary'
                     >
-                      {city}
+                      <p>{city}</p>
                     </Badge>
                   </Link>
                 ))}
               </div>
             </div>
-            <div>
+            <div style={{'width': '-webkit-fill-available'}}>
               <div className='flex items-center gap-2'>
                 <BiSolidCategory className='size-4' />
                 {t('category')}
               </div>
-              <div className='flex gap-2'>
+              <div className='flex gap-2 flex-col' style={{
+                overflow: 'auto',
+                'whiteSpace': 'nowrap',
+                'WebkitMaskImage': 'linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0))'
+              }}>
                 {profileDetails.categories.map(
                   (category: string, index: number) => (
                     <Link

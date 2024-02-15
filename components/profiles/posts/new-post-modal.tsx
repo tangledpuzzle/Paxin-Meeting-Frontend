@@ -1,8 +1,5 @@
 'use client';
 
-import { TfiWrite } from 'react-icons/tfi';
-import ReactSelect from 'react-select';
-import CreatableSelect from 'react-select/creatable';
 import { ImageUpload } from '@/components/common/file-uploader';
 import { Button } from '@/components/ui/button';
 import {
@@ -40,9 +37,13 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { TfiWrite } from 'react-icons/tfi';
 import 'react-quill/dist/quill.snow.css';
-import * as z from 'zod';
+import ReactSelect from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import useSWR from 'swr';
+import { useDebouncedCallback } from 'use-debounce';
+import * as z from 'zod';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -81,6 +82,10 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     hashtagKeyword ? `/api/hashtags/get?name=${hashtagKeyword}` : null,
     fetcher
   );
+
+  const handleHashtagSearch = useDebouncedCallback((value: string) => {
+    setHashtagKeyword(value);
+  }, 300);
 
   const formSchema = z
     .object({
@@ -460,7 +465,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                             ]);
                           }}
                           {...field}
-                          onInputChange={(value) => setHashtagKeyword(value)}
+                          onInputChange={(value) => handleHashtagSearch(value)}
                           classNames={{
                             input: () =>
                               'dark:text-white text-black text-[16px]',
