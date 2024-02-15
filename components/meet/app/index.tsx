@@ -48,7 +48,10 @@ const waitingForApprovalSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata,
   (metadata) => metadata?.wait_for_approval
 );
-
+const isStartupSelector = createSelector(
+  (state: RootState) => state.session,
+  (session) => session.isStartup
+);
 const Meet = () => {
   const dispatch = useAppDispatch();
   const t = useTranslations('meet');
@@ -70,7 +73,7 @@ const Meet = () => {
   // // we'll require making ready virtual background
   // // elements as early as possible.
   useBodyPix();
-
+  const isStartup = useAppSelector(isStartupSelector);
   // // some custom hooks
   const {
     error,
@@ -205,7 +208,10 @@ const Meet = () => {
     }
     //eslint-disable-next-line
   }, [roomConnectionStatus]);
-
+  useEffect(() => {
+    console.log('Meet rendered');
+    return () => console.log('Meet unmounted');
+  }, []);
   useEffect(() => {
     if (roomConnectionStatus === 'connected') {
       if (
@@ -226,7 +232,7 @@ const Meet = () => {
   const renderMainApp = useCallback(() => {
     if (currentConnection) {
       return (
-        <div className='plugNmeet-app h-full flex flex-col justify-between  overflow-hidden'>
+        <div className='plugNmeet-app flex h-full flex-col justify-between  overflow-hidden'>
           {/* {!isRecorder ? <Header currentRoom={currentConnection.room} /> : null} */}
           <MainArea
             isRecorder={isRecorder}
@@ -281,7 +287,7 @@ const Meet = () => {
       className={`${orientationClass} ${deviceClass} ${userTypeClass} h-[calc(100vh-80px)] dark:bg-darkPrimary/70`}
       // style={{ height: screenHeight }}
     >
-      {/* {t('app.ready')} */}
+      {roomConnectionStatus}
       {renderElms}
     </div>
   );

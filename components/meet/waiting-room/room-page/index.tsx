@@ -13,37 +13,29 @@ const waitingRoomMessageSelector = createSelector(
 );
 
 const WaitingRoomPage = () => {
-  const assetPath = (window as any).STATIC_ASSETS_PATH ?? './assets';
   const t = useTranslations('meet');
   const waitingRoomMessage = useAppSelector(waitingRoomMessageSelector);
 
   return (
     <>
-      <div
-        className='waiting-room  relative flex h-screen w-full items-center justify-center'
-        style={{
-          backgroundImage: `url("${assetPath}/imgs/app-banner.jpg")`,
-        }}
-      >
-        <div className='waiting-room-inner relative z-10'>
-          <div className='logo relative z-20 m-auto w-full'>
-            <Logo />
-          </div>
-          <div className='divider m-auto my-5 h-[2px] w-full max-w-[50px] bg-primaryColor dark:bg-darkText'></div>
-          <div className='loading-wrap relative h-24'>
-            <div className='loading absolute left-0 right-0 top-3 z-[999] m-auto text-center'>
-              <div className='lds-ripple'>
-                <div className='border-secondaryColor' />
-                <div className='border-secondaryColor' />
-              </div>
+      <div className='waiting-room-inner relative z-10'>
+        <div className='logo relative z-20 m-auto w-full'>
+          <Logo />
+        </div>
+        <div className='divider m-auto my-5 h-[2px] w-full max-w-[50px] bg-primaryColor dark:bg-darkText'></div>
+        <div className='loading-wrap relative h-24'>
+          <div className='loading absolute left-0 right-0 top-3 z-[999] m-auto text-center'>
+            <div className='lds-ripple'>
+              <div className='border-secondaryColor' />
+              <div className='border-secondaryColor' />
             </div>
           </div>
-          <p className='m-auto w-full max-w-5xl text-center text-3xl leading-normal dark:text-darkText'>
-            {isEmpty(waitingRoomMessage)
-              ? t('notifications.waiting-for-approval')
-              : waitingRoomMessage}
-          </p>
         </div>
+        <p className='m-auto w-full max-w-5xl text-center text-3xl leading-normal dark:text-darkText'>
+          {isEmpty(waitingRoomMessage)
+            ? t('notifications.waiting-for-approval')
+            : waitingRoomMessage}
+        </p>
       </div>
     </>
   );

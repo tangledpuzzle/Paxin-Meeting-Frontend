@@ -315,7 +315,7 @@ const MenusIcon = () => {
 
   const render = () => {
     return (
-      <div className='menu relative z-10'>
+      <div className='menu relative'>
         <Menu>
           {({ open }) => (
             <>
