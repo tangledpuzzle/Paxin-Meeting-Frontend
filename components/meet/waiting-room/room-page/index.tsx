@@ -20,7 +20,7 @@ const WaitingRoomPage = () => {
   return (
     <>
       <div
-        className='waiting-room relative flex h-screen w-full items-center justify-center'
+        className='waiting-room  relative flex h-screen w-full items-center justify-center'
         style={{
           backgroundImage: `url("${assetPath}/imgs/app-banner.jpg")`,
         }}

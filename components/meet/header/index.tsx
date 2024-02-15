@@ -296,7 +296,7 @@ const Header = ({ currentRoom }: IHeaderProps) => {
           {headerVisible ? t('header.hide-header') : t('header.show-header')}
         </span>
       </div>
-      <RoomSettings />
+      {/* <RoomSettings /> */}
       <KeyboardShortcuts />
     </>
   );

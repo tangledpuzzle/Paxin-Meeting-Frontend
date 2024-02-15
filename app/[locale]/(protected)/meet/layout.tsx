@@ -16,7 +16,7 @@ export default function ProfilePageLayout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <MeetHeader />
-      {children}
+      <div className='absolute top-0 mt-20 w-full'>{children}</div>
     </NextIntlClientProvider>
   );
 }

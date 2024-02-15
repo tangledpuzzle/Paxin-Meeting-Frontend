@@ -239,8 +239,8 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
   return (
     <div
       id='main-area'
-      className={`plugNmeet-app-main-area relative flex overflow-hidden ${customCSS} column-camera-width-${columnCameraWidth} column-camera-position-${columnCameraPosition}`}
-      style={{ height: `${height}px` }}
+      className={`plugNmeet-app-main-area relative flex h-full overflow-hidden ${customCSS} column-camera-width-${columnCameraWidth} column-camera-position-${columnCameraPosition}`}
+      // style={{ height: `${height}px` }}
     >
       <div
         className={`main-app-bg pointer-events-none absolute left-0 top-0 h-full w-full bg-cover bg-center bg-no-repeat object-cover`}

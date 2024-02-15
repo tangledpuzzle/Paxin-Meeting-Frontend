@@ -226,8 +226,8 @@ const Meet = () => {
   const renderMainApp = useCallback(() => {
     if (currentConnection) {
       return (
-        <div className='plugNmeet-app h-screen overflow-hidden'>
-          {!isRecorder ? <Header currentRoom={currentConnection.room} /> : null}
+        <div className='plugNmeet-app h-full flex flex-col justify-between  overflow-hidden'>
+          {/* {!isRecorder ? <Header currentRoom={currentConnection.room} /> : null} */}
           <MainArea
             isRecorder={isRecorder}
             currentConnection={currentConnection}
@@ -278,8 +278,8 @@ const Meet = () => {
 
   return (
     <div
-      className={`${orientationClass} ${deviceClass} ${userTypeClass} dark:bg-darkPrimary/70`}
-      style={{ height: screenHeight }}
+      className={`${orientationClass} ${deviceClass} ${userTypeClass} h-[calc(100vh-80px)] dark:bg-darkPrimary/70`}
+      // style={{ height: screenHeight }}
     >
       {/* {t('app.ready')} */}
       {renderElms}

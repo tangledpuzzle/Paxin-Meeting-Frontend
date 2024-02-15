@@ -10,18 +10,18 @@ const ErrorPage = ({ title, text }: IErrorPageProps) => {
 
   return (
     <div
-      id="errorPage"
-      className="error-page h-screen w-full flex items-center justify-center"
+      id='errorPage'
+      className='error-page flex h-full w-full items-center justify-center'
     >
       <div
-        className={`error-app-bg absolute w-full h-full left-0 top-0 object-cover pointer-events-none bg-cover bg-center bg-no-repeat`}
+        className={`error-app-bg pointer-events-none absolute left-0 top-0 h-full w-full bg-cover bg-center bg-no-repeat object-cover`}
         style={{
           backgroundImage: `url("${assetPath}/imgs/app-banner.jpg")`,
         }}
       />
-      <div className="content relative z-20 text-center bg-white dark:bg-darkPrimary/90 rounded-xl shadow-lg h-80 w-[450px] flex items-center justify-center">
-        <div className="inner text-center dark:text-darkText">
-          <h2 className="text-3xl font-medium mb-4">{title}</h2>
+      <div className='content relative z-20 flex h-80 w-[450px] items-center justify-center rounded-xl bg-white text-center shadow-lg dark:bg-darkPrimary/90'>
+        <div className='inner text-center dark:text-darkText'>
+          <h2 className='mb-4 text-3xl font-medium'>{title}</h2>
           <p>{text}</p>
         </div>
       </div>
