@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-// import { cookies } from 'next/headers';
+import { cookies } from 'next/headers';
 
 const authOptions: NextAuthOptions = {
   debug: true,
@@ -43,29 +43,29 @@ const authOptions: NextAuthOptions = {
             );
 
 
-          // const token = response.headers['set-cookie']
+          const token = response.headers['set-cookie']
 
 
-          // if (token) {
-          //   let accessToken;
+          if (token) {
+            let accessToken;
             
-          //   token.forEach(cookie => {
-          //     const cookieParts = cookie.split(';');
-          //     const tokenCookie = cookieParts.find(part => part.trim().startsWith('access_token='));
-          //     if (tokenCookie) {
-          //       accessToken = tokenCookie.split('=')[1];
-          //     }
-          //   });
+            token.forEach(cookie => {
+              const cookieParts = cookie.split(';');
+              const tokenCookie = cookieParts.find(part => part.trim().startsWith('access_token='));
+              if (tokenCookie) {
+                accessToken = tokenCookie.split('=')[1];
+              }
+            });
           
-          //   if (accessToken) {
-          //     cookies().set('access_token', accessToken, { secure: false, domain: process.env.DOMAIN_SUB });
-          //   } else {
-          //       console.log("Access token not found in cookies.");
-          //   }
+            if (accessToken) {
+              cookies().set('access_token', accessToken, { secure: false, domain: process.env.DOMAIN_SUB });
+            } else {
+                console.log("Access token not found in cookies.");
+            }
             
-          //   } else {
-          //     console.log("No cookies found in the response.");
-          //   }
+            } else {
+              console.log("No cookies found in the response.");
+            }
 
           const data = response.data;
 
