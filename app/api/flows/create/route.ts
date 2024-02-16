@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
     );
 
     if (!res.ok) {
-      throw new Error('Failed to fetch data');
+      throw new Error('Failed to create blog');
     }
 
     const data = await res.json();
@@ -118,10 +118,8 @@ export async function POST(req: NextRequest) {
     );
 
     if (!blogPhotoRes.ok) {
-      throw new Error('Failed to fetch data');
+      throw new Error('Failed to add blog photos');
     }
-
-    const blogPhotoData = await blogPhotoRes.json();
 
     return NextResponse.json({ success: true });
   } catch (error) {
