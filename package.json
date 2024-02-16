@@ -1,6 +1,6 @@
 {
-  "name": "next-template",
-  "version": "0.0.2",
+  "name": "paxintrade-frontend",
+  "version": "0.0.9",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
