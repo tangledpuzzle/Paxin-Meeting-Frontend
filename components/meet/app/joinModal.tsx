@@ -18,6 +18,7 @@ const isStartupSelector = createSelector(
 const StartupJoinModal = ({ onCloseModal }: StartupJoinModalProps) => {
   const [open, setOpen] = useState<boolean>(true);
   const isStartup = useAppSelector(isStartupSelector);
+  console.log('isStartUp:', isStartup);
   const dispatch = useAppDispatch();
   const t = useTranslations('meet');
 
@@ -91,9 +92,12 @@ const StartupJoinModal = ({ onCloseModal }: StartupJoinModalProps) => {
     );
   };
 
-  return isStartup ? (
+  // return isStartup ? (
+  //   <div className='absolute left-0 top-0 z-50 h-full w-full'>{render()}</div>
+  // ) : null;
+  return (
     <div className='absolute left-0 top-0 z-50 h-full w-full'>{render()}</div>
-  ) : null;
+  );
 };
 
 export default StartupJoinModal;

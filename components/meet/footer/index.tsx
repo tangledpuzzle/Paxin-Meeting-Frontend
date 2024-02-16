@@ -27,6 +27,7 @@ import {
 } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { toast } from 'react-toastify';
 import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import { useRouter } from 'next/navigation';
 interface IFooterProps {
   currentRoom: Room;
   isRecorder: boolean;
@@ -45,6 +46,10 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [alertText, setAlertText] = useState('');
   const [task, setTask] = useState('');
+  const router = useRouter();
+  function goBack() {
+    router.push('/profile/conference');
+  }
   const onCloseAlertModal = async (shouldDo = false) => {
     setShowModal(false);
     if (!shouldDo) {
@@ -53,6 +58,7 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
 
     if (task === 'logout') {
       await currentRoom.disconnect();
+      goBack();
     } else if (task === 'end Room') {
       const session = store.getState().session;
 
@@ -73,6 +79,7 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
           type: 'error',
         });
       }
+      goBack();
     }
   };
   const alertModal = () => {

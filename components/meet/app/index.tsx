@@ -42,6 +42,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import '@/styles/meet/index.scss';
 import { getDirectionBasedOnLocale } from '@/helpers/languages';
 import type { Locale } from '@/helpers/languages';
+import ConnectionStatus from '../media-elements/videos/video/connectionStatus';
 
 // declare const IS_PRODUCTION: boolean;
 const waitingForApprovalSelector = createSelector(
@@ -282,13 +283,12 @@ const Meet = () => {
     }
     //eslint-disable-next-line
   }, [loading, error, roomConnectionStatus, waitForApproval, renderMainApp]);
-
+  console.log('[Status]', roomConnectionStatus, isStartup);
   return (
     <div
       className={`${orientationClass} ${deviceClass} ${userTypeClass} h-[calc(100vh-80px)] dark:bg-darkPrimary/70`}
       // style={{ height: screenHeight }}
     >
-      {/* {roomConnectionStatus} */}
       {renderElms}
     </div>
   );

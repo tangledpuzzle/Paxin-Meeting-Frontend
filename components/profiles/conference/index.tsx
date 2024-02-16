@@ -222,6 +222,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
     const token = await processRequest('create', roomInfo, userInfo);
     setLoading(false);
     if (token) {
+      toast.success('New Room is created.');
       setAccessToken(token);
 
       router.push(`/meet/?id=${roomId}`);
