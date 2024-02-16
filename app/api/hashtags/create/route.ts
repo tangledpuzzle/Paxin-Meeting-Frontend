@@ -10,10 +10,12 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { hashTag } = await req.json();
+    const { hashTag, type } = await req.json();
 
     const res = await fetch(
-      `${process.env.API_URL}/api/profilehashtags/addhashtag`,
+      type === 'BLOG'
+        ? `${process.env.API_URL}/api/blog/addhashtag`
+        : `${process.env.API_URL}/api/profilehashtags/addhashtag`,
       {
         method: 'POST',
         headers: {
