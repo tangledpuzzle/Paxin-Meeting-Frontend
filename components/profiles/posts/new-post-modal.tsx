@@ -79,7 +79,9 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   const [hashtagKeyword, setHashtagKeyword] = useState<string>('');
 
   const { data: fetchedHashtags, error: fetchedHashtagsError } = useSWR(
-    hashtagKeyword ? `/api/hashtags/get?name=${hashtagKeyword}` : null,
+    hashtagKeyword
+      ? `/api/hashtags/get?name=${hashtagKeyword}&type=BLOG`
+      : null,
     fetcher
   );
 
@@ -192,35 +194,36 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     setIsLoading(true);
 
     try {
-      for (const hashtag of data.hashtags) {
-        if (newHashtags.includes(hashtag.label)) {
-          try {
-            const res = await axios.post('/api/hashtags/create', {
-              hashTag: hashtag.label,
-            });
+      // for (const hashtag of data.hashtags) {
+      //   if (newHashtags.includes(hashtag.label)) {
+      //     try {
+      //       const res = await axios.post('/api/hashtags/create', {
+      //         hashTag: hashtag.label,
+      //         type: 'BLOG',
+      //       });
 
-            if (res.status !== 200) {
-              toast.error(t('add_hashtag_failed'), {
-                position: 'top-right',
-              });
+      //       if (res.status !== 200) {
+      //         toast.error(t('add_hashtag_failed'), {
+      //           position: 'top-right',
+      //         });
 
-              setIsLoading(false);
+      //         setIsLoading(false);
 
-              return;
-            } else {
-              setNewHashtags([]);
-            }
-          } catch (error) {
-            toast.error(t('add_hashtag_failed'), {
-              position: 'top-right',
-            });
+      //         return;
+      //       } else {
+      //         setNewHashtags([]);
+      //       }
+      //     } catch (error) {
+      //       toast.error(t('add_hashtag_failed'), {
+      //         position: 'top-right',
+      //       });
 
-            setIsLoading(false);
+      //       setIsLoading(false);
 
-            return;
-          }
-        }
-      }
+      //       return;
+      //     }
+      //   }
+      // }
 
       const files = await imageUploadRef.current?.handleUpload();
 
@@ -287,12 +290,12 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
       })) || []
     );
 
-    setHashtagOptions(
-      user?.hashtags.map((hashtag: any) => ({
-        label: hashtag,
-        value: hashtag,
-      })) || []
-    );
+    // setHashtagOptions(
+    //   user?.hashtags.map((hashtag: any) => ({
+    //     label: hashtag,
+    //     value: hashtag,
+    //   })) || []
+    // );
   }, [user]);
 
   useEffect(() => {
@@ -304,12 +307,12 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
         })) || []
       );
     } else {
-      setHashtagOptions(
-        user?.hashtags.map((hashtag: any) => ({
-          label: hashtag,
-          value: hashtag,
-        })) || []
-      );
+      // setHashtagOptions(
+      //   user?.hashtags.map((hashtag: any) => ({
+      //     label: hashtag,
+      //     value: hashtag,
+      //   })) || []
+      // );
     }
   }, [fetchedHashtags]);
 
@@ -453,17 +456,17 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           placeholder={t('select') + '...'}
                           noOptionsMessage={() => t('no_options')}
                           options={hashtagOptions}
-                          onCreateOption={(value) => {
-                            setNewHashtags([...newHashtags, value]);
-                            setHashtagOptions([
-                              ...hashtagOptions,
-                              { value, label: value },
-                            ]);
-                            field.onChange([
-                              ...field.value,
-                              { value, label: value },
-                            ]);
-                          }}
+                          // onCreateOption={(value) => {
+                          //   setNewHashtags([...newHashtags, value]);
+                          //   setHashtagOptions([
+                          //     ...hashtagOptions,
+                          //     { value, label: value },
+                          //   ]);
+                          //   field.onChange([
+                          //     ...field.value,
+                          //     { value, label: value },
+                          //   ]);
+                          // }}
                           {...field}
                           onInputChange={(value) => handleHashtagSearch(value)}
                           classNames={{
