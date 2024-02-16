@@ -3,11 +3,13 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) {
   const query = req.nextUrl.searchParams.toString();
 
-  // const locale = req.nextUrl.searchParams.get('language') || 'en';
+  const type = req.nextUrl.searchParams.get('type') || 'PROFILE';
 
   try {
     const res = await fetch(
-      `${process.env.API_URL}/api/profilehashtags/findTag${query ? `?${query}` : ''}`
+      type === 'PROFILE'
+        ? `${process.env.API_URL}/api/profilehashtags/findTag${query ? `?${query}` : ''}`
+        : `${process.env.API_URL}/api/blog/findTag${query ? `?${query}` : ''}`
     );
 
     if (!res.ok) {
