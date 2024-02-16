@@ -28,7 +28,7 @@ const useLivekitConnect = (): IUseLivekitConnect => {
 
   const startLivekitConnection = (
     info: LivekitInfo,
-    intl: () => string
+    intl: (e: any) => string
   ): IConnectLivekit => {
     return new ConnectLivekit(info, setError, setRoomConnectionStatus, intl);
   };

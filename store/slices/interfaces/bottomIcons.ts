@@ -1,4 +1,4 @@
-import { BackgroundConfig } from '../../../components/virtual-background/helpers/backgroundHelper';
+import { BackgroundConfig } from '@/components/meet/virtual-background/helpers/backgroundHelper';
 
 export type DeviceOrientation = 'landscape' | 'portrait';
 

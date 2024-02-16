@@ -4,10 +4,11 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { useLocale, useTranslations } from 'next-intl';
+import toast from 'react-hot-toast';
 
 interface MainNavProps {}
 
@@ -43,6 +44,16 @@ export function MainNav({}: MainNavProps) {
         </span>
       </Link>
       <div>PAX- Real TIME Meeting(Room ID: {searchParams.get('id')})</div>
+      <CopyToClipboard
+        text={searchParams.get('id') || ''}
+        onCopy={() => {
+          toast.success('Room ID is copied to clipboard!');
+        }}
+      >
+        <div className='notepad inline-block h-8 w-8 items-center justify-center rounded-full'>
+          <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
+        </div>
+      </CopyToClipboard>
     </div>
   );
 }

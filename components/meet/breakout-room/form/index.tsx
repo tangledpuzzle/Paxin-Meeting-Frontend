@@ -133,6 +133,7 @@ const FromElems = () => {
         });
         dispatch(updateShowManageBreakoutRoomModal(false));
       } else {
+        //@ts-ignore
         toast(t(data.msg), {
           type: 'error',
         });

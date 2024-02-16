@@ -19,10 +19,16 @@ import { useTranslations } from 'next-intl';
 interface MeetJoinModalProps {
   children: React.ReactNode;
   name: string;
+  isLoading: boolean;
   onJoin: (e: string) => Promise<void>;
 }
 
-export function MeetJoinModal({ name, children, onJoin }: MeetJoinModalProps) {
+export function MeetJoinModal({
+  isLoading,
+  name,
+  children,
+  onJoin,
+}: MeetJoinModalProps) {
   const t = useTranslations('main');
 
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
@@ -63,7 +69,7 @@ export function MeetJoinModal({ name, children, onJoin }: MeetJoinModalProps) {
           </div>
         </DialogHeader>
         <div className='grid gap-4 py-4'>
-          <div className='relative w-full'>
+          {/* <div className='relative w-full'>
             <UserRound className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
             <Input
               type='text'
@@ -72,7 +78,7 @@ export function MeetJoinModal({ name, children, onJoin }: MeetJoinModalProps) {
               value={_name}
               onChange={(e) => setName(e.target.value)}
             />
-          </div>
+          </div> */}
           <div className='relative mx-auto w-full'>
             <PiDoorOpen className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
             <Input
@@ -85,9 +91,20 @@ export function MeetJoinModal({ name, children, onJoin }: MeetJoinModalProps) {
         </div>
         <ConfirmPasswordModal open={isPrivate} setOpen={setIsPrivate} />
         <DialogFooter>
-          <Button type='submit' onClick={handleJoin}>
-            {t('join')}
-          </Button>
+          <div className='mx-auto'>
+            {isLoading ? (
+              <div
+                className='inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                role='status'
+              >
+                <span className='!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]'></span>
+              </div>
+            ) : (
+              <Button type='submit' onClick={handleJoin}>
+                {t('join')}
+              </Button>
+            )}
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -26,6 +26,7 @@ import CryptoJS from 'crypto-js';
 import { generateRandomString, hashTimestamp } from '@/lib/utils';
 import { setAccessToken } from '@/helpers/utils';
 import Timer from './Timer';
+import toast from 'react-hot-toast';
 // Custom formatting for date and time
 
 interface IConferenceProps {
@@ -34,11 +35,12 @@ interface IConferenceProps {
   name: string;
 }
 
+type MODE = 'join' | 'create';
 const sendRequest = async (body, method) => {
   const b = JSON.stringify(body);
   const hash = CryptoJS.HmacSHA256(
     b,
-    process.env.NEXT_PUBLIC_PAXMEET_API_SECRET
+    process.env.NEXT_PUBLIC_PAXMEET_API_SECRET || ''
   );
   const signature = CryptoJS.enc.Hex.stringify(hash);
 
@@ -58,14 +60,14 @@ const sendRequest = async (body, method) => {
   );
 
   if (response.status !== 200) {
-    alert(response.statusText);
     console.log(response.json());
     return;
   }
 
   return await response.json();
 };
-const processRequest = async (mode, roomInfo, userInfo) => {
+
+const processRequest = async (mode: MODE, roomInfo: any, userInfo: any) => {
   let flag = false;
 
   if (mode === 'create') {
@@ -78,7 +80,7 @@ const processRequest = async (mode, roomInfo, userInfo) => {
     );
     isRoomActive = res.status;
     if (isRoomActive) {
-      alert('A room with the same ID already exists!');
+      toast.error('A room with the same ID already exists!');
     } else {
       const roomCreateRes = await sendRequest(roomInfo, 'room/create');
       isRoomActive = roomCreateRes.status;
@@ -96,7 +98,7 @@ const processRequest = async (mode, roomInfo, userInfo) => {
     );
     isRoomActive = res.status;
     if (!isRoomActive) {
-      alert('There is no room with that ID!');
+      toast.error('There is no room with that ID!');
     } else {
       flag = true;
     }
@@ -118,7 +120,7 @@ const processRequest = async (mode, roomInfo, userInfo) => {
       return roomCreateRes.token;
     } else {
       console.log(roomCreateRes.msg);
-      alert("Can't get token");
+      toast.error("Can't get token");
     }
   }
 };
@@ -126,9 +128,11 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
   const router = useRouter();
   const t = useTranslations('main');
   console.log('render Conference');
+  const [isLoading, setLoading] = useState<boolean>(false);
 
-  async function onCreateRoom() {
-    const roomId = createRoomId();
+  async function onCreateRoom(feed: string) {
+    setLoading(true);
+    const roomId = createRoomId(feed);
 
     console.log('[Conf] Check availability ' + roomId);
     const roomInfo = {
@@ -216,16 +220,21 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
     };
 
     const token = await processRequest('create', roomInfo, userInfo);
-    setAccessToken(token);
-    router.push(`/meet/?id=${roomId}`);
+    setLoading(false);
+    if (token) {
+      setAccessToken(token);
+
+      router.push(`/meet/?id=${roomId}`);
+    }
   }
-  function createRoomId(): string {
+  function createRoomId(feed: string): string {
     const randomPart = generateRandomString(4);
     const timestampHash = hashTimestamp(Date.now());
-    const roomId = `${randomPart}-${timestampHash}`;
+    const roomId = `${feed}-${randomPart}-${timestampHash}`;
     return roomId;
   }
   async function onJoinRoom(roomId: string) {
+    setLoading(true);
     const roomInfo = {
       // room_id: data.get('room_id'),
       room_id: roomId,
@@ -310,8 +319,11 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
         }*/
     };
     const token = await processRequest('join', roomInfo, userInfo);
-    setAccessToken(token);
-    router.push(`/meet/?id=${roomId}`);
+    setLoading(false);
+    if (token) {
+      setAccessToken(token);
+      router.push(`/meet/?id=${roomId}`);
+    }
   }
   // userMutate();
   return (
@@ -353,7 +365,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
               </div>
             </div>
             <div className='flex w-full justify-center gap-4'>
-              <MeetCreateModal onCreate={onCreateRoom}>
+              <MeetCreateModal isLoading={isLoading} onCreate={onCreateRoom}>
                 <Button
                   variant='outline'
                   className='border-primary text-primary'
@@ -361,7 +373,11 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
                   {t('create')}
                 </Button>
               </MeetCreateModal>
-              <MeetJoinModal name={name} onJoin={onJoinRoom}>
+              <MeetJoinModal
+                name={name}
+                isLoading={isLoading}
+                onJoin={onJoinRoom}
+              >
                 <Button>{t('join')}</Button>
               </MeetJoinModal>
             </div>

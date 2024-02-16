@@ -71,7 +71,7 @@ export default class ConnectLivekit
     string,
     Array<LocalTrackPublication | RemoteTrackPublication>
   >();
-  intl: () => string;
+  intl: (...e: any[]) => string;
   private readonly errorState: Dispatch<IErrorPageProps>;
   private readonly roomConnectionStatusState: Dispatch<ConnectionStatus>;
 
