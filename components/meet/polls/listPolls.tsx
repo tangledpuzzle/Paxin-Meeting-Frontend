@@ -39,8 +39,7 @@ const ListPolls = () => {
 
   return (
     <div
-      className='polls-list-wrapper scrollBar relative overflow-auto px-2 pt-2 xl:pt-3'
-      style={{ height: isAdmin ? screenHeight - 200 : screenHeight - 150 }}
+      className='polls-list-wrapper scrollBar relative h-full overflow-auto px-2 pt-2 xl:pt-3'
       ref={outerRef as any}
     >
       <div className='polls-list-wrap-inner' ref={innerRef as any}>

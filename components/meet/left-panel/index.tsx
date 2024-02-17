@@ -114,7 +114,7 @@ const LeftPanel = () => {
               key={item.id}
               className={`${
                 item.id === 2 || item.id === 3
-                  ? 'polls h-full'
+                  ? 'polls flex h-full flex-col justify-between'
                   : 'h-full px-2 pt-2 xl:px-4 xl:pt-5'
               }`}
             >

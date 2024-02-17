@@ -6,6 +6,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { store } from '@/store';
 import Meet from '@/components/meet/app';
+import 'react-toastify/dist/ReactToastify.css';
 export default function PaxMeet() {
   return (
     <ReduxProvider store={store}>

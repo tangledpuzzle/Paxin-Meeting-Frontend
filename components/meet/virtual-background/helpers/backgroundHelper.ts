@@ -20,7 +20,7 @@ let backgroundImageUrls = [
   'evelyn-bertrand-GrIf347OtnY-unsplash',
   'steve-richey-6xqAK6oAeHA-unsplash',
   'erol-ahmed-IHL-Jbawvvo-unsplash',
-].map((imageName) => `/images/backgrounds/${imageName}.jpg`);
+].map((imageName) => `/images/meet/backgrounds/${imageName}.jpg`);
 
 // if (
 //   typeof (window as any).PNM_VIRTUAL_BG_IMGS !== 'undefined' &&
