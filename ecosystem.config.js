@@ -5,8 +5,11 @@ module.exports = {
       exec_mode: 'cluster',
       instances: 2, // 'max' or a number of instances
       autorestart: true,
-      script: 'node_modules/.bin/next',
-      args: 'start -p 3000',
+      script: '.next/standalone/server.js',
+      env: {
+        PORT: 3000,
+        HOSTNAME: 'localhost',
+      },
     },
   ],
 };
