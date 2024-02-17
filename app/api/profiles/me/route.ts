@@ -27,8 +27,6 @@ export async function GET(req: NextRequest) {
 
     const data = await res.json();
 
-    console.log('sdfsdf', data.data, 'sdfsdfsd');
-
     const profile = {
       bio: data.data.MultilangDescr[
         locale.charAt(0).toUpperCase() + locale.slice(1)
