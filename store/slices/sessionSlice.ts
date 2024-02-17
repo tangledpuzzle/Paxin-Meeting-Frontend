@@ -111,6 +111,9 @@ const sessionSlice = createSlice({
     addToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
+    clearToken: (state) => {
+      state.token = '';
+    },
     addServerVersion: (state, action: PayloadAction<string>) => {
       state.serverVersion = action.payload;
     },
@@ -135,7 +138,7 @@ const sessionSlice = createSlice({
     },
     updateCurrentUserMetadata: (
       state,
-      action: PayloadAction<ICurrentUserMetadata>,
+      action: PayloadAction<ICurrentUserMetadata>
     ) => {
       if (state.currentUser) {
         state.currentUser.metadata = action.payload;
@@ -143,7 +146,7 @@ const sessionSlice = createSlice({
     },
     updateCurrentRoomMetadata: (
       state,
-      action: PayloadAction<IRoomMetadata>,
+      action: PayloadAction<IRoomMetadata>
     ) => {
       if (state.currentRoom) {
         state.currentRoom.metadata = action.payload;
@@ -185,6 +188,7 @@ export const {
   updateTotalVideoSubscribers,
   updateTotalAudioSubscribers,
   updateMuteOnStart,
+  clearToken,
   updateUserDeviceType,
 } = sessionSlice.actions;
 

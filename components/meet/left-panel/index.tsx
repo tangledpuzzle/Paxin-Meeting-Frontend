@@ -64,11 +64,11 @@ const LeftPanel = () => {
     //eslint-disable-next-line
   }, [data, myRooms]);
 
-  const changeTabIndex = (i) => {
+  const changeTabIndex = (i: number) => {
     dispatch(updateSelectedTabLeftPanel(i));
   };
 
-  const classNames = (...classes) => {
+  const classNames = (...classes: string[]) => {
     return classes.filter(Boolean).join(' ');
   };
 

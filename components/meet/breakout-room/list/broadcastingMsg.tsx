@@ -23,6 +23,8 @@ const BroadcastingMsg = () => {
         });
         setMsg('');
       } else {
+        // ☢️
+        // @ts-ignore
         toast(t(data.msg), {
           type: 'error',
         });

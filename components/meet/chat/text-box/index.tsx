@@ -117,7 +117,7 @@ const TextBoxArea = ({
     //eslint-disable-next-line
   }, [chosenEmoji]);
 
-  const cleanHtml = (rawText) => {
+  const cleanHtml = (rawText: string) => {
     return sanitizeHtml(rawText, {
       allowedTags: ['b', 'i', 'strong', 'br'],
       allowedSchemes: ['mailto', 'tel'],
@@ -154,7 +154,7 @@ const TextBoxArea = ({
     onAfterSendMessage();
   };
 
-  const onEnterPress = (e) => {
+  const onEnterPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.keyCode == 13 && e.shiftKey == false) {
       e.preventDefault();
       sendMsg();

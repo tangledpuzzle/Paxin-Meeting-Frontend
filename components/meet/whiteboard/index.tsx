@@ -457,7 +457,11 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
   };
 
   const onPointerUpdate = throttle(
-    (payload: { pointer; button; pointersMap: Gesture['pointers'] }) => {
+    (payload: {
+      pointer: any;
+      button: any;
+      pointersMap: Gesture['pointers'];
+    }) => {
       if (viewModeEnabled) {
         return;
       }

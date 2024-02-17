@@ -6,7 +6,7 @@ import { updateTheme } from '../../store/slices/roomSettingsSlice';
 
 const themeSelector = createSelector(
   (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.theme,
+  (roomSettings) => roomSettings.theme
 );
 
 const useThemeSettings = () => {
@@ -14,7 +14,7 @@ const useThemeSettings = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const changeTheme = (event) => {
+    const changeTheme = (event: { matches: any }) => {
       dispatch(updateTheme(event.matches ? 'dark' : 'light'));
     };
     // change according to system

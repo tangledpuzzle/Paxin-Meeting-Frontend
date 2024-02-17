@@ -10,6 +10,7 @@ const API = axios.create({
 const getToken = () => {
   const token = store.getState().session.token;
   if (token) {
+    console.log('Store.token', token);
     return store.getState().session.token;
   }
 

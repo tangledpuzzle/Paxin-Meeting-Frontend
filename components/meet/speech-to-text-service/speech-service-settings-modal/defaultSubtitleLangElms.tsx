@@ -22,7 +22,7 @@ const DefaultSubtitleLangElms = ({
   >([]);
 
   useEffect(() => {
-    const langs = getSubtitleLangs(selectedSpeechLangs, selectedTransLangs);
+    const langs = getSubtitleLangs(t, selectedSpeechLangs, selectedTransLangs);
     setAvailableSubtitleLangs(langs);
   }, [selectedSpeechLangs, selectedTransLangs, t]);
 

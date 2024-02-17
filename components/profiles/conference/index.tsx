@@ -10,7 +10,7 @@
  *
  *
  */
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HiUserGroup } from 'react-icons/hi';
@@ -36,7 +36,10 @@ interface IConferenceProps {
 }
 
 type MODE = 'join' | 'create';
-const sendRequest = async (body, method) => {
+const sendRequest = async (
+  body: { room_id: any; user_info?: any },
+  method: string
+) => {
   const b = JSON.stringify(body);
   const hash = CryptoJS.HmacSHA256(
     b,
@@ -54,6 +57,7 @@ const sendRequest = async (body, method) => {
     process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL + '/auth/' + method,
     {
       method: 'POST',
+      //@ts-ignore
       headers: headers,
       body: b,
     }

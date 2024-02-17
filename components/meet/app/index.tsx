@@ -12,12 +12,16 @@ import { toast } from 'react-toastify';
 import ErrorPage from '../extra-pages/Error';
 import Loading from '../extra-pages/Loading';
 import Footer from '../footer';
-import Header from '../header';
+// import Header from '../header';
 import MainArea from '../main-area';
 
 import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
-import { addServerVersion, addToken } from '@/store/slices/sessionSlice';
+import {
+  addServerVersion,
+  addToken,
+  // clearToken,
+} from '@/store/slices/sessionSlice';
 import StartupJoinModal from './joinModal';
 import useLivekitConnect, {
   LivekitInfo,
@@ -30,7 +34,7 @@ import useWatchWindowSize from '@/helpers/hooks/useWatchWindowSize';
 import useWatchVisibilityChange from '@/helpers/hooks/useWatchVisibilityChange';
 import WaitingRoomPage from '../waiting-room/room-page';
 import { updateIsActiveChatPanel } from '@/store/slices/bottomIconsActivitySlice';
-import useThemeSettings from '@/helpers/hooks/useThemeSettings';
+// import useThemeSettings from '@/helpers/hooks/useThemeSettings';
 import {
   VerifyTokenReq,
   VerifyTokenRes,
@@ -42,7 +46,6 @@ import { useLocale, useTranslations } from 'next-intl';
 import '@/styles/meet/index.scss';
 import { getDirectionBasedOnLocale } from '@/helpers/languages';
 import type { Locale } from '@/helpers/languages';
-import ConnectionStatus from '../media-elements/videos/video/connectionStatus';
 
 // declare const IS_PRODUCTION: boolean;
 const waitingForApprovalSelector = createSelector(
@@ -90,11 +93,19 @@ const Meet = () => {
   const { deviceClass, orientationClass, screenHeight } = useWatchWindowSize(
     currentConnection?.room
   );
-
+  // function clearStoreToken() {
+  //   dispatch(clearToken());
+  // }
+  useEffect(() => {
+    return () => {
+      // dispatch(clearToken());
+    };
+  });
   // useThemeSettings();
 
   useEffect(() => {
     const accessToken = getAccessToken();
+    console.log(accessToken);
     let timeout: any;
     if (!accessToken) {
       // window.location.href = '/login.html';

@@ -254,6 +254,7 @@ const supportedTranslationLangs = [
 ];
 
 const getSubtitleLangs = (
+  _t: (...e: any[]) => string,
   speechLangs?: string[],
   transLangs?: string[]
 ): Array<SupportedLangs> => {
@@ -271,7 +272,7 @@ const getSubtitleLangs = (
 
   const langs: Array<SupportedLangs> = [
     {
-      name: i18n.t('speech-services.select-one-lang'),
+      name: _t('speech-services.select-one-lang'),
       code: '',
     },
   ];

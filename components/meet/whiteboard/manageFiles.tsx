@@ -61,7 +61,7 @@ const ManageFiles = ({ excalidrawAPI }: IManageFilesProps) => {
     //eslint-disable-next-line
   }, [whiteboardUploadedOfficeFiles]);
 
-  const openFileBrowser = (type) => {
+  const openFileBrowser = (type: string) => {
     let fileType = ['jpg', 'jpeg', 'png', 'svg'];
     if (type === 'office') {
       // prettier-ignore

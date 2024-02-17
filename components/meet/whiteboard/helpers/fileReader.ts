@@ -17,9 +17,9 @@ let fileId = '',
   imgData = '',
   fileHeight: number,
   fileWidth: number,
-  lastVersion,
-  excalidrawHeight,
-  excalidrawWidth,
+  lastVersion: number,
+  excalidrawHeight: number,
+  excalidrawWidth: number,
   isOfficeFile = false;
 
 export const fetchFileWithElm = async (
@@ -39,8 +39,8 @@ export const fetchFileWithElm = async (
 
     fileId = file_id;
     lastVersion = last_version;
-    excalidrawHeight = uploaderWhiteboardHeight;
-    excalidrawWidth = uploaderWhiteboardWidth;
+    excalidrawHeight = uploaderWhiteboardHeight || 0;
+    excalidrawWidth = uploaderWhiteboardWidth || 0;
     isOfficeFile = is_office_file;
     if (lastVersion < 0) {
       lastVersion = 1;

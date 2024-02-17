@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, ReactNode, useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { Transition, Dialog, Tab } from '@headlessui/react';
 
@@ -16,6 +16,9 @@ const isShowRoomSettingsModalSelector = createSelector(
   (state: RootState) => state.roomSettings,
   (roomSettings) => roomSettings.isShowRoomSettingsModal
 );
+interface RoomSettings {
+  [key: string]: { id: number; elm: ReactNode }[];
+}
 
 const RoomSettings = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +33,7 @@ const RoomSettings = () => {
     isShowRoomSettingsModalSelector
   );
 
-  const [categories, setCategories] = useState({
+  const [categories, setCategories] = useState<RoomSettings>({
     'header.room-settings.application': [
       {
         id: 1,
@@ -72,7 +75,7 @@ const RoomSettings = () => {
     dispatch(updateShowRoomSettingsModal(false));
   };
 
-  const classNames = (...classes) => {
+  const classNames = (...classes: string[]) => {
     return classes.filter(Boolean).join(' ');
   };
 
@@ -165,9 +168,9 @@ const RoomSettings = () => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-8 inline-block h-[25rem] w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white px-4 py-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary lg:px-6'>
+                <div className='my-8 inline-block h-[25rem] w-full max-w-2xl overflow-hidden rounded-2xl bg-white px-4 py-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary lg:px-6'>
                   <button
-                    className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
+                    className='close-btn absolute top-8 size-[25px] outline-none ltr:right-6 rtl:left-6'
                     type='button'
                     onClick={() => closeModal()}
                   >

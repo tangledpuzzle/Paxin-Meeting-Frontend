@@ -146,6 +146,7 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
       setOptionSelectionDisabled(true);
       const res = await getAzureToken();
       if (!res.status) {
+        // @ts-ignore
         toast(t(res.msg), {
           type: 'error',
         });
@@ -202,7 +203,8 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
           speechService,
           setOptionSelectionDisabled,
           setRecognizer,
-          unsetRecognizer
+          unsetRecognizer,
+          t
         );
         dispatch(updateAzureTokenInfo(undefined));
       }

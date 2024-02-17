@@ -114,14 +114,14 @@ const ReactPlayerComponent = ({
     setPaused(false);
   };
 
-  const ref = (_player) => {
-    player.current = _player;
+  const handleRef = (_player: ReactPlayer | null): void => {
+    if (_player) player.current = _player;
   };
 
   return (
     <>
       <ReactPlayer
-        ref={ref}
+        ref={handleRef}
         url={src}
         width={width * 0.7}
         height={height * 0.7}

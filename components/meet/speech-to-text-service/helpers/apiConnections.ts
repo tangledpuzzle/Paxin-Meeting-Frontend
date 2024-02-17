@@ -27,7 +27,10 @@ import {
 import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 import { CommonResponse } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { store } from '@/store';
-import { SpeechTextBroadcastFormat } from '@/store/slices/interfaces/speechServices';
+import {
+  SpeechSubtitleTypes,
+  SpeechTextBroadcastFormat,
+} from '@/store/slices/interfaces/speechServices';
 import {
   ISession,
   SpeechToTextTranslationFeatures,
@@ -54,7 +57,8 @@ export const openConnectionWithAzure = (
   speechService: SpeechToTextTranslationFeatures,
   setOptionSelectionDisabled: Dispatch<boolean>,
   setRecognizer: Dispatch<SpeechRecognizer | TranslationRecognizer>,
-  unsetRecognizer: () => void
+  unsetRecognizer: () => void,
+  intl: (...e: any[]) => string
 ) => {
   let audioConfig: AudioConfig,
     speechConfig: SpeechConfig | SpeechTranslationConfig,
@@ -63,7 +67,7 @@ export const openConnectionWithAzure = (
   if (mediaStream) {
     audioConfig = AudioConfig.fromStreamInput(mediaStream);
   } else {
-    toast(i18n.t('speech-services.mic-error'), {
+    toast(intl('speech-services.mic-error'), {
       type: 'error',
     });
     return;
@@ -129,14 +133,14 @@ export const openConnectionWithAzure = (
       azureInfo.keyId
     );
     if (!res.status) {
-      toast(i18n.t('speech-services.status-change-error', { error: res.msg }), {
+      toast(intl('speech-services.status-change-error', { error: res.msg }), {
         type: 'error',
       });
       if (recognizer) {
         unsetRecognizer();
       }
     } else {
-      toast(i18n.t('speech-services.speech-to-text-ready'), {
+      toast(intl('speech-services.speech-to-text-ready'), {
         type: 'success',
         autoClose: 3000,
       });
@@ -147,13 +151,16 @@ export const openConnectionWithAzure = (
       SpeechServiceUserStatusTasks.SPEECH_TO_TEXT_SESSION_ENDED,
       azureInfo.keyId
     );
-    toast(i18n.t('speech-services.speech-to-text-stopped'), {
+    toast(intl('speech-services.speech-to-text-stopped'), {
       type: 'success',
       autoClose: 3000,
     });
   };
 
-  recognizer.recognizing = (sender, recognitionEventArgs) => {
+  recognizer.recognizing = (
+    sender: any,
+    recognitionEventArgs: { result: any }
+  ) => {
     const result = recognitionEventArgs.result;
     const data: SpeechTextBroadcastFormat = {
       type: 'interim',
@@ -178,7 +185,10 @@ export const openConnectionWithAzure = (
     broadcastSpeechToTextMsgs(data);
   };
 
-  recognizer.recognized = (sender, recognitionEventArgs) => {
+  recognizer.recognized = (
+    sender: any,
+    recognitionEventArgs: { result: any }
+  ) => {
     const result = recognitionEventArgs.result;
     const data: SpeechTextBroadcastFormat = {
       type: 'final',
@@ -203,7 +213,10 @@ export const openConnectionWithAzure = (
     broadcastSpeechToTextMsgs(data);
   };
 
-  recognizer.canceled = async (s, e) => {
+  recognizer.canceled = async (
+    s: any,
+    e: { reason: CancellationReason; errorDetails: any }
+  ) => {
     setOptionSelectionDisabled(false);
     await sendUserSessionStatus(
       SpeechServiceUserStatusTasks.SPEECH_TO_TEXT_SESSION_ENDED,
@@ -213,7 +226,7 @@ export const openConnectionWithAzure = (
       e.reason === CancellationReason.Error ||
       e.reason === CancellationReason.EndOfStream
     ) {
-      toast(i18n.t('speech-services.azure-error', { error: e.errorDetails }), {
+      toast(intl('speech-services.azure-error', { error: e.errorDetails }), {
         type: 'error',
       });
       unsetRecognizer();
@@ -224,7 +237,11 @@ export const openConnectionWithAzure = (
   setRecognizer(recognizer);
 };
 
-export const broadcastSpeechToTextMsgs = (msg) => {
+export const broadcastSpeechToTextMsgs = (msg: {
+  type: SpeechSubtitleTypes;
+  from: string;
+  result: { [k: string]: string };
+}) => {
   if (!session) {
     session = getSession();
   }

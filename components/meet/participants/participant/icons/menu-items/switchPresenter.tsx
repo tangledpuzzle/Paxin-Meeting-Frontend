@@ -46,6 +46,7 @@ const SwitchPresenterMenuItem = ({ userId }: ISwitchPresenterMenuItemProps) => {
         type: 'info',
       });
     } else {
+      // @ts-ignore
       toast(t(res.msg), {
         toastId: 'lock-setting-status',
         type: 'error',

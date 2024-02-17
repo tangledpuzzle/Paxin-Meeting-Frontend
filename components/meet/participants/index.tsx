@@ -66,7 +66,7 @@ const ParticipantsComponent = () => {
     setRemoveParticipantData(undefined);
   };
 
-  const renderParticipant = (index) => {
+  const renderParticipant = (index: number) => {
     if (!participants.length || typeof participants[index] === 'undefined') {
       return null;
     }

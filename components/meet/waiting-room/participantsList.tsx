@@ -32,10 +32,16 @@ const ParticipantsList = ({ waitingParticipants }: IParticipantsListProps) => {
     const res = CommonResponse.fromBinary(new Uint8Array(r));
 
     if (res.status) {
-      toast(t('left-panel.menus.notice.user-approved', { name: name }), {
-        type: 'info',
-      });
+      toast(
+        t('left-panel.menus.notice.user-approved', {
+          name: 'error',
+        }),
+        {
+          type: 'info',
+        }
+      );
     } else {
+      // @ts-ignore
       toast(t(res.msg), {
         type: 'error',
       });
@@ -67,6 +73,7 @@ const ParticipantsList = ({ waitingParticipants }: IParticipantsListProps) => {
         type: 'info',
       });
     } else {
+      // @ts-ignore
       toast(t(res.msg), {
         type: 'error',
       });

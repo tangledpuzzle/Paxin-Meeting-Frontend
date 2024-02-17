@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { siteConfig } from '@/config/site';
-import { cn } from '@/lib/utils';
+// import { cn } from '@/lib/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import toast from 'react-hot-toast';
 

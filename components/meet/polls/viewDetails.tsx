@@ -35,7 +35,7 @@ const ViewDetails = ({ pollId, onCloseViewDetails }: IViewDetailsProps) => {
   const [closePoll, { isLoading, data: closePollRes }] = useClosePollMutation();
 
   const respondents = useMemo(() => {
-    const obj = {};
+    const obj: Record<string, number[]> = {};
     if (
       pollResponses?.responses.all_respondents &&
       pollResponses?.responses.all_respondents !== ''
@@ -48,7 +48,7 @@ const ViewDetails = ({ pollId, onCloseViewDetails }: IViewDetailsProps) => {
         if (typeof obj[data[1]] === 'undefined') {
           obj[data[1]] = [];
         }
-        obj[data[1]].push(data[2]);
+        obj[data[1]].push(Number(data[2]));
       });
     }
 
@@ -62,6 +62,7 @@ const ViewDetails = ({ pollId, onCloseViewDetails }: IViewDetailsProps) => {
           type: 'info',
         });
       } else {
+        //@ts-ignore
         toast(t(closePollRes.msg), {
           type: 'error',
         });
@@ -83,7 +84,7 @@ const ViewDetails = ({ pollId, onCloseViewDetails }: IViewDetailsProps) => {
     );
   };
 
-  const getOptSelectedCount = (id) => {
+  const getOptSelectedCount = (id: string | number) => {
     if (typeof pollResponses?.responses[id + '_count'] !== 'undefined') {
       return pollResponses?.responses[id + '_count'];
     } else {
@@ -91,7 +92,7 @@ const ViewDetails = ({ pollId, onCloseViewDetails }: IViewDetailsProps) => {
     }
   };
 
-  const getRespondentsById = (id) => {
+  const getRespondentsById = (id: number) => {
     if (typeof respondents[id] !== 'undefined') {
       return respondents[id].map((r, i) => {
         return (
@@ -121,9 +122,7 @@ const ViewDetails = ({ pollId, onCloseViewDetails }: IViewDetailsProps) => {
                   </span>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
-                    className={`${
-                      open ? 'rotate-180 transform' : ''
-                    } h-5 w-5 text-white`}
+                    className={`${open ? 'rotate-180' : ''} size-5 text-white`}
                     fill='none'
                     viewBox='0 0 24 24'
                     stroke='currentColor'
@@ -223,9 +222,9 @@ const ViewDetails = ({ pollId, onCloseViewDetails }: IViewDetailsProps) => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-8 inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
+                <div className='my-8 inline-block w-full max-w-lg overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                    className='close-btn absolute right-6 top-8 size-[25px] outline-none'
                     type='button'
                     onClick={() => closeModal()}
                   >
@@ -263,7 +262,7 @@ const ViewDetails = ({ pollId, onCloseViewDetails }: IViewDetailsProps) => {
                       <div className='relative min-h-[75px]'>
                         {renderOptions()}
                         {isLoading ? (
-                          <div className='loading absolute left-0 right-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
+                          <div className='loading absolute inset-x-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
                             <div className='lds-ripple'>
                               <div className='border-secondaryColor' />
                               <div className='border-secondaryColor' />

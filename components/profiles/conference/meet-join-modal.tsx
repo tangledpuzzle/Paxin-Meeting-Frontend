@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { UserRound } from 'lucide-react';
+// import { UserRound } from 'lucide-react';
 import { PiDoorOpen } from 'react-icons/pi';
 
 import { Button } from '@/components/ui/button';

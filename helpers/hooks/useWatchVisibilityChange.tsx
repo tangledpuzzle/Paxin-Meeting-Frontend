@@ -29,7 +29,7 @@ const useWatchVisibilityChange = () => {
 
   // in mobile sometime above solution doesn't work properly
   useEffect(() => {
-    let hidden, visibilityChange;
+    let hidden: string | undefined, visibilityChange: string;
     if (typeof document.hidden !== 'undefined') {
       // Opera 12.10 and Firefox 18 and later support
       hidden = 'hidden';
@@ -43,6 +43,7 @@ const useWatchVisibilityChange = () => {
     }
 
     const handleVisibilityChange = () => {
+      //@ts-ignore
       if (document[hidden]) {
         setHidden(true);
       } else {
@@ -55,9 +56,10 @@ const useWatchVisibilityChange = () => {
       hidden !== undefined
     ) {
       document.addEventListener(
+        // @ts-ignore
         visibilityChange,
         handleVisibilityChange,
-        false,
+        false
       );
     }
     return () => {

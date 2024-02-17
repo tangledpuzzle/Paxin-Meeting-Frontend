@@ -1,6 +1,6 @@
 import React from 'react';
-import { IParticipant } from '../../../../store/slices/interfaces/participant';
-import { ICurrentUser } from '../../../../store/slices/interfaces/session';
+import { IParticipant } from '@/store/slices/interfaces/participant';
+import { ICurrentUser } from '@/store/slices/interfaces/session';
 
 interface IAvatarProps {
   participant?: IParticipant;
@@ -22,7 +22,7 @@ const Avatar = ({ participant, from }: IAvatarProps) => {
     }
   };
   return (
-    <div className="avatar flex items-center justify-center text-white h-8 w-8 overflow-hidden rounded-full shadow-header bg-primaryColor">
+    <div className='avatar flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-primaryColor text-white shadow-header'>
       {render()}
     </div>
   );

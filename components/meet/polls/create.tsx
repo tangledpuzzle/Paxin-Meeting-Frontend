@@ -36,6 +36,7 @@ const Create = () => {
           type: 'info',
         });
       } else {
+        // @ts-ignore
         toast(t(data.msg), {
           type: 'error',
         });
@@ -60,7 +61,7 @@ const Create = () => {
     ]);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const body = new CreatePollReq({
       question,
@@ -69,13 +70,13 @@ const Create = () => {
     createPoll(body);
   };
 
-  const onChange = (index, e) => {
+  const onChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const currenOptions = [...options];
     currenOptions[index].text = e.currentTarget.value;
     setOptions([...currenOptions]);
   };
 
-  const removeOption = (index) => {
+  const removeOption = (index: number) => {
     const currenOptions = [...options];
     currenOptions.splice(index, 1);
     setOptions([...currenOptions]);
@@ -104,7 +105,7 @@ const Create = () => {
           required={true}
           onChange={(e) => setQuestion(e.currentTarget.value)}
           placeholder='Ask a question'
-          className='mb-4 w-full rounded-lg border border-solid border-primaryColor bg-transparent px-4 py-2 text-base text-black outline-none placeholder:text-black/50 placeholder:text-darkText dark:border-darkText dark:text-darkText'
+          className='mb-4 w-full rounded-lg border border-solid border-primaryColor bg-transparent px-4 py-2 text-base text-black outline-none  placeholder:text-darkText dark:border-darkText dark:text-darkText'
         />
         <div className='flex items-start justify-between border-t border-solid border-primaryColor/20 pb-2 pt-4 dark:border-darkText/30'>
           <p className='block text-lg leading-4 text-black dark:text-darkText'>
@@ -132,7 +133,7 @@ const Create = () => {
                     placeholder={t('polls.option', {
                       count: index + 1,
                     }).toString()}
-                    className='w-[calc(100%-36px)] rounded-lg border border-solid border-primaryColor bg-transparent px-4 py-2 text-base text-black outline-none placeholder:text-black/50 placeholder:text-darkText dark:border-darkText dark:text-darkText'
+                    className='w-[calc(100%-36px)] rounded-lg border border-solid border-primaryColor bg-transparent px-4 py-2 text-base text-black outline-none placeholder:text-darkText dark:border-darkText dark:text-darkText'
                   />
                   {index ? (
                     <button
@@ -140,14 +141,14 @@ const Create = () => {
                       className='ml-2 p-1'
                       onClick={() => removeOption(index)}
                     >
-                      <i className='pnm-delete h-5 w-5 dark:text-secondaryColor' />
+                      <i className='pnm-delete size-5 dark:text-secondaryColor' />
                     </button>
                   ) : null}
                 </div>
               </div>
             ))}
             {isLoading ? (
-              <div className='loading absolute left-0 right-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
+              <div className='loading absolute inset-x-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
                 <div className='lds-ripple'>
                   <div className='border-secondaryColor' />
                   <div className='border-secondaryColor' />
@@ -205,9 +206,9 @@ const Create = () => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-8 inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
+                <div className='my-8 inline-block w-full max-w-lg overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                    className='close-btn absolute right-6 top-8 size-[25px] outline-none'
                     type='button'
                     onClick={() => closeModal()}
                   >

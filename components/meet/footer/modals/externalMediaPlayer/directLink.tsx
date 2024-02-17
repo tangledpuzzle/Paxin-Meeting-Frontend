@@ -20,14 +20,16 @@ const DirectLink = () => {
   const [playBackUrl, setPlayBackUrl] = useState<string>('');
   const [errorMsg, setErrorMsg] = useState<string>();
 
-  const onChangeUrl = (e) => {
+  const onChangeUrl = (e: {
+    currentTarget: { value: React.SetStateAction<string> };
+  }) => {
     if (errorMsg) {
       setErrorMsg(undefined);
     }
     setPlayBackUrl(e.currentTarget.value);
   };
 
-  const startPlayer = async (e) => {
+  const startPlayer = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (isEmpty(playBackUrl)) {
@@ -69,6 +71,7 @@ const DirectLink = () => {
 
     if (!res.status) {
       toast.update(id, {
+        // @ts-ignore
         render: t(res.msg),
         type: 'error',
         isLoading: false,

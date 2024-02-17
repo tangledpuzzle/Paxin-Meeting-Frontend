@@ -74,15 +74,19 @@ const UploadFilesUI = ({
     }
   }, [refreshFileBrowser, isUploading, preRefreshFileBrowser]);
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files.length) {
+    if (!files || !files.length) {
       return;
     }
     setFiles([...files]);
   };
 
-  const postUploadTask = (filePath, fileName, fileExtension) => {
+  const postUploadTask = (
+    filePath: string,
+    fileName: string | undefined,
+    fileExtension: string | undefined
+  ) => {
     switch (fileExtension) {
       case 'jpg':
       case 'jpeg':
@@ -166,7 +170,7 @@ const UploadFilesUI = ({
     });
   };
 
-  const broadcastFile = (filePath, fileName) => {
+  const broadcastFile = (filePath: any, fileName: any) => {
     const file: IWhiteboardFile = {
       id: randomString(),
       currentPage,

@@ -27,7 +27,7 @@ const Upload = () => {
   });
 
   useEffect(() => {
-    const sendPlaybackLink = async (playBackUrl) => {
+    const sendPlaybackLink = async (playBackUrl: string) => {
       const id = toast.loading(
         t('footer.notice.external-media-player-starting'),
         {
@@ -50,6 +50,7 @@ const Upload = () => {
 
       if (!res.status) {
         toast.update(id, {
+          // @ts-ignore
           render: t(res.msg),
           type: 'error',
           isLoading: false,
@@ -78,9 +79,9 @@ const Upload = () => {
     }
   };
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files.length) {
+    if (!files || !files.length) {
       return;
     }
     setTmpFiles([...files]);

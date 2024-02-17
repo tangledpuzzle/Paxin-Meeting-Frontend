@@ -34,7 +34,7 @@ export async function getDevices(kind: MediaDeviceKind) {
   return devices;
 }
 
-const dec2hex = (dec) => {
+const dec2hex = (dec: { toString: (arg0: number) => string }) => {
   return dec.toString(16).padStart(2, '0');
 };
 
@@ -158,6 +158,7 @@ export function clearAccessToken() {
 }
 export const getAccessToken = () => {
   let accessToken = localStorage.getItem('meetingToken');
+  console.log('Access Localstorage', accessToken);
   if (accessToken) {
     return accessToken;
   }

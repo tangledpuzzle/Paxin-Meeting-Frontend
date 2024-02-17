@@ -92,6 +92,7 @@ const SpeechServiceSettingsModal = () => {
         type: 'info',
       });
     } else {
+      // @ts-ignore
       toast(t(res.msg), {
         type: 'error',
       });
@@ -116,6 +117,7 @@ const SpeechServiceSettingsModal = () => {
         type: 'info',
       });
     } else {
+      // @ts-ignore
       toast(t(res.msg), {
         type: 'error',
       });

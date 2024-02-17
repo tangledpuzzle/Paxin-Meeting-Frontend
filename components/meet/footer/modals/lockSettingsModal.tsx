@@ -22,7 +22,7 @@ const LockSettingsModal = () => {
   const roomLockSettings = useAppSelector(roomLockSettingsSelector);
   const session = store.getState().session;
 
-  const updateLockSettings = async (status, service: string) => {
+  const updateLockSettings = async (status: boolean, service: string) => {
     const direction = status ? 'lock' : 'unlock';
 
     const body = new UpdateUserLockSettingsReq({
@@ -79,7 +79,7 @@ const LockSettingsModal = () => {
                 roomLockSettings?.lock_microphone
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              } inline-block size-4 rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -102,7 +102,7 @@ const LockSettingsModal = () => {
                 roomLockSettings?.lock_webcam
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              } inline-block size-4 rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -125,7 +125,7 @@ const LockSettingsModal = () => {
                 roomLockSettings?.lock_screen_sharing
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              } inline-block size-4 rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -148,7 +148,7 @@ const LockSettingsModal = () => {
                 roomLockSettings?.lock_whiteboard
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              } inline-block size-4 rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -171,7 +171,7 @@ const LockSettingsModal = () => {
                 roomLockSettings?.lock_shared_notepad
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              } inline-block size-4 rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -194,7 +194,7 @@ const LockSettingsModal = () => {
                 roomLockSettings?.lock_chat
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              } inline-block size-4 rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -217,7 +217,7 @@ const LockSettingsModal = () => {
                 roomLockSettings?.lock_chat_send_message
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              } inline-block size-4 rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -240,7 +240,7 @@ const LockSettingsModal = () => {
                 roomLockSettings?.lock_chat_file_share
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              } inline-block size-4 rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -263,7 +263,7 @@ const LockSettingsModal = () => {
                 roomLockSettings?.lock_private_chat
                   ? 'ltr:translate-x-5 rtl:-translate-x-5'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              } inline-block size-4 rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>
@@ -308,9 +308,9 @@ const LockSettingsModal = () => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-8 inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
+                <div className='my-8 inline-block w-full max-w-lg overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
+                    className='close-btn absolute top-8 size-[25px] outline-none ltr:right-6 rtl:left-6'
                     type='button'
                     onClick={() => closeModal()}
                   >

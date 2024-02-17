@@ -29,7 +29,7 @@ const ListPolls = () => {
     }
   }, [data]);
 
-  const renderPoll = (index) => {
+  const renderPoll = (index: number) => {
     if (!polls.length || typeof polls[index] === 'undefined') {
       return null;
     }

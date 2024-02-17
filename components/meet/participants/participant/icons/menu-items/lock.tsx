@@ -88,6 +88,7 @@ const LockSettingMenuItem = ({ userId }: ILockSettingMenuItemProps) => {
         type: 'info',
       });
     } else {
+      // @ts-ignore
       toast(t(res.msg), {
         type: 'error',
       });

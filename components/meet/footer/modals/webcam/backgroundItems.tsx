@@ -48,8 +48,9 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
     //eslint-disable-next-line
   }, [result, customFileRef]);
 
-  const handleOnClick = (type, url) => {
-    const bg = {
+  const handleOnClick = (type: string, url: string) => {
+    const bg: BackgroundConfig = {
+      //@ts-ignore
       type,
       url,
     };
@@ -71,7 +72,7 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
   return (
     <div className='flex flex-wrap items-center justify-start bg-slate-100 p-3 shadow-header dark:bg-transparent'>
       <div
-        className={`flex h-[62px] w-[62px] scale-90 transform cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-solid border-gray-300 transition ease-in hover:scale-95 dark:border-primaryColor  ${
+        className={`flex size-[62px] scale-90 cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-solid border-gray-300 transition ease-in hover:scale-95 dark:border-primaryColor${
           selectedBg.type === 'none'
             ? 'scale-95 border-[#24aef7] dark:border-[#24aef7]'
             : ''
@@ -81,7 +82,7 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
         <i className='pnm-ban-solid dark:text-darkSecondary2' />
       </div>
       <div
-        className={`flex h-[62px] w-[62px] scale-90 transform cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-solid border-gray-300 transition ease-in hover:scale-95 dark:border-primaryColor ${
+        className={`flex size-[62px] scale-90 cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-solid border-gray-300 transition ease-in hover:scale-95 dark:border-primaryColor${
           selectedBg.type === 'blur'
             ? 'scale-95 border-[#24aef7] dark:border-[#24aef7]'
             : ''
@@ -93,7 +94,7 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
       {bgImgs.map((imageUrl, i) => {
         return (
           <div
-            className={`flex h-[62px] w-[62px] scale-90 transform cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-solid border-transparent transition ease-in hover:scale-95 ${
+            className={`flex size-[62px] scale-90 cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-solid border-transparent transition ease-in hover:scale-95${
               selectedBg.url === imageUrl ? 'scale-95 border-[#24aef7]' : ''
             }`}
             key={imageUrl}
@@ -102,7 +103,7 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
             <img
               src={imageUrl}
               alt={`bg-${i + 1}`}
-              className={`h-full w-full object-cover`}
+              className={`size-full object-cover`}
             />
           </div>
         );
@@ -112,7 +113,7 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
           {t('footer.modal.upload-background-image')}
         </button>
         <input
-          className='absolute left-0 top-0 h-full w-full cursor-pointer opacity-0'
+          className='absolute left-0 top-0 size-full cursor-pointer opacity-0'
           ref={customFileRef}
           type='file'
           onChange={customBgImage}

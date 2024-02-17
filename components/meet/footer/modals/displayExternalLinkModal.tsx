@@ -37,7 +37,7 @@ const DisplayExternalLinkModal = () => {
     dispatch(updateDisplayExternalLinkRoomModal(false));
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMsg(undefined);
 
@@ -85,6 +85,7 @@ const DisplayExternalLinkModal = () => {
 
     if (!res.status) {
       toast.update(id, {
+        // @ts-ignore
         render: t(res.msg),
         type: 'error',
         isLoading: false,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IParticipant } from '../../../store/slices/interfaces/participant';
+import { IParticipant } from '@/store/slices/interfaces/participant';
 
 interface IAvatarProps {
   participant: IParticipant;
@@ -15,7 +15,7 @@ const Avatar = ({ participant }: IAvatarProps) => {
     }
   };
   return (
-    <div className="thumb h-[22px] xl:h-[30px] w-[22px] xl:w-[30px] ltr:mr-2 rtl:ml-2 rounded-full overflow-hidden bg-primaryColor flex items-center justify-center text-white text-xs xl:text-sm">
+    <div className='thumb flex size-[22px] items-center justify-center overflow-hidden rounded-full bg-primaryColor text-xs text-white xl:size-[30px] xl:text-sm ltr:mr-2 rtl:ml-2'>
       {render()}
     </div>
   );

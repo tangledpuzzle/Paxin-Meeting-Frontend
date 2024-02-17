@@ -14,9 +14,8 @@ export function buildCanvas2dPipeline(
   canvas: HTMLCanvasElement,
   bodyPix: BodyPix,
   tflite: any,
-  addFrameEvent: () => void,
+  addFrameEvent: () => void
 ) {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
 
   const [segmentationWidth, segmentationHeight] =
@@ -31,7 +30,6 @@ export function buildCanvas2dPipeline(
   bgImg.crossOrigin = 'anonymous';
   bgImg.src = backgroundConfig.url as string;
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const segmentationMaskCtx = segmentationMaskCanvas.getContext('2d', {
     willReadFrequently: true,
   })!;
@@ -62,7 +60,7 @@ export function buildCanvas2dPipeline(
   }
 
   function updatePostProcessingConfig(
-    newPostProcessingConfig: PostProcessingConfig,
+    newPostProcessingConfig: PostProcessingConfig
   ) {
     postProcessingConfig = newPostProcessingConfig;
   }
@@ -81,7 +79,7 @@ export function buildCanvas2dPipeline(
       0,
       0,
       segmentationWidth,
-      segmentationHeight,
+      segmentationHeight
     );
 
     if (
@@ -92,7 +90,7 @@ export function buildCanvas2dPipeline(
         0,
         0,
         segmentationWidth,
-        segmentationHeight,
+        segmentationHeight
       );
 
       for (let i = 0; i < segmentationPixelCount; i++) {
@@ -168,7 +166,7 @@ export function buildCanvas2dPipeline(
         ctx.canvas.width,
         ctx.canvas.height,
         0.5,
-        0.5,
+        0.5
       );
     }
   }
@@ -183,7 +181,7 @@ export function buildCanvas2dPipeline(
       0,
       0,
       sourcePlayback.width,
-      sourcePlayback.height,
+      sourcePlayback.height
     );
   }
 
@@ -201,6 +199,7 @@ export function buildCanvas2dPipeline(
    *
    * If image and context are only arguments rectangle will equal canvas
    */
+  //@ts-ignore
   function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
     if (arguments.length === 2) {
       x = y = 0;

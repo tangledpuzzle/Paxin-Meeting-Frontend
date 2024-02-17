@@ -37,7 +37,7 @@ const useCloudRecording = (roomSid: string): IUseCloudRecordingReturn => {
       setHasError(true);
       msg = res.msg;
     }
-
+    // @ts-ignore
     toast(t(msg), {
       toastId: 'recording-status',
       type: 'info',
@@ -63,7 +63,7 @@ const useCloudRecording = (roomSid: string): IUseCloudRecordingReturn => {
       setHasError(true);
       msg = res.msg;
     }
-
+    // @ts-ignore
     toast(t(msg).toString(), {
       toastId: 'recording-status',
       type: 'info',

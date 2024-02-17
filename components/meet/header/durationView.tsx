@@ -30,7 +30,7 @@ const DurationView = ({ duration }: IDurationViewProps) => {
       seconds = seconds < 10 ? '0' + seconds : seconds;
 
       setRemaining(minutes + ':' + seconds);
-      if (minutes < 60) {
+      if (Number(minutes) < 60) {
         setShowClock(true);
       }
       if (diff <= 0) {

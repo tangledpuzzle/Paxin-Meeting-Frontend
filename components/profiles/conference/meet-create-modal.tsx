@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Lock, UserRound } from 'lucide-react';
+import { Lock } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';

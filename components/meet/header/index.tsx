@@ -9,12 +9,12 @@ import { useAppSelector, RootState, store, useAppDispatch } from '@/store';
 import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
 
 import HeaderMenus from './menus';
-import RoomSettings from './room-settings';
+// import RoomSettings from './room-settings';
 import './style.css';
 import KeyboardShortcuts from './keyboardShortcuts';
 import VolumeControl from './volumeControl';
 import DurationView from './durationView';
-import DarkThemeSwitcher from './darkThemeSwitcher';
+// import DarkThemeSwitcher from './darkThemeSwitcher';
 import {
   CommonResponse,
   RoomEndAPIReq,
@@ -56,9 +56,8 @@ const Header = ({ currentRoom }: IHeaderProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [alertText, setAlertText] = useState('');
   const [task, setTask] = useState('');
-  const assetPath = (window as any).STATIC_ASSETS_PATH ?? './assets';
 
-  const onOpenAlert = (task) => {
+  const onOpenAlert = (task: string) => {
     setTask(task);
     if (task === 'logout') {
       setAlertText(t('header.menus.alert.logout').toString());
@@ -136,9 +135,9 @@ const Header = ({ currentRoom }: IHeaderProps) => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
+                <div className='my-8 inline-block w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                    className='close-btn absolute right-6 top-8 size-[25px] outline-none'
                     type='button'
                     onClick={() => onCloseAlertModal()}
                   >
@@ -203,7 +202,7 @@ const Header = ({ currentRoom }: IHeaderProps) => {
           <div
             className={`header-before-start pointer-events-none absolute left-[-35px] top-0 h-full w-[300px] bg-cover bg-center`}
             style={{
-              backgroundImage: `url("${assetPath}/imgs/header-before2.png")`,
+              backgroundImage: `url("/images/meet/header-before2.png")`,
             }}
           />
           <div className='logo relative z-20 w-28'>
@@ -234,8 +233,8 @@ const Header = ({ currentRoom }: IHeaderProps) => {
                   });
                 }}
               >
-                <div className='notepad inline-block h-8 w-8 items-center justify-center rounded-full'>
-                  <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
+                <div className='notepad inline-block size-8 items-center justify-center rounded-full'>
+                  <i className='pnm-notepad size-4 text-primaryColor dark:text-secondaryColor' />
                 </div>
               </CopyToClipboard>
             </h2>
@@ -250,8 +249,8 @@ const Header = ({ currentRoom }: IHeaderProps) => {
             <Menu>
               {({ open }) => (
                 <>
-                  <Menu.Button className='relative flex-shrink-0 p-2 rtl:-ml-4'>
-                    <div className='h-5 w-5 rotate-90 '>
+                  <Menu.Button className='relative shrink-0 p-2 rtl:-ml-4'>
+                    <div className='size-5 rotate-90 '>
                       <i className='pnm-menu-small dark:text-secondaryColor' />
                     </div>
                   </Menu.Button>
@@ -275,7 +274,7 @@ const Header = ({ currentRoom }: IHeaderProps) => {
           <div
             className={`header-before-end pointer-events-none absolute right-[-100px] top-0 h-full w-[350px] rotate-[156deg] bg-cover bg-center lg:w-[380px]`}
             style={{
-              backgroundImage: `url("${assetPath}/imgs/header-before2.png")`,
+              backgroundImage: `url("/images/meet/header-before2.png")`,
             }}
           />
           {showModal ? alertModal() : null}

@@ -11,7 +11,7 @@ import { RecordingTasks } from '@/helpers/proto/plugnmeet_recorder_pb';
 import { RecordingReq } from '@/helpers/proto/plugnmeet_recording_pb';
 import { CommonResponse } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { useTranslations } from 'next-intl';
-
+type ProviderKeys = 'youtube' | 'facebook' | 'other';
 const isActiveRtmpBroadcastingSelector = createSelector(
   (state: RootState) => state.session,
   (session) => session.isActiveRtmpBroadcasting
@@ -23,7 +23,7 @@ const RtmpModal = () => {
   const isActiveRtmpBroadcasting = useAppSelector(
     isActiveRtmpBroadcastingSelector
   );
-  const [provider, setProvider] = useState<string>('youtube');
+  const [provider, setProvider] = useState<ProviderKeys>('youtube');
   const [showServerUrl, setShowServerUrl] = useState<boolean>(false);
   const [serverUrl, setServerUrl] = useState<string>('');
   const [serverKey, setServerKey] = useState<string>('');
@@ -44,7 +44,7 @@ const RtmpModal = () => {
     dispatch(updateShowRtmpModal(false));
   };
 
-  const startBroadcasting = async (e) => {
+  const startBroadcasting = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (provider === 'other' && isEmpty(serverUrl)) {
       return;
@@ -93,7 +93,7 @@ const RtmpModal = () => {
     if (!res.status) {
       msg = res.msg;
     }
-
+    // @ts-ignore
     toast(t(msg), {
       toastId: 'rtmp-status',
       type: 'info',
@@ -139,9 +139,9 @@ const RtmpModal = () => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-8 inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
+                <div className='my-8 inline-block w-full max-w-lg overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
+                    className='close-btn absolute top-8 size-[25px] outline-none ltr:right-6 rtl:left-6'
                     type='button'
                     onClick={() => closeStartModal()}
                   >
@@ -176,7 +176,9 @@ const RtmpModal = () => {
                               name='provider'
                               className='mt-1 block w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
                               onChange={(e) =>
-                                setProvider(e.currentTarget.value)
+                                setProvider(
+                                  e.currentTarget.value as ProviderKeys
+                                )
                               }
                               value={provider}
                             >
@@ -201,7 +203,7 @@ const RtmpModal = () => {
                                 onChange={(e) =>
                                   setServerUrl(e.currentTarget.value)
                                 }
-                                className='mt-1 block h-10 w-full rounded-md border border-solid border-black/50 border-gray-300 bg-transparent shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
+                                className='mt-1 block h-10 w-full rounded-md border border-solid  border-gray-300 bg-transparent shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
                               />
                             </div>
                           ) : null}
@@ -220,7 +222,7 @@ const RtmpModal = () => {
                               onChange={(e) =>
                                 setServerKey(e.currentTarget.value)
                               }
-                              className='mt-1 block h-10 w-full rounded-md border border-solid border-black/50 border-gray-300 bg-transparent shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
+                              className='mt-1 block h-10 w-full rounded-md border border-solid  border-gray-300 bg-transparent shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-darkText dark:text-darkText sm:text-sm'
                             />
                           </div>
                         </div>
@@ -268,7 +270,7 @@ const RtmpModal = () => {
     if (!res.status) {
       msg = res.msg;
     }
-
+    // @ts-ignore
     toast(t(msg), {
       toastId: 'rtmp-status',
       type: 'info',
@@ -312,9 +314,9 @@ const RtmpModal = () => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                <div className='my-8 inline-block w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                   <button
-                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                    className='close-btn absolute right-6 top-8 size-[25px] outline-none'
                     type='button'
                     onClick={() => onCloseAlertModal()}
                   >

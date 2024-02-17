@@ -188,7 +188,7 @@ const RecordingIcon = ({ currentRoom }: IRecordingIconProps) => {
 
   // for auto cloud recording
   useEffect(() => {
-    let timeout;
+    let timeout: string | number | NodeJS.Timeout | undefined;
     if (
       isAllowRecording &&
       isAdmin &&

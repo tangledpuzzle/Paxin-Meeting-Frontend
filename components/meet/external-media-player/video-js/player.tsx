@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js';
 import 'video.js/dist/video-js.css';
@@ -35,9 +34,9 @@ const PlayerComponent = ({ options, onReady }: IPlayerComponentProps) => {
   }, [player]);
 
   return (
-    <div className="react-js-player-wrap">
+    <div className='react-js-player-wrap'>
       <div data-vjs-player>
-        <video ref={videoRef} className="video-js" />
+        <video ref={videoRef} className='video-js' />
       </div>
     </div>
   );

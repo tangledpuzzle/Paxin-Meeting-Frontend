@@ -101,6 +101,7 @@ const useResumableFilesUpload = ({
 
       try {
         const res = JSON.parse(message);
+        // @ts-ignore
         toast(t(res.msg), {
           type: toast.TYPE.ERROR,
         });

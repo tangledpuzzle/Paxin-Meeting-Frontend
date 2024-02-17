@@ -73,9 +73,9 @@ const FileSend = ({
     }
   };
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files.length) {
+    if (!files || !files.length) {
       return;
     }
     setFiles([...files]);

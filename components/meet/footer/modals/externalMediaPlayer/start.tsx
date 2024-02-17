@@ -32,7 +32,7 @@ const StartPlaybackModal = ({ isActive }: IStartPlaybackModalProps) => {
     dispatch(updateShowExternalMediaPlayerModal(false));
   };
 
-  const classNames = (...classes) => {
+  const classNames = (...classes: string[]) => {
     return classes.filter(Boolean).join(' ');
   };
 

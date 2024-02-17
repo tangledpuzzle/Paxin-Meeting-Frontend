@@ -40,6 +40,7 @@ const AudioElements = ({ currentConnection }: IAudioElementsProps) => {
         elms.push(
           <AudioElm
             userId={participant.identity}
+            //@ts-ignore
             track={track}
             key={track.trackSid}
           />

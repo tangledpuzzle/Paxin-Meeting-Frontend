@@ -92,7 +92,7 @@ const Messages = ({ userId }: IMessagesProps) => {
     //eslint-disable-next-line
   }, [isActiveChatPanel]);
 
-  const renderMsg = (index) => {
+  const renderMsg = (index: number) => {
     if (!chatMessages.length || typeof chatMessages[index] === 'undefined') {
       return null;
     }

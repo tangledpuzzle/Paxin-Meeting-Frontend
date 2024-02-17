@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import type {
   LocalParticipant,
   LocalTrackPublication,
@@ -52,30 +53,30 @@ export interface IConnectLivekit extends EventEmitter {
     participant: LocalParticipant | RemoteParticipant,
     add?: boolean
   ): void;
-  intl(e: any): string;
+  intl(...e: any[]): string;
   updateScreenShareOnUserDisconnect(participant: RemoteParticipant): void;
   on(
     event: CurrentConnectionEvents.ScreenShareStatus,
     listener: (active: boolean) => void
-  );
+  ): any;
   on(
     event: CurrentConnectionEvents.VideoStatus,
     listener: (active: boolean) => void
-  );
+  ): any;
   on(
     event: CurrentConnectionEvents.AudioSubscribers,
     listener: (subscribers: Map<string, RemoteParticipant>) => void
-  );
+  ): any;
   on(
     event: CurrentConnectionEvents.VideoSubscribers,
     listener: (
       subscribers: Map<string, LocalParticipant | RemoteParticipant>
     ) => void
-  );
+  ): any;
   on(
     event: CurrentConnectionEvents.ScreenShareTracks,
     listener: (
       tracks: Map<string, Array<LocalTrackPublication | RemoteTrackPublication>>
     ) => void
-  );
+  ): any;
 }

@@ -24,6 +24,7 @@ const EndBtn = ({ breakoutRoomId }: IEndBtnProps) => {
           type: 'info',
         });
       } else {
+        // @ts-ignore
         toast(t(data.msg), {
           type: 'error',
         });

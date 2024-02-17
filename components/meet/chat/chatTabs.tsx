@@ -112,7 +112,7 @@ const ChatTabs = () => {
     }
   }, [selectedChatOption, chatOptions]);
 
-  const onChange = (id) => {
+  const onChange = (id: any) => {
     dispatch(updateSelectedChatOption(id));
     dispatch(
       updateUnreadMsgFrom({

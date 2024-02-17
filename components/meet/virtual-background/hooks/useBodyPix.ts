@@ -14,7 +14,7 @@ function useBodyPix() {
       setBodyPix(bodyPixStore);
       console.log('TensorFlow.js and BodyPix loaded');
     }
-    let timeout;
+    let timeout: string | number | NodeJS.Timeout | undefined;
     if (!bodyPixStore) {
       timeout = setTimeout(() => {
         loadBodyPix();

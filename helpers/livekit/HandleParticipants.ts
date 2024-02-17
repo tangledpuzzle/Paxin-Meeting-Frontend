@@ -253,7 +253,10 @@ export default class HandleParticipants {
     }
   };
 
-  private notificationForWaitingUser(metadata: ICurrentUserMetadata, name) {
+  private notificationForWaitingUser(
+    metadata: ICurrentUserMetadata,
+    name: string | undefined
+  ) {
     const state = store.getState();
     if (state.session.currentUser?.isRecorder) {
       // if current user is recorder then don't need to do anything

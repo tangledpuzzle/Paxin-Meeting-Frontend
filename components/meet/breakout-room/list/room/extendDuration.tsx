@@ -26,6 +26,7 @@ const ExtendDuration = ({ breakoutRoomId }: IExtendTimeProps) => {
           type: 'info',
         });
       } else {
+        //@ts-ignore
         toast(t(data.msg), {
           type: 'error',
         });

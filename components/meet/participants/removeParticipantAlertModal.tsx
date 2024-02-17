@@ -65,6 +65,7 @@ const RemoveParticipantAlertModal = ({
         type: 'info',
       });
     } else {
+      // @ts-ignore
       toast(t(res.msg), {
         type: 'error',
       });

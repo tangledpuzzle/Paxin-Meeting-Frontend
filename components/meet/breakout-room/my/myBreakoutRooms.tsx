@@ -23,6 +23,7 @@ const MyBreakoutRooms = () => {
   useEffect(() => {
     if (!isLoading && data) {
       if (!data.status) {
+        // @ts-ignore
         toast(t(data.msg), {
           type: 'error',
         });

@@ -21,6 +21,7 @@ const SubtitleLangElms = ({
 
   useMemo(() => {
     const langs = getSubtitleLangs(
+      t,
       speechService.allowed_speech_langs,
       speechService.allowed_trans_langs
     );
