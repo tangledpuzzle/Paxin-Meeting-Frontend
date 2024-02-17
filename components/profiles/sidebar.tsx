@@ -39,7 +39,7 @@ const navItems: NavItem[] = [
   },
   {
     title: 'conference',
-    href: 'https://meet.paxintrade.com',
+    href: '/profile/conference',
     external: false,
     disabled: false,
     icon: HiUserGroup,

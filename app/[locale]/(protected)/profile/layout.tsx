@@ -20,7 +20,9 @@ export default function ProfilePageLayout({
       <SiteHeader />
       <div className='absolute top-0 flex w-full'>
         <Sidebar />
-        <main className='mt-20 mb-14 md:mb-0 w-full bg-secondary/60'>{children}</main>
+        <main className='mb-14 mt-20 w-full bg-secondary/60 md:mb-0'>
+          {children}
+        </main>
       </div>
     </NextIntlClientProvider>
   );

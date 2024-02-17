@@ -19,6 +19,9 @@ function Arrow({
       disabled={disabled}
       onClick={onClick}
       style={{
+        borderRadius: '30px',
+        height: '30px',
+        width: '30px',
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
