@@ -25,6 +25,8 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { LanguageSelector } from './language';
+import { useContext } from 'react';
+import { PaxContext } from '@/context/context';
 
 interface MobileMenuProps {
   user: {
@@ -38,6 +40,7 @@ export function MobileMenu({ user }: MobileMenuProps) {
   const { setTheme, theme } = useTheme();
   const t = useTranslations('main');
   const router = useRouter();
+  const { user: userData } = useContext(PaxContext);
 
   return (
     <div className='block md:hidden'>
@@ -48,7 +51,7 @@ export function MobileMenu({ user }: MobileMenuProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='mr-4 w-60'>
-          {user && (
+          {(user || userData) && (
             <>
               <DropdownMenuLabel
                 className='flex w-full cursor-pointer items-center gap-2 overflow-hidden'
@@ -56,26 +59,26 @@ export function MobileMenu({ user }: MobileMenuProps) {
               >
                 <Avatar>
                   <AvatarImage
-                    src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${user?.avatar}`}
-                    alt={user?.username}
+                    src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${(user || userData)?.avatar}`}
+                    alt={(user || userData)?.username}
                   />
                   <AvatarFallback>
-                    {getInitials(user?.username || '')}
+                    {getInitials((user || userData)?.username || '')}
                   </AvatarFallback>
                 </Avatar>
                 <div className='w-40'>
                   <div className='overflow-hidden text-ellipsis text-sm font-bold'>
-                    {user?.username}
+                    {(user || userData)?.username}
                   </div>
                   <div className='overflow-hidden text-ellipsis text-xs font-normal'>
-                    {user?.email}
+                    {(user || userData)?.email}
                   </div>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
             </>
           )}
-          {!user && (
+          {!(user || userData) && (
             <DropdownMenuItem className='cursor-pointer text-base' asChild>
               <Link href='/auth/signin'>
                 <FaSignInAlt className='mr-2 size-5 text-primary' />
@@ -101,7 +104,7 @@ export function MobileMenu({ user }: MobileMenuProps) {
               {t('contact')}
             </Link>
           </DropdownMenuItem>
-          {user && (
+          {(user || userData) && (
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem
