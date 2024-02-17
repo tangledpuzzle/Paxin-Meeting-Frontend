@@ -59,6 +59,7 @@ function Clock({ initialHours, initialMinutes, initialSeconds }: { initialHours:
 
 export default function CTASection({ title, description, icon }: CTAProps) {
   const { user } = useContext(PaxContext);
+
   const Icon = icon;
   const initialHours = user?.onlinehours?.hour || 0; 
   const initialMinutes = user?.onlinehours?.minutes || 0; 
@@ -98,7 +99,7 @@ export default function CTASection({ title, description, icon }: CTAProps) {
         </Button>
         <Button variant='outline' className='w-full'>
           <FaUserClock className='mr-2 size-4 text-primary' />
-          {/* <Clock initialHours={initialHours} initialMinutes={initialMinutes} initialSeconds={initialSeconds} /> */}
+          <Clock initialHours={initialHours} initialMinutes={initialMinutes} initialSeconds={initialSeconds} />
         </Button>
       </div>
     </div>

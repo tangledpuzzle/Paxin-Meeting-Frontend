@@ -2,6 +2,7 @@ import { Eye, Mail } from 'lucide-react';
 import Image from 'next/image';
 import { BiLink } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
+import { IoLanguage } from "react-icons/io5";
 
 import { ProfileAvatar } from '@/components/common/profile-avatar';
 import { TagSlider } from '@/components/common/tag-slider';
@@ -116,11 +117,17 @@ function FlowCard(profile: FlowCardProps) {
                 {review.totalviews}
               </Badge>
             </div>
-            <div className=''>
-              <div
-                className={`absolute bottom-10 right-0 mr-3 size-12 rounded-md bg-cover bg-center bg-no-repeat`}
+            <div className=' grid grid-cols-2 relative -top-[100px]  '>
+              <div></div>
+              <div className='flex flex-row-reverse h-0'>
+             <span className='flex justify-center items-center uppercase px-4'><IoLanguage className='w-[32px] h-[32px] px-2' />{countrycode}</span> 
+              {/* <div
+                className={`absolute bottom-0 mb-4 right-0 mr-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
                 style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
-              />
+              /> */}
+              
+              </div>
+
             </div>
             <div className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
