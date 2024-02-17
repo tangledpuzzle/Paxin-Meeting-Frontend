@@ -257,6 +257,7 @@ export default async function FlowPage({
                     ))}
                 </div>
               </div>
+              {blogDetails.price !== 0 && (
               <div>
                 <div className='flex items-center gap-2'>
                   <FaSackDollar className='size-4' />
@@ -281,7 +282,8 @@ export default async function FlowPage({
                   </Link>
                 </div>
               </div>
-              <div>
+              )}
+              <div className={blogDetails.price === 0 ? 'col-span-2' : ''}>
                 <div className='flex items-center gap-2'>
                   <IoEyeSharp className='size-4' />
                   {t('views')}
@@ -295,6 +297,7 @@ export default async function FlowPage({
                   </Badge>
                 </div>
               </div>
+
             </div>
             <UpvoteCard
               id={blogDetails.id}
