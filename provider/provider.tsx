@@ -44,7 +44,6 @@ const Providers: React.FC<IProps> = ({ children }) => {
 
   useEffect(() => {
     if (!error && fetchedData) {
-      console.log(fetchedData);
       setUser({
         id: fetchedData.data?.user?.id,
         username: fetchedData.data?.user?.name,
@@ -64,9 +63,10 @@ const Providers: React.FC<IProps> = ({ children }) => {
         limitStorage: fetchedData.data?.user?.limitstorage,
         followers: fetchedData.data?.user?.totalfollowers,
         followings: fetchedData.data?.user?.followings?.length,
-        onlinehours: fetchedData.data?.user?.total_online_hours[0],
+        onlinehours: fetchedData.data?.user?.online_hours[0],
         totalposts: fetchedData.data?.user?.totalrestblog,
       });
+
     }
 
     setCurrentPlan(PLAN[fetchedData?.data?.user?.Plan as keyof typeof PLAN]);
