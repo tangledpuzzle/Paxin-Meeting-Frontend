@@ -90,7 +90,7 @@ const Meet = () => {
   useKeyboardShortcuts(currentConnection?.room);
   useDesignCustomization();
   useWatchVisibilityChange();
-  const { deviceClass, orientationClass, screenHeight } = useWatchWindowSize(
+  const { deviceClass, orientationClass } = useWatchWindowSize(
     currentConnection?.room
   );
   // function clearStoreToken() {
@@ -264,11 +264,8 @@ const Meet = () => {
 
   const onCloseStartupModal = async () => {
     if (livekitInfo) {
-      const currentConnection = startLivekitConnection(
-        livekitInfo,
-        //@ts-ignore
-        (e: string) => t(e) as string
-      );
+      // @ts-ignore
+      const currentConnection = startLivekitConnection(livekitInfo, t);
       setCurrentConnection(currentConnection);
     }
   };

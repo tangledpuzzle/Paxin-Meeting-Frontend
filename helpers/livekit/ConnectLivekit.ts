@@ -92,7 +92,7 @@ export default class ConnectLivekit
     livekitInfo: LivekitInfo,
     errorState: Dispatch<IErrorPageProps>,
     roomConnectionStatusState: Dispatch<ConnectionStatus>,
-    intl: () => any
+    intl: (...e: any[]) => string
   ) {
     super();
     this.token = livekitInfo.token;

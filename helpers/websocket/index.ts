@@ -129,7 +129,7 @@ const getURL = () => {
   return webSocketUrl;
 };
 
-export const openWebsocketConnection = (intl: (e: string) => string) => {
+export const openWebsocketConnection = (intl: (...e: any[]) => string) => {
   createWS(intl);
 };
 
@@ -138,7 +138,7 @@ export const isSocketConnected = () => isConnected;
 //☢️ Replace intl
 export const sendWebsocketMessage = (
   msg: any,
-  intl: (e: string) => string = (e) => e
+  intl: (...e: any[]) => string
 ) => {
   if (!isFirstTime && !isConnected && !normallyClosed) {
     toast(intl('notifications.websocket-not-connected'), {
@@ -151,6 +151,7 @@ export const sendWebsocketMessage = (
 };
 
 export const sendAnalyticsByWebsocket = (
+  intl: (...e: any[]) => string,
   event_name: AnalyticsEvents,
   event_type: AnalyticsEventType = AnalyticsEventType.USER,
   hset_value?: string,
@@ -182,7 +183,7 @@ export const sendAnalyticsByWebsocket = (
       msg: analyticsMsg.toJsonString(),
     },
   });
-  sendWebsocketMessage(dataMsg.toBinary());
+  sendWebsocketMessage(dataMsg.toBinary(), intl);
 };
 
 export const closeWebsocketConnection = () => {
