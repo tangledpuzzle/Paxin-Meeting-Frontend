@@ -147,7 +147,7 @@ export function SiteFooter() {
           <Button
             variant='link'
             aria-label='Terms of Use'
-            className='font-satoshi text-sm text-muted-foreground'
+            className='font-satoshi text-sm text-muted-foreground md:pb-0'
             asChild
           >
             <Link href='/rules'>{t('terms_of_use')}</Link>
