@@ -26,7 +26,6 @@ const nextConfig = {
       },
     ];
   },
-  output: 'standalone',
 };
 
 export default withNextIntl(nextConfig);
