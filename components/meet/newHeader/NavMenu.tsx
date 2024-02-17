@@ -3,24 +3,19 @@
 import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+// import { usePathname } from 'next/navigation';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { siteConfig } from '@/config/site';
 // import { cn } from '@/lib/utils';
-import { useLocale, useTranslations } from 'next-intl';
+// import { useLocale, useTranslations } from 'next-intl';
 import toast from 'react-hot-toast';
 
-interface MainNavProps {}
+interface MainNavProps {
+  id: string;
+}
 
-export function MainNav({}: MainNavProps) {
-  const t = useTranslations('main');
-
-  const locale = useLocale();
-  let pathname = usePathname();
-  if (pathname.startsWith('/' + locale)) {
-    pathname = pathname.slice(locale.length + 1);
-  }
-  const searchParams = useSearchParams();
+export function MainNav({ id }: MainNavProps) {
+  // const t = useTranslations('main');
 
   return (
     <div className='flex gap-6 md:gap-10'>
@@ -43,9 +38,9 @@ export function MainNav({}: MainNavProps) {
           {siteConfig.name}
         </span>
       </Link>
-      <div>PAX- Real TIME Meeting(Room ID: {searchParams.get('id')})</div>
+      <div>PAX- Real TIME Meeting(Room ID: {id})</div>
       <CopyToClipboard
-        text={searchParams.get('id') || ''}
+        text={id}
         onCopy={() => {
           toast.success('Room ID is copied to clipboard!');
         }}

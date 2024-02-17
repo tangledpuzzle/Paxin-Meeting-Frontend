@@ -1,7 +1,8 @@
-import { useLocale } from 'next-intl';
 import { getServerSession } from 'next-auth';
 import authOptions from '@/lib/authOptions';
 import Conference from '@/components/profiles/conference';
+import { unstable_setRequestLocale } from 'next-intl/server';
+// import { unstable_setRequestLocale } from 'next-intl/server';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
@@ -26,12 +27,16 @@ async function getData(locale: string) {
   }
 }
 
-export default async function ConferencePage() {
-  const locale = useLocale();
+export default async function ConferencePage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  unstable_setRequestLocale(params.locale);
   const {
     data: {
       user: { email, id, name },
     },
-  } = await getData(locale);
+  } = await getData(params.locale);
   return <Conference email={email} userId={id} name={name} />;
 }

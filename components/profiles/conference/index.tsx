@@ -229,7 +229,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
       toast.success('New Room is created.');
       setAccessToken(token);
 
-      router.push(`/meet/?id=${roomId}`);
+      router.push(`/meet/${roomId}`);
     }
   }
   function createRoomId(feed: string): string {
@@ -327,7 +327,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
     setLoading(false);
     if (token) {
       setAccessToken(token);
-      router.push(`/meet/?id=${roomId}`);
+      router.push(`/meet/${roomId}`);
     }
   }
   // userMutate();

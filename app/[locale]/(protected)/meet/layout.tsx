@@ -1,4 +1,4 @@
-import MeetHeader from '@/components/meet/newHeader';
+// import MeetHeader from '@/components/meet/newHeader';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
 import { ReactNode } from 'react';
@@ -15,8 +15,7 @@ export default function ProfilePageLayout({
   const messages = useMessages();
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <MeetHeader />
-      <div className='absolute top-0 mt-20 w-full'>{children}</div>
+      {children}
     </NextIntlClientProvider>
   );
 }
