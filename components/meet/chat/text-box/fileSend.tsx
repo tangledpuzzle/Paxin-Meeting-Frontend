@@ -109,9 +109,10 @@ const FileSend = ({
       },
     });
 
-    sendWebsocketMessage(dataMsg.toBinary());
+    sendWebsocketMessage(dataMsg.toBinary(), t);
     // send analytics
     sendAnalyticsByWebsocket(
+      t,
       AnalyticsEvents.ANALYTICS_EVENT_USER_CHAT_FILES,
       AnalyticsEventType.USER,
       fileName

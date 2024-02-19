@@ -181,7 +181,7 @@ const ViewDetails = ({ pollId, onCloseViewDetails }: IViewDetailsProps) => {
       },
     });
 
-    sendWebsocketMessage(dataMsg.toBinary());
+    sendWebsocketMessage(dataMsg.toBinary(), t);
     closeModal();
   };
 

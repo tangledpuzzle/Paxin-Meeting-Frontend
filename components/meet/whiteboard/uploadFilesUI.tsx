@@ -98,11 +98,13 @@ const UploadFilesUI = ({
         broadcastFile(filePath, fileName);
         // send analytics
         sendAnalyticsByWebsocket(
+          t,
           AnalyticsEvents.ANALYTICS_EVENT_USER_WHITEBOARD_FILES,
           AnalyticsEventType.USER,
           fileName
         );
         sendAnalyticsByWebsocket(
+          t,
           AnalyticsEvents.ANALYTICS_EVENT_ROOM_WHITEBOARD_FILES,
           AnalyticsEventType.ROOM,
           fileName
@@ -148,15 +150,17 @@ const UploadFilesUI = ({
     );
 
     await sleep(500);
-    broadcastWhiteboardOfficeFile(newFile);
+    broadcastWhiteboardOfficeFile(t, newFile);
 
     // send analytics
     sendAnalyticsByWebsocket(
+      t,
       AnalyticsEvents.ANALYTICS_EVENT_USER_WHITEBOARD_FILES,
       AnalyticsEventType.USER,
       newFile.fileName
     );
     sendAnalyticsByWebsocket(
+      t,
       AnalyticsEvents.ANALYTICS_EVENT_ROOM_WHITEBOARD_FILES,
       AnalyticsEventType.ROOM,
       newFile.fileName
@@ -199,7 +203,7 @@ const UploadFilesUI = ({
       },
     });
 
-    sendWebsocketMessage(dataMsg.toBinary());
+    sendWebsocketMessage(dataMsg.toBinary(), t);
   };
 
   const saveCurrentPageData = async () => {

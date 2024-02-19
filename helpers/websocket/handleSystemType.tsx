@@ -23,11 +23,14 @@ import {
 import { SpeechTextBroadcastFormat } from '@/store/slices/interfaces/speechServices';
 import { addSpeechSubtitleText } from '@/store/slices/speechServicesSlice';
 
-export const handleSystemTypeData = (body: DataMessage) => {
+export const handleSystemTypeData = (
+  body: DataMessage,
+  intl: (...e: any[]) => string
+) => {
   switch (body.body?.type) {
     // got request to send previous chat messages. We'll send last 30 messages
     case DataMsgBodyType.SEND_CHAT_MSGS:
-      handleSendChatMsg(body);
+      handleSendChatMsg(body, intl);
       break;
     case DataMsgBodyType.INIT_WHITEBOARD:
       handleSendInitWhiteboard(body);
@@ -59,7 +62,10 @@ export const handleSystemTypeData = (body: DataMessage) => {
   }
 };
 
-const handleSendChatMsg = (mainBody: DataMessage) => {
+const handleSendChatMsg = (
+  mainBody: DataMessage,
+  intl: (...e: any[]) => string
+) => {
   const messages = chatMessagesSelector.selectAll(store.getState());
   const session = store.getState().session;
   messages
@@ -86,7 +92,7 @@ const handleSendChatMsg = (mainBody: DataMessage) => {
         },
       });
 
-      sendWebsocketMessage(dataMsg.toBinary());
+      sendWebsocketMessage(dataMsg.toBinary(), intl);
     });
 };
 

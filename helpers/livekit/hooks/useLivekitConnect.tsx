@@ -17,7 +17,7 @@ export interface IUseLivekitConnect {
   setRoomConnectionStatus: React.Dispatch<React.SetStateAction<string>>;
   startLivekitConnection(
     info: LivekitInfo,
-    intl: (e: string) => string
+    intl: (...e: any[]) => string
   ): IConnectLivekit;
 }
 

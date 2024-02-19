@@ -10,6 +10,7 @@ import {
   DataMsgBodyType,
   DataMsgType,
 } from '@/helpers/proto/plugnmeet_datamessage_pb';
+import { useTranslations } from 'next-intl';
 
 interface IVideoJsPlayerComponentProps {
   src: string;
@@ -24,6 +25,7 @@ const VideoJsPlayerComponent = ({
   seekTo,
   isPresenter,
 }: IVideoJsPlayerComponentProps) => {
+  const t = useTranslations('meet');
   const [player, setPlayer] = useState<VideoJsPlayer>();
   const session = store.getState().session;
 
@@ -76,7 +78,7 @@ const VideoJsPlayerComponent = ({
         },
       });
 
-      sendWebsocketMessage(dataMsg.toBinary());
+      sendWebsocketMessage(dataMsg.toBinary(), t);
     };
 
     if (player) {

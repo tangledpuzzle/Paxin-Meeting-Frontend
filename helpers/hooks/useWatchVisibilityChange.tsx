@@ -6,8 +6,10 @@ import {
   DataMsgBodyType,
   DataMsgType,
 } from '../proto/plugnmeet_datamessage_pb';
+import { useTranslations } from 'next-intl';
 
 const useWatchVisibilityChange = () => {
+  const t = useTranslations('meet');
   const [hidden, setHidden] = useState<boolean>(false);
 
   useEffect(() => {
@@ -88,7 +90,7 @@ const useWatchVisibilityChange = () => {
       },
     });
 
-    sendWebsocketMessage(dataMsg.toBinary());
+    sendWebsocketMessage(dataMsg.toBinary(), t);
   }, [hidden]);
 };
 

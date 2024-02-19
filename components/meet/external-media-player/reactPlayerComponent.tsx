@@ -8,6 +8,7 @@ import {
   DataMsgBodyType,
   DataMsgType,
 } from '@/helpers/proto/plugnmeet_datamessage_pb';
+import { useTranslations } from 'next-intl';
 
 interface IReactPlayerComponentProps {
   src: string;
@@ -31,6 +32,7 @@ const ReactPlayerComponent = ({
   seekTo,
   isPresenter,
 }: IReactPlayerComponentProps) => {
+  const t = useTranslations('meet');
   const [paused, setPaused] = useState<boolean>(true);
   const [isReady, setIsReady] = useState<boolean>(false);
   const [playing, setPlaying] = useState<boolean>(false);
@@ -84,7 +86,7 @@ const ReactPlayerComponent = ({
         },
       });
 
-      sendWebsocketMessage(dataMsg.toBinary());
+      sendWebsocketMessage(dataMsg.toBinary(), t);
     };
 
     if (paused) {

@@ -46,7 +46,7 @@ export default async function ProfilePageLayout({
           username: data.data.user.name,
         }}
       />
-      <div className='absolute top-0 mt-20 w-full'>
+      <div className='absolute top-0 mt-32 w-full sm:mt-20'>
         <PaxMeet />
       </div>
     </>

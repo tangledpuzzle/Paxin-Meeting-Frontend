@@ -23,6 +23,7 @@ const useLocalRecording = (
   const [recordingEvent, setRecordingEvent] = useState<RecordingEvent>(
     RecordingEvent.NONE
   );
+  const t = useTranslations('meet');
   const [hasError, setHasError] = useState<boolean>(false);
   const [captureStream, setCaptureStream] = useState<MediaStream | null>(null);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
@@ -35,7 +36,6 @@ const useLocalRecording = (
     audio: true,
   };
   const session = store.getState().session;
-  const t = useTranslations('meet');
 
   const startRecording = async () => {
     if (captureStream) {
@@ -178,7 +178,7 @@ const useLocalRecording = (
     }
 
     const dataMsg = new DataMessage(data);
-    sendWebsocketMessage(dataMsg.toBinary());
+    sendWebsocketMessage(dataMsg.toBinary(), t);
   };
 
   const resetError = () => {

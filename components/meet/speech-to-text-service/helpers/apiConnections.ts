@@ -182,7 +182,7 @@ export const openConnectionWithAzure = (
         });
       }
     }
-    broadcastSpeechToTextMsgs(data);
+    broadcastSpeechToTextMsgs(data, intl);
   };
 
   recognizer.recognized = (
@@ -210,7 +210,7 @@ export const openConnectionWithAzure = (
         });
       }
     }
-    broadcastSpeechToTextMsgs(data);
+    broadcastSpeechToTextMsgs(data, intl);
   };
 
   recognizer.canceled = async (
@@ -237,11 +237,14 @@ export const openConnectionWithAzure = (
   setRecognizer(recognizer);
 };
 
-export const broadcastSpeechToTextMsgs = (msg: {
-  type: SpeechSubtitleTypes;
-  from: string;
-  result: { [k: string]: string };
-}) => {
+export const broadcastSpeechToTextMsgs = (
+  msg: {
+    type: SpeechSubtitleTypes;
+    from: string;
+    result: { [k: string]: string };
+  },
+  intl: (...e: any[]) => string
+) => {
   if (!session) {
     session = getSession();
   }
@@ -260,7 +263,7 @@ export const broadcastSpeechToTextMsgs = (msg: {
     },
   });
 
-  sendWebsocketMessage(dataMsg.toBinary());
+  sendWebsocketMessage(dataMsg.toBinary(), intl);
 };
 
 export const getAzureToken = async () => {
