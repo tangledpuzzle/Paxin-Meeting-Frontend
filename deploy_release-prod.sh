@@ -49,7 +49,6 @@ ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
   source ~/.nvm/nvm.sh
   nvm use node
   npm i
-  export NODE_OPTIONS="--max-old-space-size=4096"
   npm run build
   pm2 restart paxintrade-frontend
 ENDSSH
