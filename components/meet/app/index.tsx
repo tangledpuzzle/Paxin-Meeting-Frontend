@@ -48,6 +48,10 @@ import { getDirectionBasedOnLocale } from '@/helpers/languages';
 import type { Locale } from '@/helpers/languages';
 
 // declare const IS_PRODUCTION: boolean;
+// const debugSelector = createSelector(
+//   (state: RootState) => state,
+//   (e) => e
+// );
 const waitingForApprovalSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata,
   (metadata) => metadata?.wait_for_approval
@@ -63,7 +67,7 @@ const Meet = () => {
   document.dir = getDirectionBasedOnLocale(locale as Locale);
   // // make sure we're using correct body dir
   // // document.dir = i18n.dir();
-
+  // const debugStore = useAppSelector(debugSelector);
   const toastId = useRef<string>(null);
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -73,7 +77,7 @@ const Meet = () => {
   const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
   const [currentConnection, setCurrentConnection] = useState<IConnectLivekit>();
   const waitForApproval = useAppSelector(waitingForApprovalSelector);
-
+  // console.log('[App Store]: ', debugStore);
   // // we'll require making ready virtual background
   // // elements as early as possible.
   useBodyPix();
