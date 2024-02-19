@@ -62,6 +62,7 @@ export const savePageData = (
 };
 
 export const displaySavedPageData = (
+  intl: (...e: any[]) => string,
   excalidrawAPI: ExcalidrawImperativeAPI,
   isPresenter: boolean,
   page: number
@@ -73,7 +74,7 @@ export const displaySavedPageData = (
       excalidrawAPI.updateScene({ elements });
       if (isPresenter) {
         // better to broadcast full screen
-        broadcastSceneOnChange(elements, true);
+        broadcastSceneOnChange(intl, elements, true);
       }
     }
   }

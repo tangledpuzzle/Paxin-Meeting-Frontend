@@ -7,7 +7,7 @@ import {
   DataMsgType,
 } from '../proto/plugnmeet_datamessage_pb';
 
-export const onAfterOpenConnection = () => {
+export const onAfterOpenConnection = (intl: (...e: any[]) => string) => {
   const session = store.getState().session;
   const participants = participantsSelector
     .selectAll(store.getState())
@@ -36,7 +36,7 @@ export const onAfterOpenConnection = () => {
     },
   });
 
-  sendWebsocketMessage(dataMsg.toBinary());
+  sendWebsocketMessage(dataMsg.toBinary(), intl);
 
   // send initial whiteboard elements
   // this is also helpful if user got reconnect
@@ -55,5 +55,5 @@ export const onAfterOpenConnection = () => {
     },
   });
 
-  sendWebsocketMessage(whiteboardElms.toBinary());
+  sendWebsocketMessage(whiteboardElms.toBinary(), intl);
 };

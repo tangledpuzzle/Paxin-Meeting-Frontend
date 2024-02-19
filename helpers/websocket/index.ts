@@ -36,7 +36,7 @@ const createWS = (intl: (e: any) => string) => {
   ws.onopen = () => {
     isConnected = true;
     isFirstTime = false;
-    onAfterOpenConnection();
+    onAfterOpenConnection(intl);
     store.dispatch(updateIsChatServiceReady(true));
 
     if (isReconnecting) {
@@ -69,11 +69,11 @@ const createWS = (intl: (e: any) => string) => {
   };
 
   ws.onmessage = (event: any) => {
-    onMessage(event);
+    onMessage(event, intl);
   };
 };
 
-const onMessage = (event: any) => {
+const onMessage = (event: any, intl: (...e: any[]) => string) => {
   if (event.data) {
     let data: DataMessage;
     try {
@@ -86,7 +86,7 @@ const onMessage = (event: any) => {
     if (data.type === DataMsgType.USER && data.body) {
       handleUserTypeData(data.body, data.messageId, data.to);
     } else if (data.type === DataMsgType.SYSTEM) {
-      handleSystemTypeData(data);
+      handleSystemTypeData(data, intl);
     } else if (data.type === DataMsgType.WHITEBOARD) {
       if (data.body) {
         handleWhiteboardMsg(data.body);

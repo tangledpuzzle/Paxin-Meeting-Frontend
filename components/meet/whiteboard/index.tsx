@@ -43,7 +43,7 @@ import {
 } from './helpers/utils';
 
 import './style.scss';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface WhiteboardProps {
   onReadyExcalidrawAPI: (excalidrawAPI: ExcalidrawImperativeAPI) => void;
@@ -74,6 +74,7 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
   const collaborators = new Map<string, Collaborator>();
 
   const lang = useLocale();
+  const t = useTranslations('meet');
   const [excalidrawAPI, excalidrawRefCallback] =
     useCallbackRefState<ExcalidrawImperativeAPI>();
   const [viewModeEnabled, setViewModeEnabled] = useState(true);
@@ -107,7 +108,7 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
         // if presenter then we'll fetch storage to display after initialize excalidraw
         setTimeout(() => {
           const currentPage = s.whiteboard.currentPage;
-          displaySavedPageData(excalidrawAPI, isPresenter, currentPage);
+          displaySavedPageData(t, excalidrawAPI, isPresenter, currentPage);
         }, 100);
       }
     } else if (
@@ -124,14 +125,15 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
     if (!fetchedData && excalidrawAPI) {
       // get initial data from other users
       // who had joined before me
-      sendRequestedForWhiteboardData();
+      sendRequestedForWhiteboardData(t);
       setFetchedData(true);
     }
 
     if (whiteboard.requestedWhiteboardData.requested && excalidrawAPI) {
       sendWhiteboardDataAsDonor(
         excalidrawAPI,
-        whiteboard.requestedWhiteboardData.sendTo
+        whiteboard.requestedWhiteboardData.sendTo,
+        t
       );
     }
   }, [excalidrawAPI, whiteboard.requestedWhiteboardData, fetchedData]);
@@ -436,12 +438,13 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
       }
       if (getSceneVersion(elements) > lastBroadcastOrReceivedSceneVersion) {
         setLastBroadcastOrReceivedSceneVersion(getSceneVersion(elements));
-        broadcastSceneOnChange(elements, false);
+        broadcastSceneOnChange(t, elements, false);
       }
 
       // broadcast AppState Changes
       if (isPresenter) {
         broadcastAppStateChanges(
+          t,
           appState.height,
           appState.width,
           appState.scrollX,
@@ -473,7 +476,7 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
           userId: currentUser.userId,
           name: currentUser.name,
         };
-        broadcastMousePointerUpdate(msg);
+        broadcastMousePointerUpdate(t, msg);
       }
     },
     CURSOR_SYNC_TIMEOUT

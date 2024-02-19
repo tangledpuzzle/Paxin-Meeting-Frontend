@@ -459,7 +459,7 @@ export default class ConnectLivekit
         },
       });
 
-      sendWebsocketMessage(dataMsg.toBinary());
+      sendWebsocketMessage(dataMsg.toBinary(), this.intl);
     }, RENEW_TOKEN_FREQUENT);
   };
 
