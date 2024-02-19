@@ -48,9 +48,9 @@ ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
   git pull origin \$BRANCH_NAME
   source ~/.nvm/nvm.sh
   nvm use node
-  npm i
+  npm install
   npm run build
-  pm2 restart paxintrade-frontend
+  pm2 restart ecosystem.config.js
 ENDSSH
 
 # Clean up the private key
