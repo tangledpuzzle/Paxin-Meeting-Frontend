@@ -94,7 +94,7 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
     if (currentWhiteboardOfficeFileId !== previousFileId && isPresenter) {
       setTimeout(() => {
         if (excalidrawAPI) {
-          displaySavedPageData(excalidrawAPI, isPresenter, currentPage);
+          displaySavedPageData(t, excalidrawAPI, isPresenter, currentPage);
         }
       }, 500);
     }
@@ -113,7 +113,7 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
         savePageData(excalidrawAPI, previousPage);
       }
       cleanExcalidraw();
-      displaySavedPageData(excalidrawAPI, isPresenter, currentPage);
+      displaySavedPageData(t, excalidrawAPI, isPresenter, currentPage);
     }
   };
 
@@ -124,7 +124,7 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
   };
 
   const setCurrentPage = (page: number) => {
-    broadcastCurrentPageNumber(page);
+    broadcastCurrentPageNumber(t, page);
     setTimeout(() => {
       dispatch(setWhiteboardCurrentPage(page));
     }, 500);

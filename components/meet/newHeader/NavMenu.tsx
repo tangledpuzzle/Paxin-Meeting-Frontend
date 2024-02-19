@@ -9,6 +9,8 @@ import { siteConfig } from '@/config/site';
 // import { cn } from '@/lib/utils';
 // import { useLocale, useTranslations } from 'next-intl';
 import toast from 'react-hot-toast';
+import { copyToClipboard } from '@/helpers/utils';
+import CopyClipboard from './CopyClipboard';
 
 interface MainNavProps {
   id: string;
@@ -18,7 +20,7 @@ export function MainNav({ id }: MainNavProps) {
   // const t = useTranslations('main');
 
   return (
-    <div className='flex gap-6 md:gap-10'>
+    <div className='flex gap-6 md:gap-24'>
       <Link href='/' className='flex items-center gap-2'>
         <Image
           src='/logo-black.svg'
@@ -38,17 +40,14 @@ export function MainNav({ id }: MainNavProps) {
           {siteConfig.name}
         </span>
       </Link>
-      <div>PAX- Real TIME Meeting(Room ID: {id})</div>
-      <CopyToClipboard
-        text={id}
-        onCopy={() => {
-          toast.success('Room ID is copied to clipboard!');
-        }}
-      >
-        <div className='notepad inline-block h-8 w-8 items-center justify-center rounded-full'>
-          <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
-        </div>
-      </CopyToClipboard>
+      <div className='hidden justify-between sm:flex'>
+        <div>PAX- Real TIME Meeting(Room ID: {id})</div>
+        <CopyClipboard text={id}>
+          <div className='notepad inline-block h-8 w-8 items-center justify-center rounded-full'>
+            <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
+          </div>
+        </CopyClipboard>
+      </div>
     </div>
   );
 }

@@ -48,6 +48,10 @@ import { getDirectionBasedOnLocale } from '@/helpers/languages';
 import type { Locale } from '@/helpers/languages';
 
 // declare const IS_PRODUCTION: boolean;
+const debugSelector = createSelector(
+  (state: RootState) => state,
+  (e) => e
+);
 const waitingForApprovalSelector = createSelector(
   (state: RootState) => state.session.currentUser?.metadata,
   (metadata) => metadata?.wait_for_approval
@@ -63,7 +67,7 @@ const Meet = () => {
   document.dir = getDirectionBasedOnLocale(locale as Locale);
   // // make sure we're using correct body dir
   // // document.dir = i18n.dir();
-
+  const debugStore = useAppSelector(debugSelector);
   const toastId = useRef<string>(null);
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -73,7 +77,7 @@ const Meet = () => {
   const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
   const [currentConnection, setCurrentConnection] = useState<IConnectLivekit>();
   const waitForApproval = useAppSelector(waitingForApprovalSelector);
-
+  console.log('[App Store]: ', debugStore);
   // // we'll require making ready virtual background
   // // elements as early as possible.
   useBodyPix();
@@ -90,7 +94,7 @@ const Meet = () => {
   useKeyboardShortcuts(currentConnection?.room);
   useDesignCustomization();
   useWatchVisibilityChange();
-  const { deviceClass, orientationClass, screenHeight } = useWatchWindowSize(
+  const { deviceClass, orientationClass } = useWatchWindowSize(
     currentConnection?.room
   );
   // function clearStoreToken() {
@@ -245,7 +249,7 @@ const Meet = () => {
   const renderMainApp = useCallback(() => {
     if (currentConnection) {
       return (
-        <div className='plugNmeet-app flex h-full flex-col justify-between  overflow-hidden'>
+        <div className='plugNmeet-app flex h-full flex-col justify-between  overflow-x-hidden'>
           {/* {!isRecorder ? <Header currentRoom={currentConnection.room} /> : null} */}
           <MainArea
             isRecorder={isRecorder}
@@ -264,11 +268,8 @@ const Meet = () => {
 
   const onCloseStartupModal = async () => {
     if (livekitInfo) {
-      const currentConnection = startLivekitConnection(
-        livekitInfo,
-        //@ts-ignore
-        (e: string) => t(e) as string
-      );
+      // @ts-ignore
+      const currentConnection = startLivekitConnection(livekitInfo, t);
       setCurrentConnection(currentConnection);
     }
   };
@@ -297,7 +298,7 @@ const Meet = () => {
   console.log('[Status]', roomConnectionStatus, isStartup);
   return (
     <div
-      className={`${orientationClass} ${deviceClass} ${userTypeClass} h-[calc(100vh-80px)] dark:bg-darkPrimary/70`}
+      className={`${orientationClass} ${deviceClass} ${userTypeClass} h-[calc(100vh-129px)] dark:bg-darkPrimary/70 sm:h-[calc(100vh-80px)]`}
       // style={{ height: screenHeight }}
     >
       {renderElms}
