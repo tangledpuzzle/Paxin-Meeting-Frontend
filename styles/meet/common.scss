@@ -54,7 +54,7 @@ code {
 // ScrollBar SCSS
 .scrollBar {
   &::-webkit-scrollbar-thumb {
-    @apply bg-secondaryColor border-none rounded-[5px];
+    @apply rounded-[5px] border-none bg-secondaryColor;
   }
 
   &::-webkit-scrollbar-track {
@@ -98,7 +98,7 @@ code {
     }
 
     &::-webkit-scrollbar-thumb {
-      @apply bg-secondaryColor border-none rounded-[5px];
+      @apply rounded-[5px] border-none bg-secondaryColor;
     }
   }
 }
@@ -111,11 +111,11 @@ code {
   }
 
   p.message-content {
-    @apply p-[10px] text-sm break-words rounded-MSG;
+    @apply break-words rounded-MSG p-[10px] text-sm;
     span.download {
       @apply relative;
       i.pnm-download {
-        @apply text-base absolute -top-[2px] mr-[2px];
+        @apply absolute -top-[2px] mr-[2px] text-base;
       }
 
       a {
@@ -147,23 +147,23 @@ code {
 
 // Webcam Area SCSS
 .all-webcam-wrapper {
-  @apply h-full flex items-center;
+  @apply flex h-full items-center;
   &::-webkit-scrollbar {
     @apply hidden;
   }
 
   .all-webcam-wrapper-inner {
-    @apply w-full h-full p-5 grid gap-2;
+    @apply grid h-full w-full gap-2 p-5;
     .camera-row-0 {
-      @apply flex gap-2 justify-center;
+      @apply flex justify-center gap-2;
     }
 
     .camera-row-1 {
-      @apply flex gap-2 justify-center;
+      @apply flex justify-center gap-2;
     }
 
     .camera-row-2 {
-      @apply flex gap-2 justify-center;
+      @apply flex justify-center gap-2;
     }
 
     .camera-row-0.total-items-2 {
@@ -326,9 +326,9 @@ code {
   }
 
   button.previous-cam {
-    @apply absolute top-[48%] w-[120px] h-[30px] z-[1] bg-black/50 text-center transition-all -rotate-90 -left-[55px] rounded-tlblD pt-[6px];
+    @apply absolute -left-[55px] top-[48%] z-[1] h-[30px] w-[120px] -rotate-90 rounded-tlblD bg-black/50 pt-[6px] text-center transition-all;
     i {
-      @apply w-[20px] m-auto transition-all text-white;
+      @apply m-auto w-[20px] text-white transition-all;
     }
 
     &:hover {
@@ -339,9 +339,9 @@ code {
   }
 
   button.next-cam {
-    @apply absolute top-[48%] w-[120px] h-[30px] z-[1] bg-black/50 text-center transition-all -rotate-90 left-auto -right-[55px] rounded-trbrD pt-[2px];
+    @apply absolute -right-[55px] left-auto top-[48%] z-[1] h-[30px] w-[120px] -rotate-90 rounded-trbrD bg-black/50 pt-[2px] text-center transition-all;
     i {
-      @apply w-[20px] m-auto transition-all text-white;
+      @apply m-auto w-[20px] text-white transition-all;
     }
 
     &:hover {
@@ -359,20 +359,20 @@ code {
 }
 
 .select-camera-number {
-  @apply flex items-center absolute left-6 text-xs top-0;
+  @apply absolute left-6 top-0 flex items-center text-xs;
   select#select-camera-num {
-    @apply bg-transparent border border-solid border-[#333] mr-[5px] outline-none;
+    @apply mr-[5px] border border-solid border-[#333] bg-transparent outline-none;
   }
 }
 
 .video-camera-item {
-  @apply w-full h-full rounded-2xl overflow-hidden z-[1] bg-black;
+  @apply z-[1] h-full w-full overflow-hidden rounded-2xl bg-black;
   .loading {
     @apply top-1/2 -translate-y-1/2;
   }
 
   &::before {
-    @apply absolute content-[''] w-full h-full border-[5px] border-solid border-transparent z-[999] rounded-[15px];
+    @apply absolute z-[999] h-full w-full rounded-[15px] border-[5px] border-solid border-transparent content-[''];
   }
 
   &::after {
@@ -381,30 +381,30 @@ code {
       rgba(0, 0, 0, 0.4) 0%,
       rgba(0, 0, 0, 0.1) 50%
     );
-    @apply absolute content-[''] w-full h-full z-[99];
+    @apply absolute z-[99] h-full w-full content-[''];
   }
 
   .name {
-    @apply absolute bottom-[10px] z-[999] text-white left-3 text-sm leading-[1];
+    @apply absolute bottom-[10px] left-3 z-[999] text-sm leading-[1] text-white;
   }
 
   .camera-modules {
     .camera-video-player {
-      @apply flex h-full w-full absolute;
+      @apply absolute flex h-full w-full;
       video.camera-video {
-        @apply w-full h-full;
+        @apply h-full w-full;
       }
     }
 
     .status {
-      @apply absolute z-[999] rounded-full bottom-3 right-3 flex items-center justify-center;
+      @apply absolute bottom-3 right-3 z-[999] flex items-center justify-center rounded-full;
       > div {
-        @apply rounded-full bg-black/20 p-2 h-5 flex items-center justify-center;
+        @apply flex h-5 items-center justify-center rounded-full bg-black/20 p-2;
       }
     }
 
     .status.PinWebcam {
-      @apply right-auto left-3 top-3 items-start;
+      @apply left-3 right-auto top-3 items-start;
     }
   }
 }
@@ -427,14 +427,14 @@ code {
       rgba(243, 237, 249, 1) 67%,
       rgba(214, 231, 255, 1) 100%
     );
-    @apply absolute w-[270px] h-full block py-[30px] px-0 z-[2] left-0;
+    @apply absolute left-0 z-[2] block h-full w-[270px] px-0 py-[30px];
     .video-camera-item {
       &::after {
         @apply bg-transparent opacity-100;
       }
 
       .name {
-        @apply opacity-100 top-auto left-3;
+        @apply left-3 top-auto opacity-100;
       }
 
       .connection-status {
@@ -447,15 +447,15 @@ code {
     }
 
     button.previous-cam {
-      @apply top-0 w-full left-0 rotate-0;
+      @apply left-0 top-0 w-full rotate-0;
     }
 
     button.next-cam {
-      @apply absolute w-full left-0 rotate-0 bottom-0 top-auto;
+      @apply absolute bottom-0 left-0 top-auto w-full rotate-0;
     }
 
     .all-webcam-wrapper-inner {
-      @apply block py-0 px-[5px];
+      @apply block px-[5px] py-0;
     }
   }
 
@@ -464,28 +464,28 @@ code {
   }
 
   .middle-fullscreen-wrapper {
-    @apply flex-[auto] w-full h-full;
+    @apply h-full w-full flex-[auto];
   }
 }
 
 .SpeechHistory {
   &::before {
     content: '';
-    @apply absolute h-[12px] w-[12px] bg-white dark:bg-darkPrimary bottom-[-6px] left-14 rotate-45 border border-solid border-darkPrimary/40;
+    @apply absolute bottom-[-6px] left-14 h-[12px] w-[12px] rotate-45 border border-solid border-darkPrimary/40 bg-white dark:bg-darkPrimary;
   }
 }
 
 // Tool Tip
 .tooltip {
-  @apply invisible absolute shadow-lg rounded text-[13px] text-darkPrimary dark:text-darkText py-[6px] px-[10px] inline-block bg-gray-100 dark:bg-darkSecondary2 w-[150px] m-0 bottom-[52px] text-center;
+  @apply invisible absolute bottom-[52px] m-0 inline-block w-[150px] rounded bg-gray-100 px-[10px] py-[6px] text-center text-[13px] text-darkPrimary shadow-lg dark:bg-darkSecondary2 dark:text-darkText;
   &::before {
     content: '';
-    @apply absolute h-[12px] w-[12px] bg-gray-100 dark:bg-darkSecondary2 bottom-[-6px] left-0 right-0 m-auto rotate-45 border border-solid border-darkPrimary/40;
+    @apply absolute bottom-[-6px] left-0 right-0 m-auto h-[12px] w-[12px] rotate-45 border border-solid border-darkPrimary/40 bg-gray-100 dark:bg-darkSecondary2;
   }
 
   &::after {
     content: '';
-    @apply absolute h-2 w-full bg-gray-100 dark:bg-darkSecondary2 left-0 bottom-0 rounded;
+    @apply absolute bottom-0 left-0 h-2 w-full rounded bg-gray-100 dark:bg-darkSecondary2;
   }
 }
 
@@ -545,7 +545,7 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
 .vertical-webcams {
   .all-webcam-wrapper-inner {
     .video-camera-item {
-      @apply h-[calc(33.33%-10px)] my-2 mx-0;
+      @apply mx-0 my-2 h-[calc(33.33%-10px)];
     }
   }
 }
@@ -555,11 +555,11 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
   .screen-share-video {
     @apply h-full w-full;
     video.video-player {
-      @apply h-[calc(100%-30px)] w-[calc(100%-30px)] top-[15px] left-[15px];
+      @apply left-[15px] top-[15px] h-[calc(100%-30px)] w-[calc(100%-30px)];
     }
 
     video.video-player.self-screen-share {
-      @apply w-[30%] left-[35%];
+      // @apply w-[30%] left-[35%];
     }
   }
 }
@@ -569,7 +569,7 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
 .footer-podcast-button {
   @apply relative;
   .lds-ripple {
-    @apply absolute w-[30px] h-[30px] left-2;
+    @apply absolute left-2 h-[30px] w-[30px];
     div {
       @apply border-2 border-solid border-[rgb(0,77,144)];
       -webkit-animation: lds-ripple2 0.8s cubic-bezier(0, 0.2, 0.8, 1) infinite;
@@ -584,11 +584,11 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
 }
 
 .transition-left-panel {
-  @apply absolute h-full shadow-panel z-[3];
+  @apply absolute z-[3] h-full shadow-panel;
 }
 
 .transition-right-panel {
-  @apply absolute right-0 h-full shadow-panel z-[2];
+  @apply absolute right-0 z-[2] h-full shadow-panel;
 }
 
 .media-player-inner {
@@ -601,12 +601,12 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
     margin: auto;
 
     > div {
-      @apply overflow-hidden pb-[56.25%] relative;
+      @apply relative overflow-hidden pb-[56.25%];
     }
   }
 
   iframe {
-    @apply left-0 top-0 h-full w-full absolute;
+    @apply absolute left-0 top-0 h-full w-full;
   }
 }
 
@@ -619,25 +619,25 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
 }
 
 .range {
-  @apply appearance-none align-middle    outline-none border-none p-0 bg-transparent w-full;
+  @apply w-full appearance-none    border-none bg-transparent p-0 align-middle outline-none;
   &::-webkit-slider-runnable-track {
     background-color: rgba(128, 128, 128, 0.5);
     height: 10px;
     border-radius: 5px;
     border: 1px solid transparent;
-    @apply bg-[rgba(128,128,128,0.5)] dark:bg-secondaryColor/90 h-[10px] rounded-[5px] border border-solid border-transparent;
+    @apply h-[10px] rounded-[5px] border border-solid border-transparent bg-[rgba(128,128,128,0.5)] dark:bg-secondaryColor/90;
   }
 
   &::-moz-range-track {
-    @apply bg-[rgba(128,128,128,0.5)] dark:bg-secondaryColor/90 h-[10px] rounded-[5px] border border-solid border-transparent;
+    @apply h-[10px] rounded-[5px] border border-solid border-transparent bg-[rgba(128,128,128,0.5)] dark:bg-secondaryColor/90;
   }
 
   &::-webkit-slider-thumb {
-    @apply appearance-none rounded-full bg-primaryColor dark:bg-white h-[18px] w-[18px] -mt-[5px];
+    @apply -mt-[5px] h-[18px] w-[18px] appearance-none rounded-full bg-primaryColor dark:bg-white;
   }
 
   &::-moz-range-thumb {
-    @apply rounded-[20px] h-[18px] w-[18px] border-none bg-primaryColor;
+    @apply h-[18px] w-[18px] rounded-[20px] border-none bg-primaryColor;
   }
 
   &:active {
@@ -716,7 +716,7 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
 
     .middle-fullscreen-wrapper {
       .notepad-wrapper {
-        @apply h-[94%] top-[3%] relative mt-0;
+        @apply relative top-[3%] mt-0 h-[94%];
       }
 
       .externalMediaPlayerWrapper {
@@ -733,7 +733,7 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
       }
 
       .external-display-link-wrapper {
-        @apply h-full m-0 p-2;
+        @apply m-0 h-full p-2;
       }
 
       .all-webcam-wrapper.vertical-webcams.total-cam-1 {
@@ -801,22 +801,22 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
   #main-area.fullWidthMainArea {
     .verticalsWebcamsActivated {
       .excalidraw-wrapper {
-        @apply h-[calc(100%-110px)] m-0 p-2;
+        @apply m-0 h-[calc(100%-110px)] p-2;
       }
 
       .notepad-wrapper {
-        @apply h-[calc(100%-110px)] m-0 p-2;
+        @apply m-0 h-[calc(100%-110px)] p-2;
       }
 
       .Div-external-media-player {
-        @apply h-[calc(100%-110px)] m-0 p-2;
+        @apply m-0 h-[calc(100%-110px)] p-2;
         .externalMediaPlayerWrapper {
           @apply p-0;
         }
       }
 
       .external-display-link-wrapper {
-        @apply h-[calc(100%-110px)] m-0 p-2;
+        @apply m-0 h-[calc(100%-110px)] p-2;
       }
 
       .screen-share-video {
@@ -827,19 +827,19 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
 
   .middle-fullscreen-wrapper {
     .screen-share-video {
-      @apply h-full m-0 p-2;
+      @apply m-0 h-full p-2;
     }
 
     .external-display-link-wrapper {
-      @apply h-full m-0 p-2;
+      @apply m-0 h-full p-2;
     }
 
     .notepad-wrapper {
-      @apply h-full m-0 p-2;
+      @apply m-0 h-full p-2;
     }
 
     .excalidraw-wrapper {
-      @apply h-full m-0 p-2;
+      @apply m-0 h-full p-2;
     }
   }
 
@@ -903,14 +903,14 @@ aside {
   .camera-row-0.total-items-2 {
     @apply flex-wrap;
     .video-camera-item {
-      @apply w-full h-1/2;
+      @apply h-1/2 w-full;
     }
   }
 
   .camera-row-0.total-items-3 {
     @apply flex-wrap;
     .video-camera-item {
-      @apply w-full h-1/3;
+      @apply h-1/3 w-full;
     }
   }
 
@@ -918,11 +918,11 @@ aside {
   #main-area.fullWidthMainArea {
     .middle-fullscreen-wrapper {
       .all-webcam-wrapper {
-        @apply absolute h-auto w-full z-[9] p-0 -bottom-[5px];
+        @apply absolute -bottom-[5px] z-[9] h-auto w-full p-0;
         .all-webcam-wrapper-inner {
-          @apply m-0 py-0 px-[15px] flex-wrap gap-0;
+          @apply m-0 flex-wrap gap-0 px-[15px] py-0;
           .video-camera-item {
-            @apply w-full m-[5px] h-[100px] pb-0 max-w-[135px];
+            @apply m-[5px] h-[100px] w-full max-w-[135px] pb-0;
           }
         }
       }
@@ -959,11 +959,11 @@ aside {
         display: flex !important;
         @apply justify-center;
         button.next-cam {
-          @apply -right-[42px] w-[100px] left-auto h-5 top-[45px] -rotate-90;
+          @apply -right-[42px] left-auto top-[45px] h-5 w-[100px] -rotate-90;
         }
 
         button.previous-cam {
-          @apply right-auto w-[100px] -left-[42px] h-5 top-[45px] -rotate-90 pt-0;
+          @apply -left-[42px] right-auto top-[45px] h-5 w-[100px] -rotate-90 pt-0;
         }
       }
     }
@@ -1011,7 +1011,7 @@ aside {
 .header-collapse-arrow span::before {
   content: '';
   bottom: -6px;
-  @apply absolute w-[10px] h-[10px] bg-white dark:bg-darkPrimary right-5 rotate-45;
+  @apply absolute right-5 h-[10px] w-[10px] rotate-45 bg-white dark:bg-darkPrimary;
 }
 
 .header-collapse-arrow span::before {

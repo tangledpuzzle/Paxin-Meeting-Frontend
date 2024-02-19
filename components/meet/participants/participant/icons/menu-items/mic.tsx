@@ -66,7 +66,7 @@ const MicMenuItem = ({ userId }: IMicMenuItemProps) => {
       },
     });
 
-    sendWebsocketMessage(dataMsg.toBinary());
+    sendWebsocketMessage(dataMsg.toBinary(), t);
 
     toast(
       t('left-panel.menus.notice.you-have-asked', {

@@ -52,7 +52,7 @@ export default class HandleDataMessages {
     switch (body.type) {
       case DataMsgBodyType.RAISE_HAND:
       case DataMsgBodyType.INFO:
-        toast(this.that.intl(body.msg as any), {
+        toast(body.msg as any, {
           type: 'info',
         });
         this.playNotification(body.type);

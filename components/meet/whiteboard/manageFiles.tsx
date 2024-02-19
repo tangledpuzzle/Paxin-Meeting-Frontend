@@ -75,7 +75,7 @@ const ManageFiles = ({ excalidrawAPI }: IManageFilesProps) => {
     await saveCurrentPageData();
     dispatch(updateCurrentWhiteboardOfficeFileId(f.fileId));
     await sleep(500);
-    broadcastWhiteboardOfficeFile(f);
+    broadcastWhiteboardOfficeFile(t, f);
   };
 
   const saveCurrentPageData = async () => {

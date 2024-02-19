@@ -148,7 +148,7 @@ const TextBoxArea = ({
     });
 
     if (isSocketConnected()) {
-      sendWebsocketMessage(dataMsg.toBinary());
+      sendWebsocketMessage(dataMsg.toBinary(), t);
       setMessage('');
     }
     onAfterSendMessage();
