@@ -66,7 +66,6 @@ const Providers: React.FC<IProps> = ({ children }) => {
         onlinehours: fetchedData.data?.user?.online_hours[0],
         totalposts: fetchedData.data?.user?.totalrestblog,
       });
-
     }
 
     setCurrentPlan(PLAN[fetchedData?.data?.user?.Plan as keyof typeof PLAN]);

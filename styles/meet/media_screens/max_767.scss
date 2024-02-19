@@ -16,14 +16,14 @@
   }
   .is-mobile.portrait-device {
     #main-area {
-      @apply h-[calc(100vh-180px)];
+      // @apply h-[calc(100vh-180px)];
     }
   }
   .message-form {
     .btns {
-      @apply w-[50px] py-[5px] px-0 -mt-[6px];
+      @apply -mt-[6px] w-[50px] px-0 py-[5px];
       button {
-        @apply w-[50px] mb-[10px];
+        @apply mb-[10px] w-[50px];
         i {
           @apply text-lg;
         }
@@ -32,7 +32,7 @@
   }
   .private-m-tab {
     &::before {
-      @apply absolute content-[''] h-1 w-full bg-[rgb(0,77,144,0.2)];
+      @apply absolute h-1 w-full bg-[rgb(0,77,144,0.2)] content-[''];
     }
   }
 }
