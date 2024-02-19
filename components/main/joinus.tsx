@@ -8,7 +8,7 @@ export default function JoinUsSection() {
   const t = useTranslations('main');
 
   return (
-    <div className="px-7">
+    <div className="px-0">
       <div>
           <div className='flex justify-center   bottom-[0px]  md:justify-center px-7 pb-0'>
               <div className='chevron'></div>
@@ -28,7 +28,7 @@ export default function JoinUsSection() {
             />
           {t('unlock_new_dimension_of_connectivity')}
       </div>
-      <div className='prose  mt-3 max-w-full md:text-center text-justify tracking-[-0.09rem] text-[1rem]	 font-satoshi text-gray-700/70 dark:text-white/70'>
+      <div className='prose  px-7 mt-3 max-w-full md:text-center text-justify tracking-[-0.09rem] text-[1rem]	 font-satoshi text-gray-700/70 dark:text-white/70'>
         {t('unlock_new_dimension_of_connectivity_description')}
       </div>
       <div className='relative mt-10 flex w-full items-center justify-center'>
