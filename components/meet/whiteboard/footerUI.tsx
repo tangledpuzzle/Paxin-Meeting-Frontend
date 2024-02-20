@@ -6,7 +6,7 @@ import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import { createSelector } from '@reduxjs/toolkit';
 import { setWhiteboardCurrentPage } from '@/store/slices/whiteboard';
 import { broadcastCurrentPageNumber } from './helpers/handleRequestedWhiteboardData';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { toast } from 'react-toastify';
 import {
   CommonResponse,

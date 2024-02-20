@@ -5,7 +5,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import { updateDisplayExternalLinkRoomModal } from '@/store/slices/bottomIconsActivitySlice';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import {
   CommonResponse,
   ExternalDisplayLinkReq,

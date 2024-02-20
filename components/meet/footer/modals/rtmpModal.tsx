@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import { updateShowRtmpModal } from '@/store/slices/bottomIconsActivitySlice';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { RecordingTasks } from '@/helpers/proto/plugnmeet_recorder_pb';
 import { RecordingReq } from '@/helpers/proto/plugnmeet_recording_pb';
 import { CommonResponse } from '@/helpers/proto/plugnmeet_common_api_pb';

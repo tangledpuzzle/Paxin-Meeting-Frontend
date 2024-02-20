@@ -6,7 +6,7 @@ import {
   updateIsActiveChatPanel,
   updateIsActiveSharedNotePad,
 } from '@/store/slices/bottomIconsActivitySlice';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { ChangeVisibilityRes } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { useTranslations } from 'next-intl';
 
