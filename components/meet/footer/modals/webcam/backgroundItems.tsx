@@ -109,11 +109,11 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
         );
       })}
       <div className='upload-btn-wrap relative inline-block w-full cursor-pointer overflow-hidden pt-2'>
-        <button className='btn cursor-pointer rounded border border-dotted border-[#24aef7] bg-transparent px-4 py-2 text-xs text-secondaryColor'>
+        <button className='btn cursor-pointer rounded border border-dotted border-[#24aef7] bg-transparent px-4 py-2 text-xs text-black'>
           {t('footer.modal.upload-background-image')}
         </button>
         <input
-          className='absolute left-0 top-0 size-full cursor-pointer opacity-0'
+          className='absolute left-0 top-0 size-full cursor-pointer opacity-0 '
           ref={customFileRef}
           type='file'
           onChange={customBgImage}
