@@ -37,5 +37,5 @@ pipelines:
             - echo "Deploying to production environment"
             - chmod +x ./deploy_release-prod.sh
             - apt-get update
-            - apt-get install rsync
+            - apt-get install -y rsync
             - ./deploy_release-prod.sh
