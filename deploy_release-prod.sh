@@ -29,11 +29,12 @@ ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
   source ~/.nvm/nvm.sh || exit 1
   nvm use node || nvm install node
   pm2 stop ecosystem.config.js || true
+  pm2 delete ecosystem.config.js || true
   rm -rf ./*
 ENDSSH
 
 # Copy the build artifacts to the server's deployment directory
-scp -r -i "$PRIVATE_KEY_PATH" .next/standalone/* "$HOST_ADDRESS":~/workspace/paxintrade/frontend-built
+rsync -avz -e "ssh -i $PRIVATE_KEY_PATH" --exclude '.git' .next/standalone/ "$HOST_ADDRESS":~/workspace/paxintrade/frontend-built
 
 # SSH into the EC2 instance
 ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
@@ -41,7 +42,8 @@ ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
   cd ~/workspace/paxintrade/frontend-built
   source ~/.nvm/nvm.sh || exit 1
   nvm use node || nvm install node
-  pm2 start ecosystem.config.js
+  pm2 start ecosystem.config.js || true
+  pm2 save || true
 ENDSSH
 
 # Clean up the private key
