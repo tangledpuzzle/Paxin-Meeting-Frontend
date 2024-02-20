@@ -26,7 +26,9 @@ const broadcastedElementVersions: Map<string, number> = new Map(),
 let preScrollX = 0,
   preScrollY = 0;
 
-export const sendRequestedForWhiteboardData = () => {
+export const sendRequestedForWhiteboardData = (
+  intl: (...e: any[]) => string
+) => {
   const session = store.getState().session;
   const participants = participantsSelector
     .selectAll(store.getState())
@@ -60,13 +62,14 @@ export const sendRequestedForWhiteboardData = () => {
       },
     });
 
-    sendWebsocketMessage(dataMsg.toBinary());
+    sendWebsocketMessage(dataMsg.toBinary(), intl);
   });
 };
 
 export const sendWhiteboardDataAsDonor = (
   excalidrawAPI: ExcalidrawImperativeAPI,
-  sendTo: string
+  sendTo: string,
+  intl: (...e: any[]) => string
 ) => {
   // broadcast page info first
   const whiteboard = store.getState().whiteboard;
@@ -86,11 +89,11 @@ export const sendWhiteboardDataAsDonor = (
     pageFiles: whiteboard.whiteboardOfficeFilePagesAndOtherImages,
   };
 
-  broadcastWhiteboardOfficeFile(newFile, sendTo);
+  broadcastWhiteboardOfficeFile(intl, newFile, sendTo);
 
   const elements = excalidrawAPI.getSceneElementsIncludingDeleted();
   if (elements.length) {
-    broadcastSceneOnChange(elements, true, sendTo);
+    broadcastSceneOnChange(intl, elements, true, sendTo);
   }
 
   // finally, change status of request
@@ -110,6 +113,7 @@ export const isSyncableElement = (element: ExcalidrawElement) => {
 };
 
 export const broadcastSceneOnChange = (
+  intl: (...e: any[]) => string,
   allElements: readonly ExcalidrawElement[],
   syncAll: boolean,
   sendTo?: string
@@ -139,10 +143,11 @@ export const broadcastSceneOnChange = (
     broadcastedElementVersions.set(syncableElement.id, syncableElement.version);
   }
 
-  broadcastScreenDataBySocket(syncableElements, sendTo);
+  broadcastScreenDataBySocket(intl, syncableElements, sendTo);
 };
 
 export const broadcastScreenDataBySocket = (
+  intl: (...e: any[]) => string,
   elements: readonly ExcalidrawElement[],
   sendTo?: string
 ) => {
@@ -165,10 +170,14 @@ export const broadcastScreenDataBySocket = (
     dataMsg.to = sendTo;
   }
 
-  sendWebsocketMessage(dataMsg.toBinary());
+  sendWebsocketMessage(dataMsg.toBinary(), intl);
 };
 
-export const broadcastCurrentPageNumber = (page: number, sendTo?: string) => {
+export const broadcastCurrentPageNumber = (
+  intl: (...e: any[]) => string,
+  page: number,
+  sendTo?: string
+) => {
   const session = store.getState().session;
   const dataMsg = new DataMessage({
     type: DataMsgType.WHITEBOARD,
@@ -188,10 +197,11 @@ export const broadcastCurrentPageNumber = (page: number, sendTo?: string) => {
     dataMsg.to = sendTo;
   }
 
-  sendWebsocketMessage(dataMsg.toBinary());
+  sendWebsocketMessage(dataMsg.toBinary(), intl);
 };
 
 export const broadcastWhiteboardOfficeFile = (
+  intl: (...e: any[]) => string,
   newFile: IWhiteboardOfficeFile,
   sendTo?: string
 ) => {
@@ -214,10 +224,13 @@ export const broadcastWhiteboardOfficeFile = (
     dataMsg.to = sendTo;
   }
 
-  sendWebsocketMessage(dataMsg.toBinary());
+  sendWebsocketMessage(dataMsg.toBinary(), intl);
 };
 
-export const broadcastMousePointerUpdate = (msg: any) => {
+export const broadcastMousePointerUpdate = (
+  intl: (...e: any[]) => string,
+  msg: any
+) => {
   const session = store.getState().session;
   const dataMsg = new DataMessage({
     type: DataMsgType.WHITEBOARD,
@@ -233,10 +246,11 @@ export const broadcastMousePointerUpdate = (msg: any) => {
     },
   });
 
-  sendWebsocketMessage(dataMsg.toBinary());
+  sendWebsocketMessage(dataMsg.toBinary(), intl);
 };
 
 export const broadcastAppStateChanges = (
+  intl: (...e: any[]) => string,
   height: number,
   width: number,
   scrollX: number,
@@ -280,5 +294,5 @@ export const broadcastAppStateChanges = (
     },
   });
 
-  sendWebsocketMessage(dataMsg.toBinary());
+  sendWebsocketMessage(dataMsg.toBinary(), intl);
 };

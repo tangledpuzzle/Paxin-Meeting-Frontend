@@ -57,7 +57,7 @@ const WebcamMenuItem = ({ userId }: IWebcamMenuItemProps) => {
       },
     });
 
-    sendWebsocketMessage(dataMsg.toBinary());
+    sendWebsocketMessage(dataMsg.toBinary(), t);
 
     toast(
       t('left-panel.menus.notice.you-have-asked', {

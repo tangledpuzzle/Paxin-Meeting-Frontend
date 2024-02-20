@@ -223,6 +223,7 @@ export default class HandleParticipants {
         this.lastConnectionQuality = connectionQuality;
 
         sendAnalyticsByWebsocket(
+          this.that.intl,
           AnalyticsEvents.ANALYTICS_EVENT_USER_CONNECTION_QUALITY,
           AnalyticsEventType.USER,
           connectionQuality.toString()

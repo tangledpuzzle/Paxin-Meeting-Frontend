@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 
 const timeZone: Intl.DateTimeFormatOptions = {
@@ -28,8 +29,8 @@ export default function Timer() {
     };
   }, []);
   return (
-    <span>
-      {time.toLocaleTimeString(undefined, timeZone)} -
+    <span className='text-sm sm:text-base'>
+      {time.toLocaleTimeString(undefined, timeZone)} -{' '}
       {time.toLocaleDateString(undefined, dateString)}
     </span>
   );

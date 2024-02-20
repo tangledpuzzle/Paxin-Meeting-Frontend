@@ -8,11 +8,11 @@ const API = axios.create({
 });
 
 const getToken = () => {
-  const token = store.getState().session.token;
-  if (token) {
-    console.log('Store.token', token);
-    return store.getState().session.token;
-  }
+  // const token = store.getState().session.token;
+  // if (token) {
+  //   console.log('Store.token', token);
+  //   return store.getState().session.token;
+  // }
 
   // this mostly happened during the first time before validation
   return getAccessToken();

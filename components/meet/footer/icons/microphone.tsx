@@ -129,6 +129,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
           const cal = Date.now() - lastSpokeAt;
           // send analytics
           sendAnalyticsByWebsocket(
+            t,
             AnalyticsEvents.ANALYTICS_EVENT_USER_TALKED_DURATION,
             AnalyticsEventType.USER,
             undefined,
@@ -139,6 +140,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
       } else {
         // send analytics as user has spoken
         sendAnalyticsByWebsocket(
+          t,
           AnalyticsEvents.ANALYTICS_EVENT_USER_TALKED,
           AnalyticsEventType.USER,
           undefined,
@@ -174,6 +176,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
           dispatch(updateIsMicMuted(false));
           // send analytics
           sendAnalyticsByWebsocket(
+            t,
             AnalyticsEvents.ANALYTICS_EVENT_USER_MIC_STATUS,
             AnalyticsEventType.USER,
             proto3.getEnumType(AnalyticsStatus).values[AnalyticsStatus.UNMUTED]
@@ -184,6 +187,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
           dispatch(updateIsMicMuted(true));
           // send analytics
           sendAnalyticsByWebsocket(
+            t,
             AnalyticsEvents.ANALYTICS_EVENT_USER_MIC_STATUS,
             AnalyticsEventType.USER,
             proto3.getEnumType(AnalyticsStatus).values[AnalyticsStatus.MUTED]
