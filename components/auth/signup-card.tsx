@@ -22,14 +22,14 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import axios from 'axios';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
-// heyheyhey
 
 export function SignUpCard() {
   const t = useTranslations('main');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const locale = useLocale();
 
   const formSchema = z
     .object({
@@ -70,7 +70,7 @@ export function SignUpCard() {
     setLoading(true);
 
     try {
-      const res = await axios.post('/api/auth/signup', {
+      const res = await axios.post(`/api/auth/signup?language=${locale}`, {
         firstname: data.firstname,
         lastname: data.lastname,
         email: data.email,
@@ -254,7 +254,7 @@ export function SignUpCard() {
             </div>
             <Button
               type='submit'
-              className='btn btn--wide !rounded-md !mt-8 w-full'
+              className='btn btn--wide !mt-8 w-full !rounded-md'
               disabled={loading}
             >
               {loading ? (

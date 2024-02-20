@@ -24,10 +24,10 @@ const ProfilesComponentWithSSR = dynamic(
   { ssr: true }
 );
 
-const RatingSSR = dynamic(
-  () => import('@/components/rating'),
-  { ssr: true }
-);
+// const RatingSSR = dynamic(
+//   () => import('@/components/rating'),
+//   { ssr: true }
+// );
 
 
 const ProfilestagsWithSSR = dynamic(() => import('@/components/ui/tags'), {
@@ -112,7 +112,7 @@ export default async function LandingPage({
       <NavigateSection />
       <ProfilesComponentWithSSR images={profilePhotos} />
       <ServiceList />
-      <RatingSSR />
+      {/* <RatingSSR /> */}
       {/* <TestimonialSection /> */}
       {/* <AboutSection /> */}
       <ServicesSection />
