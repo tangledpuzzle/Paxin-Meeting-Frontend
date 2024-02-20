@@ -24,8 +24,11 @@ chmod 600 "$PRIVATE_KEY_PATH"
 
 # SSH into the EC2 instance
 ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
+  set -e
   cd ~/workspace/paxintrade/frontend-built
-  pm2 stop ecosystem.config.js
+  source ~/.nvm/nvm.sh || exit 1
+  nvm use node || nvm install node
+  pm2 stop ecosystem.config.js || true
   rm -rf ./*
 ENDSSH
 
@@ -34,7 +37,10 @@ scp -r -i "$PRIVATE_KEY_PATH" .next/standalone/* "$HOST_ADDRESS":~/workspace/pax
 
 # SSH into the EC2 instance
 ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
+  set -e
   cd ~/workspace/paxintrade/frontend-built
+  source ~/.nvm/nvm.sh || exit 1
+  nvm use node || nvm install node
   pm2 start ecosystem.config.js
 ENDSSH
 
