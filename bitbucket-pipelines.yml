@@ -19,10 +19,6 @@ pipelines:
           name: "Build"
           caches:
             - node
-            - ./package-lock.json
-            - ./yarn.lock
-            - ./node_modules
-            - ./.next/cache
           script:
             - npm install
             - git clone https://x-token-auth:$BITBUCKET_ENV_REPO_ACCESS_TOKEN@bitbucket.org/paxintrade/environment-values.git
