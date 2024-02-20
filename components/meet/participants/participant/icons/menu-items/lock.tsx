@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import { store, useAppSelector } from '@/store';
 import { participantsSelector } from '@/store/slices/participantSlice';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { ICurrentUserMetadata } from '@/store/slices/interfaces/session';
 import {
   CommonResponse,

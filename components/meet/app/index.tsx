@@ -15,7 +15,7 @@ import Footer from '../footer';
 // import Header from '../header';
 import MainArea from '../main-area';
 
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import {
   addServerVersion,

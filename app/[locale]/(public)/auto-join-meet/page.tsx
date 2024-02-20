@@ -1,7 +1,8 @@
 import { getServerSession } from 'next-auth';
 import { unstable_setRequestLocale } from 'next-intl/server';
-import Conference from '@/components/profiles/conference/meet';
+import AutoJoinConference from '@/components/profiles/conference/public-meet-auto-join';
 import authOptions from '@/lib/authOptions';
+import { generateRandomString, hashTimestamp } from '@/lib/utils';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
@@ -37,6 +38,12 @@ export default async function ConferencePage({
       user: { email, id, name },
     },
   } = await getData(params.locale);
+
+  const randomPart = generateRandomString(4);
+  const timestampHash = hashTimestamp(Date.now());
+  const userId = `user-${randomPart}-${timestampHash}`;
+  const userName = `User ${randomPart}`;
+  const userEmail = `${randomPart}-${timestampHash}@test.me`;
   
-  return <Conference email={email} userId={id} name={name} />;
+  return <AutoJoinConference email={email ?? userEmail} userId={id ?? userId} name={name ?? userName} />;
 }

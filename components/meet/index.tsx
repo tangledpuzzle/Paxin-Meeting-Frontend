@@ -7,11 +7,8 @@ import { ToastContainer } from 'react-toastify';
 import { store } from '@/store';
 import Meet from '@/components/meet/app';
 import 'react-toastify/dist/ReactToastify.css';
+
 export default function PaxMeet() {
-  useEffect(() => {
-    console.log('Did Mount');
-    return () => console.log('Unmount');
-  }, []);
   return (
     <ReduxProvider store={store}>
       <DndProvider backend={HTML5Backend}>

@@ -24,7 +24,7 @@ import {
   SpeechServiceUserStatusTasks,
   SpeechToTextTranslationReq,
 } from '@/helpers/proto/plugnmeet_speech_services_pb';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { CommonResponse } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { store } from '@/store';
 import {
