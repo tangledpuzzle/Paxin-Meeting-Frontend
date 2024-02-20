@@ -61,7 +61,7 @@ const ApplicationSettings = () => {
   const render = () => {
     return (
       <div className='s'>
-        <div className='grid'>
+        {/* <div className='grid'>
           <div className='flex items-center justify-start'>
             <label
               htmlFor='language'
@@ -85,7 +85,7 @@ const ApplicationSettings = () => {
               })}
             </select>
           </div>
-        </div>
+        </div> */}
         <Switch.Group>
           <div className='my-4 flex items-center justify-between'>
             <Switch.Label className='w-full pr-4 dark:text-darkText ltr:text-left rtl:text-right'>

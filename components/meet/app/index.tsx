@@ -46,6 +46,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import '@/styles/meet/index.scss';
 import { getDirectionBasedOnLocale } from '@/helpers/languages';
 import type { Locale } from '@/helpers/languages';
+import '@/components/meet/tflite/tflite';
+import '@/components/meet/tflite/tflite-simd';
 
 // declare const IS_PRODUCTION: boolean;
 const debugSelector = createSelector(
@@ -118,16 +120,18 @@ const Meet = () => {
         title: t('app.token-missing-title'),
         text: t('app.token-missing-des'),
       });
-    } else if (
-      window.location.protocol === 'http:' &&
-      window.location.hostname !== 'localhost'
-    ) {
-      setLoading(false);
-      setError({
-        title: t('app.require-ssl-title'),
-        text: t('app.require-ssl-des'),
-      });
-    } else {
+    }
+    // else if (
+    //   window.location.protocol === 'http:' &&
+    //   window.location.hostname !== 'localhost'
+    // ) {
+    //   setLoading(false);
+    //   setError({
+    //     title: t('app.require-ssl-title'),
+    //     text: t('app.require-ssl-des'),
+    //   });
+    // }
+    else {
       const verifyToken = async () => {
         let res: VerifyTokenRes;
         try {
