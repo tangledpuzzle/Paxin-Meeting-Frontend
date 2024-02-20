@@ -33,7 +33,7 @@ ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
 ENDSSH
 
 # Copy the build artifacts to the server's deployment directory
-scp -r -i "$PRIVATE_KEY_PATH" .next/standalone/* "$HOST_ADDRESS":~/workspace/paxintrade/frontend-built
+rsync -avz -e "ssh -i $PRIVATE_KEY_PATH" --exclude '.git' .next/standalone/ "$HOST_ADDRESS":~/workspace/paxintrade/frontend-built
 
 # SSH into the EC2 instance
 ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
