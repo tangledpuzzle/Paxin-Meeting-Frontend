@@ -30,6 +30,7 @@ ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
   nvm use node || nvm install node
   pm2 stop ecosystem.config.js || true
   pm2 delete ecosystem.config.js || true
+  pm2 save || true
   rm -rf ./*
 ENDSSH
 
