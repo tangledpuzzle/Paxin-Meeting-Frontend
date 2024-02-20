@@ -22,6 +22,7 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  output: 'standalone',
   async redirects() {
     return [
       {
