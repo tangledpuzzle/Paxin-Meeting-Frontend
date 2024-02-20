@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { LocalTrackPublication, RemoteTrackPublication } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
-
+import MobileDetect from 'mobile-detect';
 import { RootState, useAppSelector } from '@/store';
 import './style.scss';
 import { sleep } from '@/helpers/utils';
-
+const md = new MobileDetect(window.navigator.userAgent);
 interface IVideoElmProps {
   track: RemoteTrackPublication | LocalTrackPublication;
 }
@@ -25,7 +25,7 @@ const VideoElm = ({ track }: IVideoElmProps) => {
   const roomVideoQuality = useAppSelector(roomVideoQualitySelector);
   const videoObjectFit = useAppSelector(videoObjectFitSelector);
   const [videoFit, setVideoFit] = useState<any>(videoObjectFit);
-
+  const isMobile = md.mobile();
   useEffect(() => {
     const el = ref.current;
     if (el) {
@@ -106,6 +106,7 @@ const VideoElm = ({ track }: IVideoElmProps) => {
       ) : null}
       <video
         className='camera-video'
+        playsInline={isMobile ? false : true}
         onLoadedData={onLoadedData}
         ref={ref}
         style={{ objectFit: videoFit }}
