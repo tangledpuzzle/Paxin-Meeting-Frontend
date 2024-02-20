@@ -25,14 +25,12 @@ chmod 600 "$PRIVATE_KEY_PATH"
 # SSH into the EC2 instance
 ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
   cd ~/workspace/paxintrade/frontend-built
-  source ~/.nvm/nvm.sh
-  nvm use node
   pm2 stop ecosystem.config.js
-  rm -rf .
+  rm -rf ./*
 ENDSSH
 
 # Copy the build artifacts to the server's deployment directory
-scp -r .next/standalone/* $HOST_ADDRESS:~/workspace/paxintrade/frontend-built
+scp -r -i "$PRIVATE_KEY_PATH" .next/standalone/* "$HOST_ADDRESS":~/workspace/paxintrade/frontend-built
 
 # SSH into the EC2 instance
 ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
