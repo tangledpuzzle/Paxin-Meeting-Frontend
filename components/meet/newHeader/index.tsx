@@ -7,18 +7,17 @@ import { Button } from '@/components/ui/button';
 import { AvatarWithMenu } from './avatar-with-menu';
 import { LanguageSelector } from './language';
 import { MobileMenu } from './mobile-menu';
-import toast from 'react-hot-toast';
-import { copyToClipboard } from '@/helpers/utils';
 import CopyClipboard from './CopyClipboard';
 
 interface Props {
   id: string;
-  user?: {
+  user: {
     email: string;
     avatar: string;
     username: string;
-  };
+  } | null;
 }
+
 export function MeetHeader({ id, user }: Props) {
   const t = useTranslations('main');
 

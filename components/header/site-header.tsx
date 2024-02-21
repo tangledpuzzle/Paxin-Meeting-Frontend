@@ -38,7 +38,7 @@ export function SiteHeader() {
   const locale = useLocale();
   const [data, setData] = useState<{
     data: { user: { email: string; photo: string; name: string } };
-  }>({ data: { user: { email: '', photo: '', name: '' } } });
+  } | null>(null);
 
   useEffect(() => {
     getData(locale)
@@ -59,9 +59,9 @@ export function SiteHeader() {
           user={
             data
               ? {
-                  email: data?.data?.user?.email,
-                  avatar: data?.data?.user?.photo,
-                  username: data?.data?.user?.name,
+                  email: data.data.user.email,
+                  avatar: data.data.user.photo,
+                  username: data.data.user.name,
                 }
               : null
           }
