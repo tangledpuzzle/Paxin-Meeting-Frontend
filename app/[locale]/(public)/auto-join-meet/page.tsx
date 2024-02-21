@@ -24,6 +24,22 @@ async function getData(locale: string) {
   }
 }
 
+function generateRandomString(length: number): string {
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let result = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      result += charset[randomIndex];
+    }
+  return result;
+}
+
+function hashTimestamp(timestamp: number): string {
+  const hash = require('crypto').createHash('md5');
+  hash.update(timestamp.toString());
+  return hash.digest('hex');
+}
+
 
 export default async function ConferencePage({
   params,
@@ -31,40 +47,22 @@ export default async function ConferencePage({
   params: { locale: string };
 }) {
   unstable_setRequestLocale(params.locale);
-  const {
-    data: {
-      user: { email, id, name } = {
-        email: undefined,
-        id: undefined,
-        name: undefined,
-      },
-    } = {
-      user: {},
-    },
-  } = (await getData(params.locale)) ?? {};
+  let userId, userName, userEmail;
 
-  function generateRandomString(length: number): string {
-    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * charset.length);
-      result += charset[randomIndex];
-    }
-    return result;
-  }
-  
-  function hashTimestamp(timestamp: number): string {
-    const hash = require('crypto').createHash('md5');
-    hash.update(timestamp.toString());
-    return hash.digest('hex');
-  }
-  
-  const randomPart = generateRandomString(4);
-  const timestampHash = hashTimestamp(Date.now());
-  const userId = `user-${randomPart}-${timestampHash}`;
-  const userName = `User ${randomPart}`;
-  const userEmail = `${randomPart}-${timestampHash}@test.me`;
+  const userData = await getData(params.locale);
 
+  if (userData && userData.data && userData.data.user) {
+    const { email, id, name } = userData.data.user;
+    userId = id;
+    userName = name;
+    userEmail = email;
+  } else {
+    const randomPart = generateRandomString(4);
+    const timestampHash = hashTimestamp(Date.now());
+    userId = `user-${randomPart}-${timestampHash}`;
+    userName = `User ${randomPart}`;
+    userEmail = `${randomPart}-${timestampHash}@test.me`;
+  }
   return (
     <AutoJoinConference
       email={userEmail}
