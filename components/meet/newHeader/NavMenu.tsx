@@ -44,7 +44,7 @@ export function MainNav({ id }: MainNavProps) {
             PAX - Real Time Meeting (Room ID: {id})
           </p>
           <CopyClipboard
-            text={`https://www.paxintrade.com/auto-meet-jon/${id}`}
+            text={`https://www.paxintrade.com/auto-join-meet/${id}`}
           >
             <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
               <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
