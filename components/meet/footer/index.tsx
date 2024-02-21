@@ -26,7 +26,7 @@ import {
   RoomEndAPIReq,
 } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { toast } from 'react-toastify';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { useRouter } from 'next/navigation';
 interface IFooterProps {
   currentRoom: Room;

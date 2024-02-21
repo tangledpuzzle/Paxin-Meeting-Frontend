@@ -27,6 +27,7 @@ export function formatDate(date: Date): string {
     day: 'numeric',
   });
 }
+
 export function generateRandomString(length: number): string {
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
@@ -36,6 +37,7 @@ export function generateRandomString(length: number): string {
   }
   return result;
 }
+
 export function hashTimestamp(timestamp: number): string {
   let hash = 0;
   const timestampString = timestamp.toString();

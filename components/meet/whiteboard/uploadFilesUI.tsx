@@ -10,7 +10,7 @@ import {
   sendWebsocketMessage,
 } from '@/helpers/websocket';
 import { randomString, sleep } from '@/helpers/utils';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { broadcastWhiteboardOfficeFile } from './helpers/handleRequestedWhiteboardData';
 import useResumableFilesUpload from '@/helpers/hooks/useResumableFilesUpload';
 // eslint-disable-next-line import/no-unresolved

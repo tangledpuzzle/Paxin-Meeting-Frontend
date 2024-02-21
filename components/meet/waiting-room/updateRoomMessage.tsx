@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
 
 import { RootState, useAppSelector } from '@/store';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import {
   CommonResponse,
   UpdateWaitingRoomMessageReq,

@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import ReactPlayer from 'react-player/lazy';
 import { toast } from 'react-toastify';
 
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { updateShowExternalMediaPlayerModal } from '@/store/slices/bottomIconsActivitySlice';
 import { useAppDispatch } from '@/store';
 import {

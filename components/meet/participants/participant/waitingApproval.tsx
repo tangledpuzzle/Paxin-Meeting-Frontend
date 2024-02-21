@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/store';
 import { participantsSelector } from '@/store/slices/participantSlice';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import {
   ApproveWaitingUsersReq,
   CommonResponse,

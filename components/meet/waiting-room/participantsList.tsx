@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { IParticipant } from '@/store/slices/interfaces/participant';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { toast } from 'react-toastify';
 import { store } from '@/store';
 import {

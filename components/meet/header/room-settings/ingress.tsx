@@ -9,7 +9,7 @@ import {
   IngressInput,
 } from '@/helpers/proto/plugnmeet_ingress_pb';
 import { RootState, store, useAppSelector } from '@/store';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { useTranslations } from 'next-intl';
 
 const ingressFeaturesSelector = createSelector(

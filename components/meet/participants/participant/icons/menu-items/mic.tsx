@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { store, useAppSelector } from '@/store';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import { sendWebsocketMessage } from '@/helpers/websocket';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import {
   DataMessage,
   DataMsgBodyType,

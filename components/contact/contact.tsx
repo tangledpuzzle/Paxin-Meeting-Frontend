@@ -14,7 +14,7 @@ export function ContactSection() {
   const t = useTranslations('main');
   return (
     <div className='grid w-full md:grid-cols-2'>
-      <div className='flex flex-col items-center justify-center px-8 py-4 lg:px-16'>
+      <div className='flex flex-col items-center justify-center px-4 py-4 lg:px-16'>
         <div className='flex w-full max-w-md flex-col text-left text-2xl sm:text-3xl'>
           <span className='pb-2 text-gradient mb-[16px] font-roboto font-bold sm:text-3xl sm:!leading-[2.5rem] md:text-4xl md:!leading-[3rem] xl:text-5xl xl:!leading-[4rem] px-0 mt-4 text-left  text-[2em] leading-[40px]'>{t('get_in_touch')}</span>{' '}
           <span className='text-sm text-muted-foreground '>

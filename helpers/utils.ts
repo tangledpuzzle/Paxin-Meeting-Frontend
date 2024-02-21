@@ -151,25 +151,30 @@ export const getAudioPreset = () => {
  * from cookie name `pnm_access_token`
  * */
 export function setAccessToken(token: string) {
-  localStorage.setItem('meetingToken', token);
+  const tokenName = 'paxmeet_access_token';
+  localStorage.setItem(tokenName, token);
 }
+
 export function clearAccessToken() {
-  localStorage.removeItem('meetingToken');
+  const tokenName = 'paxmeet_access_token';
+  localStorage.removeItem(tokenName);
 }
+
 export const getAccessToken = () => {
-  let accessToken = localStorage.getItem('meetingToken');
-  console.log('Access Localstorage', accessToken);
+  let accessToken: string;
+  const tokenName = 'paxmeet_access_token';
+
+  accessToken =
+    document.cookie
+      .match('(^|;)\\s*' + tokenName + '\\s*=\\s*([^;]+)')
+      ?.pop() || '';
+
   if (accessToken) {
     return accessToken;
   }
 
-  // now let's check from cookies
-  const tokenCookieName = 'pnm_access_token';
-  accessToken =
-    document.cookie
-      .match('(^|;)\\s*' + tokenCookieName + '\\s*=\\s*([^;]+)')
-      ?.pop() || '';
-
+  accessToken = localStorage.getItem(tokenName) ?? "";
+  console.log('Access LocalStorage', accessToken);
   if (accessToken) {
     return accessToken;
   }
