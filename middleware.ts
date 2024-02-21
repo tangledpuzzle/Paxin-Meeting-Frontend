@@ -18,8 +18,7 @@ const publicPages = [
   '/flows/[id]/[slug]',
   '/profiles/[username]',
   '/auto-join-meet',
-  '/auto-join-meet/[slug]'
-
+  '/auto-join-meet/[slug]',
 ];
 
 const intlMiddleware = createIntlMiddleware({
