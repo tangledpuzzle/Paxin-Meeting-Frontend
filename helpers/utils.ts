@@ -184,7 +184,7 @@ export const getAccessToken = () => {
 
 export async function copyToClipboard(text: string) {
   try {
-    const url = 'https://www.paxintrade.com/auto-meet-jon/';
+    const url = 'https://www.paxintrade.com/auto-join-meet/';
     const textWithLink = `${url}${text}`;
     await navigator.clipboard.writeText(textWithLink);
   } catch (err) {
