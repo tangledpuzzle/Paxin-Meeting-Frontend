@@ -7,28 +7,7 @@ import MeetHeader from '@/components/meet/newHeader';
 // import Sidebar from '@/components/profiles/sidebar';
 import authOptions from '@/lib/authOptions';
 
-async function getData(locale: string) {
-  const session = await getServerSession(authOptions);
 
-  try {
-    const res = await fetch(
-      `${process.env.API_URL}/api/users/me?language=${locale}`,
-      {
-        headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
-        },
-      }
-    );
-
-    if (!res.ok) {
-      return null;
-    }
-
-    return res.json();
-  } catch (error) {
-    return null;
-  }
-}
 
 export default async function ProfilePageLayout({
   params,
@@ -36,18 +15,10 @@ export default async function ProfilePageLayout({
   params: { id: string; locale: string };
 }) {
   const locale = useLocale();
-  const data = await getData(locale);
 
   return (
     <>
-      <MeetHeader
-        id={params.id}
-        user={{
-          email: data.data.user.email ?? "",
-          avatar: data.data.user.photo ?? "",
-          username: data.data.user.name ?? "",
-        }}
-      />
+
       <div className='absolute top-0 mt-32 w-full sm:mt-20'>
         <PaxMeet />
       </div>
