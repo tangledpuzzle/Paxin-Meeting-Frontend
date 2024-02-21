@@ -22,7 +22,7 @@ import {
   updateShowRoomSettingsModal,
 } from '@/store/slices/roomSettingsSlice';
 import { SystemMsgType } from '@/store/slices/interfaces/dataMessages';
-import sendAPIRequest from '../api/plugNmeetAPI';
+import sendAPIRequest from '../api/paxMeetAPI';
 import {
   CommonResponse,
   DataMessageReq,

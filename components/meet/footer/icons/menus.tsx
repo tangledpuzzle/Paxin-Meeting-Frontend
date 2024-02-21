@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import LockSettingsModal from '../modals/lockSettingsModal';
 import {
   updateDisplayExternalLinkRoomModal,

@@ -7,7 +7,7 @@ import {
   CommonResponse,
   RemoveParticipantReq,
 } from '@/helpers/proto/plugnmeet_common_api_pb';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { useTranslations } from 'next-intl';
 
 export interface IRemoveParticipantAlertModalData {

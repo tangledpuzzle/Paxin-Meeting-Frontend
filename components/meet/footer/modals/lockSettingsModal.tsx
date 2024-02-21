@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
 import { updateShowLockSettingsModal } from '@/store/slices/bottomIconsActivitySlice';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import {
   CommonResponse,
   UpdateUserLockSettingsReq,

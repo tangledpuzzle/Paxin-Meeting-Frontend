@@ -1,8 +1,7 @@
 import { getServerSession } from 'next-auth';
-import authOptions from '@/lib/authOptions';
-import Conference from '@/components/profiles/conference';
 import { unstable_setRequestLocale } from 'next-intl/server';
-// import { unstable_setRequestLocale } from 'next-intl/server';
+import Conference from '@/components/profiles/conference/meet';
+import authOptions from '@/lib/authOptions';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
@@ -38,5 +37,6 @@ export default async function ConferencePage({
       user: { email, id, name },
     },
   } = await getData(params.locale);
+  
   return <Conference email={email} userId={id} name={name} />;
 }

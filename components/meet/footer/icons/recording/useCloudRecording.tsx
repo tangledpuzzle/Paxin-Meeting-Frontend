@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { IUseCloudRecordingReturn, RecordingType } from './IRecording';
 import { RecordingReq } from '@/helpers/proto/plugnmeet_recording_pb';
 import { RecordingTasks } from '@/helpers/proto/plugnmeet_recorder_pb';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { CommonResponse } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { useTranslations } from 'next-intl';
 

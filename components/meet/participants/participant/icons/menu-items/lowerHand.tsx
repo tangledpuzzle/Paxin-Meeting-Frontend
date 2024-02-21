@@ -3,7 +3,7 @@ import { Menu } from '@headlessui/react';
 
 import { store, useAppDispatch, useAppSelector } from '@/store';
 import { participantsSelector } from '@/store/slices/participantSlice';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { updateIsActiveRaisehand } from '@/store/slices/bottomIconsActivitySlice';
 import { toast } from 'react-toastify';
 import {

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { useAppSelector, RootState, store, useAppDispatch } from '@/store';
-import sendAPIRequest from '@/helpers/api/plugNmeetAPI';
+import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 
 import HeaderMenus from './menus';
 // import RoomSettings from './room-settings';

@@ -1,7 +1,8 @@
-// import MeetHeader from '@/components/meet/newHeader';
+import { ReactNode } from 'react';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
-import { ReactNode } from 'react';
+// import MeetHeader from '@/components/meet/newHeader';
+
 type Props = {
   children: ReactNode;
   params: { locale: string };
