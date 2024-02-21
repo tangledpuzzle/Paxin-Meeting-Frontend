@@ -433,11 +433,18 @@ export default async function FlowPage({
                   </Button>
                 )}
               </div>
+              <div className='flex flex-col gap-4 text-center'>
               <Button className='btn w-full !rounded-md' asChild>
                 <Link href={`/profiles/${blogDetails.author?.username}`}>
                   {t('visit_profile')}
                 </Link>
               </Button>
+              <Button className='btn w-full !rounded-md' asChild>
+                <Link href={`/profiles/${blogDetails.author?.username}`}>
+                  Start chat
+                </Link>
+              </Button>
+            </div>
             </CardFooter>
           </Card>
         </div>

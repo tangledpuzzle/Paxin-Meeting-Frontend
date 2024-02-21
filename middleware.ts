@@ -10,8 +10,6 @@ const publicPages = [
   '/contact',
   '/privacy',
   '/rules',
-  '/auto-join-meet',
-  '/auto-join-meet/[slug]',
   '/auth/signin',
   '/auth/signup',
   '/auth/verify/[slug]',
@@ -19,6 +17,9 @@ const publicPages = [
   '/auth/reset-password/[slug]',
   '/flows/[id]/[slug]',
   '/profiles/[username]',
+  '/auto-join-meet',
+  '/auto-join-meet/[slug]'
+
 ];
 
 const intlMiddleware = createIntlMiddleware({
