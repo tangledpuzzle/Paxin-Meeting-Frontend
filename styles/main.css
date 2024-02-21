@@ -1298,7 +1298,7 @@ li:nth-of-type(12) { --index: 5; }
 	width: 50%;
 }
 
-.text {
+.text2 {
 	left: var(--size);
 	position: absolute;
 	text-align: center;
@@ -1670,3 +1670,4 @@ li:nth-of-type(12) { --index: 5; }
   color: transparent;
   text-shadow: 0 0 0.4rem rgba(127, 255, 212, 0.4);
 }
+

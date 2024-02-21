@@ -138,7 +138,7 @@ export default async function LandingPage({
               />
             </svg>
           </span>
-          <span className='text'>
+          <span className='text2'>
             <span>{t('flow')}</span>
           </span>
         </Link>

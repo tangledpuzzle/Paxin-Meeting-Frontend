@@ -4,6 +4,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { TiMessages } from "react-icons/ti";
 
 import { NavItem } from '@/types/nav';
 import { siteConfig } from '@/config/site';
@@ -24,7 +25,7 @@ export function MainNav({ items }: MainNavProps) {
   }
 
   return (
-    <div className='flex gap-6 md:gap-10'>
+    <div className='flex gap-6 md:gap-10 justify-center items-center'>
       <Link href='/' className='flex items-center gap-2'>
         <Image
           src='/logo-black.svg'
@@ -64,6 +65,11 @@ export function MainNav({ items }: MainNavProps) {
           )}
         </nav>
       ) : null}
+        {/* <Link href='/profile/messages'><div className='flex items-center justify-center'>
+        <span className='relative left-12 rounded-full bg-card-gradient-menu text-xs px-2 text-center -top-2'>10</span>
+        <TiMessages size={32} />
+        </div>
+      </Link> */}
     </div>
   );
 }
