@@ -3,14 +3,8 @@
 import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-// import { usePathname } from 'next/navigation';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { siteConfig } from '@/config/site';
-// import { cn } from '@/lib/utils';
-// import { useLocale, useTranslations } from 'next-intl';
-import toast from 'react-hot-toast';
-import { copyToClipboard } from '@/helpers/utils';
-import CopyClipboard from './CopyClipboard';
+import CopyClipboard from '@/components/common/copy-clipboard';
 
 interface MainNavProps {
   id: string;
@@ -49,7 +43,9 @@ export function MainNav({ id }: MainNavProps) {
           <p className='hidden pt-1 leading-8 lg:block'>
             PAX - Real Time Meeting (Room ID: {id})
           </p>
-          <CopyClipboard text={id}>
+          <CopyClipboard
+            text={`https://www.paxintrade.com/auto-meet-jon/${id}`}
+          >
             <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
               <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
             </div>

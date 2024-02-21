@@ -173,7 +173,7 @@ export const getAccessToken = () => {
     return accessToken;
   }
 
-  accessToken = localStorage.getItem(tokenName) ?? "";
+  accessToken = localStorage.getItem(tokenName) ?? '';
   console.log('Access LocalStorage', accessToken);
   if (accessToken) {
     return accessToken;
@@ -184,9 +184,7 @@ export const getAccessToken = () => {
 
 export async function copyToClipboard(text: string) {
   try {
-    const url = 'https://www.paxintrade.com/auto-join-meet/';
-    const textWithLink = `${url}${text}`;
-    await navigator.clipboard.writeText(textWithLink);
+    await navigator.clipboard.writeText(text);
   } catch (err) {
     throw err;
   }
