@@ -53,6 +53,8 @@ import '@/styles/meet/index.scss';
 import { getDirectionBasedOnLocale } from '@/helpers/languages';
 import type { Locale } from '@/helpers/languages';
 import { generateRandomString, hashTimestamp } from '@/lib/utils';
+import '@/components/meet/tflite/tflite';
+import '@/components/meet/tflite/tflite-simd';
 
 // declare const IS_PRODUCTION: boolean;
 const debugSelector = createSelector(

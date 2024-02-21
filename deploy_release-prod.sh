@@ -22,36 +22,29 @@ echo -e "$FORMATTED_KEY" > "$PRIVATE_KEY_PATH"
 # Set 600 permission to private key file
 chmod 600 "$PRIVATE_KEY_PATH"
 
-# SSH into the EC2 instance and run npm commands
+# SSH into the EC2 instance
 ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
-  BRANCH_NAME="${BRANCH_NAME}" # This assigns the value of the local variable to the remote variable
-  cd ~/workspace/paxintrade/frontend
+  set -e
+  cd ~/workspace/paxintrade/frontend-built
+  source ~/.nvm/nvm.sh || exit 1
+  nvm use node || nvm install node
+  pm2 stop ecosystem.config.js || true
+  pm2 delete ecosystem.config.js || true
+  pm2 save || true
+  rm -rf ./*
+ENDSSH
 
-  # Ensure the target branch exists and check it out
-  branch_exists_locally=\$(git branch --list \$BRANCH_NAME)
-  branch_exists_remotely=\$(git ls-remote --heads origin \$BRANCH_NAME)
+# Copy the build artifacts to the server's deployment directory
+rsync -avz -e "ssh -i $PRIVATE_KEY_PATH" --exclude '.git' .next/standalone/ "$HOST_ADDRESS":~/workspace/paxintrade/frontend-built
 
-  if [[ -z "\$branch_exists_locally" ]]; then
-    if [[ -n "\$branch_exists_remotely" ]]; then
-      git remote prune origin
-      git fetch origin
-      git checkout -b \$BRANCH_NAME origin/\$BRANCH_NAME
-    else
-      echo "Error: The branch '\$BRANCH_NAME' does not exist locally or on 'origin'."
-      exit 1
-    fi
-  else
-    git checkout \$BRANCH_NAME
-  fi
-
-  # Continue to pull, install, build, and restart
-  git pull origin \$BRANCH_NAME
-  source ~/.nvm/nvm.sh
-  nvm use node
-  npm i
-  export NODE_OPTIONS="--max-old-space-size=4096"
-  npm run build
-  pm2 restart paxintrade-frontend
+# SSH into the EC2 instance
+ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
+  set -e
+  cd ~/workspace/paxintrade/frontend-built
+  source ~/.nvm/nvm.sh || exit 1
+  nvm use node || nvm install node
+  pm2 start ecosystem.config.js || true
+  pm2 save || true
 ENDSSH
 
 # Clean up the private key

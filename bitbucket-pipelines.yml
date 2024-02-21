@@ -20,15 +20,22 @@ pipelines:
           caches:
             - node
           script:
-            - export NODE_OPTIONS="--max-old-space-size=4096"
             - npm install
+            - git clone https://x-token-auth:$BITBUCKET_ENV_REPO_ACCESS_TOKEN@bitbucket.org/paxintrade/environment-values.git
+            - mv environment-values/frontend/.env.production .env
+            - rm -rf environment-values
             - npm run build
-          # artifacts:
-          #   - build/**
+            - mv public .next/standalone/public
+            - mv .next/static .next/standalone/.next/static
+            - mv ecosystem.config.js .next/standalone/ecosystem.config.js
+          artifacts:
+            - .next/standalone/**
       - step:
           name: "Deploy to Production Environment"
           deployment: Production
           script:
             - echo "Deploying to production environment"
             - chmod +x ./deploy_release-prod.sh
+            - apt-get update
+            - apt-get install -y rsync
             - ./deploy_release-prod.sh
