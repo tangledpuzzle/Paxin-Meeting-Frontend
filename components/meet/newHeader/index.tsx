@@ -46,7 +46,7 @@ export function MeetHeader({ id, user }: Props) {
       <div className='flex h-12 justify-between sm:hidden'>
         <div className='mx-auto my-auto flex flex-row content-center justify-start'>
           <p className='leading-8'>
-            PAX - Real Time Meeting (Room ID: {id.slice(0, 6)}...)
+          {id.slice(0, 6)}
           </p>
           <CopyClipboard text={id}>
             <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
