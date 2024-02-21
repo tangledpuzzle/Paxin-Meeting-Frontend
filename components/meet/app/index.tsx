@@ -118,7 +118,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   const getMeetAccessToken = async (): Promise<string> => {
     const accessToken = getAccessToken();
     if (accessToken) return accessToken;
-    else if (pathname.startsWith('/auto-join-meet/')) {
+    else if (pathname.includes('/auto-join-meet/')) {
       const randomPart = generateRandomString(4);
       const timestampHash = hashTimestamp(Date.now());
       const userId = `user-${randomPart}-${timestampHash}`;
