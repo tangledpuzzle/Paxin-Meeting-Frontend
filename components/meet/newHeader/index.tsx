@@ -7,18 +7,17 @@ import { Button } from '@/components/ui/button';
 import { AvatarWithMenu } from './avatar-with-menu';
 import { LanguageSelector } from './language';
 import { MobileMenu } from './mobile-menu';
-import toast from 'react-hot-toast';
-import { copyToClipboard } from '@/helpers/utils';
 import CopyClipboard from './CopyClipboard';
 
 interface Props {
   id: string;
-  user?: {
+  user: {
     email: string;
     avatar: string;
     username: string;
-  };
+  } | null;
 }
+
 export function MeetHeader({ id, user }: Props) {
   const t = useTranslations('main');
 
@@ -45,10 +44,12 @@ export function MeetHeader({ id, user }: Props) {
         <MobileMenu user={user ? user : null} />
       </div>
       <div className='flex h-12 justify-between sm:hidden'>
-        <div className='mx-auto my-auto flex flex-row'>
-          <div>PAX- Real TIME Meeting(Room ID: {id.slice(0, 6)}...)</div>
+        <div className='mx-auto my-auto flex flex-row content-center justify-start'>
+          <p className='leading-8'>
+            PAX - Real Time Meeting (Room ID: {id.slice(0, 6)}...)
+          </p>
           <CopyClipboard text={id}>
-            <div className='notepad inline-block h-8 w-8 items-center justify-center rounded-full'>
+            <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
               <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
             </div>
           </CopyClipboard>

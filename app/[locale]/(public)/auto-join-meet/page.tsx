@@ -30,6 +30,12 @@ export default function ConferencePage({
   const userId = `user-${randomPart}-${timestampHash}`;
   const userName = `User ${randomPart}`;
   const userEmail = `${randomPart}-${timestampHash}@test.me`;
-  
-  return <AutoJoinConference email={userEmail} userId={userId} name={userName} />;
+
+  return (
+    <AutoJoinConference
+      email={userEmail}
+      userId={userId}
+      name={userName}
+    />
+  );
 }

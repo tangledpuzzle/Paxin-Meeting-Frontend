@@ -1,3 +1,5 @@
+'use client';
+
 import { MainNav } from '@/components/header/main-nav';
 import { siteConfig } from '@/config/site';
 
@@ -6,6 +8,7 @@ import { getServerSession } from 'next-auth';
 import { useLocale, useTranslations } from 'next-intl';
 import { MobileMenu } from './mobile-menu';
 import { RightNav } from './right-nav';
+import { useEffect, useState } from 'react';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
@@ -30,11 +33,22 @@ async function getData(locale: string) {
   }
 }
 
-export async function SiteHeader() {
+export function SiteHeader() {
   const t = useTranslations('main');
   const locale = useLocale();
+  const [data, setData] = useState<{
+    data: { user: { email: string; photo: string; name: string } };
+  } | null>(null);
 
-  const data = await getData(locale);
+  useEffect(() => {
+    getData(locale)
+      .then((data) => {
+        setData(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   return (
     <header className={`bg-h sticky top-0 z-40 w-full bg-background`}>
@@ -45,9 +59,9 @@ export async function SiteHeader() {
           user={
             data
               ? {
-                  email: data?.data?.user?.email,
-                  avatar: data?.data?.user?.photo,
-                  username: data?.data?.user?.name,
+                  email: data.data.user.email,
+                  avatar: data.data.user.photo,
+                  username: data.data.user.name,
                 }
               : null
           }

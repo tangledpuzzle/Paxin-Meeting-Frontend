@@ -4,8 +4,10 @@ import {
   SegmentationConfig,
 } from '../helpers/segmentationHelper';
 
-declare function createTFLiteModule(): Promise<TFLite>;
-declare function createTFLiteSIMDModule(): Promise<TFLite>;
+import createTFLiteModule from '../../tflite/tflite';
+import createTFLiteSIMDModule from '../../tflite/tflite-simd';
+// declare function createTFLiteModule(): Promise<TFLite>;
+// declare function createTFLiteSIMDModule(): Promise<TFLite>;
 
 export interface TFLite extends EmscriptenModule {
   _getModelBufferMemoryOffset(): number;
@@ -26,7 +28,6 @@ function useTFLite(segmentationConfig: SegmentationConfig) {
   const [tfliteSIMD, setTFLiteSIMD] = useState<TFLite>();
   const [selectedTFLite, setSelectedTFLite] = useState<TFLite>();
   const [isSIMDSupported, setSIMDSupported] = useState(false);
-  const assetPath = (window as any).STATIC_ASSETS_PATH ?? './assets';
 
   useEffect(() => {
     async function loadTFLite() {
@@ -62,19 +63,17 @@ function useTFLite(segmentationConfig: SegmentationConfig) {
 
       if (!newSelectedTFLite) {
         throw new Error(
-          `TFLite backend unavailable: ${segmentationConfig.backend}`,
+          `TFLite backend unavailable: ${segmentationConfig.backend}`
         );
       }
 
       const modelFileName = getTFLiteModelFileName(
         segmentationConfig.model,
-        segmentationConfig.inputResolution,
+        segmentationConfig.inputResolution
       );
       console.log('Loading tflite model:', modelFileName);
 
-      const modelResponse = await fetch(
-        `${assetPath}/models/${modelFileName}.tflite`,
-      );
+      const modelResponse = await fetch(`/models/${modelFileName}.tflite`);
       const model = await modelResponse.arrayBuffer();
       console.log('Model buffer size:', model.byteLength);
 
@@ -84,12 +83,12 @@ function useTFLite(segmentationConfig: SegmentationConfig) {
       newSelectedTFLite.HEAPU8.set(new Uint8Array(model), modelBufferOffset);
       console.log(
         '_loadModel result:',
-        newSelectedTFLite._loadModel(model.byteLength),
+        newSelectedTFLite._loadModel(model.byteLength)
       );
 
       console.log(
         'Input memory offset:',
-        newSelectedTFLite._getInputMemoryOffset(),
+        newSelectedTFLite._getInputMemoryOffset()
       );
       console.log('Input height:', newSelectedTFLite._getInputHeight());
       console.log('Input width:', newSelectedTFLite._getInputWidth());
@@ -97,13 +96,13 @@ function useTFLite(segmentationConfig: SegmentationConfig) {
 
       console.log(
         'Output memory offset:',
-        newSelectedTFLite._getOutputMemoryOffset(),
+        newSelectedTFLite._getOutputMemoryOffset()
       );
       console.log('Output height:', newSelectedTFLite._getOutputHeight());
       console.log('Output width:', newSelectedTFLite._getOutputWidth());
       console.log(
         'Output channels:',
-        newSelectedTFLite._getOutputChannelCount(),
+        newSelectedTFLite._getOutputChannelCount()
       );
 
       setSelectedTFLite(newSelectedTFLite);

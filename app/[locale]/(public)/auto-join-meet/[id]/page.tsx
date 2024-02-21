@@ -1,11 +1,11 @@
 import React from 'react';
-import { getServerSession } from 'next-auth';
+// import { getServerSession } from 'next-auth';
 import { useLocale } from 'next-intl';
 import PaxMeet from '@/components/meet';
-import MeetHeader from '@/components/meet/newHeader';
+// import MeetHeader from '@/components/meet/newHeader';
 // import { SiteHeader } from '@/components/header/site-header';
 // import Sidebar from '@/components/profiles/sidebar';
-import authOptions from '@/lib/authOptions';
+// import authOptions from '@/lib/authOptions';
 
 
 
@@ -20,7 +20,7 @@ export default async function ProfilePageLayout({
     <>
 
       <div className='absolute top-0 mt-32 w-full sm:mt-20'>
-        <PaxMeet />
+        <PaxMeet roomId={params.id} />
       </div>
     </>
   );

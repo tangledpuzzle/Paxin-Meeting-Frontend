@@ -31,7 +31,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
   async function onCreateRoom(feed: string) {
     setLoading(true);
     const roomId = createRoomId(feed);
-    const token = await createRoom(roomId, userId);
+    const token = await createRoom(roomId, userId, name);
     setLoading(false);
 
     if (token) {
@@ -43,7 +43,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
 
   async function onJoinRoom(roomId: string) {
     setLoading(true);
-    const token = await joinRoom(roomId, userId);
+    const token = await joinRoom(roomId, userId, name);
     setLoading(false);
 
     if (token) {
@@ -51,7 +51,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
       router.push(`/meet/${roomId}`);
     }
   }
-  
+
   return (
     <div className='p-4'>
       <CTASection title={t('conference')} description='' icon={HiUserGroup} />
