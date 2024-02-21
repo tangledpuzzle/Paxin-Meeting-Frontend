@@ -10,8 +10,6 @@ const publicPages = [
   '/contact',
   '/privacy',
   '/rules',
-  '/auto-join-meet',
-  '/auto-join-meet/[slug]',
   '/auth/signin',
   '/auth/signup',
   '/auth/verify/[slug]',
