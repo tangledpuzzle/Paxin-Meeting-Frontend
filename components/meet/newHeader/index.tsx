@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { AvatarWithMenu } from './avatar-with-menu';
 import { LanguageSelector } from './language';
 import { MobileMenu } from './mobile-menu';
-import CopyClipboard from './CopyClipboard';
+import CopyClipboard from '@/components/common/copy-clipboard';
 
 interface Props {
   id: string;
@@ -45,10 +45,10 @@ export function MeetHeader({ id, user }: Props) {
       </div>
       <div className='flex h-12 justify-between sm:hidden'>
         <div className='mx-auto my-auto flex flex-row content-center justify-start'>
-          <p className='leading-8'>
-          {id.slice(0, 6)}
-          </p>
-          <CopyClipboard text={id}>
+          <p className='leading-8'>{id.slice(0, 6)}</p>
+          <CopyClipboard
+            text={`https://www.paxintrade.com/auto-meet-jon/${id}`}
+          >
             <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
               <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
             </div>

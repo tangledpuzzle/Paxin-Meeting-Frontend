@@ -3,7 +3,6 @@ import { createSelector } from '@reduxjs/toolkit';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { Room } from 'livekit-client';
 import { toast } from 'react-toastify';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { useAppSelector, RootState, store, useAppDispatch } from '@/store';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
@@ -23,6 +22,7 @@ import { toggleHeaderVisibility } from '@/store/slices/roomSettingsSlice';
 import HeaderLogo from './headerLogo';
 import { useTranslations } from 'next-intl';
 import ThemeToggle from '@/components/theme-toggle';
+import CopyClipboard from '@/components/common/copy-clipboard';
 
 interface IHeaderProps {
   currentRoom: Room;
@@ -211,32 +211,13 @@ const Header = ({ currentRoom }: IHeaderProps) => {
           <div className='middle relative z-20 flex-auto'>
             <h2 className='header-title text-center text-base leading-8 text-black dark:text-white'>
               {roomTitle} (Room ID: {roomId})
-              <CopyToClipboard
-                text={roomId}
-                onCopy={() => {
-                  toast.success('Room ID is copied to clipboard!', {
-                    position: 'top-center',
-                    autoClose: 1000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    bodyStyle: {
-                      padding: '0',
-                      minHeight: '24px',
-                      margin: '0',
-                    },
-                    style: {
-                      minHeight: '40px',
-                    },
-                  });
-                }}
+              <CopyClipboard
+                text={`https://www.paxintrade.com/auto-meet-jon/${roomId}`}
               >
                 <div className='notepad inline-block size-8 items-center justify-center rounded-full'>
                   <i className='pnm-notepad size-4 text-primaryColor dark:text-secondaryColor' />
                 </div>
-              </CopyToClipboard>
+              </CopyClipboard>
             </h2>
           </div>
           <div className='dark-area relative -right-3 z-20 flex w-28 items-center justify-end'>
