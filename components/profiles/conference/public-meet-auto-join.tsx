@@ -20,7 +20,11 @@ interface IConferenceProps {
   name: string;
 }
 
-export default function AutoJoinConference({ email, userId, name }: IConferenceProps) {
+export default function AutoJoinConference({
+  email,
+  userId,
+  name,
+}: IConferenceProps) {
   const router = useRouter();
   const t = useTranslations('main');
   console.log('render Conference');
@@ -28,15 +32,15 @@ export default function AutoJoinConference({ email, userId, name }: IConferenceP
 
   async function onJoinRoom(roomId: string) {
     setLoading(true);
-    const token = await joinRoom(roomId, userId);
+    const token = await joinRoom(roomId, userId, name);
     setLoading(false);
 
     if (token) {
       setAccessToken(token);
-      router.push(`/meet/${roomId}`);
+      router.push(`/auto-join-meet/${roomId}`);
     }
   }
-  
+
   return (
     <div className='p-4'>
       <CTASection title={t('conference')} description='' icon={HiUserGroup} />

@@ -42,14 +42,18 @@ export default async function ProfilePageLayout({
     <>
       <MeetHeader
         id={params.id}
-        user={{
-          email: data.data.user.email ?? "",
-          avatar: data.data.user.photo ?? "",
-          username: data.data.user.name ?? "",
-        }}
+        user={
+          data
+            ? {
+                email: data?.data?.user?.email ?? '',
+                avatar: data?.data?.user?.photo ?? '',
+                username: data?.data?.user?.name ?? '',
+              }
+            : undefined
+        }
       />
       <div className='absolute top-0 mt-32 w-full sm:mt-20'>
-        <PaxMeet />
+        <PaxMeet roomId={params.id} />
       </div>
     </>
   );

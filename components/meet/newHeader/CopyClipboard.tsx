@@ -1,11 +1,14 @@
 'use client';
+
 import { copyToClipboard } from '@/helpers/utils';
 import React, { ReactNode } from 'react';
 import toast from 'react-hot-toast';
+
 interface Props {
   text: string;
   children: ReactNode;
 }
+
 export default function CopyClipboard({ text, children }: Props) {
   async function handleCopy() {
     try {
@@ -15,5 +18,10 @@ export default function CopyClipboard({ text, children }: Props) {
       toast.error(`Clipboard API doesn't work on this device`);
     }
   }
-  return <div onClick={handleCopy}>{children}</div>;
+
+  return (
+    <div onClick={handleCopy} className='flex content-center justify-center'>
+      {children}
+    </div>
+  );
 }

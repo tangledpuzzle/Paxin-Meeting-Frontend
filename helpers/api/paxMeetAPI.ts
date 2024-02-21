@@ -107,7 +107,7 @@ export const createRoomId = (feed: string): string => {
   return roomId;
 }
 
-export const createRoom = async (userId: string, roomId: string): Promise<string> => {
+export const createRoom = async (roomId: string, userId: string, userName: string): Promise<string> => {
   const roomInfo = {
     // room_id: data.get('room_id'),
     room_id: roomId,
@@ -185,7 +185,7 @@ export const createRoom = async (userId: string, roomId: string): Promise<string
 
   const userInfo = {
     is_admin: false,
-    name: name,
+    name: userName,
     user_id: userId,
     /*user_metadata: {
       record_webcam: false,
@@ -196,14 +196,14 @@ export const createRoom = async (userId: string, roomId: string): Promise<string
   return token ?? ""
 }
 
-export const joinRoom = async (userId: string, roomId: string): Promise<string> => {
+export const joinRoom = async (roomId: string, userId: string, userName: string): Promise<string> => {
   const roomInfo = {
     room_id: roomId,
   };
 
   const userInfo = {
     is_admin: false,
-    name: name,
+    name: userName,
     user_id: userId,
     /*user_metadata: {
       record_webcam: false,

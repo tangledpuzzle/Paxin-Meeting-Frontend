@@ -35,15 +35,30 @@ export default async function ConferencePage({
   unstable_setRequestLocale(params.locale);
   const {
     data: {
-      user: { email, id, name },
+      user: { email, id, name } = {
+        email: undefined,
+        id: undefined,
+        name: undefined,
+      },
+    } = {
+      user: {},
     },
-  } = await getData(params.locale);
+  } = (await getData(params.locale)) ?? {};
 
   const randomPart = generateRandomString(4);
   const timestampHash = hashTimestamp(Date.now());
   const userId = `user-${randomPart}-${timestampHash}`;
   const userName = `User ${randomPart}`;
   const userEmail = `${randomPart}-${timestampHash}@test.me`;
-  
-  return <AutoJoinConference email={email ?? userEmail} userId={id ?? userId} name={name ?? userName} />;
+  console.log('Random UserId:', userId);
+  console.log('Random UserName:', userName);
+  console.log('Random UserEmail:', userEmail);
+
+  return (
+    <AutoJoinConference
+      email={email ?? userEmail}
+      userId={id ?? userId}
+      name={name ?? userName}
+    />
+  );
 }

@@ -1,8 +1,9 @@
-import { SiteFooter } from '@/components/footer';
-import SiteHeader from '@/components/header/site-header';
+import { ReactNode } from 'react';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
-import { ReactNode } from 'react';
+import HeaderComponent from '@/components/common/use-header';
+import FooterComponent from '@/components/common/use-footer';
+
 type Props = {
   children: ReactNode;
   params: { locale: string };
@@ -18,9 +19,9 @@ export default function LandingPageLayout({
   const messages = useMessages();
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <SiteHeader />
+      <HeaderComponent />
       {children}
-      <SiteFooter />
+      <FooterComponent />
     </NextIntlClientProvider>
   );
 }
