@@ -24,6 +24,8 @@ export function MainNav({ items }: MainNavProps) {
     pathname = pathname.slice(locale.length + 1);
   }
 
+
+
   return (
     <div className='flex gap-6 md:gap-10 justify-center items-center'>
       <Link href='/' className='flex items-center gap-2'>
@@ -65,11 +67,11 @@ export function MainNav({ items }: MainNavProps) {
           )}
         </nav>
       ) : null}
-        {/* <Link href='/profile/messages'><div className='flex items-center justify-center'>
+        <Link href='/profile/messages'><div className='flex items-center justify-center'>
         <span className='relative left-12 rounded-full bg-card-gradient-menu text-xs px-2 text-center -top-2'>10</span>
         <TiMessages size={32} />
         </div>
-      </Link> */}
+      </Link>
     </div>
   );
 }

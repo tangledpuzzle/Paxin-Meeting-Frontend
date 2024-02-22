@@ -82,12 +82,12 @@ const ChatComponent: React.FC = () => {
       <div id="chat-input">
         <div id="file-input"></div>
       </div>
-      <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
+      {/* <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
         <button onClick={toggleAnimation}>
         {isAnimationRunning ? 'Остановить поток' : 'Запустить поток'}
         </button>
         <button>Применить настройки</button>
-      </div>
+      </div> */}
     </div>
     
   );
