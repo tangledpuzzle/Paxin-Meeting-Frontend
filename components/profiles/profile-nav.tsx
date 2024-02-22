@@ -11,18 +11,19 @@ import { useTranslations } from 'next-intl';
 interface ProfileNavProps {
   items: NavItem[];
   setOpen?: Dispatch<SetStateAction<boolean>>;
+  hideSidebar: boolean;
 }
 
-export function ProfileNav({ items, setOpen }: ProfileNavProps) {
+export function ProfileNav({ items, setOpen, hideSidebar }: ProfileNavProps) {
   const t = useTranslations('main');
   const path = usePathname();
 
-  if (!items?.length) {
+  if (!items?.length || hideSidebar === true) {
     return null;
   }
 
   return (
-    <nav className='grid w-full grid-cols-4 items-start gap-2 sm:grid-cols-1'>
+    <nav className='grid w-full py-2 grid-cols-4 items-start gap-2 sm:grid-cols-1'>
       {items.map((item, index) => {
         const Icon: React.ComponentType<any> | undefined = item.icon;
         return (
