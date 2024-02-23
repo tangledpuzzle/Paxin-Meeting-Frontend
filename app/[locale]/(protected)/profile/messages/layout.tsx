@@ -27,7 +27,6 @@ export default function Messages({ children }: MessagesProps) {
     const [isOpen, setIsOpen] = useState(true);
     const [selectedContact, setSelectedContact] = useState<number | null>(null);
     const pathname = usePathname();
-    const router = useRouter(); // Инициализация useRouter
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -48,7 +47,7 @@ export default function Messages({ children }: MessagesProps) {
         };
 
         const handleHideSideBar = () => {
-            setIsOpen(!isOpen);
+            setIsOpen(prevIsOpen => !prevIsOpen); 
         }
         eventBus.on('startChat', handleHideSideBar);
         eventBus.on('contactId', handleContactSelectWrapper);
@@ -63,7 +62,7 @@ export default function Messages({ children }: MessagesProps) {
         if (cleanPathname.includes('/profile/messages/')  && cleanPathname.split('/').length > 3) {
             const segments = cleanPathname.split('/');
             const lastSegment = segments[segments.length - 1];
-            if (lastSegment !== 'followers') {
+            if (lastSegment !== 'settings') {
                 const slug = segments[3]; 
                 setSelectedContact(parseInt(slug));
             }
@@ -74,21 +73,21 @@ export default function Messages({ children }: MessagesProps) {
     return (
         <div>
             <div className={`new-container${isOpen ? ' open' : ''}`}>
-                <div className="new-sidebar pt-[70px]">
-                    <div className="h-screen w-full py-8 overflow-y-auto bg-card-gradient border-l border-r">
+                <div className="new-sidebar pt-[70px] w-full md:w-[300px]">
+                    <div className="h-screen w-full py-2 overflow-y-auto bg-card-gradient border-l border-r">
                         <div className="px-5 text-lg font-medium text-gray-800 dark:text-white">
-                            <button className="toggle-btn  absolute z-10 top-24 right-4" onClick={toggleSidebar}>
+                            <button className="toggle-btn  absolute z-10 top-[92px] right-4" onClick={toggleSidebar}>
                                 <IoIosClose size={24} />
                             </button>
                             <div className="">
                                 <nav className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
-                                    <NavItem href="/profile/messages/followers" text="Followers" />
-                                    <NavItem href="/profile/messages" text="Open dialogs" />
+                                    <NavItem href="/profile/messages" text="Followers" />
+                                    <NavItem href="/profile/messages/settings" text="Settings" />
                                     {/* <NavItem href="/profile/messages/settings" text="Settings" /> */}
                                 </nav>
                             </div>
                         </div>
-                        <ScrollArea className="h-[calc(100vh_-_18rem)] rounded-lg bg-background p-4">
+                        <ScrollArea className="h-[calc(100vh_-_12rem)] rounded-lg bg-background p-4">
                         {React.Children.map(children, child => {
                             if (React.isValidElement(child)) {
                                 const props = { onSelectContact: handleContactSelect } as React.ComponentProps<typeof ChatWindow>;
@@ -109,14 +108,14 @@ export default function Messages({ children }: MessagesProps) {
                         )}
 
 
-                        <div className={`bg-background h-[100px]${isOpen ? 'hidden' : ' '}`}>
+                        {/* <div className={`bg-background h-[100px]${isOpen ? 'hidden' : ' '}`}>
                             <div className='flex'>
                                 <button className="toggle-btn  absolute z-10" onClick={toggleSidebar}>
                                     <FaUsersLine size={24} />
                                     <span className='vertical-text'>nav</span>
                                 </button>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
