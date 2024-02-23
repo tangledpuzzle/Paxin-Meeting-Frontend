@@ -13,10 +13,5 @@ export default function FooterComponent() {
     console.log(url);
   }, [pathname, searchParams]);
 
-  return pathname.includes('/meet/') ||
-    pathname.includes('/auto-join-meet/') ? (
-    <div />
-  ) : (
-    <SiteFooter />
-  );
+  return pathname.includes('/meet/') ? <div /> : <SiteFooter />;
 }
