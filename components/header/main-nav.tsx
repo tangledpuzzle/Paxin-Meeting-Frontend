@@ -3,13 +3,14 @@
 import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { TiMessages } from "react-icons/ti";
 
 import { NavItem } from '@/types/nav';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { useLocale, useTranslations } from 'next-intl';
+import eventBus from '@/eventBus';
 
 interface MainNavProps {
   items?: NavItem[];
@@ -19,11 +20,33 @@ export function MainNav({ items }: MainNavProps) {
   const t = useTranslations('main');
 
   const locale = useLocale();
+  const router = useRouter();
   let pathname = usePathname();
   if (pathname.startsWith('/' + locale)) {
     pathname = pathname.slice(locale.length + 1);
   }
 
+  const cleanPathname = pathname.replace(/^\/(ru|ka|es)\//, '/');
+
+  if (cleanPathname.startsWith('/' + locale)) {
+    pathname = cleanPathname.slice(locale.length + 1);
+  }
+
+  const handleLinkClick = (href: string, title: string) => {
+    if (pathname === href) {
+      alert(`Link "${title}" clicked!`);
+    } else {
+      window.location.href = href;
+    }
+  };
+
+  const checkMessagesInPathname = () => {
+    if (pathname.includes('messages')) {
+      eventBus.emit('startChat', '0');
+    } else {
+        router.push("/profile/messages")
+    }
+  };
 
 
   return (
@@ -67,11 +90,11 @@ export function MainNav({ items }: MainNavProps) {
           )}
         </nav>
       ) : null}
-        <Link href='/profile/messages'><div className='flex items-center justify-center'>
+        <button onClick={checkMessagesInPathname}><div className='flex items-center justify-center'>
         <span className='relative left-12 rounded-full bg-card-gradient-menu text-xs px-2 text-center -top-2'>10</span>
         <TiMessages size={32} />
         </div>
-      </Link>
+        </button>
     </div>
   );
 }
