@@ -82,12 +82,12 @@ const ChatComponent: React.FC = () => {
       <div id="chat-input">
         <div id="file-input"></div>
       </div>
-      <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
+      {/* <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
         <button onClick={toggleAnimation}>
         {isAnimationRunning ? 'Остановить поток' : 'Запустить поток'}
         </button>
         <button>Применить настройки</button>
-      </div>
+      </div> */}
     </div>
     
   );
@@ -239,8 +239,8 @@ class Line {
 
   createElement(): LineElement {
     const lineContainer = createElement({ class: 'line-container' });
-    const line = createElement({ class: 'line' });
-    const profileImg = createElement({ class: 'profile-img' });
+    const line = createElement({ class: ['bg-card-gradient-menu-on', 'py-4', 'px-4'] });
+    const profileImg = createElement({ class: ['profile-img', 'mb-2'] });
     const body = createElement({ class: 'body' });
     const name = createElement({ class: 'name' });
     const texts = [];
