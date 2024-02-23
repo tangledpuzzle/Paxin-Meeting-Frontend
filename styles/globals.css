@@ -740,7 +740,7 @@ textarea {
 }
 
 .new-sidebar {
-    width: 300px;
+    /* width: 300px; */
     height: 100%;
     transition: transform 0.3s ease;
     position: fixed;
