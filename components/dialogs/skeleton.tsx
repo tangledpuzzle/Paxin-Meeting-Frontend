@@ -239,8 +239,8 @@ class Line {
 
   createElement(): LineElement {
     const lineContainer = createElement({ class: 'line-container' });
-    const line = createElement({ class: 'line' });
-    const profileImg = createElement({ class: 'profile-img' });
+    const line = createElement({ class: ['bg-card-gradient-menu-on', 'py-4', 'px-4'] });
+    const profileImg = createElement({ class: ['profile-img', 'mb-2'] });
     const body = createElement({ class: 'body' });
     const name = createElement({ class: 'name' });
     const texts = [];

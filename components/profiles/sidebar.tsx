@@ -52,20 +52,11 @@ const navItems: NavItem[] = [
 export default function Sidebar() {
   const router = usePathname();
 
-  let pathWithoutLanguagePrefix;
-  if (router.startsWith('/ru/')) {
-    console.log(router.startsWith('/ru/'))
-    pathWithoutLanguagePrefix = router.slice(3);
-    console.log(pathWithoutLanguagePrefix)
-  } else if (router.startsWith('/ka/')) {
-    pathWithoutLanguagePrefix = router.slice(3); 
-  } else if (router.startsWith('/es/')) {
-    pathWithoutLanguagePrefix = router.slice(3); 
-  } else {
-    pathWithoutLanguagePrefix = router; 
-  }
-  
-  const isMessagesPage = pathWithoutLanguagePrefix === '/profile/messages';
+  const langPrefixRegex = /^\/(ru|ka|es)\//;
+
+  const pathWithoutLanguagePrefix = router.replace(langPrefixRegex, '/');
+  const isMessagesPage = /^\/profile\/messages(\/(?!.*\/).*)?$/.test(pathWithoutLanguagePrefix);
+
 
   return (
     <div>

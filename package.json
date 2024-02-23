@@ -55,6 +55,7 @@
     "livekit-client": "^1.15.4",
     "lucide-react": "^0.315.0",
     "microsoft-cognitiveservices-speech-sdk": "^1.35.0",
+    "mitt": "^3.0.1",
     "mobile-detect": "^1.4.5",
     "next": "^14.1.0",
     "next-auth": "^4.24.5",
