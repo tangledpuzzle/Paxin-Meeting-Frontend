@@ -22,7 +22,7 @@ interface FollowersPageProps {
     <div className='my-0'>
         <input className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-8 pr-4 dark:bg-input" placeholder="Search by name" type="text" value=""></input>
     </div>
-    <Link href='/profile/messages/23' onClick={() => handleContactSelect(23)}   className="flex items-center w-full px-5 py-2 transition-colors duration-200 dark:hover:bg-gray-800 gap-x-2 hover:bg-gray-100 focus:outline-none">
+    <Link href='/profile/messages/23' onClick={() => handleContactSelect(23)}   className="flex items-center w-full px-5 py-2 transition-colors duration-200 hover:bg-card-gradient-menu gap-x-2 focus:outline-none">
         <img className="object-cover w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=faceare&facepad=3&w=688&h=688&q=100" alt="" />
     
         <div className="text-left rtl:text-right">
@@ -32,7 +32,7 @@ interface FollowersPageProps {
     </Link>
 
  
-    <Link href='/profile/messages/3' onClick={() => handleContactSelect(3)}  className="flex items-center w-full px-5 py-2 transition-colors duration-200 bg-card-gradient-menu gap-x-2  focus:outline-none">
+    <Link href='/profile/messages/3' onClick={() => handleContactSelect(3)}  className="flex items-center w-full px-5 py-2 transition-colors duration-200 hover:bg-card-gradient-menu gap-x-2 focus:outline-none">
         <div className="relative">
             <img className="object-cover w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&h=764&q=100" alt="" />
             <span className="h-2 w-2 rounded-full bg-emerald-500 absolute right-0.5 ring-1 ring-white bottom-0"></span>
@@ -48,7 +48,7 @@ interface FollowersPageProps {
         </div>
     </Link>
 
-    <Link  href='/profile/messages/4'  onClick={() => handleContactSelect(4)}  className="flex items-center w-full px-5 py-2 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 gap-x-2 focus:outline-none">
+    <Link  href='/profile/messages/4'  onClick={() => handleContactSelect(4)}  className="flex items-center w-full px-5 py-2 transition-colors duration-200 hover:bg-card-gradient-menu gap-x-2 focus:outline-none">
         <div className="relative">
             <img className="object-cover w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1608174386344-80898cec6beb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&h=687&q=80" alt="" />
             <span className="h-2 w-2 rounded-full bg-emerald-500 absolute right-0.5 ring-1 ring-white bottom-0"></span>
