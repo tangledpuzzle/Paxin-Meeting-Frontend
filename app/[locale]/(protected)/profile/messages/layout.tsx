@@ -86,7 +86,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
             {!isOpen && (
                 <div className={`bg-background h-[20px]${isOpen ? 'hidden' : ' '}`}>
                     <div className='flex'>
-                        <div className=" left-0 absolute z-10 cursor-pointer px-7" onClick={toggleSidebar}>
+                        <div className=" left-0 top-0 md:top-4 md:left-2 absolute z-10 cursor-pointer px-7" onClick={toggleSidebar}>
                         <MoveLeft size="24" />
                         </div>
                     </div>
@@ -192,7 +192,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                 <div className='chatInput'>
                     <form onSubmit={sendMessage}> {/* Обработчик отправки формы */}
                         <div className='flex justify-between '>
-                            <Button className='!rounded-l-none !rounded-r-none'>
+                            <Button className='!rounded-l-none !rounded-r-none bg-card-gradient-menu'>
                                 <DropdownMenuDemo/>
                             </Button>
                             <input 
