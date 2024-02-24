@@ -13,7 +13,7 @@ const MessageWithCatchAll = () => {
     <div className="border-b px-4 pb-6">
       <BackButton callback="" />
         <div className="text-center my-4">
-            <img className="h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 mx-auto my-4"
+            <img className="h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 mx-auto my-4 hover:!border-[#00B887]"
                 src="https://randomuser.me/api/portraits/women/21.jpg" alt="" />
             <div className="py-2">
                 <h3 className="font-bold text-2xl text-gray-800 dark:text-white mb-1">Cait Genevieve</h3>
@@ -29,12 +29,12 @@ const MessageWithCatchAll = () => {
         </div>
         <div className="flex gap-2 px-2">
             <button
-                className="flex-1  btn text-white dark:text-white antialiased font-bold !rounded-md px-4 py-2">
+                className="flex-1 rounded-md border-2  border-gray-400 dark:border-gray-700 font-semibold text-black dark:text-white px-4 py-2  hover:!border-[#00B887]">
                 Follow
             </button>
             <button
                 onClick={() => handleContactSelect(3)}
-                className="flex-1 rounded-md border-2 border-gray-400 dark:border-gray-700 font-semibold text-black dark:text-white px-4 py-2">
+                className="flex-1 rounded-md border-2  border-gray-400 dark:border-gray-700 font-semibold text-black dark:text-white px-4 py-2  hover:!border-[#00B887]">
                 Message
             </button>
         </div>

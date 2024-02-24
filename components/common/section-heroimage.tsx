@@ -24,7 +24,7 @@ function SectionHeroImage({}: SectionHeroImageProps) {
   return (
     <div
       className={cn(
-        'pt- relative mt-12 flex w-full items-center justify-center px-7'
+        'pt- relative mt-12 flex wwg w-full items-center justify-center px-7'
       )}
     >
       <motion.div
@@ -76,7 +76,7 @@ function SectionHeroImage({}: SectionHeroImageProps) {
         </div>
       </motion.div>
 
-      <div className='absolute left-0 bottom-0 top-[94%]  h-1/6 w-full max-w-7xl bg-gradient-to-b from-transparent via-white to-white dark:via-background dark:to-background md:top-[80%] md:h-1/3'></div>
+      {/* <div className='absolute left-0 bottom-0 top-[94%]  h-1/6 w-full max-w-7xl bg-gradient-to-b from-transparent via-white to-white dark:via-background dark:to-background md:top-[80%] md:h-1/3'></div> */}
 
     </div>
   );
