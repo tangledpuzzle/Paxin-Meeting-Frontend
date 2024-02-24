@@ -118,25 +118,23 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   const getMeetAccessToken = async (): Promise<string> => {
     const accessToken = getAccessToken();
     if (accessToken) return accessToken;
-    else if (pathname.includes('/auto-join-meet/')) {
-      const randomPart = generateRandomString(4);
-      const timestampHash = hashTimestamp(Date.now());
-      const userId = `user-${randomPart}-${timestampHash}`;
-      const userName = `User ${randomPart}`;
-      const userEmail = `${randomPart}-${timestampHash}@test.me`;
-      console.log('Random UserId:', userId);
-      console.log('Random UserName:', userName);
-      console.log('Random UserEmail:', userEmail);
+    const randomPart = generateRandomString(4);
+    const timestampHash = hashTimestamp(Date.now());
+    const userId = `user-${randomPart}-${timestampHash}`;
+    const userName = `User ${randomPart}`;
+    const userEmail = `${randomPart}-${timestampHash}@test.me`;
+    console.log('Random UserId:', userId);
+    console.log('Random UserName:', userName);
+    console.log('Random UserEmail:', userEmail);
 
-      setLoading(true);
-      const token = await joinRoom(roomId, userId, userName);
-      setLoading(false);
+    setLoading(true);
+    const token = await joinRoom(roomId, userId, userName);
+    setLoading(false);
 
-      if (token) {
-        setAccessToken(token);
-        setAccessTokenLocal(token);
-        return token;
-      } else return '';
+    if (token) {
+      setAccessToken(token);
+      setAccessTokenLocal(token);
+      return token;
     } else return '';
   };
 

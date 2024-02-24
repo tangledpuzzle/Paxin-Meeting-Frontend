@@ -13,10 +13,5 @@ export default function HeaderComponent() {
     console.log(url);
   }, [pathname, searchParams]);
 
-  return pathname.includes('/meet/') ||
-    pathname.includes('/auto-join-meet/') ? (
-    <div />
-  ) : (
-    <SiteHeader />
-  );
+  return pathname.includes('/meet/') ? <div /> : <SiteHeader />;
 }

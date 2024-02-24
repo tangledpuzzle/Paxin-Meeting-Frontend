@@ -31,15 +31,14 @@ export default function AutoJoinConference({
 
     if (token) {
       setAccessToken(token);
-      router.push(`/auto-join-meet/${roomId}`);
+      router.push(`/meet/${roomId}`);
     }
   }
 
   return (
     <div className='p-4'>
       <div className='flex h-[calc(100vh_-_15rem)] w-full flex-col rounded-xl bg-background p-4 sm:h-[calc(100vh_-_13rem)]'>
-        <div className='flex w-full items-center justify-between'>
-        </div>
+        <div className='flex w-full items-center justify-between'></div>
         <div className='flex size-full flex-col justify-center'>
           <div className='mb-48 mt-auto space-y-4'>
             <div>
@@ -61,7 +60,6 @@ export default function AutoJoinConference({
               </MeetJoinModal>
             </div>
           </div>
- 
         </div>
       </div>
     </div>
