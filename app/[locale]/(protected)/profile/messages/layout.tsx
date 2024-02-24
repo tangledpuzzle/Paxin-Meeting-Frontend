@@ -92,7 +92,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                     </div>
                 </div>)}
 
-                <ScrollArea ref={scrollAreaRef} className="h-[calc(100vh_-_9rem)] w-full rounded-lg bg-background p-4">
+                <ScrollArea ref={scrollAreaRef} className="h-[calc(100vh_-_9rem)] w-full rounded-lg bg-background px-4">
                 <div className="wrapper">
                 <div className="chat-area container !px-0">
 
@@ -191,17 +191,17 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                 </ScrollArea>
                 <div className='chatInput'>
                     <form onSubmit={sendMessage}> {/* Обработчик отправки формы */}
-                        <div className='flex justify-between'>
-                            <Button className='rounded-r-none'>
+                        <div className='flex justify-between '>
+                            <Button className='!rounded-l-none !rounded-r-none'>
                                 <DropdownMenuDemo/>
                             </Button>
                             <input 
                                 value={inputMessage} 
                                 onChange={handleInputChange} 
-                                className='w-full px-4 mx-0 rounded-r-md pr-8 text-sm focus:text-sm' 
+                                className='w-full px-4 mx-0 rounded-r-none pr-8 text-[16px]' 
                                 placeholder='Message' 
                             />
-                            <button type="submit" className='absolute right-0 flex justify-center items-center h-full pr-2 cursor-pointer'>
+                            <button type="submit" className='absolute right-0 flex justify-center items-center h-full pr-3 cursor-pointer'>
                                 <IoSendOutline color='gray' size={18} />
                             </button>
                         </div>

@@ -27,12 +27,7 @@ const DropdownMenuDemo = () => {
           </DropdownMenu.Item>
 
           <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger className="DropdownMenuSubTrigger">
-              More Tools
-              <div className="RightSlot">
-                <ChevronRightIcon />
-              </div>
-            </DropdownMenu.SubTrigger>
+       
             <DropdownMenu.Portal>
               <DropdownMenu.SubContent
                 className="DropdownMenuSubContent bg-card-gradient-menu"
