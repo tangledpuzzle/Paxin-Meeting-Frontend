@@ -787,11 +787,10 @@ textarea {
 
 .chatInput {
   position: fixed;
-  bottom: 10px;
-  height: 40px;
-  width: 80%;
+  bottom: 0px;
+  width: 100%;
   background-color: #242424;
-  border-radius: 6px;
+  border-radius: 0px;
   overflow: hidden;
 }
 
@@ -1175,7 +1174,7 @@ textarea {
 
 .chat-msg {
   display: flex;
-  padding: 0 20px 45px;
+  padding: 0 0px 45px;
 }
 .chat-msg-content {
   margin-left: 12px;
