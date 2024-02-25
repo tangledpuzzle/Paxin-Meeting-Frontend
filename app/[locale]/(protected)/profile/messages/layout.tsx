@@ -120,7 +120,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                     </div>
                 </div>)}
 
-                <ScrollArea ref={scrollAreaRef} className="h-[calc(100vh_-_11rem)] w-full rounded-lg bg-background px-4 ">
+                <ScrollArea ref={scrollAreaRef} className="h-[calc(100vh_-_11rem)] w-full rounded-lg bg-background px-4">
                 <div className="wrapper">
                 <div className="chat-area container !px-0">
 
@@ -234,8 +234,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                             ref={textareaRef}
                             value={inputMessage} 
                             onChange={handleInputChange} 
-
-                            className="w-full mt-[10px] mr-[40px] mb-[10px] rounded-xl ml-[10px] pl-[10px] pr-[10px]" 
+                            className="w-full mt-[10px] mr-[40px] mb-[10px] rounded-xl ml-[10px] pl-[10px] pr-[10px] pt-2 pb-2 max-h-[300px]" 
                             onInput={auto_height}></textarea>
 
                             <button onClick={sendMessage} className='absolute right-0 flex justify-center items-end pb-6 h-full pr-3 cursor-pointer'>
