@@ -45,15 +45,10 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
 
 
 
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            sendMessage(e);
+      const sendMessage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null = null) => {
+        if (e) {
+            e.preventDefault(); 
         }
-    };
-    
-    const sendMessage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault(); 
         if (inputMessage.trim() !== "") { 
             const newMessage = (
                 <div className="chat-msg">
@@ -70,15 +65,26 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
             setMessages(prevMessages => [...prevMessages, newMessage]);
             setInputMessage(""); 
         }
-        const submitButton = e.currentTarget.querySelector('button[type="submit"]');
-        if (submitButton) {
-                const submitButton = e.currentTarget.querySelector<HTMLButtonElement>('button[type="submit"]');
-                if (submitButton) {
-                    submitButton.focus();
-                }
+        if (e) {
+            const submitButton = e.currentTarget.querySelector<HTMLButtonElement>('button[type="submit"]');
+            if (submitButton) {
+                submitButton.focus();
+            }
         }    
     };
+    
 
+
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Предотвращаем стандартное действие (например, переход на новую строку)
+            sendMessage(); // Вызываем функцию отправки сообщения без параметров
+        }
+    };
+    
+    
+    
     const getCurrentTime = () => {
         const now = new Date();
         const hours = now.getHours();
@@ -214,7 +220,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                                 onChange={handleInputChange} 
                                 className='w-full px-4 mx-0 rounded-r-none pr-8 text-[16px]' 
                                 placeholder='Message' 
-                                onKeyDown={handleKeyPress}
+                                onKeyDown={handleKeyDown}
                             />
                             <button onClick={sendMessage} type="submit" className='absolute right-0 flex justify-center items-center h-full pr-3 cursor-pointer'>
                                 <IoSendOutline color='gray' size={18} />
