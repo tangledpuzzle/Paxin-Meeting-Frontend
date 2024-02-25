@@ -68,7 +68,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
             setMessages(prevMessages => [...prevMessages, newMessage]);
             setInputMessage("");
             if (textareaRef.current) {
-                textareaRef.current.style.height = '48px'; 
+                textareaRef.current.style.height = '68px'; 
             }
         }
         if (e) {
@@ -234,7 +234,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                             ref={textareaRef}
                             value={inputMessage} 
                             onChange={handleInputChange} 
-                            className="w-full mt-[10px] mr-[40px] mb-[10px] rounded-xl ml-[10px] pl-[10px] pr-[10px] pt-2 pb-2 max-h-[300px]" 
+                            className="w-full mt-[10px] mr-[40px] mb-[10px] rounded-xl ml-[10px] pl-[10px] pr-[10px] pt-2 pb-2 max-h-[200px]" 
                             onInput={auto_height}></textarea>
 
                             <button onClick={sendMessage} className='absolute right-0 flex justify-center items-end pb-6 h-full pr-3 cursor-pointer'>
@@ -250,7 +250,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
 
 function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
     const textarea = event.currentTarget as HTMLTextAreaElement;
-    textarea.style.height = '48px';
+    textarea.style.height = '68px';
 
     textarea.style.height = `${textarea.scrollHeight}px`;
 
@@ -258,6 +258,18 @@ function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
   
   
 export default function Messages({ children }: MessagesProps) {
+
+    useEffect(() => {
+        // Добавляем стиль overflow: hidden при монтировании компонента
+        document.body.style.overflow = 'hidden';
+
+        // Удаляем стиль overflow: hidden при размонтировании компонента
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []); // Пустой массив зависимостей гарантирует, что эффект будет вызван только при монтировании и размонтировании компонента
+
+
     const [isOpen, setIsOpen] = useState(true);
     const sidebarRef = useRef(null);
 
