@@ -120,7 +120,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                     </div>
                 </div>)}
 
-                <ScrollArea ref={scrollAreaRef} className="h-[calc(100vh_-_11rem)] w-full rounded-lg bg-background px-4">
+                <ScrollArea ref={scrollAreaRef} className="h-[calc(100vh_-_11rem)] w-full rounded-lg bg-background px-4 ">
                 <div className="wrapper">
                 <div className="chat-area container !px-0">
 
