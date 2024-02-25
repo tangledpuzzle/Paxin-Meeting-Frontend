@@ -548,7 +548,7 @@ textarea {
 }
 
 #chat-input {
-  position: fixed;
+  position: relative;
   bottom: 10px;
   height: 40px;
   width: 80%;
@@ -789,7 +789,7 @@ textarea {
 }
 
 .chatInput {
-  position: fixed;
+  position: relative;
   bottom: 0px;
   width: 100%;
   min-height: 80px;
