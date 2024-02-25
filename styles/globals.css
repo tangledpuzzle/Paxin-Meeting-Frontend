@@ -791,6 +791,7 @@ textarea {
   position: relative;
   bottom: 0px;
   width: 100%;
+  min-height: 80px;
   background-color: #242424;
   border-radius: 0px;
   overflow: hidden;

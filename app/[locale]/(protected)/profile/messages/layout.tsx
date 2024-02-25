@@ -30,26 +30,29 @@ interface ChatWindowProps {
     toggleSidebar: () => void;
 }
 
+
 function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatWindowProps) {
     type Message = string | JSX.Element;
 
     const [inputMessage, setInputMessage] = useState<string>("");
     const [messages, setMessages] = useState<Message[]>([]);
-    const scrollAreaRef = useRef<HTMLDivElement>(null); // Создаем ссылку на область прокрутки
+    const scrollAreaRef = useRef<HTMLDivElement>(null); 
 
     useEffect(() => {
         if (scrollAreaRef.current) {
           scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
         }
-      }, [messages]); // Scroll to bottom whenever messages change
+      }, [messages]);
 
 
+      const textareaRef = useRef<HTMLTextAreaElement>(null);
 
       const sendMessage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null = null) => {
         if (e) {
             e.preventDefault();
         }
-        if (inputMessage.trim() !== "") {
+        const trimmedMessage = inputMessage.trim(); 
+        if (trimmedMessage !== "") {
             const newMessage = (
                 <div className="chat-msg">
                     <div className="chat-msg-profile">
@@ -57,13 +60,16 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                         <div className="chat-msg-date">Message not seen yet</div>
                     </div>
                     <div className="chat-msg-content">
-                        <div className="chat-msg-text bg-card-gradient-menu" style={{ whiteSpace: 'pre-line' }}>{inputMessage}</div>
+                        <div className="chat-msg-text bg-card-gradient-menu" style={{ whiteSpace: 'pre-line' }}>{trimmedMessage}</div>
                     </div>
                 </div>
             );
     
             setMessages(prevMessages => [...prevMessages, newMessage]);
             setInputMessage("");
+            if (textareaRef.current) {
+                textareaRef.current.style.height = '48px'; 
+            }
         }
         if (e) {
             const submitButton = e.currentTarget.querySelector<HTMLButtonElement>('button[type="submit"]');
@@ -72,6 +78,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
             }
         }
     };
+    
     
     
 
@@ -113,7 +120,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                     </div>
                 </div>)}
 
-                <ScrollArea ref={scrollAreaRef} className="h-[calc(100vh_-_9rem)] w-full rounded-lg bg-background px-4">
+                <ScrollArea ref={scrollAreaRef} className="h-[calc(100vh_-_11rem)] w-full rounded-lg bg-background px-4">
                 <div className="wrapper">
                 <div className="chat-area container !px-0">
 
@@ -224,13 +231,14 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                                 onKeyDown={handleKeyDown}
                             /> */}
                             <textarea
+                            ref={textareaRef}
                             value={inputMessage} 
                             onChange={handleInputChange} 
 
                             className="w-full mt-[10px] mr-[40px] mb-[10px] rounded-xl ml-[10px] pl-[10px] pr-[10px]" 
                             onInput={auto_height}></textarea>
 
-                            <button onClick={sendMessage} className='absolute right-0 flex justify-center items-end pb-4 h-full pr-3 cursor-pointer'>
+                            <button onClick={sendMessage} className='absolute right-0 flex justify-center items-end pb-6 h-full pr-3 cursor-pointer'>
                                 <IoSendOutline color='gray' size={18} />
                             </button>
                         </div>
