@@ -260,16 +260,19 @@ function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
 export default function Messages({ children }: MessagesProps) {
 
     useEffect(() => {
-        // Добавляем стиль overflow: hidden при монтировании компонента
-        document.body.style.overflow = 'hidden';
 
-        // Удаляем стиль overflow: hidden при размонтировании компонента
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, []); // Пустой массив зависимостей гарантирует, что эффект будет вызван только при монтировании и размонтировании компонента
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
 
-
+    return () => {
+        document.body.style.overflow = 'auto';
+        document.body.style.position = '';
+        document.body.style.width = '';
+      
+    };
+    }, []);
+    
     const [isOpen, setIsOpen] = useState(true);
     const sidebarRef = useRef(null);
 
