@@ -304,6 +304,7 @@ input[type="week"],
 select:focus,
 textarea {
   font-size: 16px;
+  resize: none; 
 }
 
 
@@ -788,7 +789,7 @@ textarea {
 }
 
 .chatInput {
-  position: relative;
+  position: fixed;
   bottom: 0px;
   width: 100%;
   min-height: 80px;
@@ -840,6 +841,12 @@ textarea {
   --button-color: #9f7aea;
   --button-bg-color: rgba(159, 122, 234, 0.12);
 }
+/* 
+[data-radix-scroll-area-viewport] {
+  padding-top: 180px;
+  top: -80px;
+  position: fixed;
+} */
 
 [data-theme=green] {
   --theme-color: #38b2ac;
