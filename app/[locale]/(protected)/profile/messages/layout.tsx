@@ -44,8 +44,15 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
       }, [messages]); // Scroll to bottom whenever messages change
 
 
-    // Функция для отправки сообщения
-    const sendMessage = (e: React.FormEvent) => {
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendMessage(e);
+        }
+    };
+    
+    const sendMessage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault(); 
         if (inputMessage.trim() !== "") { 
             const newMessage = (
@@ -63,6 +70,13 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
             setMessages(prevMessages => [...prevMessages, newMessage]);
             setInputMessage(""); 
         }
+        const submitButton = e.currentTarget.querySelector('button[type="submit"]');
+        if (submitButton) {
+                const submitButton = e.currentTarget.querySelector<HTMLButtonElement>('button[type="submit"]');
+                if (submitButton) {
+                    submitButton.focus();
+                }
+        }    
     };
 
     const getCurrentTime = () => {
@@ -190,7 +204,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                 </div>
                 </ScrollArea>
                 <div className='chatInput'>
-                    <form onSubmit={sendMessage}> {/* Обработчик отправки формы */}
+                    {/* <form onSubmit={sendMessage}> Обработчик отправки формы */}
                         <div className='flex justify-between '>
                             <Button className='!rounded-l-none !rounded-r-none bg-card-gradient-menu'>
                                 <DropdownMenuDemo/>
@@ -200,12 +214,13 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                                 onChange={handleInputChange} 
                                 className='w-full px-4 mx-0 rounded-r-none pr-8 text-[16px]' 
                                 placeholder='Message' 
+                                onKeyDown={handleKeyPress}
                             />
-                            <button type="submit" className='absolute right-0 flex justify-center items-center h-full pr-3 cursor-pointer'>
+                            <button onClick={sendMessage} type="submit" className='absolute right-0 flex justify-center items-center h-full pr-3 cursor-pointer'>
                                 <IoSendOutline color='gray' size={18} />
                             </button>
                         </div>
-                    </form>
+                    {/* </form> */}
                 </div>                
             </div>
         </div>
