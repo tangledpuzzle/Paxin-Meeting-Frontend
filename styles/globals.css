@@ -312,6 +312,7 @@ textarea {
   textarea:focus,
   input:focus {
     font-size: 16px;
+    outline: none;
   }
 }
 
@@ -539,9 +540,10 @@ textarea {
 
 
 #chat-container {
-  display: flex;
+  /* display: flex;
+  flex-flow: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 #chat-input {
@@ -786,7 +788,7 @@ textarea {
 }
 
 .chatInput {
-  position: fixed;
+  position: relative;
   bottom: 0px;
   width: 100%;
   background-color: #242424;

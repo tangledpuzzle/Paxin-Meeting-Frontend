@@ -33,7 +33,7 @@ interface ChatWindowProps {
 function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatWindowProps) {
     type Message = string | JSX.Element;
 
-    const [inputMessage, setInputMessage] = useState(""); // Состояние для хранения введенного сообщения
+    const [inputMessage, setInputMessage] = useState<string>("");
     const [messages, setMessages] = useState<Message[]>([]);
     const scrollAreaRef = useRef<HTMLDivElement>(null); // Создаем ссылку на область прокрутки
 
@@ -47,9 +47,9 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
 
       const sendMessage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null = null) => {
         if (e) {
-            e.preventDefault(); 
+            e.preventDefault();
         }
-        if (inputMessage.trim() !== "") { 
+        if (inputMessage.trim() !== "") {
             const newMessage = (
                 <div className="chat-msg">
                     <div className="chat-msg-profile">
@@ -57,21 +57,22 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                         <div className="chat-msg-date">Message not seen yet</div>
                     </div>
                     <div className="chat-msg-content">
-                        <div className="chat-msg-text bg-card-gradient-menu">{inputMessage}</div>
+                        <div className="chat-msg-text bg-card-gradient-menu" style={{ whiteSpace: 'pre-line' }}>{inputMessage}</div>
                     </div>
                 </div>
             );
     
             setMessages(prevMessages => [...prevMessages, newMessage]);
-            setInputMessage(""); 
+            setInputMessage("");
         }
         if (e) {
             const submitButton = e.currentTarget.querySelector<HTMLButtonElement>('button[type="submit"]');
             if (submitButton) {
                 submitButton.focus();
             }
-        }    
+        }
     };
+    
     
 
 
@@ -79,7 +80,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault(); // Предотвращаем стандартное действие (например, переход на новую строку)
-            sendMessage(); // Вызываем функцию отправки сообщения без параметров
+            setInputMessage(prevInputMessage => prevInputMessage + '\n'); // Добавляем перенос строки в текущее значение поля ввода
         }
     };
     
@@ -95,14 +96,14 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
         return `${formattedHours}:${formattedMinutes} ${ampm}`;
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setInputMessage(e.target.value);
     };
     
 
     return (
         <div>
-            <div id="chat-container">
+            <div id="chat-container" className='h-auto'>
             {!isOpen && (
                 <div className={`bg-background h-[20px]${isOpen ? 'hidden' : ' '}`}>
                     <div className='flex'>
@@ -212,17 +213,24 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                 <div className='chatInput'>
                     {/* <form onSubmit={sendMessage}> Обработчик отправки формы */}
                         <div className='flex justify-between '>
-                            <Button className='!rounded-l-none !rounded-r-none bg-card-gradient-menu'>
+                            <Button className='!rounded-l-none !rounded-r-none bg-card-gradient-menu h-auto !items-end'>
                                 <DropdownMenuDemo/>
                             </Button>
-                            <input 
+                            {/* <input 
                                 value={inputMessage} 
                                 onChange={handleInputChange} 
                                 className='w-full px-4 mx-0 rounded-r-none pr-8 text-[16px]' 
                                 placeholder='Message' 
                                 onKeyDown={handleKeyDown}
-                            />
-                            <button onClick={sendMessage} type="submit" className='absolute right-0 flex justify-center items-center h-full pr-3 cursor-pointer'>
+                            /> */}
+                            <textarea
+                            value={inputMessage} 
+                            onChange={handleInputChange} 
+
+                            className="w-full mt-[10px] mr-[40px] mb-[10px] rounded-xl ml-[10px] pl-[10px] pr-[10px]" 
+                            onInput={auto_height}></textarea>
+
+                            <button onClick={sendMessage} className='absolute right-0 flex justify-center items-end pb-4 h-full pr-3 cursor-pointer'>
                                 <IoSendOutline color='gray' size={18} />
                             </button>
                         </div>
@@ -233,6 +241,14 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
     );
 }
 
+function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    const textarea = event.currentTarget as HTMLTextAreaElement;
+    textarea.style.height = '48px';
+
+    textarea.style.height = `${textarea.scrollHeight}px`;
+
+  }
+  
   
 export default function Messages({ children }: MessagesProps) {
     const [isOpen, setIsOpen] = useState(true);
@@ -342,6 +358,8 @@ export default function Messages({ children }: MessagesProps) {
             const cleanPathname = pathname.replace(/^\/(ru|ka|es)\//, '/');
             setCleanHref(cleanPathname);
         }, [pathname]);
+
+
     
         return (
             <div className="me-2">
