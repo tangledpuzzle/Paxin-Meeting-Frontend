@@ -118,7 +118,6 @@ export default async function LandingPage({
       <ServicesSection />
       <DynamicComponentWithSSR />
       <ProfilestagsWithSSR />
-
       <JoinUsSection />
       <div>
         <Link href='/home' className='cta'>
