@@ -279,8 +279,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                             onChange={handleInputChange} 
                             className="w-full mt-[10px] mr-[40px] mb-[10px] rounded-xl ml-[10px] pl-[10px] pr-[10px] pt-2 pb-2 max-h-[200px] h-[68px]" 
                             onInput={auto_height}></textarea>
-
-                            <button onClick={sendMessage} className='absolute right-0 flex justify-center items-end pb-6 h-full pr-3 cursor-pointer'>
+                            <button type="button" onClick={sendMessage} className='absolute right-0 flex justify-center items-end pb-6 h-full pr-3 cursor-pointer'>
                                 <IoSendOutline color='gray' size={18} />
                             </button>
                         </div>
