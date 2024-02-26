@@ -28,6 +28,8 @@ interface ChatWindowProps {
     contactId: number;
     onSelectContact: (contactId: number) => void;
     toggleSidebar: () => void;
+    autoHeightFunc: (event: React.ChangeEvent<HTMLTextAreaElement>) => void; 
+
 }
 
 
@@ -54,7 +56,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
         const trimmedMessage = inputMessage.trim(); 
         if (trimmedMessage !== "") {
             const newMessage = (
-                <div className="chat-msg">
+                <div className="chat-msg" style={{ overflowWrap: "anywhere" }}>
                     <div className="chat-msg-profile">
                         <img className="chat-msg-img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png" alt="" />
                         <div className="chat-msg-date">Message not seen yet</div>
@@ -106,6 +108,47 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
     const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setInputMessage(e.target.value);
     };
+    
+
+    useEffect(() => {
+        const chatInput = document.querySelector('.chatInput');
+        const chatContainer = document.querySelector('.new-container') as HTMLElement | null;
+        let prevHeight = 0;
+    
+        const resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                if (entry.contentBoxSize) {
+                    const height = entry.contentBoxSize[0].blockSize;
+                    // Update the style of chat-container
+                    if (chatContainer) {
+                        if (height !== prevHeight) {
+                            if (height > prevHeight) {
+                                const currentTop = parseInt(chatContainer.style.top || '0');
+                                const newTop = currentTop - 24;
+                                chatContainer.style.top = `${newTop}px`;
+                            } else {
+                                const currentTop = parseInt(chatContainer.style.top || '0');
+                                const newTop = currentTop + 24;
+                                chatContainer.style.top = `${newTop}px`;
+                            }
+                            prevHeight = height;
+                        }
+                    }
+                }
+            }
+        });
+    
+        if (chatInput) {
+            resizeObserver.observe(chatInput);
+        }
+    
+        return () => {
+            if (chatInput) {
+                resizeObserver.unobserve(chatInput);
+            }
+        };
+    }, []);
+    
     
 
     return (
@@ -234,7 +277,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
                             ref={textareaRef}
                             value={inputMessage} 
                             onChange={handleInputChange} 
-                            className="w-full mt-[10px] mr-[40px] mb-[10px] rounded-xl ml-[10px] pl-[10px] pr-[10px] pt-2 pb-2 max-h-[200px]" 
+                            className="w-full mt-[10px] mr-[40px] mb-[10px] rounded-xl ml-[10px] pl-[10px] pr-[10px] pt-2 pb-2 max-h-[200px] h-[68px]" 
                             onInput={auto_height}></textarea>
 
                             <button onClick={sendMessage} className='absolute right-0 flex justify-center items-end pb-6 h-full pr-3 cursor-pointer'>
@@ -248,17 +291,22 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
     );
 }
 
+
+
+
 function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
+
     const textarea = event.currentTarget as HTMLTextAreaElement;
     textarea.style.height = '68px';
-
     textarea.style.height = `${textarea.scrollHeight}px`;
+    
 
-  }
+}
   
   
 export default function Messages({ children }: MessagesProps) {
 
+    
     useEffect(() => {
 
     document.body.style.overflow = 'hidden';
@@ -272,6 +320,7 @@ export default function Messages({ children }: MessagesProps) {
       
     };
     }, []);
+
     
     const [isOpen, setIsOpen] = useState(true);
     const sidebarRef = useRef(null);
@@ -332,7 +381,7 @@ export default function Messages({ children }: MessagesProps) {
 
     return (
         <div>
-            <div className={`new-container${isOpen ? ' open' : ''}`}>
+            <div className={`new-container${isOpen ? ' open' : '' }`} >
                 <div ref={sidebarRef} className="new-sidebar pt-[70px] w-full md:w-[300px]">
                     <div className="h-screen w-full py-2 overflow-y-auto bg-card-gradient border-l border-r">
                         <div className="px-5 text-lg font-medium text-gray-800 dark:text-white">
@@ -362,7 +411,7 @@ export default function Messages({ children }: MessagesProps) {
                 <div className="new-content-container">
                     <div className="new-main-content">
                         {selectedContact !== null ? (
-                            <ChatWindow isOpen={isOpen} contactId={selectedContact} onSelectContact={handleContactSelect} toggleSidebar={toggleSidebar} /> // Передаем isOpen и toggleSidebar как пропсы в ChatWindow
+                            <ChatWindow isOpen={isOpen} contactId={selectedContact} onSelectContact={handleContactSelect} autoHeightFunc={auto_height}  toggleSidebar={toggleSidebar} /> // Передаем isOpen и toggleSidebar как пропсы в ChatWindow
                         ) : (
                             <ChatSSRSkeleton />
                         )}
