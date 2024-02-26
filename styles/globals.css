@@ -620,7 +620,9 @@ textarea {
 .chat {
   position: fixed;
   bottom: 60px;
-  width: 80%;
+  width: 100%;
+  /* max-width: 1200px; */
+  margin: 0 auto;
   display: inline-block;
 }
 
@@ -629,6 +631,7 @@ textarea {
   border-radius: 6px;
   max-height: 0px;
   opacity: 0;
+  width: 85%;
   transform: translateX(-300px) scale(0.2);
   transition: margin-bottom 200ms, max-height 500ms, opacity 100ms, transform 250ms;
   transition-timing-function: ease-out;

@@ -4,19 +4,25 @@ import * as React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import Slideshow from '@/components/ui/slideshow';
+// import Slideshow from '@/components/ui/slideshow';
+import dynamic from 'next/dynamic';
 
+
+const ChatSSRSkeleton = dynamic(
+  () => import('@/components/dialogs/skeleton'),
+  { ssr: true }
+);
 export interface SectionHeroImageProps
   extends React.HTMLAttributes<HTMLDivElement> {}
 
-const images = [
-  '/images/6.avif',
-  '/images/3.avif',
-  '/images/2.avif',
-  '/images/9.avif',
-  '/images/10.avif',
-];
-const interval = 5000; // Интервал в миллисекундах (5 секунд)
+// const images = [
+//   '/images/6.avif',
+//   '/images/3.avif',
+//   '/images/2.avif',
+//   '/images/9.avif',
+//   '/images/10.avif',
+// ];
+// const interval = 5000; // Интервал в миллисекундах (5 секунд)
 
 function SectionHeroImage({}: SectionHeroImageProps) {
   const t = useTranslations('main');
@@ -24,13 +30,13 @@ function SectionHeroImage({}: SectionHeroImageProps) {
   return (
     <div
       className={cn(
-        'pt- relative mt-12 flex wwg w-full items-center justify-center px-7'
+        'relative mt-12 flex wwg w-full items-center justify-center px-7'
       )}
     >
       <motion.div
         initial='hidden'
         animate='visible'
-        className='flex w-full justify-center'
+        className='flex w-full justify-center wwg2'
         variants={{
           hidden: {
             scale: 1,
@@ -46,18 +52,20 @@ function SectionHeroImage({}: SectionHeroImageProps) {
           },
         }}
       >
-        <div className='hero-gradient absolute'>
+        {/* hero-gradient */}
+        <div className='absolute'>
           <span></span>
           <span></span>
           <span></span>
         </div>
+        <div className='wwg'></div>
+        <div className='absolute z-[-1] min-h-full w-full max-w-7xl h-[800px]' />
+        <ChatSSRSkeleton />
+        <div className='w-full dark:hidden h-[800px]'>
 
-        <div className='absolute z-[-1] h-[110%] min-h-full w-full max-w-7xl' />
-
-        <div className='w-full dark:hidden'>
-          <Slideshow images={images} interval={interval} />
+          {/* <Slideshow images={images} interval={interval} /> */}
         </div>
-        <div className='hidden w-full px-2 dark:block sm:px-16'>
+        <div className='hidden w-full px-2 dark:block sm:px-16 h-[800px]'>
           {/* <Image
             src='/images/home/hero-dark.avif'
             width={1440}
@@ -72,7 +80,7 @@ function SectionHeroImage({}: SectionHeroImageProps) {
             alt='hero'
             className='mx-auto h-auto w-full max-w-5xl pt-[20px] md:hidden'
           /> */}
-          <Slideshow images={images} interval={interval} />
+          {/* <Slideshow images={images} interval={interval} /> */}
         </div>
       </motion.div>
 

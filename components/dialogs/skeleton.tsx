@@ -79,7 +79,7 @@ const ChatComponent: React.FC = () => {
 
   return (
     <div id="chat-container">
-      <div id="chat-input">
+      <div id="chat-input w-full">
         <div id="file-input"></div>
       </div>
       {/* <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
@@ -104,6 +104,12 @@ class Chat {
     this.anim = null;
     const container = document.getElementById('chat-container');
     container?.appendChild(this.ele);
+
+    this.addLineWithDelay();
+    this.addLineWithDelay();
+    this.addLineWithDelay();
+    this.addLine();
+    
   }
 
   addLine() {
