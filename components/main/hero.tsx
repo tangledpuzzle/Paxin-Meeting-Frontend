@@ -12,7 +12,10 @@ const HeroSection = () => {
         {t('empowering_connections_metaverse')}
       </SectionTitle>
       <SectionDescription className='px-7 text-left md:text-center'>
-        {t('empowering_connections_metaverse_description')}
+      {/* <span className='mb-2'>{t('empowering_connections_metaverse_description2')}</span> */}
+      {/* <br/> */}
+      <span className='mr-2'>{t('empowering_connections_metaverse_description')}</span>
+      {/* <button className='btn p-1 m'>настроить поток</button> */}
       </SectionDescription>
       <SectionHeroImage />
     </div>

@@ -57,7 +57,7 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
         if (textareaRef.current) {
             textareaRef.current.focus();
         }
-        
+
         const trimmedMessage = inputMessage.trim(); 
         if (trimmedMessage !== "") {
             const newMessage = (
@@ -74,6 +74,11 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
     
             setMessages(prevMessages => [...prevMessages, newMessage]);
             setInputMessage("");
+            const chatContainer = document.querySelector('.new-container') as HTMLElement | null;
+            if (chatContainer) {
+                chatContainer.style.top = `${-24}px`;
+            }
+
             if (textareaRef.current) {
                 textareaRef.current.style.height = '68px'; 
             }
