@@ -53,6 +53,11 @@ function ChatWindow({ isOpen, contactId, onSelectContact, toggleSidebar }: ChatW
         if (e) {
             e.preventDefault();
         }
+
+        if (textareaRef.current) {
+            textareaRef.current.focus();
+        }
+        
         const trimmedMessage = inputMessage.trim(); 
         if (trimmedMessage !== "") {
             const newMessage = (
