@@ -19,12 +19,6 @@ export interface FlowData {
   id: string;
   title: string;
   subtitle: string;
-  user: {
-    username: string;
-    online: boolean;
-    telegram: string;
-    avatar: string;
-  };
   slug: string;
   hero: string;
   price: number;
@@ -41,7 +35,7 @@ export interface FlowData {
 
 const pageSize = 12;
 
-export default function FlowSection() {
+export default function FlowSection({ uuid }: { uuid: string }) {
   const t = useTranslations('main');
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -52,7 +46,7 @@ export default function FlowSection() {
   const [maxPage, setMaxPage] = useState<number>(1);
   const locale = useLocale();
   const [fetchURL, setFetchURL] = useState(
-    `/api/flows/get?language=en&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}`
+    `/api/flows/${uuid}?language=en&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}`
   );
   const [title, setTitle] = useState<string>(
     searchParams.get('title') ? searchParams.get('title') || 'all' : 'all'
@@ -99,7 +93,7 @@ export default function FlowSection() {
 
   useEffect(() => {
     const generateFetchURL = () => {
-      let baseURL = `/api/flows/get?language=${locale}&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}`;
+      let baseURL = `/api/flows/${uuid}?language=${locale}&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}`;
 
       return baseURL;
     };
