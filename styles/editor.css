@@ -1,10 +1,25 @@
+.quill {
+  border-color: hsl(var(--input)) !important;
+  border-width: 1px !important;
+  border-radius: calc(var(--radius) - 2px) !important;
+}
+
+.ql-container {
+  border: none !important;
+}
+
 .ql-editor {
   min-height: 6rem;
   font-size: 12pt;
+  border: none !important;
 }
 
 .ql-editor.ql-blank::before {
   @apply !text-gray-400;
+}
+
+.ql-toolbar {
+  border: none !important;
 }
 
 .ql-disabled {

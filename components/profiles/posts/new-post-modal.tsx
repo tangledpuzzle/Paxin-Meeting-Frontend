@@ -64,6 +64,18 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   const t = useTranslations('main');
   const { user } = useContext(PaxContext);
   const locale = useLocale();
+  const [formData, setFormData] = useState<{
+    title?: string;
+    subtitle?: string;
+    content?: string;
+    city?: { value: number; label: string }[];
+    category?: { value: number; label: string }[];
+    hashtags?: { value: string; label: string }[];
+    price?: string;
+    days?: string;
+    images?: File[];
+  }>();
+  const [formIndex, setFormIndex] = useState<number>(0);
   const [cityOptions, setCityOptions] = useState<
     { value: number; label: string }[]
   >([]);
@@ -89,15 +101,19 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     setHashtagKeyword(value);
   }, 300);
 
-  const formSchema = z
-    .object({
+  const formSchema = [
+    z.object({
       title: z.string().min(1, t('title_is_required')),
       subtitle: z.string().min(1, t('subtitle_is_required')),
+    }),
+    z.object({
       content: z
         .string()
         .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
           message: t('content_is_required'),
         }),
+    }),
+    z.object({
       city: z
         .array(
           z.object({
@@ -124,18 +140,11 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
         .min(1, t('select_at_least_one_hashtag')),
       price: z.string().optional(),
       days: z.string(),
-      images: z
-        .array(
-          z.object({
-            name: z.string(),
-            path: z.string(),
-          })
-        )
-        .min(1, t('upload_at_least_one_image')),
-    })
-    .required();
+      images: z.array(z.any()).min(1, t('upload_at_least_one_image')),
+    }),
+  ];
 
-  type FormData = z.infer<typeof formSchema>;
+  type FormData = z.infer<(typeof formSchema)[number]>;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
@@ -176,21 +185,39 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   ];
 
   const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: '',
-      subtitle: '',
-      content: '',
-      city: [],
-      category: [],
-      hashtags: [],
-      price: '',
-      days: '30',
-      images: [],
-    },
+    resolver: zodResolver(formSchema[formIndex]),
+    defaultValues: [
+      {
+        title: formData?.title || '',
+        subtitle: formData?.subtitle || '',
+      },
+      {
+        content: formData?.content || '',
+      },
+      {
+        city: formData?.city || [],
+        category: formData?.category || [],
+        hashtags: formData?.hashtags || [],
+        price: formData?.price || '0',
+        days: formData?.days || '30',
+        images: formData?.images || [],
+      },
+    ][formIndex],
   });
 
-  const submitBlog = async (data: FormData) => {
+  const submitBlog = (data: FormData) => {
+    if (formIndex < 3) {
+      setFormIndex(formIndex + 1);
+      setFormData({
+        ...formData,
+        ...data,
+      });
+
+      return;
+    }
+  };
+
+  const handlePost = async () => {
     setIsLoading(true);
 
     try {
@@ -236,14 +263,18 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
       }
 
       const res = await axios.post(`/api/flows/create?language=${locale}`, {
-        title: data.title,
-        subtitle: data.subtitle,
-        content: data.content,
-        city: data.city.map((city) => ({ ID: city.value })),
-        category: data.category.map((category) => ({ ID: category.value })),
-        hashtags: data.hashtags.map((hashtag) => ({ hashtag: hashtag.value })),
-        price: data.price,
-        days: data.days,
+        title: formData!.title,
+        subtitle: formData!.subtitle,
+        content: formData!.content,
+        city: formData!.city!.map((city) => ({ ID: city.value })),
+        category: formData!.category!.map((category) => ({
+          ID: category.value,
+        })),
+        hashtags: formData!.hashtags!.map((hashtag) => ({
+          hashtag: hashtag.value,
+        })),
+        price: formData!.price,
+        days: formData!.days,
         images: files?.files,
       });
 
@@ -319,7 +350,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className='!h-full max-h-[100%] w-full overflow-y-auto sm:max-w-xl md:max-h-[100%] md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
+      <DialogContent className='w-full overflow-y-auto sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
         <DialogHeader className='flex flex-row items-center gap-3'>
           <div className='rounded-full bg-primary/10 p-3 text-primary'>
             <TfiWrite className='size-5' />
@@ -334,108 +365,67 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
             onSubmit={form.handleSubmit(submitBlog)}
             className='w-full space-y-2'
           >
-            <div className='grid gap-4 py-4'>
-              <FormField
-                control={form.control}
-                name='title'
-                render={({ field }) => (
-                  <FormItem>
-                    <div className='flex items-center gap-4'>
-                      <FormLabel htmlFor='title'>{t('title')}</FormLabel>
-                      <FormControl>
-                        <Input className='' {...field} />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='subtitle'
-                render={({ field }) => (
-                  <FormItem>
-                    <div className='flex items-center gap-4'>
-                      <FormLabel htmlFor='subtitle'>{t('subtitle')}</FormLabel>
-                      <FormControl>
-                        <Input className='' {...field} />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='content'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor='content'>{t('content')}</FormLabel>
-                    <FormControl>
-                      <ReactQuill
-                        theme='snow'
-                        {...field}
-                        modules={modules}
-                        formats={formats}
-                        placeholder={t('type_content_here')}
-                        className='placeholder:text-white'
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className='grid gap-4 sm:grid-cols-2'>
+            {(formIndex === 0 || formIndex === 3) && (
+              <div className='grid gap-4'>
                 <FormField
                   control={form.control}
-                  name='city'
+                  name='title'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='city'>{t('city')}</FormLabel>
-                      <FormControl>
-                        <ReactSelect
-                          isMulti
-                          placeholder={t('select') + '...'}
-                          noOptionsMessage={() => t('no_options')}
-                          options={cityOptions}
-                          {...field}
-                          classNames={{
-                            input: () =>
-                              'dark:text-white text-black text-[16px]',
-                            control: () =>
-                              '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
-                            option: () =>
-                              '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
-                            menu: () => '!bg-muted',
-                          }}
-                        />
-                      </FormControl>
+                      <div className=''>
+                        <FormLabel htmlFor='title'>{t('title')}</FormLabel>
+                        <FormControl>
+                          <Input
+                            className=''
+                            {...field}
+                            disabled={isLoading || formIndex === 3}
+                          />
+                        </FormControl>
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
                 <FormField
                   control={form.control}
-                  name='category'
+                  name='subtitle'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='category'>{t('category')}</FormLabel>
+                      <div className=''>
+                        <FormLabel htmlFor='subtitle'>
+                          {t('subtitle')}
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className=''
+                            {...field}
+                            disabled={isLoading || formIndex === 3}
+                          />
+                        </FormControl>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+            {(formIndex === 1 || formIndex === 3) && (
+              <div className='grid gap-4'>
+                <FormField
+                  control={form.control}
+                  name='content'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor='content'>{t('content')}</FormLabel>
                       <FormControl>
-                        <ReactSelect
-                          isMulti
-                          placeholder={t('select') + '...'}
-                          noOptionsMessage={() => t('no_options')}
+                        <ReactQuill
+                          theme='snow'
                           {...field}
-                          options={categoryOptions}
-                          classNames={{
-                            input: () =>
-                              'dark:text-white text-black text-[16px]',
-                            control: () =>
-                              '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
-                            option: () =>
-                              '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
-                            menu: () => '!bg-muted',
-                          }}
+                          modules={modules}
+                          formats={formats}
+                          placeholder={t('type_content_here')}
+                          className='placeholder:text-white'
+                          readOnly={isLoading || formIndex === 3}
                         />
                       </FormControl>
                       <FormMessage />
@@ -443,56 +433,34 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                   )}
                 />
               </div>
-              <div className='grid gap-4 sm:grid-cols-2'>
-                <FormField
-                  control={form.control}
-                  name='hashtags'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel htmlFor='hashtags'>{t('hashtags')}</FormLabel>
-                      <FormControl>
-                        <CreatableSelect
-                          isMulti
-                          placeholder={t('select') + '...'}
-                          noOptionsMessage={() => t('no_options')}
-                          options={hashtagOptions}
-                          // onCreateOption={(value) => {
-                          //   setNewHashtags([...newHashtags, value]);
-                          //   setHashtagOptions([
-                          //     ...hashtagOptions,
-                          //     { value, label: value },
-                          //   ]);
-                          //   field.onChange([
-                          //     ...field.value,
-                          //     { value, label: value },
-                          //   ]);
-                          // }}
-                          {...field}
-                          onInputChange={(value) => handleHashtagSearch(value)}
-                          classNames={{
-                            input: () =>
-                              'dark:text-white text-black text-[16px]',
-                            control: () =>
-                              '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
-                            option: () =>
-                              '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
-                            menu: () => '!bg-muted',
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            )}
+            {(formIndex === 2 || formIndex === 3) && (
+              <div className='space-y-2'>
                 <div className='grid gap-4 sm:grid-cols-2'>
                   <FormField
                     control={form.control}
-                    name='price'
+                    name='city'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel htmlFor='price'>{t('price')}</FormLabel>
+                        <FormLabel htmlFor='city'>{t('city')}</FormLabel>
                         <FormControl>
-                          <Input className='' type='number' {...field} />
+                          <ReactSelect
+                            isMulti
+                            placeholder={t('select') + '...'}
+                            noOptionsMessage={() => t('no_options')}
+                            options={cityOptions}
+                            {...field}
+                            classNames={{
+                              input: () =>
+                                'dark:text-white text-black text-[16px]',
+                              control: () =>
+                                '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                              option: () =>
+                                '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                              menu: () => '!bg-muted',
+                            }}
+                            isDisabled={isLoading || formIndex === 3}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -500,65 +468,171 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                   />
                   <FormField
                     control={form.control}
-                    name='days'
+                    name='category'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel htmlFor='days'>
-                          {t('number_of_days')}
+                        <FormLabel htmlFor='category'>
+                          {t('category')}
                         </FormLabel>
                         <FormControl>
-                          <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
-                          >
-                            <SelectTrigger className='w-full'>
-                              <SelectValue placeholder='' />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectItem value='30'>
-                                  30 {t('days')}
-                                </SelectItem>
-                                <SelectItem value='60'>
-                                  60 {t('days')}
-                                </SelectItem>
-                                <SelectItem value='90'>
-                                  90 {t('days')}
-                                </SelectItem>
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
+                          <ReactSelect
+                            isMulti
+                            placeholder={t('select') + '...'}
+                            noOptionsMessage={() => t('no_options')}
+                            {...field}
+                            options={categoryOptions}
+                            classNames={{
+                              input: () =>
+                                'dark:text-white text-black text-[16px]',
+                              control: () =>
+                                '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                              option: () =>
+                                '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                              menu: () => '!bg-muted',
+                            }}
+                            isDisabled={isLoading || formIndex === 3}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
+                <div className='grid gap-4 sm:grid-cols-2'>
+                  <FormField
+                    control={form.control}
+                    name='hashtags'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor='hashtags'>
+                          {t('hashtags')}
+                        </FormLabel>
+                        <FormControl>
+                          <CreatableSelect
+                            isMulti
+                            placeholder={t('select') + '...'}
+                            noOptionsMessage={() => t('no_options')}
+                            options={hashtagOptions}
+                            {...field}
+                            onInputChange={(value) =>
+                              handleHashtagSearch(value)
+                            }
+                            classNames={{
+                              input: () =>
+                                'dark:text-white text-black text-[16px]',
+                              control: () =>
+                                '!flex !w-full !rounded-md !border !border-input !bg-background !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50',
+                              option: () =>
+                                '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
+                              menu: () => '!bg-muted',
+                            }}
+                            isDisabled={isLoading || formIndex === 3}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className='grid gap-4 sm:grid-cols-2'>
+                    <FormField
+                      control={form.control}
+                      name='price'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel htmlFor='price'>{t('price')}</FormLabel>
+                          <FormControl>
+                            <Input
+                              className=''
+                              type='number'
+                              {...field}
+                              disabled={isLoading || formIndex === 3}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='days'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel htmlFor='days'>
+                            {t('number_of_days')}
+                          </FormLabel>
+                          <FormControl>
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                              disabled={isLoading || formIndex === 3}
+                            >
+                              <SelectTrigger className='w-full'>
+                                <SelectValue placeholder='' />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectItem value='30'>
+                                    30 {t('days')}
+                                  </SelectItem>
+                                  <SelectItem value='60'>
+                                    60 {t('days')}
+                                  </SelectItem>
+                                  <SelectItem value='90'>
+                                    90 {t('days')}
+                                  </SelectItem>
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+                <FormField
+                  control={form.control}
+                  name='images'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <ImageUpload
+                          ref={imageUploadRef}
+                          value={field.value}
+                          onChange={field.onChange}
+                          disabled={isLoading || formIndex === 3}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
-            </div>
-            <div>
-              <FormField
-                control={form.control}
-                name='images'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <ImageUpload
-                        ref={imageUploadRef}
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            )}
             <DialogFooter>
-              <Button type='submit' disabled={isLoading}>
-                {isLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
-                {t('post')}
+              <Button
+                type='button'
+                disabled={formIndex === 0}
+                onClick={() => setFormIndex(formIndex - 1)}
+              >
+                {t('back_flow')}
               </Button>
+              {formIndex < 3 && (
+                <Button type='submit' disabled={isLoading}>
+                  {isLoading && (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  )}
+                  {t('next')}
+                </Button>
+              )}
+              {formIndex === 3 && (
+                <Button type='button' disabled={isLoading} onClick={handlePost}>
+                  {isLoading && (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  )}
+                  {t('post')}
+                </Button>
+              )}
             </DialogFooter>
           </form>
         </Form>
