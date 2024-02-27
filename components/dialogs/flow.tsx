@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { PaxContext } from '@/context/context';
+import { useLocale } from 'next-intl';
+
+
 
 interface Chat {
   ele: HTMLDivElement;
@@ -35,12 +38,12 @@ const createElement = (opts: { class?: string | string[] } = {}): HTMLDivElement
 }
 
 
-
 const ChatComponent: React.FC = () => {
+  const locale = useLocale();
   useEffect(() => {
     const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const wsPath = process.env.NEXT_PUBLIC_SOCKET_URL;
-    const newSocket = new WebSocket(`${wsProtocol}//${wsPath}/stream/live?language=ru`);
+    const newSocket = new WebSocket(`${wsProtocol}//${wsPath}/stream/live?language=` + locale);
     newSocket.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
       if (receivedData) {
@@ -59,10 +62,9 @@ const ChatComponent: React.FC = () => {
     };
   
     return () => {
-      newSocket.close(); // Закрываем новое соединение при размонтировании компонента
+      newSocket.close(); 
     };
   }, []);
-
 
   const [addingChat, setAddingChat] = useState<boolean>(false);
   const [lastChatTime, setLastChatTime] = useState<number>(0);
@@ -110,8 +112,8 @@ const ChatComponent: React.FC = () => {
   );
 }
 
-
 class Chat {
+    
   ele: HTMLDivElement;
   lines: Line[] = [];
   anim: NodeJS.Timeout | null = null;
@@ -177,13 +179,19 @@ class Line {
   hasImg: boolean = false;
   hasRichBody: boolean = false;
   textname: string = "";
-  urlPhoto: string = ""; // Переопределение типа на строку для хранения полного пути к фотографии
+  urlPhoto: string = "";
+  hashtags: string[] = [];
   
 constructor(data: any) {
     const photoPath = data.photos?.[0]?.files?.[0]?.path;
+    this.urlPhoto = photoPath || ""; 
+    this.textName(data.Title);
+    if (Array.isArray(data.Hashtags)) {
+        this.hashtags = [...data.Hashtags];
+    } else {
+        this.hashtags = [];
+    }
 
-    this.urlPhoto = photoPath || ""; // Присваивание полного пути к фотографии свойству urlPhoto
-    this.textName(data.User?.Name);
     this.pickColor();
     this.pickName();
     this.pickText();
@@ -278,12 +286,20 @@ constructor(data: any) {
     const line = createElement({ class: ['bg-card-gradient-menu-on', 'py-4', 'px-4'] });
     const profileImg = createElement({ class: ['profile-img', 'mb-2'] });
     const body = createElement({ class: 'body' });
-    const name = createElement();
+    const name = createElement({class: '!w-full'});
+
+    //@ts-ignore
+    const hashtagsText = this.hashtags.map(hashtag => hashtag.Hashtag).join(', ');
+    const hashtagsElement = createElement({ class: 'hashtags' });
+    hashtagsElement.textContent = hashtagsText;
+
     const texts = [];
     const img = createElement({ class: 'img' });
     const richBody = createElement({ class: 'rich-body' });
 
     name.textContent = this.textname;
+
+    body.appendChild(hashtagsElement); // Добавляем элемент хэштегов в тело сообщения
 
     body.appendChild(name);
     for (let i = 0; i < (this.textCount || 1); i++) {
