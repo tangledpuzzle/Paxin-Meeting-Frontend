@@ -39,7 +39,8 @@ const createElement = (opts: { class?: string | string[] } = {}): HTMLDivElement
 const ChatComponent: React.FC = () => {
   useEffect(() => {
     const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const newSocket = new WebSocket(`${wsProtocol}//paxintrade.ldev:8000/stream/live?language=ru`);
+    const wsPath = process.env.NEXT_PUBLIC_SOCKET_URL;
+    const newSocket = new WebSocket(`${wsProtocol}//${wsPath}/stream/live?language=ru`);
     newSocket.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
       if (receivedData) {
