@@ -48,6 +48,9 @@
     "post": "Post",
     "profile_settings": "Profile Settings",
     "accounting": "Accounting",
+    "subscription": "Subscription",
+    "what_included": "What's included",
+    "upgrade": "Upgrade",
     "basic": "Basic",
     "photo_gallery": "Photo Gallery",
     "additional": "Additional",
@@ -94,11 +97,11 @@
     "password": "Password",
     "room_id": "Room ID",
     "explore_paxintrade": "Explore PaxinTrade",
-    
+
     "empowering_connections_metaverse": "Trade Network",
     "empowering_connections_metaverse_description": "Live worldwide",
     "empowering_connections_metaverse_description2": "Empowered by artificial intelligence",
-     
+
     "discover_paxintrade": "Discover PaxinTrade",
     "unleashing_future_online_interaction": "We create a space where connection is deeper and collaboration is more productive.",
     "unleashing_future_online_interaction_description": "At a time when digital technology is permeating every aspect of life, it is important to recognize the importance of strengthening connections in the Meta-Universe - a shared space that connects people, ideas and information digitally.",
