@@ -12,12 +12,12 @@ import dynamic from 'next/dynamic';
 
 import '@/styles/main.css';
 import Link from 'next/link';
+import { headers } from 'next/headers';
+import FlowSection from '@/components/main/flow';
 
 const DynamicComponentWithSSR = dynamic(() => import('@/components/ui/price'), {
   ssr: true,
 });
-
-
 
 const ProfilesComponentWithSSR = dynamic(
   () => import('@/components/ui/profiles'),
@@ -28,7 +28,6 @@ const ProfilesComponentWithSSR = dynamic(
 //   () => import('@/components/rating'),
 //   { ssr: true }
 // );
-
 
 const ProfilestagsWithSSR = dynamic(() => import('@/components/ui/tags'), {
   ssr: true,
@@ -93,19 +92,51 @@ async function getCategories(locale: string) {
   return categories;
 }
 
+function extractUsername(host: string): string {
+  if (process.env.NODE_ENV === 'production') {
+    return host.split('.').slice(-2).join('.');
+  } else {
+    return host.split('.localhost')[0];
+  }
+}
+
+async function getUUID(username: string) {
+  try {
+    const res = await fetch(
+      `${process.env.API_URL}/api/domains/get?domain=${username}`
+    );
+
+    if (!res.ok) {
+      return null;
+    }
+
+    const data = await res.json();
+
+    return data?.data?.user_id || null;
+  } catch (error) {
+    return null;
+  }
+}
+
 export default async function LandingPage({
   params,
 }: {
   params: { locale: string };
 }) {
-  
+  const headerList = headers();
+  const uuid = await getUUID(extractUsername(headerList.get('host') || ''));
+
   unstable_setRequestLocale(params.locale);
   const t = await getTranslations('main');
 
   const profilePhotos = await getProfilePhotos();
   const categories = await getCategories(params.locale);
 
-  return (
+  return uuid ? (
+    <section className='container grid items-center gap-6 pb-8 pt-6 md:py-10'>
+      <FlowSection uuid={uuid} />
+    </section>
+  ) : (
     <section className='container grid items-center gap-0 px-0 pb-8'>
       <HeroSection />
       <FeatureSection />

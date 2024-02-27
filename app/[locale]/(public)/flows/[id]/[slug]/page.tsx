@@ -258,30 +258,30 @@ export default async function FlowPage({
                 </div>
               </div>
               {blogDetails.price !== 0 && (
-              <div>
-                <div className='flex items-center gap-2'>
-                  <FaSackDollar className='size-4' />
-                  {t('price')}
-                </div>
-                <div className='flex gap-2'>
-                  <Link
-                    className='w-full'
-                    href={`/home?mode=flow&money=${blogDetails.price}`}
-                    key={blogDetails.price}
-                  >
-                    <Badge
-                      variant='outline'
-                      className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
+                <div>
+                  <div className='flex items-center gap-2'>
+                    <FaSackDollar className='size-4' />
+                    {t('price')}
+                  </div>
+                  <div className='flex gap-2'>
+                    <Link
+                      className='w-full'
+                      href={`/home?mode=flow&money=${blogDetails.price}`}
+                      key={blogDetails.price}
                     >
-                      {blogDetails.price?.toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD',
-                        maximumFractionDigits: 0,
-                      })}
-                    </Badge>
-                  </Link>
+                      <Badge
+                        variant='outline'
+                        className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
+                      >
+                        {blogDetails.price?.toLocaleString('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                          maximumFractionDigits: 0,
+                        })}
+                      </Badge>
+                    </Link>
+                  </div>
                 </div>
-              </div>
               )}
               <div className={blogDetails.price === 0 ? 'col-span-2' : ''}>
                 <div className='flex items-center gap-2'>
@@ -297,7 +297,6 @@ export default async function FlowPage({
                   </Badge>
                 </div>
               </div>
-
             </div>
             <UpvoteCard
               id={blogDetails.id}
@@ -433,7 +432,6 @@ export default async function FlowPage({
                   </Button>
                 )}
               </div>
-
             </CardFooter>
             <div className='flex flex-col gap-4 text-center'>
               <Button className='btn w-full !rounded-md' asChild>

@@ -2,7 +2,7 @@ import { Eye, Mail } from 'lucide-react';
 import Image from 'next/image';
 import { BiLink } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
-import { IoLanguage } from "react-icons/io5";
+import { IoLanguage } from 'react-icons/io5';
 
 import { ProfileAvatar } from '@/components/common/profile-avatar';
 import { TagSlider } from '@/components/common/tag-slider';
@@ -25,7 +25,7 @@ export interface FlowCardProps {
   id: string;
   title: string;
   subtitle: string;
-  user: {
+  user?: {
     username: string;
     online: boolean;
     telegram: string;
@@ -117,17 +117,18 @@ function FlowCard(profile: FlowCardProps) {
                 {review.totalviews}
               </Badge>
             </div>
-            <div className=' grid grid-cols-2 relative -top-[100px]  '>
+            <div className=' relative -top-[100px] grid grid-cols-2  '>
               <div></div>
-              <div className='flex flex-row-reverse h-0'>
-             <span className='flex justify-center items-center uppercase px-4'><IoLanguage className='w-[32px] h-[32px] px-2' />{countrycode}</span> 
-              {/* <div
+              <div className='flex h-0 flex-row-reverse'>
+                <span className='flex items-center justify-center px-4 uppercase'>
+                  <IoLanguage className='h-[32px] w-[32px] px-2' />
+                  {countrycode}
+                </span>
+                {/* <div
                 className={`absolute bottom-0 mb-4 right-0 mr-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
                 style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
               /> */}
-              
               </div>
-
             </div>
             <div className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
@@ -145,11 +146,11 @@ function FlowCard(profile: FlowCardProps) {
               {title}
             </Link>
           </div>
-          <div className='text-muted-foregroun line-clamp-3 text-sm'>
+          <div className='text-muted-foregroun line-clamp-3 min-h-[3.75rem] text-sm'>
             {subtitle}
           </div>
         </div>
-        <div className='mt-auto flex grow gap-3 px-3'>
+        <div className='mb-2 mt-auto flex grow gap-3 px-3'>
           {price !== 0 && (
             <Link
               className='w-full'
@@ -177,80 +178,85 @@ function FlowCard(profile: FlowCardProps) {
             <CategoryBadge>{category}</CategoryBadge>
           </Link>
         </div>
-        <div className='grid grid-cols-3 px-3 pb-3'>
-          <div className='col-span-2'>
-            <Link href='/profiles/[username]' as={`/profiles/${user.username}`}>
-              <div className='flex gap-2'>
-                <ProfileAvatar
-                  src={user.avatar}
-                  username={user.username}
-                  online={user.online}
-                />
-                <div className='flex flex-col justify-between'>
-                  <div className='text-md text-secondary-foreground'>
-                    {user.username}
-                  </div>
-                  <div className='text-xs text-muted-foreground'>
-                    {t('visit_profile')}
+        {user && (
+          <div className='grid grid-cols-3 px-3 pb-3'>
+            <div className='col-span-2'>
+              <Link
+                href='/profiles/[username]'
+                as={`/profiles/${user.username}`}
+              >
+                <div className='flex gap-2'>
+                  <ProfileAvatar
+                    src={user.avatar}
+                    username={user.username}
+                    online={user.online}
+                  />
+                  <div className='flex flex-col justify-between'>
+                    <div className='text-md text-secondary-foreground'>
+                      {user.username}
+                    </div>
+                    <div className='text-xs text-muted-foreground'>
+                      {t('visit_profile')}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          </div>
-          <div className='flex items-center justify-end gap-2'>
-            <ReportModal>
-              <Button
-                variant='outline'
-                size='icon'
-                className='rounded-full'
-                data-tooltip-id='my-tooltip-1'
-              >
-                <FaExclamation className='size-4 text-gray-500 dark:text-white' />
-              </Button>
-            </ReportModal>
-            <Button
-              variant='outline'
-              size='icon'
-              className='rounded-full'
-              data-tooltip-id='my-tooltip-2'
-              onClick={handleLinkCopy}
-            >
-              <BiLink className='size-4 text-gray-500 dark:text-white' />
-            </Button>
-            {user.telegram && (
-              <Button
-                variant='outline'
-                size='icon'
-                className='rounded-full'
-                data-tooltip-id='my-tooltip-3'
-                asChild
-              >
-                <Link
-                  href={`tg://resolve?domain=${user.telegram}`}
-                  target='_blank'
+              </Link>
+            </div>
+            <div className='flex items-center justify-end gap-2'>
+              <ReportModal>
+                <Button
+                  variant='outline'
+                  size='icon'
+                  className='rounded-full'
+                  data-tooltip-id='my-tooltip-1'
                 >
-                  <FaTelegramPlane className='size-4 text-gray-500 dark:text-white' />
-                </Link>
+                  <FaExclamation className='size-4 text-gray-500 dark:text-white' />
+                </Button>
+              </ReportModal>
+              <Button
+                variant='outline'
+                size='icon'
+                className='rounded-full'
+                data-tooltip-id='my-tooltip-2'
+                onClick={handleLinkCopy}
+              >
+                <BiLink className='size-4 text-gray-500 dark:text-white' />
               </Button>
-            )}
+              {user.telegram && (
+                <Button
+                  variant='outline'
+                  size='icon'
+                  className='rounded-full'
+                  data-tooltip-id='my-tooltip-3'
+                  asChild
+                >
+                  <Link
+                    href={`tg://resolve?domain=${user.telegram}`}
+                    target='_blank'
+                  >
+                    <FaTelegramPlane className='size-4 text-gray-500 dark:text-white' />
+                  </Link>
+                </Button>
+              )}
 
-            <ReactTooltip
-              id='my-tooltip-1'
-              place='bottom'
-              content={t('send_report')}
-            />
-            <ReactTooltip
-              id='my-tooltip-2'
-              place='bottom'
-              content={t('copy_link')}
-            />
-            <ReactTooltip
-              id='my-tooltip-3'
-              place='bottom'
-              content={t('open_telegram_chat')}
-            />
+              <ReactTooltip
+                id='my-tooltip-1'
+                place='bottom'
+                content={t('send_report')}
+              />
+              <ReactTooltip
+                id='my-tooltip-2'
+                place='bottom'
+                content={t('copy_link')}
+              />
+              <ReactTooltip
+                id='my-tooltip-3'
+                place='bottom'
+                content={t('open_telegram_chat')}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );
