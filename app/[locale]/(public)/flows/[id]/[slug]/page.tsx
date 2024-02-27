@@ -349,7 +349,7 @@ export default async function FlowPage({
                 </div>
                 <QRCode
                   value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
-                  className='mt-4'
+                  className='mt-4 w-[200px]'
                 />
               </div>
               <div className='relative my-2 flex w-full justify-center'>
@@ -433,7 +433,9 @@ export default async function FlowPage({
                   </Button>
                 )}
               </div>
-              <div className='flex flex-col gap-4 text-center'>
+
+            </CardFooter>
+            <div className='flex flex-col gap-4 text-center'>
               <Button className='btn w-full !rounded-md' asChild>
                 <Link href={`/profiles/${blogDetails.author?.username}`}>
                   {t('visit_profile')}
@@ -445,7 +447,6 @@ export default async function FlowPage({
                 </Link>
               </Button>
             </div>
-            </CardFooter>
           </Card>
         </div>
       </div>
