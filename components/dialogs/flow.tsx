@@ -23,7 +23,6 @@ interface LineElement {
     profileImg: HTMLDivElement;
     body: HTMLDivElement;
     name: HTMLDivElement;
-    texts: HTMLDivElement[];
     img?: HTMLDivElement;
     richBody?: HTMLDivElement; 
   }
@@ -40,10 +39,14 @@ const createElement = (opts: { class?: string | string[] } = {}): HTMLDivElement
 
 const ChatComponent: React.FC = () => {
   const locale = useLocale();
-  useEffect(() => {
+  const newSocketRef = useRef<WebSocket | null>(null); 
+
+  const connectWebSocket = () => {
     const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const wsPath = process.env.NEXT_PUBLIC_SOCKET_URL;
     const newSocket = new WebSocket(`${wsProtocol}//${wsPath}/stream/live?language=` + locale);
+    newSocketRef.current = newSocket; 
+
     newSocket.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
       if (receivedData) {
@@ -52,19 +55,44 @@ const ChatComponent: React.FC = () => {
         removeOldest();
       }
     };
+  };
 
-    const removeOldest = () => {
-      const maxCount = 10; // Максимальное количество строк чата
-      if (chatRef.current && chatRef.current.ele && chatRef.current.ele.children.length > maxCount) {
-        const oldest = chatRef.current.ele.children[0];
-        chatRef.current.ele.removeChild(oldest);
-      }
-    };
+    
+  const removeOldest = () => {
+    const maxCount = 10; // Максимальное количество строк чата
+    if (chatRef.current && chatRef.current.ele && chatRef.current.ele.children.length > maxCount) {
+      const oldest = chatRef.current.ele.children[0];
+      chatRef.current.ele.removeChild(oldest);
+    }
+  };
+
   
+  const disconnectWebSocket = () => {
+    if (newSocketRef.current) {
+      newSocketRef.current.close();
+      newSocketRef.current = null; 
+    }
+  };
+
+  useEffect(() => {
+    connectWebSocket();
+
     return () => {
-      newSocket.close(); 
+      disconnectWebSocket(); 
     };
   }, []);
+
+  const toggleAnimation = () => {
+    setIsAnimationRunning(prevState => {
+        if (!prevState) {
+            connectWebSocket(); 
+          } else {
+            disconnectWebSocket(); 
+
+          }
+          return !prevState;
+    });
+  };
 
   const [addingChat, setAddingChat] = useState<boolean>(false);
   const [lastChatTime, setLastChatTime] = useState<number>(0);
@@ -96,17 +124,19 @@ const ChatComponent: React.FC = () => {
     }
   }, []);
 
+
+
   return (
     <div id="chat-container">
       <div id="chat-input w-full">
         <div id="file-input"></div>
       </div>
-      {/* <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
+      <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
         <button onClick={toggleAnimation}>
         {isAnimationRunning ? 'Остановить поток' : 'Запустить поток'}
         </button>
-        <button>Применить настройки</button>
-      </div> */}
+        {/* <button>Применить настройки</button> */}
+      </div>
     </div>
     
   );
@@ -241,13 +271,7 @@ constructor(data: any) {
 
     ele.profileImg.style.backgroundImage = `url(${`https://proxy.paxintrade.com/100/` + `https://img.paxintrade.com/` + this.urlPhoto})`;
     ele.name.style.width = this.name * (textWidth / 2) + 'px';
-    ele.texts.forEach((n, i, arr) => {
-      let w = textWidth;
-      if (i === arr.length - 1) {
-        w = Math.max(0.2, (this.textCount - i)) * textWidth;
-      }
-      n.style.width = w + 'px';
-    });
+
     // ele.name.style.backgroundColor = this.color;
     // ele.profileImg.style.backgroundColor = this.profileImgColor;
   }
@@ -261,7 +285,7 @@ constructor(data: any) {
       ele.lineContainer.style.transform = 'translateX(0px) scale(1)';
     }, delay);
 
-    const otherEleList = [ele.profileImg, ele.name, ...ele.texts];
+    const otherEleList = [ele.profileImg, ele.name];
 
     if ('img' in ele) {
       otherEleList.push(ele.img!);
@@ -278,7 +302,6 @@ constructor(data: any) {
       }, delay += 50);
     });
 
-    ele.texts.forEach((n, i) => setTimeout(() => n.style.opacity = '1', 70 * (i + 3) + delay));
   }
 
   createElement(): LineElement {
@@ -288,37 +311,31 @@ constructor(data: any) {
     const body = createElement({ class: 'body' });
     const name = createElement({class: '!w-full'});
 
-    //@ts-ignore
-    const hashtagsText = this.hashtags.map(hashtag => hashtag.Hashtag).join(', ');
-    const hashtagsElement = createElement({ class: 'hashtags' });
-    hashtagsElement.textContent = hashtagsText;
 
-    const texts = [];
+
     const img = createElement({ class: 'img' });
     const richBody = createElement({ class: 'rich-body' });
 
     name.textContent = this.textname;
 
-    body.appendChild(hashtagsElement); // Добавляем элемент хэштегов в тело сообщения
 
     body.appendChild(name);
-    for (let i = 0; i < (this.textCount || 1); i++) {
-      const text = createElement({ class: 'text' });
-      texts.push(text);
-      body.appendChild(text);
-    }
+
     line.appendChild(profileImg);
     line.appendChild(body);
     lineContainer.appendChild(line);
-    const out: LineElement = { lineContainer, line, profileImg, body, name, texts };
-    if (this.hasImg) {
-      out.img = img;
-      body.appendChild(img);
-    }
-    if (this.hasRichBody) {
-      out.richBody = richBody as HTMLDivElement;
-      body.appendChild(richBody);
-    }
+    
+    const flexContainer = createElement({ class: ['flex', 'gap-2', 'flex-wrap', 'mt-2'] });
+
+    this.hashtags.forEach(hashtag => {
+        const hashtagElement = createElement({ class: ['hashtag', 'bg-card-gradient-menu', 'p-2', 'rounded-md'] });
+        //@ts-ignore
+        hashtagElement.textContent = '#' + hashtag.Hashtag; // Добавляем символ # перед текстом тега
+        flexContainer.appendChild(hashtagElement);
+        line.appendChild(flexContainer);
+    });
+
+    const out: LineElement = { lineContainer, line, profileImg, body, name };
     return out;
   }
 }
