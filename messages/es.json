@@ -42,13 +42,18 @@
     "or_drag_and_drop": "O arrastra y suelta",
     "upload_no_more_than_10": "No puedes cargar más de 10 imágenes",
     "save": "Guardar",
+    "next": "Siguiente",
     "write_post": "Escribir una Publicación",
     "write_post_description": "Puedes escribir una nueva publicación aquí.",
+    "ai_assistant": "Asistente de IA",
     "number_of_days": "Número de días",
     "post": "Publicar",
     "profile_settings": "Configuración del Perfil",
     "accounting": "Contabilidad",
     "basic": "Básico",
+    "subscription": "Subscripción",
+    "what_included": "Qué está incluido",
+    "upgrade": "Mejora",
     "photo_gallery": "Galería de Fotos",
     "additional": "Adicional",
     "city_of_operation": "Ciudad(es) de Operación",
@@ -112,7 +117,7 @@
     "meta_communication_description": "Cómo las herramientas digitales y la funcionalidad de las metaplataformas promueven la colaboración entre personas y organizaciones",
     "meta_world_experience": "Impacto social",
     "meta_world_experience_description": "Cómo el fortalecimiento de las conexiones en el Metauniverso influye en la formación de nuevas tendencias culturales, estereotipos y normas sociales, así como en las esferas de la economía, la política y la educación.",
-   
+
     "hybrid_vision": "Visión híbrida",
     "hybrid_vision_description": "Una integración perfecta de publicaciones online y boletines de Telegram para una nueva experiencia digital.",
     "swift_identification": "Identificación ágil",
@@ -121,7 +126,7 @@
     "advanced_communication_description": "Mejora tus comunicaciones en Telegram con características para una indexación y compartición de información eficientes.",
     "3d_world_experience": "Experiencia de mundo 3D",
     "3d_world_experience_description": "Sumérgete en una nueva dimensión de creatividad donde se puede interactuar con actividades familiares en un formato único.",
-  
+
     "search_and_share": "Servicios y características",
     "navigating_your_digital_universe": "Navegando por el universo digital de PaxInTrade",
     "navigating_your_digital_universe_description": "Su viaje a través del universo digital de PaxInTrade comienza con una combinación única de servicios de plataforma que lo ayudarán a desbloquear todo su potencial. Nuestro objetivo es brindarle la máxima comodidad y productividad en su presencia en línea.",
