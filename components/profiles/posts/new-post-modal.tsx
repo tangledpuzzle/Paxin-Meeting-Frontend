@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -28,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { PaxContext } from '@/context/context';
 import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -43,6 +45,7 @@ import ReactSelect from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
+import { LuBrain } from 'react-icons/lu';
 import * as z from 'zod';
 
 const ReactQuill =
@@ -85,6 +88,20 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   const [hashtagOptions, setHashtagOptions] = useState<
     { value: string; label: string }[]
   >([]);
+  const [generating, setGenerating] = useState<{
+    title: boolean;
+    subtitle: boolean;
+    content: boolean;
+  }>({
+    title: false,
+    subtitle: false,
+    content: false,
+  });
+  const [generatedString, setGeneratedString] = useState<{
+    title?: string[];
+    subtitle?: string[];
+    content?: string[];
+  }>({});
 
   const [newHashtags, setNewHashtags] = useState<string[]>([]);
 
@@ -215,6 +232,44 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
 
       return;
     }
+  };
+
+  const handleAIAssistant = async (type: 'title' | 'subtitle' | 'content') => {
+    setGenerating({ ...generating, [type]: true });
+
+    try {
+      setGeneratedString({
+        ...generatedString,
+        [type]: [
+          'You can add components to your app using the cli.',
+          'You can add components to your app using the cli.',
+          'You can add components to your app using the cli.',
+        ],
+      });
+    } catch (error) {
+    } finally {
+      setTimeout(() => {
+        setGenerating({ ...generating, [type]: false });
+      }, 1000);
+    }
+  };
+
+  const setGeneratedAIString = (
+    type: 'title' | 'subtitle' | 'content',
+    index: number
+  ) => {
+    if (generatedString[type] === undefined) return;
+
+    const textArray = generatedString[type] as string[];
+
+    if (index >= textArray.length) return;
+
+    form.setValue(type, textArray[index]);
+
+    setGeneratedString({
+      ...generatedString,
+      [type]: undefined,
+    });
   };
 
   const handlePost = async () => {
@@ -372,7 +427,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                   name='title'
                   render={({ field }) => (
                     <FormItem>
-                      <div className=''>
+                      <div className='relative'>
                         <FormLabel htmlFor='title'>{t('title')}</FormLabel>
                         <FormControl>
                           <Input
@@ -381,17 +436,42 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                             disabled={isLoading || formIndex === 3}
                           />
                         </FormControl>
+                        <Button
+                          type='button'
+                          variant='link'
+                          size='icon'
+                          data-tooltip-id='ai-assistant'
+                          className='absolute bottom-0.5 right-1'
+                          onClick={() => handleAIAssistant('title')}
+                        >
+                          {generating.title ? (
+                            <Loader2 className='size-5 animate-spin' />
+                          ) : (
+                            <LuBrain className='size-5' />
+                          )}
+                        </Button>
                       </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+                <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                  {generatedString?.title?.map((text, index) => (
+                    <Alert
+                      key={text}
+                      className='cursor-pointer hover:scale-[1.005]'
+                      onClick={() => setGeneratedAIString('title', index)}
+                    >
+                      <AlertDescription>{text}</AlertDescription>
+                    </Alert>
+                  ))}
+                </div>
                 <FormField
                   control={form.control}
                   name='subtitle'
                   render={({ field }) => (
                     <FormItem>
-                      <div className=''>
+                      <div className='relative'>
                         <FormLabel htmlFor='subtitle'>
                           {t('subtitle')}
                         </FormLabel>
@@ -402,15 +482,40 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                             disabled={isLoading || formIndex === 3}
                           />
                         </FormControl>
+                        <Button
+                          type='button'
+                          variant='link'
+                          size='icon'
+                          data-tooltip-id='ai-assistant'
+                          className='absolute bottom-0.5 right-1'
+                          onClick={() => handleAIAssistant('subtitle')}
+                        >
+                          {generating.subtitle ? (
+                            <Loader2 className='size-5 animate-spin' />
+                          ) : (
+                            <LuBrain className='size-5' />
+                          )}
+                        </Button>
                       </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+                <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                  {generatedString?.subtitle?.map((text, index) => (
+                    <Alert
+                      key={text}
+                      className='cursor-pointer hover:scale-[1.005]'
+                      onClick={() => setGeneratedAIString('subtitle', index)}
+                    >
+                      <AlertDescription>{text}</AlertDescription>
+                    </Alert>
+                  ))}
+                </div>
               </div>
             )}
             {(formIndex === 1 || formIndex === 3) && (
-              <div className='grid gap-4'>
+              <div className='relative grid gap-4'>
                 <FormField
                   control={form.control}
                   name='content'
@@ -418,20 +523,47 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                     <FormItem>
                       <FormLabel htmlFor='content'>{t('content')}</FormLabel>
                       <FormControl>
-                        <ReactQuill
-                          theme='snow'
-                          {...field}
-                          modules={modules}
-                          formats={formats}
-                          placeholder={t('type_content_here')}
-                          className='placeholder:text-white'
-                          readOnly={isLoading || formIndex === 3}
-                        />
+                        <div className='relative'>
+                          <ReactQuill
+                            theme='snow'
+                            {...field}
+                            modules={modules}
+                            formats={formats}
+                            placeholder={t('type_content_here')}
+                            className='placeholder:text-white'
+                            readOnly={isLoading || formIndex === 3}
+                          />
+                          <Button
+                            type='button'
+                            variant='link'
+                            size='icon'
+                            data-tooltip-id='ai-assistant'
+                            className='absolute bottom-0.5 right-1'
+                            onClick={() => handleAIAssistant('content')}
+                          >
+                            {generating.content ? (
+                              <Loader2 className='size-5 animate-spin' />
+                            ) : (
+                              <LuBrain className='size-5' />
+                            )}
+                          </Button>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+                <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                  {generatedString?.content?.map((text, index) => (
+                    <Alert
+                      key={text}
+                      className='cursor-pointer hover:scale-[1.005]'
+                      onClick={() => setGeneratedAIString('content', index)}
+                    >
+                      <AlertDescription>{text}</AlertDescription>
+                    </Alert>
+                  ))}
+                </div>
               </div>
             )}
             {(formIndex === 2 || formIndex === 3) && (
@@ -636,6 +768,11 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
             </DialogFooter>
           </form>
         </Form>
+        <ReactTooltip
+          id='ai-assistant'
+          place='bottom'
+          content={t('ai_assistant')}
+        />
       </DialogContent>
     </Dialog>
   );
