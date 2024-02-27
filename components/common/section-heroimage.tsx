@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 
 
 const ChatSSRSkeleton = dynamic(
-  () => import('@/components/dialogs/skeleton'),
+  () => import('@/components/dialogs/flow'),
   { ssr: true }
 );
 export interface SectionHeroImageProps

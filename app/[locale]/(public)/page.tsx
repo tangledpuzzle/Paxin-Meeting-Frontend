@@ -98,6 +98,7 @@ export default async function LandingPage({
 }: {
   params: { locale: string };
 }) {
+  
   unstable_setRequestLocale(params.locale);
   const t = await getTranslations('main');
 
