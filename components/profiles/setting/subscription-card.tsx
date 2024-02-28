@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { MdCheck } from 'react-icons/md';
 
 function generateBGColor(id: number) {
@@ -22,14 +23,24 @@ export function SubscriptionCard({
   price,
   description,
   features,
+  onUpgrade,
 }: {
   id: number;
   title: string;
-  price: string;
+  price: {
+    monthly: number;
+    annually: number;
+  };
   description: string;
   features: string[];
+  onUpgrade: () => void;
 }) {
   const t = useTranslations('main');
+  const searchParams = useSearchParams();
+  const mode =
+    !searchParams.get('mode') || searchParams.get('mode') === 'monthly'
+      ? 'monthly'
+      : 'annually';
 
   const bgClass = generateBGColor(id);
 
@@ -62,9 +73,18 @@ export function SubscriptionCard({
             bgClass
           )}
         >
-          <small className='text-xs text-gray-100'>Monthly</small>
-          <p className='my-4 text-4xl font-bold text-white'>${price}</p>
-          <Button>{t('upgrade')}</Button>
+          <small className='text-xs text-gray-100'>
+            {mode === 'monthly' ? t('monthly') : t('annually')}
+          </small>
+          <p className='my-4 flex flex-col items-center justify-center text-4xl font-bold text-white'>
+            <span>${price[mode as keyof typeof price]}</span>
+            {mode === 'annually' && (
+              <span className='text-xl text-gray-100 line-through'>
+                ${price['monthly'] * 12}
+              </span>
+            )}
+          </p>
+          <Button onClick={onUpgrade}>{t('upgrade')}</Button>
         </div>
       </CardContent>
     </Card>
