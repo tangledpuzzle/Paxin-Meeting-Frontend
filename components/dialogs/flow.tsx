@@ -65,8 +65,18 @@ const ChatComponent: React.FC = () => {
     );
     newSocketRef.current = newSocket;
 
+    newSocket.onopen = () => {
+      // WebSocket connection is established, send the "getADS" message
+      const message = {
+        messageType: "getADS",
+        locale: locale,
+      };
+      newSocket.send(JSON.stringify(message));
+    };
+    
     newSocket.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
+      console.log(receivedData)
       if (receivedData) {
         const newLine = new Line(receivedData, locale);
         chatRef.current?.ele.appendChild(newLine.ele.lineContainer);
