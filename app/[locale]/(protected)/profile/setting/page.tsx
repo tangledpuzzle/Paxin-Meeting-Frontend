@@ -122,7 +122,10 @@ const subscriptions = [
   {
     id: 0,
     title: 'Basic',
-    price: '9.99',
+    price: {
+      monthly: 9.99,
+      annually: 99.99,
+    },
     description:
       'Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque amet indis perferendis blanditiis repellendus etur quidem assumenda.',
     features: [
@@ -133,7 +136,10 @@ const subscriptions = [
   {
     id: 1,
     title: 'Pro',
-    price: '19.99',
+    price: {
+      monthly: 19.99,
+      annually: 199.99,
+    },
     description:
       'Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque amet indis perferendis blanditiis repellendus etur quidem assumenda.',
     features: [
@@ -145,7 +151,10 @@ const subscriptions = [
   {
     id: 2,
     title: 'Ultimate',
-    price: '29.99',
+    price: {
+      monthly: 29.99,
+      annually: 299.99,
+    },
     description:
       'Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque amet indis perferendis blanditiis repellendus etur quidem assumenda.',
     features: [
@@ -176,7 +185,10 @@ export default function SettingPage() {
   const [isBasicLoading, setIsBasicLoading] = useState<boolean>(false);
   const [isDeleteAccountLoading, setIsDeleteAccountLoading] =
     useState<boolean>(false);
+  const [isUpgradeLoading, setIsUpgradeLoading] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [upgradeLevel, setUpgradeLevel] = useState<number>(0);
+  const [showUpgradeModal, setShowUpgradeModal] = useState<boolean>(false);
   const [isGalleryLoading, setIsGalleryLoading] = useState<boolean>(false);
   const [isAdditionalLoading, setIsAdditionalLoading] =
     useState<boolean>(false);
@@ -571,6 +583,34 @@ export default function SettingPage() {
     setIsDeleteAccountLoading(false);
   };
 
+  const handleUpgradeSubscription = async () => {
+    setIsUpgradeLoading(true);
+
+    try {
+      const res = await axios.post('/api/users/me/subscription', {
+        level: upgradeLevel,
+      });
+
+      if (res.status === 200) {
+        toast.success('Subscription upgraded successfully', {
+          position: 'top-right',
+        });
+
+        setShowUpgradeModal(false);
+      } else {
+        toast.error('Failed to upgrade subscription', {
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      toast.error('Failed to upgrade subscription', {
+        position: 'top-right',
+      });
+    } finally {
+      setIsUpgradeLoading(false);
+    }
+  };
+
   return (
     <div className='p-4'>
       <CTASection
@@ -589,6 +629,16 @@ export default function SettingPage() {
             handleDeleteAccount();
           }}
           loading={isDeleteAccountLoading}
+        />
+        <ConfirmModal
+          isOpen={showUpgradeModal}
+          onClose={() => setShowUpgradeModal(false)}
+          title={t('are_you_sure')}
+          description={t('are_you_sure_upgrade_subscription')}
+          onConfirm={() => {
+            handleUpgradeSubscription();
+          }}
+          loading={isUpgradeLoading}
         />
         <Tabs
           value={currentTab}
@@ -941,12 +991,56 @@ export default function SettingPage() {
             </TabsContent>
             <TabsContent className='w-full' value='subscription'>
               <div className='px-3'>
-                <div className='text-2xl font-semibold'>
-                  {t('subscription')}
+                <div className='flex flex-col justify-between text-2xl font-semibold sm:flex-row sm:items-end'>
+                  <p>{t('subscription')}</p>
+                  <div className='mt-4 flex w-full gap-2 sm:mt-0 sm:w-auto'>
+                    <Button
+                      className='h-7 w-1/2 bg-background text-inherit shadow-none hover:bg-primary/10 data-[state=active]:bg-primary/10 data-[state=active]:text-primary'
+                      data-state={
+                        !searchParams.get('mode') ||
+                        searchParams.get('mode') === 'monthly'
+                          ? 'active'
+                          : ''
+                      }
+                      onClick={() => {
+                        const newSearchParams = new URLSearchParams(
+                          searchParams
+                        );
+                        newSearchParams.set('mode', 'monthly');
+
+                        router.push(`?${newSearchParams.toString()}`);
+                      }}
+                    >
+                      Monthly
+                    </Button>
+                    <Button
+                      className='h-7 w-1/2 bg-background text-inherit shadow-none hover:bg-primary/10 data-[state=active]:bg-primary/10 data-[state=active]:text-primary'
+                      data-state={
+                        searchParams.get('mode') === 'annually' ? 'active' : ''
+                      }
+                      onClick={() => {
+                        const newSearchParams = new URLSearchParams(
+                          searchParams
+                        );
+                        newSearchParams.set('mode', 'annually');
+
+                        router.push(`?${newSearchParams.toString()}`);
+                      }}
+                    >
+                      Annually
+                    </Button>
+                  </div>
                 </div>
                 <div className='mt-4 flex w-full flex-col items-center gap-4'>
                   {subscriptions.map((subscription) => (
-                    <SubscriptionCard key={subscription.id} {...subscription} />
+                    <SubscriptionCard
+                      key={subscription.id}
+                      {...subscription}
+                      onUpgrade={() => {
+                        setUpgradeLevel(subscription.id);
+                        setShowUpgradeModal(true);
+                      }}
+                    />
                   ))}
                 </div>
               </div>
