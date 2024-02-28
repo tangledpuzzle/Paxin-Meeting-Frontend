@@ -1,10 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import { PaxContext } from '@/context/context';
 import { useLocale } from 'next-intl';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 interface Chat {
   ele: HTMLDivElement;
@@ -13,7 +10,6 @@ interface Chat {
   addLine(): void;
   removeOldest(): void;
   loop(): void;
-  addLineWithDelay(): void;
   stopLoop(): void;
 }
 
@@ -54,6 +50,12 @@ const ChatComponent: React.FC = () => {
 
   const locale = useLocale();
   const newSocketRef = useRef<WebSocket | null>(null);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      chatRef.current = new Chat(locale); 
+      return () => {};
+    }
+  }, [locale]);
 
   const connectWebSocket = () => {
     const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -63,10 +65,20 @@ const ChatComponent: React.FC = () => {
     );
     newSocketRef.current = newSocket;
 
+    newSocket.onopen = () => {
+      // WebSocket connection is established, send the "getADS" message
+      const message = {
+        messageType: "getADS",
+        locale: locale,
+      };
+      newSocket.send(JSON.stringify(message));
+    };
+    
     newSocket.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
+      console.log(receivedData)
       if (receivedData) {
-        const newLine = new Line(receivedData);
+        const newLine = new Line(receivedData, locale);
         chatRef.current?.ele.appendChild(newLine.ele.lineContainer);
         removeOldest();
       }
@@ -117,40 +129,18 @@ const ChatComponent: React.FC = () => {
 
   const chatRef = useRef<Chat | null>(null);
 
-  const addChat = () => {
-    if (!chatRef.current) {
-      chatRef.current = new Chat();
-
-      const currentTime = Date.now();
-      if (!addingChat && currentTime - lastChatTime >= 500) {
-        setAddingChat(true);
-        chatRef.current.loop();
-        setTimeout(() => {
-          setAddingChat(false);
-          setLastChatTime(Date.now());
-        }, 500);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      addChat();
-      return () => {};
-    }
-  }, []);
 
   return (
     <div id='chat-container'>
       <div id='chat-input w-full'>
         <div id='file-input'></div>
       </div>
-      {/* <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
+      <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
         <button onClick={toggleAnimation} className='text-center w-full'>
-          {isAnimationRunning ? 'остановить' : 'запустить'}
+          {isAnimationRunning ? 'остановить поток' : 'запустить поток'}
         </button>
-        <button>Применить настройки</button>
-      </div> */}
+        {/* <button>Применить настройки</button> */}
+      </div>
     </div>
   );
 };
@@ -159,25 +149,16 @@ class Chat {
   ele: HTMLDivElement;
   lines: Line[] = [];
   anim: NodeJS.Timeout | null = null;
-
-  constructor() {
+  locale: string;
+  constructor(locale: string) {
+    this.locale = locale;
     this.ele = createElement({ tag: 'div', class: 'chat' }) as HTMLDivElement;
     this.lines = [];
     this.anim = null;
     const container = document.getElementById('chat-container');
     container?.appendChild(this.ele);
-
-    this.addLineWithDelay();
-    this.addLineWithDelay();
-    this.addLineWithDelay();
-    this.addLine();
   }
 
-  addLine() {
-    const l = new Line('');
-    this.lines.push(l);
-    this.ele.appendChild(l.ele.lineContainer);
-  }
 
   removeOldest() {
     const maxCount = 10;
@@ -187,26 +168,6 @@ class Chat {
     }
   }
 
-  loop() {
-    // if (this.anim) {
-    //   this.stopLoop();
-    // }
-    // this.anim = setInterval(() => {
-    //   // this.addLineWithDelay();
-    // }, 1000);
-  }
-
-  addLineWithDelay() {
-    setTimeout(() => {
-      this.addLine();
-      this.removeOldest();
-    }, 0);
-  }
-
-  stopLoop() {
-    clearInterval(this.anim!);
-    this.anim = null;
-  }
 }
 
 class Line {
@@ -222,16 +183,20 @@ class Line {
   textname: string = '';
   urlPhoto: string = '';
   hashtags: string[] = [];
+  locale: string;
 
-  constructor(data: any) {
+
+  constructor(data: any, locale: string) {
+
+    this.locale = locale.charAt(0).toUpperCase() + locale.slice(1);
+    const multilangTitle = data.MultilangTitle;
+    const title = multilangTitle[this.locale];
     const photoPath = data.photos?.[0]?.files?.[0]?.path;
     this.urlPhoto = photoPath || '';
-    this.textName(data.Title);
+    this.textName(title);
     if (Array.isArray(data.Hashtags)) {
       // this.hashtags = [...data.Hashtags];
       this.hashtags = data.Hashtags.slice(0, 3);
-      // /flows/bn7jIgGCAhE/marketing-strategies-2024-zachary-walker?callback=
-      // UniqId
     } else {
       this.hashtags = [];
     }
@@ -361,7 +326,7 @@ class Line {
 
     this.hashtags.forEach((hashtag) => {
       const hashtagElement = createElement({
-        class: ['hashtag', 'bg-card-gradient-menu', 'p-2', 'rounded-md'],
+        class: ['hashtag', 'bg-card-gradient-menu', 'pt-1', 'pb-4', 'pr-2', 'rounded-md'],
       });
       //@ts-ignore
       hashtagElement.textContent = '#' + hashtag.Hashtag; // Добавляем символ # перед текстом тега

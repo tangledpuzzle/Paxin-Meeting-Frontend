@@ -53,6 +53,9 @@
     "subscription": "სესხიდან",
     "basic": "ძირითადი",
     "what_included": "რა შედის",
+    "are_you_sure_upgrade_subscription": "თქვენ მოხდება სესხიდან აღარ შეგიძლიათ?",
+    "monthly": "თვე",
+    "annually": "წლიანი",
     "upgrade": "აღარ შეგიძლიათ",
     "photo_gallery": "ფოტო გალერეა",
     "additional": "დამატებითი",
@@ -100,7 +103,7 @@
     "room_id": "სართულის ID",
     "explore_paxintrade": "გამოიყენე PaxinTrade",
     
-    "empowering_connections_metaverse": "ქსელი",
+    "empowering_connections_metaverse": "სავაჭრო ქსელი",
     "empowering_connections_metaverse_description": "ცხოვრება მთელ მსოფლიოში",
     "empowering_connections_metaverse_description2": "ხელოვნური ინტელექტის გაძლიერება",
 
