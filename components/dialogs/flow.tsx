@@ -3,6 +3,8 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { PaxContext } from '@/context/context';
 import { useLocale } from 'next-intl';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface Chat {
   ele: HTMLDivElement;
@@ -16,27 +18,40 @@ interface Chat {
 }
 
 interface LineElement {
-  lineContainer: HTMLDivElement;
-  line: HTMLDivElement;
-  profileImg: HTMLDivElement;
-  body: HTMLDivElement;
-  name: HTMLDivElement;
-  img?: HTMLDivElement;
-  richBody?: HTMLDivElement;
+  lineContainer: HTMLElement;
+  line: HTMLElement;
+  profileImg: HTMLElement;
+  body: HTMLElement;
+  name: HTMLElement;
+  img?: HTMLElement;
+  richBody?: HTMLElement;
 }
 
-const createElement = (
-  opts: { class?: string | string[] } = {}
-): HTMLDivElement => {
-  let ele = document.createElement('div');
+const createElement = (opts: { tag?: string, class?: string | string[], attributes?: { [key: string]: string | Function } } = {}): HTMLElement => {
+  let ele: HTMLElement;
+  if (opts.tag) {
+      ele = document.createElement(opts.tag);
+  } else {
+      ele = document.createElement('div');
+  }
   if (opts.class !== undefined) {
-    const classes = Array.isArray(opts.class) ? opts.class : [opts.class];
-    ele.classList.add(...classes);
+      const classes = Array.isArray(opts.class) ? opts.class : [opts.class];
+      ele.classList.add(...classes);
+  }
+  if (opts.attributes) {
+      Object.entries(opts.attributes).forEach(([key, value]) => {
+          if (typeof value === 'string') {
+              ele.setAttribute(key, value);
+          } else if (typeof value === 'function') {
+              ele.addEventListener(key, value as EventListener);
+          }
+      });
   }
   return ele;
-};
+}
 
 const ChatComponent: React.FC = () => {
+
   const locale = useLocale();
   const newSocketRef = useRef<WebSocket | null>(null);
 
@@ -44,7 +59,7 @@ const ChatComponent: React.FC = () => {
     const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const wsPath = process.env.NEXT_PUBLIC_SOCKET_URL;
     const newSocket = new WebSocket(
-      `${wsProtocol}//${wsPath}/stream/live?language=` + locale
+      `${wsProtocol}//${wsPath}/stream/live?langue=` + locale
     );
     newSocketRef.current = newSocket;
 
@@ -130,12 +145,12 @@ const ChatComponent: React.FC = () => {
       <div id='chat-input w-full'>
         <div id='file-input'></div>
       </div>
-      <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
-        <button onClick={toggleAnimation}>
-          {isAnimationRunning ? 'Остановить поток' : 'Запустить поток'}
+      {/* <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
+        <button onClick={toggleAnimation} className='text-center w-full'>
+          {isAnimationRunning ? 'остановить' : 'запустить'}
         </button>
-        {/* <button>Применить настройки</button> */}
-      </div>
+        <button>Применить настройки</button>
+      </div> */}
     </div>
   );
 };
@@ -146,7 +161,7 @@ class Chat {
   anim: NodeJS.Timeout | null = null;
 
   constructor() {
-    this.ele = createElement({ class: 'chat' });
+    this.ele = createElement({ tag: 'div', class: 'chat' }) as HTMLDivElement;
     this.lines = [];
     this.anim = null;
     const container = document.getElementById('chat-container');
@@ -213,17 +228,21 @@ class Line {
     this.urlPhoto = photoPath || '';
     this.textName(data.Title);
     if (Array.isArray(data.Hashtags)) {
-      this.hashtags = [...data.Hashtags];
+      // this.hashtags = [...data.Hashtags];
+      this.hashtags = data.Hashtags.slice(0, 3);
+      // /flows/bn7jIgGCAhE/marketing-strategies-2024-zachary-walker?callback=
+      // UniqId
     } else {
       this.hashtags = [];
     }
+
 
     this.pickColor();
     this.pickName();
     this.pickText();
     this.pickHasImg();
     this.pickHasRichBody();
-    this.ele = this.createElement();
+    this.ele = this.createElement(data);
     this.setupElements();
     this.animateIn();
   }
@@ -302,15 +321,27 @@ class Line {
       );
     });
   }
+  
 
-  createElement(): LineElement {
+  createElement(data: any): LineElement {
+
     const lineContainer = createElement({ class: 'line-container' });
     const line = createElement({
-      class: ['bg-card-gradient-menu-on', 'py-4', 'px-4'],
+      class: ['bg-card-gradient-menu', 'py-4', 'px-4'],
     });
-    const profileImg = createElement({ class: ['profile-img', 'mb-2'] });
+    const profileImg = createElement({ class: ['profile-img', 'mb-2']});
+
+    profileImg.addEventListener('click', () => {
+      window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`
+    });
+  
     const body = createElement({ class: 'body' });
-    const name = createElement({ class: '!w-full' });
+    const name = createElement({ class: ['!w-full', 'cursor-pointer'] });
+
+
+    name.addEventListener('click', () => {
+      window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`
+    });
 
     const img = createElement({ class: 'img' });
     const richBody = createElement({ class: 'rich-body' });
@@ -319,6 +350,7 @@ class Line {
 
     body.appendChild(name);
 
+    
     line.appendChild(profileImg);
     line.appendChild(body);
     lineContainer.appendChild(line);
