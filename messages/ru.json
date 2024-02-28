@@ -42,17 +42,12 @@
     "or_drag_and_drop": "Или перетащите сюда",
     "upload_no_more_than_10": "Вы не можете загрузить более 10 изображений",
     "save": "Сохранить",
-    "next": "Следующий",
     "write_post": "Написать пост",
     "write_post_description": "Здесь вы можете написать новый пост.",
-    "ai_assistant": "Ассистент ИИ",
     "number_of_days": "Количество дней",
     "post": "Опубликовать",
     "profile_settings": "Настройки профиля",
     "accounting": "Учет",
-    "subscription": "Подписка",
-    "what_included": "Что включено",
-    "upgrade": "Активировать",
     "basic": "Основные",
     "photo_gallery": "Фотогалерея",
     "additional": "Дополнительные",
@@ -99,15 +94,15 @@
     "password": "Пароль",
     "room_id": "ID комнаты",
     "explore_paxintrade": "Исследуйте PaxinTrade",
-
-    "empowering_connections_metaverse": "Сеть",
+    
+    "empowering_connections_metaverse": "Торговая сеть",
     "empowering_connections_metaverse_description": "В прямом эфире по всему миру",
-    "empowering_connections_metaverse_description2": "С поддержкой искуственного интелекта",
-
+    "empowering_connections_metaverse_description2": "С поддержкой скуственного интелекта",
+        
     "discover_paxintrade": "Откройте для себя PaxinTrade",
     "unleashing_future_online_interaction": "Где связь становится более глубокой, а сотрудничество – более продуктивным.",
     "unleashing_future_online_interaction_description": "В этом пространстве возможны новые формы взаимодействия, обмена знаниями и совместной работы, что открывает двери для творчества, инноваций и развития на мировом уровне.",
-
+    
     "meta_vision": "Сетевые связи",
     "meta_vision_description": "Как Мета-платформы способствуют укреплению связей между людьми, и находить единомышленников в цифровом пространстве.",
     "meta_identification": "Цифровые сообщества",
@@ -129,15 +124,15 @@
     "search_and_share": "Сервисы и возможности",
     "navigating_your_digital_universe": "Навигация по цифровой вселенной PaxInTrade",
     "navigating_your_digital_universe_description": "начинается с уникального сочетания сервисов платформы. Наша цель - обеспечить вам максимальное удобство и продуктивность в вашем онлайн-присутствии.",
-
+    
     "efficient_discovery": "Верификация и аналитика профилей в реальном времени",
     "efficient_discovery_description": "Помогают снизить риски мошенничества и несанкционированных действий, обеспечивая более безопасное и надежное взаимодействие как с клиентами, так и с партнерами.",
-
+    
     "private_asks": "Интеграции CEO и месенджером телеграм",
     "private_asks_description": "Мгновенно уведомляйте разными всеми инструментами своих клиентов или сотрудников о важных событиях, новостях, акциях и другой актуальной информации.",
     "smart_filters_for_tailored_content": "Фильтры для настроенного контента",
     "smart_filters_for_tailored_content_description": "Сохраняйте настроенные фильтры и получайте мгновенные уведомления и информацию в соответствии с вашими предпочтениями.",
-
+    
     "why_paxintrade": "Почему PaxinTrade",
     "positive_experience_from_early_users": "Позитивный опыт от ранних пользователей",
     "positive_experience_from_early_users_description": "Начните знакомство с пользователями, которые нашли ценность и инновацию на нашей платформе.",

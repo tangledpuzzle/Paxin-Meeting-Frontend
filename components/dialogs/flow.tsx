@@ -125,12 +125,12 @@ const ChatComponent: React.FC = () => {
       <div id='chat-input w-full'>
         <div id='file-input'></div>
       </div>
-      {/* <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
+      <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
         <button onClick={toggleAnimation} className='text-center w-full'>
-          {isAnimationRunning ? 'остановить' : 'запустить'}
+          {isAnimationRunning ? 'остановить поток' : 'запустить поток'}
         </button>
-        <button>Применить настройки</button>
-      </div> */}
+        {/* <button>Применить настройки</button> */}
+      </div>
     </div>
   );
 };
@@ -187,8 +187,6 @@ class Line {
     if (Array.isArray(data.Hashtags)) {
       // this.hashtags = [...data.Hashtags];
       this.hashtags = data.Hashtags.slice(0, 3);
-      // /flows/bn7jIgGCAhE/marketing-strategies-2024-zachary-walker?callback=
-      // UniqId
     } else {
       this.hashtags = [];
     }
