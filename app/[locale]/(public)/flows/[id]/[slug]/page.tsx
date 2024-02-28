@@ -337,8 +337,10 @@ export default async function FlowPage({
             </CardContent> */}
           </div>
           <Separator className='my-4' />
+          <div className='block md:hidden'>
+          <FlowImageGallery images={blogDetails?.gallery || []} />
+          </div>
           <div>
-            <FlowImageGallery images={blogDetails?.gallery || []} />
             <Label className='text-xl font-semibold '>
               {t('description')}:
             </Label>
@@ -349,6 +351,12 @@ export default async function FlowPage({
           </div>
         </div>
         <div className='mx-auto max-w-sm space-y-4'>
+          <div className='hidden md:block'>
+          <Card>
+          <FlowImageGallery images={blogDetails?.gallery || []} />
+          </Card>
+          </div>
+
           <Card className='mx-auto w-full'>
             <CardContent className='space-y-8 px-6 py-8 font-satoshi'>
               <div>
