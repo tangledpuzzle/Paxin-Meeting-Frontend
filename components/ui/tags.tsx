@@ -42,13 +42,13 @@ const ScrollerComponent2 = () => {
     <> 
       <div className="scroller2 mt-0" data-speed="fast">
         <ul className="tag-list2 scroller__inner2">
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JS</li>
-          <li>SSG</li>
-          <li>webdev</li>
-          <li>animation</li>
-          <li>UI/UX</li>
+        <li>Общение</li>
+        <li>Торговля</li>
+        <li>Связь</li>
+        <li>Эффективность</li>
+        <li>Взаимодействие</li>
+        <li>Переговоры</li>
+        <li>Партнерство</li>
         </ul>
       </div>
     </>

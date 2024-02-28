@@ -113,10 +113,10 @@ const OverlayCards = () => {
       <div className="cards__inner bg-tra">
         
       <div className="card" ref={(el) => { if (el) cardsRef.current.push(el); }}>
-        <h2 className="card__headin text-black dark:text-white text-center">Basic</h2>
-        <p className="card__price text-black dark:text-white text-center">$9.99</p>
+        <h2 className="card__headin text-black dark:text-white text-center">FREE</h2>
+        <p className="card__price text-black dark:text-white text-center">$0</p>
         <ul role="list" className="card__bullets flow text-black dark:text-white text-center">
-          <li>Access to standard workouts and nutrition plans</li>
+          <li>Access to standard platform functions with limits</li>
           <li>Email support</li>
         </ul>
         <a href="#basic" className="card__cta cta2 !underline underline-offset-4 !text-black dark:!text-white text-center">Get Started</a>
@@ -126,7 +126,7 @@ const OverlayCards = () => {
         <h2 className="card__heading text-black dark:text-white text-center">Pro</h2>
         <p className="card__price text-black dark:text-white text-center">$19.99</p>
         <ul role="list" className="card__bullets flow text-black dark:text-white text-center">
-          <li>Access to advanced workouts and nutrition plans</li>
+          <li>Access to standard platform functions without limits</li>
           <li>Priority Email support</li>
           <li>Exclusive access to live Q&A sessions</li>
         </ul>
@@ -135,9 +135,9 @@ const OverlayCards = () => {
 
       <div className="card" ref={(el) => { if (el) cardsRef.current.push(el); }}>
         <h2 className="card__heading text-black dark:text-white text-center">Ultimate</h2>
-        <p className="card__price text-black dark:text-white text-center">$29.99</p>
+        <p className="card__price text-black dark:text-white text-center">$99.99</p>
         <ul role="list" className="card__bullets flow text-black dark:text-white text-center">
-          <li>Access to all premium workouts and nutrition plans</li>
+          <li>Access to all premium</li>
           <li>24/7 Priority support</li>
           <li>1-on-1 virtual coaching session every month</li>
           <li>Exclusive content and early access to new features</li>
