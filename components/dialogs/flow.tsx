@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import { PaxContext } from '@/context/context';
 import { useLocale } from 'next-intl';
 
 interface Chat {
@@ -11,47 +10,65 @@ interface Chat {
   addLine(): void;
   removeOldest(): void;
   loop(): void;
-  addLineWithDelay(): void;
   stopLoop(): void;
 }
 
 interface LineElement {
-  lineContainer: HTMLDivElement;
-  line: HTMLDivElement;
-  profileImg: HTMLDivElement;
-  body: HTMLDivElement;
-  name: HTMLDivElement;
-  img?: HTMLDivElement;
-  richBody?: HTMLDivElement;
+  lineContainer: HTMLElement;
+  line: HTMLElement;
+  profileImg: HTMLElement;
+  body: HTMLElement;
+  name: HTMLElement;
+  img?: HTMLElement;
+  richBody?: HTMLElement;
 }
 
-const createElement = (
-  opts: { class?: string | string[] } = {}
-): HTMLDivElement => {
-  let ele = document.createElement('div');
+const createElement = (opts: { tag?: string, class?: string | string[], attributes?: { [key: string]: string | Function } } = {}): HTMLElement => {
+  let ele: HTMLElement;
+  if (opts.tag) {
+      ele = document.createElement(opts.tag);
+  } else {
+      ele = document.createElement('div');
+  }
   if (opts.class !== undefined) {
-    const classes = Array.isArray(opts.class) ? opts.class : [opts.class];
-    ele.classList.add(...classes);
+      const classes = Array.isArray(opts.class) ? opts.class : [opts.class];
+      ele.classList.add(...classes);
+  }
+  if (opts.attributes) {
+      Object.entries(opts.attributes).forEach(([key, value]) => {
+          if (typeof value === 'string') {
+              ele.setAttribute(key, value);
+          } else if (typeof value === 'function') {
+              ele.addEventListener(key, value as EventListener);
+          }
+      });
   }
   return ele;
-};
+}
 
 const ChatComponent: React.FC = () => {
+
   const locale = useLocale();
   const newSocketRef = useRef<WebSocket | null>(null);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      chatRef.current = new Chat(locale); 
+      return () => {};
+    }
+  }, [locale]);
 
   const connectWebSocket = () => {
     const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const wsPath = process.env.NEXT_PUBLIC_SOCKET_URL;
     const newSocket = new WebSocket(
-      `${wsProtocol}//${wsPath}/stream/live?language=` + locale
+      `${wsProtocol}//${wsPath}/stream/live?langue=` + locale
     );
     newSocketRef.current = newSocket;
 
     newSocket.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
       if (receivedData) {
-        const newLine = new Line(receivedData);
+        const newLine = new Line(receivedData, locale);
         chatRef.current?.ele.appendChild(newLine.ele.lineContainer);
         removeOldest();
       }
@@ -102,28 +119,6 @@ const ChatComponent: React.FC = () => {
 
   const chatRef = useRef<Chat | null>(null);
 
-  const addChat = () => {
-    if (!chatRef.current) {
-      chatRef.current = new Chat();
-
-      const currentTime = Date.now();
-      if (!addingChat && currentTime - lastChatTime >= 500) {
-        setAddingChat(true);
-        chatRef.current.loop();
-        setTimeout(() => {
-          setAddingChat(false);
-          setLastChatTime(Date.now());
-        }, 500);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      addChat();
-      return () => {};
-    }
-  }, []);
 
   return (
     <div id='chat-container'>
@@ -131,8 +126,8 @@ const ChatComponent: React.FC = () => {
         <div id='file-input'></div>
       </div>
       <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
-        <button onClick={toggleAnimation}>
-          {isAnimationRunning ? 'Остановить поток' : 'Запустить поток'}
+        <button onClick={toggleAnimation} className='text-center w-full'>
+          {isAnimationRunning ? 'остановить поток' : 'запустить поток'}
         </button>
         {/* <button>Применить настройки</button> */}
       </div>
@@ -144,25 +139,16 @@ class Chat {
   ele: HTMLDivElement;
   lines: Line[] = [];
   anim: NodeJS.Timeout | null = null;
-
-  constructor() {
-    this.ele = createElement({ class: 'chat' });
+  locale: string;
+  constructor(locale: string) {
+    this.locale = locale;
+    this.ele = createElement({ tag: 'div', class: 'chat' }) as HTMLDivElement;
     this.lines = [];
     this.anim = null;
     const container = document.getElementById('chat-container');
     container?.appendChild(this.ele);
-
-    this.addLineWithDelay();
-    this.addLineWithDelay();
-    this.addLineWithDelay();
-    this.addLine();
   }
 
-  addLine() {
-    const l = new Line('');
-    this.lines.push(l);
-    this.ele.appendChild(l.ele.lineContainer);
-  }
 
   removeOldest() {
     const maxCount = 10;
@@ -172,26 +158,6 @@ class Chat {
     }
   }
 
-  loop() {
-    // if (this.anim) {
-    //   this.stopLoop();
-    // }
-    // this.anim = setInterval(() => {
-    //   // this.addLineWithDelay();
-    // }, 1000);
-  }
-
-  addLineWithDelay() {
-    setTimeout(() => {
-      this.addLine();
-      this.removeOldest();
-    }, 0);
-  }
-
-  stopLoop() {
-    clearInterval(this.anim!);
-    this.anim = null;
-  }
 }
 
 class Line {
@@ -207,23 +173,31 @@ class Line {
   textname: string = '';
   urlPhoto: string = '';
   hashtags: string[] = [];
+  locale: string;
 
-  constructor(data: any) {
+
+  constructor(data: any, locale: string) {
+
+    this.locale = locale.charAt(0).toUpperCase() + locale.slice(1);
+    const multilangTitle = data.MultilangTitle;
+    const title = multilangTitle[this.locale];
     const photoPath = data.photos?.[0]?.files?.[0]?.path;
     this.urlPhoto = photoPath || '';
-    this.textName(data.Title);
+    this.textName(title);
     if (Array.isArray(data.Hashtags)) {
-      this.hashtags = [...data.Hashtags];
+      // this.hashtags = [...data.Hashtags];
+      this.hashtags = data.Hashtags.slice(0, 3);
     } else {
       this.hashtags = [];
     }
+
 
     this.pickColor();
     this.pickName();
     this.pickText();
     this.pickHasImg();
     this.pickHasRichBody();
-    this.ele = this.createElement();
+    this.ele = this.createElement(data);
     this.setupElements();
     this.animateIn();
   }
@@ -302,15 +276,27 @@ class Line {
       );
     });
   }
+  
 
-  createElement(): LineElement {
+  createElement(data: any): LineElement {
+
     const lineContainer = createElement({ class: 'line-container' });
     const line = createElement({
-      class: ['bg-card-gradient-menu-on', 'py-4', 'px-4'],
+      class: ['bg-card-gradient-menu', 'py-4', 'px-4'],
     });
-    const profileImg = createElement({ class: ['profile-img', 'mb-2'] });
+    const profileImg = createElement({ class: ['profile-img', 'mb-2']});
+
+    profileImg.addEventListener('click', () => {
+      window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`
+    });
+  
     const body = createElement({ class: 'body' });
-    const name = createElement({ class: '!w-full' });
+    const name = createElement({ class: ['!w-full', 'cursor-pointer'] });
+
+
+    name.addEventListener('click', () => {
+      window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`
+    });
 
     const img = createElement({ class: 'img' });
     const richBody = createElement({ class: 'rich-body' });
@@ -319,6 +305,7 @@ class Line {
 
     body.appendChild(name);
 
+    
     line.appendChild(profileImg);
     line.appendChild(body);
     lineContainer.appendChild(line);
@@ -329,7 +316,7 @@ class Line {
 
     this.hashtags.forEach((hashtag) => {
       const hashtagElement = createElement({
-        class: ['hashtag', 'bg-card-gradient-menu', 'p-2', 'rounded-md'],
+        class: ['hashtag', 'bg-card-gradient-menu', 'pt-1', 'pb-4', 'pr-2', 'rounded-md'],
       });
       //@ts-ignore
       hashtagElement.textContent = '#' + hashtag.Hashtag; // Добавляем символ # перед текстом тега
