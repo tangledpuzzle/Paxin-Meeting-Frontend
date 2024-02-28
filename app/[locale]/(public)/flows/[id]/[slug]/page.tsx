@@ -204,13 +204,11 @@ export default async function FlowPage({
       {/* <div className='my-4 max-w-[390px]'>
         <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
       </div> */}
-      <div className='md:1/2 w-full'>
-        <FlowImageGallery images={blogDetails?.gallery || []} />
-      </div>
+
       <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-4'>
         <div className='md:col-span-2 xl:col-span-3'>
           <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
-            <div className='grid grid-cols-2 gap-2 xl:col-span-2'>
+            <div className='grid grid-cols-2 gap-2 xl:col-span-3 col-span-2'>
               <div>
                 <div className='flex items-center gap-2'>
                   <MdOutlineHouseSiding className='size-5' />
@@ -298,16 +296,49 @@ export default async function FlowPage({
                 </div>
               </div>
             </div>
-            <UpvoteCard
-              id={blogDetails.id}
-              vote={blogDetails.vote}
-              upvotes={blogDetails.review?.upvotes}
-              downvotes={blogDetails.review?.downvotes}
-              me={blogDetails.me}
-            />
+            {/* <CardContent className='px-6 pt-4 font-satoshi'>
+              <div className='flex flex-col items-center'>
+                <UpvoteCard
+                  id={blogDetails.id}
+                  vote={blogDetails.vote}
+                  upvotes={blogDetails.review?.upvotes}
+                  downvotes={blogDetails.review?.downvotes}
+                  me={blogDetails.me}
+                />
+                <div className='text-xl font-semibold'>{t('scan_code')}</div>
+                <div className='text-center text-sm'>
+                  {t('scan_code_description')}
+                </div>
+                <QRCode
+                  value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
+                  className='mt-4 w-[200px]'
+                />
+         
+              </div>
+              <div className='relative my-2 flex w-full justify-center'>
+                <div className='absolute top-[50%] z-[-1] h-[2px] w-full rounded-full bg-muted'></div>
+                <div className='bg-background px-4'>{t('or')}</div>
+              </div>
+              <div className='flex items-center justify-between gap-3'>
+                <Input
+                  type='text'
+                  placeholder='Enter the code'
+                  value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
+                  readOnly
+                />
+                <CopyButton
+                  variant='outline'
+                  size='icon'
+                  text={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
+                >
+                  <RxCopy className='size-4' />
+                </CopyButton>
+              </div>
+            </CardContent> */}
           </div>
           <Separator className='my-4' />
           <div>
+            <FlowImageGallery images={blogDetails?.gallery || []} />
             <Label className='text-xl font-semibold '>
               {t('description')}:
             </Label>
@@ -342,33 +373,14 @@ export default async function FlowPage({
           <Card className='mx-auto w-full'>
             <CardContent className='px-6 pt-4 font-satoshi'>
               <div className='flex flex-col items-center'>
-                <div className='text-xl font-semibold'>{t('scan_code')}</div>
-                <div className='text-center text-sm'>
-                  {t('scan_code_description')}
-                </div>
-                <QRCode
-                  value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
-                  className='mt-4 w-[200px]'
+                <UpvoteCard
+                  id={blogDetails.id}
+                  vote={blogDetails.vote}
+                  upvotes={blogDetails.review?.upvotes}
+                  downvotes={blogDetails.review?.downvotes}
+                  me={blogDetails.me}
                 />
-              </div>
-              <div className='relative my-2 flex w-full justify-center'>
-                <div className='absolute top-[50%] z-[-1] h-[2px] w-full rounded-full bg-muted'></div>
-                <div className='bg-background px-4'>{t('or')}</div>
-              </div>
-              <div className='flex items-center justify-between gap-3'>
-                <Input
-                  type='text'
-                  placeholder='Enter the code'
-                  value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
-                  readOnly
-                />
-                <CopyButton
-                  variant='outline'
-                  size='icon'
-                  text={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
-                >
-                  <RxCopy className='size-4' />
-                </CopyButton>
+          
               </div>
             </CardContent>
           </Card>
