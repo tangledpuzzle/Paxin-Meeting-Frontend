@@ -38,7 +38,9 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
+import { GrUpdate } from 'react-icons/gr';
 import * as z from 'zod';
+import { SubscriptionCard } from '@/components/profiles/setting/subscription-card';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -115,6 +117,45 @@ type GalleryType = {
   ProfileID: number;
   files: { path: string }[];
 };
+
+const subscriptions = [
+  {
+    id: 0,
+    title: 'Basic',
+    price: '9.99',
+    description:
+      'Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque amet indis perferendis blanditiis repellendus etur quidem assumenda.',
+    features: [
+      'Access to standard workouts and nutrition plans',
+      'Email support',
+    ],
+  },
+  {
+    id: 1,
+    title: 'Pro',
+    price: '19.99',
+    description:
+      'Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque amet indis perferendis blanditiis repellendus etur quidem assumenda.',
+    features: [
+      'Access to advanced workouts and nutrition plans',
+      'Priority Email support',
+      'Exclusive access to live Q&A sessions',
+    ],
+  },
+  {
+    id: 2,
+    title: 'Ultimate',
+    price: '29.99',
+    description:
+      'Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque amet indis perferendis blanditiis repellendus etur quidem assumenda.',
+    features: [
+      'Access to all premium workouts and nutrition plans',
+      '24/7 Priority support',
+      '1-on-1 virtual coaching session every month',
+      'Exclusive content and early access to new features',
+    ],
+  },
+];
 
 export default function SettingPage() {
   const t = useTranslations('main');
@@ -561,7 +602,7 @@ export default function SettingPage() {
               asChild
             >
               <Link href='/profile/setting?tab=profile'>
-                <FaUser className='mr-2 size-4' />
+                <FaUser className='mr-2 size-4 min-w-4' />
                 {t('profile_settings')}
               </Link>
             </TabsTrigger>
@@ -571,7 +612,7 @@ export default function SettingPage() {
               asChild
             >
               <Link href='/profile/setting?tab=accounting'>
-                <MdAccountBalanceWallet className='mr-2 size-4' />
+                <MdAccountBalanceWallet className='mr-2 size-4 min-w-4' />
                 {t('accounting')}
               </Link>
             </TabsTrigger>
@@ -581,8 +622,18 @@ export default function SettingPage() {
               asChild
             >
               <Link href='/profile/setting?tab=telegram'>
-                <FaTelegram className='mr-2 size-4' />
+                <FaTelegram className='mr-2 size-4 min-w-4' />
                 {t('telegram')}
+              </Link>
+            </TabsTrigger>
+            <TabsTrigger
+              value='subscription'
+              className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
+              asChild
+            >
+              <Link href='/profile/setting?tab=subscription'>
+                <GrUpdate className='mr-2 size-4 min-w-4' />
+                {t('subscription')}
               </Link>
             </TabsTrigger>
           </TabsList>
@@ -886,6 +937,18 @@ export default function SettingPage() {
                     </div>
                   </>
                 )}
+              </div>
+            </TabsContent>
+            <TabsContent className='w-full' value='subscription'>
+              <div className='px-3'>
+                <div className='text-2xl font-semibold'>
+                  {t('subscription')}
+                </div>
+                <div className='mt-4 flex w-full flex-col items-center gap-4'>
+                  {subscriptions.map((subscription) => (
+                    <SubscriptionCard key={subscription.id} {...subscription} />
+                  ))}
+                </div>
               </div>
             </TabsContent>
           </div>
