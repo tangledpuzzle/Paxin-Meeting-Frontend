@@ -14,6 +14,7 @@ interface PreviewImageProps {
   name?: string;
   size?: number;
   uploading?: boolean;
+  disabled?: boolean;
   onRemove: () => void;
 }
 
@@ -22,6 +23,7 @@ export const PreviewImage: FC<PreviewImageProps> = ({
   name,
   size,
   uploading,
+  disabled,
   onRemove,
 }) => (
   <div className='relative size-24'>
@@ -32,6 +34,7 @@ export const PreviewImage: FC<PreviewImageProps> = ({
       onClick={onRemove}
       type='button'
       size='icon'
+      disabled={uploading || disabled}
     >
       <LiaTimesSolid className='size-4' />
     </Button>
@@ -52,20 +55,23 @@ export const PreviewImage: FC<PreviewImageProps> = ({
 );
 
 type ImageUploadProps = {
-  value?: any;
-  onChange?: (value: any) => void;
+  value?: File[];
+  onChange?: (value: File[]) => void;
+  disabled?: boolean;
 };
 
 export const ImageUpload = forwardRef<
   { handleUpload: () => Promise<any> },
   ImageUploadProps
->(({ value, onChange }, ref) => {
+>(({ value, onChange, disabled }, ref) => {
   const t = useTranslations('main');
-  const [images, setImages] = useState<File[]>([]);
+  const [images, setImages] = useState<File[]>(value || []);
   const [uploading, setUploading] = useState(false);
   const hiddenFileInputRef = React.useRef<any>();
 
   const onClick = () => {
+    console.log('SDF', disabled);
+    if (disabled) return;
     hiddenFileInputRef.current.click();
   };
 
@@ -86,13 +92,7 @@ export const ImageUpload = forwardRef<
       setImages([...images, ...Array.from(e.target.files)]);
     }
 
-    onChange &&
-      onChange(
-        new Array(images.length + e.target.files.length).fill({
-          name: '',
-          path: '',
-        })
-      );
+    onChange && onChange([...images, ...Array.from(e.target.files)]);
 
     e.target.value = '';
   };
@@ -102,35 +102,21 @@ export const ImageUpload = forwardRef<
   };
 
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    if (disabled) return;
+
     e.preventDefault();
 
     if (!e.dataTransfer.files) return;
 
-    setImages((prev) => [...prev, ...Array.from(e.dataTransfer.files)]);
+    setImages([...images, ...Array.from(e.dataTransfer.files)]);
 
-    onChange &&
-      onChange(
-        new Array(images.length + e.dataTransfer.files.length).fill({
-          name: '',
-          path: '',
-        })
-      );
+    onChange && onChange([...images, ...Array.from(e.dataTransfer.files)]);
   };
 
   const removeImage = (index: number) => {
-    setImages((prev) => {
-      const copy = [...prev];
-      copy.splice(index, 1);
-      return copy;
-    });
+    setImages(images.splice(index, 1));
 
-    onChange &&
-      onChange(
-        new Array(images.length - 1).fill({
-          name: '',
-          path: '',
-        })
-      );
+    onChange && onChange(images.splice(index, 1));
   };
 
   const handleUpload = async () => {
@@ -193,6 +179,7 @@ export const ImageUpload = forwardRef<
                 type='button'
                 className='p-0'
                 onClick={onClick}
+                disabled={uploading || disabled}
               >
                 {t('click_to_upload')}
               </Button>{' '}
@@ -210,6 +197,7 @@ export const ImageUpload = forwardRef<
           name='file-upload'
           multiple
           onChange={onFileChange}
+          disabled={uploading || disabled}
         />
       </div>
 
@@ -221,6 +209,7 @@ export const ImageUpload = forwardRef<
             name={file.name}
             size={file.size}
             uploading={uploading}
+            disabled={uploading || disabled}
             onRemove={() => removeImage(index)}
           />
         ))}
