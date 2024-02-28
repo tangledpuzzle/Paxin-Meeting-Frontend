@@ -15,7 +15,7 @@ export default function NavigateSection() {
         <SectionBadge>{t('search_and_share')}</SectionBadge>
       </div>
       <SectionTitle className='px-7 text-left leading-[30px] md:text-center'>
-        {t('navigating_your_digital_universe')}
+        {t('discover_paxintrade')}
       </SectionTitle>
       <SectionDescription className='px-7 text-left md:text-center'>
         {t('navigating_your_digital_universe_description')}
@@ -57,7 +57,7 @@ export default function NavigateSection() {
           ></div>
 
           <div
-            className='flex size-full flex-col items-start justify-center bg-[#00000008] bg-cover px-7 pt-2'
+            className='flex size-full flex-col items-start justify-center bg-[#00000008] bg-cover px-7 pt-20 md:pt-0 pb-[160px] md:pb-0'
             style={{ backgroundImage: `url("/images/home/bg-nav-dark.webp")` }}
           >
             <div className='text-md pb-2 text-left font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
@@ -99,7 +99,9 @@ export default function NavigateSection() {
               {t('private_asks_description')}
             </div>
           </div>
+          
         </div>
+
         <div className='bg-with-gradient group relative grid grid-cols-1 overflow-hidden rounded-none hover:bg-none sm:grid-cols-2 md:col-span-3 md:rounded-xl'>
           <div
             className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
@@ -204,6 +206,32 @@ export default function NavigateSection() {
           </div>
         </div>
       </div>
+      <div className='px-0 md:px-7 grid grid-cols-1  gap-4 col-span-3 md:grid-cols-3 mt-4'>
+        <div className=' h-full  flex-col justify-center bg-card-gradient px-7 pb-4 pt-2 rounded-none md:rounded-md'>
+            <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+              Конференц залы
+            </div>
+            <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+              Собирайте рабочие комнаты и проводите богатым инструментарием
+            </div>
+          </div>
+          <div className='flex h-full  flex-col justify-center bg-card-gradient px-7 pb-4 pt-2 rounded-none md:rounded-md'>
+            <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+              Мессенджер
+            </div>
+            <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+              Созадвайте деловое пространство в одном месте
+            </div>
+          </div>
+          <div className='flex h-full  flex-col justify-center bg-card-gradient px-7 pb-4 pt-2 rounded-none md:rounded-md'>
+            <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+              Стремительное развитие
+            </div>
+            <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+              Наша сеть растет очень быстро! Присоединяйтесь сейчас и Вы
+            </div>
+          </div>
+        </div>
     </div>
   );
 }
