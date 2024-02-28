@@ -112,7 +112,7 @@ export default function FeatureSection() {
   return (
     <div className='flex flex-col items-start md:items-center justify-center px-0'>
       <div className='px-7'>
-      <SectionBadge>{t('discover_paxintrade')}</SectionBadge>
+      <SectionBadge>{t('navigating_your_digital_universe')}</SectionBadge>
       </div>
       <SectionTitle className='leading-[30px] text-left md:text-center px-7'>
         {t('unleashing_future_online_interaction')}
