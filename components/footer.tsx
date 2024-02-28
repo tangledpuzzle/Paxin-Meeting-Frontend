@@ -93,7 +93,7 @@ export function SiteFooter() {
             <CardFooter className='flex flex-col'>
               <Separator className='container mx-auto my-2 bg-[#8C8C8C]/30 opacity-30' />
               <div className='flex w-full flex-col items-center justify-between gap-1 sm:flex-row'>
-                <div className='pb-[10px] font-satoshi text-lg text-secondary-foreground md:pb-[0px]'>
+                <div className='pb-[10px] font-satoshi text-lg text-secondary-foreground md:pb-[0px] text-center md:text-left'>
                   {t('follow_us_on')}:
                 </div>
                 <div className='flex gap-2'>
