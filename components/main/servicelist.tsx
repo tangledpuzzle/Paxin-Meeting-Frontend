@@ -7,16 +7,14 @@ const data = [
     avatar: '/images/avatar.jpg',
     fullname: 'Jane Doe',
     username: 'janedoe5',
-    comment:
-      "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade! ",
+    comment: 'testominal1',
     timestamp: '2 days ago',
   },
   {
     avatar: '/images/avatar.jpg',
     fullname: 'John Doe',
     username: 'johndoe',
-    comment:
-      'Trading with PaxinTrade has been an amazing experience. The platform is super user-friendly, and the customer support is top-notch. Highly recommended!',
+    comment: 'testominal2',
 
     timestamp: '2 days ago',
   },
@@ -24,32 +22,28 @@ const data = [
     avatar: '/images/avatar.jpg',
     fullname: 'Jane Doe',
     username: 'janedoe1',
-    comment:
-      'I am extremely happy with my decision to trade with PaxinTrade. Their platform offers a wide variety of options and the support team is always there to assist.',
+    comment: 'testominal3',
     timestamp: '2 days ago',
   },
   {
     avatar: '/images/avatar.jpg',
     fullname: 'Jane Doe',
     username: 'janedoe2',
-    comment:
-      "PaxinTrade has truly transformed my trading journey. The platform is intuitive and packed with features. Their responsive customer support makes it even better. I'm impressed!",
+    comment: 'testominal4',
     timestamp: '2 days ago',
   },
   {
     avatar: '/images/avatar.jpg',
     fullname: 'Jane Doe',
     username: 'janedoe3',
-    comment:
-      "I can't thank PaxinTrade enough for their exceptional services. Their platform is robust and secure, and the educational resources have helped me improve my trading skills significantly. Great job!",
+    comment: 'testominal5',
     timestamp: '2 days ago',
   },
   {
     avatar: '/images/avatar.jpg',
     fullname: 'Jane Doe',
     username: 'janedoe4',
-    comment:
-      "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade! ",
+    comment: 'testominal6',
     timestamp: '2 days ago',
   },
 ];
@@ -66,12 +60,16 @@ function TestimonialCard({
   comment: string;
   timestamp: string;
 }) {
+  const t = useTranslations('main');
+
   return (
     <div className='break-inside-avoid'>
       <div className='bg-with-gradient relative rounded-none shadow md:rounded-xl'>
         <div className='flex flex-col px-7 py-5 sm:p-6'>
           <div>
-            <q className='text-gray-600 dark:text-gray-300'>{comment}</q>
+            <q className='text-gray-600 dark:text-gray-300'>
+              {t(comment as keyof IntlMessages['main'])}
+            </q>
             <div className='relative mt-6 flex items-center gap-3'>
               <div className='relative inline-flex size-10 shrink-0  items-center justify-center overflow-hidden rounded-full text-base'>
                 <Image
@@ -103,7 +101,7 @@ export default function ServiceList() {
   return (
     <div className='flex flex-col items-start justify-center px-0 pb-[40px] md:items-center md:pb-[80px]'>
       <div className='relative mt-0 flex w-full items-center justify-center px-0 md:px-7'>
-        <div className='column-1 gap-8 space-y-8 md:columns-2 lg:columns-3 wwg'>
+        <div className='column-1 wwg gap-8 space-y-8 md:columns-2 lg:columns-3'>
           {data.map((item) => (
             <TestimonialCard
               key={item.username}

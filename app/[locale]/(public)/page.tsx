@@ -56,7 +56,10 @@ async function getProfilePhotos() {
           : '';
 
       if (avatar) {
-        profilePhotos.push(avatar);
+        profilePhotos.push({
+          id: profile.User.Name,
+          src: avatar,
+        });
       }
     }
   } catch (error) {}
