@@ -33,7 +33,7 @@ const LiAds = ({ tags }: { tags: string[] }) => {
             <ul className='grid3'>
               {tags.map((tag, index) => (
                 <li key={index}>
-                  <div className='item !bg-card-gradient'>
+                  <div className='item !bg-card-gradient-menu'>
                     <div className='item__text text-muted-foreground max-w-[100px] !text-[14px]'>
                       {tag}
                     </div>
