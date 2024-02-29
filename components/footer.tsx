@@ -97,7 +97,7 @@ export function SiteFooter() {
                   {t('follow_us_on')}:
                 </div>
                 <div className='flex gap-2'>
-                  <Button
+                  {/* <Button
                     variant='outline'
                     className='rounded-full border-secondary font-satoshi text-sm text-secondary-foreground'
                     size='icon'
@@ -122,6 +122,31 @@ export function SiteFooter() {
                       height={450}
                       alt='x'
                       className='mx-auto my-16 size-4'
+                    />
+                  </Button> */}
+                  <Button
+                    variant='clear'
+                    className='dark:block hidden'
+                    size='icon'
+                  >
+                    <Image
+                      src='/logo-white.svg'
+                      width={450}
+                      height={450}
+                      alt='x'
+                    />
+                  </Button>
+
+                  <Button
+                    variant='clear'
+                    className='dark:hidden block'
+                    size='icon'
+                  >
+                    <Image
+                      src='/logo-black.svg'
+                      width={450}
+                      height={450}
+                      alt='x'
                     />
                   </Button>
                 </div>
