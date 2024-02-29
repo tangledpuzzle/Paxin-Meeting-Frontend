@@ -48,6 +48,9 @@
     "number_of_days": "Number of Days",
     "post": "Post",
     "ai_assistant": "AI Assistant",
+    "failed_to_generate_title": "Failed to generate title",
+    "failed_to_generate_subtitle": "Failed to generate subtitle",
+    "failed_to_generate_content": "Failed to generate content",
     "profile_settings": "Profile Settings",
     "accounting": "Accounting",
     "subscription": "Subscription",
@@ -102,7 +105,7 @@
     "password": "Password",
     "room_id": "Room ID",
     "explore_paxintrade": "Explore PaxinTrade",
-    
+
     "empowering_connections_metaverse": "Trade Network",
     "empowering_connections_metaverse_description": "live broadcast worldwide",
     "empowering_connections_metaverse_description2": "Empowered by artificial intelligence",
@@ -248,6 +251,7 @@
     "flow": "Flow",
     "regular_post": "Regular Post",
     "visit_profile": "Visit Profile",
+    "start_chat": "Start Chat",
     "view_detail": "View Detail",
     "send_report": "Send Report",
     "copy_link": "Copy Link",
@@ -339,7 +343,13 @@
     "n_data_loaded_successfully": "{number} data loaded successfully",
     "subscribers": "Subscribers",
     "no_blogs_yet": "There are no blogs yet...",
-    "empty_search_result": "There is no result for your search query..."
+    "empty_search_result": "There is no result for your search query...",
+    "testominal1": "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade!",
+    "testominal2": "Trading with PaxinTrade has been an amazing experience. The platform is super user-friendly, and the customer support is top-notch. Highly recommended!",
+    "testominal3": "I am extremely happy with my decision to trade with PaxinTrade. Their platform offers a wide variety of options and the support team is always there to assist.",
+    "testominal4": "I can't thank PaxinTrade enough for their exceptional services. Their platform is robust and secure, and the educational resources have helped me improve my trading skills significantly. Great job!",
+    "testominal5": "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade!",
+    "testominal6": "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade!"
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",

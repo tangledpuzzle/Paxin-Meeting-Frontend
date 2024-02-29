@@ -1,9 +1,14 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect } from 'react';
 
-const ScrollerComponent = ({ images }: { images: string[] }) => {
+const ScrollerComponent = ({
+  images,
+}: {
+  images: { id: string; src: string }[];
+}) => {
   useEffect(() => {
     const scrollers = document.querySelectorAll<HTMLElement>('.scroller');
 
@@ -42,7 +47,13 @@ const ScrollerComponent = ({ images }: { images: string[] }) => {
       <div className='scroller' data-direction='right' data-speed='slow'>
         <div className='scroller__inner'>
           {images.map((image) => (
-            <Image key={image} src={image} alt='' width={150} height={150} />
+            <Link
+              key={image.id}
+              href={`/profiles/[username]`}
+              as={`/profiles/${image.id}`}
+            >
+              <Image src={image.src} alt='' width={150} height={150} />
+            </Link>
           ))}
         </div>
       </div>

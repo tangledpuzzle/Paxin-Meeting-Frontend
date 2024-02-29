@@ -208,7 +208,7 @@ export default async function FlowPage({
       <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-4'>
         <div className='md:col-span-2 xl:col-span-3'>
           <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
-            <div className='grid grid-cols-2 gap-2 xl:col-span-3 col-span-2'>
+            <div className='col-span-2 grid grid-cols-2 gap-2 xl:col-span-3'>
               <div>
                 <div className='flex items-center gap-2'>
                   <MdOutlineHouseSiding className='size-5' />
@@ -338,7 +338,7 @@ export default async function FlowPage({
           </div>
           <Separator className='my-4' />
           <div className='block md:hidden'>
-          <FlowImageGallery images={blogDetails?.gallery || []} />
+            <FlowImageGallery images={blogDetails?.gallery || []} />
           </div>
           <div>
             <Label className='text-xl font-semibold '>
@@ -352,9 +352,9 @@ export default async function FlowPage({
         </div>
         <div className='mx-auto max-w-sm space-y-4'>
           <div className='hidden md:block'>
-          <Card>
-          <FlowImageGallery images={blogDetails?.gallery || []} />
-          </Card>
+            <Card>
+              <FlowImageGallery images={blogDetails?.gallery || []} />
+            </Card>
           </div>
 
           <Card className='mx-auto w-full'>
@@ -388,7 +388,6 @@ export default async function FlowPage({
                   downvotes={blogDetails.review?.downvotes}
                   me={blogDetails.me}
                 />
-          
               </div>
             </CardContent>
           </Card>
@@ -461,7 +460,7 @@ export default async function FlowPage({
               </Button>
               <Button className='btn w-full !rounded-md' asChild>
                 <Link href={`/profiles/${blogDetails.author?.username}`}>
-                  Start chat
+                  {t('start_chat')}
                 </Link>
               </Button>
             </div>

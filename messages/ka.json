@@ -45,7 +45,10 @@
     "next": "შემდეგი",
     "write_post": "პოსტის წერა",
     "write_post_description": "აქ შეგიძლიათ დაწეროთ ახალი პოსტი",
-    "ai_assistant": "ავი სტუმარტი",
+    "ai_assistant": "AI დამხმარე",
+    "failed_to_generate_title": "სათაურის შექმნა ვერ მოხერხდა",
+    "failed_to_generate_subtitle": "ქვესათაურის შექმნა ვერ მოხერხდა",
+    "failed_to_generate_content": "კონტენტის შექმნა ვერ მოხერხდა",
     "number_of_days": "დღეების რაოდენობა",
     "post": "პოსტი",
     "profile_settings": "პროფილის პარამეტრები",
@@ -102,7 +105,7 @@
     "password": "პაროლი",
     "room_id": "სართულის ID",
     "explore_paxintrade": "გამოიყენე PaxinTrade",
-    
+
     "empowering_connections_metaverse": "სავაჭრო ქსელი",
     "empowering_connections_metaverse_description": "პირდაპირი ტრანსლაცია მსოფლიო მასშტაბით",
     "empowering_connections_metaverse_description2": "ხელოვნური ინტელექტის გაძლიერება",
@@ -252,6 +255,7 @@
     "flow": "Տրամադրություն",
     "regular_post": "Սովորական գրառում",
     "visit_profile": "Այցելել անձնական էջ",
+    "start_chat": "დაიწყეთ ჩატი",
     "view_detail": "Ցույց տեղավորել անհանգիստներ",
     "send_report": "Ուղարկել հաշվետվություն",
     "copy_link": "Պատճենել հղումը",
@@ -344,7 +348,13 @@
     "n_data_loaded_successfully": "{number} მონაცემი წარმატებით ჩაიტვირთა",
     "subscribers": "მგზავრები",
     "no_blogs_yet": "ჯერ არც ბლოგი არ არსებობს...",
-    "empty_search_result": "თქვენი ძებნის შესახებ არაფერია ნაპოვნი..."
+    "empty_search_result": "თქვენი ძებნის შესახებ არაფერია ნაპოვნი...",
+    "testominal1": "PaxinTrade-თან ვაქცევნი ლაიფს ერთდროულად გაბალიანებით! მათი პლატფორმა შემიწყვეტს მექნე მოძვავა და მხარს ისევე გინდა იცოდეს ძვირფასი მოღალატეები ორივე შინაურმა გადმოცემეძუღან. მადლობა, PaxinTrade!",
+    "testominal2": "PaxinTrade-თან მოქანცევნი დიდი თავიდან! გაყიდვები სუპერად მომგრენენ და საკაბატორო მხარდაჭერა მეტყ კარონ. მისურვებს!",
+    "testominal3": "ვახომ ძviolates ყალაყი ვცვდებ რაუგოვლე თური მკნეklied PaxinTrade-სთთან დროებულები ყველაურ შიაურიაშს და გამოხიმავბს ეს!",
+    "testominal4": "ვარ ძob a საკაბklius PaxinTrade-ს სასეითიsmes უსქმბრუსხმილა. მათი პლატფორმაშბა ციხიშბა და საკაბკოლაეს ფორესურსებში-ისი დამხრშებმგმოსით მე ვახახევს ჩ჉ხჯდებს ჩ ბქჩბაღები სხმდებში. ჯუმი რბებოა!",
+    "testominal5": "PaxinTrade-თაn მოქანცევნი დიდი თავიდან! გაყისპით სუპერაt and მოg,hjlgbfgt გხაგეე მაიროოს ორივე შინაურჃ გღომდტბ. მისურლვებში, PaxinTrade!",
+    "testominal6": "PaxinTrade-თაn მოქანცევნი დიდი თავიდან! გგთდმლა ძღდბრუიi and გღლმპღრაბპip გზდბ მაინახდე მგს soph შინაოწყბე დაოუბისლაოვოს. მისურლლბლყ, PaxinTrade!"
   },
   "privacy": {
     "rulesprivacy": "კონფიდენციალურობის წესები",

@@ -39,7 +39,7 @@ export function FilterModal() {
   const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
   const [hashtagOptions, setHashtagOptions] = useState<Option[]>([]);
   const [viewMode, setViewMode] = useState<string>(
-    searchParams.get('mode') || 'profile'
+    searchParams.get('mode') || 'flow'
   );
 
   const [hashTag, setHashTag] = useState<Option[]>([]);
@@ -253,11 +253,17 @@ export function FilterModal() {
     const _city = searchParams.get('city');
     const _category = searchParams.get('category');
     const _viewMode = searchParams.get('mode');
+    const _money = searchParams.get('money');
 
     if (_hashtag && _hashtag !== 'all') handleHashtagSearch(_hashtag);
     if (_city && _city !== 'all') setCityKeyword(_city);
     if (_category && _category !== 'all') setCategoryKeyword(_category);
     if (_viewMode) setViewMode(_viewMode);
+    if (_money) {
+      const [min, max] = _money.split('-');
+      setMinPrice(min);
+      setMaxPrice(max);
+    }
   }, [searchParams]);
 
   useEffect(() => {
