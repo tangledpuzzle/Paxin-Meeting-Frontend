@@ -102,7 +102,7 @@
     "password": "Contraseña",
     "room_id": "ID de Sala",
     "explore_paxintrade": "Explora PaxinTrade",
-    
+
     "empowering_connections_metaverse": "Red comercial",
     "empowering_connections_metaverse_description": "transmisión en vivo en todo el mundo",
     "empowering_connections_metaverse_description2": "Potenciado por inteligencia artificial",
@@ -252,6 +252,7 @@
     "flow": "Flujo",
     "regular_post": "Publicación regular",
     "visit_profile": "Visitar perfil",
+    "start_chat": "Iniciar chat",
     "view_detail": "Ver detalle",
     "send_report": "Enviar informe",
     "copy_link": "Copiar enlace",

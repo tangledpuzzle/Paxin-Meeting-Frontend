@@ -102,7 +102,7 @@
     "password": "პაროლი",
     "room_id": "სართულის ID",
     "explore_paxintrade": "გამოიყენე PaxinTrade",
-    
+
     "empowering_connections_metaverse": "სავაჭრო ქსელი",
     "empowering_connections_metaverse_description": "პირდაპირი ტრანსლაცია მსოფლიო მასშტაბით",
     "empowering_connections_metaverse_description2": "ხელოვნური ინტელექტის გაძლიერება",
@@ -252,6 +252,7 @@
     "flow": "Տրամադրություն",
     "regular_post": "Սովորական գրառում",
     "visit_profile": "Այցելել անձնական էջ",
+    "start_chat": "დაიწყეთ ჩატი",
     "view_detail": "Ցույց տեղավորել անհանգիստներ",
     "send_report": "Ուղարկել հաշվետվություն",
     "copy_link": "Պատճենել հղումը",

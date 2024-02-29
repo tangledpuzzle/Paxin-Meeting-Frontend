@@ -102,7 +102,7 @@
     "password": "Password",
     "room_id": "Room ID",
     "explore_paxintrade": "Explore PaxinTrade",
-    
+
     "empowering_connections_metaverse": "Trade Network",
     "empowering_connections_metaverse_description": "live broadcast worldwide",
     "empowering_connections_metaverse_description2": "Empowered by artificial intelligence",
@@ -248,6 +248,7 @@
     "flow": "Flow",
     "regular_post": "Regular Post",
     "visit_profile": "Visit Profile",
+    "start_chat": "Start Chat",
     "view_detail": "View Detail",
     "send_report": "Send Report",
     "copy_link": "Copy Link",

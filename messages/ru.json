@@ -150,7 +150,7 @@
     "services": "Качество",
     "combination_of_services_in_one_platform": "Сочетание возможностей на одной платформе",
     "combination_of_services_in_one_platform_description": "Мы представляем себя как уникальное сочетание сервисов, для публикаций в сети и созданию делового пространства вместе с Paxintrade.",
-    
+
     "instagram": "Делитесь как в инстаграм Instagram",
     "instagram_description": "Публикуйте как в инстаграм",
     "linkedin": "Ищите как в LinkedIn",
@@ -254,6 +254,7 @@
     "flow": "Поток",
     "regular_post": "Обычный пост",
     "visit_profile": "Посетить профиль",
+    "start_chat": "Начать чат",
     "view_detail": "Посмотреть детали",
     "send_report": "Отправить отчет",
     "copy_link": "Копировать ссылку",
@@ -288,7 +289,7 @@
     "vote_failed": "Ошибка при голосовании",
     "not_signed_in": "Вы не вошли в систему",
     "votes": "Голосов",
-    
+
     "upvote": "",
     "downvote": "",
     "upvotes": "Голоса вверх",
