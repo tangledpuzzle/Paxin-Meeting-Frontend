@@ -631,7 +631,7 @@ textarea {
   border-radius: 6px;
   max-height: 0px;
   opacity: 0;
-  width: 85%;
+  width: 100%;
   transform: translateX(-300px) scale(0.2);
   transition: margin-bottom 200ms, max-height 500ms, opacity 100ms, transform 250ms;
   transition-timing-function: ease-out;
@@ -1690,4 +1690,8 @@ textarea {
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+.image-gallery-thumbnail.active, .image-gallery-thumbnail:focus {
+  border: 4px solid #019c78 !important;
 }

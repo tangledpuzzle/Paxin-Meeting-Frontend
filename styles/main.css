@@ -1678,3 +1678,7 @@ li:nth-of-type(12) { --index: 5; }
 .wwg2 {
   -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0))
 }
+
+.image-gallery-thumbnail.active, .image-gallery-thumbnail:focus {
+  border: 4px solid #019c78 !important;
+}

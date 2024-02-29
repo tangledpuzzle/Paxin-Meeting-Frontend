@@ -39,10 +39,10 @@ export default function NavigateSection() {
           </div>
           <div className='flex h-full  flex-col justify-center bg-card-gradient px-7 pb-4 pt-2 rounded-none md:rounded-md'>
             <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
-              Персональный аккаунт
+              Поддержка нейросетей
             </div>
             <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Наша сеть растет очень быстро! Присоединяйтесь сейчас и Вы
+              Создавайте контент вместе с нейросетями 
             </div>
           </div>
       </div>
