@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { PaxContext } from '@/context/context';
+import getAssistantData from '@/lib/server/assistant';
 import { cn } from '@/lib/utils';
 import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -235,19 +236,55 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
     setGenerating({ ...generating, [type]: true });
 
     try {
-      setGeneratedString({
-        ...generatedString,
-        [type]: [
-          'You can add components to your app using the cli.',
-          'You can add components to your app using the cli.',
-          'You can add components to your app using the cli.',
-        ],
-      });
+      if (type === 'title') {
+        const data = await getAssistantData(type, {
+          category: (formData?.category && formData?.category[0].label) || '',
+          title: formData?.title || '',
+        });
+
+        if (data) {
+          setGeneratedString({
+            ...generatedString,
+            [type]: data.titles.map((title: any) => title.title),
+          });
+        }
+      } else if (type === 'subtitle') {
+        const data = await getAssistantData(type, {
+          category: (formData?.category && formData?.category[0].label) || '',
+          title: formData?.title || '',
+          subtitle: formData?.subtitle || '',
+        });
+
+        if (data) {
+          setGeneratedString({
+            ...generatedString,
+            [type]: data.subtitles.map((subtitle: any) => subtitle.subtitle),
+          });
+        }
+      } else if (type === 'content') {
+        const data = await getAssistantData(type, {
+          category: (formData?.category && formData?.category[0].label) || '',
+          title: formData?.title || '',
+          subtitle: formData?.subtitle || '',
+          content: formData?.content || '',
+        });
+
+        if (data) {
+          setGeneratedString({
+            ...generatedString,
+            [type]: [data.content],
+          });
+        }
+      }
     } catch (error) {
+      toast.error(
+        t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+        {
+          position: 'top-right',
+        }
+      );
     } finally {
-      setTimeout(() => {
-        setGenerating({ ...generating, [type]: false });
-      }, 1000);
+      setGenerating({ ...generating, [type]: false });
     }
   };
 
@@ -685,7 +722,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                           className='cursor-pointer hover:scale-[1.005]'
                           onClick={() => setGeneratedAIString('content', index)}
                         >
-                          <AlertDescription>{text}</AlertDescription>
+                          <div dangerouslySetInnerHTML={{ __html: text }}></div>
                         </Alert>
                       ))}
                     </div>

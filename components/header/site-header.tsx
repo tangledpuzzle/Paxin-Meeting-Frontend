@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
+  console.log(session, '===');
 
   try {
     const res = await fetch(
@@ -44,9 +45,10 @@ export function SiteHeader() {
     getData(locale)
       .then((data) => {
         setData(data);
+        console.log(data, '===');
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err, '===');
       });
   }, []);
 
