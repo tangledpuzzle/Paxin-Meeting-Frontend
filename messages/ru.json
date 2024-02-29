@@ -17,7 +17,7 @@
     "settings": "Профиль",
     "conference": "Встреча",
     "search": "Поиск",
-    "dashboard_description": "Здесь вы можете просмотреть все статистику и аналитику, связанную с вами",
+    "dashboard_description": "Здесь вы можете просмотреть всю статистику и аналитику, связанную с вами",
     "my_posts_description": "Здесь вы можете просмотреть все созданные вами посты",
     "setting_description": "Здесь вы можете настроить все параметры своего профиля",
     "conference_description": "",
@@ -102,12 +102,12 @@
     "explore_paxintrade": "Исследуйте PaxinTrade",
 
     "empowering_connections_metaverse": "Торговая сеть",
-    "empowering_connections_metaverse_description": "В прямом эфире по всему миру",
+    "empowering_connections_metaverse_description": "в прямом эфире по всему миру",
     "empowering_connections_metaverse_description2": "С поддержкой скуственного интелекта",
 
     "discover_paxintrade": "Откройте для себя PaxinTrade",
-    "unleashing_future_online_interaction": "Где связь становится более глубокой, а сотрудничество – более продуктивным.",
-    "unleashing_future_online_interaction_description": "В этом пространстве возможны новые формы взаимодействия, обмена знаниями и совместной работы, что открывает двери для творчества, инноваций и развития на мировом уровне.",
+    "unleashing_future_online_interaction": "Мы работаем в будущее.",
+    "unleashing_future_online_interaction_description": "В этом пространстве возможны новые формы взаимодействия, обмена знаниями, компания применяет инновации и развиваемся на мировом уровне.",
 
     "meta_vision": "Сетевые связи",
     "meta_vision_description": "Как Мета-платформы способствуют укреплению связей между людьми, и находить единомышленников в цифровом пространстве.",
@@ -128,14 +128,15 @@
     "3d_world_experience": "Опыт 3D-мира",
     "3d_world_experience_description": "Погрузитесь в новое измерение творчества, где можно взаимодействовать с привычными занятиями в уникальном формате.",
     "search_and_share": "Сервисы и возможности",
-    "navigating_your_digital_universe": "Навигация по цифровой вселенной PaxInTrade",
-    "navigating_your_digital_universe_description": "начинается с уникального сочетания сервисов платформы. Наша цель - обеспечить вам максимальное удобство и продуктивность в вашем онлайн-присутствии.",
+
+    "navigating_your_digital_universe": "Дальнейшее развитие",
+    "navigating_your_digital_universe_description": "Наша цель - обеспечить вам максимальное удобство и продуктивность в вашем онлайн-присутствии.",
 
     "efficient_discovery": "Верификация и аналитика профилей в реальном времени",
     "efficient_discovery_description": "Помогают снизить риски мошенничества и несанкционированных действий, обеспечивая более безопасное и надежное взаимодействие как с клиентами, так и с партнерами.",
 
-    "private_asks": "Интеграции CEO и месенджером телеграм",
-    "private_asks_description": "Мгновенно уведомляйте разными всеми инструментами своих клиентов или сотрудников о важных событиях, новостях, акциях и другой актуальной информации.",
+    "private_asks": "Интеграция CEO",
+    "private_asks_description": "Весь контент индексируются поисковыми системами без ограничений при необходимости вы можете пройти интеграцию с другими сетями.",
     "smart_filters_for_tailored_content": "Фильтры для настроенного контента",
     "smart_filters_for_tailored_content_description": "Сохраняйте настроенные фильтры и получайте мгновенные уведомления и информацию в соответствии с вашими предпочтениями.",
 
@@ -145,9 +146,11 @@
     "what_is_paxintrade": "Что такое PaxinTrade?",
     "what_is_paxintrade_description": "Метаплатформа, сочетающее полезное с новым. Создайте свое рабочее пространство используя новые технологии",
     "about_us": "О нас",
-    "services": "Услуги",
+
+    "services": "Качество",
     "combination_of_services_in_one_platform": "Сочетание возможностей на одной платформе",
-    "combination_of_services_in_one_platform_description": "Мы представляем себя как уникальное сочетание популярных сервисов, таких как Instagram, LinkedIn, Zoom, WhatsApp и Facebook Marketplace.",
+    "combination_of_services_in_one_platform_description": "Мы представляем себя как уникальное сочетание сервисов, для публикаций в сети и созданию делового пространства вместе с Paxintrade.",
+    
     "instagram": "Делитесь как в инстаграм Instagram",
     "instagram_description": "Публикуйте как в инстаграм",
     "linkedin": "Ищите как в LinkedIn",
@@ -247,7 +250,7 @@
     "select_at_least_one_category": "Выберите хотя бы одну категорию",
     "select_at_least_one_hashtag": "Выберите хотя бы один хэштег",
     "upload_at_least_one_image": "Загрузите хотя бы одну картинку",
-    "profile": "Профиль",
+    "profile": "Участники",
     "flow": "Поток",
     "regular_post": "Обычный пост",
     "visit_profile": "Посетить профиль",
@@ -260,7 +263,7 @@
     "total_posts": "Всего постов",
     "subscribes": "Подписчики",
     "filters": "Фильтры",
-    "prices": "Цены",
+    "prices": "Подписка",
     "price_validation_message": "Минимальная цена должна быть числом не меньше 0 и не больше максимальной цены.",
     "reset": "Сбросить",
     "apply": "Применить",
@@ -285,10 +288,12 @@
     "vote_failed": "Ошибка при голосовании",
     "not_signed_in": "Вы не вошли в систему",
     "votes": "Голосов",
-    "upvote": "Голос вверх",
-    "downvote": "Голос вниз",
+    
+    "upvote": "",
+    "downvote": "",
     "upvotes": "Голоса вверх",
     "downvotes": "Голоса вниз",
+
     "unfollow": "Отписаться",
     "follow_success": "Подписка успешно выполнена",
     "follow_failed": "Не удалось подписаться",

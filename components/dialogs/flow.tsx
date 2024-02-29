@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useLocale } from 'next-intl';
+import { MdFavorite } from 'react-icons/md'; // Importing MdFavorite icon
 
 interface Chat {
   ele: HTMLDivElement;
@@ -65,6 +66,15 @@ const ChatComponent: React.FC = () => {
     );
     newSocketRef.current = newSocket;
 
+    newSocket.onopen = () => {
+      // WebSocket connection is established, send the "getADS" message
+      const message = {
+        messageType: "getADS",
+        locale: locale,
+      };
+      newSocket.send(JSON.stringify(message));
+    };
+    
     newSocket.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
       if (receivedData) {
@@ -125,12 +135,13 @@ const ChatComponent: React.FC = () => {
       <div id='chat-input w-full'>
         <div id='file-input'></div>
       </div>
-      <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
+      {/* <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
         <button onClick={toggleAnimation} className='text-center w-full'>
           {isAnimationRunning ? 'остановить поток' : 'запустить поток'}
         </button>
-        {/* <button>Применить настройки</button> */}
-      </div>
+        <button>Применить настройки</button>
+      </div> */}
+    
     </div>
   );
 };
@@ -286,12 +297,14 @@ class Line {
     });
     const profileImg = createElement({ class: ['profile-img', 'mb-2']});
 
+
+    
     profileImg.addEventListener('click', () => {
       window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`
     });
   
     const body = createElement({ class: 'body' });
-    const name = createElement({ class: ['!w-full', 'cursor-pointer'] });
+    const name = createElement({ class: ['!w-[85%]', 'cursor-pointer'] });
 
 
     name.addEventListener('click', () => {
@@ -305,13 +318,26 @@ class Line {
 
     body.appendChild(name);
 
-    
+    // Add favorite button
+    // const favoriteButton = createElement({
+    //   tag: 'button',
+    //   class: ['favorite-button', 'btn', '!absolute', 'right-[0px]', 'top-0'],
+    //   attributes: {
+    //     onclick: () => {
+    //       // Handle adding to favorites here
+    //       console.log('Added to favorites');
+    //     }
+    //   }
+    // });
+    // favoriteButton.innerHTML = 'favoriteButton';
+    // body.appendChild(favoriteButton);
+
     line.appendChild(profileImg);
     line.appendChild(body);
     lineContainer.appendChild(line);
 
     const flexContainer = createElement({
-      class: ['flex', 'gap-2', 'flex-wrap', 'mt-2'],
+      class: ['flex', 'gap-2', 'flex-wrap', 'mt-2', 'w-[85%]'],
     });
 
     this.hashtags.forEach((hashtag) => {

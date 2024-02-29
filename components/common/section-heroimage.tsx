@@ -30,7 +30,7 @@ function SectionHeroImage({}: SectionHeroImageProps) {
   return (
     <div
       className={cn(
-        'relative mt-12 flex wwg w-full items-center justify-center px-7'
+        'relative mt-4 flex wwg w-full items-center justify-center px-7'
       )}
     >
       <motion.div

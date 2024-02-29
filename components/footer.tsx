@@ -93,11 +93,11 @@ export function SiteFooter() {
             <CardFooter className='flex flex-col'>
               <Separator className='container mx-auto my-2 bg-[#8C8C8C]/30 opacity-30' />
               <div className='flex w-full flex-col items-center justify-between gap-1 sm:flex-row'>
-                <div className='pb-[10px] font-satoshi text-lg text-secondary-foreground md:pb-[0px]'>
+                <div className='pb-[10px] font-satoshi text-lg text-secondary-foreground md:pb-[0px] text-center md:text-left'>
                   {t('follow_us_on')}:
                 </div>
                 <div className='flex gap-2'>
-                  <Button
+                  {/* <Button
                     variant='outline'
                     className='rounded-full border-secondary font-satoshi text-sm text-secondary-foreground'
                     size='icon'
@@ -122,6 +122,31 @@ export function SiteFooter() {
                       height={450}
                       alt='x'
                       className='mx-auto my-16 size-4'
+                    />
+                  </Button> */}
+                  <Button
+                    variant='clear'
+                    className='dark:block hidden'
+                    size='icon'
+                  >
+                    <Image
+                      src='/logo-white.svg'
+                      width={450}
+                      height={450}
+                      alt='x'
+                    />
+                  </Button>
+
+                  <Button
+                    variant='clear'
+                    className='dark:hidden block'
+                    size='icon'
+                  >
+                    <Image
+                      src='/logo-black.svg'
+                      width={450}
+                      height={450}
+                      alt='x'
                     />
                   </Button>
                 </div>
