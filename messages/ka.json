@@ -325,6 +325,7 @@
     "spam_or_unwanted_content": "სპამი ან არასასარგებლო კონტენტი",
     "privacy_violations": "პირადი უსაფრთხოების დარღვევა",
     "intellectual_property_rights_violation": "მშობელი უფასოთა უფლებების დარღვევა",
+    "message_to_username": "შეტყობინება {username}-ს",
     "telegram": "ტელეგრამი",
     "telegram_integration": "ტელეგრამის ინტეგრაცია",
     "copy_code_and_send_to_bot": "კოდის კოპირება და გამოგზავნა ბოტს <botname>@paxbot</botname>-ს",

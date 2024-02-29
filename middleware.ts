@@ -43,6 +43,10 @@ const authMiddleware = withAuth(
 );
 
 export default function middleware(req: NextRequest) {
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('x-pathname', req.nextUrl.pathname);
+  req.headers.set('x-pathname', req.nextUrl.pathname);
+
   const formattedPublicPages = publicPages
     .map((p) =>
       p === '/'

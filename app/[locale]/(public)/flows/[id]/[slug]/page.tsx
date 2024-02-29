@@ -13,6 +13,11 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -28,6 +33,7 @@ import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
 import QRCode from 'react-qr-code';
+import MessageForm from '@/components/home/flow/messsage-form';
 
 interface GalleryData {
   original: string;
@@ -163,25 +169,13 @@ export default async function FlowPage({
   searchParams: { [key: string]: string | undefined | null };
 }) {
   const t = await getTranslations('main');
+  const session = await getServerSession(authOptions);
 
   const blogDetails: BlogDetails | null = await getData(
     params.locale,
     params.id,
     params.slug
   );
-
-  console.log(blogDetails);
-
-  const breadcrumbs = [
-    {
-      name: t('flow'),
-      url: '/home?mode=flow',
-    },
-    {
-      name: params.slug,
-      url: `flows/${params.id}/${params.slug}`,
-    },
-  ];
 
   return blogDetails ? (
     <section className='container py-4'>
@@ -459,9 +453,21 @@ export default async function FlowPage({
                 </Link>
               </Button>
               <Button className='btn w-full !rounded-md' asChild>
-                <Link href={`/profiles/${blogDetails.author?.username}`}>
-                  {t('start_chat')}
-                </Link>
+                {session ? (
+                  <MessageForm
+                    user={{ username: blogDetails.author?.username }}
+                  >
+                    <Button className='btn w-full !rounded-md'>
+                      {t('start_chat')}
+                    </Button>
+                  </MessageForm>
+                ) : (
+                  <Link
+                    href={`/auth/login?callback=/profile/messages/${blogDetails.author?.username}`}
+                  >
+                    {t('start_chat')}
+                  </Link>
+                )}
               </Button>
             </div>
           </Card>
