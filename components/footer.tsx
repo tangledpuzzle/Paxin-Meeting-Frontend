@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -8,11 +6,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useTranslations } from 'next-intl';
+import { headers } from 'next/headers';
 
 export function SiteFooter() {
   const t = useTranslations('main');
+  const pathname = headers().get('x-pathname') || '';
 
-  return (
+  return pathname.includes('/meet/') ? (
+    <></>
+  ) : (
     <footer className='z-40 w-full bg-[#F5F5F5] px-8 py-4 dark:bg-black'>
       <div className='flex w-full flex-col items-center justify-center gap-4 py-16 md:flex-row'>
         <div className='flex w-full flex-col items-center justify-center md:w-1/3'>
@@ -44,38 +46,37 @@ export function SiteFooter() {
           />
           <Card className='w-full max-w-xl rounded-lg border-none bg-white shadow-sm dark:bg-[#17171A]/70'>
             <CardContent>
-              
               <div className='grid grid-cols-1 md:grid-cols-3'>
                 <div className='flex flex-col'>
-                  <div className='my-4 font-satoshi text-xl font-semibold  text-center md:text-left'>
+                  <div className='my-4 text-center font-satoshi text-xl  font-semibold md:text-left'>
                     {t('about')}
                   </div>
                   {siteConfig.footer.about.map((item, index) => (
                     <Link
                       key={index}
                       href={item.href}
-                      className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline  text-center md:text-left'
+                      className='my-2 text-center font-satoshi text-sm text-secondary-foreground  hover:underline md:text-left'
                     >
                       {t(item.title as keyof IntlMessages['main'])}
                     </Link>
                   ))}
                 </div>
                 <div className='flex flex-col'>
-                  <div className='my-4 font-satoshi text-xl font-semibold  text-center md:text-left'>
+                  <div className='my-4 text-center font-satoshi text-xl  font-semibold md:text-left'>
                     {t('product')}
                   </div>
                   {siteConfig.footer.product.map((item, index) => (
                     <Link
                       key={index}
                       href={item.href}
-                      className='my-2 font-satoshi text-sm text-secondary-foreground hover:underline  text-center md:text-left'
+                      className='my-2 text-center font-satoshi text-sm text-secondary-foreground  hover:underline md:text-left'
                     >
                       {t(item.title as keyof IntlMessages['main'])}
                     </Link>
                   ))}
                 </div>
-                <div className='flex flex-col md:ml-auto  text-center md:text-left'>
-                  <div className='my-4 font-satoshi text-xl font-semibold  text-center md:text-left'>
+                <div className='flex flex-col text-center  md:ml-auto md:text-left'>
+                  <div className='my-4 text-center font-satoshi text-xl  font-semibold md:text-left'>
                     {t('resources')}
                   </div>
                   {siteConfig.footer.resources.map((item, index) => (
@@ -93,7 +94,7 @@ export function SiteFooter() {
             <CardFooter className='flex flex-col'>
               <Separator className='container mx-auto my-2 bg-[#8C8C8C]/30 opacity-30' />
               <div className='flex w-full flex-col items-center justify-between gap-1 sm:flex-row'>
-                <div className='pb-[10px] font-satoshi text-lg text-secondary-foreground md:pb-[0px] text-center md:text-left'>
+                <div className='pb-[10px] text-center font-satoshi text-lg text-secondary-foreground md:pb-[0px] md:text-left'>
                   {t('follow_us_on')}:
                 </div>
                 <div className='flex gap-2'>
@@ -126,7 +127,7 @@ export function SiteFooter() {
                   </Button> */}
                   <Button
                     variant='clear'
-                    className='dark:block hidden'
+                    className='hidden dark:block'
                     size='icon'
                   >
                     <Image
@@ -139,7 +140,7 @@ export function SiteFooter() {
 
                   <Button
                     variant='clear'
-                    className='dark:hidden block'
+                    className='block dark:hidden'
                     size='icon'
                   >
                     <Image
@@ -164,7 +165,7 @@ export function SiteFooter() {
           <Button
             variant='link'
             aria-label='Privacy Policy'
-            className='font-satoshi text-sm text-muted-foreground !pb-0'
+            className='!pb-0 font-satoshi text-sm text-muted-foreground'
             asChild
           >
             <Link href='/privacy'>{t('privacy_policy')}</Link>
