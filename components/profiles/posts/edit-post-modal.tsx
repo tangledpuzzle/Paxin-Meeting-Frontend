@@ -1,9 +1,7 @@
 'use client';
 
-import { TfiWrite } from 'react-icons/tfi';
-import ReactSelect from 'react-select';
-
 import { ImageUpload, PreviewImage } from '@/components/common/file-uploader';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -24,15 +22,23 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { PaxContext } from '@/context/context';
+import { cn } from '@/lib/utils';
 import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { LuBrain } from 'react-icons/lu';
+import { TfiWrite } from 'react-icons/tfi';
 import 'react-quill/dist/quill.snow.css';
+import ReactSelect from 'react-select';
+import CreatableSelect from 'react-select/creatable';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
+import useSWR from 'swr';
+import { useDebouncedCallback } from 'use-debounce';
 import * as z from 'zod';
 
 const ReactQuill =
@@ -71,20 +77,65 @@ type ImageUploadComponentType = {
   handleReset: () => void;
 };
 
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
 export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   const t = useTranslations('main');
   const { user } = useContext(PaxContext);
-  const locale = useLocale();
+  const [formData, setFormData] = useState<{
+    title?: string;
+    subtitle?: string;
+    content?: string;
+    city?: { value: number; label: string }[];
+    category?: { value: number; label: string }[];
+    hashtags?: { value: string; label: string }[];
+    price?: string;
+    days?: string;
+    images?: {
+      name: string;
+      path: string;
+    }[];
+  }>();
+  const [formIndex, setFormIndex] = useState<number>(0);
+  const [cityOptions, setCityOptions] = useState<
+    { value: number; label: string }[]
+  >([]);
+  const [categoryOptions, setCategoryOptions] = useState<
+    { value: number; label: string }[]
+  >([]);
+  const [hashtagOptions, setHashtagOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [generating, setGenerating] = useState<{
+    title: boolean;
+    subtitle: boolean;
+    content: boolean;
+  }>({
+    title: false,
+    subtitle: false,
+    content: false,
+  });
+  const [generatedString, setGeneratedString] = useState<{
+    title?: string[];
+    subtitle?: string[];
+    content?: string[];
+  }>({});
 
-  const formSchema = z
-    .object({
-      title: z.string().min(1, t('title_is_required')),
-      subtitle: z.string().min(1, t('subtitle_is_required')),
-      content: z
-        .string()
-        .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
-          message: t('content_is_required'),
-        }),
+  const [hashtagKeyword, setHashtagKeyword] = useState<string>('');
+
+  const { data: fetchedHashtags, error: fetchedHashtagsError } = useSWR(
+    hashtagKeyword
+      ? `/api/hashtags/get?name=${hashtagKeyword}&type=BLOG`
+      : null,
+    fetcher
+  );
+
+  const handleHashtagSearch = useDebouncedCallback((value: string) => {
+    setHashtagKeyword(value);
+  }, 300);
+
+  const formSchema = [
+    z.object({
       city: z
         .array(
           z.object({
@@ -109,6 +160,19 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
           })
         )
         .min(1, t('select_at_least_one_hashtag')),
+    }),
+    z.object({
+      title: z.string().min(1, t('title_is_required')),
+      subtitle: z.string().min(1, t('subtitle_is_required')),
+    }),
+    z.object({
+      content: z
+        .string()
+        .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
+          message: t('content_is_required'),
+        }),
+    }),
+    z.object({
       price: z.string().optional(),
       images: z
         .array(
@@ -118,10 +182,10 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
           })
         )
         .min(1, t('upload_at_least_one_image')),
-    })
-    .required();
+    }),
+  ];
 
-  type FormData = z.infer<typeof formSchema>;
+  type FormData = z.infer<(typeof formSchema)[number]>;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
@@ -162,8 +226,120 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   ];
 
   const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema[formIndex]),
   });
+
+  const handleAIAssistant = async (type: 'title' | 'subtitle' | 'content') => {
+    if (formIndex === 4) return;
+
+    setGenerating({ ...generating, [type]: true });
+
+    try {
+      setGeneratedString({
+        ...generatedString,
+        [type]: [
+          'You can add components to your app using the cli.',
+          'You can add components to your app using the cli.',
+          'You can add components to your app using the cli.',
+        ],
+      });
+    } catch (error) {
+    } finally {
+      setTimeout(() => {
+        setGenerating({ ...generating, [type]: false });
+      }, 1000);
+    }
+  };
+
+  const setGeneratedAIString = (
+    type: 'title' | 'subtitle' | 'content',
+    index: number
+  ) => {
+    if (generatedString[type] === undefined) return;
+
+    const textArray = generatedString[type] as string[];
+
+    if (index >= textArray.length) return;
+
+    form.setValue(type, textArray[index]);
+
+    setGeneratedString({
+      ...generatedString,
+      [type]: undefined,
+    });
+  };
+
+  const submitBlog = (data: FormData) => {
+    if (formIndex < 4) {
+      setFormIndex(formIndex + 1);
+      setFormData({
+        ...formData,
+        ...data,
+      });
+
+      return;
+    }
+  };
+
+  const handleEditBlog = async () => {
+    setIsLoading(true);
+
+    try {
+      const files = await imageUploadRef.current?.handleUpload();
+
+      const res = await axios.patch(`/api/flows/patch/${blog.id}`, {
+        title: formData!.title,
+        subtitle: formData!.subtitle,
+        content: formData!.content,
+        city: formData!.city!.map((city) => ({
+          id: city.value,
+          name: city.label,
+        })),
+        category: formData!.category!.map((category) => ({
+          id: category.value,
+          name: category.label,
+        })),
+        hashtags: formData!.hashtags!.map((hashtag) => hashtag.label),
+        price: formData!.price,
+        images: {
+          ID: blog.gallery.ID,
+          BlogID: blog.gallery.BlogID,
+          files: [
+            ...formData!.images!.map((image) => ({ path: image.path })),
+            ...(files?.files || []),
+          ],
+        },
+      });
+
+      if (res.status === 200) {
+        toast.success(t('blog_updated_successfully'), {
+          position: 'top-right',
+        });
+
+        setOpen(false);
+
+        form.reset();
+
+        setFormIndex(0);
+
+        if (mutate) {
+          mutate();
+        }
+
+        imageUploadRef.current?.handleReset();
+      } else {
+        toast.error(t('blog_update_failed'), {
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      toast.error(t('blog_update_failed'), {
+        position: 'top-right',
+      });
+    }
+
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     form.setValue('title', blog.title);
@@ -197,65 +373,51 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
     );
   }, [blog]);
 
-  const submitBlog = async (data: FormData) => {
-    setIsLoading(true);
+  useEffect(() => {
+    setCityOptions(
+      user?.city.map((city: any) => ({
+        label: city.name,
+        value: city.id * 1,
+      })) || []
+    );
 
-    try {
-      const files = await imageUploadRef.current?.handleUpload();
+    setCategoryOptions(
+      user?.category.map((category: any) => ({
+        label: category.name,
+        value: category.id * 1,
+      })) || []
+    );
 
-      const res = await axios.patch(`/api/flows/patch/${blog.id}`, {
-        title: data.title,
-        subtitle: data.subtitle,
-        content: data.content,
-        city: data.city.map((city) => ({ id: city.value, name: city.label })),
-        category: data.category.map((category) => ({
-          id: category.value,
-          name: category.label,
-        })),
-        hashtags: data.hashtags.map((hashtag) => hashtag.label),
-        price: data.price,
-        images: {
-          ID: blog.gallery.ID,
-          BlogID: blog.gallery.BlogID,
-          files: [
-            ...data.images.map((image) => ({ path: image.path })),
-            ...(files?.files || []),
-          ],
-        },
-      });
+    // setHashtagOptions(
+    //   user?.hashtags.map((hashtag: any) => ({
+    //     label: hashtag,
+    //     value: hashtag,
+    //   })) || []
+    // );
+  }, [user]);
 
-      if (res.status === 200) {
-        toast.success(t('blog_updated_successfully'), {
-          position: 'top-right',
-        });
-
-        setOpen(false);
-
-        form.reset();
-
-        if (mutate) {
-          mutate();
-        }
-
-        imageUploadRef.current?.handleReset();
-      } else {
-        toast.error(t('blog_update_failed'), {
-          position: 'top-right',
-        });
-      }
-    } catch (error) {
-      toast.error(t('blog_update_failed'), {
-        position: 'top-right',
-      });
+  useEffect(() => {
+    if (fetchedHashtags) {
+      setHashtagOptions(
+        fetchedHashtags?.map((hashtag: any) => ({
+          value: hashtag.Hashtag,
+          label: hashtag.Hashtag,
+        })) || []
+      );
+    } else {
+      // setHashtagOptions(
+      //   user?.hashtags.map((hashtag: any) => ({
+      //     label: hashtag,
+      //     value: hashtag,
+      //   })) || []
+      // );
     }
-
-    setIsLoading(false);
-  };
+  }, [fetchedHashtags]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className='max-h-[100%] w-full overflow-y-auto sm:max-w-xl md:max-h-[90%] md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
+      <DialogContent className='max-h-[100%] w-full sm:max-w-xl md:max-h-[90%] md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
         <DialogHeader className='flex flex-row items-center gap-3'>
           <div className='rounded-full bg-primary/10 p-3 text-primary'>
             <TfiWrite className='size-5' />
@@ -268,60 +430,12 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(submitBlog)}
-            className='w-full space-y-2'
+            className={cn('flex w-full flex-col px-2', {
+              'overflow-y-auto': formIndex > 0,
+            })}
           >
-            <div className='grid gap-4 py-4'>
-              <FormField
-                control={form.control}
-                name='title'
-                render={({ field }) => (
-                  <FormItem>
-                    <div className='flex items-center gap-4'>
-                      <FormLabel htmlFor='title'>{t('title')}</FormLabel>
-                      <FormControl>
-                        <Input className='' {...field} />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='subtitle'
-                render={({ field }) => (
-                  <FormItem>
-                    <div className='flex items-center gap-4'>
-                      <FormLabel htmlFor='subtitle'>{t('subtitle')}</FormLabel>
-                      <FormControl>
-                        <Input className='' {...field} />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='content'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor='content'>{t('content')}</FormLabel>
-                    <FormControl>
-                      <ReactQuill
-                        theme='snow'
-                        {...field}
-                        modules={modules}
-                        formats={formats}
-                        placeholder={t('type_content_here')}
-                        className='placeholder:text-white'
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className='grid gap-4 sm:grid-cols-2'>
+            {(formIndex === 0 || formIndex === 4) && (
+              <div className='grid gap-2'>
                 <FormField
                   control={form.control}
                   name='city'
@@ -332,11 +446,8 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                         <ReactSelect
                           isMulti
                           placeholder={t('select') + '...'}
-                          options={user?.city.map((city: any) => ({
-                            label: city.name,
-                            value: city.id * 1,
-                          }))}
                           noOptionsMessage={() => t('no_options')}
+                          options={cityOptions}
                           {...field}
                           classNames={{
                             input: () =>
@@ -347,6 +458,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                               '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                             menu: () => '!bg-muted',
                           }}
+                          isDisabled={isLoading || formIndex === 4}
                         />
                       </FormControl>
                       <FormMessage />
@@ -363,12 +475,9 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                         <ReactSelect
                           isMulti
                           placeholder={t('select') + '...'}
-                          {...field}
-                          options={user?.category.map((category: any) => ({
-                            label: category.name,
-                            value: category.id * 1,
-                          }))}
                           noOptionsMessage={() => t('no_options')}
+                          {...field}
+                          options={categoryOptions}
                           classNames={{
                             input: () =>
                               'dark:text-white text-black text-[16px]',
@@ -378,14 +487,13 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                               '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                             menu: () => '!bg-muted',
                           }}
+                          isDisabled={isLoading || formIndex === 4}
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </div>
-              <div className='grid gap-4 sm:grid-cols-2'>
                 <FormField
                   control={form.control}
                   name='hashtags'
@@ -393,15 +501,13 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                     <FormItem>
                       <FormLabel htmlFor='hashtags'>{t('hashtags')}</FormLabel>
                       <FormControl>
-                        <ReactSelect
+                        <CreatableSelect
                           isMulti
                           placeholder={t('select') + '...'}
                           noOptionsMessage={() => t('no_options')}
-                          options={user?.hashtags.map((hashtag: any) => ({
-                            label: hashtag,
-                            value: hashtag,
-                          }))}
+                          options={hashtagOptions}
                           {...field}
+                          onInputChange={(value) => handleHashtagSearch(value)}
                           classNames={{
                             input: () =>
                               'dark:text-white text-black text-[16px]',
@@ -411,13 +517,184 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                               '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                             menu: () => '!bg-muted',
                           }}
+                          isDisabled={isLoading || formIndex === 4}
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <div className='grid gap-4'>
+              </div>
+            )}
+            {(formIndex === 1 || formIndex === 4) && (
+              <div
+                className={cn('grid gap-2', { 'order-first': formIndex === 4 })}
+              >
+                <FormField
+                  control={form.control}
+                  name='title'
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className='relative'>
+                        <FormLabel htmlFor='title'>{t('title')}</FormLabel>
+                        <FormControl>
+                          <Input
+                            className=''
+                            {...field}
+                            disabled={isLoading || formIndex === 4}
+                          />
+                        </FormControl>
+                        <Button
+                          type='button'
+                          variant='link'
+                          size='icon'
+                          data-tooltip-id='ai-assistant'
+                          className='absolute bottom-0.5 right-1'
+                          disabled={isLoading || formIndex === 4}
+                          onClick={() => handleAIAssistant('title')}
+                        >
+                          {generating.title ? (
+                            <Loader2 className='size-5 animate-spin' />
+                          ) : (
+                            <LuBrain className='size-5' />
+                          )}
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {generatedString?.title &&
+                  generatedString?.title?.length > 0 && (
+                    <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                      {generatedString?.title?.map((text, index) => (
+                        <Alert
+                          key={text}
+                          className='cursor-pointer hover:scale-[1.005]'
+                          onClick={() => setGeneratedAIString('title', index)}
+                        >
+                          <AlertDescription>{text}</AlertDescription>
+                        </Alert>
+                      ))}
+                    </div>
+                  )}
+                <FormField
+                  control={form.control}
+                  name='subtitle'
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className='relative'>
+                        <FormLabel htmlFor='subtitle'>
+                          {t('subtitle')}
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className=''
+                            {...field}
+                            disabled={isLoading || formIndex === 4}
+                          />
+                        </FormControl>
+                        <Button
+                          type='button'
+                          variant='link'
+                          size='icon'
+                          data-tooltip-id='ai-assistant'
+                          className='absolute bottom-0.5 right-1'
+                          disabled={isLoading || formIndex === 4}
+                          onClick={() => handleAIAssistant('subtitle')}
+                        >
+                          {generating.subtitle ? (
+                            <Loader2 className='size-5 animate-spin' />
+                          ) : (
+                            <LuBrain className='size-5' />
+                          )}
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {generatedString?.subtitle &&
+                  generatedString?.subtitle?.length > 0 && (
+                    <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                      {generatedString?.subtitle?.map((text, index) => (
+                        <Alert
+                          key={text}
+                          className='cursor-pointer hover:scale-[1.005]'
+                          onClick={() =>
+                            setGeneratedAIString('subtitle', index)
+                          }
+                        >
+                          <AlertDescription>{text}</AlertDescription>
+                        </Alert>
+                      ))}
+                    </div>
+                  )}
+              </div>
+            )}
+            {(formIndex === 2 || formIndex === 4) && (
+              <div
+                className={cn('relative grid', {
+                  'order-first': formIndex === 4,
+                })}
+              >
+                <FormField
+                  control={form.control}
+                  name='content'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor='content'>{t('content')}</FormLabel>
+                      <FormControl>
+                        <div className='relative'>
+                          <ReactQuill
+                            theme='snow'
+                            {...field}
+                            modules={modules}
+                            formats={formats}
+                            placeholder={t('type_content_here')}
+                            className='placeholder:text-white'
+                            readOnly={isLoading || formIndex === 4}
+                          />
+                          <Button
+                            type='button'
+                            variant='link'
+                            size='icon'
+                            data-tooltip-id='ai-assistant'
+                            className='absolute bottom-0.5 right-1'
+                            disabled={isLoading || formIndex === 4}
+                            onClick={() => handleAIAssistant('content')}
+                          >
+                            {generating.content ? (
+                              <Loader2 className='size-5 animate-spin' />
+                            ) : (
+                              <LuBrain className='size-5' />
+                            )}
+                          </Button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {generatedString?.content &&
+                  generatedString?.content?.length > 0 && (
+                    <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                      {generatedString?.content?.map((text, index) => (
+                        <Alert
+                          key={text}
+                          className='cursor-pointer hover:scale-[1.005]'
+                          onClick={() => setGeneratedAIString('content', index)}
+                        >
+                          <AlertDescription>{text}</AlertDescription>
+                        </Alert>
+                      ))}
+                    </div>
+                  )}
+              </div>
+            )}
+            {(formIndex === 3 || formIndex === 4) && (
+              <div className='flex flex-col gap-4'>
+                <div className='grid gap-4 sm:grid-cols-2'>
                   <FormField
                     control={form.control}
                     name='price'
@@ -425,69 +702,100 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                       <FormItem>
                         <FormLabel htmlFor='price'>{t('price')}</FormLabel>
                         <FormControl>
-                          <Input className='' type='number' {...field} />
+                          <Input
+                            className=''
+                            type='number'
+                            {...field}
+                            disabled={isLoading || formIndex === 4}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-              </div>
-            </div>
-            <div>
-              <FormField
-                control={form.control}
-                name='images'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <>
-                        <div className='flex flex-wrap gap-2'>
-                          {field.value?.length > 0 &&
-                            field.value.map((file: any) => (
-                              <PreviewImage
-                                key={file.path}
-                                src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`}
-                                onRemove={() => {
-                                  if (field.value.length === 1) {
-                                    return toast.error(
-                                      'You must have at least one image',
-                                      {
-                                        position: 'top-right',
-                                      }
-                                    );
-                                  } else {
-                                    const _images = form
-                                      .getValues('images')
-                                      .filter(
-                                        (image: any) => image.path !== file.path
+                <FormField
+                  control={form.control}
+                  name='images'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <>
+                          <div className='flex flex-wrap gap-2'>
+                            {field.value?.length > 0 &&
+                              field.value.map((file: any) => (
+                                <PreviewImage
+                                  key={file.path}
+                                  src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`}
+                                  onRemove={() => {
+                                    if (field.value.length === 1) {
+                                      return toast.error(
+                                        'You must have at least one image',
+                                        {
+                                          position: 'top-right',
+                                        }
                                       );
-                                    field.onChange(_images);
-                                  }
-                                }}
-                              />
-                            ))}
-                        </div>
-                        <ImageUpload ref={imageUploadRef} />
-                      </>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <DialogFooter>
+                                    } else {
+                                      const _images = form
+                                        .getValues('images')
+                                        .filter(
+                                          (image: any) =>
+                                            image.path !== file.path
+                                        );
+                                      field.onChange(_images);
+                                    }
+                                  }}
+                                />
+                              ))}
+                          </div>
+                          <ImageUpload
+                            ref={imageUploadRef}
+                            disabled={isLoading || formIndex === 4}
+                          />
+                        </>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+            <DialogFooter className='mt-4'>
               <Button
-                type='submit'
-                className='btn btn--wide !rounded-md'
-                disabled={isLoading}
+                type='button'
+                disabled={formIndex === 0}
+                onClick={() => setFormIndex(formIndex - 1)}
               >
-                {isLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
-                {t('save')}
+                {t('back_flow')}
               </Button>
+              {formIndex < 4 && (
+                <Button type='submit' disabled={isLoading}>
+                  {isLoading && (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  )}
+                  {t('next')}
+                </Button>
+              )}
+              {formIndex === 4 && (
+                <Button
+                  type='button'
+                  disabled={isLoading}
+                  onClick={handleEditBlog}
+                >
+                  {isLoading && (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  )}
+                  {t('save')}
+                </Button>
+              )}
             </DialogFooter>
           </form>
         </Form>
+        <ReactTooltip
+          id='ai-assistant'
+          place='bottom'
+          content={t('ai_assistant')}
+        />
       </DialogContent>
     </Dialog>
   );
