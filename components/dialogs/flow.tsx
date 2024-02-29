@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useLocale } from 'next-intl';
+import { MdFavorite } from 'react-icons/md'; // Importing MdFavorite icon
 
 interface Chat {
   ele: HTMLDivElement;
@@ -76,7 +77,6 @@ const ChatComponent: React.FC = () => {
     
     newSocket.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
-      console.log(receivedData)
       if (receivedData) {
         const newLine = new Line(receivedData, locale);
         chatRef.current?.ele.appendChild(newLine.ele.lineContainer);
@@ -141,6 +141,7 @@ const ChatComponent: React.FC = () => {
         </button>
         <button>Применить настройки</button>
       </div> */}
+    
     </div>
   );
 };
@@ -296,6 +297,8 @@ class Line {
     });
     const profileImg = createElement({ class: ['profile-img', 'mb-2']});
 
+
+    
     profileImg.addEventListener('click', () => {
       window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`
     });
@@ -315,7 +318,20 @@ class Line {
 
     body.appendChild(name);
 
-    
+      // Add favorite button
+      const favoriteButton = createElement({
+        tag: 'button',
+        class: 'favorite-button',
+        attributes: {
+          onclick: () => {
+            // Handle adding to favorites here
+            console.log('Added to favorites');
+          }
+        }
+      });
+      favoriteButton.innerHTML = '<MdFavorite />';
+      body.appendChild(favoriteButton);
+      
     line.appendChild(profileImg);
     line.appendChild(body);
     lineContainer.appendChild(line);
