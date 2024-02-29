@@ -24,42 +24,47 @@ interface LineElement {
   richBody?: HTMLElement;
 }
 
-const createElement = (opts: { tag?: string, class?: string | string[], attributes?: { [key: string]: string | Function } } = {}): HTMLElement => {
+const createElement = (
+  opts: {
+    tag?: string;
+    class?: string | string[];
+    attributes?: { [key: string]: string | Function };
+  } = {}
+): HTMLElement => {
   let ele: HTMLElement;
   if (opts.tag) {
-      ele = document.createElement(opts.tag);
+    ele = document.createElement(opts.tag);
   } else {
-      ele = document.createElement('div');
+    ele = document.createElement('div');
   }
   if (opts.class !== undefined) {
-      const classes = Array.isArray(opts.class) ? opts.class : [opts.class];
-      ele.classList.add(...classes);
+    const classes = Array.isArray(opts.class) ? opts.class : [opts.class];
+    ele.classList.add(...classes);
   }
   if (opts.attributes) {
-      Object.entries(opts.attributes).forEach(([key, value]) => {
-          if (typeof value === 'string') {
-              ele.setAttribute(key, value);
-          } else if (typeof value === 'function') {
-              ele.addEventListener(key, value as EventListener);
-          }
-      });
+    Object.entries(opts.attributes).forEach(([key, value]) => {
+      if (typeof value === 'string') {
+        ele.setAttribute(key, value);
+      } else if (typeof value === 'function') {
+        ele.addEventListener(key, value as EventListener);
+      }
+    });
   }
   return ele;
-}
+};
 
 const ChatComponent: React.FC = () => {
-
   const locale = useLocale();
   const newSocketRef = useRef<WebSocket | null>(null);
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      chatRef.current = new Chat(locale); 
+      chatRef.current = new Chat(locale);
       return () => {};
     }
   }, [locale]);
 
   const connectWebSocket = () => {
-    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'wss:';
     const wsPath = process.env.NEXT_PUBLIC_SOCKET_URL;
     const newSocket = new WebSocket(
       `${wsProtocol}//${wsPath}/stream/live?langue=` + locale
@@ -69,12 +74,12 @@ const ChatComponent: React.FC = () => {
     newSocket.onopen = () => {
       // WebSocket connection is established, send the "getADS" message
       const message = {
-        messageType: "getADS",
+        messageType: 'getADS',
         locale: locale,
       };
       newSocket.send(JSON.stringify(message));
     };
-    
+
     newSocket.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
       if (receivedData) {
@@ -129,7 +134,6 @@ const ChatComponent: React.FC = () => {
 
   const chatRef = useRef<Chat | null>(null);
 
-
   return (
     <div id='chat-container'>
       <div id='chat-input w-full'>
@@ -141,7 +145,6 @@ const ChatComponent: React.FC = () => {
         </button>
         <button>Применить настройки</button>
       </div> */}
-    
     </div>
   );
 };
@@ -160,7 +163,6 @@ class Chat {
     container?.appendChild(this.ele);
   }
 
-
   removeOldest() {
     const maxCount = 10;
     if (this.lines.length > maxCount) {
@@ -168,7 +170,6 @@ class Chat {
       oldest.forEach((n) => this.ele.removeChild(n.ele.lineContainer));
     }
   }
-
 }
 
 class Line {
@@ -186,9 +187,7 @@ class Line {
   hashtags: string[] = [];
   locale: string;
 
-
   constructor(data: any, locale: string) {
-
     this.locale = locale.charAt(0).toUpperCase() + locale.slice(1);
     const multilangTitle = data.MultilangTitle;
     const title = multilangTitle[this.locale];
@@ -201,7 +200,6 @@ class Line {
     } else {
       this.hashtags = [];
     }
-
 
     this.pickColor();
     this.pickName();
@@ -287,28 +285,23 @@ class Line {
       );
     });
   }
-  
 
   createElement(data: any): LineElement {
-
     const lineContainer = createElement({ class: 'line-container' });
     const line = createElement({
       class: ['bg-card-gradient-menu', 'py-4', 'px-4'],
     });
-    const profileImg = createElement({ class: ['profile-img', 'mb-2']});
+    const profileImg = createElement({ class: ['profile-img', 'mb-2'] });
 
-
-    
     profileImg.addEventListener('click', () => {
-      window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`
+      window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`;
     });
-  
+
     const body = createElement({ class: 'body' });
     const name = createElement({ class: ['!w-[85%]', 'cursor-pointer'] });
 
-
     name.addEventListener('click', () => {
-      window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`
+      window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`;
     });
 
     const img = createElement({ class: 'img' });
@@ -342,7 +335,14 @@ class Line {
 
     this.hashtags.forEach((hashtag) => {
       const hashtagElement = createElement({
-        class: ['hashtag', 'bg-card-gradient-menu', 'pt-1', 'pb-4', 'pr-2', 'rounded-md'],
+        class: [
+          'hashtag',
+          'bg-card-gradient-menu',
+          'pt-1',
+          'pb-4',
+          'pr-2',
+          'rounded-md',
+        ],
       });
       //@ts-ignore
       hashtagElement.textContent = '#' + hashtag.Hashtag; // Добавляем символ # перед текстом тега
