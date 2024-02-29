@@ -14,12 +14,19 @@ interface CTAProps {
   icon: React.ComponentType<any>;
 }
 
-
 function formatTime(hours: number, minutes: number, seconds: number) {
   return `${String(hours).padStart(2, '0')}h : ${String(minutes).padStart(2, '0')}m : ${String(seconds).padStart(2, '0')}s`;
 }
 
-function Clock({ initialHours, initialMinutes, initialSeconds }: { initialHours: number, initialMinutes: number, initialSeconds: number }) {
+function Clock({
+  initialHours,
+  initialMinutes,
+  initialSeconds,
+}: {
+  initialHours: number;
+  initialMinutes: number;
+  initialSeconds: number;
+}) {
   const [currentTime, setCurrentTime] = useState({
     hours: initialHours,
     minutes: initialMinutes,
@@ -27,8 +34,16 @@ function Clock({ initialHours, initialMinutes, initialSeconds }: { initialHours:
   });
 
   useEffect(() => {
+    setCurrentTime({
+      hours: initialHours,
+      minutes: initialMinutes,
+      seconds: initialSeconds,
+    });
+  }, [initialHours, initialMinutes, initialSeconds]);
+
+  useEffect(() => {
     const intervalID = setInterval(() => {
-      setCurrentTime(prevTime => {
+      setCurrentTime((prevTime) => {
         let { hours, minutes, seconds } = prevTime;
         seconds++;
         if (seconds === 60) {
@@ -51,18 +66,23 @@ function Clock({ initialHours, initialMinutes, initialSeconds }: { initialHours:
 
   return (
     <div className='clock'>
-      <span className='clock-time'>{formatTime(currentTime.hours, currentTime.minutes, currentTime.seconds)}</span>
+      <span className='clock-time'>
+        {formatTime(
+          currentTime.hours,
+          currentTime.minutes,
+          currentTime.seconds
+        )}
+      </span>
     </div>
   );
 }
-
 
 export default function CTASection({ title, description, icon }: CTAProps) {
   const { user } = useContext(PaxContext);
 
   const Icon = icon;
-  const initialHours = user?.onlinehours?.hour || 0; 
-  const initialMinutes = user?.onlinehours?.minutes || 0; 
+  const initialHours = user?.onlinehours?.hour || 0;
+  const initialMinutes = user?.onlinehours?.minutes || 0;
   const initialSeconds = user?.onlinehours?.seconds || 0;
 
   return (
@@ -99,7 +119,11 @@ export default function CTASection({ title, description, icon }: CTAProps) {
         </Button>
         <Button variant='outline' className='w-full'>
           <FaUserClock className='mr-2 size-4 text-primary' />
-          <Clock initialHours={initialHours} initialMinutes={initialMinutes} initialSeconds={initialSeconds} />
+          <Clock
+            initialHours={initialHours}
+            initialMinutes={initialMinutes}
+            initialSeconds={initialSeconds}
+          />
         </Button>
       </div>
     </div>
