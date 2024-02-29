@@ -304,7 +304,7 @@ class Line {
     });
   
     const body = createElement({ class: 'body' });
-    const name = createElement({ class: ['!w-full', 'cursor-pointer'] });
+    const name = createElement({ class: ['!w-[85%]', 'cursor-pointer'] });
 
 
     name.addEventListener('click', () => {
@@ -318,26 +318,26 @@ class Line {
 
     body.appendChild(name);
 
-      // Add favorite button
-      const favoriteButton = createElement({
-        tag: 'button',
-        class: 'favorite-button',
-        attributes: {
-          onclick: () => {
-            // Handle adding to favorites here
-            console.log('Added to favorites');
-          }
-        }
-      });
-      favoriteButton.innerHTML = '<MdFavorite />';
-      body.appendChild(favoriteButton);
-      
+    // Add favorite button
+    // const favoriteButton = createElement({
+    //   tag: 'button',
+    //   class: ['favorite-button', 'btn', '!absolute', 'right-[0px]', 'top-0'],
+    //   attributes: {
+    //     onclick: () => {
+    //       // Handle adding to favorites here
+    //       console.log('Added to favorites');
+    //     }
+    //   }
+    // });
+    // favoriteButton.innerHTML = 'favoriteButton';
+    // body.appendChild(favoriteButton);
+
     line.appendChild(profileImg);
     line.appendChild(body);
     lineContainer.appendChild(line);
 
     const flexContainer = createElement({
-      class: ['flex', 'gap-2', 'flex-wrap', 'mt-2'],
+      class: ['flex', 'gap-2', 'flex-wrap', 'mt-2', 'w-[85%]'],
     });
 
     this.hashtags.forEach((hashtag) => {

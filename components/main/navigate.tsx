@@ -21,23 +21,23 @@ export default function NavigateSection() {
         {t('navigating_your_digital_universe_description')}
       </SectionDescription>
       <div className='px-0 md:px-7 flex flex-col md:flex-row  gap-4  mt-4 '>
-        <div className=' h-full  flex-col justify-center bg-card-gradient px-7 pb-4 pt-2 rounded-none md:rounded-md'>
+        <div className=' h-full  flex-col justify-center bg-card-gradient-menu px-7 pb-4 pt-2 rounded-none md:rounded-md'>
             <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               Конференц залы
             </div>
             <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Собирайте рабочие комнаты и проводите богатым инструментарием
+              Собирайте рабочие комнаты и проводите встречи с богатым инструментарием
             </div>
           </div>
-          <div className='flex h-full  flex-col justify-center bg-card-gradient px-7 pb-4 pt-2 rounded-none md:rounded-md'>
+          <div className='flex h-full  flex-col justify-center bg-card-gradient-menu px-7 pb-4 pt-2 rounded-none md:rounded-md'>
             <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               Мессенджер
             </div>
             <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Созадвайте деловое пространство в одном месте
+              Созадвайте деловое пространство в едином месте
             </div>
           </div>
-          <div className='flex h-full  flex-col justify-center bg-card-gradient px-7 pb-4 pt-2 rounded-none md:rounded-md'>
+          <div className='flex h-full  flex-col justify-center bg-card-gradient-menu px-7 pb-4 pt-2 rounded-none md:rounded-md'>
             <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               Поддержка нейросетей
             </div>
