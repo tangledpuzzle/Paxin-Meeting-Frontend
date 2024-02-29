@@ -325,6 +325,7 @@
     "spam_or_unwanted_content": "Correo no deseado o contenido no deseado",
     "privacy_violations": "Violación de privacidad",
     "intellectual_property_rights_violation": "Violación de derechos de propiedad intelectual",
+    "message_to_username": "Mensaje para {username}",
     "telegram": "Telegram",
     "telegram_integration": "Integración de Telegram",
     "copy_code_and_send_to_bot": "Copia el código y envíalo al bot <botname>@paxbot</botname>",
