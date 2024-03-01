@@ -13,6 +13,11 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -28,6 +33,7 @@ import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
 import QRCode from 'react-qr-code';
+import MessageForm from '@/components/home/flow/messsage-form';
 
 interface GalleryData {
   original: string;
@@ -163,25 +169,13 @@ export default async function FlowPage({
   searchParams: { [key: string]: string | undefined | null };
 }) {
   const t = await getTranslations('main');
+  const session = await getServerSession(authOptions);
 
   const blogDetails: BlogDetails | null = await getData(
     params.locale,
     params.id,
     params.slug
   );
-
-  console.log(blogDetails);
-
-  const breadcrumbs = [
-    {
-      name: t('flow'),
-      url: '/home?mode=flow',
-    },
-    {
-      name: params.slug,
-      url: `flows/${params.id}/${params.slug}`,
-    },
-  ];
 
   return blogDetails ? (
     <section className='container py-4'>
@@ -208,7 +202,7 @@ export default async function FlowPage({
       <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-4'>
         <div className='md:col-span-2 xl:col-span-3'>
           <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
-            <div className='grid grid-cols-2 gap-2 xl:col-span-3 col-span-2'>
+            <div className='col-span-2 grid grid-cols-2 gap-2 xl:col-span-3'>
               <div>
                 <div className='flex items-center gap-2'>
                   <MdOutlineHouseSiding className='size-5' />
@@ -338,7 +332,7 @@ export default async function FlowPage({
           </div>
           <Separator className='my-4' />
           <div className='block md:hidden'>
-          <FlowImageGallery images={blogDetails?.gallery || []} />
+            <FlowImageGallery images={blogDetails?.gallery || []} />
           </div>
           <div>
             <Label className='text-xl font-semibold '>
@@ -352,9 +346,9 @@ export default async function FlowPage({
         </div>
         <div className='mx-auto max-w-sm space-y-4'>
           <div className='hidden md:block'>
-          <Card>
-          <FlowImageGallery images={blogDetails?.gallery || []} />
-          </Card>
+            <Card>
+              <FlowImageGallery images={blogDetails?.gallery || []} />
+            </Card>
           </div>
 
           <Card className='mx-auto w-full'>
@@ -388,7 +382,6 @@ export default async function FlowPage({
                   downvotes={blogDetails.review?.downvotes}
                   me={blogDetails.me}
                 />
-          
               </div>
             </CardContent>
           </Card>
@@ -460,9 +453,21 @@ export default async function FlowPage({
                 </Link>
               </Button>
               <Button className='btn w-full !rounded-md' asChild>
-                <Link href={`/profiles/${blogDetails.author?.username}`}>
-                  Start chat
-                </Link>
+                {session ? (
+                  <MessageForm
+                    user={{ username: blogDetails.author?.username }}
+                  >
+                    <Button className='btn w-full !rounded-md'>
+                      {t('start_chat')}
+                    </Button>
+                  </MessageForm>
+                ) : (
+                  <Link
+                    href={`/auth/login?callback=/profile/messages/${blogDetails.author?.username}`}
+                  >
+                    {t('start_chat')}
+                  </Link>
+                )}
               </Button>
             </div>
           </Card>

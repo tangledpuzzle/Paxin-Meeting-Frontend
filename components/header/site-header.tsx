@@ -1,17 +1,16 @@
-'use client';
-
 import { MainNav } from '@/components/header/main-nav';
 import { siteConfig } from '@/config/site';
-
+import { headers } from 'next/headers';
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { useLocale, useTranslations } from 'next-intl';
 import { MobileMenu } from './mobile-menu';
 import { RightNav } from './right-nav';
-import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
+  console.log(session, '===');
 
   try {
     const res = await fetch(
@@ -33,24 +32,15 @@ async function getData(locale: string) {
   }
 }
 
-export function SiteHeader() {
+export async function SiteHeader() {
   const t = useTranslations('main');
   const locale = useLocale();
-  const [data, setData] = useState<{
-    data: { user: { email: string; photo: string; name: string } };
-  } | null>(null);
+  const pathname = headers().get('x-pathname') || '';
+  const data = await getData(locale);
 
-  useEffect(() => {
-    getData(locale)
-      .then((data) => {
-        setData(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
-  return (
+  return pathname.includes('/meet/') ? (
+    <></>
+  ) : (
     <header className={`bg-h sticky top-0 z-40 w-full bg-background`}>
       <div className='border-gardient-h relative top-[80px] w-full'></div>
       <div className='flex h-20 items-center space-x-4 px-4 sm:justify-between sm:space-x-0 md:px-8'>

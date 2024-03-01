@@ -1,6 +1,7 @@
 'use client';
 
 import { ImageUpload } from '@/components/common/file-uploader';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -19,7 +20,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -29,8 +29,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { PaxContext } from '@/context/context';
+import getAssistantData from '@/lib/server/assistant';
+import { cn } from '@/lib/utils';
 import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
@@ -39,15 +40,15 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { LuBrain } from 'react-icons/lu';
 import { TfiWrite } from 'react-icons/tfi';
 import 'react-quill/dist/quill.snow.css';
 import ReactSelect from 'react-select';
 import CreatableSelect from 'react-select/creatable';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
-import { LuBrain } from 'react-icons/lu';
 import * as z from 'zod';
-import { cn } from '@/lib/utils';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -103,8 +104,6 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     subtitle?: string[];
     content?: string[];
   }>({});
-
-  const [newHashtags, setNewHashtags] = useState<string[]>([]);
 
   const [hashtagKeyword, setHashtagKeyword] = useState<string>('');
 
@@ -240,22 +239,60 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   };
 
   const handleAIAssistant = async (type: 'title' | 'subtitle' | 'content') => {
+    if (formIndex === 4) return;
+
     setGenerating({ ...generating, [type]: true });
 
     try {
-      setGeneratedString({
-        ...generatedString,
-        [type]: [
-          'You can add components to your app using the cli.',
-          'You can add components to your app using the cli.',
-          'You can add components to your app using the cli.',
-        ],
-      });
+      if (type === 'title') {
+        const data = await getAssistantData(type, {
+          category: (formData?.category && formData?.category[0].label) || '',
+          title: formData?.title || '',
+        });
+
+        if (data) {
+          setGeneratedString({
+            ...generatedString,
+            [type]: data.titles.map((title: any) => title.title),
+          });
+        }
+      } else if (type === 'subtitle') {
+        const data = await getAssistantData(type, {
+          category: (formData?.category && formData?.category[0].label) || '',
+          title: formData?.title || '',
+          subtitle: formData?.subtitle || '',
+        });
+
+        if (data) {
+          setGeneratedString({
+            ...generatedString,
+            [type]: data.subtitles.map((subtitle: any) => subtitle.subtitle),
+          });
+        }
+      } else if (type === 'content') {
+        const data = await getAssistantData(type, {
+          category: (formData?.category && formData?.category[0].label) || '',
+          title: formData?.title || '',
+          subtitle: formData?.subtitle || '',
+          content: formData?.content || '',
+        });
+
+        if (data) {
+          setGeneratedString({
+            ...generatedString,
+            [type]: [data.content],
+          });
+        }
+      }
     } catch (error) {
+      toast.error(
+        t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+        {
+          position: 'top-right',
+        }
+      );
     } finally {
-      setTimeout(() => {
-        setGenerating({ ...generating, [type]: false });
-      }, 1000);
+      setGenerating({ ...generating, [type]: false });
     }
   };
 
@@ -347,6 +384,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
 
         form.reset();
 
+        setFormIndex(0);
+
         if (mutate) {
           mutate();
         }
@@ -423,10 +462,12 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(submitBlog)}
-            className='flex w-full flex-col'
+            className={cn('flex w-full flex-col px-2', {
+              'overflow-y-auto': formIndex > 0,
+            })}
           >
             {(formIndex === 0 || formIndex === 4) && (
-              <div className='mb-3 grid gap-2'>
+              <div className='grid gap-2'>
                 <FormField
                   control={form.control}
                   name='city'
@@ -541,6 +582,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           size='icon'
                           data-tooltip-id='ai-assistant'
                           className='absolute bottom-0.5 right-1'
+                          disabled={isLoading || formIndex === 4}
                           onClick={() => handleAIAssistant('title')}
                         >
                           {generating.title ? (
@@ -551,20 +593,25 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                         </Button>
                       </div>
                       <FormMessage />
+                      {generatedString?.title &&
+                        generatedString?.title?.length > 0 && (
+                          <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                            {generatedString?.title?.map((text, index) => (
+                              <Alert
+                                key={text}
+                                className='cursor-pointer hover:scale-[1.005]'
+                                onClick={() =>
+                                  setGeneratedAIString('title', index)
+                                }
+                              >
+                                <AlertDescription>{text}</AlertDescription>
+                              </Alert>
+                            ))}
+                          </div>
+                        )}
                     </FormItem>
                   )}
                 />
-                <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
-                  {generatedString?.title?.map((text, index) => (
-                    <Alert
-                      key={text}
-                      className='cursor-pointer hover:scale-[1.005]'
-                      onClick={() => setGeneratedAIString('title', index)}
-                    >
-                      <AlertDescription>{text}</AlertDescription>
-                    </Alert>
-                  ))}
-                </div>
                 <FormField
                   control={form.control}
                   name='subtitle'
@@ -587,6 +634,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           size='icon'
                           data-tooltip-id='ai-assistant'
                           className='absolute bottom-0.5 right-1'
+                          disabled={isLoading || formIndex === 4}
                           onClick={() => handleAIAssistant('subtitle')}
                         >
                           {generating.subtitle ? (
@@ -597,20 +645,25 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                         </Button>
                       </div>
                       <FormMessage />
+                      {generatedString?.subtitle &&
+                        generatedString?.subtitle?.length > 0 && (
+                          <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                            {generatedString?.subtitle?.map((text, index) => (
+                              <Alert
+                                key={text}
+                                className='cursor-pointer hover:scale-[1.005]'
+                                onClick={() =>
+                                  setGeneratedAIString('subtitle', index)
+                                }
+                              >
+                                <AlertDescription>{text}</AlertDescription>
+                              </Alert>
+                            ))}
+                          </div>
+                        )}
                     </FormItem>
                   )}
                 />
-                <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
-                  {generatedString?.subtitle?.map((text, index) => (
-                    <Alert
-                      key={text}
-                      className='cursor-pointer hover:scale-[1.005]'
-                      onClick={() => setGeneratedAIString('subtitle', index)}
-                    >
-                      <AlertDescription>{text}</AlertDescription>
-                    </Alert>
-                  ))}
-                </div>
               </div>
             )}
             {(formIndex === 2 || formIndex === 4) && (
@@ -642,6 +695,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                             size='icon'
                             data-tooltip-id='ai-assistant'
                             className='absolute bottom-0.5 right-1'
+                            disabled={isLoading || formIndex === 4}
                             onClick={() => handleAIAssistant('content')}
                           >
                             {generating.content ? (
@@ -653,20 +707,27 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                         </div>
                       </FormControl>
                       <FormMessage />
+                      {generatedString?.content &&
+                        generatedString?.content?.length > 0 && (
+                          <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                            {generatedString?.content?.map((text, index) => (
+                              <Alert
+                                key={text}
+                                className='cursor-pointer hover:scale-[1.005]'
+                                onClick={() =>
+                                  setGeneratedAIString('content', index)
+                                }
+                              >
+                                <div
+                                  dangerouslySetInnerHTML={{ __html: text }}
+                                ></div>
+                              </Alert>
+                            ))}
+                          </div>
+                        )}
                     </FormItem>
                   )}
                 />
-                <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
-                  {generatedString?.content?.map((text, index) => (
-                    <Alert
-                      key={text}
-                      className='cursor-pointer hover:scale-[1.005]'
-                      onClick={() => setGeneratedAIString('content', index)}
-                    >
-                      <AlertDescription>{text}</AlertDescription>
-                    </Alert>
-                  ))}
-                </div>
               </div>
             )}
             {(formIndex === 3 || formIndex === 4) && (
@@ -746,7 +807,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                 />
               </div>
             )}
-            <DialogFooter>
+            <DialogFooter className='mt-4'>
               <Button
                 type='button'
                 disabled={formIndex === 0}

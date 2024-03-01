@@ -9,6 +9,8 @@ import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FilterModal } from './filter-modal';
+import { FaUsers } from "react-icons/fa";
+import { MdSms } from "react-icons/md";
 
 export function CTASection() {
   const t = useTranslations('main');
@@ -56,13 +58,13 @@ export function CTASection() {
           value='profile'
           className={`rounded-r-none  bg-card-gradient-menu`}
         >
-          {t('profile')}
+         <FaUsers className='mr-2' /> {t('profile')}
         </ToggleGroupItem>
         <ToggleGroupItem
           value='flow'
           className={`rounded-l-none border-l-0 bg-card-gradient-menu`}
         >
-          {t('flow')}
+         <MdSms  className='mr-2' /> {t('flow')}
         </ToggleGroupItem>
       </ToggleGroup>
 
