@@ -6,8 +6,8 @@
   "main": {
     "back_flow": "Back",
     "next_flow": "Forward",
-    "scroll_down": "continuation",
-    "home": "Home",
+    "scroll_down": "don't refuse",
+    "home": "Flow",
     "about": "About",
     "contact": "Contact",
     "dark_mode": "Dark Mode",
@@ -115,6 +115,15 @@
     "s_2d": "Create a business space in one place",
     "s_3": "Support for neural networks",
     "s_3d": "Create content with neural networks",
+    "t_1": "Trade",
+    "t_2": "Communication",
+    "t_3": "Efficiency",
+    "t_4": "Interaction",
+    "t_5": "Communication",
+    "t_6": "Efficiency",
+    "t_7": "Negotiations",
+    "t_8": "Partnership",
+    
 
     "discover_paxintrade": "Discover PaxinTrade",
     "unleashing_future_online_interaction": "We create a space where connection is deeper and collaboration is more productive.",
@@ -161,7 +170,7 @@
     "linkedin_description": "Search as on LinkedIn.",
     "zoom": "Easier than Zoom",
     "zoom_description": "Chat like Zoom",
-    "whatsapp_and_facebook": "Whatsapp & Facebook is more comfortable",
+    "whatsapp_and_facebook": "More convenient than WhatsApp and FaceBook",
 
     "unlock_new_dimension_of_connectivity": "Unlock the New Dimension of Connectivity",
     "unlock_new_dimension_of_connectivity_description": "Ready to experience the next generation of online interaction? Join PaxinTrade now and embark on a journey where seamless communication, personalized content, and a 3D world await you. Create your account and redefine your digital presence today.",

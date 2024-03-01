@@ -6,8 +6,8 @@
   "main": {
     "back_flow": "Volver",
     "next_flow": "Adelante",
-    "scroll_down": "continuación",
-    "home": "Inicio",
+    "scroll_down": "no te niegues",
+    "home": "Fluir",
     "about": "Acerca de",
     "contact": "Contacto",
     "dark_mode": "Modo Oscuro",
@@ -110,6 +110,15 @@
     "empowering_connections_metaverse_description": "transmisión en vivo en todo el mundo",
     "empowering_connections_metaverse_description2": "Potenciado por inteligencia artificial",
 
+    "t_1": "Comercio",
+    "t_2": "Comunicación",
+    "t_3": "Eficiencia",
+    "t_4": "Interacción",
+    "t_5": "Comunicación",
+    "t_6": "Eficiencia",
+    "t_7": "Negociaciones",
+    "t_8": "Asociación",
+
     "discover_paxintrade": "Descubre PaxinTrade",
     "unleashing_future_online_interaction": "Creamos un espacio donde la conexión es más profunda y la colaboración es más productiva.",
     "unleashing_future_online_interaction_description": "En un momento en que la tecnología digital está impregnando todos los aspectos de la vida, es importante reconocer la importancia de fortalecer las conexiones en el Metauniverso, un espacio compartido que conecta a personas, ideas e información digitalmente.",
@@ -165,7 +174,7 @@
     "linkedin_description": "Buscar como en LinkedIn.",
     "zoom": "Más fácil que Zoom",
     "zoom_description": "Chatea como Zoom",
-    "whatsapp_and_facebook": "Whatsapp y Facebook son más cómodos",
+    "whatsapp_and_facebook": "más conveniente que WhatsApp y FaceBook",
 
     "unlock_new_dimension_of_connectivity": "Desbloquea una nueva dimensión de conectividad",
     "unlock_new_dimension_of_connectivity_description": "¿Estás listo para experimentar la próxima generación de interacción en línea? Únete a PaxinTrade ahora y embárcate en un viaje de comunicación fluida, contenido personalizado y mundo 3D. Crea tu cuenta y redefine tu presencia digital hoy.",

@@ -6,8 +6,8 @@
   "main": {
     "back_flow": "უკან",
     "next_flow": "წინ",
-    "scroll_down": "გაგრძელება",
-    "home": "მთავარი",
+    "scroll_down": "უარი არ თქვა",
+    "home": "დინება",
     "about": "ჩვენ შესახებ",
     "contact": "კონტაქტი",
     "dark_mode": "მუქრატი",
@@ -121,6 +121,16 @@
     "unleashing_future_online_interaction_description": "იმ დროს, როდესაც ციფრული ტექნოლოგიები გაჟღენთილია ცხოვრების ყველა ასპექტში, მნიშვნელოვანია გვესმოდეს კავშირების გაძლიერების მნიშვნელობა მეტა-სამყაროში - საერთო სივრცე, რომელიც აკავშირებს ადამიანებს, იდეებსა და ინფორმაციას ციფრულად.",
     "read_text": "წაიკითხეთ ამის შესახებ",
 
+    "t_1": "ვაჭრობა",
+    "t_2": "კომუნიკაცია",
+    "t_3": "ეფექტურობა",
+    "t_4": "ურთიერთქმედება",
+    "t_5": "კომუნიკაცია",
+    "t_6": "ეფექტურობა",
+    "t_7": "მოლაპარაკებები",
+    "t_8": "პარტნიორობა",
+
+
     "meta_vision": "ქსელის კავშირები",
     "meta_vision_description": "როგორ ეხმარება მეტა პლატფორმები ადამიანებს შორის კავშირების განმტკიცებასა და ციფრულ სივრცეში თანამოაზრეების პოვნაში.",
     "meta_identification": "ციფრული თემები",
@@ -159,13 +169,13 @@
     "combination_of_services_in_one_platform": "სერვისების კომბინაცია ერთ პლატფორმაში",
     "combination_of_services_in_one_platform_description": "ჩვენ ვაჩვენებთ ხარისხადაძიებულ სერვისებზე განთავსებულ ერთ პლატფორმას, როგორც ინსტაგრამი, LinkedIn, Zoom, WhatsApp და Facebook Marketplace.",
 
-     "instagram": "ინსტაგრამზე უკეთესი",
-     "instagram_description": "დააქვეყნე მოწონება ინსტაგრამზე",
-     "linkedin": "უფრო სწრაფი ვიდრე LinkedIn",
-     "linkedin_description": "მოძებნე როგორც LinkedIn-ზე.",
-     "zoom": "უფრო ადვილი ვიდრე მასშტაბირება",
-     "zoom_description": "ჩატი, როგორც Zoom",
-     "whatsapp_and_facebook": "Whatsapp და Facebook უფრო კომფორტულია",
+    "instagram": "ინსტაგრამზე უკეთესი",
+    "instagram_description": "დააქვეყნე მოწონება ინსტაგრამზე",
+    "linkedin": "უფრო სწრაფი ვიდრე LinkedIn",
+    "linkedin_description": "მოძებნე როგორც LinkedIn-ზე.",
+    "zoom": "უფრო ადვილი ვიდრე მასშტაბირება",
+    "zoom_description": "ჩატი, როგორც Zoom",
+    "whatsapp_and_facebook": "უფრო მოსახერხებელია ვიდრე WhatsApp და FaceBook",
 
 
     "unlock_new_dimension_of_connectivity": "დაახლოებით გამომიყენეთ ბაზრის ახლახანს ერთად დაკავშირების გამო",
