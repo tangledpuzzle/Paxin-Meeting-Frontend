@@ -29,7 +29,7 @@ import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -84,6 +84,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   const t = useTranslations('main');
   const { user } = useContext(PaxContext);
+  const locale = useLocale();
   const [formData, setFormData] = useState<{
     title?: string;
     subtitle?: string;
@@ -241,6 +242,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
     try {
       if (type === 'title') {
         const data = await getAssistantData(type, {
+          lang: locale,
           category: (formData?.category && formData?.category[0].label) || '',
           title: formData?.title || '',
         });
@@ -253,6 +255,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
         }
       } else if (type === 'subtitle') {
         const data = await getAssistantData(type, {
+          lang: locale,
           category: (formData?.category && formData?.category[0].label) || '',
           title: formData?.title || '',
           subtitle: formData?.subtitle || '',
@@ -266,6 +269,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
         }
       } else if (type === 'content') {
         const data = await getAssistantData(type, {
+          lang: locale,
           category: (formData?.category && formData?.category[0].label) || '',
           title: formData?.title || '',
           subtitle: formData?.subtitle || '',
