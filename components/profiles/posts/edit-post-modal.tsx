@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { PaxContext } from '@/context/context';
 import getAssistantData from '@/lib/server/assistant';
 import { cn } from '@/lib/utils';
@@ -164,6 +165,8 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
     }),
     z.object({
       title: z.string().min(1, t('title_is_required')),
+    }),
+    z.object({
       subtitle: z.string().min(1, t('subtitle_is_required')),
     }),
     z.object({
@@ -231,7 +234,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   });
 
   const handleAIAssistant = async (type: 'title' | 'subtitle' | 'content') => {
-    if (formIndex === 4) return;
+    if (formIndex === 5) return;
 
     setGenerating({ ...generating, [type]: true });
 
@@ -307,7 +310,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   };
 
   const submitBlog = (data: FormData) => {
-    if (formIndex < 4) {
+    if (formIndex < 5) {
       setFormIndex(formIndex + 1);
       setFormData({
         ...formData,
@@ -471,7 +474,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
               'overflow-y-auto': formIndex > 0,
             })}
           >
-            {(formIndex === 0 || formIndex === 4) && (
+            {(formIndex === 0 || formIndex === 5) && (
               <div className='grid gap-2'>
                 <FormField
                   control={form.control}
@@ -495,7 +498,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                               '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                             menu: () => '!bg-muted',
                           }}
-                          isDisabled={isLoading || formIndex === 4}
+                          isDisabled={isLoading || formIndex === 5}
                         />
                       </FormControl>
                       <FormMessage />
@@ -524,7 +527,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                               '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                             menu: () => '!bg-muted',
                           }}
-                          isDisabled={isLoading || formIndex === 4}
+                          isDisabled={isLoading || formIndex === 5}
                         />
                       </FormControl>
                       <FormMessage />
@@ -554,7 +557,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                               '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                             menu: () => '!bg-muted',
                           }}
-                          isDisabled={isLoading || formIndex === 4}
+                          isDisabled={isLoading || formIndex === 5}
                         />
                       </FormControl>
                       <FormMessage />
@@ -563,9 +566,9 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                 />
               </div>
             )}
-            {(formIndex === 1 || formIndex === 4) && (
+            {(formIndex === 1 || formIndex === 5) && (
               <div
-                className={cn('grid gap-2', { 'order-first': formIndex === 4 })}
+                className={cn('grid gap-2', { 'order-first': formIndex === 5 })}
               >
                 <FormField
                   control={form.control}
@@ -575,10 +578,10 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                       <div className='relative'>
                         <FormLabel htmlFor='title'>{t('title')}</FormLabel>
                         <FormControl>
-                          <Input
+                          <Textarea
                             className=''
                             {...field}
-                            disabled={isLoading || formIndex === 4}
+                            disabled={isLoading || formIndex === 5}
                           />
                         </FormControl>
                         <Button
@@ -587,7 +590,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                           size='icon'
                           data-tooltip-id='ai-assistant'
                           className='absolute bottom-0.5 right-1'
-                          disabled={isLoading || formIndex === 4}
+                          disabled={isLoading || formIndex === 5}
                           onClick={() => handleAIAssistant('title')}
                         >
                           {generating.title ? (
@@ -615,6 +618,12 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                       ))}
                     </div>
                   )}
+              </div>
+            )}
+            {(formIndex === 2 || formIndex === 5) && (
+              <div
+                className={cn('grid gap-2', { 'order-first': formIndex === 5 })}
+              >
                 <FormField
                   control={form.control}
                   name='subtitle'
@@ -625,10 +634,10 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                           {t('subtitle')}
                         </FormLabel>
                         <FormControl>
-                          <Input
+                          <Textarea
                             className=''
                             {...field}
-                            disabled={isLoading || formIndex === 4}
+                            disabled={isLoading || formIndex === 5}
                           />
                         </FormControl>
                         <Button
@@ -637,7 +646,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                           size='icon'
                           data-tooltip-id='ai-assistant'
                           className='absolute bottom-0.5 right-1'
-                          disabled={isLoading || formIndex === 4}
+                          disabled={isLoading || formIndex === 5}
                           onClick={() => handleAIAssistant('subtitle')}
                         >
                           {generating.subtitle ? (
@@ -669,10 +678,10 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                   )}
               </div>
             )}
-            {(formIndex === 2 || formIndex === 4) && (
+            {(formIndex === 3 || formIndex === 5) && (
               <div
                 className={cn('relative grid', {
-                  'order-first': formIndex === 4,
+                  'order-first': formIndex === 5,
                 })}
               >
                 <FormField
@@ -690,7 +699,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                             formats={formats}
                             placeholder={t('type_content_here')}
                             className='placeholder:text-white'
-                            readOnly={isLoading || formIndex === 4}
+                            readOnly={isLoading || formIndex === 5}
                           />
                           <Button
                             type='button'
@@ -698,7 +707,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                             size='icon'
                             data-tooltip-id='ai-assistant'
                             className='absolute bottom-0.5 right-1'
-                            disabled={isLoading || formIndex === 4}
+                            disabled={isLoading || formIndex === 5}
                             onClick={() => handleAIAssistant('content')}
                           >
                             {generating.content ? (
@@ -729,7 +738,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                   )}
               </div>
             )}
-            {(formIndex === 3 || formIndex === 4) && (
+            {(formIndex === 4 || formIndex === 5) && (
               <div className='flex flex-col gap-4'>
                 <div className='grid gap-4 sm:grid-cols-2'>
                   <FormField
@@ -743,7 +752,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                             className=''
                             type='number'
                             {...field}
-                            disabled={isLoading || formIndex === 4}
+                            disabled={isLoading || formIndex === 5}
                           />
                         </FormControl>
                         <FormMessage />
@@ -787,7 +796,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                           </div>
                           <ImageUpload
                             ref={imageUploadRef}
-                            disabled={isLoading || formIndex === 4}
+                            disabled={isLoading || formIndex === 5}
                           />
                         </>
                       </FormControl>
@@ -805,7 +814,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
               >
                 {t('back_flow')}
               </Button>
-              {formIndex < 4 && (
+              {formIndex < 5 && (
                 <Button type='submit' disabled={isLoading}>
                   {isLoading && (
                     <Loader2 className='mr-2 size-4 animate-spin' />
@@ -813,7 +822,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                   {t('next')}
                 </Button>
               )}
-              {formIndex === 4 && (
+              {formIndex === 5 && (
                 <Button
                   type='button'
                   disabled={isLoading}
