@@ -1,9 +1,10 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
-const getSubscribedRooms = async ({ session }: { session: string }) => {
+const getSubscribedRooms = async () => {
   try {
     const accessToken = await getAccessToken();
 
@@ -11,7 +12,7 @@ const getSubscribedRooms = async ({ session }: { session: string }) => {
       url: `${process.env.API_URL}/api/chat/rooms`,
       method: 'GET',
       token: accessToken || '',
-      session,
+      session: cookies().get('session')?.value || '',
     });
 
     console.log(JSON.stringify(res, null, 2));

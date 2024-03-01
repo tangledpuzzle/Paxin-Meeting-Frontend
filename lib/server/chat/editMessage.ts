@@ -1,16 +1,15 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
 const editMessage = async ({
   messageId,
   newMessage,
-  session,
 }: {
   messageId: string;
   newMessage: string;
-  session: string;
 }) => {
   try {
     const accessToken = await getAccessToken();
@@ -21,7 +20,7 @@ const editMessage = async ({
         content: newMessage,
       },
       token: accessToken || '',
-      session,
+      session: cookies().get('session')?.value || '',
     });
 
     console.log(JSON.stringify(res, null, 2));

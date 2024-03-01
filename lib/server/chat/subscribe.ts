@@ -1,15 +1,10 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
-const subscribe = async ({
-  roomId,
-  session,
-}: {
-  roomId: string;
-  session: string;
-}) => {
+const subscribe = async ({ roomId }: { roomId: string }) => {
   try {
     const accessToken = await getAccessToken();
 
@@ -17,7 +12,7 @@ const subscribe = async ({
       url: `${process.env.API_URL}/api/chat/subscribe/${roomId}`,
       method: 'PATCH',
       token: accessToken || '',
-      session,
+      session: cookies().get('session')?.value || '',
     });
 
     console.log(JSON.stringify(res, null, 2));

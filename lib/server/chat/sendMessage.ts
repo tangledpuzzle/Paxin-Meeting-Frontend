@@ -1,16 +1,15 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
 const sendMessage = async ({
   roomId,
   message,
-  session,
 }: {
-  roomId: string;
+  roomId: number;
   message: string;
-  session: string;
 }) => {
   try {
     const accessToken = await getAccessToken();
@@ -22,7 +21,7 @@ const sendMessage = async ({
         content: message,
       },
       token: accessToken || '',
-      session,
+      session: cookies().get('session')?.value || '',
     });
 
     console.log(JSON.stringify(res, null, 2));

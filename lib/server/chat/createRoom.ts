@@ -4,15 +4,14 @@ import { getServerSession } from 'next-auth';
 import requestHelper from './requestHelper';
 import authOptions from '@/lib/authOptions';
 import getAccessToken from '../getAccessToken';
+import { cookies } from 'next/headers';
 
 const createRoom = async ({
   acceptorId,
   initialMessage,
-  session,
 }: {
   acceptorId: string;
   initialMessage: string;
-  session: string;
 }) => {
   const accessToken = await getAccessToken();
 
@@ -25,7 +24,7 @@ const createRoom = async ({
         initialMessage,
       },
       token: accessToken || '',
-      session,
+      session: cookies().get('session')?.value || '',
     });
 
     if (res.status !== 'success') {

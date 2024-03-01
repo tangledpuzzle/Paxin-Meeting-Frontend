@@ -321,7 +321,6 @@
     "spam_or_unwanted_content": "Spam or Unwanted Content",
     "privacy_violations": "Privacy Violations",
     "intellectual_property_rights_violation": "Intellectual Property Rights Violation",
-    "message_to_username": "Message to {username}",
     "telegram": "Telegram",
     "telegram_integration": "Telegram Integration",
     "copy_code_and_send_to_bot": "Copy code and send to bot <botname>@paxbot</botname>",
@@ -818,5 +817,11 @@
       "azure-error": "Microsoft azure error: {error}",
       "speech-to-text-stopped": "Speech to text service has been stopped"
     }
+  },
+  "chatting": {
+    "failed_to_send_message": "Failed to send message",
+    "not_subscribed_yet": "This user is not subscribed to this room yet",
+    "message_required": "Message is required",
+    "message_to_username": "Message to {username}"
   }
 }

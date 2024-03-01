@@ -1,15 +1,10 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
-const deleteMessage = async ({
-  messageId,
-  session,
-}: {
-  messageId: string;
-  session: string;
-}) => {
+const deleteMessage = async ({ messageId }: { messageId: string }) => {
   try {
     const accessToken = await getAccessToken();
 
@@ -17,7 +12,7 @@ const deleteMessage = async ({
       url: `${process.env.API_URL}/api/chat/message/${messageId}`,
       method: 'DELETE',
       token: accessToken || '',
-      session,
+      session: cookies().get('session')?.value || '',
     });
 
     console.log(JSON.stringify(res, null, 2));
