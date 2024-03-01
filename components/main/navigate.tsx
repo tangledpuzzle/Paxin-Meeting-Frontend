@@ -23,26 +23,26 @@ export default function NavigateSection() {
       <div className='px-0 pb-4 md:px-7 flex flex-col md:flex-row  gap-4  mt-4 '>
         <div className=' h-full  flex-col justify-center bg-card-gradient-menu px-7 pb-4 pt-2 rounded-none md:rounded-md'>
             <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
-              Конференц залы
+              {t('s_1')}
             </div>
             <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Собирайте рабочие комнаты и проводите встречи с богатым инструментарием
+              {t('s_1d')}
             </div>
           </div>
           <div className='flex h-full  flex-col justify-center bg-card-gradient-menu px-7 pb-4 pt-2 rounded-none md:rounded-md'>
             <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
-              Мессенджер
+              {t('s_2')}
             </div>
             <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Созадвайте деловое пространство в едином месте
+              {t('s_2d')}
             </div>
           </div>
           <div className='flex h-full  flex-col justify-center bg-card-gradient-menu px-7 pb-4 pt-2 rounded-none md:rounded-md'>
             <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
-              Поддержка нейросетей
+              {t('s_3')}
             </div>
             <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Создавайте контент вместе с нейросетями 
+            {t('s_3d')}
             </div>
           </div>
       </div>
