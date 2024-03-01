@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Lock, Mail } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { parseCookies } from 'nookies';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -26,6 +26,7 @@ import Image from 'next/image';
 export function SignInCard() {
   const t = useTranslations('main');
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const { data: session, status } = useSession();
 
@@ -70,7 +71,7 @@ export function SignInCard() {
       });
 
       getSession().then((session) => {
-        router.push('/profile/dashboard');
+        router.push(searchParams.get('callback') || '/profile/dashboard');
       });
     }
 

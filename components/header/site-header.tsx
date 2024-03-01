@@ -7,6 +7,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { MobileMenu } from './mobile-menu';
 import { RightNav } from './right-nav';
 import { usePathname } from 'next/navigation';
+import AlarmNav from './alarm-nav';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
@@ -45,6 +46,7 @@ export async function SiteHeader() {
       <div className='border-gardient-h relative top-[80px] w-full'></div>
       <div className='flex h-20 items-center space-x-4 px-4 sm:justify-between sm:space-x-0 md:px-8'>
         <MainNav items={siteConfig.mainNav} />
+        {data && <AlarmNav />}
         <RightNav
           user={
             data
