@@ -10,8 +10,9 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ProfileCard } from './profile-card';
 import { ProfileCardSkeleton } from './profile-card-skeleton';
-import { GrNext } from "react-icons/gr";
-import { GrPrevious } from "react-icons/gr";
+import { GrNext } from 'react-icons/gr';
+import { GrPrevious } from 'react-icons/gr';
+import Link from 'next/link';
 
 interface ProfileData {
   username: string;
@@ -46,64 +47,45 @@ const pageSize = 12;
 export default function ProfileSection() {
   const t = useTranslations('main');
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const [currentPage, setCurrentPage] = useState<number>(
-    Number(searchParams.get('page') || 1)
-  );
   const [maxPage, setMaxPage] = useState<number>(1);
   const [profileData, setProfileData] = useState<ProfileData[] | null>(null);
-  const [fetchURL, setFetchURL] = useState(
-    `/api/profiles/get?language=en&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}`
-  );
-  const [title, setTitle] = useState<string>(
-    searchParams.get('title') ? searchParams.get('title') || 'all' : 'all'
-  );
-  const [city, setCity] = useState<string | null>(
-    searchParams.get('city') ? searchParams.get('title') || 'all' : 'all'
-  );
-  const [category, setCategory] = useState<string | null>(
-    searchParams.get('category') ? searchParams.get('category') || 'all' : 'all'
-  );
-  const [hashtag, setHashtag] = useState<string | null>(
-    searchParams.get('hashtag') ? searchParams.get('hashtag') || 'all' : 'all'
-  );
-
+  const [fetchURL, setFetchURL] = useState('');
+  const [nextPageLink, setNextPageLink] = useState<string | null>(null);
+  const [prevPageLink, setPrevPageLink] = useState<string | null>(null);
   const locale = useLocale();
 
-  const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
-
-  const goto = (page: number) => {
-    setCurrentPage(page);
-
-    const newsearchParams = new URLSearchParams(searchParams);
-    newsearchParams.set('page', page.toString());
-
-    router.push(`?${newsearchParams.toString()}`);
-  };
+  const { data: fetchedData, isLoading, error } = useSWR(fetchURL, fetcher);
 
   useEffect(() => {
-    const _title = searchParams.get('title');
-    const _city = searchParams.get('city');
-    const _category = searchParams.get('category');
-    const _hashtag = searchParams.get('hashtag');
+    const _title = searchParams.get('title') || 'all';
+    const _city = searchParams.get('city') || 'all';
+    const _category = searchParams.get('category') || 'all';
+    const _hashtag = searchParams.get('hashtag') || 'all';
+    const _page = Number(searchParams.get('page') || 1);
 
-    if (_title || _city || _category || _hashtag) setCurrentPage(1);
-
-    setTitle(_title || 'all');
-    setCity(_city || 'all');
-    setCategory(_category || 'all');
-    setHashtag(_hashtag || 'all');
-  }, [searchParams]);
+    setFetchURL(
+      `/api/profiles/get?language=${locale}&limit=${pageSize}&skip=${(_page - 1) * pageSize}&title=${_title}&city=${_city}&category=${_category}&hashtag=${_hashtag}`
+    );
+  }, [searchParams, locale]);
 
   useEffect(() => {
-    const generateFetchURL = () => {
-      let baseURL = `/api/profiles/get?language=${locale}&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}`;
+    const _page = Number(searchParams.get('page') || 1);
 
-      return baseURL;
-    };
+    console.log(_page, maxPage);
 
-    setFetchURL(generateFetchURL());
-  }, [title, city, category, hashtag, locale, currentPage]);
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (_page === 1) setPrevPageLink(null);
+    else if (_page > 1) {
+      newSearchParams.set('page', (_page - 1).toString());
+      setPrevPageLink(`/home?${newSearchParams.toString()}`);
+    }
+
+    if (_page === maxPage) setNextPageLink(null);
+    else if (_page < maxPage) {
+      newSearchParams.set('page', (_page + 1).toString());
+      setNextPageLink(`/home?${newSearchParams.toString()}`);
+    }
+  }, [searchParams, maxPage]);
 
   useEffect(() => {
     if (!error && fetchedData) {
@@ -118,25 +100,30 @@ export default function ProfileSection() {
       {maxPage > 1 && (
         <div className='flex w-full justify-start gap-2'>
           <Button
-            disabled={currentPage === 1}
-            onClick={() => goto(currentPage - 1)}
+            aria-disabled={Number(searchParams.get('page') || 1) === 1}
+            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60'
+            asChild
           >
-            {/* {t('back_flow')} */}
-            <GrPrevious />
+            <Link href={prevPageLink || ''}>
+              {/* {t('back_flow')} */}
+              <GrPrevious />
+            </Link>
           </Button>
           <Button
-            disabled={currentPage === maxPage}
-            onClick={() => goto(currentPage + 1)}
+            aria-disabled={Number(searchParams.get('page') || 1) === maxPage}
+            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60'
+            asChild
           >
-            {/* {t('next_flow')} */}
-             <GrNext />
-
+            <Link href={nextPageLink || ''}>
+              {/* {t('next_flow')} */}
+              <GrNext />
+            </Link>
           </Button>
         </div>
       )}
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
         {!error ? (
-          profileData ? (
+          !isLoading && profileData ? (
             profileData?.length > 0 ? (
               profileData.map((profile: ProfileData) => (
                 <ProfileCard
@@ -173,22 +160,27 @@ export default function ProfileSection() {
       </div>
       {maxPage > 1 && (
         <div className='flex w-full justify-start gap-2'>
-        <Button
-          disabled={currentPage === 1}
-          onClick={() => goto(currentPage - 1)}
-        >
-          {/* {t('back_flow')} */}
-          <GrPrevious />
-        </Button>
-        <Button
-          disabled={currentPage === maxPage}
-          onClick={() => goto(currentPage + 1)}
-        >
-          {/* {t('next_flow')} */}
-           <GrNext />
-
-        </Button>
-      </div>
+          <Button
+            aria-disabled={Number(searchParams.get('page') || 1) === 1}
+            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60'
+            asChild
+          >
+            <Link href={prevPageLink || ''}>
+              {/* {t('back_flow')} */}
+              <GrPrevious />
+            </Link>
+          </Button>
+          <Button
+            aria-disabled={Number(searchParams.get('page') || 1) === maxPage}
+            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60'
+            asChild
+          >
+            <Link href={nextPageLink || ''}>
+              {/* {t('next_flow')} */}
+              <GrNext />
+            </Link>
+          </Button>
+        </div>
       )}
     </div>
   );
