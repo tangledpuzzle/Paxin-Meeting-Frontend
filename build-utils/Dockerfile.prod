@@ -1,0 +1,9 @@
+FROM keymetrics/pm2:18-alpine
+
+WORKDIR /app
+
+COPY .next/standalone/ .
+
+EXPOSE 3000
+
+CMD ["pm2-runtime", "/app/ecosystem.config.js"]
