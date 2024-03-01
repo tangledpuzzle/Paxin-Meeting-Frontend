@@ -69,7 +69,7 @@ pipelines:
                 npm run build
                 mv public .next/standalone/public
                 mv .next/static .next/standalone/.next/static
-                mv build-utils/ecosystem.config.js .next/standalone/ecosystem.config.js
+                # mv build-utils/ecosystem.config.js .next/standalone/ecosystem.config.js
               else
                 echo "Skipping build and push step as per previous step's decision."
                 exit 0

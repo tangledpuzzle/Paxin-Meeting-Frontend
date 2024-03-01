@@ -6,4 +6,4 @@ COPY .next/standalone/ .
 
 EXPOSE 3000
 
-CMD ["pm2-runtime", "/app/ecosystem.config.js"]
+CMD ["pm2-runtime", "/app/server.js"]

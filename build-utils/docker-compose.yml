@@ -6,5 +6,7 @@ services:
       - ./.env.production:/app/.env.production
     environment:
       - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=localhost
     ports:
       - '3000:3000/tcp'
