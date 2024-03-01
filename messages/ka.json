@@ -343,7 +343,6 @@
     "spam_or_unwanted_content": "სპამი ან არასასარგებლო კონტენტი",
     "privacy_violations": "პირადი უსაფრთხოების დარღვევა",
     "intellectual_property_rights_violation": "მშობელი უფასოთა უფლებების დარღვევა",
-    "message_to_username": "შეტყობინება {username}-ს",
     "telegram": "ტელეგრამი",
     "telegram_integration": "ტელეგრამის ინტეგრაცია",
     "copy_code_and_send_to_bot": "კოდის კოპირება და გამოგზავნა ბოტს <botname>@paxbot</botname>-ს",
@@ -840,5 +839,11 @@
       "azure-error": "Microsoft azure error: {error}",
       "speech-to-text-stopped": "El servicio de voz a texto ha sido detenido"
     }
+  },
+  "chatting": {
+    "failed_to_send_message": "შეტყობინების გაგზავნა ჩაიშალა",
+    "not_subscribed_yet": "ეს მომხმარებელი ჯერ არ არის შერჩეული ამ რუმში",
+    "message_required": "მესიჯი სავალდებულოა",
+    "message_to_username": "{username}-სთვის მესიჯი"
   }
 }
