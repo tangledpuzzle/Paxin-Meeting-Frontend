@@ -1,7 +1,11 @@
 "use client"
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 const ScrollerComponent2 = () => {
+  const t = useTranslations('main');
+
+
   useEffect(() => {
     const scrollers = document.querySelectorAll<HTMLElement>(".scroller2");
 
@@ -42,13 +46,13 @@ const ScrollerComponent2 = () => {
     <> 
       <div className="scroller2 mt-0" data-speed="fast">
         <ul className="tag-list2 scroller__inner2">
-        <li>Общение</li>
-        <li>Торговля</li>
-        <li>Связь</li>
-        <li>Эффективность</li>
-        <li>Взаимодействие</li>
-        <li>Переговоры</li>
-        <li>Партнерство</li>
+        <li>{t('t_1')}</li>
+        <li>{t('t_2')}</li>
+        <li>{t('t_3')}</li>
+        <li>{t('t_4')}</li>
+        <li>{t('t_5')}</li>
+        <li>{t('t_6')}</li>
+        <li>{t('t_7')}</li>
         </ul>
       </div>
     </>

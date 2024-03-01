@@ -7,13 +7,18 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FilterModal } from './filter-modal';
+import { FaUsers } from "react-icons/fa";
+import { MdSms } from "react-icons/md";
 
 export function CTASection() {
   const t = useTranslations('main');
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [viewMode, setViewMode] = useState<string>(
+    searchParams.get('mode') || 'flow'
+  );
   const [keyword, setKeyword] = useState<string>(
     searchParams.get('title') && searchParams.get('title') !== 'all'
       ? searchParams.get('title') || ''
@@ -21,12 +26,20 @@ export function CTASection() {
   );
 
   const handleSearch = useDebouncedCallback((value: string) => {
-    setKeyword(value);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('title', value.trim() || 'all');
 
     router.push(`?${newSearchParams.toString()}`);
   }, 300);
+
+  useEffect(() => {
+    const _viewMode = searchParams.get('mode') || 'flow';
+    setViewMode(_viewMode);
+  }, [searchParams]);
+
+  useEffect(() => {
+    setKeyword('');
+  }, [viewMode]);
 
   return (
     <div className='flex flex-col items-start justify-start gap-3 sm:flex-row sm:justify-between'>
@@ -45,13 +58,13 @@ export function CTASection() {
           value='profile'
           className={`rounded-r-none  bg-card-gradient-menu`}
         >
-          {t('profile')}
+         <FaUsers className='mr-2' /> {t('profile')}
         </ToggleGroupItem>
         <ToggleGroupItem
           value='flow'
           className={`rounded-l-none border-l-0 bg-card-gradient-menu`}
         >
-          {t('flow')}
+         <MdSms  className='mr-2' /> {t('flow')}
         </ToggleGroupItem>
       </ToggleGroup>
 
@@ -62,8 +75,11 @@ export function CTASection() {
             type='text'
             placeholder={t('search')}
             className='pl-12 pr-4 dark:bg-input'
-            defaultValue={keyword}
-            onChange={(e) => handleSearch(e.target.value)}
+            value={keyword}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+              handleSearch(e.target.value);
+            }}
           />
         </div>
         <FilterModal />

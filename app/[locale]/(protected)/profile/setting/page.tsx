@@ -619,7 +619,7 @@ export default function SettingPage() {
         icon={RiUserSettingsFill}
       />
       <Separator className='my-4' />
-      <div className='w-full'>
+      <div className='w-full mb-[100px] md:mb-[0px]'>
         <ConfirmModal
           isOpen={showDeleteModal}
           onClose={() => setShowDeleteModal(false)}
