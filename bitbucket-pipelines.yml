@@ -69,7 +69,7 @@ pipelines:
                 npm run build
                 mv public .next/standalone/public
                 mv .next/static .next/standalone/.next/static
-                # mv build-utils/ecosystem.config.js .next/standalone/ecosystem.config.js
+                # mv builder/ecosystem.config.js .next/standalone/ecosystem.config.js
               else
                 echo "Skipping build and push step as per previous step's decision."
                 exit 0
@@ -107,7 +107,7 @@ pipelines:
                 # Login to AWS ECR
                 aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
                 # Build and tag the Docker image
-                docker build -f build-utils/Dockerfile.prod -t $IMAGE_NAME .
+                docker build -f builder/Dockerfile.prod -t $IMAGE_NAME .
                 docker tag $IMAGE_NAME $REPOSITORY_URI/$IMAGE_NAME:$IMAGE_TAG
                 docker tag $IMAGE_NAME $REPOSITORY_URI/$IMAGE_NAME:$IMAGE_LATEST_TAG
                 # Push the Docker image to AWS ECR
