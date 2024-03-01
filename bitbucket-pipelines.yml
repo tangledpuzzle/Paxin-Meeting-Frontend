@@ -17,7 +17,7 @@ definitions:
             echo "Relevant changes detected. Proceeding with build..."
           else
             echo "No relevant changes in critical paths. Skipping build and push step."
-            SHOULD_BUILD=0
+            # SHOULD_BUILD=0
           fi
           
           BUILD_CHECK_ENV=build_check_env
