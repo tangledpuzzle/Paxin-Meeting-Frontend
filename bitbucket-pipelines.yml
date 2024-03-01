@@ -7,7 +7,7 @@ definitions:
         - apk add --no-cache git
         - |
           echo "Checking for changes in specific directories/files..."
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r $BITBUCKET_COMMIT)
+          CHANGED_FILES=$(git diff-tree -m --no-commit-id --name-only -r $BITBUCKET_COMMIT)
           echo "Changed files/directories: $CHANGED_FILES"
           
           CHECKED_PATHS="app|components|config|context|helpers|lib|messages|provider|public|store|styles|types|components.json|eventBus.ts|i18n.ts|middleware.ts|navigation.ts|next-env.d.ts|next.config.mjs|postcss.config.js|tailwind.config.js|tsconfig.json|tsconfig.tsbuildinfo"
@@ -17,7 +17,7 @@ definitions:
             echo "Relevant changes detected. Proceeding with build..."
           else
             echo "No relevant changes in critical paths. Skipping build and push step."
-            # SHOULD_BUILD=0
+            SHOULD_BUILD=0
           fi
           
           BUILD_CHECK_ENV=build_check_env
