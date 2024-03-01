@@ -64,7 +64,7 @@ pipelines:
                 apk add --no-cache git
                 npm install
                 git clone https://x-token-auth:$BITBUCKET_ENV_REPO_ACCESS_TOKEN@bitbucket.org/paxintrade/environment-values.git
-                mv environment-values/paxintrade/frontend/.env.production .env
+                mv environment-values/mainsite/frontend/.env.production .env
                 rm -rf environment-values
                 npm run build
                 mv public .next/standalone/public
