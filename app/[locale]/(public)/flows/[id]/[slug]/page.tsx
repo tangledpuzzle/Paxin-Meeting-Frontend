@@ -2,8 +2,8 @@ import { ComplainModal } from '@/components/common/complain-modal';
 import { CopyButton } from '@/components/common/copy-button';
 import { ReportModal } from '@/components/common/report-modal';
 import BackButton from '@/components/home/back-button';
-// import { TagSlider } from '@/components/common/tag-slider';
 import { FlowImageGallery } from '@/components/home/flow/flow-image-gallery';
+import MessageForm from '@/components/home/flow/messsage-form';
 import { UpvoteCard } from '@/components/home/flow/upvote-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -13,15 +13,10 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import authOptions from '@/lib/authOptions';
+import getRoomId from '@/lib/server/chat/getRoomId';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
@@ -32,8 +27,6 @@ import { FaSackDollar } from 'react-icons/fa6';
 import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
-import QRCode from 'react-qr-code';
-import MessageForm from '@/components/home/flow/messsage-form';
 
 interface GalleryData {
   original: string;
@@ -54,6 +47,7 @@ interface BlogDetails {
   gallery: GalleryData[];
   author: {
     username: string;
+    userId: string;
     avatar: string;
     bio: string;
     telegram: string;
@@ -100,6 +94,8 @@ async function getData(locale: string, id: string, slug: string) {
       throw new Error('Failed to fetch data');
     }
 
+    console.log(blogData.data[0].user);
+
     const blog = {
       id: blogData.data[0].id,
       title:
@@ -136,6 +132,7 @@ async function getData(locale: string, id: string, slug: string) {
       }),
       author: {
         username: blogData.data[0].user.name,
+        userId: blogData.data[0].user.userID,
         avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${blogData.data[0].user.photo}`,
         bio: blogData.data[0].userProfile.multilangtitle[
           locale.charAt(0).toUpperCase() + locale.slice(1)
@@ -176,6 +173,8 @@ export default async function FlowPage({
     params.id,
     params.slug
   );
+
+  const roomId = await getRoomId(blogDetails?.author?.userId || '');
 
   return blogDetails ? (
     <section className='container py-4'>
@@ -455,10 +454,14 @@ export default async function FlowPage({
               <Button className='btn w-full !rounded-md' asChild>
                 {session ? (
                   <MessageForm
-                    user={{ username: blogDetails.author?.username }}
+                    user={{
+                      username: blogDetails.author?.username,
+                      userId: blogDetails.author?.userId,
+                    }}
+                    roomId={roomId}
                   >
                     <Button className='btn w-full !rounded-md'>
-                      {t('start_chat')}
+                      {roomId > -1 ? t('send_message') : t('start_chat')}
                     </Button>
                   </MessageForm>
                 ) : (
