@@ -20,7 +20,7 @@ export default function NavigateSection() {
       <SectionDescription className='px-7 text-left md:text-center'>
         {t('navigating_your_digital_universe_description')}
       </SectionDescription>
-      <div className='px-0 md:px-7 flex flex-col md:flex-row  gap-4  mt-4 '>
+      <div className='px-0 pb-4 md:px-7 flex flex-col md:flex-row  gap-4  mt-4 '>
         <div className=' h-full  flex-col justify-center bg-card-gradient-menu px-7 pb-4 pt-2 rounded-none md:rounded-md'>
             <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
               Конференц залы
