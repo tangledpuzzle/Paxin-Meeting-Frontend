@@ -251,6 +251,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     try {
       if (type === 'title') {
         const data = await getAssistantData(type, {
+          lang: locale,
           category: (formData?.category && formData?.category[0].label) || '',
           title: formData?.title || '',
         });
@@ -263,6 +264,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
         }
       } else if (type === 'subtitle') {
         const data = await getAssistantData(type, {
+          lang: locale,
           category: (formData?.category && formData?.category[0].label) || '',
           title: formData?.title || '',
           subtitle: formData?.subtitle || '',
@@ -276,6 +278,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
         }
       } else if (type === 'content') {
         const data = await getAssistantData(type, {
+          lang: locale,
           category: (formData?.category && formData?.category[0].label) || '',
           title: formData?.title || '',
           subtitle: formData?.subtitle || '',
