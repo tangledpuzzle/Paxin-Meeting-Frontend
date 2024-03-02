@@ -27,6 +27,7 @@ import { FaSackDollar } from 'react-icons/fa6';
 import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
+import { IoLanguage } from 'react-icons/io5';
 
 interface GalleryData {
   original: string;
@@ -178,17 +179,18 @@ export default async function FlowPage({
 
   return blogDetails ? (
     <section className='container py-4'>
+      <div className='flex justify-between'>
       <BackButton callback={searchParams['callback']} />
+      <span className='flex items-center justify-center px-4 uppercase'>
+      <IoLanguage className='h-[32px] w-[32px] px-2' />
+      {blogDetails?.countrycode}
+      </span>
+      </div>
       {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='font-satoshi'>
         <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
           {blogDetails?.title}
-          <div
-            className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
-            style={{
-              backgroundImage: `url('/images/${blogDetails?.countrycode}.svg')`,
-            }}
-          />
+         
         </div>
         <div className='mb-4 text-sm text-muted-foreground'>
           {blogDetails?.description}
@@ -203,11 +205,11 @@ export default async function FlowPage({
           <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
             <div className='col-span-2 grid grid-cols-2 gap-2 xl:col-span-3'>
               <div>
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2 '>
                   <MdOutlineHouseSiding className='size-5' />
                   {t('city')}
                 </div>
-                <div className='l flex gap-2'>
+                <div className='flex gap-2'>
                   {blogDetails.cities &&
                     blogDetails.cities.map((city: string) => (
                       <Link
@@ -217,7 +219,7 @@ export default async function FlowPage({
                       >
                         <Badge
                           variant='outline'
-                          className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
+                          className='max-w-full rounded-full border-primary bg-primary/10 text-primary hover:border-[#00ffc4]'
                         >
                           {city}
                         </Badge>
@@ -240,7 +242,7 @@ export default async function FlowPage({
                       >
                         <Badge
                           variant='outline'
-                          className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
+                          className='max-w-full rounded-full border-primary bg-primary/10 text-primary hover:border-[#00ffc4]'
                         >
                           {category}
                         </Badge>
@@ -262,7 +264,7 @@ export default async function FlowPage({
                     >
                       <Badge
                         variant='outline'
-                        className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
+                        className='max-w-full rounded-full border-primary bg-primary/10 text-primary hover:border-[#00ffc4]'
                       >
                         {blogDetails.price?.toLocaleString('en-US', {
                           style: 'currency',

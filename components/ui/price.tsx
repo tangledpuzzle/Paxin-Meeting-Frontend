@@ -113,36 +113,36 @@ const OverlayCards = () => {
       <div className="cards__inner bg-tra">
         
       <div className="card" ref={(el) => { if (el) cardsRef.current.push(el); }}>
-        <h2 className="card__headin text-black dark:text-white text-center">FREE</h2>
+        <h2 className="card__headin text-black dark:text-white text-center">Бесплатно</h2>
         <p className="card__price text-black dark:text-white text-center">$0</p>
         <ul role="list" className="card__bullets flow text-black dark:text-white text-center">
-          <li>Access to standard platform functions with limits</li>
-          <li>Email support</li>
+          <li>Открытие аккаунта</li>
+          <li>Email поддержка</li>
         </ul>
-        <a href="#basic" className="card__cta cta2 !underline underline-offset-4 !text-black dark:!text-white text-center">Get Started</a>
+        <a href="#basic" className="card__cta cta2 !underline underline-offset-4 !text-black dark:!text-white text-center">Начать с этого</a>
       </div>
 
       <div className="card" ref={(el) => { if (el) cardsRef.current.push(el); }}>
-        <h2 className="card__heading text-black dark:text-white text-center">Pro</h2>
+        <h2 className="card__heading text-black dark:text-white text-center">Про</h2>
         <p className="card__price text-black dark:text-white text-center">$19.99</p>
         <ul role="list" className="card__bullets flow text-black dark:text-white text-center">
-          <li>Access to standard platform functions without limits</li>
-          <li>Priority Email support</li>
-          <li>Exclusive access to live Q&A sessions</li>
+          <li>Лимитированный доступ к сервисам ресура</li>
+          <li>Приоритетная email поддержка</li>
+          <li>Эсклюзивный доступ к  Q&A сессиям</li>
         </ul>
-        <a href="#pro" className="card__cta cta2 !underline underline-offset-4 !text-black dark:!text-white">Upgrade to Pro</a>
+        <a href="#pro" className="card__cta cta2 !underline underline-offset-4 !text-black dark:!text-white">Обновить до про</a>
       </div>
 
       <div className="card" ref={(el) => { if (el) cardsRef.current.push(el); }}>
-        <h2 className="card__heading text-black dark:text-white text-center">Ultimate</h2>
+        <h2 className="card__heading text-black dark:text-white text-center">Безграничный</h2>
         <p className="card__price text-black dark:text-white text-center">$99.99</p>
         <ul role="list" className="card__bullets flow text-black dark:text-white text-center">
-          <li>Access to all premium</li>
-          <li>24/7 Priority support</li>
-          <li>1-on-1 virtual coaching session every month</li>
-          <li>Exclusive content and early access to new features</li>
+          <li>Премиальный доступ</li>
+          <li>24/7 приоритетная поддержкка</li>
+          <li>1-на-1 вирутальная коуч сессия каждый месяц</li>
+          <li>Эсклюзвный доступ и раннее прилгашение к тестированию новых функций</li>
         </ul>
-        <a href="#ultimate" className="card__cta cta2 !underline underline-offset-4 !text-black dark:!text-white">Go Ultimate</a>
+        <a href="#ultimate" className="card__cta cta2 !underline underline-offset-4 !text-black dark:!text-white">Безграничный</a>
       </div>
     </div>
     {/* <div className='flex justify-center   bottom-[0px]  md:justify-center px-7'>
