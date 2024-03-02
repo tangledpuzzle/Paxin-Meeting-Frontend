@@ -1,8 +1,8 @@
 [{
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "com.paxintrade.www.twa",
-      "sha256_cert_fingerprints": ["1B:D4:FB:FC:EA:00:F5:79:2E:58:02:28:51:B7:DC:E6:1B:E4:E8:0A:A6:1C:C8:AA:46:70:45:8A:CA:42:52:E0"]
-    }
-  }]
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.paxintrade.www.twa",
+    "sha256_cert_fingerprints": ["D6:8C:E3:EE:4B:59:A4:BD:85:3D:A3:1B:B6:3C:FC:A5:65:62:49:2C:6F:D6:EF:B7:DD:28:7C:6C:C2:32:08:B3"]
+  }
+}]
