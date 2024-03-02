@@ -52,7 +52,7 @@ export default async function ProfilePageLayout({
             : null
         }
       />
-      <div className='absolute top-0 mt-32 w-full sm:mt-20'>
+      <div className='absolute top-0 mt-[80px] w-full sm:mt-20'>
         <PaxMeet roomId={params.id} />
       </div>
     </>

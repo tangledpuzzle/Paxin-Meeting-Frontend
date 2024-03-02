@@ -181,9 +181,9 @@ export default async function FlowPage({
     <section className='container py-4'>
       <div className='flex justify-between'>
       <BackButton callback={searchParams['callback']} />
-      <span className='flex items-center justify-center px-4 uppercase'>
+      <span className='flex items-center justify-center px-0 uppercase'>
       <IoLanguage className='h-[32px] w-[32px] px-2' />
-      {blogDetails?.countrycode}
+        {blogDetails?.countrycode}
       </span>
       </div>
       {/* <Breadcrumb contents={breadcrumbs} /> */}
