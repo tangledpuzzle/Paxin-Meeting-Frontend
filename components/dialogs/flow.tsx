@@ -64,7 +64,7 @@ const ChatComponent: React.FC = () => {
   }, [locale]);
 
   const connectWebSocket = () => {
-    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'wss:';
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const wsPath = process.env.NEXT_PUBLIC_SOCKET_URL;
     const newSocket = new WebSocket(
       `${wsProtocol}//${wsPath}/stream/live?langue=` + locale
