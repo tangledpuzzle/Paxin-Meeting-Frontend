@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { resetExternalMediaPlayer } from '@/store/slices/externalMediaPlayer';
 import VideoJsPlayerComponent from './video-js';
 import ReactPlayerComponent from './reactPlayerComponent';

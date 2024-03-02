@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { store, useAppDispatch } from '@/store';
+import { store } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import { ISession } from '@/store/slices/interfaces/session';
 import { IWhiteboardFile } from '@/store/slices/interfaces/whiteboard';
 import { addWhiteboardOtherImageFile } from '@/store/slices/whiteboard';

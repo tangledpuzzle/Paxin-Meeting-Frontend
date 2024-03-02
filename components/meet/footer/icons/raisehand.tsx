@@ -4,7 +4,8 @@ import { Room } from 'livekit-client';
 import { toast } from 'react-toastify';
 
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateIsActiveRaisehand } from '@/store/slices/bottomIconsActivitySlice';
 import { SystemMsgType } from '@/store/slices/interfaces/dataMessages';
 import {

@@ -18,7 +18,8 @@ import Footer from '../footer';
 import MainArea from '../main-area';
 
 import sendAPIRequest, { joinRoom } from '@/helpers/api/paxMeetAPI';
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector, useAppStore } from '@/store/hook';
 import {
   addServerVersion,
   addToken,
@@ -82,6 +83,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   // // document.dir = i18n.dir();
   const debugStore = useAppSelector(debugSelector);
   const toastId = useRef<string>(null);
+  const store = useAppStore();
 
   const [loading, setLoading] = useState<boolean>(true);
   // // it could be recorder or RTMP bot

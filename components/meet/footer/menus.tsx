@@ -1,6 +1,8 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
-import { store, useAppDispatch } from '@/store';
+
+import { store } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import {
   updateShowKeyboardShortcutsModal,
   updateShowRoomSettingsModal,

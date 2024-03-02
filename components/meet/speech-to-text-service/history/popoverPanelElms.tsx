@@ -3,7 +3,8 @@ import { Popover } from '@headlessui/react';
 import Draggable from 'react-draggable';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import InterimTextElms from './interimTextElms';
 import { useTranslations } from 'next-intl';
 

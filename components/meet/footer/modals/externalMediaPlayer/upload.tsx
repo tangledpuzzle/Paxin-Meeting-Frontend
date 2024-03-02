@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import useResumableFilesUpload from '@/helpers/hooks/useResumableFilesUpload';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { updateShowExternalMediaPlayerModal } from '@/store/slices/bottomIconsActivitySlice';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import {
   CommonResponse,
   ExternalMediaPlayerReq,

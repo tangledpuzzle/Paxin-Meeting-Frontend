@@ -5,7 +5,8 @@ import { Transition } from '@headlessui/react';
 import LeftPanel from '../left-panel';
 import RightPanel from '../right-panel';
 
-import { useAppSelector, RootState, store, useAppDispatch } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector, useAppStore } from '@/store/hook';
 import ActiveSpeakers from '../active-speakers';
 import MainComponents from './mainComponents';
 import { IRoomMetadata } from '@/store/slices/interfaces/session';
@@ -70,6 +71,7 @@ const footerVisibilitySelector = createSelector(
 );
 
 const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
+  const store = useAppStore();
   const columnCameraWidth = useAppSelector(columnCameraWidthSelector);
   const columnCameraPosition = useAppSelector(columnCameraPositionSelector);
   const isActiveParticipantsPanel = useAppSelector(

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { useAppSelector, RootState, useAppDispatch } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { toggleStartup } from '@/store/slices/sessionSlice';
 import { updateShowMicrophoneModal } from '@/store/slices/bottomIconsActivitySlice';
 import { updateRoomAudioVolume } from '@/store/slices/roomSettingsSlice';
@@ -18,7 +19,6 @@ const isStartupSelector = createSelector(
 const StartupJoinModal = ({ onCloseModal }: StartupJoinModalProps) => {
   const [open, setOpen] = useState<boolean>(true);
   const isStartup = useAppSelector(isStartupSelector);
-  console.log('isStartUp:', isStartup);
   const dispatch = useAppDispatch();
   const t = useTranslations('meet');
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { RemoteTrackPublication } from 'livekit-client';
 
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { participantsSelector } from '@/store/slices/participantSlice';
 
 interface IAudioElmProps {

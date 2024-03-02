@@ -1,4 +1,3 @@
-import { store } from '@/store';
 import { addChatMessage } from '@/store/slices/chatMessagesSlice';
 import {
   updateIsActiveChatPanel,
@@ -10,12 +9,14 @@ import {
   DataMsgBodyType,
 } from '../proto/plugnmeet_datamessage_pb';
 import { IChatMsg } from '@/store/slices/interfaces/dataMessages';
+import { useAppStore } from '@/store/hook';
 
 export const handleUserTypeData = (
   body: DataMsgBody,
   message_id?: string,
   to?: string
 ) => {
+  const store = useAppStore();
   if (body.type === DataMsgBodyType.CHAT) {
     if (!body.messageId) {
       body.messageId = message_id;

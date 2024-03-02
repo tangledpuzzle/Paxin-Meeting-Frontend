@@ -12,8 +12,10 @@ import {
   DataMsgBody,
   DataMsgBodyType,
 } from '../proto/plugnmeet_datamessage_pb';
+import { useAppStore } from '@/store/hook';
 
 export const handleWhiteboardMsg = (body: DataMsgBody) => {
+  const store = useAppStore();
   const isPresenter =
     store.getState().session.currentUser?.metadata?.is_presenter;
 

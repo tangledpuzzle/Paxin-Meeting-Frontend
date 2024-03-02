@@ -3,7 +3,8 @@ import { Room } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector, useAppStore } from '@/store/hook';
 
 import WebcamIcon from './icons/webcam';
 import MicrophoneIcon from './icons/microphone';
@@ -39,6 +40,7 @@ const footerVisibilitySelector = createSelector(
 );
 
 const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
+  const store = useAppStore();
   const isAdmin = store.getState().session.currentUser?.metadata?.is_admin;
   const footerVisible = useAppSelector(footerVisibilitySelector);
   const dispatch = useAppDispatch();

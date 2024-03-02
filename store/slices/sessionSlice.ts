@@ -109,7 +109,6 @@ const sessionSlice = createSlice({
   initialState,
   reducers: {
     addToken: (state, action: PayloadAction<string>) => {
-      console.log('Add Token ', action.payload);
       state.token = action.payload;
     },
     clearToken: (state) => {

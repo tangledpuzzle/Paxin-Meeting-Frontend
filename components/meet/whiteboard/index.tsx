@@ -16,7 +16,8 @@ import type {
   AppState,
 } from '@excalidraw/excalidraw/types/types';
 
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { useCallbackRefState } from './helpers/hooks/useCallbackRefState';
 import {
   ReconciledElements,
