@@ -1,4 +1,3 @@
-import { store } from '@/store';
 import {
   addWhiteboardFileAsJSON,
   addWhiteboardUploadedOfficeFiles,
@@ -12,10 +11,9 @@ import {
   DataMsgBody,
   DataMsgBodyType,
 } from '../proto/plugnmeet_datamessage_pb';
-import { useAppStore } from '@/store/hook';
+import { store } from '@/store';
 
 export const handleWhiteboardMsg = (body: DataMsgBody) => {
-  const store = useAppStore();
   const isPresenter =
     store.getState().session.currentUser?.metadata?.is_presenter;
 
