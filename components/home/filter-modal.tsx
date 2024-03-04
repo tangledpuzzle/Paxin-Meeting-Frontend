@@ -430,7 +430,7 @@ export function FilterModal() {
   return (
     <Dialog open={isFilterModalOpen} onOpenChange={setIsFilterModalOpen}>
       <DialogTrigger asChild>
-        <Button variant='clear' className='!p-0'>
+        <Button variant='clear' className='!p-0 filtersButton'>
           {/* <Filter className='mr-2 size-4' /> */}
           <GlowingButton buttonText={t('filters')} />
         </Button>

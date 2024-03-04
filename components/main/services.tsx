@@ -10,22 +10,22 @@ const services = [
   {
     title: 'instagram',
     description: 'instagram_description',
-    icons: ['instagram'],
+    icons: ['i1'],
   },
   {
     title: 'linkedin',
     description: 'linkedin_description',
-    icons: ['linkedin'],
+    icons: ['i2'],
   },
   {
     title: 'zoom',
     description: 'zoom_description',
-    icons: ['zoom'],
+    icons: ['i3'],
   },
   {
     title: 'whatsapp_and_facebook',
     description: 'whatsapp_and_facebook_description',
-    icons: ['whatsapp', 'fb-color'],
+    icons: ['i4'],
   },
 ];
 
@@ -49,7 +49,7 @@ function ServiceCard({
             width={40}
             height={40}
             alt={icon}
-            className='size-10'
+            className='size-24'
           />
         ))}
       </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import '@/styles/glowblack.css';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
+import { IoFilterSharp } from "react-icons/io5";
 
 interface GlowingButtonProps {
   buttonText: string;
@@ -25,15 +26,11 @@ const GlowingButton: React.FC<GlowingButtonProps> = ({ buttonText }) => {
           <div className='glowing-wrapper-borders'></div>
         </div>
         <div className='glowing-wrapper-button w-inline-block'>
-          <div className='text-white flex pr-4 md:pr-0'>
-          <Image
-                src='/filter.svg'
-                alt='en'
-                width={24}
-                height={24}
-                className='mr-2 h-auto w-5'
-              />
-            {buttonText}</div>
+          <div className='text-white flex md:pr-0'>
+          <IoFilterSharp />
+
+            {/* {buttonText} */}
+            </div>
         </div>
       </div>
     </div>
