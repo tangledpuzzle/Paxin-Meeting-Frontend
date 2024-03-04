@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
-const getRoomDetails = async ({ roomId }: { roomId: number }) => {
+const getRoomDetails = async ({ roomId }: { roomId: string }) => {
   try {
     const accessToken = await getAccessToken();
     const res = await requestHelper({
