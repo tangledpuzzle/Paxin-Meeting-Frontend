@@ -113,7 +113,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   const { data: fetchedHashtags, error: fetchedHashtagsError } = useSWR(
     hashtagKeyword
       ? `/api/hashtags/get?name=${hashtagKeyword}&type=BLOG`
-      : null,
+      : `/api/hashtags/blog/get`,
     fetcher
   );
 
@@ -491,7 +491,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className='w-full overflow-y-auto sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
+      <DialogContent className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
         <DialogHeader className='flex flex-row items-center gap-3'>
           <div className='rounded-full bg-primary/10 p-3 text-primary'>
             <TfiWrite className='size-5' />
