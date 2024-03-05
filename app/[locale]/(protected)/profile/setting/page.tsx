@@ -194,7 +194,9 @@ export default function SettingPage() {
     useState<boolean>(false);
   const [isRechargeLoading, setIsRechargeLoading] = useState<boolean>(false);
 
-  const [hashtagURL, setHashtagURL] = useState<string>('');
+  const [hashtagURL, setHashtagURL] = useState<string>(
+    `/api/hashtags/profile/get`
+  );
 
   const [isNeededUpdate, setIsNeededUpdate] = useState<boolean>(false);
 
@@ -555,6 +557,7 @@ export default function SettingPage() {
 
   const handleHashtagSearch = useDebouncedCallback((query: string) => {
     if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
+    else setHashtagURL(`/api/hashtags/profile/get`);
   }, 300);
 
   const handleDeleteAccount = async () => {
@@ -619,7 +622,7 @@ export default function SettingPage() {
         icon={RiUserSettingsFill}
       />
       <Separator className='my-4' />
-      <div className='w-full mb-[100px] md:mb-[0px]'>
+      <div className='mb-[100px] w-full md:mb-[0px]'>
         <ConfirmModal
           isOpen={showDeleteModal}
           onClose={() => setShowDeleteModal(false)}

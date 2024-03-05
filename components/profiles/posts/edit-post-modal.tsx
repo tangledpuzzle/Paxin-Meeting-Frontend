@@ -131,7 +131,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   const { data: fetchedHashtags, error: fetchedHashtagsError } = useSWR(
     hashtagKeyword
       ? `/api/hashtags/get?name=${hashtagKeyword}&type=BLOG`
-      : null,
+      : `/api/hashtags/blog/get`,
     fetcher
   );
 
