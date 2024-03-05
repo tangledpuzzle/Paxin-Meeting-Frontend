@@ -180,17 +180,16 @@ export default async function FlowPage({
   return blogDetails ? (
     <section className='container py-4'>
       <div className='flex justify-between'>
-      <BackButton callback={searchParams['callback']} />
-      <span className='flex items-center justify-center px-0 uppercase'>
-      <IoLanguage className='h-[32px] w-[32px] px-2' />
-        {blogDetails?.countrycode}
-      </span>
+        <BackButton callback={searchParams['callback']} />
+        <span className='flex items-center justify-center px-0 uppercase'>
+          <IoLanguage className='h-[32px] w-[32px] px-2' />
+          {blogDetails?.countrycode}
+        </span>
       </div>
       {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='font-satoshi'>
         <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
           {blogDetails?.title}
-         
         </div>
         <div className='mb-4 text-sm text-muted-foreground'>
           {blogDetails?.description}
@@ -463,7 +462,7 @@ export default async function FlowPage({
                     roomId={roomId}
                   >
                     <Button className='btn w-full !rounded-md'>
-                      {roomId > -1 ? t('send_message') : t('start_chat')}
+                      {roomId === '' ? t('start_chat') : t('send_message')}
                     </Button>
                   </MessageForm>
                 ) : (
