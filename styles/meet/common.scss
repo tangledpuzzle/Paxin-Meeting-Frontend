@@ -518,7 +518,7 @@ html[dir='rtl'] span.tooltip.tooltip-left::before {
 
 #main-footer {
   .record {
-    animation-name: pulse;
+    animation-name: custom-pulse;
     animation-duration: 1.5s;
     animation-iteration-count: infinite;
     animation-timing-function: linear;

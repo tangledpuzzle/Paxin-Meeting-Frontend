@@ -1,0 +1,12 @@
+services:
+  app:
+    image: paxintrade-frontend
+    restart: on-failure:5
+    volumes:
+      - ./.env.production:/app/.env.production
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+    ports:
+      - '3000:3000/tcp'
