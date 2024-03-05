@@ -6,6 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { PaxContext } from '@/context/context';
 import getAllMessages from '@/lib/server/chat/getAllMessages';
 import getRoomDetails from '@/lib/server/chat/getRoomDetails';
+import sendMessage from '@/lib/server/chat/sendMessage';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -33,6 +34,16 @@ export default function ChatDetailPage({
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState('');
 
+  const handleMessageSubmit = async () => {
+    if (inputMessage === '') return;
+
+    try {
+      const res = await sendMessage({ roomId: id, message: inputMessage });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getAllMessages({ roomId: id }).then((res) => {
       const _messages: ChatMessage[] = [];
@@ -49,6 +60,10 @@ export default function ChatDetailPage({
           },
         });
       }
+
+      _messages.sort((a, b) => {
+        return new Date(a.time).getTime() - new Date(b.time).getTime();
+      });
 
       setMessages(_messages);
     });
@@ -108,7 +123,7 @@ export default function ChatDetailPage({
           ></textarea>
           <button
             type='button'
-            onClick={() => {}}
+            onClick={handleMessageSubmit}
             className='absolute right-0 flex h-full cursor-pointer items-end justify-center pb-6 pr-3'
           >
             <IoSendOutline color='gray' size={18} />
