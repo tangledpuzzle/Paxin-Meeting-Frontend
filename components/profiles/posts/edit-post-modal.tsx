@@ -245,6 +245,9 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
           lang: locale,
           category: (formData?.category && formData?.category[0].label) || '',
           title: formData?.title || '',
+          hashtags: formData?.hashtags
+            ? formData?.hashtags?.map((h: any) => h.label)
+            : [],
         });
 
         if (data) {
@@ -252,6 +255,13 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
             ...generatedString,
             [type]: data.titles.map((title: any) => title.title),
           });
+        } else {
+          toast.error(
+            t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+            {
+              position: 'top-right',
+            }
+          );
         }
       } else if (type === 'subtitle') {
         const data = await getAssistantData(type, {
@@ -259,6 +269,9 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
           category: (formData?.category && formData?.category[0].label) || '',
           title: formData?.title || '',
           subtitle: formData?.subtitle || '',
+          hashtags: formData?.hashtags
+            ? formData?.hashtags?.map((h: any) => h.label)
+            : [],
         });
 
         if (data) {
@@ -266,6 +279,13 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
             ...generatedString,
             [type]: data.subtitles.map((subtitle: any) => subtitle.subtitle),
           });
+        } else {
+          toast.error(
+            t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+            {
+              position: 'top-right',
+            }
+          );
         }
       } else if (type === 'content') {
         const data = await getAssistantData(type, {
@@ -274,6 +294,9 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
           title: formData?.title || '',
           subtitle: formData?.subtitle || '',
           content: formData?.content || '',
+          hashtags: formData?.hashtags
+            ? formData?.hashtags?.map((h: any) => h.label)
+            : [],
         });
 
         if (data) {
@@ -281,6 +304,13 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
             ...generatedString,
             [type]: [data.content],
           });
+        } else {
+          toast.error(
+            t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+            {
+              position: 'top-right',
+            }
+          );
         }
       }
     } catch (error) {
