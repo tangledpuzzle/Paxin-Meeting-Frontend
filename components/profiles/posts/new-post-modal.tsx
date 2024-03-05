@@ -254,6 +254,9 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
           lang: locale,
           category: (formData?.category && formData?.category[0].label) || '',
           title: formData?.title || '',
+          hashtags: formData?.hashtags
+            ? formData?.hashtags?.map((h: any) => h.label)
+            : [],
         });
 
         if (data) {
@@ -261,6 +264,13 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
             ...generatedString,
             [type]: data.titles.map((title: any) => title.title),
           });
+        } else {
+          toast.error(
+            t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+            {
+              position: 'top-right',
+            }
+          );
         }
       } else if (type === 'subtitle') {
         const data = await getAssistantData(type, {
@@ -268,6 +278,9 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
           category: (formData?.category && formData?.category[0].label) || '',
           title: formData?.title || '',
           subtitle: formData?.subtitle || '',
+          hashtags: formData?.hashtags
+            ? formData?.hashtags?.map((h: any) => h.label)
+            : [],
         });
 
         if (data) {
@@ -275,6 +288,13 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
             ...generatedString,
             [type]: data.subtitles.map((subtitle: any) => subtitle.subtitle),
           });
+        } else {
+          toast.error(
+            t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+            {
+              position: 'top-right',
+            }
+          );
         }
       } else if (type === 'content') {
         const data = await getAssistantData(type, {
@@ -283,6 +303,9 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
           title: formData?.title || '',
           subtitle: formData?.subtitle || '',
           content: formData?.content || '',
+          hashtags: formData?.hashtags
+            ? formData?.hashtags?.map((h: any) => h.label)
+            : [],
         });
 
         if (data) {
@@ -290,6 +313,13 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
             ...generatedString,
             [type]: [data.content],
           });
+        } else {
+          toast.error(
+            t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+            {
+              position: 'top-right',
+            }
+          );
         }
       }
     } catch (error) {
