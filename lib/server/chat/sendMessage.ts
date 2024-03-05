@@ -8,7 +8,7 @@ const sendMessage = async ({
   roomId,
   message,
 }: {
-  roomId: number;
+  roomId: string;
   message: string;
 }) => {
   try {

@@ -37,7 +37,7 @@ export default function MessageForm({
     username: string;
     userId: string;
   };
-  roomId: number;
+  roomId: string;
 }) {
   const t = useTranslations('chatting');
   const router = useRouter();
@@ -58,7 +58,7 @@ export default function MessageForm({
     setIsLoading(true);
 
     try {
-      if (roomId === -1) {
+      if (roomId === '') {
         const _roomId = await createRoom({
           acceptorId: user.userId,
           initialMessage: data.message,
