@@ -115,13 +115,6 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   useBodyPix();
   const isStartup = useAppSelector(isStartupSelector);
   // // some custom hooks
-  // const {
-  //   error,
-  //   setError,
-  //   roomConnectionStatus,
-  //   setRoomConnectionStatus,
-  //   startLivekitConnection,
-  // } = useLivekitConnect();
 
   useKeyboardShortcuts(currentConnection?.room);
   useDesignCustomization();

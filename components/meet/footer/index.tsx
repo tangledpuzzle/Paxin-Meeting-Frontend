@@ -82,6 +82,8 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
         });
       }
       goBack();
+    } else if (task == 'stepOut') {
+      goBack();
     }
   };
   const alertModal = () => {
