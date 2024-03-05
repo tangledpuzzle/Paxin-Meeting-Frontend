@@ -43,6 +43,8 @@
     "upload_no_more_than_10": "No puedes cargar más de 10 imágenes",
     "save": "Guardar",
     "next": "Siguiente",
+    "need_more_city": "¿Necesitas más? Agrega más ciudades",
+    "need_more_category": "¿Necesitas más? Agrega más categorías",
     "write_post": "Escribir una Publicación",
     "write_post_description": "Puedes escribir una nueva publicación aquí.",
     "ai_assistant": "Asistente de IA",
