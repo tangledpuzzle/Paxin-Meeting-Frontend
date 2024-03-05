@@ -30,6 +30,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -83,6 +84,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   const t = useTranslations('main');
+  const router = useRouter();
   const { user } = useContext(PaxContext);
   const locale = useLocale();
   const [formData, setFormData] = useState<{
@@ -102,10 +104,10 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   const [formIndex, setFormIndex] = useState<number>(0);
   const [cityOptions, setCityOptions] = useState<
     { value: number; label: string }[]
-  >([]);
+  >([{ value: -1, label: t('need_more_city') }]);
   const [categoryOptions, setCategoryOptions] = useState<
     { value: number; label: string }[]
-  >([]);
+  >([{ value: -1, label: t('need_more_category') }]);
   const [hashtagOptions, setHashtagOptions] = useState<
     { value: string; label: string }[]
   >([]);
@@ -448,19 +450,21 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
   }, [blog]);
 
   useEffect(() => {
-    setCityOptions(
-      user?.city.map((city: any) => ({
+    setCityOptions([
+      ...(user?.city.map((city: any) => ({
         label: city.name,
         value: city.id * 1,
-      })) || []
-    );
+      })) || []),
+      { value: -1, label: t('need_more_city') },
+    ]);
 
-    setCategoryOptions(
-      user?.category.map((category: any) => ({
+    setCategoryOptions([
+      ...(user?.category.map((category: any) => ({
         label: category.name,
         value: category.id * 1,
-      })) || []
-    );
+      })) || []),
+      { value: -1, label: t('need_more_category') },
+    ]);
 
     // setHashtagOptions(
     //   user?.hashtags.map((hashtag: any) => ({
@@ -523,6 +527,16 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                           noOptionsMessage={() => t('no_options')}
                           options={cityOptions}
                           {...field}
+                          onChange={(value) => {
+                            if (
+                              value.slice(-1)[0] &&
+                              value.slice(-1)[0].value === -1
+                            ) {
+                              router.push(
+                                `${locale ? '/' + locale : ''}/profile/setting`
+                              );
+                            } else value && form.setValue('city', [...value]);
+                          }}
                           classNames={{
                             input: () =>
                               'dark:text-white text-black text-[16px]',
@@ -551,6 +565,16 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                           placeholder={t('select') + '...'}
                           noOptionsMessage={() => t('no_options')}
                           {...field}
+                          onChange={(value) => {
+                            if (
+                              value.slice(-1)[0] &&
+                              value.slice(-1)[0].value === -1
+                            ) {
+                              router.push(
+                                `${locale ? '/' + locale : ''}/profile/setting`
+                              );
+                            } else value && form.setValue('city', [...value]);
+                          }}
                           options={categoryOptions}
                           classNames={{
                             input: () =>
