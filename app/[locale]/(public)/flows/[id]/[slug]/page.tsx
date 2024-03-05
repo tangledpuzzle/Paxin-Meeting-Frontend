@@ -468,7 +468,7 @@ export default async function FlowPage({
                   </MessageForm>
                 ) : (
                   <Link
-                    href={`/auth/login?callback=/profile/messages/${blogDetails.author?.username}`}
+                    href={`/auth/signin?callbackUrl=/flows/${params.id}/${params.slug}`}
                   >
                     {t('start_chat')}
                   </Link>

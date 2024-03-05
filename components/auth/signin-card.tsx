@@ -71,7 +71,7 @@ export function SignInCard() {
       });
 
       getSession().then((session) => {
-        router.push(searchParams.get('callback') || '/profile/dashboard');
+        router.push(searchParams.get('callbackUrl') || '/profile/dashboard');
       });
     }
 
