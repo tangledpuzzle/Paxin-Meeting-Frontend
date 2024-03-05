@@ -11,6 +11,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import ChatListSkeleton from './chat-list-skeleton';
 import { usePathname } from '@/navigation';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
+import eventBus from '@/eventBus';
 
 interface RoomListData {
   id: string;
@@ -38,8 +39,13 @@ export default function ChatNavComponent() {
   );
   const [showNav, setShowNav] = useState(true);
   const [roomList, setRoomList] = useState<RoomListData[]>([]);
+  const [keyword, setKeyword] = useState<string>('');
 
   const { user } = useContext(PaxContext);
+
+  eventBus.on('startChat', () => {
+    setShowNav(!showNav);
+  });
 
   const getRooms = (data: any) => {
     const _rooms: RoomListData[] = [];
@@ -153,46 +159,50 @@ export default function ChatNavComponent() {
                   className='flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-8 pr-4 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input'
                   placeholder='Search by name'
                   type='text'
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
                 />
               </div>
               <ScrollArea className='h-[calc(100vh_-_14.5rem)] rounded-lg bg-background p-4'>
                 {roomList.length > 0 ? (
-                  roomList.map((room) => (
-                    <Link
-                      key={room.id}
-                      href='/profile/chat/[id]'
-                      as={`/profile/chat/${room.id}`}
-                      className={cn(
-                        'flex w-full items-center gap-x-2 px-5 py-2 transition-colors duration-200 hover:bg-card-gradient-menu focus:outline-none',
-                        {
-                          'bg-card-gradient-menu':
-                            pathname.split('chat/')[1] === room.id,
-                        }
-                      )}
-                    >
-                      <div className='relative size-8 min-w-8'>
-                        <Image
-                          className='size-8 rounded-full'
-                          fill
-                          style={{ objectFit: 'cover' }}
-                          src={room.user.avatar}
-                          alt={room.user.name}
-                        />
-                        {room.user.online && (
-                          <span className='absolute bottom-0 right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-1 ring-white'></span>
+                  roomList
+                    .filter((room) => room.user.name.includes(keyword))
+                    .map((room) => (
+                      <Link
+                        key={room.id}
+                        href='/profile/chat/[id]'
+                        as={`/profile/chat/${room.id}`}
+                        className={cn(
+                          'flex w-full items-center gap-x-2 px-5 py-2 transition-colors duration-200 hover:bg-card-gradient-menu focus:outline-none',
+                          {
+                            'bg-card-gradient-menu':
+                              pathname.split('chat/')[1] === room.id,
+                          }
                         )}
-                      </div>
+                      >
+                        <div className='relative size-8 min-w-8'>
+                          <Image
+                            className='size-8 rounded-full'
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            src={room.user.avatar}
+                            alt={room.user.name}
+                          />
+                          {room.user.online && (
+                            <span className='absolute bottom-0 right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-1 ring-white'></span>
+                          )}
+                        </div>
 
-                      <div className='text-left rtl:text-right'>
-                        <p className='text-sm font-medium capitalize text-gray-700 dark:text-white'>
-                          {room.user.name}
-                        </p>
-                        <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
-                          {room.lastMessage.message}
-                        </p>
-                      </div>
-                    </Link>
-                  ))
+                        <div className='text-left rtl:text-right'>
+                          <p className='text-sm font-medium capitalize text-gray-700 dark:text-white'>
+                            {room.user.name}
+                          </p>
+                          <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
+                            {room.lastMessage.message}
+                          </p>
+                        </div>
+                      </Link>
+                    ))
                 ) : (
                   <>
                     <ChatListSkeleton />
