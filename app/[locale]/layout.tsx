@@ -13,6 +13,7 @@ import { getServerSession } from 'next-auth';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { Toaster } from 'react-hot-toast';
 import StoreProvider from '../StoreProvider';
+import { RTCProvider } from '@/provider/webRTCProvider';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -73,20 +74,22 @@ export default async function RootLayout({
         )}
       >
         <SessionProviders session={session}>
-          <StoreProvider>
-            <Providers>
-              <ThemeProvider
-                attribute='class'
-                defaultTheme='dark'
-                // enableSystem={false}
-              >
-                {children}
-                <Toaster />
-                <MetadataUpdater />
-              </ThemeProvider>
-              <TailwindIndicator />
-            </Providers>
-          </StoreProvider>
+          <Providers>
+            <StoreProvider>
+              <RTCProvider>
+                <ThemeProvider
+                  attribute='class'
+                  defaultTheme='dark'
+                  // enableSystem={false}
+                >
+                  {children}
+                  <Toaster />
+                  <MetadataUpdater />
+                </ThemeProvider>
+                <TailwindIndicator />
+              </RTCProvider>
+            </StoreProvider>
+          </Providers>
         </SessionProviders>
       </body>
     </html>

@@ -6,6 +6,7 @@ import React, {
   useCallback,
   useMemo,
   useRef,
+  useContext,
 } from 'react';
 import { usePathname } from 'next/navigation';
 // import { useTranslation } from 'react-i18next';
@@ -54,6 +55,7 @@ import '@/styles/meet/index.scss';
 import { getDirectionBasedOnLocale } from '@/helpers/languages';
 import type { Locale } from '@/helpers/languages';
 import { generateRandomString, hashTimestamp } from '@/lib/utils';
+import { RTCContext } from '@/provider/webRTCProvider';
 
 const debugSelector = createSelector(
   (state: RootState) => state,
@@ -91,8 +93,19 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   const [userTypeClass, setUserTypeClass] = useState('participant');
   const [accessTokenLocal, setAccessTokenLocal] = useState('');
   const [accessTokenLoaded, setAccessTokenLoaded] = useState(false);
-  const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
-  const [currentConnection, setCurrentConnection] = useState<IConnectLivekit>();
+  // const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
+  const {
+    livekitInfo,
+    setLivekitInfo,
+    currentConnection,
+    setCurrentConnection,
+    error,
+    setError,
+    roomConnectionStatus,
+    setRoomConnectionStatus,
+    startLivekitConnection,
+  } = useContext(RTCContext);
+  // const [currentConnection, setCurrentConnection] = useState<IConnectLivekit>();
   const waitForApproval = useAppSelector(waitingForApprovalSelector);
   const pathname = usePathname();
 
@@ -102,13 +115,13 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   useBodyPix();
   const isStartup = useAppSelector(isStartupSelector);
   // // some custom hooks
-  const {
-    error,
-    setError,
-    roomConnectionStatus,
-    setRoomConnectionStatus,
-    startLivekitConnection,
-  } = useLivekitConnect();
+  // const {
+  //   error,
+  //   setError,
+  //   roomConnectionStatus,
+  //   setRoomConnectionStatus,
+  //   startLivekitConnection,
+  // } = useLivekitConnect();
 
   useKeyboardShortcuts(currentConnection?.room);
   useDesignCustomization();
@@ -134,8 +147,8 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     setLoading(false);
 
     if (token) {
-      setAccessToken(token);
-      setAccessTokenLocal(token);
+      // setAccessToken(token);
+      // setAccessTokenLocal(token);
       return token;
     } else return '';
   };
@@ -202,20 +215,28 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   useEffect(() => {
     if (!accessTokenLoaded) {
       getMeetAccessToken().then((token) => {
-        setAccessTokenLocal(token), setAccessTokenLoaded(true);
+        if (token === '') {
+          setLoading(false);
+          setError({
+            title: t('app.token-missing-title'),
+            text: t('app.token-missing-des'),
+          });
+        } else {
+          setAccessTokenLocal(token), setAccessTokenLoaded(true);
+        }
       });
     }
   }, [pathname, accessTokenLoaded]);
 
-  useEffect(() => {
-    if (accessTokenLoaded && !accessTokenLocal) {
-      setLoading(false);
-      setError({
-        title: t('app.token-missing-title'),
-        text: t('app.token-missing-des'),
-      });
-    }
-  }, [accessTokenLocal, accessTokenLoaded]);
+  // useEffect(() => {
+  //   if (accessTokenLoaded && !accessTokenLocal) {
+  //     setLoading(false);
+  //     setError({
+  //       title: t('app.token-missing-title'),
+  //       text: t('app.token-missing-des'),
+  //     });
+  //   }
+  // }, [accessTokenLocal, accessTokenLoaded]);
 
   useEffect(() => {
     if (
