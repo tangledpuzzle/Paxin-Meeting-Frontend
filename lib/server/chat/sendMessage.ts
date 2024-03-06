@@ -30,6 +30,7 @@ const sendMessage = async ({
     return res;
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 

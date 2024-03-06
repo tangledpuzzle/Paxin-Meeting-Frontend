@@ -12,12 +12,13 @@ import editMessage from '@/lib/server/chat/editMessage';
 import getAllMessages from '@/lib/server/chat/getAllMessages';
 import getRoomDetails from '@/lib/server/chat/getRoomDetails';
 import sendMessage from '@/lib/server/chat/sendMessage';
+import subscribe from '@/lib/server/chat/subscribe';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 import { IoSendOutline } from 'react-icons/io5';
 import { IoCheckmarkSharp } from 'react-icons/io5';
-import { toast } from 'react-toastify';
 
 interface ChatMessage {
   id: string;
@@ -40,8 +41,14 @@ export default function ChatDetailPage({
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { user } = useContext(PaxContext);
-  // const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const { messages, setMessages, setActiveRoom } = useContext(PaxChatContext);
+  const {
+    messages,
+    setMessages,
+    chatRooms,
+    setChatRooms,
+    activeRoom,
+    setActiveRoom,
+  } = useContext(PaxChatContext);
   const [inputMessage, setInputMessage] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -73,9 +80,16 @@ export default function ChatDetailPage({
             timestamp: res.data.message.CreatedAt as string,
           },
         ]);
+      } else {
+        toast.error('Something went wrong', {
+          position: 'top-right',
+        });
       }
     } catch (error) {
       console.log(error);
+      toast.error('Something went wrong', {
+        position: 'top-right',
+      });
     }
   };
 
@@ -164,36 +178,23 @@ export default function ChatDetailPage({
     }
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     getAllMessages({ roomId: id }).then((res) => {
-  //       const _messages: ChatMessage[] = [];
+  const handleSubscribe = async (roomId: string) => {
+    try {
+      const res = await subscribe({ roomId });
 
-  //       for (const item of res.data.messages) {
-  //         _messages.push({
-  //           id: `${item.ID}`,
-  //           message: item.Content,
-  //           timestamp: item.CreatedAt,
-  //           user: {
-  //             id: item.UserID,
-  //             name: item.User.Name,
-  //             avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${item.User.Photo}`,
-  //           },
-  //           isDeleted: item.IsDeleted,
-  //           isEdited: item.IsEdited,
-  //         });
-  //       }
+      if (res?.status === 'success') {
+        const _chatRooms = chatRooms;
+        const index = _chatRooms.findIndex((room) => room.id === roomId);
+        _chatRooms[index].subscribed = true;
 
-  //       _messages.sort((a, b) => {
-  //         return (
-  //           new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-  //         );
-  //       });
+        if (activeRoom && activeRoom.id === roomId) {
+          setActiveRoom(_chatRooms[index]);
+        }
 
-  //       setMessages(_messages);
-  //     });
-  //   }
-  // }, [user]);
+        setChatRooms(_chatRooms);
+      }
+    } catch (error) {}
+  };
 
   const auto_height = () => {
     const textarea = textareaRef.current;
@@ -205,7 +206,8 @@ export default function ChatDetailPage({
   };
 
   useEffect(() => {
-    setActiveRoom(id);
+    const _activeRoom = chatRooms.find((room) => room.id === id) || null;
+    setActiveRoom(_activeRoom);
   }, []);
 
   return (
@@ -223,6 +225,17 @@ export default function ChatDetailPage({
         }}
         loading={false}
       />
+      {activeRoom && !activeRoom.subscribed && (
+        <Button
+          variant='ghost'
+          onClick={() => {
+            handleSubscribe(id);
+          }}
+          className='w-full'
+        >
+          Accept Chat
+        </Button>
+      )}
       <ScrollArea
         ref={scrollAreaRef}
         className='h-[calc(100vh_-_11rem)] w-full rounded-lg bg-background p-4'

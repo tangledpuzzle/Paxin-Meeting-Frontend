@@ -29,8 +29,8 @@ export interface ChatMessage {
 export interface ChatContent {
   chatRooms: ChatRoom[];
   setChatRooms: (chatRooms: ChatRoom[]) => void;
-  activeRoom: string;
-  setActiveRoom: (activeRoom: string) => void;
+  activeRoom: ChatRoom | null;
+  setActiveRoom: (activeRoom: ChatRoom | null) => void;
   messages: ChatMessage[];
   setMessages: (messages: ChatMessage[]) => void;
 }
@@ -38,7 +38,7 @@ export interface ChatContent {
 export const PaxChatContext = createContext<ChatContent>({
   chatRooms: [],
   setChatRooms: () => {},
-  activeRoom: '',
+  activeRoom: null,
   setActiveRoom: () => {},
   messages: [],
   setMessages: () => {},

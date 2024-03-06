@@ -19,7 +19,7 @@ import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 export default function Providers({ children }: { children: React.ReactNode }) {
   const { user } = useContext(PaxContext);
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
-  const [activeRoom, setActiveRoom] = useState('');
+  const [activeRoom, setActiveRoom] = useState<ChatRoom | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const [unrecoverableError, setUnrecoverableError] = useState('');
@@ -68,6 +68,35 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       _messages[index].isDeleted = true;
 
       setMessages(_messages);
+    } else if (publication.type === 'new_room') {
+      const _chatRooms = chatRooms;
+      const sender = publication.body.members.find(
+        (member: any) => member.user.id !== user?.id
+      );
+      _chatRooms.push({
+        id: `${publication.body.id}`,
+        lastMessage: publication.body.last_message.content,
+        user: {
+          id: sender.user.id,
+          name: sender.user.name,
+          avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${sender.user.photo}`,
+          online: sender.user.online,
+        },
+        subscribed: false,
+        timestamp: publication.body.created_at,
+      });
+    } else if (publication.type === 'subscribe_room') {
+      const _chatRooms = chatRooms;
+      const index = _chatRooms.findIndex(
+        (room) => room.id === `${publication.body.id}`
+      );
+      _chatRooms[index].subscribed = true;
+
+      if (activeRoom && activeRoom.id === `${publication.body.id}`) {
+        setActiveRoom(_chatRooms[index]);
+      }
+
+      setChatRooms(_chatRooms);
     }
   };
 
@@ -132,7 +161,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     if (!user?.id) return;
     if (!activeRoom) return;
 
-    getAllMessages({ roomId: activeRoom }).then((res) => {
+    getAllMessages({ roomId: activeRoom.id }).then((res) => {
       const _messages: ChatMessage[] = [];
 
       for (const item of res.data.messages) {
