@@ -49,6 +49,13 @@
     "write_post_description": "You can write a new post here.",
     "number_of_days": "Number of Days",
     "post": "Post",
+    "no_city":"No city, want to request for this city?",
+    "no_category":"No category, want to request for this category?",
+    "send":"Send",
+    "send_request":"Send Request",
+    "send_request_city_description":"You can send request for new city by filling this form.",
+    "send_request_category_description":"You can send request for new category by filling this form.",
+    
     "ai_assistant": "AI Assistant",
     "failed_to_generate_title": "Failed to generate title",
     "failed_to_generate_subtitle": "Failed to generate subtitle",
