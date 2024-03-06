@@ -43,7 +43,9 @@ export function FilterModal() {
   );
 
   const [hashTag, setHashTag] = useState<Option[]>([]);
-  const [hashtagURL, setHashtagURL] = useState<string>('');
+  const [hashtagURL, setHashtagURL] = useState<string>(
+    viewMode === 'flow' ? `/api/hashtags/blog/get` : `/api/hashtags/profile/get`
+  );
   const [city, setCity] = useState<Option[]>();
   const [category, setCategory] = useState<Option[]>();
   const [minPrice, setMinPrice] = useState<string>('');
@@ -82,6 +84,12 @@ export function FilterModal() {
 
   const handleHashtagSearch = useDebouncedCallback((query: string) => {
     if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
+    else
+      setHashtagURL(
+        viewMode === 'flow'
+          ? `/api/hashtags/blog/get`
+          : `/api/hashtags/profile/get`
+      );
   }, 300);
 
   const handleMinPrice = (value: string) => {
@@ -430,7 +438,7 @@ export function FilterModal() {
   return (
     <Dialog open={isFilterModalOpen} onOpenChange={setIsFilterModalOpen}>
       <DialogTrigger asChild>
-        <Button variant='clear' className='!p-0 filtersButton'>
+        <Button variant='clear' className='filtersButton !p-0'>
           {/* <Filter className='mr-2 size-4' /> */}
           <GlowingButton buttonText={t('filters')} />
         </Button>

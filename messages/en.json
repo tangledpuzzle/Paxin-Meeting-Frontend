@@ -43,6 +43,8 @@
     "upload_no_more_than_10": "You can upload no more than 10 images",
     "save": "Save",
     "next": "Next",
+    "need_more_city": "Need more? Add more cities",
+    "need_more_category": "Need more? Add more categories",
     "write_post": "Write a Post",
     "write_post_description": "You can write a new post here.",
     "number_of_days": "Number of Days",
@@ -123,7 +125,6 @@
     "t_6": "Efficiency",
     "t_7": "Negotiations",
     "t_8": "Partnership",
-    
 
     "discover_paxintrade": "Discover PaxinTrade",
     "unleashing_future_online_interaction": "We create a space where connection is deeper and collaboration is more productive.",
@@ -169,7 +170,7 @@
     "linkedin": "Find new business contacts and conduct business correspondence in one place",
     "linkedin_description": "Trading live all over the world is easy and simple.",
     "zoom": "Trade live all over the world easily and simply, with the support of neural networks,",
-    "zoom_description" : "Chat like Zoom",
+    "zoom_description": "Chat like Zoom",
     "whatsapp_and_facebook": "Connecting a personal web address with customer service in 2 clicks",
 
     "unlock_new_dimension_of_connectivity": "Unlock the New Dimension of Connectivity",
