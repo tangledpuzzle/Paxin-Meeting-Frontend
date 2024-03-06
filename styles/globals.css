@@ -820,14 +820,14 @@ textarea {
   flex-grow: 1;
 }
 
-/* 
-.new-container.open .new-content-container {
+
+.new-content-container {
     width: calc(100% - 300px);
 }
 
-.new-container.open .new-main-content {
+.new-main-content {
     margin-left: 300px;
-} */
+}
 
 .new-container.open .new-sidebar {
   transform: translateX(0);
