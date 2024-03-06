@@ -23,7 +23,7 @@ const editMessage = async ({
       session: cookies().get('session')?.value || '',
     });
 
-    console.log(JSON.stringify(res, null, 2));
+    console.log(JSON.stringify(res, null, 2), 'EDIT_MESSAGER');
 
     return res;
   } catch (error) {

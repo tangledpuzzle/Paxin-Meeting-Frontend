@@ -12,6 +12,7 @@ import ChatListSkeleton from './chat-list-skeleton';
 import { usePathname } from '@/navigation';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import eventBus from '@/eventBus';
+import { PaxChatContext } from '@/context/chat-context';
 
 interface RoomListData {
   id: string;
@@ -38,7 +39,7 @@ export default function ChatNavComponent() {
     'MESSAGE_LIST'
   );
   const [showNav, setShowNav] = useState(true);
-  const [roomList, setRoomList] = useState<RoomListData[]>([]);
+  const { chatRooms, setChatRooms } = useContext(PaxChatContext);
   const [keyword, setKeyword] = useState<string>('');
 
   const { user } = useContext(PaxContext);
@@ -47,67 +48,66 @@ export default function ChatNavComponent() {
     setShowNav(!showNav);
   });
 
-  const getRooms = (data: any) => {
-    const _rooms: RoomListData[] = [];
+  // const getRooms = (data: any) => {
+  //   const _rooms: RoomListData[] = [];
 
-    for (const room of data) {
-      const _room = {
-        id: `${room.ID}`,
-        lastMessage: {
-          id: '',
-          message: '',
-          time: '',
-          user: '',
-        },
-        user: {
-          id: '',
-          name: '',
-          avatar: '',
-          followers: 0,
-          online: false,
-        },
-        time: room.CreatedAt,
-      };
+  //   for (const room of data) {
+  //     const _room = {
+  //       id: `${room.ID}`,
+  //       lastMessage: {
+  //         id: '',
+  //         message: '',
+  //         time: '',
+  //         user: '',
+  //       },
+  //       user: {
+  //         id: '',
+  //         name: '',
+  //         avatar: '',
+  //         followers: 0,
+  //         online: false,
+  //       },
+  //       time: room.CreatedAt,
+  //     };
 
-      _room.lastMessage.id = `${room.LastMessage.ID}`;
-      _room.lastMessage.message = room.LastMessage.Content;
-      _room.lastMessage.time = room.LastMessage.CreatedAt;
-      _room.lastMessage.user = room.LastMessage.UserID;
+  //     _room.lastMessage.id = `${room.LastMessage.ID}`;
+  //     _room.lastMessage.message = room.LastMessage.Content;
+  //     _room.lastMessage.time = room.LastMessage.CreatedAt;
+  //     _room.lastMessage.user = room.LastMessage.UserID;
 
-      for (const member of room.Members) {
-        if (member.UserID !== user?.id) {
-          _room.user.id = member.UserID;
-          _room.user.name = member.User.Name;
-          _room.user.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
-          _room.user.followers = member.User.TotalFollowers;
-          _room.user.online = member.User.online;
-        }
-      }
+  //     for (const member of room.Members) {
+  //       if (member.UserID !== user?.id) {
+  //         _room.user.id = member.UserID;
+  //         _room.user.name = member.User.Name;
+  //         _room.user.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
+  //         _room.user.followers = member.User.TotalFollowers;
+  //         _room.user.online = member.User.online;
+  //       }
+  //     }
 
-      _rooms.push(_room);
-    }
+  //     _rooms.push(_room);
+  //   }
 
-    return _rooms;
-  };
+  //   return _rooms;
+  // };
 
-  useEffect(() => {
-    getSubscribedRooms().then((res) => {
-      console.log(res.data);
-      const roomList: RoomListData[] = getRooms(res.data);
+  // useEffect(() => {
+  //   getSubscribedRooms().then((res) => {
+  //     const roomList: RoomListData[] = getRooms(res.data);
 
-      getUnsubscribedNewRooms().then((res) => {
-        const _rooms: RoomListData[] = [...roomList, ...getRooms(res.data)];
+  //     getUnsubscribedNewRooms().then((res) => {
+  //       const _rooms: RoomListData[] = [...roomList, ...getRooms(res.data)];
 
-        _rooms.sort(
-          (a, b) =>
-            new Date(b.lastMessage.time).getTime() -
-            new Date(a.lastMessage.time).getTime()
-        );
+  //       _rooms.sort(
+  //         (a, b) =>
+  //           new Date(b.lastMessage.time).getTime() -
+  //           new Date(a.lastMessage.time).getTime()
+  //       );
 
-        setRoomList(_rooms);
-      });
-    });
-  }, [user]);
+  //       setRoomList(_rooms);
+  //     });
+  //   });
+  // }, [user]);
 
   return (
     <div
@@ -164,8 +164,8 @@ export default function ChatNavComponent() {
                 />
               </div>
               <ScrollArea className='h-[calc(100vh_-_14.5rem)] rounded-lg bg-background p-4'>
-                {roomList.length > 0 ? (
-                  roomList
+                {chatRooms.length > 0 ? (
+                  chatRooms
                     .filter((room) => room.user.name.includes(keyword))
                     .map((room) => (
                       <Link
@@ -198,7 +198,7 @@ export default function ChatNavComponent() {
                             {room.user.name}
                           </p>
                           <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
-                            {room.lastMessage.message}
+                            {room.lastMessage}
                           </p>
                         </div>
                       </Link>

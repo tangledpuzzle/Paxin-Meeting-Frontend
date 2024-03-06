@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
+import subscribe from './subscribe';
 
 const sendMessage = async ({
   roomId,
@@ -24,11 +25,12 @@ const sendMessage = async ({
       session: cookies().get('session')?.value || '',
     });
 
-    console.log(JSON.stringify(res, null, 2));
+    console.log(JSON.stringify(res, null, 2), 'sendMessage');
 
     return res;
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 

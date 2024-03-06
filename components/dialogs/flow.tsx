@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useLocale } from 'next-intl';
 import { MdFavorite } from 'react-icons/md'; // Importing MdFavorite icon
+import useSocket from "@/hooks/useSocket";
 
 interface Chat {
   ele: HTMLDivElement;
@@ -53,42 +54,19 @@ const createElement = (
   return ele;
 };
 
+
+
+
 const ChatComponent: React.FC = () => {
   const locale = useLocale();
-  const newSocketRef = useRef<WebSocket | null>(null);
+  const chatRef = useRef<Chat | null>(null);
+  const socket = useSocket(locale);
   useEffect(() => {
     if (typeof window !== 'undefined') {
       chatRef.current = new Chat(locale);
-      return () => {};
+      return () => { };
     }
   }, [locale]);
-
-  const connectWebSocket = () => {
-    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsPath = process.env.NEXT_PUBLIC_SOCKET_URL;
-    const newSocket = new WebSocket(
-      `${wsProtocol}//${wsPath}/stream/live?langue=` + locale
-    );
-    newSocketRef.current = newSocket;
-
-    newSocket.onopen = () => {
-      // WebSocket connection is established, send the "getADS" message
-      const message = {
-        messageType: 'getADS',
-        locale: locale,
-      };
-      newSocket.send(JSON.stringify(message));
-    };
-
-    newSocket.onmessage = (event) => {
-      const receivedData = JSON.parse(event.data);
-      if (receivedData) {
-        const newLine = new Line(receivedData, locale);
-        chatRef.current?.ele.appendChild(newLine.ele.lineContainer);
-        removeOldest();
-      }
-    };
-  };
 
   const removeOldest = () => {
     const maxCount = 10; // Максимальное количество строк чата
@@ -102,53 +80,48 @@ const ChatComponent: React.FC = () => {
     }
   };
 
-  const disconnectWebSocket = () => {
-    if (newSocketRef.current) {
-      newSocketRef.current.close();
-      newSocketRef.current = null;
-    }
-  };
-
   useEffect(() => {
-    connectWebSocket();
-
-    return () => {
-      disconnectWebSocket();
-    };
-  }, []);
-
-  const toggleAnimation = () => {
-    setIsAnimationRunning((prevState) => {
-      if (!prevState) {
-        connectWebSocket();
-      } else {
-        disconnectWebSocket();
-      }
-      return !prevState;
-    });
-  };
-
-  const [addingChat, setAddingChat] = useState<boolean>(false);
-  const [lastChatTime, setLastChatTime] = useState<number>(0);
-  const [isAnimationRunning, setIsAnimationRunning] = useState<boolean>(true);
-
-  const chatRef = useRef<Chat | null>(null);
+    if (socket) {
+      socket.onmessage = (event) => {
+        const receivedData = JSON.parse(event.data);
+        if (receivedData) {
+          const newLine = new Line(receivedData, locale);
+          chatRef.current?.ele.appendChild(newLine.ele.lineContainer);
+          removeOldest();
+        }
+      };
+    }
+  }, [socket]);
 
   return (
     <div id='chat-container'>
       <div id='chat-input w-full'>
         <div id='file-input'></div>
       </div>
-      {/* <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
+    </div>
+  );
+};
+// const toggleAnimation = () => {
+//   setIsAnimationRunning((prevState) => {
+//     if (!prevState) {
+//       connectWebSocket();
+//     } else {
+//       disconnectWebSocket();
+//     }
+//     return !prevState;
+//   });
+// };
+
+// const [addingChat, setAddingChat] = useState<boolean>(false);
+// const [lastChatTime, setLastChatTime] = useState<number>(0);
+// const [isAnimationRunning, setIsAnimationRunning] = useState<boolean>(true);
+
+{/* <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
         <button onClick={toggleAnimation} className='text-center w-full'>
           {isAnimationRunning ? 'остановить поток' : 'запустить поток'}
         </button>
         <button>Применить настройки</button>
       </div> */}
-    </div>
-  );
-};
-
 class Chat {
   ele: HTMLDivElement;
   lines: Line[] = [];
