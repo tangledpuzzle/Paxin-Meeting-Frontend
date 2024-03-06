@@ -43,7 +43,7 @@ type ImageUploadComponentType = {
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-export function NewPostModal({ openModal, setOpenModal }: any) {
+export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
   const t = useTranslations('main');
   const router = useRouter();
   const { user } = useContext(PaxContext);
@@ -163,7 +163,9 @@ export function NewPostModal({ openModal, setOpenModal }: any) {
           </div>
           <div>
             <DialogTitle>{t('send_request')}</DialogTitle>
-            <DialogDescription>{t('send_request_description')}</DialogDescription>
+            <DialogDescription>
+              {requestType === "city" ? t(`send_request_city_description`) : t(`send_request_category_description`)}
+            </DialogDescription>
           </div>
         </DialogHeader>
         <Form {...form}>
@@ -180,7 +182,7 @@ export function NewPostModal({ openModal, setOpenModal }: any) {
                   name='city'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='city'>{t('name')}</FormLabel>
+                      <FormLabel htmlFor='city'>{requestType === "category" ? t('category') : t('city')}</FormLabel>
                       <FormControl>
                         <Input />
                       </FormControl>
@@ -204,12 +206,12 @@ export function NewPostModal({ openModal, setOpenModal }: any) {
               </div>
             )}
             <DialogFooter className='mt-4 flex flex-row justify-end'>
-                <Button type='button' disabled={isLoading} onClick={handlePost}>
-                  {isLoading && (
-                    <Loader2 className='mr-2 size-4 animate-spin' />
-                  )}
-                  {t('send')}
-                </Button>
+              <Button type='button' disabled={isLoading} onClick={handlePost}>
+                {isLoading && (
+                  <Loader2 className='mr-2 size-4 animate-spin' />
+                )}
+                {t('send')}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

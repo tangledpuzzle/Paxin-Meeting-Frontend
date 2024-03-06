@@ -181,6 +181,7 @@ export default function SettingPage() {
   const [additionalInfo, setAdditionalInfo] = useState<string>('');
   const [gallery, setGallery] = useState<GalleryType>({} as GalleryType);
   const [rechargecode, setRechargecode] = useState<string>('');
+  const [requestType, setRequestType] = useState('');
 
   const [isBasicLoading, setIsBasicLoading] = useState<boolean>(false);
   const [isDeleteAccountLoading, setIsDeleteAccountLoading] =
@@ -634,7 +635,7 @@ export default function SettingPage() {
 
   return (
     <div className='p-4'>
-      <NewPostModal openModal={openModal} setOpenModal={setOpenModal}/>
+      <NewPostModal openModal={openModal} setOpenModal={setOpenModal} requestType={requestType} />
 
       <CTASection
         title={t('settings')}
@@ -764,6 +765,7 @@ export default function SettingPage() {
                                       value.slice(-1)[0] &&
                                       value.slice(-1)[0].value === -1
                                     ) {
+                                      setRequestType('city');
                                       setOpenModal(true);
                                     } else field.onChange();
                                   }}
@@ -807,13 +809,13 @@ export default function SettingPage() {
                                     handleCategorySearch(value)
                                   }
                                   filterOption={customFilterFunction}
-                                 
+
                                   onChange={(value) => {
                                     if (
                                       value.slice(-1)[0] &&
                                       value.slice(-1)[0].value === -1
                                     ) {
-                                      
+                                      setRequestType('category');
                                       setOpenModal(true);
                                     } else field.onChange();
                                   }}
