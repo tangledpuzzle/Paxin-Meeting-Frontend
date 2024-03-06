@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -11,14 +11,24 @@ import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import eventBus from '@/eventBus';
-
+import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from '@/store';
+import { useAppSelector } from '@/store/hook';
+import { RTCContext } from '@/provider/webRTCProvider';
 interface MainNavProps {
   items?: NavItem[];
 }
 
+const participantSelector = createSelector(
+  (state: RootState) => state.participants,
+  (participants) => participants.ids
+);
+
 export function MainNav({ items }: MainNavProps) {
   const t = useTranslations('main');
+  const { roomConnectionStatus } = useContext(RTCContext);
 
+  const participants = useAppSelector(participantSelector);
   const locale = useLocale();
   const router = useRouter();
   let pathname = usePathname();
@@ -98,14 +108,16 @@ export function MainNav({ items }: MainNavProps) {
             <TiMessages size={32} />
           </div>
         </button>
-        <button>
-          <div className='flex items-center justify-center'>
-            <span className='relative -top-2 left-12 rounded-full bg-card-gradient-menu px-2 text-center text-xs'>
-              10
-            </span>
-            <TiVideo size={32} />
-          </div>
-        </button>
+        {roomConnectionStatus === 'connected' && (
+          <button>
+            <div className='flex items-center justify-center'>
+              <span className='relative -top-2 left-12 rounded-full bg-card-gradient-menu px-2 text-center text-xs'>
+                {participants.length}
+              </span>
+              <TiVideo size={32} />
+            </div>
+          </button>
+        )}
       </div>
     </div>
   );
