@@ -95,8 +95,6 @@ async function getData(locale: string, id: string, slug: string) {
       throw new Error('Failed to fetch data');
     }
 
-    console.log(blogData.data[0].user);
-
     const blog = {
       id: blogData.data[0].id,
       title:

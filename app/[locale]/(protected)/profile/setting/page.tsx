@@ -248,7 +248,6 @@ export default function SettingPage() {
 
   useEffect(() => {
     if (!error && fetchedData) {
-      console.log(fetchedData);
       setProfile(fetchedData);
       setGallery(fetchedData.gallery);
       setAdditionalInfo(fetchedData.additionalinfo);
