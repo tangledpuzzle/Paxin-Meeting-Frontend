@@ -775,7 +775,9 @@ export default function SettingPage() {
                                     ) {
                                       setRequestType('city');
                                       setOpenModal(true);
-                                    } else field.onChange();
+                                    } else
+                                      value &&
+                                        basicForm.setValue('city', [...value]);
                                   }}
                                   onInputChange={(value) =>
                                     handleCitySearch(value)
@@ -824,7 +826,11 @@ export default function SettingPage() {
                                     ) {
                                       setRequestType('category');
                                       setOpenModal(true);
-                                    } else field.onChange();
+                                    } else
+                                      value &&
+                                        basicForm.setValue('category', [
+                                          ...value,
+                                        ]);
                                   }}
                                   classNames={{
                                     input: () =>
@@ -856,9 +862,7 @@ export default function SettingPage() {
                                   noOptionsMessage={() => t('no_options')}
                                   options={hashtagOptions}
                                   value={field.value}
-                                  onChange={(value) => {
-                                    field.onChange(...value);
-                                  }}
+                                  onChange={field.onChange}
                                   onInputChange={handleHashtagSearch}
                                   classNames={{
                                     input: () =>

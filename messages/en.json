@@ -373,7 +373,17 @@
     "testominal3": "I am extremely happy with my decision to trade with PaxinTrade. Their platform offers a wide variety of options and the support team is always there to assist.",
     "testominal4": "I can't thank PaxinTrade enough for their exceptional services. Their platform is robust and secure, and the educational resources have helped me improve my trading skills significantly. Great job!",
     "testominal5": "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade!",
-    "testominal6": "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade!"
+    "testominal6": "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade!",
+    
+    "require_description":"Please input description",
+    "require_title":"Please input title",
+    "require_name":"Please input name",
+    "report_save_success":"New report is sent successfully.",
+    "report_fail_success":"There was an error while sending new report.",
+    "complaint_save_success":"New complaint is sent successfully.",
+    "complaint_fail_success":"There was an error while sending new complaint.",
+    "request_save_success":"Request for a new {type} is sent successfully.",
+    "request_fail_success":"There was an error while sending request for a new {type}."
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",
