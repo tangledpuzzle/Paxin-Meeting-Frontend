@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
-const subscribe = async ({ roomId }: { roomId: string }) => {
+const subscribe = async (roomId: string) => {
   try {
     const accessToken = await getAccessToken();
 

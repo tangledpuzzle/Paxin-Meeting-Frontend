@@ -13,6 +13,7 @@ import { usePathname } from '@/navigation';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import eventBus from '@/eventBus';
 import { PaxChatContext } from '@/context/chat-context';
+import ChatRoom from './chat-room';
 
 export default function ChatNavComponent() {
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -86,43 +87,7 @@ export default function ChatNavComponent() {
                 {chatRooms.length > 0 ? (
                   chatRooms
                     .filter((room) => room.user.name.includes(keyword))
-                    .map((room) => (
-                      <Link
-                        onClick={() => setShowNav(!showNav)}
-                        key={room.id}
-                        href='/profile/chat/[id]'
-                        as={`/profile/chat/${room.id}`}
-                        className={cn(
-                          'flex w-full items-center gap-x-2 px-5 py-2 transition-colors duration-200 hover:bg-card-gradient-menu focus:outline-none',
-                          {
-                            'bg-card-gradient-menu':
-                              pathname.split('chat/')[1] === room.id,
-                          }
-                        )}
-                      >
-                        <div className='relative size-8 min-w-8'>
-                          <Image
-                            className='size-8 rounded-full'
-                            fill
-                            style={{ objectFit: 'cover' }}
-                            src={room.user.avatar}
-                            alt={room.user.name}
-                          />
-                          {room.user.online && (
-                            <span className='absolute bottom-0 right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-1 ring-white'></span>
-                          )}
-                        </div>
-
-                        <div className='text-left rtl:text-right'>
-                          <p className='text-sm font-medium capitalize text-gray-700 dark:text-white'>
-                            {room.user.name}
-                          </p>
-                          <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
-                            {room.lastMessage.message}
-                          </p>
-                        </div>
-                      </Link>
-                    ))
+                    .map((room) => <ChatRoom key={room.id} room={room} />)
                 ) : (
                   <>
                     <ChatListSkeleton />

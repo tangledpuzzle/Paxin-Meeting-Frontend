@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
 export interface ChatRoom {
   id: string;
@@ -32,17 +32,17 @@ export interface ChatMessage {
 
 export interface ChatContent {
   chatRooms: ChatRoom[];
-  setChatRooms: (chatRooms: ChatRoom[]) => void;
+  setChatRooms: Dispatch<SetStateAction<ChatRoom[]>>;
   activeRoom: string;
-  setActiveRoom: (activeRoom: string) => void;
+  setActiveRoom: Dispatch<SetStateAction<string>>;
   activeRoomSubscribed: boolean;
-  setActiveRoomSubscribed: (activeRoomSubscribed: boolean) => void;
+  setActiveRoomSubscribed: Dispatch<SetStateAction<boolean>>;
   messages: ChatMessage[];
-  setMessages: (messages: ChatMessage[]) => void;
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
   isMessageLoading: boolean;
-  setIsMessageLoading: (isMessageLoading: boolean) => void;
+  setIsMessageLoading: Dispatch<SetStateAction<boolean>>;
   isRoomLoading: boolean;
-  setIsRoomLoading: (isRoomLoading: boolean) => void;
+  setIsRoomLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export const PaxChatContext = createContext<ChatContent>({

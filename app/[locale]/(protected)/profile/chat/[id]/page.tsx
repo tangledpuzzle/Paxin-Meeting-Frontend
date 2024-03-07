@@ -185,13 +185,17 @@ export default function ChatDetailPage({
 
   const handleSubscribe = async (roomId: string) => {
     try {
-      const res = await subscribe({ roomId });
+      const res = await subscribe(roomId);
 
       if (res?.status === 'success') {
-        // const _chatRooms = chatRooms;
-        // const index = _chatRooms.findIndex((room) => room.id === roomId);
-        // _chatRooms[index].subscribed = true;
-        // setChatRooms(_chatRooms);
+        setChatRooms((chatRooms) => {
+          const index = chatRooms.findIndex((room) => room.id === roomId);
+          chatRooms[index].subscribed = true;
+
+          return chatRooms;
+        });
+
+        setActiveRoomSubscribed(true);
       }
     } catch (error) {}
   };

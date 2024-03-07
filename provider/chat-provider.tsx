@@ -27,6 +27,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
 
   const onPublication = (publication: any) => {
+    console.log(publication);
     if (publication.type === 'new_message') {
       setMessages((messages) => {
         const index = messages.findIndex(
@@ -152,6 +153,18 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
         return chatRooms;
       });
+    } else if (publication.type === 'unsubscribe_room') {
+      setChatRooms((chatRooms) => {
+        const index = chatRooms.findIndex(
+          (room) => room.id === `${publication.body.id}`
+        );
+
+        if (index > -1) {
+          chatRooms[index].subscribed = false;
+        }
+
+        return chatRooms;
+      });
     }
   };
 
@@ -207,6 +220,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }, [activeRoom]);
 
   useEffect(() => {
+    console.log('SDF', activeRoom, chatRooms);
     chatRooms.forEach((room) => {
       if (room.id === activeRoom) {
         setActiveRoomSubscribed(room.subscribed);
