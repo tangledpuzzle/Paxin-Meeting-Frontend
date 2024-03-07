@@ -98,8 +98,8 @@ export default function ProfileSection() {
   return (
     <div className='w-full'>
       {maxPage > 1 && (
-        <div className='sticky bottom-0 left-3 top-[calc(100dvh_-_2.8rem)] z-20 flex h-[35px] justify-start gap-1 md:top-[calc(20dvh_-_4.6rem)]'>
-          <Button
+        <div className='flex  gap-1 z-20 w-[100px]  fixed md:sticky bottom-0 h-[35px] top-[calc(100vh_-_3rem)] md:top-[110px] md:right-[50px] !left-4 md:left-[calc(100%_-_10rem)] md:-mt-[93px]'>
+        <Button
             aria-disabled={Number(searchParams.get('page') || 1) === 1}
             className='w-[25px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 md:w-[55px]'
             asChild
