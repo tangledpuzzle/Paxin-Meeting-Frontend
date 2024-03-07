@@ -98,7 +98,7 @@ export default function ProfileSection() {
   return (
     <div className='w-full'>
       {maxPage > 1 && (
-        <div className='fixed bottom-0 left-3 top-[calc(100dvh_-_2.8rem)]  z-20 flex h-[35px] justify-start gap-1 md:top-[calc(100dvh_-_4rem)]'>
+        <div className='sticky bottom-0 left-3 top-[calc(100dvh_-_2.8rem)] z-20 flex h-[35px] justify-start gap-1 md:top-[calc(20dvh_-_4.6rem)]'>
           <Button
             aria-disabled={Number(searchParams.get('page') || 1) === 1}
             className='w-[25px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 md:w-[55px]'
@@ -121,7 +121,7 @@ export default function ProfileSection() {
           </Button>
         </div>
       )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
         {!error ? (
           !isLoading && profileData ? (
             profileData?.length > 0 ? (
