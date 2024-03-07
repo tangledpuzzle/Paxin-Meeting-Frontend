@@ -42,12 +42,12 @@ export function CTASection() {
   }, [viewMode]);
 
   return (
-    <div className='container fixed bottom-0 top-[calc(100dvh_-_6.2rem)] z-20 mx-auto flex h-[100px] w-full flex-col-reverse items-center justify-start gap-2 bg-gray-100  pb-[10px] pl-[25px] pr-[25px] pt-[10px] dark:bg-black sm:flex-row sm:justify-between md:sticky md:top-[80px] md:pl-[10px] md:pr-[10px] '>
+    <div className='container fixed bottom-0 top-[calc(100dvh_-_6.2rem)] z-20 mx-auto flex h-[100px] w-full flex-col-reverse items-center justify-start gap-2 bg-gray-100  pb-[20px] pl-[10px] pr-[25px] pt-[10px] dark:bg-black sm:flex-row sm:justify-between md:sticky md:top-[80px] md:pl-[10px] md:pr-[10px] '>
       <ToggleGroup
         type='single'
         variant='outline'
         value={searchParams.get('mode') || 'flow'}
-        className='w-full gap-0 rounded-lg  pl-[60px] shadow-lg md:pl-[110px]'
+        className='w-full gap-0 rounded-lg  pl-[100px] shadow-lg md:pl-[110px]'
         onValueChange={(value: string) => {
           if (value) {
             router.push(`?mode=${value}`);
@@ -68,8 +68,8 @@ export function CTASection() {
         </ToggleGroupItem>
       </ToggleGroup>
 
-      <div className='flex w-full flex-row-reverse gap-3 sm:w-auto md:flex-row'>
-        <div className='relative md:w-[40rem]'>
+      <div className='flex w-full flex-row-reverse gap-3 sm:w-auto md:flex-row justify-between absolute md:static pt-2 md:pt-0 px-4 bg-black -top-[10px]'>
+        <div className='relative md:w-[15rem] lg:w-[30rem]'>
           <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
           <Input
             type='text'
