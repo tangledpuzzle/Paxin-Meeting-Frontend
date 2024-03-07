@@ -13,7 +13,7 @@ const GlowingButton: React.FC<GlowingButtonProps> = ({ buttonText }) => {
   return (
     <div>
       <div
-        className={`glowing-wrapper mt-0 glowing-wrapper-ligth`}
+        className={`glowing-wrapper mt-0 glowing-wrapper-ligth absolute`}
       >
         <div className='glowing-wrapper-animations'>
           <div className='glowing-wrapper-glow'></div>
