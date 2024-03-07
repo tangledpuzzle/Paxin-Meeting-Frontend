@@ -12,7 +12,7 @@ const GlowingButton: React.FC<GlowingButtonProps> = ({ buttonText }) => {
 
   return (
     <div>
-      <div className={`glowing-wrapper glowing-wrapper-ligth absolute mt-0`}>
+      <div className={`glowing-wrapper glowing-wrapper-ligth absolute mt-0 h-[30px]`}>
         <div className='glowing-wrapper-animations'>
           <div className='glowing-wrapper-glow'></div>
           <div className='glowing-wrapper-mask-wrapper'>
@@ -23,10 +23,9 @@ const GlowingButton: React.FC<GlowingButtonProps> = ({ buttonText }) => {
           <div className='glowing-wrapper-borders'></div>
         </div>
         <div className='glowing-wrapper-button w-inline-block'>
-          <div className='flex text-white md:pr-0'>
-            <IoFilterSharp />
-
-            {/* {buttonText} */}
+          <div className='flex text-white md:pr-0 relative -top-[5px]'>
+            <IoFilterSharp className='relative top-[2px]'/>
+            {buttonText}
           </div>
         </div>
       </div>
