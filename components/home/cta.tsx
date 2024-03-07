@@ -42,7 +42,7 @@ export function CTASection() {
   }, [viewMode]);
 
   return (
-    <div className='flex flex-col-reverse justify-start gap-2 pl-[25px] pr-[25px] sm:flex-row sm:justify-between items-center fixed z-20  dark:bg-black bg-gray-100 bottom-0 h-[100px] top-[calc(100dvh_-_6.2rem)] pt-[10px] pb-[10px] md:pl-[10px] md:pr-[10px] w-full left-0'>
+    <div className='container mx-auto flex flex-col-reverse justify-start gap-2 pl-[25px] pr-[25px] sm:flex-row sm:justify-between items-center fixed md:sticky z-20  dark:bg-black bg-gray-100 bottom-0 h-[100px] top-[calc(100dvh_-_6.2rem)] md:top-[80px] pt-[10px] pb-[10px] md:pl-[10px] md:pr-[10px] w-full '>
       <ToggleGroup
         type='single'
         variant='outline'
@@ -68,7 +68,7 @@ export function CTASection() {
         </ToggleGroupItem>
       </ToggleGroup>
 
-      <div className='flex w-full gap-3 sm:w-auto flex-row-reverse'>
+      <div className='flex w-full gap-3 sm:w-auto flex-row-reverse md:flex-row'>
         <div className='relative w-full sm:w-80'>
           <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
           <Input
