@@ -27,9 +27,6 @@ import {
   // clearToken,
 } from '@/store/slices/sessionSlice';
 import StartupJoinModal from './joinModal';
-import useLivekitConnect, {
-  LivekitInfo,
-} from '@/helpers/livekit/hooks/useLivekitConnect';
 import AudioNotification from './audioNotification';
 import useBodyPix from '../virtual-background/hooks/useBodyPix';
 import useKeyboardShortcuts from '@/helpers/hooks/useKeyboardShortcuts';
@@ -43,7 +40,6 @@ import {
   VerifyTokenReq,
   VerifyTokenRes,
 } from '@/helpers/proto/plugnmeet_common_api_pb';
-import { IConnectLivekit } from '@/helpers/livekit/types';
 import {
   clearAccessToken,
   getAccessToken,
@@ -105,7 +101,6 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     setRoomConnectionStatus,
     startLivekitConnection,
   } = useContext(RTCContext);
-  // const [currentConnection, setCurrentConnection] = useState<IConnectLivekit>();
   const waitForApproval = useAppSelector(waitingForApprovalSelector);
   const pathname = usePathname();
 
@@ -131,17 +126,10 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     const userId = `user-${randomPart}-${timestampHash}`;
     const userName = `User ${randomPart}`;
     const userEmail = `${randomPart}-${timestampHash}@test.me`;
-    console.log('Random UserId:', userId);
-    console.log('Random UserName:', userName);
-    console.log('Random UserEmail:', userEmail);
-
     setLoading(true);
     const token = await joinRoom(roomId, userId, userName);
     setLoading(false);
-
     if (token) {
-      // setAccessToken(token);
-      // setAccessTokenLocal(token);
       return token;
     } else return '';
   };
@@ -190,6 +178,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
       dispatch(addServerVersion(res.serverVersion ?? ''));
 
       // for livekit need to use generated token & host
+      console.log('MEET/setLivekitInfo', res.token);
       setLivekitInfo({
         livekit_host: res.livekitHost,
         token: res.token,
@@ -248,7 +237,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   useEffect(() => {
     if (accessTokenLoaded && accessTokenLocal) {
       let timeout: any;
-      if (!currentConnection) {
+      if (!currentConnection && roomConnectionStatus !== 'connected') {
         setRoomConnectionStatus('checking');
         timeout = setTimeout(() => {
           verifyToken();
@@ -309,11 +298,6 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     }
     //eslint-disable-next-line
   }, [roomConnectionStatus]);
-
-  useEffect(() => {
-    console.log('Meet rendered');
-    return () => console.log('Meet unmounted');
-  }, []);
 
   const renderMainApp = useCallback(() => {
     if (currentConnection) {

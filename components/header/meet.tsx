@@ -17,7 +17,7 @@ import {
 } from '@/helpers/livekit/types';
 
 interface IMainAreaProps {
-  currentConnection: IConnectLivekit;
+  currentConnection: IConnectLivekit | null;
 }
 
 const columnCameraWidthSelector = createSelector(
@@ -113,16 +113,19 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
   }, [dispatch]);
 
   useEffect(() => {
-    setIsActiveScreenShare(currentConnection.screenShareTracksMap.size > 0);
-    currentConnection.on(
-      CurrentConnectionEvents.ScreenShareStatus,
-      setIsActiveScreenShare
-    );
-    return () => {
-      currentConnection.off(
+    currentConnection &&
+      setIsActiveScreenShare(currentConnection.screenShareTracksMap.size > 0);
+    currentConnection &&
+      currentConnection.on(
         CurrentConnectionEvents.ScreenShareStatus,
         setIsActiveScreenShare
       );
+    return () => {
+      currentConnection &&
+        currentConnection.off(
+          CurrentConnectionEvents.ScreenShareStatus,
+          setIsActiveScreenShare
+        );
     };
   }, [currentConnection]);
 
@@ -243,14 +246,14 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
 
   return (
     <div className='inner flex h-[500px] w-[500px] justify-between rtl:flex-row-reverse'>
-      {/* {renderLeftPanel} */}
+      {renderLeftPanel}
 
       <div className='middle-area relative flex-auto'>
         <ActiveSpeakers />
         {renderMainComponentElms}
       </div>
 
-      {/* {renderRightPanel} */}
+      {renderRightPanel}
     </div>
   );
 }

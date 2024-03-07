@@ -1,6 +1,9 @@
+import { ReactElement } from 'react';
 import Draggable from 'react-draggable';
-
-const DraggableBox = () => {
+interface Props {
+  children: ReactElement;
+}
+const DraggableBox = ({ children }: Props) => {
   return (
     <Draggable
       axis='both'
@@ -12,7 +15,7 @@ const DraggableBox = () => {
     >
       <div className='absolute z-50 bg-slate-400'>
         <div className='handle'>Drag from here</div>
-        <div className=''>This readme is really dragging on...</div>
+        <div className=''>{children}</div>
       </div>
     </Draggable>
   );

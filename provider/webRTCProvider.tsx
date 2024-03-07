@@ -7,9 +7,9 @@ import { IConnectLivekit } from '@/helpers/livekit/types';
 import React, { ReactNode, useState } from 'react';
 import { createContext } from 'react';
 interface IRTCContext {
-  livekitInfo: LivekitInfo | undefined;
+  livekitInfo: LivekitInfo | null;
   setLivekitInfo: (e: LivekitInfo) => void;
-  currentConnection: IConnectLivekit;
+  currentConnection: IConnectLivekit | null;
   setCurrentConnection: (e: IConnectLivekit) => void;
   error: IErrorPageProps | undefined;
   setError: React.Dispatch<React.SetStateAction<IErrorPageProps | undefined>>;
@@ -21,11 +21,11 @@ interface IRTCContext {
   ): IConnectLivekit;
 }
 export const RTCContext = createContext<IRTCContext>({
-  livekitInfo: undefined,
+  livekitInfo: null,
   setLivekitInfo: function (e: LivekitInfo): void {
     throw new Error('Function not implemented.');
   },
-  currentConnection: {} as IConnectLivekit,
+  currentConnection: null,
   setCurrentConnection: function (e: IConnectLivekit): void {
     throw new Error('Function not implemented.');
   },
@@ -52,8 +52,9 @@ type Props = {
   children: ReactNode;
 };
 export function RTCProvider({ children }: Props) {
-  const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
-  const [currentConnection, setCurrentConnection] = useState<IConnectLivekit>();
+  const [livekitInfo, setLivekitInfo] = useState<LivekitInfo | null>(null);
+  const [currentConnection, setCurrentConnection] =
+    useState<IConnectLivekit | null>(null);
   const {
     error,
     setError,

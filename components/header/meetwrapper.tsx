@@ -120,6 +120,7 @@ export default function SmallMeet() {
   );
 
   const verifyToken = async () => {
+    console.log('HEADER/VerifyToken');
     let res: VerifyTokenRes;
     try {
       const isProductionStr = process.env.NEXT_PUBLIC_IS_PRODUCTION;
@@ -178,20 +179,18 @@ export default function SmallMeet() {
     }
   };
 
-  // useEffect(() => {
-  //   const token = getAccessToken();
-  //   console.log('--->', token);
-
-  //   if (!token) {
-  //     setLoading(false);
-  //     setError({
-  //       title: t('app.token-missing-title'),
-  //       text: t('app.token-missing-des'),
-  //     });
-  //   } else {
-  //     setAccessTokenLocal(token || ''), setAccessTokenLoaded(true);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const token = getAccessToken();
+    if (!token) {
+      setLoading(false);
+      setError({
+        title: t('app.token-missing-title'),
+        text: t('app.token-missing-des'),
+      });
+    } else {
+      setAccessTokenLocal(token || ''), setAccessTokenLoaded(true);
+    }
+  }, []);
 
   // useEffect(() => {
   //   if (accessTokenLoaded && !accessTokenLocal) {
@@ -220,7 +219,7 @@ export default function SmallMeet() {
     if (accessTokenLoaded && accessTokenLocal) {
       let timeout: any;
 
-      if (!currentConnection) {
+      if (!currentConnection && roomConnectionStatus !== 'connected') {
         setRoomConnectionStatus('checking');
         timeout = setTimeout(() => {
           verifyToken();
@@ -281,6 +280,15 @@ export default function SmallMeet() {
     }
     //eslint-disable-next-line
   }, [roomConnectionStatus]);
+
+  useEffect(() => {
+    if (livekitInfo) {
+      // @ts-ignore
+      console.log('HEADER/StartLivConnection');
+      const currentConnection = startLivekitConnection(livekitInfo, t);
+      setCurrentConnection(currentConnection);
+    }
+  }, [livekitInfo]);
   console.log('CCC___.');
   return true ? (
     <>
@@ -294,7 +302,11 @@ export default function SmallMeet() {
       </button>
 
       {/* <Meet currentConnection={currentConnection} />; */}
-      {isActive && <DraggableBox />}
+      {isActive && (
+        <DraggableBox>
+          <Meet currentConnection={currentConnection} />
+        </DraggableBox>
+      )}
     </>
   ) : null;
 }
