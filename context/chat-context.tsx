@@ -2,7 +2,11 @@ import { createContext, useContext } from 'react';
 
 export interface ChatRoom {
   id: string;
-  lastMessage: string;
+  lastMessage: {
+    id: string;
+    message: string;
+    owner: string;
+  };
   user: {
     id: string;
     name: string;

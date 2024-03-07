@@ -69,6 +69,7 @@ export default function ChatDetailPage({
 
       if (res?.status === 'success') {
         setInputMessage('');
+        console.log(messages, '===');
         setMessages([
           ...messages,
           {
@@ -161,13 +162,13 @@ export default function ChatDetailPage({
       });
 
       if (res?.status === 'success') {
-        const index = messages.findIndex((msg) => msg.id === editMessageId);
+        // const index = messages.findIndex((msg) => msg.id === editMessageId);
 
-        const _messages = messages;
-        _messages[index].message = res.data.message.Content;
-        _messages[index].isEdited = true;
+        // const _messages = messages;
+        // _messages[index].message = res.data.message.Content;
+        // _messages[index].isEdited = true;
 
-        setMessages(_messages);
+        // setMessages(_messages);
 
         setIsEditing(false);
         setEditMessageId('');
@@ -187,11 +188,10 @@ export default function ChatDetailPage({
       const res = await subscribe({ roomId });
 
       if (res?.status === 'success') {
-        const _chatRooms = chatRooms;
-        const index = _chatRooms.findIndex((room) => room.id === roomId);
-        _chatRooms[index].subscribed = true;
-
-        setChatRooms(_chatRooms);
+        // const _chatRooms = chatRooms;
+        // const index = _chatRooms.findIndex((room) => room.id === roomId);
+        // _chatRooms[index].subscribed = true;
+        // setChatRooms(_chatRooms);
       }
     } catch (error) {}
   };

@@ -28,7 +28,11 @@ const getSubscribedRooms = async () => {
     for (const room of res.data) {
       const _room = {
         id: `${room.ID}`,
-        lastMessage: '',
+        lastMessage: {
+          id: room.LastMessage.ID,
+          message: room.LastMessage.Content,
+          owner: room.LastMessage.UserID,
+        },
         user: {
           id: '',
           name: '',
@@ -38,8 +42,6 @@ const getSubscribedRooms = async () => {
         subscribed: true,
         timestamp: room.LastMessage.CreatedAt,
       };
-
-      _room.lastMessage = room.LastMessage.Content;
 
       for (const member of room.Members) {
         if (member.UserID !== session?.user?.id) {

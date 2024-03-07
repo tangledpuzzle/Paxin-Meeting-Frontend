@@ -15,7 +15,7 @@ import {
   SubscriptionStateContext,
 } from 'centrifuge';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
@@ -27,118 +27,135 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
 
   const onPublication = (publication: any) => {
-    console.log(publication);
     if (publication.type === 'new_message') {
-      const index = messages.findIndex(
-        (msg) => msg.id === `${publication.body.id}`
-      );
+      setMessages((messages) => {
+        const index = messages.findIndex(
+          (msg) => msg.id === `${publication.body.id}`
+        );
 
-      index === -1 &&
-        setMessages((messages) => [
-          ...messages,
-          {
-            id: `${publication.body.id}` as string,
-            message: publication.body.content as string,
-            owner: {
-              id: publication.body.user_id as string,
-              name: publication.body.user.name,
-              avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.user.photo}`,
+        if (index === -1) {
+          return [
+            ...messages,
+            {
+              id: `${publication.body.id}` as string,
+              message: publication.body.content as string,
+              owner: {
+                id: publication.body.user_id as string,
+                name: publication.body.user.name,
+                avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.user.photo}`,
+              },
+              isDeleted: publication.body.is_deleted as boolean,
+              isEdited: publication.body.is_deleted as boolean,
+              timestamp: publication.body.created_at as string,
             },
-            isDeleted: publication.body.is_deleted as boolean,
-            isEdited: publication.body.is_deleted as boolean,
-            timestamp: publication.body.created_at as string,
-          },
-        ]);
+          ];
+        } else {
+          return messages;
+        }
+      });
+
+      setChatRooms((chatRooms) => {
+        chatRooms.forEach((room) => {
+          if (room.id === `${publication.body.room_id}`) {
+            room.lastMessage = {
+              id: `${publication.body.id}`,
+              message: publication.body.content,
+              owner: publication.body.user_id,
+            };
+            room.timestamp = publication.body.created_at;
+          }
+        });
+
+        chatRooms.sort((a, b) => {
+          return (
+            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          );
+        });
+
+        return chatRooms;
+      });
     } else if (publication.type === 'edit_message') {
-      const index = messages.findIndex(
-        (msg) => msg.id === `${publication.body.id}`
-      );
+      setMessages((messages) => {
+        const index = messages.findIndex(
+          (msg) => msg.id === `${publication.body.id}`
+        );
 
-      if (index > -1) {
-        const _messages = messages;
-        _messages[index].message = publication.body.content;
-        _messages[index].isEdited = true;
+        if (index > -1) {
+          messages[index].message = publication.body.content;
+          messages[index].isEdited = true;
+        }
 
-        setMessages(_messages);
-      }
+        return messages;
+      });
+
+      setChatRooms((chatRooms) => {
+        chatRooms.forEach((room) => {
+          if (room.lastMessage.id === `${publication.body.id}`) {
+            room.lastMessage.message = publication.body.content;
+          }
+        });
+
+        return chatRooms;
+      });
     } else if (publication.type === 'delete_message') {
-      const index = messages.findIndex(
-        (msg) => msg.id === `${publication.body.id}`
-      );
+      setMessages((messages) => {
+        const index = messages.findIndex(
+          (msg) => msg.id === `${publication.body.id}`
+        );
 
-      if (index > -1) {
-        const _messages = messages;
-        _messages[index].message = publication.body.content;
-        _messages[index].isDeleted = true;
+        if (index > -1) {
+          messages[index].message = publication.body.content;
+          messages[index].isDeleted = true;
+        }
 
-        setMessages(_messages);
-      }
+        return messages;
+      });
+
+      // setChatRooms((chatRooms) => {
+      //   chatRooms.forEach((room) => {
+      //     if (room.lastMessage.id === `${publication.body.id}`) {
+      //       room.lastMessage.message = publication.body.content;
+      //     }
+      //   });
+
+      //   return chatRooms;
+      // });
     } else if (publication.type === 'new_room') {
-      const _chatRooms = chatRooms;
-      const sender = publication.body.members.find(
-        (member: any) => member.user.id !== session?.user?.id
-      );
-      _chatRooms.push({
-        id: `${publication.body.id}`,
-        lastMessage: publication.body.last_message.content,
-        user: {
-          id: sender.user.id,
-          name: sender.user.name,
-          avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${sender.user.photo}`,
-          online: sender.user.online,
-        },
-        subscribed: false,
-        timestamp: publication.body.created_at,
+      setChatRooms((chatRooms) => {
+        const sender = publication.body.members.find(
+          (member: any) => member.user.id !== session?.user?.id
+        );
+        chatRooms.push({
+          id: `${publication.body.id}`,
+          lastMessage: publication.body.last_message.content,
+          user: {
+            id: sender.user.id,
+            name: sender.user.name,
+            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${sender.user.photo}`,
+            online: sender.user.online,
+          },
+          subscribed: false,
+          timestamp: publication.body.created_at,
+        });
+
+        return chatRooms;
       });
     } else if (publication.type === 'subscribe_room') {
-      const _chatRooms = chatRooms;
-      const index = _chatRooms.findIndex(
-        (room) => room.id === `${publication.body.id}`
-      );
+      setChatRooms((chatRooms) => {
+        const index = chatRooms.findIndex(
+          (room) => room.id === `${publication.body.id}`
+        );
 
-      if (index > -1) {
-        _chatRooms[index].subscribed = true;
+        if (index > -1) {
+          chatRooms[index].subscribed = true;
+        }
 
-        setChatRooms(_chatRooms);
-      }
+        return chatRooms;
+      });
     }
   };
 
-  const { centrifuge } = useCentrifuge(onPublication);
-
-  // const getRooms = (data: any, subscribed: boolean) => {
-  //   const _rooms: ChatRoom[] = [];
-
-  //   for (const room of data) {
-  //     const _room = {
-  //       id: `${room.ID}`,
-  //       lastMessage: '',
-  //       user: {
-  //         id: '',
-  //         name: '',
-  //         avatar: '',
-  //         online: false,
-  //       },
-  //       subscribed: subscribed,
-  //       timestamp: room.LastMessage.CreatedAt,
-  //     };
-
-  //     _room.lastMessage = room.LastMessage.Content;
-
-  //     for (const member of room.Members) {
-  //       if (member.UserID !== session?.user?.id) {
-  //         _room.user.id = member.UserID;
-  //         _room.user.name = member.User.Name;
-  //         _room.user.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
-  //         _room.user.online = member.User.online;
-  //       }
-  //     }
-
-  //     _rooms.push(_room);
-  //   }
-
-  //   return _rooms;
-  // };
+  useCentrifuge(onPublication);
 
   const getRooms = async () => {
     try {
@@ -198,54 +215,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }, [chatRooms, activeRoom]);
 
   // useEffect(() => {
-  //   if (!session?.user?.id) return;
+  //   if (!sub.current) return;
 
-  //   const personalChannel = `personal:${session.user.id}`;
-
-  //   const getPersonalChannelSubscriptionToken = async () => {
-  //     return getSubscriptionToken(personalChannel);
-  //   };
-
-  //   const centrifuge = new Centrifuge(
-  //     `wss://${process.env.NEXT_PUBLIC_SOCKET_URL}/connection/websocket` || '',
-  //     {
-  //       getToken: getConnectionToken,
-  //       debug: true,
-  //     }
-  //   );
-
-  //   console.log('new Centrifuge');
-
-  //   const sub = centrifuge.newSubscription(personalChannel, {
-  //     getToken: getPersonalChannelSubscriptionToken,
+  //   sub.current.on('publication', (ctx: PublicationContext) => {
+  //     onPublication(ctx.data);
   //   });
-
-  //   sub
-  //     .on('publication', (ctx: PublicationContext) => {
-  //       onPublication(ctx.data);
-  //     })
-  //     .on('subscribed', (ctx: SubscribedContext) => {
-  //       if (ctx.wasRecovering && !ctx.recovered) {
-  //         setUnrecoverableError('State LOST - please reload the page');
-  //       }
-  //     });
-
-  //   sub.on('state', (ctx: SubscriptionStateContext) => {
-  //     if (ctx.newState == SubscriptionState.Subscribed) {
-  //       setRealTimeStatus('🟢');
-  //     } else {
-  //       setRealTimeStatus('🔴');
-  //     }
-  //   });
-
-  //   sub.subscribe();
-  //   centrifuge.connect();
-
-  //   return () => {
-  //     console.log('disconnect Centrifuge');
-  //     centrifuge.disconnect();
-  //   };
-  // }, [session]);
+  // }, [sub.current]);
 
   return (
     <PaxChatContext.Provider

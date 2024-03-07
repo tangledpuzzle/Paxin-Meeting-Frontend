@@ -30,7 +30,7 @@ export default function AlarmNav() {
     }
   };
 
-  const { centrifuge } = useCentrifuge(onPublication);
+  useCentrifuge(onPublication);
 
   const getRoomCount = async () => {
     try {

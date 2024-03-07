@@ -14,24 +14,6 @@ import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import eventBus from '@/eventBus';
 import { PaxChatContext } from '@/context/chat-context';
 
-interface RoomListData {
-  id: string;
-  lastMessage: {
-    id: string;
-    message: string;
-    time: string;
-    user: string;
-  };
-  user: {
-    id: string;
-    name: string;
-    avatar: string;
-    followers: number;
-    online: boolean;
-  };
-  time: string;
-}
-
 export default function ChatNavComponent() {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -39,75 +21,12 @@ export default function ChatNavComponent() {
     'MESSAGE_LIST'
   );
   const [showNav, setShowNav] = useState(true);
-  const { chatRooms, setChatRooms } = useContext(PaxChatContext);
+  const { chatRooms } = useContext(PaxChatContext);
   const [keyword, setKeyword] = useState<string>('');
-
-  const { user } = useContext(PaxContext);
 
   eventBus.on('startChat', () => {
     setShowNav(!showNav);
   });
-
-  // const getRooms = (data: any) => {
-  //   const _rooms: RoomListData[] = [];
-
-  //   for (const room of data) {
-  //     const _room = {
-  //       id: `${room.ID}`,
-  //       lastMessage: {
-  //         id: '',
-  //         message: '',
-  //         time: '',
-  //         user: '',
-  //       },
-  //       user: {
-  //         id: '',
-  //         name: '',
-  //         avatar: '',
-  //         followers: 0,
-  //         online: false,
-  //       },
-  //       time: room.CreatedAt,
-  //     };
-
-  //     _room.lastMessage.id = `${room.LastMessage.ID}`;
-  //     _room.lastMessage.message = room.LastMessage.Content;
-  //     _room.lastMessage.time = room.LastMessage.CreatedAt;
-  //     _room.lastMessage.user = room.LastMessage.UserID;
-
-  //     for (const member of room.Members) {
-  //       if (member.UserID !== user?.id) {
-  //         _room.user.id = member.UserID;
-  //         _room.user.name = member.User.Name;
-  //         _room.user.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
-  //         _room.user.followers = member.User.TotalFollowers;
-  //         _room.user.online = member.User.online;
-  //       }
-  //     }
-
-  //     _rooms.push(_room);
-  //   }
-
-  //   return _rooms;
-  // };
-
-  // useEffect(() => {
-  //   getSubscribedRooms().then((res) => {
-  //     const roomList: RoomListData[] = getRooms(res.data);
-
-  //     getUnsubscribedNewRooms().then((res) => {
-  //       const _rooms: RoomListData[] = [...roomList, ...getRooms(res.data)];
-
-  //       _rooms.sort(
-  //         (a, b) =>
-  //           new Date(b.lastMessage.time).getTime() -
-  //           new Date(a.lastMessage.time).getTime()
-  //       );
-
-  //       setRoomList(_rooms);
-  //     });
-  //   });
-  // }, [user]);
 
   return (
     <div
@@ -199,7 +118,7 @@ export default function ChatNavComponent() {
                             {room.user.name}
                           </p>
                           <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
-                            {room.lastMessage}
+                            {room.lastMessage.message}
                           </p>
                         </div>
                       </Link>

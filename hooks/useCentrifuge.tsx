@@ -13,7 +13,7 @@ import {
 import getSubscriptionToken from '@/lib/server/chat/getSubscriptionToken';
 import getConnectionToken from '@/lib/server/chat/getConnectionToken';
 
-function useCentrifuge(onPublication: (publication: any) => void) {
+function useCentrifuge(onPublication: (data: any) => void) {
   const [unrecoverableError, setUnrecoverableError] = useState('');
   const [realTimeStatus, setRealTimeStatus] = useState('🔴');
   const { data: session } = useSession();
@@ -70,7 +70,7 @@ function useCentrifuge(onPublication: (publication: any) => void) {
     };
   }, [session]);
 
-  return { centrifuge };
+  return { centrifuge, sub };
 }
 
 export default useCentrifuge;
