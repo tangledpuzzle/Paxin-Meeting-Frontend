@@ -98,7 +98,7 @@ export default function ProfileSection() {
   return (
     <div className='w-full space-y-6'>
       {maxPage > 1 && (
-        <div className='flex w-full justify-start gap-2'>
+        <div className='flex justify-start gap-2 absolute top-[108px] md:top-[123px] '>
           <Button
             aria-disabled={Number(searchParams.get('page') || 1) === 1}
             className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60'
