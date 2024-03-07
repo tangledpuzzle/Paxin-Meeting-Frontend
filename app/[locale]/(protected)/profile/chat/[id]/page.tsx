@@ -225,17 +225,7 @@ export default function ChatDetailPage({
         }}
         loading={false}
       />
-      {activeRoom && !activeRoom.subscribed && (
-        <Button
-          variant='ghost'
-          onClick={() => {
-            handleSubscribe(id);
-          }}
-          className='w-full'
-        >
-          Accept Chat
-        </Button>
-      )}
+
       <ScrollArea
         ref={scrollAreaRef}
         className='h-[calc(100vh_-_11rem)] w-full rounded-lg bg-background p-4'
@@ -250,6 +240,18 @@ export default function ChatDetailPage({
         ))}
       </ScrollArea>
       <div className='chatInput'>
+        {activeRoom && !activeRoom.subscribed && (
+          <Button
+            variant='ghost'
+            onClick={() => {
+              handleSubscribe(id);
+            }}
+            className='w-full h-[100px]'
+          >
+            Accept Chat
+          </Button>
+        )}
+        {activeRoom && activeRoom.subscribed && (
         <div className='flex justify-between '>
           <DropdownMenuDemo />
           <textarea
@@ -281,6 +283,7 @@ export default function ChatDetailPage({
             </Button>
           )}
         </div>
+        )}
       </div>
     </div>
   );
