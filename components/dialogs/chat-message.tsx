@@ -59,7 +59,7 @@ export default function ChatMessage(props: ChatMessageProps) {
           src={props.owner.avatar}
           alt={props.owner.name}
         />
-        <div className='chat-msg-date'>Message seen 2.45pm</div>
+        {/* <div className='chat-msg-date'>Message seen 2.45pm</div> */}
       </div>
       <ContextMenu>
         <ContextMenuTrigger asChild>

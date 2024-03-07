@@ -169,6 +169,7 @@ export default function ChatNavComponent() {
                     .filter((room) => room.user.name.includes(keyword))
                     .map((room) => (
                       <Link
+                        onClick={() => setShowNav(!showNav)}
                         key={room.id}
                         href='/profile/chat/[id]'
                         as={`/profile/chat/${room.id}`}
