@@ -48,6 +48,10 @@ export default function ChatDetailPage({
     setChatRooms,
     activeRoom,
     setActiveRoom,
+    activeRoomSubscribed,
+    setActiveRoomSubscribed,
+    isMessageLoading,
+    isRoomLoading,
   } = useContext(PaxChatContext);
   const [inputMessage, setInputMessage] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -187,10 +191,6 @@ export default function ChatDetailPage({
         const index = _chatRooms.findIndex((room) => room.id === roomId);
         _chatRooms[index].subscribed = true;
 
-        if (activeRoom && activeRoom.id === roomId) {
-          setActiveRoom(_chatRooms[index]);
-        }
-
         setChatRooms(_chatRooms);
       }
     } catch (error) {}
@@ -206,11 +206,10 @@ export default function ChatDetailPage({
   };
 
   useEffect(() => {
-    const _activeRoom = chatRooms.find((room) => room.id === id) || null;
-    setActiveRoom(_activeRoom);
+    setActiveRoom(id);
   }, []);
 
-  return (
+  return !isMessageLoading && !isRoomLoading ? (
     <div>
       <ConfirmModal
         isOpen={isDeleting}
@@ -240,7 +239,7 @@ export default function ChatDetailPage({
         ))}
       </ScrollArea>
       <div className='chatInput'>
-        {activeRoom && !activeRoom.subscribed && (
+        {!activeRoomSubscribed && (
           <Button
             variant='ghost'
             onClick={() => {
@@ -251,8 +250,8 @@ export default function ChatDetailPage({
             Accept Chat
           </Button>
         )}
-        {activeRoom && activeRoom.subscribed && (
-          <div className='flex justify-between '>
+        {activeRoomSubscribed && (
+          <div className='flex justify-between'>
             <DropdownMenuDemo />
             <textarea
               ref={textareaRef}
@@ -286,5 +285,7 @@ export default function ChatDetailPage({
         )}
       </div>
     </div>
+  ) : (
+    <></>
   );
 }

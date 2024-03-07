@@ -1,29 +1,30 @@
 'use client';
 
 import { ChatMessage, ChatRoom, PaxChatContext } from '@/context/chat-context';
+import useCentrifuge from '@/hooks/useCentrifuge';
+import getAllMessages from '@/lib/server/chat/getAllMessages';
 import getConnectionToken from '@/lib/server/chat/getConnectionToken';
-import { useContext, useEffect, useState } from 'react';
+import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
+import getSubscriptionToken from '@/lib/server/chat/getSubscriptionToken';
+import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import {
   Centrifuge,
   PublicationContext,
-  SubscriptionStateContext,
   SubscribedContext,
   SubscriptionState,
+  SubscriptionStateContext,
 } from 'centrifuge';
-import { PaxContext } from '@/context/context';
-import getSubscriptionToken from '@/lib/server/chat/getSubscriptionToken';
-import getAllMessages from '@/lib/server/chat/getAllMessages';
-import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
-import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const { user } = useContext(PaxContext);
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
-  const [activeRoom, setActiveRoom] = useState<ChatRoom | null>(null);
+  const [activeRoom, setActiveRoom] = useState<string>('');
+  const [activeRoomSubscribed, setActiveRoomSubscribed] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-
-  const [unrecoverableError, setUnrecoverableError] = useState('');
-  const [realTimeStatus, setRealTimeStatus] = useState('🔴');
+  const [isMessageLoading, setIsMessageLoading] = useState(true);
+  const [isRoomLoading, setIsRoomLoading] = useState(true);
+  const { data: session } = useSession();
 
   const onPublication = (publication: any) => {
     console.log(publication);
@@ -53,25 +54,29 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         (msg) => msg.id === `${publication.body.id}`
       );
 
-      const _messages = messages;
-      _messages[index].message = publication.body.content;
-      _messages[index].isEdited = true;
+      if (index > -1) {
+        const _messages = messages;
+        _messages[index].message = publication.body.content;
+        _messages[index].isEdited = true;
 
-      setMessages(_messages);
+        setMessages(_messages);
+      }
     } else if (publication.type === 'delete_message') {
       const index = messages.findIndex(
         (msg) => msg.id === `${publication.body.id}`
       );
 
-      const _messages = messages;
-      _messages[index].message = publication.body.content;
-      _messages[index].isDeleted = true;
+      if (index > -1) {
+        const _messages = messages;
+        _messages[index].message = publication.body.content;
+        _messages[index].isDeleted = true;
 
-      setMessages(_messages);
+        setMessages(_messages);
+      }
     } else if (publication.type === 'new_room') {
       const _chatRooms = chatRooms;
       const sender = publication.body.members.find(
-        (member: any) => member.user.id !== user?.id
+        (member: any) => member.user.id !== session?.user?.id
       );
       _chatRooms.push({
         id: `${publication.body.id}`,
@@ -90,154 +95,157 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       const index = _chatRooms.findIndex(
         (room) => room.id === `${publication.body.id}`
       );
-      _chatRooms[index].subscribed = true;
 
-      if (activeRoom && activeRoom.id === `${publication.body.id}`) {
-        setActiveRoom(_chatRooms[index]);
+      if (index > -1) {
+        _chatRooms[index].subscribed = true;
+
+        setChatRooms(_chatRooms);
       }
-
-      setChatRooms(_chatRooms);
     }
   };
 
-  const getRooms = (data: any, subscribed: boolean) => {
-    const _rooms: ChatRoom[] = [];
+  const { centrifuge } = useCentrifuge(onPublication);
 
-    for (const room of data) {
-      const _room = {
-        id: `${room.ID}`,
-        lastMessage: '',
-        user: {
-          id: '',
-          name: '',
-          avatar: '',
-          online: false,
-        },
-        subscribed: subscribed,
-        timestamp: room.LastMessage.CreatedAt,
-      };
+  // const getRooms = (data: any, subscribed: boolean) => {
+  //   const _rooms: ChatRoom[] = [];
 
-      _room.lastMessage = room.LastMessage.Content;
+  //   for (const room of data) {
+  //     const _room = {
+  //       id: `${room.ID}`,
+  //       lastMessage: '',
+  //       user: {
+  //         id: '',
+  //         name: '',
+  //         avatar: '',
+  //         online: false,
+  //       },
+  //       subscribed: subscribed,
+  //       timestamp: room.LastMessage.CreatedAt,
+  //     };
 
-      for (const member of room.Members) {
-        if (member.UserID !== user?.id) {
-          _room.user.id = member.UserID;
-          _room.user.name = member.User.Name;
-          _room.user.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
-          _room.user.online = member.User.online;
-        }
-      }
+  //     _room.lastMessage = room.LastMessage.Content;
 
-      _rooms.push(_room);
+  //     for (const member of room.Members) {
+  //       if (member.UserID !== session?.user?.id) {
+  //         _room.user.id = member.UserID;
+  //         _room.user.name = member.User.Name;
+  //         _room.user.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
+  //         _room.user.online = member.User.online;
+  //       }
+  //     }
+
+  //     _rooms.push(_room);
+  //   }
+
+  //   return _rooms;
+  // };
+
+  const getRooms = async () => {
+    try {
+      const subscribedRooms = await getSubscribedRooms();
+      const unSubscribedRooms = await getUnsubscribedNewRooms();
+
+      const _rooms = [...subscribedRooms, ...unSubscribedRooms];
+
+      _rooms.sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+      );
+
+      return _rooms;
+    } catch (error) {
+      console.log(error);
+
+      return [];
     }
-
-    return _rooms;
   };
 
   useEffect(() => {
-    getConnectionToken().then((token: string) => {
-      console.log(token);
-    });
+    setIsRoomLoading(true);
 
-    getSubscribedRooms().then((res) => {
-      const roomList: ChatRoom[] = getRooms(res.data, true);
-
-      getUnsubscribedNewRooms().then((res) => {
-        const _rooms: ChatRoom[] = [...roomList, ...getRooms(res.data, false)];
-
-        _rooms.sort(
-          (a, b) =>
-            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-        );
-
-        setChatRooms(_rooms);
+    getRooms()
+      .then((res) => {
+        setChatRooms(res);
+        setIsRoomLoading(false);
+      })
+      .catch(() => {
+        setIsRoomLoading(false);
       });
-    });
-
-    console.log(user);
-  }, [user]);
+  }, []);
 
   useEffect(() => {
-    if (!user?.id) return;
     if (!activeRoom) return;
 
-    getAllMessages({ roomId: activeRoom.id }).then((res) => {
-      const _messages: ChatMessage[] = [];
+    setIsMessageLoading(true);
 
-      for (const item of res.data.messages) {
-        _messages.push({
-          id: `${item.ID}`,
-          message: item.Content,
-          owner: {
-            id: item.UserID,
-            name: item.User.Name,
-            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${item.User.Photo}`,
-          },
-          timestamp: item.CreatedAt,
-          isDeleted: item.IsDeleted,
-          isEdited: item.IsEdited,
-        });
-      }
+    getAllMessages(activeRoom)
+      .then((res) => {
+        setMessages(res);
 
-      _messages.sort((a, b) => {
-        return (
-          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-        );
+        setIsMessageLoading(false);
+      })
+      .catch(() => {
+        setIsMessageLoading(false);
       });
-
-      setMessages(_messages);
-    });
-  }, [activeRoom, user]);
+  }, [activeRoom]);
 
   useEffect(() => {
-    if (!user?.id) return;
-
-    const personalChannel = `personal:${user.id}`;
-
-    const getPersonalChannelSubscriptionToken = async () => {
-      return getSubscriptionToken(personalChannel);
-    };
-
-    const centrifuge = new Centrifuge(
-      `wss://${process.env.NEXT_PUBLIC_SOCKET_URL}/connection/websocket` || '',
-      {
-        getToken: getConnectionToken,
-        debug: true,
-      }
-    );
-
-    console.log('new Centrifuge');
-
-    const sub = centrifuge.newSubscription(personalChannel, {
-      getToken: getPersonalChannelSubscriptionToken,
-    });
-
-    sub
-      .on('publication', (ctx: PublicationContext) => {
-        onPublication(ctx.data);
-      })
-      .on('subscribed', (ctx: SubscribedContext) => {
-        if (ctx.wasRecovering && !ctx.recovered) {
-          setUnrecoverableError('State LOST - please reload the page');
-        }
-      });
-
-    sub.on('state', (ctx: SubscriptionStateContext) => {
-      if (ctx.newState == SubscriptionState.Subscribed) {
-        setRealTimeStatus('🟢');
-      } else {
-        setRealTimeStatus('🔴');
+    chatRooms.forEach((room) => {
+      if (room.id === activeRoom) {
+        setActiveRoomSubscribed(room.subscribed);
       }
     });
+  }, [chatRooms, activeRoom]);
 
-    sub.subscribe();
-    centrifuge.connect();
+  // useEffect(() => {
+  //   if (!session?.user?.id) return;
 
-    return () => {
-      console.log('disconnect Centrifuge');
-      centrifuge.disconnect();
-    };
-  }, [user]);
+  //   const personalChannel = `personal:${session.user.id}`;
+
+  //   const getPersonalChannelSubscriptionToken = async () => {
+  //     return getSubscriptionToken(personalChannel);
+  //   };
+
+  //   const centrifuge = new Centrifuge(
+  //     `wss://${process.env.NEXT_PUBLIC_SOCKET_URL}/connection/websocket` || '',
+  //     {
+  //       getToken: getConnectionToken,
+  //       debug: true,
+  //     }
+  //   );
+
+  //   console.log('new Centrifuge');
+
+  //   const sub = centrifuge.newSubscription(personalChannel, {
+  //     getToken: getPersonalChannelSubscriptionToken,
+  //   });
+
+  //   sub
+  //     .on('publication', (ctx: PublicationContext) => {
+  //       onPublication(ctx.data);
+  //     })
+  //     .on('subscribed', (ctx: SubscribedContext) => {
+  //       if (ctx.wasRecovering && !ctx.recovered) {
+  //         setUnrecoverableError('State LOST - please reload the page');
+  //       }
+  //     });
+
+  //   sub.on('state', (ctx: SubscriptionStateContext) => {
+  //     if (ctx.newState == SubscriptionState.Subscribed) {
+  //       setRealTimeStatus('🟢');
+  //     } else {
+  //       setRealTimeStatus('🔴');
+  //     }
+  //   });
+
+  //   sub.subscribe();
+  //   centrifuge.connect();
+
+  //   return () => {
+  //     console.log('disconnect Centrifuge');
+  //     centrifuge.disconnect();
+  //   };
+  // }, [session]);
 
   return (
     <PaxChatContext.Provider
@@ -246,8 +254,14 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         setChatRooms,
         activeRoom,
         setActiveRoom,
+        activeRoomSubscribed,
+        setActiveRoomSubscribed,
         messages,
         setMessages,
+        isMessageLoading,
+        setIsMessageLoading,
+        isRoomLoading,
+        setIsRoomLoading,
       }}
     >
       {children}

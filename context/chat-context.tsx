@@ -29,19 +29,31 @@ export interface ChatMessage {
 export interface ChatContent {
   chatRooms: ChatRoom[];
   setChatRooms: (chatRooms: ChatRoom[]) => void;
-  activeRoom: ChatRoom | null;
-  setActiveRoom: (activeRoom: ChatRoom | null) => void;
+  activeRoom: string;
+  setActiveRoom: (activeRoom: string) => void;
+  activeRoomSubscribed: boolean;
+  setActiveRoomSubscribed: (activeRoomSubscribed: boolean) => void;
   messages: ChatMessage[];
   setMessages: (messages: ChatMessage[]) => void;
+  isMessageLoading: boolean;
+  setIsMessageLoading: (isMessageLoading: boolean) => void;
+  isRoomLoading: boolean;
+  setIsRoomLoading: (isRoomLoading: boolean) => void;
 }
 
 export const PaxChatContext = createContext<ChatContent>({
   chatRooms: [],
   setChatRooms: () => {},
-  activeRoom: null,
+  activeRoom: '',
   setActiveRoom: () => {},
+  activeRoomSubscribed: false,
+  setActiveRoomSubscribed: () => {},
   messages: [],
   setMessages: () => {},
+  isMessageLoading: false,
+  setIsMessageLoading: () => {},
+  isRoomLoading: false,
+  setIsRoomLoading: () => {},
 });
 
 export const usePaxChatContext = () => useContext(PaxChatContext);
