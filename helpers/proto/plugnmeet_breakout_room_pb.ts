@@ -70,21 +70,21 @@ export class CreateBreakoutRoomsReq extends Message<CreateBreakoutRoomsReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): CreateBreakoutRoomsReq {
     return new CreateBreakoutRoomsReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreateBreakoutRoomsReq {
     return new CreateBreakoutRoomsReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreateBreakoutRoomsReq {
     return new CreateBreakoutRoomsReq().fromJsonString(jsonString, options);
   }
@@ -94,10 +94,7 @@ export class CreateBreakoutRoomsReq extends Message<CreateBreakoutRoomsReq> {
       | CreateBreakoutRoomsReq
       | PlainMessage<CreateBreakoutRoomsReq>
       | undefined,
-    b:
-      | CreateBreakoutRoomsReq
-      | PlainMessage<CreateBreakoutRoomsReq>
-      | undefined,
+    b: CreateBreakoutRoomsReq | PlainMessage<CreateBreakoutRoomsReq> | undefined
   ): boolean {
     return proto3.util.equals(CreateBreakoutRoomsReq, a, b);
   }
@@ -161,28 +158,28 @@ export class BreakoutRoom extends Message<BreakoutRoom> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): BreakoutRoom {
     return new BreakoutRoom().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): BreakoutRoom {
     return new BreakoutRoom().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): BreakoutRoom {
     return new BreakoutRoom().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: BreakoutRoom | PlainMessage<BreakoutRoom> | undefined,
-    b: BreakoutRoom | PlainMessage<BreakoutRoom> | undefined,
+    b: BreakoutRoom | PlainMessage<BreakoutRoom> | undefined
   ): boolean {
     return proto3.util.equals(BreakoutRoom, a, b);
   }
@@ -222,28 +219,28 @@ export class BreakoutRoomUser extends Message<BreakoutRoomUser> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): BreakoutRoomUser {
     return new BreakoutRoomUser().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): BreakoutRoomUser {
     return new BreakoutRoomUser().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): BreakoutRoomUser {
     return new BreakoutRoomUser().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: BreakoutRoomUser | PlainMessage<BreakoutRoomUser> | undefined,
-    b: BreakoutRoomUser | PlainMessage<BreakoutRoomUser> | undefined,
+    b: BreakoutRoomUser | PlainMessage<BreakoutRoomUser> | undefined
   ): boolean {
     return proto3.util.equals(BreakoutRoomUser, a, b);
   }
@@ -288,25 +285,25 @@ export class IncreaseBreakoutRoomDurationReq extends Message<IncreaseBreakoutRoo
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): IncreaseBreakoutRoomDurationReq {
     return new IncreaseBreakoutRoomDurationReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): IncreaseBreakoutRoomDurationReq {
     return new IncreaseBreakoutRoomDurationReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): IncreaseBreakoutRoomDurationReq {
     return new IncreaseBreakoutRoomDurationReq().fromJsonString(
       jsonString,
-      options,
+      options
     );
   }
 
@@ -318,7 +315,7 @@ export class IncreaseBreakoutRoomDurationReq extends Message<IncreaseBreakoutRoo
     b:
       | IncreaseBreakoutRoomDurationReq
       | PlainMessage<IncreaseBreakoutRoomDurationReq>
-      | undefined,
+      | undefined
   ): boolean {
     return proto3.util.equals(IncreaseBreakoutRoomDurationReq, a, b);
   }
@@ -352,25 +349,25 @@ export class BroadcastBreakoutRoomMsgReq extends Message<BroadcastBreakoutRoomMs
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): BroadcastBreakoutRoomMsgReq {
     return new BroadcastBreakoutRoomMsgReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): BroadcastBreakoutRoomMsgReq {
     return new BroadcastBreakoutRoomMsgReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): BroadcastBreakoutRoomMsgReq {
     return new BroadcastBreakoutRoomMsgReq().fromJsonString(
       jsonString,
-      options,
+      options
     );
   }
 
@@ -382,7 +379,7 @@ export class BroadcastBreakoutRoomMsgReq extends Message<BroadcastBreakoutRoomMs
     b:
       | BroadcastBreakoutRoomMsgReq
       | PlainMessage<BroadcastBreakoutRoomMsgReq>
-      | undefined,
+      | undefined
   ): boolean {
     return proto3.util.equals(BroadcastBreakoutRoomMsgReq, a, b);
   }
@@ -433,28 +430,28 @@ export class JoinBreakoutRoomReq extends Message<JoinBreakoutRoomReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): JoinBreakoutRoomReq {
     return new JoinBreakoutRoomReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): JoinBreakoutRoomReq {
     return new JoinBreakoutRoomReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): JoinBreakoutRoomReq {
     return new JoinBreakoutRoomReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: JoinBreakoutRoomReq | PlainMessage<JoinBreakoutRoomReq> | undefined,
-    b: JoinBreakoutRoomReq | PlainMessage<JoinBreakoutRoomReq> | undefined,
+    b: JoinBreakoutRoomReq | PlainMessage<JoinBreakoutRoomReq> | undefined
   ): boolean {
     return proto3.util.equals(JoinBreakoutRoomReq, a, b);
   }
@@ -493,28 +490,28 @@ export class EndBreakoutRoomReq extends Message<EndBreakoutRoomReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): EndBreakoutRoomReq {
     return new EndBreakoutRoomReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): EndBreakoutRoomReq {
     return new EndBreakoutRoomReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): EndBreakoutRoomReq {
     return new EndBreakoutRoomReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: EndBreakoutRoomReq | PlainMessage<EndBreakoutRoomReq> | undefined,
-    b: EndBreakoutRoomReq | PlainMessage<EndBreakoutRoomReq> | undefined,
+    b: EndBreakoutRoomReq | PlainMessage<EndBreakoutRoomReq> | undefined
   ): boolean {
     return proto3.util.equals(EndBreakoutRoomReq, a, b);
   }
@@ -578,28 +575,28 @@ export class BreakoutRoomRes extends Message<BreakoutRoomRes> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): BreakoutRoomRes {
     return new BreakoutRoomRes().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): BreakoutRoomRes {
     return new BreakoutRoomRes().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): BreakoutRoomRes {
     return new BreakoutRoomRes().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: BreakoutRoomRes | PlainMessage<BreakoutRoomRes> | undefined,
-    b: BreakoutRoomRes | PlainMessage<BreakoutRoomRes> | undefined,
+    b: BreakoutRoomRes | PlainMessage<BreakoutRoomRes> | undefined
   ): boolean {
     return proto3.util.equals(BreakoutRoomRes, a, b);
   }

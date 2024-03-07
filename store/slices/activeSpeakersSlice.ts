@@ -23,7 +23,7 @@ const activeSpeakerAdapter = createEntityAdapter({
   },
 });
 export const activeSpeakersSelector = activeSpeakerAdapter.getSelectors(
-  (state: RootState) => state.activeSpeakers,
+  (state: RootState) => state.activeSpeakers
 );
 
 const activeSpeakersSlice = createSlice({

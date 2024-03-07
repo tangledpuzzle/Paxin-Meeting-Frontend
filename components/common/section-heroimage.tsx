@@ -7,11 +7,9 @@ import { useTranslations } from 'next-intl';
 // import Slideshow from '@/components/ui/slideshow';
 import dynamic from 'next/dynamic';
 
-
-const ChatSSRSkeleton = dynamic(
-  () => import('@/components/dialogs/flow'),
-  { ssr: true }
-);
+const ChatSSRSkeleton = dynamic(() => import('@/components/dialogs/flow'), {
+  ssr: true,
+});
 export interface SectionHeroImageProps
   extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -30,13 +28,13 @@ function SectionHeroImage({}: SectionHeroImageProps) {
   return (
     <div
       className={cn(
-        'relative mt-4 flex wwg w-full items-center justify-center px-7'
+        'wwg relative mt-4 flex w-full items-center justify-center px-7'
       )}
     >
       <motion.div
         initial='hidden'
         animate='visible'
-        className='flex w-full justify-center wwg2'
+        className='wwg2 flex w-full justify-center'
         variants={{
           hidden: {
             scale: 1,
@@ -59,13 +57,12 @@ function SectionHeroImage({}: SectionHeroImageProps) {
           <span></span>
         </div>
         <div className='wwg'></div>
-        <div className='absolute z-[-1] min-h-full w-full max-w-7xl h-[800px]' />
+        <div className='absolute z-[-1] h-[800px] min-h-full w-full max-w-7xl' />
         <ChatSSRSkeleton />
-        <div className='w-full dark:hidden h-[800px]'>
-
+        <div className='h-[800px] w-full dark:hidden'>
           {/* <Slideshow images={images} interval={interval} /> */}
         </div>
-        <div className='hidden w-full px-2 dark:block sm:px-16 h-[800px]'>
+        <div className='hidden h-[800px] w-full px-2 dark:block sm:px-16'>
           {/* <Image
             src='/images/home/hero-dark.avif'
             width={1440}
@@ -85,7 +82,6 @@ function SectionHeroImage({}: SectionHeroImageProps) {
       </motion.div>
 
       {/* <div className='absolute left-0 bottom-0 top-[94%]  h-1/6 w-full max-w-7xl bg-gradient-to-b from-transparent via-white to-white dark:via-background dark:to-background md:top-[80%] md:h-1/3'></div> */}
-
     </div>
   );
 }

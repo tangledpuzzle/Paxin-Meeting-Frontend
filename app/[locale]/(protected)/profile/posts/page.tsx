@@ -136,7 +136,7 @@ export default function MyPostsPage() {
   };
 
   return (
-    <div className='p-4 mb-[100px] md:mb-[0px]'>
+    <div className='mb-[100px] p-4 md:mb-[0px]'>
       <CTASection
         title={t('my_posts')}
         description={t('my_posts_description')}

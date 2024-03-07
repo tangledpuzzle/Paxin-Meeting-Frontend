@@ -31,7 +31,7 @@ export function ServicesSection() {
 
   return (
     <div className='flex flex-col items-start justify-center bg-muted/30 py-2'>
-      <div className='text-gradient px-7 mb-[16px] font-roboto font-bold sm:text-3xl sm:!leading-[2.5rem] md:text-4xl md:!leading-[3rem] xl:text-5xl xl:!leading-[4rem] mt-4 text-left  text-[2em] leading-[40px]'>
+      <div className='text-gradient mb-[16px] mt-4 px-7 text-left font-roboto text-[2em] font-bold leading-[40px] sm:text-3xl sm:!leading-[2.5rem] md:text-4xl md:!leading-[3rem]  xl:text-5xl xl:!leading-[4rem]'>
         {t('our_services')}
       </div>
       <div className='mt-4 grid w-full gap-x-4 gap-y-6 sm:grid-cols-2'>
@@ -46,7 +46,7 @@ export function ServicesSection() {
             <div className='my-2 text-lg font-semibold text-primary'>
               {t(service.title as keyof IntlMessages['main'])}
             </div>
-            <div className='max-w-full text-sm leading-[25.15px] text-muted-foreground sm:text-base px-0 text-left'>
+            <div className='max-w-full px-0 text-left text-sm leading-[25.15px] text-muted-foreground sm:text-base'>
               {t(service.description as keyof IntlMessages['main'])}
             </div>
           </div>

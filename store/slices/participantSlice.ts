@@ -8,7 +8,7 @@ const participantAdapter = createEntityAdapter({
     a.name.localeCompare(b.name),
 });
 export const participantsSelector = participantAdapter.getSelectors(
-  (state: RootState) => state.participants,
+  (state: RootState) => state.participants
 );
 
 const participantsSlice = createSlice({

@@ -55,7 +55,7 @@ proto3.util.setEnumType(
   [
     { no: 0, name: 'START_PLAYBACK' },
     { no: 1, name: 'END_PLAYBACK' },
-  ],
+  ]
 );
 
 /**
@@ -79,7 +79,7 @@ proto3.util.setEnumType(
   [
     { no: 0, name: 'START_EXTERNAL_LINK' },
     { no: 1, name: 'STOP_EXTERNAL_LINK' },
-  ],
+  ]
 );
 
 /**
@@ -110,28 +110,28 @@ export class CommonResponse extends Message<CommonResponse> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): CommonResponse {
     return new CommonResponse().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CommonResponse {
     return new CommonResponse().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CommonResponse {
     return new CommonResponse().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: CommonResponse | PlainMessage<CommonResponse> | undefined,
-    b: CommonResponse | PlainMessage<CommonResponse> | undefined,
+    b: CommonResponse | PlainMessage<CommonResponse> | undefined
   ): boolean {
     return proto3.util.equals(CommonResponse, a, b);
   }
@@ -165,28 +165,28 @@ export class VerifyTokenReq extends Message<VerifyTokenReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): VerifyTokenReq {
     return new VerifyTokenReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): VerifyTokenReq {
     return new VerifyTokenReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): VerifyTokenReq {
     return new VerifyTokenReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: VerifyTokenReq | PlainMessage<VerifyTokenReq> | undefined,
-    b: VerifyTokenReq | PlainMessage<VerifyTokenReq> | undefined,
+    b: VerifyTokenReq | PlainMessage<VerifyTokenReq> | undefined
   ): boolean {
     return proto3.util.equals(VerifyTokenReq, a, b);
   }
@@ -262,28 +262,28 @@ export class VerifyTokenRes extends Message<VerifyTokenRes> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): VerifyTokenRes {
     return new VerifyTokenRes().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): VerifyTokenRes {
     return new VerifyTokenRes().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): VerifyTokenRes {
     return new VerifyTokenRes().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: VerifyTokenRes | PlainMessage<VerifyTokenRes> | undefined,
-    b: VerifyTokenRes | PlainMessage<VerifyTokenRes> | undefined,
+    b: VerifyTokenRes | PlainMessage<VerifyTokenRes> | undefined
   ): boolean {
     return proto3.util.equals(VerifyTokenRes, a, b);
   }
@@ -346,28 +346,28 @@ export class MuteUnMuteTrackReq extends Message<MuteUnMuteTrackReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): MuteUnMuteTrackReq {
     return new MuteUnMuteTrackReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): MuteUnMuteTrackReq {
     return new MuteUnMuteTrackReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): MuteUnMuteTrackReq {
     return new MuteUnMuteTrackReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: MuteUnMuteTrackReq | PlainMessage<MuteUnMuteTrackReq> | undefined,
-    b: MuteUnMuteTrackReq | PlainMessage<MuteUnMuteTrackReq> | undefined,
+    b: MuteUnMuteTrackReq | PlainMessage<MuteUnMuteTrackReq> | undefined
   ): boolean {
     return proto3.util.equals(MuteUnMuteTrackReq, a, b);
   }
@@ -419,28 +419,28 @@ export class RemoveParticipantReq extends Message<RemoveParticipantReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): RemoveParticipantReq {
     return new RemoveParticipantReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): RemoveParticipantReq {
     return new RemoveParticipantReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): RemoveParticipantReq {
     return new RemoveParticipantReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: RemoveParticipantReq | PlainMessage<RemoveParticipantReq> | undefined,
-    b: RemoveParticipantReq | PlainMessage<RemoveParticipantReq> | undefined,
+    b: RemoveParticipantReq | PlainMessage<RemoveParticipantReq> | undefined
   ): boolean {
     return proto3.util.equals(RemoveParticipantReq, a, b);
   }
@@ -532,28 +532,28 @@ export class DataMessageReq extends Message<DataMessageReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): DataMessageReq {
     return new DataMessageReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): DataMessageReq {
     return new DataMessageReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): DataMessageReq {
     return new DataMessageReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: DataMessageReq | PlainMessage<DataMessageReq> | undefined,
-    b: DataMessageReq | PlainMessage<DataMessageReq> | undefined,
+    b: DataMessageReq | PlainMessage<DataMessageReq> | undefined
   ): boolean {
     return proto3.util.equals(DataMessageReq, a, b);
   }
@@ -581,28 +581,28 @@ export class RoomEndAPIReq extends Message<RoomEndAPIReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): RoomEndAPIReq {
     return new RoomEndAPIReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): RoomEndAPIReq {
     return new RoomEndAPIReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): RoomEndAPIReq {
     return new RoomEndAPIReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: RoomEndAPIReq | PlainMessage<RoomEndAPIReq> | undefined,
-    b: RoomEndAPIReq | PlainMessage<RoomEndAPIReq> | undefined,
+    b: RoomEndAPIReq | PlainMessage<RoomEndAPIReq> | undefined
   ): boolean {
     return proto3.util.equals(RoomEndAPIReq, a, b);
   }
@@ -654,28 +654,28 @@ export class ChangeVisibilityRes extends Message<ChangeVisibilityRes> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): ChangeVisibilityRes {
     return new ChangeVisibilityRes().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ChangeVisibilityRes {
     return new ChangeVisibilityRes().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ChangeVisibilityRes {
     return new ChangeVisibilityRes().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: ChangeVisibilityRes | PlainMessage<ChangeVisibilityRes> | undefined,
-    b: ChangeVisibilityRes | PlainMessage<ChangeVisibilityRes> | undefined,
+    b: ChangeVisibilityRes | PlainMessage<ChangeVisibilityRes> | undefined
   ): boolean {
     return proto3.util.equals(ChangeVisibilityRes, a, b);
   }
@@ -731,28 +731,28 @@ export class SwitchPresenterReq extends Message<SwitchPresenterReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): SwitchPresenterReq {
     return new SwitchPresenterReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): SwitchPresenterReq {
     return new SwitchPresenterReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): SwitchPresenterReq {
     return new SwitchPresenterReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: SwitchPresenterReq | PlainMessage<SwitchPresenterReq> | undefined,
-    b: SwitchPresenterReq | PlainMessage<SwitchPresenterReq> | undefined,
+    b: SwitchPresenterReq | PlainMessage<SwitchPresenterReq> | undefined
   ): boolean {
     return proto3.util.equals(SwitchPresenterReq, a, b);
   }
@@ -821,21 +821,21 @@ export class ExternalMediaPlayerReq extends Message<ExternalMediaPlayerReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): ExternalMediaPlayerReq {
     return new ExternalMediaPlayerReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ExternalMediaPlayerReq {
     return new ExternalMediaPlayerReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ExternalMediaPlayerReq {
     return new ExternalMediaPlayerReq().fromJsonString(jsonString, options);
   }
@@ -845,10 +845,7 @@ export class ExternalMediaPlayerReq extends Message<ExternalMediaPlayerReq> {
       | ExternalMediaPlayerReq
       | PlainMessage<ExternalMediaPlayerReq>
       | undefined,
-    b:
-      | ExternalMediaPlayerReq
-      | PlainMessage<ExternalMediaPlayerReq>
-      | undefined,
+    b: ExternalMediaPlayerReq | PlainMessage<ExternalMediaPlayerReq> | undefined
   ): boolean {
     return proto3.util.equals(ExternalMediaPlayerReq, a, b);
   }
@@ -905,21 +902,21 @@ export class ExternalDisplayLinkReq extends Message<ExternalDisplayLinkReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): ExternalDisplayLinkReq {
     return new ExternalDisplayLinkReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ExternalDisplayLinkReq {
     return new ExternalDisplayLinkReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ExternalDisplayLinkReq {
     return new ExternalDisplayLinkReq().fromJsonString(jsonString, options);
   }
@@ -929,10 +926,7 @@ export class ExternalDisplayLinkReq extends Message<ExternalDisplayLinkReq> {
       | ExternalDisplayLinkReq
       | PlainMessage<ExternalDisplayLinkReq>
       | undefined,
-    b:
-      | ExternalDisplayLinkReq
-      | PlainMessage<ExternalDisplayLinkReq>
-      | undefined,
+    b: ExternalDisplayLinkReq | PlainMessage<ExternalDisplayLinkReq> | undefined
   ): boolean {
     return proto3.util.equals(ExternalDisplayLinkReq, a, b);
   }
@@ -990,21 +984,21 @@ export class CreateEtherpadSessionRes extends Message<CreateEtherpadSessionRes> 
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): CreateEtherpadSessionRes {
     return new CreateEtherpadSessionRes().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreateEtherpadSessionRes {
     return new CreateEtherpadSessionRes().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreateEtherpadSessionRes {
     return new CreateEtherpadSessionRes().fromJsonString(jsonString, options);
   }
@@ -1017,7 +1011,7 @@ export class CreateEtherpadSessionRes extends Message<CreateEtherpadSessionRes> 
     b:
       | CreateEtherpadSessionRes
       | PlainMessage<CreateEtherpadSessionRes>
-      | undefined,
+      | undefined
   ): boolean {
     return proto3.util.equals(CreateEtherpadSessionRes, a, b);
   }
@@ -1057,28 +1051,28 @@ export class CleanEtherpadReq extends Message<CleanEtherpadReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): CleanEtherpadReq {
     return new CleanEtherpadReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CleanEtherpadReq {
     return new CleanEtherpadReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CleanEtherpadReq {
     return new CleanEtherpadReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: CleanEtherpadReq | PlainMessage<CleanEtherpadReq> | undefined,
-    b: CleanEtherpadReq | PlainMessage<CleanEtherpadReq> | undefined,
+    b: CleanEtherpadReq | PlainMessage<CleanEtherpadReq> | undefined
   ): boolean {
     return proto3.util.equals(CleanEtherpadReq, a, b);
   }
@@ -1112,21 +1106,21 @@ export class ChangeEtherpadStatusReq extends Message<ChangeEtherpadStatusReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): ChangeEtherpadStatusReq {
     return new ChangeEtherpadStatusReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ChangeEtherpadStatusReq {
     return new ChangeEtherpadStatusReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ChangeEtherpadStatusReq {
     return new ChangeEtherpadStatusReq().fromJsonString(jsonString, options);
   }
@@ -1139,7 +1133,7 @@ export class ChangeEtherpadStatusReq extends Message<ChangeEtherpadStatusReq> {
     b:
       | ChangeEtherpadStatusReq
       | PlainMessage<ChangeEtherpadStatusReq>
-      | undefined,
+      | undefined
   ): boolean {
     return proto3.util.equals(ChangeEtherpadStatusReq, a, b);
   }
@@ -1173,21 +1167,21 @@ export class ApproveWaitingUsersReq extends Message<ApproveWaitingUsersReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): ApproveWaitingUsersReq {
     return new ApproveWaitingUsersReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ApproveWaitingUsersReq {
     return new ApproveWaitingUsersReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ApproveWaitingUsersReq {
     return new ApproveWaitingUsersReq().fromJsonString(jsonString, options);
   }
@@ -1197,10 +1191,7 @@ export class ApproveWaitingUsersReq extends Message<ApproveWaitingUsersReq> {
       | ApproveWaitingUsersReq
       | PlainMessage<ApproveWaitingUsersReq>
       | undefined,
-    b:
-      | ApproveWaitingUsersReq
-      | PlainMessage<ApproveWaitingUsersReq>
-      | undefined,
+    b: ApproveWaitingUsersReq | PlainMessage<ApproveWaitingUsersReq> | undefined
   ): boolean {
     return proto3.util.equals(ApproveWaitingUsersReq, a, b);
   }
@@ -1234,25 +1225,25 @@ export class UpdateWaitingRoomMessageReq extends Message<UpdateWaitingRoomMessag
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): UpdateWaitingRoomMessageReq {
     return new UpdateWaitingRoomMessageReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): UpdateWaitingRoomMessageReq {
     return new UpdateWaitingRoomMessageReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): UpdateWaitingRoomMessageReq {
     return new UpdateWaitingRoomMessageReq().fromJsonString(
       jsonString,
-      options,
+      options
     );
   }
 
@@ -1264,7 +1255,7 @@ export class UpdateWaitingRoomMessageReq extends Message<UpdateWaitingRoomMessag
     b:
       | UpdateWaitingRoomMessageReq
       | PlainMessage<UpdateWaitingRoomMessageReq>
-      | undefined,
+      | undefined
   ): boolean {
     return proto3.util.equals(UpdateWaitingRoomMessageReq, a, b);
   }
@@ -1327,21 +1318,21 @@ export class UpdateUserLockSettingsReq extends Message<UpdateUserLockSettingsReq
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): UpdateUserLockSettingsReq {
     return new UpdateUserLockSettingsReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): UpdateUserLockSettingsReq {
     return new UpdateUserLockSettingsReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): UpdateUserLockSettingsReq {
     return new UpdateUserLockSettingsReq().fromJsonString(jsonString, options);
   }
@@ -1354,7 +1345,7 @@ export class UpdateUserLockSettingsReq extends Message<UpdateUserLockSettingsReq
     b:
       | UpdateUserLockSettingsReq
       | PlainMessage<UpdateUserLockSettingsReq>
-      | undefined,
+      | undefined
   ): boolean {
     return proto3.util.equals(UpdateUserLockSettingsReq, a, b);
   }

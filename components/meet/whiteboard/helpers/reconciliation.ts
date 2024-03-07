@@ -14,7 +14,7 @@ export type BroadcastedExcalidrawElement = ExcalidrawElement & {
 };
 
 export const arrayToMapWithIndex = <T extends { id: string }>(
-  elements: readonly T[],
+  elements: readonly T[]
 ) =>
   elements.reduce((acc, element: T, idx) => {
     acc.set(element.id, [element, idx]);
@@ -24,7 +24,7 @@ export const arrayToMapWithIndex = <T extends { id: string }>(
 const shouldDiscardRemoteElement = (
   localAppState: AppState,
   local: ExcalidrawElement | undefined,
-  remote: BroadcastedExcalidrawElement,
+  remote: BroadcastedExcalidrawElement
 ): boolean => {
   if (
     local &&
@@ -47,7 +47,7 @@ const shouldDiscardRemoteElement = (
 export const reconcileElements = (
   localElements: readonly ExcalidrawElement[],
   remoteElements: readonly BroadcastedExcalidrawElement[],
-  localAppState: AppState,
+  localAppState: AppState
 ): ReconciledElements => {
   const localElementsData =
     arrayToMapWithIndex<ExcalidrawElement>(localElements);
@@ -157,7 +157,7 @@ export const reconcileElements = (
   }
 
   const ret: readonly ExcalidrawElement[] = reconciledElements.filter(
-    (element) => !duplicates.has(element),
+    (element) => !duplicates.has(element)
   );
 
   return ret as ReconciledElements;

@@ -1,8 +1,12 @@
-import { createContext, useContext } from 'react';
+import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
 export interface ChatRoom {
   id: string;
-  lastMessage: string;
+  lastMessage: {
+    id: string;
+    message: string;
+    owner: string;
+  };
   user: {
     id: string;
     name: string;
@@ -28,20 +32,32 @@ export interface ChatMessage {
 
 export interface ChatContent {
   chatRooms: ChatRoom[];
-  setChatRooms: (chatRooms: ChatRoom[]) => void;
-  activeRoom: ChatRoom | null;
-  setActiveRoom: (activeRoom: ChatRoom | null) => void;
+  setChatRooms: Dispatch<SetStateAction<ChatRoom[]>>;
+  activeRoom: string;
+  setActiveRoom: Dispatch<SetStateAction<string>>;
+  activeRoomSubscribed: boolean;
+  setActiveRoomSubscribed: Dispatch<SetStateAction<boolean>>;
   messages: ChatMessage[];
-  setMessages: (messages: ChatMessage[]) => void;
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
+  isMessageLoading: boolean;
+  setIsMessageLoading: Dispatch<SetStateAction<boolean>>;
+  isRoomLoading: boolean;
+  setIsRoomLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export const PaxChatContext = createContext<ChatContent>({
   chatRooms: [],
   setChatRooms: () => {},
-  activeRoom: null,
+  activeRoom: '',
   setActiveRoom: () => {},
+  activeRoomSubscribed: false,
+  setActiveRoomSubscribed: () => {},
   messages: [],
   setMessages: () => {},
+  isMessageLoading: false,
+  setIsMessageLoading: () => {},
+  isRoomLoading: false,
+  setIsRoomLoading: () => {},
 });
 
 export const usePaxChatContext = () => useContext(PaxChatContext);

@@ -56,12 +56,11 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
     <div className='p-4'>
       <CTASection title={t('conference')} description='' icon={HiUserGroup} />
       <Separator className='my-4' />
-      <div className='flex md:h-[calc(100vh_-_15rem)] mb-[100px] md:mb-[0px] w-full flex-col rounded-xl bg-background p-4 h-[calc(100vh_-_13rem)]'>
-
+      <div className='mb-[100px] flex h-[calc(100vh_-_13rem)] w-full flex-col rounded-xl bg-background p-4 md:mb-[0px] md:h-[calc(100vh_-_15rem)]'>
         <div className='flex size-full flex-col justify-center'>
           <div className='mb-48 mt-auto space-y-4'>
             <div>
-              <div className='w-full text-center md:text-3xl text-2xl pt-8 font-semibold'>
+              <div className='w-full pt-8 text-center text-2xl font-semibold md:text-3xl'>
                 {t('premium')} <span className='text-primary'>PaxMeet</span>{' '}
                 {t('video_meeting')}
               </div>

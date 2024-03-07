@@ -175,7 +175,7 @@
     "services": "Servicios",
     "combination_of_services_in_one_platform": "Combinación de servicios en una plataforma",
     "combination_of_services_in_one_platform_description": "Nos presentamos como una combinación única de servicios populares como Instagram, LinkedIn, Zoom, WhatsApp y Facebook Marketplace.",
-  
+
     "instagram": "Transmitir, reunir grupos de trabajo y trabajar colectivamente, ingreso rápido a través del enlace",
     "instagram_description": "Transmite en línea, comparte espacio de trabajo y más.",
     "linkedin": "Encuentre nuevos contactos comerciales y realice correspondencia comercial en un solo lugar",
@@ -856,9 +856,25 @@
     }
   },
   "chatting": {
-    "failed_to_send_message": "Fallo al enviar el mensaje",
+    "failed_to_send_message": "No se pudo enviar el mensaje",
+    "failed_to_edit_message": "No se pudo editar el mensaje",
+    "failed_to_delete_message": "No se pudo borrar el mensaje",
     "not_subscribed_yet": "Este usuario aún no está suscrito a esta sala",
-    "message_required": "Mensaje requerido",
-    "message_to_username": "Mensaje para {username}"
+    "message_required": "Mensaje es requerido",
+    "message_to_username": "Mensaje para {username}",
+    "dialogs": "Diálogos",
+    "settings": "Configuraciones",
+    "search_by_name": "Buscar por nombre",
+    "accept_chat": "Aceptar Chat",
+    "leave_chat": "Salir del Chat",
+    "delete_message": "Borrar Mensaje",
+    "are_you_sure_delete_message": "¿Estás seguro que deseas borrar este mensaje?",
+    "message_deleted": "Este mensaje ha sido borrado",
+    "reply": "Responder",
+    "edit": "Editar",
+    "copy_message": "Copiar Mensaje",
+    "delete": "Borrar",
+    "message_copied": "Mensaje copiado al portapapeles",
+    "are_you_sure_leave_chat": "¿Estás seguro que deseas salir de este chat?"
   }
 }
