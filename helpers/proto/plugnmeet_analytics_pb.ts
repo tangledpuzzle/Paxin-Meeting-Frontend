@@ -431,28 +431,28 @@ export class AnalyticsDataMsg extends Message<AnalyticsDataMsg> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): AnalyticsDataMsg {
     return new AnalyticsDataMsg().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsDataMsg {
     return new AnalyticsDataMsg().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsDataMsg {
     return new AnalyticsDataMsg().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: AnalyticsDataMsg | PlainMessage<AnalyticsDataMsg> | undefined,
-    b: AnalyticsDataMsg | PlainMessage<AnalyticsDataMsg> | undefined,
+    b: AnalyticsDataMsg | PlainMessage<AnalyticsDataMsg> | undefined
   ): boolean {
     return proto3.util.equals(AnalyticsDataMsg, a, b);
   }
@@ -486,28 +486,28 @@ export class AnalyticsEventValue extends Message<AnalyticsEventValue> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): AnalyticsEventValue {
     return new AnalyticsEventValue().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsEventValue {
     return new AnalyticsEventValue().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsEventValue {
     return new AnalyticsEventValue().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: AnalyticsEventValue | PlainMessage<AnalyticsEventValue> | undefined,
-    b: AnalyticsEventValue | PlainMessage<AnalyticsEventValue> | undefined,
+    b: AnalyticsEventValue | PlainMessage<AnalyticsEventValue> | undefined
   ): boolean {
     return proto3.util.equals(AnalyticsEventValue, a, b);
   }
@@ -553,28 +553,28 @@ export class AnalyticsEventData extends Message<AnalyticsEventData> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): AnalyticsEventData {
     return new AnalyticsEventData().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsEventData {
     return new AnalyticsEventData().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsEventData {
     return new AnalyticsEventData().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: AnalyticsEventData | PlainMessage<AnalyticsEventData> | undefined,
-    b: AnalyticsEventData | PlainMessage<AnalyticsEventData> | undefined,
+    b: AnalyticsEventData | PlainMessage<AnalyticsEventData> | undefined
   ): boolean {
     return proto3.util.equals(AnalyticsEventData, a, b);
   }
@@ -665,28 +665,28 @@ export class AnalyticsRoomInfo extends Message<AnalyticsRoomInfo> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): AnalyticsRoomInfo {
     return new AnalyticsRoomInfo().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsRoomInfo {
     return new AnalyticsRoomInfo().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsRoomInfo {
     return new AnalyticsRoomInfo().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: AnalyticsRoomInfo | PlainMessage<AnalyticsRoomInfo> | undefined,
-    b: AnalyticsRoomInfo | PlainMessage<AnalyticsRoomInfo> | undefined,
+    b: AnalyticsRoomInfo | PlainMessage<AnalyticsRoomInfo> | undefined
   ): boolean {
     return proto3.util.equals(AnalyticsRoomInfo, a, b);
   }
@@ -750,28 +750,28 @@ export class AnalyticsUserInfo extends Message<AnalyticsUserInfo> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): AnalyticsUserInfo {
     return new AnalyticsUserInfo().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsUserInfo {
     return new AnalyticsUserInfo().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsUserInfo {
     return new AnalyticsUserInfo().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: AnalyticsUserInfo | PlainMessage<AnalyticsUserInfo> | undefined,
-    b: AnalyticsUserInfo | PlainMessage<AnalyticsUserInfo> | undefined,
+    b: AnalyticsUserInfo | PlainMessage<AnalyticsUserInfo> | undefined
   ): boolean {
     return proto3.util.equals(AnalyticsUserInfo, a, b);
   }
@@ -811,28 +811,28 @@ export class AnalyticsResult extends Message<AnalyticsResult> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): AnalyticsResult {
     return new AnalyticsResult().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsResult {
     return new AnalyticsResult().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsResult {
     return new AnalyticsResult().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: AnalyticsResult | PlainMessage<AnalyticsResult> | undefined,
-    b: AnalyticsResult | PlainMessage<AnalyticsResult> | undefined,
+    b: AnalyticsResult | PlainMessage<AnalyticsResult> | undefined
   ): boolean {
     return proto3.util.equals(AnalyticsResult, a, b);
   }
@@ -884,21 +884,21 @@ export class AnalyticsRedisUserInfo extends Message<AnalyticsRedisUserInfo> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): AnalyticsRedisUserInfo {
     return new AnalyticsRedisUserInfo().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsRedisUserInfo {
     return new AnalyticsRedisUserInfo().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): AnalyticsRedisUserInfo {
     return new AnalyticsRedisUserInfo().fromJsonString(jsonString, options);
   }
@@ -908,10 +908,7 @@ export class AnalyticsRedisUserInfo extends Message<AnalyticsRedisUserInfo> {
       | AnalyticsRedisUserInfo
       | PlainMessage<AnalyticsRedisUserInfo>
       | undefined,
-    b:
-      | AnalyticsRedisUserInfo
-      | PlainMessage<AnalyticsRedisUserInfo>
-      | undefined,
+    b: AnalyticsRedisUserInfo | PlainMessage<AnalyticsRedisUserInfo> | undefined
   ): boolean {
     return proto3.util.equals(AnalyticsRedisUserInfo, a, b);
   }

@@ -17,7 +17,7 @@ export function buildBackgroundBlurStage(
   positionBuffer: WebGLBuffer,
   texCoordBuffer: WebGLBuffer,
   personMaskTexture: WebGLTexture,
-  canvas: HTMLCanvasElement,
+  canvas: HTMLCanvasElement
 ): BackgroundBlurStage {
   const blurPass = buildBlurPass(
     gl,
@@ -25,7 +25,7 @@ export function buildBackgroundBlurStage(
     positionBuffer,
     texCoordBuffer,
     personMaskTexture,
-    canvas,
+    canvas
   );
   const blendPass = buildBlendPass(gl, positionBuffer, texCoordBuffer, canvas);
 
@@ -56,7 +56,7 @@ function buildBlurPass(
   positionBuffer: WebGLBuffer,
   texCoordBuffer: WebGLBuffer,
   personMaskTexture: WebGLTexture,
-  canvas: HTMLCanvasElement,
+  canvas: HTMLCanvasElement
 ) {
   const fragmentShaderSource = glsl`#version 300 es
 
@@ -104,14 +104,14 @@ function buildBlurPass(
   const fragmentShader = compileShader(
     gl,
     gl.FRAGMENT_SHADER,
-    fragmentShaderSource,
+    fragmentShaderSource
   );
   const program = createPiplelineStageProgram(
     gl,
     vertexShader,
     fragmentShader,
     positionBuffer,
-    texCoordBuffer,
+    texCoordBuffer
   );
   const inputFrameLocation = gl.getUniformLocation(program, 'u_inputFrame');
   const personMaskLocation = gl.getUniformLocation(program, 'u_personMask');
@@ -122,7 +122,7 @@ function buildBlurPass(
     outputWidth,
     outputHeight,
     gl.NEAREST,
-    gl.NEAREST,
+    gl.NEAREST
   );
   const texture2 = createTexture(
     gl,
@@ -130,7 +130,7 @@ function buildBlurPass(
     outputWidth,
     outputHeight,
     gl.NEAREST,
-    gl.NEAREST,
+    gl.NEAREST
   );
 
   const frameBuffer1 = gl.createFramebuffer();
@@ -140,7 +140,7 @@ function buildBlurPass(
     gl.COLOR_ATTACHMENT0,
     gl.TEXTURE_2D,
     texture1,
-    0,
+    0
   );
 
   const frameBuffer2 = gl.createFramebuffer();
@@ -150,7 +150,7 @@ function buildBlurPass(
     gl.COLOR_ATTACHMENT0,
     gl.TEXTURE_2D,
     texture2,
-    0,
+    0
   );
 
   gl.useProgram(program);
@@ -199,7 +199,7 @@ function buildBlendPass(
   gl: WebGL2RenderingContext,
   positionBuffer: WebGLBuffer,
   texCoordBuffer: WebGLBuffer,
-  canvas: HTMLCanvasElement,
+  canvas: HTMLCanvasElement
 ) {
   const vertexShaderSource = glsl`#version 300 es
 
@@ -243,20 +243,20 @@ function buildBlendPass(
   const fragmentShader = compileShader(
     gl,
     gl.FRAGMENT_SHADER,
-    fragmentShaderSource,
+    fragmentShaderSource
   );
   const program = createPiplelineStageProgram(
     gl,
     vertexShader,
     fragmentShader,
     positionBuffer,
-    texCoordBuffer,
+    texCoordBuffer
   );
   const inputFrameLocation = gl.getUniformLocation(program, 'u_inputFrame');
   const personMaskLocation = gl.getUniformLocation(program, 'u_personMask');
   const blurredInputFrame = gl.getUniformLocation(
     program,
-    'u_blurredInputFrame',
+    'u_blurredInputFrame'
   );
   const coverageLocation = gl.getUniformLocation(program, 'u_coverage');
 

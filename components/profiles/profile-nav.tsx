@@ -23,7 +23,7 @@ export function ProfileNav({ items, setOpen, hideSidebar }: ProfileNavProps) {
   }
 
   return (
-    <nav className='grid w-full py-2 grid-cols-4 items-start gap-2 sm:grid-cols-1'>
+    <nav className='grid w-full grid-cols-4 items-start gap-2 py-2 sm:grid-cols-1'>
       {items.map((item, index) => {
         const Icon: React.ComponentType<any> | undefined = item.icon;
         return (

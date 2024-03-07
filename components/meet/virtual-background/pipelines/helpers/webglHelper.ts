@@ -18,7 +18,7 @@ export function createPiplelineStageProgram(
   vertexShader: WebGLShader,
   fragmentShader: WebGLShader,
   positionBuffer: WebGLBuffer,
-  texCoordBuffer: WebGLBuffer,
+  texCoordBuffer: WebGLBuffer
 ) {
   const program = createProgram(gl, vertexShader, fragmentShader);
 
@@ -38,7 +38,7 @@ export function createPiplelineStageProgram(
 export function createProgram(
   gl: WebGL2RenderingContext,
   vertexShader: WebGLShader,
-  fragmentShader: WebGLShader,
+  fragmentShader: WebGLShader
 ) {
   const program = gl.createProgram()!;
   gl.attachShader(program, vertexShader);
@@ -46,7 +46,7 @@ export function createProgram(
   gl.linkProgram(program);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
     throw new Error(
-      `Could not link WebGL program: ${gl.getProgramInfoLog(program)}`,
+      `Could not link WebGL program: ${gl.getProgramInfoLog(program)}`
     );
   }
   return program;
@@ -55,7 +55,7 @@ export function createProgram(
 export function compileShader(
   gl: WebGL2RenderingContext,
   shaderType: number,
-  shaderSource: string,
+  shaderSource: string
 ) {
   const shader = gl.createShader(shaderType)!;
   gl.shaderSource(shader, shaderSource);
@@ -72,7 +72,7 @@ export function createTexture(
   width: number,
   height: number,
   minFilter = gl.NEAREST,
-  magFilter = gl.NEAREST,
+  magFilter = gl.NEAREST
 ) {
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -93,7 +93,7 @@ export async function readPixelsAsync(
   height: number,
   format: number,
   type: number,
-  dest: ArrayBufferView,
+  dest: ArrayBufferView
 ) {
   const buf = gl.createBuffer()!;
   gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buf);
@@ -107,7 +107,7 @@ export async function readPixelsAsync(
     gl.PIXEL_PACK_BUFFER,
     buf,
     0,
-    dest,
+    dest
   );
 
   gl.deleteBuffer(buf);
@@ -122,7 +122,7 @@ async function getBufferSubDataAsync(
   srcByteOffset: number,
   dstBuffer: ArrayBufferView,
   dstOffset?: number,
-  length?: number,
+  length?: number
 ) {
   const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0)!;
   gl.flush();
@@ -139,7 +139,7 @@ async function getBufferSubDataAsync(
 function clientWaitAsync(
   timerWorker: TimerWorker,
   gl: WebGL2RenderingContext,
-  sync: WebGLSync,
+  sync: WebGLSync
 ) {
   return new Promise<number>((resolve) => {
     function test() {

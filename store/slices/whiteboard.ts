@@ -44,13 +44,13 @@ const whiteboardSlice = createSlice({
     },
     updateMouseAppStateChanges: (
       state,
-      action: PayloadAction<IWhiteboardAppState>,
+      action: PayloadAction<IWhiteboardAppState>
     ) => {
       state.whiteboardAppState = action.payload;
     },
     addWhiteboardOtherImageFile: (
       state,
-      action: PayloadAction<IWhiteboardFile>,
+      action: PayloadAction<IWhiteboardFile>
     ) => {
       let files: Array<IWhiteboardFile> = [];
       if (state.whiteboardOfficeFilePagesAndOtherImages) {
@@ -64,7 +64,7 @@ const whiteboardSlice = createSlice({
     },
     updateRequestedWhiteboardData: (
       state,
-      action: PayloadAction<IRequestWhiteboardData>,
+      action: PayloadAction<IRequestWhiteboardData>
     ) => {
       state.requestedWhiteboardData = action.payload;
     },
@@ -73,10 +73,10 @@ const whiteboardSlice = createSlice({
     },
     updateCurrentWhiteboardOfficeFileId: (
       state,
-      action: PayloadAction<string>,
+      action: PayloadAction<string>
     ) => {
       const file = state.whiteboardUploadedOfficeFiles.filter(
-        (f) => f.fileId === action.payload,
+        (f) => f.fileId === action.payload
       );
       if (file.length) {
         state.currentPage = 1;
@@ -87,10 +87,10 @@ const whiteboardSlice = createSlice({
     },
     addWhiteboardUploadedOfficeFiles: (
       state,
-      action: PayloadAction<IWhiteboardOfficeFile>,
+      action: PayloadAction<IWhiteboardOfficeFile>
     ) => {
       const exist = state.whiteboardUploadedOfficeFiles.filter(
-        (f) => f.fileId === action.payload.fileId,
+        (f) => f.fileId === action.payload.fileId
       );
       if (!exist.length) {
         const tmp = [...state.whiteboardUploadedOfficeFiles];

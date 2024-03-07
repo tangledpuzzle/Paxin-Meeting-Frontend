@@ -32,14 +32,14 @@ export default class HandleMediaTracks {
 
   public localTrackPublished = (
     track: LocalTrackPublication,
-    participant: LocalParticipant,
+    participant: LocalParticipant
   ) => {
     this.addSubscriber(track, participant);
   };
 
   public localTrackUnpublished = (
     track: LocalTrackPublication,
-    participant: LocalParticipant,
+    participant: LocalParticipant
   ) => {
     this.removeSubscriber(track, participant);
   };
@@ -47,14 +47,14 @@ export default class HandleMediaTracks {
   public trackSubscribed = (
     _: RemoteTrack,
     track: RemoteTrackPublication,
-    participant: RemoteParticipant,
+    participant: RemoteParticipant
   ) => {
     this.addSubscriber(track, participant);
   };
 
   public trackUnsubscribed = (
     track: RemoteTrackPublication,
-    participant: RemoteParticipant,
+    participant: RemoteParticipant
   ) => {
     this.removeSubscriber(track, participant);
   };
@@ -66,7 +66,7 @@ export default class HandleMediaTracks {
         changes: {
           isMuted: true,
         },
-      }),
+      })
     );
 
     if (participant.identity === store.getState().session.currentUser?.userId) {
@@ -81,7 +81,7 @@ export default class HandleMediaTracks {
         changes: {
           isMuted: false,
         },
-      }),
+      })
     );
 
     if (participant.identity === store.getState().session.currentUser?.userId) {
@@ -91,7 +91,7 @@ export default class HandleMediaTracks {
 
   public trackSubscriptionFailed = (
     track_sid: string,
-    participant: RemoteParticipant,
+    participant: RemoteParticipant
   ) => {
     // To do
     console.log('==== trackSubscriptionFailed ====');
@@ -101,7 +101,7 @@ export default class HandleMediaTracks {
   public trackStreamStateChanged = (
     _: RemoteTrackPublication,
     streamState: Track.StreamState,
-    participant: RemoteParticipant,
+    participant: RemoteParticipant
   ) => {
     // to do
     console.log('==== trackStreamStateChanged ====');
@@ -110,7 +110,7 @@ export default class HandleMediaTracks {
 
   private addSubscriber(
     track: LocalTrackPublication | RemoteTrackPublication,
-    participant: LocalParticipant | RemoteParticipant,
+    participant: LocalParticipant | RemoteParticipant
   ) {
     if (!this.roomMetadata) {
       this.roomMetadata = store.getState().session.currentRoom
@@ -134,7 +134,7 @@ export default class HandleMediaTracks {
       ) {
         if (participant.metadata && !isEmpty(participant.metadata)) {
           const metadata: ICurrentUserMetadata = JSON.parse(
-            participant.metadata,
+            participant.metadata
           );
           // we'll check if user is an admin or not. Otherwise no webcam will show up.
           if (!metadata.is_admin) {
@@ -147,7 +147,7 @@ export default class HandleMediaTracks {
         // we'll setup logic for webcam recording
         if (participant.metadata && !isEmpty(participant.metadata)) {
           const metadata: ICurrentUserMetadata = JSON.parse(
-            participant.metadata,
+            participant.metadata
           );
           if (!metadata.record_webcam) {
             // if record feature is disable then we won't load webcams
@@ -175,13 +175,13 @@ export default class HandleMediaTracks {
           changes: {
             screenShareTrack: 1,
           },
-        }),
+        })
       );
       store.dispatch(
         updateScreenSharing({
           isActive: true,
           sharedBy: participant.identity,
-        }),
+        })
       );
       this.that.setScreenShareTrack(track, participant, true);
     } else if (track.source === Track.Source.Microphone) {
@@ -198,7 +198,7 @@ export default class HandleMediaTracks {
             isMuted: track.audioTrack?.isMuted ?? false,
             audioVolume: store.getState().roomSettings.roomAudioVolume,
           },
-        }),
+        })
       );
     } else if (track.source === Track.Source.Camera) {
       this.that.updateVideoSubscribers(participant);
@@ -212,14 +212,14 @@ export default class HandleMediaTracks {
           changes: {
             videoTracks: count === 0 ? 1 : count,
           },
-        }),
+        })
       );
     }
   }
 
   private removeSubscriber(
     track: LocalTrackPublication | RemoteTrackPublication,
-    participant: LocalParticipant | RemoteParticipant,
+    participant: LocalParticipant | RemoteParticipant
   ) {
     if (
       track.source === Track.Source.ScreenShare ||
@@ -231,13 +231,13 @@ export default class HandleMediaTracks {
           changes: {
             screenShareTrack: 0,
           },
-        }),
+        })
       );
       store.dispatch(
         updateScreenSharing({
           isActive: false,
           sharedBy: '',
-        }),
+        })
       );
       this.that.setScreenShareTrack(track, participant, false);
     } else if (track.source === Track.Source.Microphone) {
@@ -253,7 +253,7 @@ export default class HandleMediaTracks {
                 .length ?? 0,
             isMuted: track.audioTrack?.isMuted ?? false,
           },
-        }),
+        })
       );
     } else if (track.source === Track.Source.Camera) {
       this.that.updateVideoSubscribers(participant, false);
@@ -268,7 +268,7 @@ export default class HandleMediaTracks {
                 .filter((track) => track.source === Track.Source.Camera)
                 .length ?? 0,
           },
-        }),
+        })
       );
     }
   }

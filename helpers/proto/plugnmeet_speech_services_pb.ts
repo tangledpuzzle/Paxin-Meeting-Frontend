@@ -40,7 +40,7 @@ proto3.util.setEnumType(
     { no: 0, name: 'SPEECH_TO_TEXT_SESSION_STARTED' },
     { no: 1, name: 'SPEECH_TO_TEXT_SESSION_ENDED' },
     { no: 2, name: 'SPEECH_TO_TEXT_TOTAL_USAGE' },
-  ],
+  ]
 );
 
 /**
@@ -130,21 +130,21 @@ export class SpeechToTextTranslationReq extends Message<SpeechToTextTranslationR
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): SpeechToTextTranslationReq {
     return new SpeechToTextTranslationReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): SpeechToTextTranslationReq {
     return new SpeechToTextTranslationReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): SpeechToTextTranslationReq {
     return new SpeechToTextTranslationReq().fromJsonString(jsonString, options);
   }
@@ -157,7 +157,7 @@ export class SpeechToTextTranslationReq extends Message<SpeechToTextTranslationR
     b:
       | SpeechToTextTranslationReq
       | PlainMessage<SpeechToTextTranslationReq>
-      | undefined,
+      | undefined
   ): boolean {
     return proto3.util.equals(SpeechToTextTranslationReq, a, b);
   }
@@ -191,28 +191,28 @@ export class GenerateAzureTokenReq extends Message<GenerateAzureTokenReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): GenerateAzureTokenReq {
     return new GenerateAzureTokenReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): GenerateAzureTokenReq {
     return new GenerateAzureTokenReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): GenerateAzureTokenReq {
     return new GenerateAzureTokenReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: GenerateAzureTokenReq | PlainMessage<GenerateAzureTokenReq> | undefined,
-    b: GenerateAzureTokenReq | PlainMessage<GenerateAzureTokenReq> | undefined,
+    b: GenerateAzureTokenReq | PlainMessage<GenerateAzureTokenReq> | undefined
   ): boolean {
     return proto3.util.equals(GenerateAzureTokenReq, a, b);
   }
@@ -282,28 +282,28 @@ export class GenerateAzureTokenRes extends Message<GenerateAzureTokenRes> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): GenerateAzureTokenRes {
     return new GenerateAzureTokenRes().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): GenerateAzureTokenRes {
     return new GenerateAzureTokenRes().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): GenerateAzureTokenRes {
     return new GenerateAzureTokenRes().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: GenerateAzureTokenRes | PlainMessage<GenerateAzureTokenRes> | undefined,
-    b: GenerateAzureTokenRes | PlainMessage<GenerateAzureTokenRes> | undefined,
+    b: GenerateAzureTokenRes | PlainMessage<GenerateAzureTokenRes> | undefined
   ): boolean {
     return proto3.util.equals(GenerateAzureTokenRes, a, b);
   }
@@ -360,21 +360,21 @@ export class SpeechServiceUserStatusReq extends Message<SpeechServiceUserStatusR
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): SpeechServiceUserStatusReq {
     return new SpeechServiceUserStatusReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): SpeechServiceUserStatusReq {
     return new SpeechServiceUserStatusReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): SpeechServiceUserStatusReq {
     return new SpeechServiceUserStatusReq().fromJsonString(jsonString, options);
   }
@@ -387,7 +387,7 @@ export class SpeechServiceUserStatusReq extends Message<SpeechServiceUserStatusR
     b:
       | SpeechServiceUserStatusReq
       | PlainMessage<SpeechServiceUserStatusReq>
-      | undefined,
+      | undefined
   ): boolean {
     return proto3.util.equals(SpeechServiceUserStatusReq, a, b);
   }

@@ -4,7 +4,7 @@ import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
 import { Button } from '../ui/button';
-import { IoMdArrowDropright } from "react-icons/io";
+import { IoMdArrowDropright } from 'react-icons/io';
 import Link from 'next/link';
 
 const features = [
@@ -14,7 +14,7 @@ const features = [
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/eye.svg',
     read: 'read_text',
-    link: '/flows/xclvTWWZzIo/meta-platformy-stroiteljstvo-soobschestv-v-tsifrovoy-ere'
+    link: '/flows/xclvTWWZzIo/meta-platformy-stroiteljstvo-soobschestv-v-tsifrovoy-ere',
   },
   {
     title: 'meta_identification',
@@ -22,8 +22,7 @@ const features = [
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/swift.svg',
     read: 'read_text',
-    link: '/flows/1DDsmzx1p3I/meta-platformy---katalizatory-razvitiya-tsifrovyh-soobschestv'
-
+    link: '/flows/1DDsmzx1p3I/meta-platformy---katalizatory-razvitiya-tsifrovyh-soobschestv',
   },
   {
     title: 'meta_communication',
@@ -31,8 +30,7 @@ const features = [
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/smscall.svg',
     read: 'read_text',
-    link: '/flows/8d1FoDaIe50/tsifrovye-instrumenty-i-funktsional-meta-platform'
-
+    link: '/flows/8d1FoDaIe50/tsifrovye-instrumenty-i-funktsional-meta-platform',
   },
   {
     title: 'meta_world_experience',
@@ -40,8 +38,7 @@ const features = [
     bottomImage: '/images/home/feature-bottom-4.png',
     icon: '/images/home/city360.svg',
     read: 'read_text',
-    link: '/flows/B6pSpoN71hE/meta-platformy-takie-kak-facebook-instagram-whatsapp-i-drugie-deystviteljno-okazyvayut-znachiteljnoe-vliyanie-na-formirovanie-novyh-kuljturnyh-trendov-stereotipov-i-sotsialjnyh-norm-a-takzhe-na-ekonomiku-politiku-i-obrazovanie'
-
+    link: '/flows/B6pSpoN71hE/meta-platformy-takie-kak-facebook-instagram-whatsapp-i-drugie-deystviteljno-okazyvayut-znachiteljnoe-vliyanie-na-formirovanie-novyh-kuljturnyh-trendov-stereotipov-i-sotsialjnyh-norm-a-takzhe-na-ekonomiku-politiku-i-obrazovanie',
   },
 ];
 
@@ -51,7 +48,7 @@ function FeatureCard({
   bottomImage,
   icon,
   read,
-  link
+  link,
 }: {
   title: string;
   description: string;
@@ -61,15 +58,15 @@ function FeatureCard({
   link: string;
 }) {
   return (
-    <div className='bg-with-gradient hover:ring-primary-500 dark:hover:ring-primary-400 group relative isolate flex flex-1 flex-col rounded-none md:rounded-xl shadow transition-shadow duration-200 before:absolute before:-inset-[2px] before:z-[-1] before:hidden before:size-[calc(100%+4px)] before:rounded-[13px] before:lg:block'>
+    <div className='bg-with-gradient hover:ring-primary-500 dark:hover:ring-primary-400 group relative isolate flex flex-1 flex-col rounded-none shadow transition-shadow duration-200 before:absolute before:-inset-[2px] before:z-[-1] before:hidden before:size-[calc(100%+4px)] before:rounded-[13px] md:rounded-xl before:lg:block'>
       <div
-        className='absolute left-0 top-0 z-[-1] size-full rounded-none md:rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100'
+        className='absolute left-0 top-0 z-[-1] size-full rounded-none opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:rounded-xl'
         style={{
           background:
             'linear-gradient(90deg, #00B887 0%, #01B6D3 100%), linear-gradient(7deg, #7B2BCC 21.22%, #2296F3 88.72%)',
         }}
       ></div>
-      <div className='flex flex-1 flex-col overflow-hidden rounded-none md:rounded-xl  transition-[background-opacity]'>
+      <div className='flex flex-1 flex-col overflow-hidden rounded-none transition-[background-opacity]  md:rounded-xl'>
         <div className='m-7 mb-0 flex items-center justify-start bg-transparent'>
           <Image
             src={icon}
@@ -82,10 +79,10 @@ function FeatureCard({
         <div className='flex flex-1 flex-col gap-x-8 gap-y-4 rounded-xl px-7 py-5 sm:p-6 '>
           <div className=''>
             <div className='pointer-events-none mb-2'></div>
-            <p className='truncate font-bold group-hover:text-white text-[1.2em]'>
+            <p className='truncate text-[1.2em] font-bold group-hover:text-white'>
               {title}
             </p>
-            <p className='mt-1 text-[1em] font-light group-hover:text-white min-h-0 md:min-h-[140px] text-muted-foreground'>
+            <p className='mt-1 min-h-0 text-[1em] font-light text-muted-foreground group-hover:text-white md:min-h-[140px]'>
               {description}
             </p>
             <Image
@@ -93,13 +90,19 @@ function FeatureCard({
               width={291}
               height={152}
               alt='feature'
-              className='absolute z-[-1] inset-y-0 right-2 mt-auto hidden w-full overflow-hidden opacity-0 transition-opacity duration-500 group-hover:opacity-20 md:block'
+              className='absolute inset-y-0 right-2 z-[-1] mt-auto hidden w-full overflow-hidden opacity-0 transition-opacity duration-500 group-hover:opacity-20 md:block'
             />
           </div>
           <Link href={link}>
-          <Button variant='outline' className='cursor-point !rounded-md p-2 w-[150px'>
-          {read}
-           <IoMdArrowDropright className='mt-1' />{}</Button></Link>
+            <Button
+              variant='outline'
+              className='cursor-point w-[150px !rounded-md p-2'
+            >
+              {read}
+              <IoMdArrowDropright className='mt-1' />
+              {}
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
@@ -110,17 +113,17 @@ export default function FeatureSection() {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-start md:items-center justify-center px-0'>
+    <div className='flex flex-col items-start justify-center px-0 md:items-center'>
       <div className='px-7'>
-      <SectionBadge>{t('navigating_your_digital_universe')}</SectionBadge>
+        <SectionBadge>{t('navigating_your_digital_universe')}</SectionBadge>
       </div>
-      <SectionTitle className='leading-[30px] text-left md:text-center px-7'>
+      <SectionTitle className='px-7 text-left leading-[30px] md:text-center'>
         {t('unleashing_future_online_interaction')}
       </SectionTitle>
-      <SectionDescription className='pb-[36px] max-w-full text-left md:text-center px-7'>
+      <SectionDescription className='max-w-full px-7 pb-[36px] text-left md:text-center'>
         {t('unleashing_future_online_interaction_description')}
       </SectionDescription>
-      <div className='grid grid-cols-1 gap-8 px-0 md:px-7 pb-[0px] sm:grid-cols-2 md:pb-[0px] xl:grid-cols-4'>
+      <div className='grid grid-cols-1 gap-8 px-0 pb-[0px] sm:grid-cols-2 md:px-7 md:pb-[0px] xl:grid-cols-4'>
         {features.map((feature, index) => (
           <FeatureCard
             link={feature.link}
@@ -130,7 +133,6 @@ export default function FeatureSection() {
             bottomImage={feature.bottomImage}
             icon={feature.icon}
             read={t(feature.read as keyof IntlMessages['main'])}
-
           />
         ))}
       </div>

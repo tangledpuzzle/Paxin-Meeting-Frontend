@@ -20,7 +20,7 @@ export function buildBackgroundImageStage(
   texCoordBuffer: WebGLBuffer,
   personMaskTexture: WebGLTexture,
   backgroundImage: HTMLImageElement | null,
-  canvas: HTMLCanvasElement,
+  canvas: HTMLCanvasElement
 ): BackgroundImageStage {
   const vertexShaderSource = glsl`#version 300 es
 
@@ -85,22 +85,22 @@ export function buildBackgroundImageStage(
   const fragmentShader = compileShader(
     gl,
     gl.FRAGMENT_SHADER,
-    fragmentShaderSource,
+    fragmentShaderSource
   );
   const program = createPiplelineStageProgram(
     gl,
     vertexShader,
     fragmentShader,
     positionBuffer,
-    texCoordBuffer,
+    texCoordBuffer
   );
   const backgroundScaleLocation = gl.getUniformLocation(
     program,
-    'u_backgroundScale',
+    'u_backgroundScale'
   );
   const backgroundOffsetLocation = gl.getUniformLocation(
     program,
-    'u_backgroundOffset',
+    'u_backgroundOffset'
   );
   const inputFrameLocation = gl.getUniformLocation(program, 'u_inputFrame');
   const personMaskLocation = gl.getUniformLocation(program, 'u_personMask');
@@ -108,7 +108,7 @@ export function buildBackgroundImageStage(
   const coverageLocation = gl.getUniformLocation(program, 'u_coverage');
   const lightWrappingLocation = gl.getUniformLocation(
     program,
-    'u_lightWrapping',
+    'u_lightWrapping'
   );
   const blendModeLocation = gl.getUniformLocation(program, 'u_blendMode');
 
@@ -153,7 +153,7 @@ export function buildBackgroundImageStage(
       backgroundImage.naturalWidth,
       backgroundImage.naturalHeight,
       gl.NEAREST,
-      gl.NEAREST,
+      gl.NEAREST
     );
     gl.texSubImage2D(
       gl.TEXTURE_2D,
@@ -164,7 +164,7 @@ export function buildBackgroundImageStage(
       backgroundImage.naturalHeight,
       gl.RGBA,
       gl.UNSIGNED_BYTE,
-      backgroundImage,
+      backgroundImage
     );
 
     let xOffset = 0;

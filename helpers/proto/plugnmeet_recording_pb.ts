@@ -88,28 +88,28 @@ export class RecordingReq extends Message<RecordingReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): RecordingReq {
     return new RecordingReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): RecordingReq {
     return new RecordingReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): RecordingReq {
     return new RecordingReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: RecordingReq | PlainMessage<RecordingReq> | undefined,
-    b: RecordingReq | PlainMessage<RecordingReq> | undefined,
+    b: RecordingReq | PlainMessage<RecordingReq> | undefined
   ): boolean {
     return proto3.util.equals(RecordingReq, a, b);
   }
@@ -222,28 +222,28 @@ export class RecordingInfoFile extends Message<RecordingInfoFile> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): RecordingInfoFile {
     return new RecordingInfoFile().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): RecordingInfoFile {
     return new RecordingInfoFile().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): RecordingInfoFile {
     return new RecordingInfoFile().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: RecordingInfoFile | PlainMessage<RecordingInfoFile> | undefined,
-    b: RecordingInfoFile | PlainMessage<RecordingInfoFile> | undefined,
+    b: RecordingInfoFile | PlainMessage<RecordingInfoFile> | undefined
   ): boolean {
     return proto3.util.equals(RecordingInfoFile, a, b);
   }

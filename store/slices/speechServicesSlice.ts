@@ -28,7 +28,7 @@ const speechServicesSlice = createSlice({
     },
     addSpeechSubtitleText: (
       state,
-      action: PayloadAction<ISpeechSubtitleText>,
+      action: PayloadAction<ISpeechSubtitleText>
     ) => {
       if (action.payload.type === 'interim') {
         state.interimText = action.payload.result;
