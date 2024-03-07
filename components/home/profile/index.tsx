@@ -98,10 +98,10 @@ export default function ProfileSection() {
   return (
     <div className='w-full space-y-6'>
       {maxPage > 1 && (
-        <div className='flex justify-start gap-2 absolute top-[108px] md:top-[123px] '>
+        <div className='flex justify-start gap-1 absolute top-[156px] md:top-[123px] '>
           <Button
             aria-disabled={Number(searchParams.get('page') || 1) === 1}
-            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60'
+            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 p-0 w-[25px]'
             asChild
           >
             <Link href={prevPageLink || ''}>
@@ -111,7 +111,7 @@ export default function ProfileSection() {
           </Button>
           <Button
             aria-disabled={Number(searchParams.get('page') || 1) === maxPage}
-            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60'
+            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 p-0 w-[25px]'
             asChild
           >
             <Link href={nextPageLink || ''}>
