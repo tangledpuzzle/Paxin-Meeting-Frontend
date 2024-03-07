@@ -1,23 +1,18 @@
 'use client';
 
-import { PaxContext } from '@/context/context';
-import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
+import { PaxChatContext } from '@/context/chat-context';
+import eventBus from '@/eventBus';
 import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { useContext, useRef, useState } from 'react';
 import { IoIosClose } from 'react-icons/io';
 import { ScrollArea } from '../ui/scroll-area';
 import ChatListSkeleton from './chat-list-skeleton';
-import { usePathname } from '@/navigation';
-import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
-import eventBus from '@/eventBus';
-import { PaxChatContext } from '@/context/chat-context';
 import ChatRoom from './chat-room';
 
 export default function ChatNavComponent() {
+  const t = useTranslations('chatting');
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
   const [currentTab, setCurrentTab] = useState<'MESSAGE_LIST' | 'SETTINGS'>(
     'MESSAGE_LIST'
   );
@@ -56,7 +51,7 @@ export default function ChatNavComponent() {
                   <div
                     className={`inline-flex items-center justify-center rounded-t-lg border-b-2 p-4 ${currentTab === 'MESSAGE_LIST' ? 'border-primary text-primary' : 'group hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'}`}
                   >
-                    <span>Dialogs</span>
+                    <span>{t('dialogs')}</span>
                   </div>
                 </div>
                 <div
@@ -66,7 +61,7 @@ export default function ChatNavComponent() {
                   <div
                     className={`inline-flex items-center justify-center rounded-t-lg border-b-2 p-4 ${currentTab === 'SETTINGS' ? 'border-primary text-primary' : 'group hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'}`}
                   >
-                    <span>Settings</span>
+                    <span>{t('settings')}</span>
                   </div>
                 </div>
               </nav>
@@ -77,7 +72,7 @@ export default function ChatNavComponent() {
               <div className='mx-2 my-2'>
                 <input
                   className='flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-8 pr-4 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input'
-                  placeholder='Search by name'
+                  placeholder={t('search_by_name')}
                   type='text'
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
@@ -98,7 +93,7 @@ export default function ChatNavComponent() {
               </ScrollArea>
             </div>
           )}
-          {currentTab === 'SETTINGS' && <div>Settings</div>}
+          {currentTab === 'SETTINGS' && <div>{t('settings')}</div>}
         </div>
       </div>
     </div>

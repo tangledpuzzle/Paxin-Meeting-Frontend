@@ -856,8 +856,24 @@
   },
   "chatting": {
     "failed_to_send_message": "Не удалось отправить сообщение",
+    "failed_to_edit_message": "Не удалось отредактировать сообщение",
+    "failed_to_delete_message": "Не удалось удалить сообщение",
     "not_subscribed_yet": "Этот пользователь еще не подписан на этот чат",
-    "message_required": "Требуется сообщение",
-    "message_to_username": "Сообщение для {username}"
+    "message_required": "Сообщение обязательно",
+    "message_to_username": "Сообщение для {username}",
+    "dialogs": "Диалоги",
+    "settings": "Настройки",
+    "search_by_name": "Поиск по имени",
+    "accept_chat": "Принять чат",
+    "leave_chat": "Покинуть чат",
+    "delete_message": "Удалить сообщение",
+    "are_you_sure_delete_message": "Вы уверены, что хотите удалить это сообщение?",
+    "message_deleted": "Это сообщение было удалено",
+    "reply": "Ответить",
+    "edit": "Редактировать",
+    "copy_message": "Копировать сообщение",
+    "delete": "Удалить",
+    "message_copied": "Сообщение скопировано в буфер обмена",
+    "are_you_sure_leave_chat": "Вы уверены, что хотите выйти из этого чата?"
   }
 }

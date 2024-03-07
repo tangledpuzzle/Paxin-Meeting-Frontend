@@ -9,16 +9,12 @@ import { PaxChatContext } from '@/context/chat-context';
 import { PaxContext } from '@/context/context';
 import deleteMessage from '@/lib/server/chat/deleteMessage';
 import editMessage from '@/lib/server/chat/editMessage';
-import getAllMessages from '@/lib/server/chat/getAllMessages';
-import getRoomDetails from '@/lib/server/chat/getRoomDetails';
 import sendMessage from '@/lib/server/chat/sendMessage';
 import subscribe from '@/lib/server/chat/subscribe';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { IoSendOutline } from 'react-icons/io5';
-import { IoCheckmarkSharp } from 'react-icons/io5';
+import { IoCheckmarkSharp, IoSendOutline } from 'react-icons/io5';
 
 interface ChatMessage {
   id: string;
@@ -38,6 +34,7 @@ export default function ChatDetailPage({
 }: {
   params: { id: string };
 }) {
+  const t = useTranslations('chatting');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { user } = useContext(PaxContext);
@@ -86,13 +83,13 @@ export default function ChatDetailPage({
           },
         ]);
       } else {
-        toast.error('Something went wrong', {
+        toast.error(t('failed_to_send_message'), {
           position: 'top-right',
         });
       }
     } catch (error) {
       console.log(error);
-      toast.error('Something went wrong', {
+      toast.error(t('failed_to_send_message'), {
         position: 'top-right',
       });
     }
@@ -139,7 +136,7 @@ export default function ChatDetailPage({
         setIsDeleting(false);
         setDeleteMessageId('');
       } else {
-        toast.error('Something went wrong', {
+        toast.error(t('failed_to_delete_message'), {
           position: 'top-right',
         });
       }
@@ -174,7 +171,7 @@ export default function ChatDetailPage({
         setEditMessageId('');
         setInputMessage('');
       } else {
-        toast.error('Something went wrong', {
+        toast.error(t('failed_to_edit_message'), {
           position: 'top-right',
         });
       }
@@ -221,8 +218,8 @@ export default function ChatDetailPage({
           setIsDeleting(false);
           setDeleteMessageId('');
         }}
-        title={'Delete Message'}
-        description={'Are you sure you want to delete this message?'}
+        title={t('delete_message')}
+        description={t('are_you_sure_delete_message')}
         onConfirm={() => {
           handleMessageDeleteSubmit();
         }}
@@ -251,7 +248,7 @@ export default function ChatDetailPage({
             }}
             className='h-[100px] w-full'
           >
-            Accept Chat
+            {t('accept_chat')}
           </Button>
         )}
         {activeRoomSubscribed && (
