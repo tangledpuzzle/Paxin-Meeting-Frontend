@@ -42,12 +42,12 @@ export function CTASection() {
   }, [viewMode]);
 
   return (
-    <div className='flex flex-col-reverse justify-start gap-3 sm:flex-row sm:justify-between items-center'>
+    <div className='flex flex-col-reverse justify-start gap-2 pl-[15px] pr-[15px] sm:flex-row sm:justify-between items-center fixed z-20   bg-h bottom-0 h-[100px] top-[calc(100dvh_-_6rem)] pt-[10px] pb-[10px] md:pl-[10px] md:pr-[10px] w-full left-0'>
       <ToggleGroup
         type='single'
         variant='outline'
         value={searchParams.get('mode') || 'flow'}
-        className='gap-0 rounded-lg shadow-lg  pl-[0px] w-full'
+        className='gap-0 rounded-lg shadow-lg  pl-[60px] md:pl-[0px] w-full'
         onValueChange={(value: string) => {
           if (value) {
             router.push(`?mode=${value}`);
