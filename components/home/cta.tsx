@@ -42,12 +42,12 @@ export function CTASection() {
   }, [viewMode]);
 
   return (
-    <div className='flex flex-col items-start justify-start gap-3 sm:flex-row sm:justify-between'>
+    <div className='flex flex-col-reverse justify-start gap-3 sm:flex-row sm:justify-between items-center'>
       <ToggleGroup
         type='single'
         variant='outline'
         value={searchParams.get('mode') || 'flow'}
-        className='w-auto gap-0 rounded-lg shadow-lg  pl-[110px]'
+        className='gap-0 rounded-lg shadow-lg  pl-[0px] w-full'
         onValueChange={(value: string) => {
           if (value) {
             router.push(`?mode=${value}`);
@@ -56,13 +56,13 @@ export function CTASection() {
       >
         <ToggleGroupItem
           value='profile'
-          className={`rounded-r-none  bg-card-gradient-menu`}
+          className={`rounded-r-none  bg-card-gradient-menu w-full`}
         >
          <FaUsers className='mr-2' /> {t('profile')}
         </ToggleGroupItem>
         <ToggleGroupItem
           value='flow'
-          className={`rounded-l-none border-l-0 bg-card-gradient-menu`}
+          className={`rounded-l-none border-l-0 bg-card-gradient-menu w-full`}
         >
          <MdSms  className='mr-2' /> {t('flow')}
         </ToggleGroupItem>
