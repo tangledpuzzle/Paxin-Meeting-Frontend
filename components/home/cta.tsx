@@ -47,7 +47,7 @@ export function CTASection() {
         type='single'
         variant='outline'
         value={searchParams.get('mode') || 'flow'}
-        className='w-auto gap-0 rounded-lg shadow-lg'
+        className='w-auto gap-0 rounded-lg shadow-lg  pl-[110px]'
         onValueChange={(value: string) => {
           if (value) {
             router.push(`?mode=${value}`);
@@ -68,7 +68,7 @@ export function CTASection() {
         </ToggleGroupItem>
       </ToggleGroup>
 
-      <div className='flex w-full gap-3 sm:w-auto'>
+      <div className='flex w-full gap-3 sm:w-auto flex-row-reverse'>
         <div className='relative w-full sm:w-80'>
           <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
           <Input
