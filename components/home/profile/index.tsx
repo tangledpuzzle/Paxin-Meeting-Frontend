@@ -121,7 +121,7 @@ export default function ProfileSection() {
           </Button>
         </div>
       )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
         {!error ? (
           !isLoading && profileData ? (
             profileData?.length > 0 ? (

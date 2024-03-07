@@ -42,7 +42,7 @@ export function CTASection() {
   }, [viewMode]);
 
   return (
-    <div className='flex flex-col-reverse justify-start gap-2 pl-[15px] pr-[15px] sm:flex-row sm:justify-between items-center fixed z-20   bg-h bottom-0 h-[100px] top-[calc(100dvh_-_6rem)] pt-[10px] pb-[10px] md:pl-[10px] md:pr-[10px] w-full left-0'>
+    <div className='flex flex-col-reverse justify-start gap-2 pl-[25px] pr-[25px] sm:flex-row sm:justify-between items-center fixed z-20  dark:bg-black bg-gray-100 bottom-0 h-[100px] top-[calc(100dvh_-_6.2rem)] pt-[10px] pb-[10px] md:pl-[10px] md:pr-[10px] w-full left-0'>
       <ToggleGroup
         type='single'
         variant='outline'
