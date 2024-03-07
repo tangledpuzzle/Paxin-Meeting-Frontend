@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { Transition } from '@headlessui/react';
 
-import LeftPanel from '../left-panel';
-import RightPanel from '../right-panel';
+import LeftPanel from '@/components/meet/left-panel';
+import RightPanel from '@/components/meet/right-panel';
 
 import { RootState, store } from '@/store';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
-import ActiveSpeakers from '../active-speakers';
-import MainComponents from './mainComponents';
+import ActiveSpeakers from '@/components/meet/active-speakers';
+import MainComponents from '@/components/meet/main-area/mainComponents';
 import { IRoomMetadata } from '@/store/slices/interfaces/session';
 import { updateIsActiveChatPanel } from '@/store/slices/bottomIconsActivitySlice';
 import {
@@ -17,7 +17,6 @@ import {
 } from '@/helpers/livekit/types';
 
 interface IMainAreaProps {
-  isRecorder: boolean; // it could be recorder or RTMP bot.
   currentConnection: IConnectLivekit;
 }
 
@@ -70,7 +69,12 @@ const footerVisibilitySelector = createSelector(
   (roomSettings) => roomSettings.visibleFooter
 );
 
-const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
+export default function Meet({ currentConnection }: IMainAreaProps) {
+  const isRecorder =
+    currentConnection?.room.localParticipant.identity === 'RECORDER_BOT' ||
+    currentConnection?.room.localParticipant.identity === 'RTMP_BOT'
+      ? true
+      : false;
   const columnCameraWidth = useAppSelector(columnCameraWidthSelector);
   const columnCameraPosition = useAppSelector(columnCameraPositionSelector);
   const isActiveParticipantsPanel = useAppSelector(
@@ -238,29 +242,15 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
   }, [screenHeight, isRecorder, headerVisible, footerVisible]);
 
   return (
-    <div
-      id='main-area'
-      className={`plugNmeet-app-main-area relative mb-[55px] flex h-full overflow-hidden ${customCSS} column-camera-width-${columnCameraWidth} column-camera-position-${columnCameraPosition}`}
-      // style={{ height: `${height}px` }}
-    >
-      <div
-        className={`main-app-bg pointer-events-none absolute left-0 top-0 h-full w-full bg-cover bg-center bg-no-repeat object-cover`}
-        style={{
-          backgroundImage: `url("${assetPath}/imgs/app-banner.jpg")`,
-        }}
-      />
-      <div className='inner flex w-full justify-between rtl:flex-row-reverse'>
-        {renderLeftPanel}
+    <div className='inner flex h-[500px] w-[500px] justify-between rtl:flex-row-reverse'>
+      {/* {renderLeftPanel} */}
 
-        <div className='middle-area relative flex-auto'>
-          <ActiveSpeakers />
-          {renderMainComponentElms}
-        </div>
-
-        {renderRightPanel}
+      <div className='middle-area relative flex-auto'>
+        <ActiveSpeakers />
+        {renderMainComponentElms}
       </div>
+
+      {/* {renderRightPanel} */}
     </div>
   );
-};
-
-export default MainArea;
+}

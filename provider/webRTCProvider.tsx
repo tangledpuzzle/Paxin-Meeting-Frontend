@@ -9,7 +9,7 @@ import { createContext } from 'react';
 interface IRTCContext {
   livekitInfo: LivekitInfo | undefined;
   setLivekitInfo: (e: LivekitInfo) => void;
-  currentConnection: IConnectLivekit | undefined;
+  currentConnection: IConnectLivekit;
   setCurrentConnection: (e: IConnectLivekit) => void;
   error: IErrorPageProps | undefined;
   setError: React.Dispatch<React.SetStateAction<IErrorPageProps | undefined>>;
@@ -25,7 +25,7 @@ export const RTCContext = createContext<IRTCContext>({
   setLivekitInfo: function (e: LivekitInfo): void {
     throw new Error('Function not implemented.');
   },
-  currentConnection: undefined,
+  currentConnection: {} as IConnectLivekit,
   setCurrentConnection: function (e: IConnectLivekit): void {
     throw new Error('Function not implemented.');
   },

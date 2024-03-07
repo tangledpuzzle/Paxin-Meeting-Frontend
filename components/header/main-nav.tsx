@@ -13,22 +13,18 @@ import { useLocale, useTranslations } from 'next-intl';
 import eventBus from '@/eventBus';
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@/store';
-import { useAppSelector } from '@/store/hook';
-import { RTCContext } from '@/provider/webRTCProvider';
+import SmallMeet from './meetwrapper';
+
+import { PaxContext } from '@/context/context';
+
 interface MainNavProps {
   items?: NavItem[];
 }
 
-const participantSelector = createSelector(
-  (state: RootState) => state.participants,
-  (participants) => participants.ids
-);
-
 export function MainNav({ items }: MainNavProps) {
   const t = useTranslations('main');
-  const { roomConnectionStatus } = useContext(RTCContext);
+  const { user } = useContext(PaxContext);
 
-  const participants = useAppSelector(participantSelector);
   const locale = useLocale();
   const router = useRouter();
   let pathname = usePathname();
@@ -108,16 +104,7 @@ export function MainNav({ items }: MainNavProps) {
             <TiMessages size={32} />
           </div>
         </button>
-        {roomConnectionStatus === 'connected' && (
-          <button>
-            <div className='flex items-center justify-center'>
-              <span className='relative -top-2 left-12 rounded-full bg-card-gradient-menu px-2 text-center text-xs'>
-                {participants.length}
-              </span>
-              <TiVideo size={32} />
-            </div>
-          </button>
-        )}
+        {user && <SmallMeet />}
       </div>
     </div>
   );
