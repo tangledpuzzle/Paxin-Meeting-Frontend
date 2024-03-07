@@ -105,7 +105,7 @@ export default function FilterListSection() {
   }, [searchParams]);
 
   return (
-    <div className='flex w-full flex-wrap gap-2'>
+    <div className='flex w-full flex-wrap gap-2 pb-4 pt-2'>
       {cities.map((city) => (
         <FilterBadge onClick={() => handleDeleteCity(city)}>{city}</FilterBadge>
       ))}
