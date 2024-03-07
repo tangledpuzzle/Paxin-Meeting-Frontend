@@ -228,7 +228,7 @@ export default function ChatDetailPage({
 
       <ScrollArea
         ref={scrollAreaRef}
-        className='h-[calc(100vh_-_11rem)] w-full rounded-lg bg-background p-4'
+        className='h-[calc(100vh_-_10.5rem)] w-full rounded-lg bg-background p-4 py-0'
       >
         {messages.map((message) => (
           <ChatMessage
