@@ -14,7 +14,7 @@ const chatMessagesAdapter = createEntityAdapter({
 });
 
 export const chatMessagesSelector = chatMessagesAdapter.getSelectors(
-  (state: RootState) => state.chatMessages,
+  (state: RootState) => state.chatMessages
 );
 
 const chatMessagesSlice = createSlice({

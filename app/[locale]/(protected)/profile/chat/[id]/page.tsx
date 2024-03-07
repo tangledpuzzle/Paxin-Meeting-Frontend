@@ -246,43 +246,43 @@ export default function ChatDetailPage({
             onClick={() => {
               handleSubscribe(id);
             }}
-            className='w-full h-[100px]'
+            className='h-[100px] w-full'
           >
             Accept Chat
           </Button>
         )}
         {activeRoom && activeRoom.subscribed && (
-        <div className='flex justify-between '>
-          <DropdownMenuDemo />
-          <textarea
-            ref={textareaRef}
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            className='mb-[10px] ml-[10px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2'
-            onInput={auto_height}
-          ></textarea>
-          {isEditing ? (
-            <Button
-              type='button'
-              variant='ghost'
-              size='icon'
-              onClick={handleMessageEditSubmit}
-              className='mx-2 mb-[10px] mt-auto'
-            >
-              <IoCheckmarkSharp color='green' size={18} />
-            </Button>
-          ) : (
-            <Button
-              type='button'
-              variant='ghost'
-              size='icon'
-              onClick={handleMessageSubmit}
-              className='mx-2 mb-[10px] mt-auto'
-            >
-              <IoSendOutline color='gray' size={18} />
-            </Button>
-          )}
-        </div>
+          <div className='flex justify-between '>
+            <DropdownMenuDemo />
+            <textarea
+              ref={textareaRef}
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              className='mb-[10px] ml-[10px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2'
+              onInput={auto_height}
+            ></textarea>
+            {isEditing ? (
+              <Button
+                type='button'
+                variant='ghost'
+                size='icon'
+                onClick={handleMessageEditSubmit}
+                className='mx-2 mb-[10px] mt-auto'
+              >
+                <IoCheckmarkSharp color='green' size={18} />
+              </Button>
+            ) : (
+              <Button
+                type='button'
+                variant='ghost'
+                size='icon'
+                onClick={handleMessageSubmit}
+                className='mx-2 mb-[10px] mt-auto'
+              >
+                <IoSendOutline color='gray' size={18} />
+              </Button>
+            )}
+          </div>
         )}
       </div>
     </div>

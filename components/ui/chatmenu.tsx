@@ -15,67 +15,78 @@ const DropdownMenuDemo = () => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="IconButton" aria-label="Customise options">
+        <button className='IconButton' aria-label='Customise options'>
           <HamburgerMenuIcon />
         </button>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className="DropdownMenuContent relative z-10 bg-card-gradient-menu" sideOffset={5}>
-          <DropdownMenu.Item className="DropdownMenuItem">
-            Upload file <div className="RightSlot">⌘+T</div>
+        <DropdownMenu.Content
+          className='DropdownMenuContent relative z-10 bg-card-gradient-menu'
+          sideOffset={5}
+        >
+          <DropdownMenu.Item className='DropdownMenuItem'>
+            Upload file <div className='RightSlot'>⌘+T</div>
           </DropdownMenu.Item>
 
           <DropdownMenu.Sub>
-       
             <DropdownMenu.Portal>
               <DropdownMenu.SubContent
-                className="DropdownMenuSubContent bg-card-gradient-menu"
+                className='DropdownMenuSubContent bg-card-gradient-menu'
                 sideOffset={2}
                 alignOffset={-5}
               >
-                <DropdownMenu.Item className="DropdownMenuItem">
-                  Save Page As… <div className="RightSlot">⌘+S</div>
+                <DropdownMenu.Item className='DropdownMenuItem'>
+                  Save Page As… <div className='RightSlot'>⌘+S</div>
                 </DropdownMenu.Item>
-                <DropdownMenu.Item className="DropdownMenuItem">Create Shortcut…</DropdownMenu.Item>
-                <DropdownMenu.Item className="DropdownMenuItem">Name Window…</DropdownMenu.Item>
-                <DropdownMenu.Separator className="DropdownMenu.Separator" />
-                <DropdownMenu.Item className="DropdownMenuItem">Developer Tools</DropdownMenu.Item>
+                <DropdownMenu.Item className='DropdownMenuItem'>
+                  Create Shortcut…
+                </DropdownMenu.Item>
+                <DropdownMenu.Item className='DropdownMenuItem'>
+                  Name Window…
+                </DropdownMenu.Item>
+                <DropdownMenu.Separator className='DropdownMenu.Separator' />
+                <DropdownMenu.Item className='DropdownMenuItem'>
+                  Developer Tools
+                </DropdownMenu.Item>
               </DropdownMenu.SubContent>
             </DropdownMenu.Portal>
           </DropdownMenu.Sub>
 
-          <DropdownMenu.Separator className="DropdownMenuSeparator" />
+          <DropdownMenu.Separator className='DropdownMenuSeparator' />
 
           <DropdownMenu.CheckboxItem
-            className="DropdownMenuCheckboxItem"
+            className='DropdownMenuCheckboxItem'
             checked={bookmarksChecked}
             onCheckedChange={setBookmarksChecked}
           >
-            <DropdownMenu.ItemIndicator className="DropdownMenuItemIndicator">
+            <DropdownMenu.ItemIndicator className='DropdownMenuItemIndicator'>
               <CheckIcon />
             </DropdownMenu.ItemIndicator>
-            Show Bookmarks <div className="RightSlot">⌘+B</div>
+            Show Bookmarks <div className='RightSlot'>⌘+B</div>
           </DropdownMenu.CheckboxItem>
           <DropdownMenu.CheckboxItem
-            className="DropdownMenuCheckboxItem"
+            className='DropdownMenuCheckboxItem'
             checked={urlsChecked}
             onCheckedChange={setUrlsChecked}
           >
-            <DropdownMenu.ItemIndicator className="DropdownMenuItemIndicator">
+            <DropdownMenu.ItemIndicator className='DropdownMenuItemIndicator'>
               <CheckIcon />
             </DropdownMenu.ItemIndicator>
             Show Full URLs
           </DropdownMenu.CheckboxItem>
 
-          <DropdownMenu.Separator className="DropdownMenuSeparator" />
+          <DropdownMenu.Separator className='DropdownMenuSeparator' />
 
-          <DropdownMenu.Label className="DropdownMenuLabel">People</DropdownMenu.Label>
-          <DropdownMenu.RadioGroup value={person} onValueChange={setPerson}>
+          <DropdownMenu.Label className='DropdownMenuLabel'>
+            People
+          </DropdownMenu.Label>
+          <DropdownMenu.RadioGroup
+            value={person}
+            onValueChange={setPerson}
+          ></DropdownMenu.RadioGroup>
 
-          </DropdownMenu.RadioGroup>
-
-          <DropdownMenu.Arrow className="DropdownMenuArrow" />
+          <DropdownMenu.Arrow className='DropdownMenuArrow' />
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>

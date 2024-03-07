@@ -61,7 +61,6 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
   }>();
   const [formIndex, setFormIndex] = useState<number>(0);
 
-
   const formSchema = [
     z.object({
       city: z
@@ -155,7 +154,6 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
 
   return (
     <Dialog open={openModal} onOpenChange={setOpenModal}>
-
       <DialogContent className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
         <DialogHeader className='flex flex-row items-center gap-3'>
           <div className='rounded-full bg-primary/10 p-3 text-primary'>
@@ -164,7 +162,9 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
           <div>
             <DialogTitle>{t('send_request')}</DialogTitle>
             <DialogDescription>
-              {requestType === "city" ? t(`send_request_city_description`) : t(`send_request_category_description`)}
+              {requestType === 'city'
+                ? t(`send_request_city_description`)
+                : t(`send_request_category_description`)}
             </DialogDescription>
           </div>
         </DialogHeader>
@@ -182,7 +182,9 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
                   name='city'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='city'>{requestType === "category" ? t('category') : t('city')}</FormLabel>
+                      <FormLabel htmlFor='city'>
+                        {requestType === 'category' ? t('category') : t('city')}
+                      </FormLabel>
                       <FormControl>
                         <Input />
                       </FormControl>
@@ -195,7 +197,9 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
                   name='category'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor='category'>{t('description')}</FormLabel>
+                      <FormLabel htmlFor='category'>
+                        {t('description')}
+                      </FormLabel>
                       <FormControl>
                         <Textarea />
                       </FormControl>
@@ -207,9 +211,7 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
             )}
             <DialogFooter className='mt-4 flex flex-row justify-end'>
               <Button type='button' disabled={isLoading} onClick={handlePost}>
-                {isLoading && (
-                  <Loader2 className='mr-2 size-4 animate-spin' />
-                )}
+                {isLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
                 {t('send')}
               </Button>
             </DialogFooter>

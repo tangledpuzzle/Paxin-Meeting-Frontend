@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
 
@@ -14,52 +14,52 @@ interface Chat {
 }
 
 interface LineElement {
-    lineContainer: HTMLDivElement;
-    line: HTMLDivElement;
-    profileImg: HTMLDivElement;
-    body: HTMLDivElement;
-    name: HTMLDivElement;
-    texts: HTMLDivElement[];
-    img?: HTMLDivElement;
-    richBody?: HTMLDivElement; 
-  }
-
-const createElement = (opts: { class?: string | string[] } = {}): HTMLDivElement => {
-    let ele = document.createElement('div');
-    if (opts.class !== undefined) {
-      const classes = Array.isArray(opts.class) ? opts.class : [opts.class];
-      ele.classList.add(...classes);
-    }
-    return ele;
+  lineContainer: HTMLDivElement;
+  line: HTMLDivElement;
+  profileImg: HTMLDivElement;
+  body: HTMLDivElement;
+  name: HTMLDivElement;
+  texts: HTMLDivElement[];
+  img?: HTMLDivElement;
+  richBody?: HTMLDivElement;
 }
 
-
+const createElement = (
+  opts: { class?: string | string[] } = {}
+): HTMLDivElement => {
+  let ele = document.createElement('div');
+  if (opts.class !== undefined) {
+    const classes = Array.isArray(opts.class) ? opts.class : [opts.class];
+    ele.classList.add(...classes);
+  }
+  return ele;
+};
 
 const ChatComponent: React.FC = () => {
   const [addingChat, setAddingChat] = useState<boolean>(false);
   const [lastChatTime, setLastChatTime] = useState<number>(0);
   const [isAnimationRunning, setIsAnimationRunning] = useState<boolean>(true);
 
-  const chatRef = useRef<Chat | null>(null); 
+  const chatRef = useRef<Chat | null>(null);
 
   const addChat = () => {
     if (!chatRef.current) {
       chatRef.current = new Chat();
 
-    const currentTime = Date.now();
-    if (!addingChat && currentTime - lastChatTime >= 500) {
-      setAddingChat(true);
-      chatRef.current.loop();
-      setTimeout(() => {
-        setAddingChat(false);
-        setLastChatTime(Date.now());
-      }, 500);
+      const currentTime = Date.now();
+      if (!addingChat && currentTime - lastChatTime >= 500) {
+        setAddingChat(true);
+        chatRef.current.loop();
+        setTimeout(() => {
+          setAddingChat(false);
+          setLastChatTime(Date.now());
+        }, 500);
+      }
     }
-  }
   };
 
   const toggleAnimation = () => {
-    setIsAnimationRunning(prevState => !prevState);
+    setIsAnimationRunning((prevState) => !prevState);
     if (chatRef.current) {
       if (isAnimationRunning) {
         chatRef.current.stopLoop();
@@ -71,16 +71,15 @@ const ChatComponent: React.FC = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-    addChat();
-    return () => {
-    };
+      addChat();
+      return () => {};
     }
   }, []);
 
   return (
-    <div id="chat-container">
-      <div id="chat-input w-full">
-        <div id="file-input"></div>
+    <div id='chat-container'>
+      <div id='chat-input w-full'>
+        <div id='file-input'></div>
       </div>
       {/* <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
         <button onClick={toggleAnimation}>
@@ -89,9 +88,8 @@ const ChatComponent: React.FC = () => {
         <button>Применить настройки</button>
       </div> */}
     </div>
-    
   );
-}
+};
 
 class Chat {
   ele: HTMLDivElement;
@@ -109,7 +107,6 @@ class Chat {
     this.addLineWithDelay();
     this.addLineWithDelay();
     this.addLine();
-    
   }
 
   addLine() {
@@ -122,7 +119,7 @@ class Chat {
     const maxCount = 10;
     if (this.lines.length > maxCount) {
       const oldest = this.lines.splice(0, this.lines.length - maxCount);
-      oldest.forEach(n => this.ele.removeChild(n.ele.lineContainer));
+      oldest.forEach((n) => this.ele.removeChild(n.ele.lineContainer));
     }
   }
 
@@ -150,9 +147,9 @@ class Chat {
 
 class Line {
   ele: LineElement;
-  hue: number = 0; 
-  color: string = "";
-  profileImgColor: string = "";
+  hue: number = 0;
+  color: string = '';
+  profileImgColor: string = '';
   name: number = 0;
   length: number = 0;
   textCount: number = 0;
@@ -171,7 +168,8 @@ class Line {
   }
 
   pickColor() {
-    this.hue = Math.floor(Math.random() * amountOfColors) * (360 / amountOfColors);
+    this.hue =
+      Math.floor(Math.random() * amountOfColors) * (360 / amountOfColors);
     this.color = `hsl(${this.hue}, 90%, 50%)`;
     this.profileImgColor = `hsl(${this.hue}, 40%, 55%)`;
   }
@@ -206,7 +204,7 @@ class Line {
     ele.texts.forEach((n, i, arr) => {
       let w = textWidth;
       if (i === arr.length - 1) {
-        w = Math.max(0.2, (this.textCount - i)) * textWidth;
+        w = Math.max(0.2, this.textCount - i) * textWidth;
       }
       n.style.width = w + 'px';
     });
@@ -234,18 +232,25 @@ class Line {
     delay += 40;
 
     otherEleList.forEach((e, i) => {
-      setTimeout(() => {
-        e.style.opacity = '1';
-        e.style.transform = 'translateY(0px)';
-      }, delay += 50);
+      setTimeout(
+        () => {
+          e.style.opacity = '1';
+          e.style.transform = 'translateY(0px)';
+        },
+        (delay += 50)
+      );
     });
 
-    ele.texts.forEach((n, i) => setTimeout(() => n.style.opacity = '1', 70 * (i + 3) + delay));
+    ele.texts.forEach((n, i) =>
+      setTimeout(() => (n.style.opacity = '1'), 70 * (i + 3) + delay)
+    );
   }
 
   createElement(): LineElement {
     const lineContainer = createElement({ class: 'line-container' });
-    const line = createElement({ class: ['bg-card-gradient-menu-on', 'py-4', 'px-4'] });
+    const line = createElement({
+      class: ['bg-card-gradient-menu-on', 'py-4', 'px-4'],
+    });
     const profileImg = createElement({ class: ['profile-img', 'mb-2'] });
     const body = createElement({ class: 'body' });
     const name = createElement({ class: 'name' });
@@ -261,7 +266,14 @@ class Line {
     line.appendChild(profileImg);
     line.appendChild(body);
     lineContainer.appendChild(line);
-    const out: LineElement = { lineContainer, line, profileImg, body, name, texts };
+    const out: LineElement = {
+      lineContainer,
+      line,
+      profileImg,
+      body,
+      name,
+      texts,
+    };
     if (this.hasImg) {
       out.img = img;
       body.appendChild(img);
@@ -279,7 +291,5 @@ let lineWidth = 500;
 let profileImgWidth = 60;
 let textWidth = lineWidth - 20 - profileImgWidth - 10;
 let maxTexts = 4;
-
-
 
 export default ChatComponent;

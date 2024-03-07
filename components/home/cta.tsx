@@ -9,8 +9,8 @@ import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FilterModal } from './filter-modal';
-import { FaUsers } from "react-icons/fa";
-import { MdSms } from "react-icons/md";
+import { FaUsers } from 'react-icons/fa';
+import { MdSms } from 'react-icons/md';
 
 export function CTASection() {
   const t = useTranslations('main');
@@ -42,12 +42,12 @@ export function CTASection() {
   }, [viewMode]);
 
   return (
-    <div className='flex flex-col-reverse justify-start gap-2 pl-[25px] pr-[25px] sm:flex-row sm:justify-between items-center fixed z-20  dark:bg-black bg-gray-100 bottom-0 h-[100px] top-[calc(100dvh_-_6.2rem)] pt-[10px] pb-[10px] md:pl-[10px] md:pr-[10px] w-full left-0'>
+    <div className='fixed bottom-0 left-0 top-[calc(100dvh_-_6.2rem)] z-20 flex h-[100px] w-full flex-col-reverse items-center justify-start  gap-2 bg-gray-100 pb-[10px] pl-[25px] pr-[25px] pt-[10px] dark:bg-black sm:flex-row sm:justify-between md:pl-[10px] md:pr-[10px]'>
       <ToggleGroup
         type='single'
         variant='outline'
         value={searchParams.get('mode') || 'flow'}
-        className='gap-0 rounded-lg shadow-lg  pl-[60px] md:pl-[0px] w-full'
+        className='w-full gap-0 rounded-lg  pl-[60px] shadow-lg md:pl-[0px]'
         onValueChange={(value: string) => {
           if (value) {
             router.push(`?mode=${value}`);
@@ -56,19 +56,19 @@ export function CTASection() {
       >
         <ToggleGroupItem
           value='profile'
-          className={`rounded-r-none  bg-card-gradient-menu w-full`}
+          className={`w-full  rounded-r-none bg-card-gradient-menu`}
         >
-         <FaUsers className='mr-2' /> {t('profile')}
+          <FaUsers className='mr-2' /> {t('profile')}
         </ToggleGroupItem>
         <ToggleGroupItem
           value='flow'
-          className={`rounded-l-none border-l-0 bg-card-gradient-menu w-full`}
+          className={`w-full rounded-l-none border-l-0 bg-card-gradient-menu`}
         >
-         <MdSms  className='mr-2' /> {t('flow')}
+          <MdSms className='mr-2' /> {t('flow')}
         </ToggleGroupItem>
       </ToggleGroup>
 
-      <div className='flex w-full gap-3 sm:w-auto flex-row-reverse'>
+      <div className='flex w-full flex-row-reverse gap-3 sm:w-auto'>
         <div className='relative w-full sm:w-80'>
           <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
           <Input

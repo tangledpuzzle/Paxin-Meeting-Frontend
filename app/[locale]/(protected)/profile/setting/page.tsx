@@ -288,15 +288,18 @@ export default function SettingPage() {
   useEffect(() => {
     if (fetchedCities) {
       if (fetchedCities.data.length == 0) {
-        setCityOptions([{
-          value: -1,
-          label: t('no_city')
-        }])
+        setCityOptions([
+          {
+            value: -1,
+            label: t('no_city'),
+          },
+        ]);
       } else {
         setCityOptions(
           fetchedCities.data.map((city: any) => ({
             value: city.ID,
-            label: city.Translations.find((t: any) => t.Language === locale).Name,
+            label: city.Translations.find((t: any) => t.Language === locale)
+              .Name,
           }))
         );
       }
@@ -306,19 +309,21 @@ export default function SettingPage() {
   useEffect(() => {
     if (fetchedCategories) {
       if (fetchedCategories.data.length == 0) {
-        setCategoryOptions([{
-          value: -1,
-          label: t('no_category')
-        }])
+        setCategoryOptions([
+          {
+            value: -1,
+            label: t('no_category'),
+          },
+        ]);
       } else {
         setCategoryOptions(
           fetchedCategories.data.map((category: any) => ({
             value: category.ID,
-            label: category.Translations.find((t: any) => t.Language === locale).Name,
+            label: category.Translations.find((t: any) => t.Language === locale)
+              .Name,
           }))
         );
       }
-
     }
   }, [fetchedCategories]);
 
@@ -492,8 +497,8 @@ export default function SettingPage() {
           uploadedGallery:
             files?.files && files?.files?.length > 0
               ? files?.files.map((file: any) => ({
-                path: file?.path,
-              }))
+                  path: file?.path,
+                }))
               : false,
           gallery: isNeededUpdate ? gallery : false,
         },
@@ -634,7 +639,11 @@ export default function SettingPage() {
 
   return (
     <div className='p-4'>
-      <NewPostModal openModal={openModal} setOpenModal={setOpenModal} requestType={requestType} />
+      <NewPostModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        requestType={requestType}
+      />
 
       <CTASection
         title={t('settings')}
@@ -808,7 +817,6 @@ export default function SettingPage() {
                                     handleCategorySearch(value)
                                   }
                                   filterOption={customFilterFunction}
-
                                   onChange={(value) => {
                                     if (
                                       value.slice(-1)[0] &&
@@ -849,8 +857,7 @@ export default function SettingPage() {
                                   options={hashtagOptions}
                                   value={field.value}
                                   onChange={(value) => {
-
-                                    field.onChange(...value)
+                                    field.onChange(...value);
                                   }}
                                   onInputChange={handleHashtagSearch}
                                   classNames={{
@@ -1043,7 +1050,7 @@ export default function SettingPage() {
                       className='h-7 w-1/2 bg-background text-inherit shadow-none hover:bg-primary/10 data-[state=active]:bg-primary/10 data-[state=active]:text-primary'
                       data-state={
                         !searchParams.get('mode') ||
-                          searchParams.get('mode') === 'monthly'
+                        searchParams.get('mode') === 'monthly'
                           ? 'active'
                           : ''
                       }

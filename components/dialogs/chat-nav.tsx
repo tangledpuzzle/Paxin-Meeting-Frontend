@@ -120,7 +120,7 @@ export default function ChatNavComponent() {
         className='new-sidebar w-full pt-[70px] md:w-[300px]'
       >
         <div className='h-screen w-full overflow-y-auto border-l border-r bg-card-gradient py-2'>
-          <div className='px-5 bg-card-gradient-menu text-lg font-medium text-gray-800 dark:text-white'>
+          <div className='bg-card-gradient-menu px-5 text-lg font-medium text-gray-800 dark:text-white'>
             <button
               className='toggle-btn  absolute right-4 top-[92px] z-10'
               onClick={() => setShowNav(!showNav)}
@@ -154,7 +154,7 @@ export default function ChatNavComponent() {
           </div>
           {currentTab === 'MESSAGE_LIST' && (
             <div className='mb-[20%]'>
-              <div className='my-2 mx-2'>
+              <div className='mx-2 my-2'>
                 <input
                   className='flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-8 pr-4 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input'
                   placeholder='Search by name'

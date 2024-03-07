@@ -16,7 +16,7 @@ export function buildJointBilateralFilterStage(
   inputTexture: WebGLTexture,
   segmentationConfig: SegmentationConfig,
   outputTexture: WebGLTexture,
-  canvas: HTMLCanvasElement,
+  canvas: HTMLCanvasElement
 ) {
   const fragmentShaderSource = glsl`#version 300 es
 
@@ -79,19 +79,19 @@ export function buildJointBilateralFilterStage(
   const fragmentShader = compileShader(
     gl,
     gl.FRAGMENT_SHADER,
-    fragmentShaderSource,
+    fragmentShaderSource
   );
   const program = createPiplelineStageProgram(
     gl,
     vertexShader,
     fragmentShader,
     positionBuffer,
-    texCoordBuffer,
+    texCoordBuffer
   );
   const inputFrameLocation = gl.getUniformLocation(program, 'u_inputFrame');
   const segmentationMaskLocation = gl.getUniformLocation(
     program,
-    'u_segmentationMask',
+    'u_segmentationMask'
   );
   const texelSizeLocation = gl.getUniformLocation(program, 'u_texelSize');
   const stepLocation = gl.getUniformLocation(program, 'u_step');
@@ -107,7 +107,7 @@ export function buildJointBilateralFilterStage(
     gl.COLOR_ATTACHMENT0,
     gl.TEXTURE_2D,
     outputTexture,
-    0,
+    0
   );
 
   gl.useProgram(program);
@@ -132,7 +132,7 @@ export function buildJointBilateralFilterStage(
   function updateSigmaSpace(sigmaSpace: number) {
     sigmaSpace *= Math.max(
       outputWidth / segmentationWidth,
-      outputHeight / segmentationHeight,
+      outputHeight / segmentationHeight
     );
 
     const kSparsityFactor = 0.66; // Higher is more sparse.

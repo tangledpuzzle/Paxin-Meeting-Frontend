@@ -43,7 +43,7 @@ export function MeetHeader({ id, user }: Props) {
         </div>
         <MobileMenu user={user ? user : null} />
       </div>
-      <div className='flex h-12 justify-between sm:hidden absolute top-[20px] left-[55%]'>
+      <div className='absolute left-[55%] top-[20px] flex h-12 justify-between sm:hidden'>
         <div className='mx-auto my-auto flex flex-row content-center justify-start'>
           <p className='leading-8'>{id.slice(0, 6)}</p>
           <CopyClipboard text={`https://www.paxintrade.com/meet/${id}`}>

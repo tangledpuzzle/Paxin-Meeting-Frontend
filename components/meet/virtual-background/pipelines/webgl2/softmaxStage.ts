@@ -16,7 +16,7 @@ export function buildSoftmaxStage(
   texCoordBuffer: WebGLBuffer,
   segmentationConfig: SegmentationConfig,
   tflite: any,
-  outputTexture: WebGLTexture,
+  outputTexture: WebGLTexture
 ) {
   const fragmentShaderSource = glsl`#version 300 es
 
@@ -46,21 +46,21 @@ export function buildSoftmaxStage(
   const fragmentShader = compileShader(
     gl,
     gl.FRAGMENT_SHADER,
-    fragmentShaderSource,
+    fragmentShaderSource
   );
   const program = createPiplelineStageProgram(
     gl,
     vertexShader,
     fragmentShader,
     positionBuffer,
-    texCoordBuffer,
+    texCoordBuffer
   );
   const inputLocation = gl.getUniformLocation(program, 'u_inputSegmentation');
   const inputTexture = createTexture(
     gl,
     gl.RG32F,
     segmentationWidth,
-    segmentationHeight,
+    segmentationHeight
   );
 
   const frameBuffer = gl.createFramebuffer();
@@ -70,7 +70,7 @@ export function buildSoftmaxStage(
     gl.COLOR_ATTACHMENT0,
     gl.TEXTURE_2D,
     outputTexture,
-    0,
+    0
   );
 
   gl.useProgram(program);
@@ -91,7 +91,7 @@ export function buildSoftmaxStage(
       gl.RG,
       gl.FLOAT,
       tflite.HEAPF32,
-      tfliteOutputMemoryOffset,
+      tfliteOutputMemoryOffset
     );
     gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);

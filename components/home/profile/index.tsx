@@ -98,10 +98,10 @@ export default function ProfileSection() {
   return (
     <div className='w-full'>
       {maxPage > 1 && (
-        <div className='flex justify-start gap-1 z-20  fixed left-3 bottom-0 h-[35px] top-[calc(100dvh_-_2.8rem)] md:top-[calc(100dvh_-_4rem)]'>
-        <Button
+        <div className='fixed bottom-0 left-3 top-[calc(100dvh_-_2.8rem)]  z-20 flex h-[35px] justify-start gap-1 md:top-[calc(100dvh_-_4rem)]'>
+          <Button
             aria-disabled={Number(searchParams.get('page') || 1) === 1}
-            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 p-0 w-[25px] md:w-[55px]'
+            className='w-[25px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 md:w-[55px]'
             asChild
           >
             <Link href={prevPageLink || ''}>
@@ -111,7 +111,7 @@ export default function ProfileSection() {
           </Button>
           <Button
             aria-disabled={Number(searchParams.get('page') || 1) === maxPage}
-            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 p-0 w-[25px] md:w-[55px]'
+            className='w-[25px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 md:w-[55px]'
             asChild
           >
             <Link href={nextPageLink || ''}>

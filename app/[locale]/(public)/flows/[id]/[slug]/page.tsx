@@ -216,7 +216,7 @@ export default async function FlowPage({
                       >
                         <Badge
                           variant='outline'
-                          className='max-w-full rounded-full hover:border-primary bg-primary/10 text-primary'
+                          className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                         >
                           {city}
                         </Badge>
@@ -239,7 +239,7 @@ export default async function FlowPage({
                       >
                         <Badge
                           variant='outline'
-                          className='max-w-full rounded-full hover:border-primary bg-primary/10 text-primary'
+                          className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                         >
                           {category}
                         </Badge>
@@ -261,7 +261,7 @@ export default async function FlowPage({
                     >
                       <Badge
                         variant='outline'
-                        className='max-w-full rounded-full hover:border-primary bg-primary/10 text-primary'
+                        className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                       >
                         {blogDetails.price?.toLocaleString('en-US', {
                           style: 'currency',
@@ -281,7 +281,7 @@ export default async function FlowPage({
                 <div className='flex gap-2'>
                   <Badge
                     variant='outline'
-                    className='max-w-full rounded-full hover:border-primary bg-primary/10 text-primary'
+                    className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                   >
                     {blogDetails.review?.views}
                   </Badge>

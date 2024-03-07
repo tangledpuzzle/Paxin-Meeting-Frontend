@@ -12,13 +12,10 @@ export default function AlarmNav() {
     if (pathname.includes('chat')) {
       eventBus.emit('startChat', '0');
       eventBus.emit('close');
-
-      
     } else {
       router.push('/profile/chat');
     }
   };
-
 
   return (
     <div>
