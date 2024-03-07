@@ -176,7 +176,7 @@ export default async function FlowPage({
   const roomId = await getRoomId(blogDetails?.author?.userId || '');
 
   return blogDetails ? (
-    <section className='container py-4'>
+    <section className='container py-4 px-8'>
       <div className='flex justify-between'>
         <BackButton callback={searchParams['callback']} />
         <span className='flex items-center justify-center px-0 uppercase'>
@@ -197,7 +197,7 @@ export default async function FlowPage({
         <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
       </div> */}
 
-      <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-4'>
+      <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-3'>
         <div className='md:col-span-2 xl:col-span-3'>
           <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
             <div className='col-span-2 grid grid-cols-2 gap-2 xl:col-span-3'>
@@ -216,7 +216,7 @@ export default async function FlowPage({
                       >
                         <Badge
                           variant='outline'
-                          className='max-w-full rounded-full hover:border-primary bg-primary/10 text-primary'
+                          className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                         >
                           {city}
                         </Badge>
@@ -239,7 +239,7 @@ export default async function FlowPage({
                       >
                         <Badge
                           variant='outline'
-                          className='max-w-full rounded-full hover:border-primary bg-primary/10 text-primary'
+                          className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                         >
                           {category}
                         </Badge>
@@ -261,7 +261,7 @@ export default async function FlowPage({
                     >
                       <Badge
                         variant='outline'
-                        className='max-w-full rounded-full hover:border-primary bg-primary/10 text-primary'
+                        className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                       >
                         {blogDetails.price?.toLocaleString('en-US', {
                           style: 'currency',
@@ -281,7 +281,7 @@ export default async function FlowPage({
                 <div className='flex gap-2'>
                   <Badge
                     variant='outline'
-                    className='max-w-full rounded-full hover:border-primary bg-primary/10 text-primary'
+                    className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                   >
                     {blogDetails.review?.views}
                   </Badge>

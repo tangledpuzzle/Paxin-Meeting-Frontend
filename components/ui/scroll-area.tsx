@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>
-  >(({ className, children, ...props }, ref) => {
+>(({ className, children, ...props }, ref) => {
   const viewportRef = React.useRef<HTMLDivElement>(null);
 
   const scrollToEnd = () => {
@@ -14,7 +14,6 @@ const ScrollArea = React.forwardRef<
       viewportRef.current.scrollTop = viewportRef.current.scrollHeight;
     }
   };
-
 
   React.useLayoutEffect(() => {
     scrollToEnd();

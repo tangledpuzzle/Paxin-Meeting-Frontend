@@ -9,16 +9,12 @@ import { PaxChatContext } from '@/context/chat-context';
 import { PaxContext } from '@/context/context';
 import deleteMessage from '@/lib/server/chat/deleteMessage';
 import editMessage from '@/lib/server/chat/editMessage';
-import getAllMessages from '@/lib/server/chat/getAllMessages';
-import getRoomDetails from '@/lib/server/chat/getRoomDetails';
 import sendMessage from '@/lib/server/chat/sendMessage';
 import subscribe from '@/lib/server/chat/subscribe';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { IoSendOutline } from 'react-icons/io5';
-import { IoCheckmarkSharp } from 'react-icons/io5';
+import { IoCheckmarkSharp, IoSendOutline } from 'react-icons/io5';
 
 interface ChatMessage {
   id: string;
@@ -38,6 +34,7 @@ export default function ChatDetailPage({
 }: {
   params: { id: string };
 }) {
+  const t = useTranslations('chatting');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { user } = useContext(PaxContext);
@@ -48,6 +45,10 @@ export default function ChatDetailPage({
     setChatRooms,
     activeRoom,
     setActiveRoom,
+    activeRoomSubscribed,
+    setActiveRoomSubscribed,
+    isMessageLoading,
+    isRoomLoading,
   } = useContext(PaxChatContext);
   const [inputMessage, setInputMessage] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -65,6 +66,7 @@ export default function ChatDetailPage({
 
       if (res?.status === 'success') {
         setInputMessage('');
+        console.log(messages, '===');
         setMessages([
           ...messages,
           {
@@ -81,13 +83,13 @@ export default function ChatDetailPage({
           },
         ]);
       } else {
-        toast.error('Something went wrong', {
+        toast.error(t('failed_to_send_message'), {
           position: 'top-right',
         });
       }
     } catch (error) {
       console.log(error);
-      toast.error('Something went wrong', {
+      toast.error(t('failed_to_send_message'), {
         position: 'top-right',
       });
     }
@@ -134,7 +136,7 @@ export default function ChatDetailPage({
         setIsDeleting(false);
         setDeleteMessageId('');
       } else {
-        toast.error('Something went wrong', {
+        toast.error(t('failed_to_delete_message'), {
           position: 'top-right',
         });
       }
@@ -157,19 +159,19 @@ export default function ChatDetailPage({
       });
 
       if (res?.status === 'success') {
-        const index = messages.findIndex((msg) => msg.id === editMessageId);
+        // const index = messages.findIndex((msg) => msg.id === editMessageId);
 
-        const _messages = messages;
-        _messages[index].message = res.data.message.Content;
-        _messages[index].isEdited = true;
+        // const _messages = messages;
+        // _messages[index].message = res.data.message.Content;
+        // _messages[index].isEdited = true;
 
-        setMessages(_messages);
+        // setMessages(_messages);
 
         setIsEditing(false);
         setEditMessageId('');
         setInputMessage('');
       } else {
-        toast.error('Something went wrong', {
+        toast.error(t('failed_to_edit_message'), {
           position: 'top-right',
         });
       }
@@ -180,18 +182,17 @@ export default function ChatDetailPage({
 
   const handleSubscribe = async (roomId: string) => {
     try {
-      const res = await subscribe({ roomId });
+      const res = await subscribe(roomId);
 
       if (res?.status === 'success') {
-        const _chatRooms = chatRooms;
-        const index = _chatRooms.findIndex((room) => room.id === roomId);
-        _chatRooms[index].subscribed = true;
+        setChatRooms((chatRooms) => {
+          const index = chatRooms.findIndex((room) => room.id === roomId);
+          chatRooms[index].subscribed = true;
 
-        if (activeRoom && activeRoom.id === roomId) {
-          setActiveRoom(_chatRooms[index]);
-        }
+          return chatRooms;
+        });
 
-        setChatRooms(_chatRooms);
+        setActiveRoomSubscribed(true);
       }
     } catch (error) {}
   };
@@ -206,11 +207,10 @@ export default function ChatDetailPage({
   };
 
   useEffect(() => {
-    const _activeRoom = chatRooms.find((room) => room.id === id) || null;
-    setActiveRoom(_activeRoom);
+    setActiveRoom(id);
   }, []);
 
-  return (
+  return !isMessageLoading && !isRoomLoading ? (
     <div>
       <ConfirmModal
         isOpen={isDeleting}
@@ -218,8 +218,8 @@ export default function ChatDetailPage({
           setIsDeleting(false);
           setDeleteMessageId('');
         }}
-        title={'Delete Message'}
-        description={'Are you sure you want to delete this message?'}
+        title={t('delete_message')}
+        description={t('are_you_sure_delete_message')}
         onConfirm={() => {
           handleMessageDeleteSubmit();
         }}
@@ -240,51 +240,53 @@ export default function ChatDetailPage({
         ))}
       </ScrollArea>
       <div className='chatInput'>
-        {activeRoom && !activeRoom.subscribed && (
+        {!activeRoomSubscribed && (
           <Button
             variant='ghost'
             onClick={() => {
               handleSubscribe(id);
             }}
-            className='w-full h-[100px]'
+            className='h-[100px] w-full'
           >
-            Accept Chat
+            {t('accept_chat')}
           </Button>
         )}
-        {activeRoom && activeRoom.subscribed && (
-        <div className='flex justify-between '>
-          <DropdownMenuDemo />
-          <textarea
-            ref={textareaRef}
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            className='mb-[10px] ml-[10px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2'
-            onInput={auto_height}
-          ></textarea>
-          {isEditing ? (
-            <Button
-              type='button'
-              variant='ghost'
-              size='icon'
-              onClick={handleMessageEditSubmit}
-              className='mx-2 mb-[10px] mt-auto'
-            >
-              <IoCheckmarkSharp color='green' size={18} />
-            </Button>
-          ) : (
-            <Button
-              type='button'
-              variant='ghost'
-              size='icon'
-              onClick={handleMessageSubmit}
-              className='mx-2 mb-[10px] mt-auto'
-            >
-              <IoSendOutline color='gray' size={18} />
-            </Button>
-          )}
-        </div>
+        {activeRoomSubscribed && (
+          <div className='flex justify-between'>
+            <DropdownMenuDemo />
+            <textarea
+              ref={textareaRef}
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              className='mb-[10px] ml-[10px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2'
+              onInput={auto_height}
+            ></textarea>
+            {isEditing ? (
+              <Button
+                type='button'
+                variant='ghost'
+                size='icon'
+                onClick={handleMessageEditSubmit}
+                className='mx-2 mb-[10px] mt-auto'
+              >
+                <IoCheckmarkSharp color='green' size={18} />
+              </Button>
+            ) : (
+              <Button
+                type='button'
+                variant='ghost'
+                size='icon'
+                onClick={handleMessageSubmit}
+                className='mx-2 mb-[10px] mt-auto'
+              >
+                <IoSendOutline color='gray' size={18} />
+              </Button>
+            )}
+          </div>
         )}
       </div>
     </div>
+  ) : (
+    <></>
   );
 }

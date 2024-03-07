@@ -16,7 +16,9 @@ export function ContactSection() {
     <div className='grid w-full md:grid-cols-2'>
       <div className='flex flex-col items-center justify-center px-4 py-4 lg:px-16'>
         <div className='flex w-full max-w-md flex-col text-left text-2xl sm:text-3xl'>
-          <span className='pb-2 text-gradient mb-[16px] font-roboto font-bold sm:text-3xl sm:!leading-[2.5rem] md:text-4xl md:!leading-[3rem] xl:text-5xl xl:!leading-[4rem] px-0 mt-4 text-left  text-[2em] leading-[40px]'>{t('get_in_touch')}</span>{' '}
+          <span className='text-gradient mb-[16px] mt-4 px-0 pb-2 text-left font-roboto text-[2em] font-bold leading-[40px] sm:text-3xl sm:!leading-[2.5rem] md:text-4xl md:!leading-[3rem]  xl:text-5xl xl:!leading-[4rem]'>
+            {t('get_in_touch')}
+          </span>{' '}
           <span className='text-sm text-muted-foreground '>
             {t('get_in_touch_description')}
           </span>
@@ -101,7 +103,7 @@ export function ContactSection() {
           <Button
             type='submit'
             variant='default'
-            className='btn btn--wide !rounded-md w-full'
+            className='btn btn--wide w-full !rounded-md'
           >
             {t('send_message')}
           </Button>

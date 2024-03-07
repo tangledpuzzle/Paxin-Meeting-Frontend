@@ -49,13 +49,13 @@
     "write_post_description": "You can write a new post here.",
     "number_of_days": "Number of Days",
     "post": "Post",
-    "no_city":"No city, want to request for this city?",
-    "no_category":"No category, want to request for this category?",
-    "send":"Send",
-    "send_request":"Send Request",
-    "send_request_city_description":"You can send request for new city by filling this form.",
-    "send_request_category_description":"You can send request for new category by filling this form.",
-    
+    "no_city": "No city, want to request for this city?",
+    "no_category": "No category, want to request for this category?",
+    "send": "Send",
+    "send_request": "Send Request",
+    "send_request_city_description": "You can send request for new city by filling this form.",
+    "send_request_category_description": "You can send request for new category by filling this form.",
+
     "ai_assistant": "AI Assistant",
     "failed_to_generate_title": "Failed to generate title",
     "failed_to_generate_subtitle": "Failed to generate subtitle",
@@ -373,7 +373,17 @@
     "testominal3": "I am extremely happy with my decision to trade with PaxinTrade. Their platform offers a wide variety of options and the support team is always there to assist.",
     "testominal4": "I can't thank PaxinTrade enough for their exceptional services. Their platform is robust and secure, and the educational resources have helped me improve my trading skills significantly. Great job!",
     "testominal5": "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade!",
-    "testominal6": "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade!"
+    "testominal6": "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade!",
+    
+    "require_description":"Please input description",
+    "require_title":"Please input title",
+    "require_name":"Please input name",
+    "report_save_success":"New report is sent successfully.",
+    "report_fail_success":"There was an error while sending new report.",
+    "complaint_save_success":"New complaint is sent successfully.",
+    "complaint_fail_success":"There was an error while sending new complaint.",
+    "request_save_success":"Request for a new {type} is sent successfully.",
+    "request_fail_success":"There was an error while sending request for a new {type}."
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",
@@ -844,8 +854,24 @@
   },
   "chatting": {
     "failed_to_send_message": "Failed to send message",
+    "failed_to_edit_message": "Failed to edit message",
+    "failed_to_delete_message": "Failed to delete message",
     "not_subscribed_yet": "This user is not subscribed to this room yet",
     "message_required": "Message is required",
-    "message_to_username": "Message to {username}"
+    "message_to_username": "Message to {username}",
+    "dialogs": "Dialogs",
+    "settings": "Settings",
+    "search_by_name": "Search by name",
+    "accept_chat": "Accept Chat",
+    "leave_chat": "Leave Chat",
+    "delete_message": "Delete Message",
+    "are_you_sure_delete_message": "Are you sure you want to delete this message?",
+    "message_deleted": "This message has been deleted",
+    "reply": "Reply",
+    "edit": "Edit",
+    "copy_message": "Copy Message",
+    "delete": "Delete",
+    "message_copied": "Message copied to clipboard",
+    "are_you_sure_leave_chat": "Are you sure you want to leave this chat?"
   }
 }

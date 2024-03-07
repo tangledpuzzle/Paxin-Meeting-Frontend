@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/context-menu';
 import { PaxContext } from '@/context/context';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useContext } from 'react';
 import toast from 'react-hot-toast';
@@ -39,12 +40,13 @@ interface ChatMessageProps {
 }
 
 export default function ChatMessage(props: ChatMessageProps) {
+  const t = useTranslations('chatting');
   const { user } = useContext(PaxContext);
 
   const handleMessageCopy = async (text: string) => {
     await navigator.clipboard.writeText(text);
 
-    toast.success('Message copied to clipboard', {
+    toast.success(t('message_copied'), {
       position: 'top-right',
     });
   };
@@ -73,9 +75,7 @@ export default function ChatMessage(props: ChatMessageProps) {
               {props.isDeleted ? (
                 <>
                   <MdOutlineDoNotDisturb className='mr-2 size-4' />
-                  <span className='select-none'>
-                    This message has been deleted
-                  </span>
+                  <span className='select-none'>{t('message_deleted')}</span>
                 </>
               ) : (
                 props.message
@@ -87,7 +87,7 @@ export default function ChatMessage(props: ChatMessageProps) {
           <ContextMenuContent className='w-48'>
             <ContextMenuItem className='cursor-pointer'>
               <BsReply className='mr-2 size-4' />
-              Reply
+              {t('reply')}
               {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
             </ContextMenuItem>
             {user?.id === props.owner.id && (
@@ -96,7 +96,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                 onClick={() => props.onEdit(props.id)}
               >
                 <MdOutlineModeEditOutline className='mr-2 size-4' />
-                Edit
+                {t('edit')}
                 {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
               </ContextMenuItem>
             )}
@@ -105,7 +105,7 @@ export default function ChatMessage(props: ChatMessageProps) {
               onClick={() => handleMessageCopy(props.message)}
             >
               <MdOutlineContentCopy className='mr-2 size-4' />
-              Copy Message
+              {t('copy_message')}
               {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
             </ContextMenuItem>
             {user?.id === props.owner.id && (
@@ -114,7 +114,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                 onClick={() => props.onDelete(props.id)}
               >
                 <FaTrashCan className='mr-2 size-4' />
-                Delete
+                {t('delete')}
                 {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
               </ContextMenuItem>
             )}

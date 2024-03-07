@@ -208,7 +208,7 @@ const useDesignCustomization = () => {
         designCustomParams.column_camera_position === ColumnCameraPosition.LEFT)
     ) {
       dispatch(
-        updateColumnCameraPosition(designCustomParams.column_camera_position),
+        updateColumnCameraPosition(designCustomParams.column_camera_position)
       );
     }
 

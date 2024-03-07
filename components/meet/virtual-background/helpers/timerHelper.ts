@@ -29,7 +29,7 @@ self.onmessage = (event) => {
 export function createTimerWorker(): TimerWorker {
   const callbacks = new Map<number, () => void>();
   const worker = new Worker(
-    URL.createObjectURL(new Blob([timerWorker], { type: 'text/javascript' })),
+    URL.createObjectURL(new Blob([timerWorker], { type: 'text/javascript' }))
   );
 
   worker.onmessage = (event: MessageEvent<TimerData>) => {

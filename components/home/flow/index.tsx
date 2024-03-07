@@ -96,10 +96,10 @@ export default function FlowSection() {
   return (
     <div className='w-full'>
       {maxPage > 1 && (
-        <div className='flex justify-start gap-1 z-20  fixed left-3 bottom-0 h-[35px] top-[calc(100dvh_-_3rem)] md:top-[calc(100dvh_-_4rem)]'>
+        <div className='flex flex-row md:flex-col gap-1 z-20 w-[100px]  fixed md:sticky bottom-0 h-[35px] top-[calc(100dvh_-_3rem)] md:top-[110px] md:right-[50px] !left-4 md:left-[calc(100%_-_10rem)] md:-mt-[93px]'>
         <Button
             aria-disabled={Number(searchParams.get('page') || 1) === 1}
-            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 p-0 w-[30px]  md:w-[50px]'
+            className='w-[30px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60  md:w-[50px]'
             asChild
           >
             <Link href={prevPageLink || ''}>
@@ -109,7 +109,7 @@ export default function FlowSection() {
           </Button>
           <Button
             aria-disabled={Number(searchParams.get('page') || 1) === maxPage}
-            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 p-0 w-[30px] md:w-[50px]'
+            className='w-[30px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 md:w-[50px]'
             asChild
           >
             <Link href={nextPageLink || ''}>
@@ -119,7 +119,7 @@ export default function FlowSection() {
           </Button>
         </div>
       )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-4'>
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 md:pt-[40px] pt-[0px]'>
         {!error ? (
           flowData && !isLoading ? (
             flowData?.length > 0 ? (
@@ -152,7 +152,6 @@ export default function FlowSection() {
           <></>
         )}
       </div>
-
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useLocale } from 'next-intl';
 import { MdFavorite } from 'react-icons/md'; // Importing MdFavorite icon
-import useSocket from "@/hooks/useSocket";
+import useSocket from '@/hooks/useSocket';
 
 interface Chat {
   ele: HTMLDivElement;
@@ -54,9 +54,6 @@ const createElement = (
   return ele;
 };
 
-
-
-
 const ChatComponent: React.FC = () => {
   const locale = useLocale();
   const chatRef = useRef<Chat | null>(null);
@@ -64,7 +61,7 @@ const ChatComponent: React.FC = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       chatRef.current = new Chat(locale);
-      return () => { };
+      return () => {};
     }
   }, [locale]);
 
@@ -116,12 +113,14 @@ const ChatComponent: React.FC = () => {
 // const [lastChatTime, setLastChatTime] = useState<number>(0);
 // const [isAnimationRunning, setIsAnimationRunning] = useState<boolean>(true);
 
-{/* <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
+{
+  /* <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
         <button onClick={toggleAnimation} className='text-center w-full'>
           {isAnimationRunning ? 'остановить поток' : 'запустить поток'}
         </button>
         <button>Применить настройки</button>
-      </div> */}
+      </div> */
+}
 class Chat {
   ele: HTMLDivElement;
   lines: Line[] = [];

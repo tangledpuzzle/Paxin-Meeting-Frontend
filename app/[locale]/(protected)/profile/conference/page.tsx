@@ -37,6 +37,6 @@ export default async function ConferencePage({
       user: { email, id, name },
     },
   } = await getData(params.locale);
-  
+
   return <Conference email={email} userId={id} name={name} />;
 }

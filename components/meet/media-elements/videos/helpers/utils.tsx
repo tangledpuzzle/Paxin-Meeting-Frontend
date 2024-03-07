@@ -13,7 +13,7 @@ export const setForMobileLandscape = (participantsToRender: JSX.Element[]) => {
     elms.push(
       <div key={0} className={`camera-row-0 total-items-${length}`}>
         {participantsToRender}
-      </div>,
+      </div>
     );
   } else {
     const c = chunk(participantsToRender, Math.ceil(length / 2));
@@ -24,7 +24,7 @@ export const setForMobileLandscape = (participantsToRender: JSX.Element[]) => {
           className={`camera-row-${i} total-items-${length} inner-items-${el.length}`}
         >
           {el}
-        </div>,
+        </div>
       );
     });
   }
@@ -45,7 +45,7 @@ export const setForMobileAndTablet = (participantsToRender: JSX.Element[]) => {
     elms.push(
       <div key={0} className={`camera-row-0 total-items-${length}`}>
         {participantsToRender}
-      </div>,
+      </div>
     );
   } else if (length > 3 && length <= 4) {
     const c = chunk(participantsToRender, Math.ceil(length / 2));
@@ -56,7 +56,7 @@ export const setForMobileAndTablet = (participantsToRender: JSX.Element[]) => {
           className={`camera-row-${i} total-items-${length} inner-items-${el.length}`}
         >
           {el}
-        </div>,
+        </div>
       );
     });
   } else {
@@ -68,7 +68,7 @@ export const setForMobileAndTablet = (participantsToRender: JSX.Element[]) => {
           className={`camera-row-${i} total-items-${length} inner-items-${el.length}`}
         >
           {el}
-        </div>,
+        </div>
       );
     });
   }
@@ -89,7 +89,7 @@ export const setForPC = (participantsToRender: JSX.Element[]) => {
     elms.push(
       <div key={0} className={`camera-row-0 total-items-${length}`}>
         {participantsToRender}
-      </div>,
+      </div>
     );
   } else if (length >= 4 && length <= 10) {
     const c = chunk(participantsToRender, Math.ceil(length / 2));
@@ -100,7 +100,7 @@ export const setForPC = (participantsToRender: JSX.Element[]) => {
           className={`camera-row-${i} total-items-${length} inner-items-${el.length}`}
         >
           {el}
-        </div>,
+        </div>
       );
     });
   } else {
@@ -112,7 +112,7 @@ export const setForPC = (participantsToRender: JSX.Element[]) => {
           className={`camera-row-${i} total-items-${length} inner-items-${el.length}`}
         >
           {el}
-        </div>,
+        </div>
       );
     });
   }
