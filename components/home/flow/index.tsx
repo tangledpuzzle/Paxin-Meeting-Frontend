@@ -96,10 +96,10 @@ export default function FlowSection() {
   return (
     <div className='w-full'>
       {maxPage > 1 && (
-        <div className='flex justify-start gap-1 z-20  fixed left-3 bottom-0 h-[35px] top-[calc(100dvh_-_2.8rem)] md:top-[calc(100dvh_-_4rem)]'>
+        <div className='flex justify-start gap-1 z-20  fixed left-3 bottom-0 h-[35px] top-[calc(100dvh_-_3rem)] md:top-[calc(100dvh_-_4rem)]'>
         <Button
             aria-disabled={Number(searchParams.get('page') || 1) === 1}
-            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 p-0 w-[25px]  md:w-[50px]'
+            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 p-0 w-[30px]  md:w-[50px]'
             asChild
           >
             <Link href={prevPageLink || ''}>
@@ -109,7 +109,7 @@ export default function FlowSection() {
           </Button>
           <Button
             aria-disabled={Number(searchParams.get('page') || 1) === maxPage}
-            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 p-0 w-[25px] md:w-[50px]'
+            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 p-0 w-[30px] md:w-[50px]'
             asChild
           >
             <Link href={nextPageLink || ''}>
@@ -119,7 +119,7 @@ export default function FlowSection() {
           </Button>
         </div>
       )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-4'>
         {!error ? (
           flowData && !isLoading ? (
             flowData?.length > 0 ? (
@@ -152,30 +152,7 @@ export default function FlowSection() {
           <></>
         )}
       </div>
-      {maxPage > 1 && (
-        <div className='flex w-full justify-start gap-2'>
-          <Button
-            aria-disabled={Number(searchParams.get('page') || 1) === 1}
-            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60'
-            asChild
-          >
-            <Link href={prevPageLink || ''}>
-              {/* {t('back_flow')} */}
-              <GrPrevious />
-            </Link>
-          </Button>
-          <Button
-            aria-disabled={Number(searchParams.get('page') || 1) === maxPage}
-            className='aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60'
-            asChild
-          >
-            <Link href={nextPageLink || ''}>
-              {/* {t('next_flow')} */}
-              <GrNext />
-            </Link>
-          </Button>
-        </div>
-      )}
+
     </div>
   );
 }

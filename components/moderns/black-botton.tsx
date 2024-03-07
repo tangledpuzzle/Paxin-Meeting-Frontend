@@ -1,7 +1,6 @@
 import React from 'react';
 import '@/styles/glowblack.css';
 import { useTheme } from 'next-themes';
-import Image from 'next/image';
 import { IoFilterSharp } from "react-icons/io5";
 
 interface GlowingButtonProps {
@@ -14,7 +13,7 @@ const GlowingButton: React.FC<GlowingButtonProps> = ({ buttonText }) => {
   return (
     <div>
       <div
-        className={`glowing-wrapper mt-0 ${theme === 'dark' ? 'glowing-wrapper-active' : 'glowing-wrapper-ligth'}`}
+        className={`glowing-wrapper mt-0 glowing-wrapper-ligth`}
       >
         <div className='glowing-wrapper-animations'>
           <div className='glowing-wrapper-glow'></div>
