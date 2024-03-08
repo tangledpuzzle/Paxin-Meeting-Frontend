@@ -53,6 +53,7 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
   });
 
   const submitBlog = async (data: FormData) => {
+    setOpenModal(false);
     const res = await axios.post(
       `/api/profiles/newReq?mode=${requestType === 'city' ? 'ReqCity' : 'ReqCat'}`,
       data
@@ -62,14 +63,13 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
       toast.success(t('request_save_success', { type: requestType }), {
         position: 'top-right',
       });
-      setOpenModal(false);
     } else {
       toast.error(t('request_save_success', { type: requestType }), {
         position: 'top-right',
       });
     }
 
-    setOpenModal(false);
+    
   };
 
   return (
