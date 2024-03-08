@@ -28,6 +28,7 @@ import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
 import { IoLanguage } from 'react-icons/io5';
+import { MessageDialog } from '@/components/home/flow/message-dialog';
 
 interface GalleryData {
   original: string;
