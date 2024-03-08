@@ -7,11 +7,13 @@ import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import { Howl, Howler } from 'howler';
 import { useSession } from 'next-auth/react';
+import { useLocale } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 Howler.autoUnlock = true;
 
 export default function Providers({ children }: { children: React.ReactNode }) {
+  const locale = useLocale();
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
   const [activeRoom, setActiveRoom] = useState<string>('');
   const [activeRoomSubscribed, setActiveRoomSubscribed] = useState(false);
@@ -134,8 +136,16 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           lastMessage: publication.body.last_message.content,
           user: {
             id: sender.user.id,
-            name: sender.user.name,
-            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${sender.user.photo}`,
+            profile: {
+              name: sender.user.name,
+              avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${sender.user.photo}`,
+              categories: sender.user.profile[0].guild.map(
+                (guild: any) => guild.translations[0].name
+              ),
+              bio: sender.user.profile[0].multilang_descr[
+                locale.charAt(0).toUpperCase() + locale.slice(1)
+              ],
+            },
             online: sender.user.online,
             bot: sender.user.is_bot,
           },

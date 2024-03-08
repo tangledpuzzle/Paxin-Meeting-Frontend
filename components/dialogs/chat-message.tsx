@@ -19,6 +19,7 @@ import {
   MdOutlineDoNotDisturb,
   MdOutlineModeEditOutline,
 } from 'react-icons/md';
+import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageProps {
   id: string;
@@ -35,6 +36,7 @@ interface ChatMessageProps {
   isSent?: boolean;
   isReceived?: boolean;
   isSeen?: boolean;
+  isBot?: boolean;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
 }
@@ -78,7 +80,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                   <span className='select-none'>{t('message_deleted')}</span>
                 </>
               ) : (
-                props.message
+                <ReactMarkdown className='prose' children={props.message} />
               )}
             </div>
           </div>
