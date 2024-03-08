@@ -222,6 +222,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     chatRooms.forEach((room) => {
       if (room.id === activeRoom) {
+        console.log(room.subscribed, chatRooms, activeRoom, 'SDF');
         setActiveRoomSubscribed(room.subscribed);
       }
     });
