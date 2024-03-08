@@ -2,6 +2,14 @@
 
 import { Button } from '@/components/ui/button';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
   Form,
   FormControl,
   FormField,
@@ -9,11 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Textarea } from '@/components/ui/textarea';
 import createRoom from '@/lib/server/chat/createRoom';
 import getRoomDetails from '@/lib/server/chat/getRoomDetails';
 import sendMessage from '@/lib/server/chat/sendMessage';
@@ -115,45 +119,51 @@ export default function MessageForm({
   };
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>{children}</PopoverTrigger>
-      <PopoverContent className='w-full max-w-[320px] sm:w-80'>
-        <div>
-          <div className='space-y-2'>
-            <h4 className='font-medium leading-none'>
-              {t.rich('message_to_username', { username: `@${user.username}` })}
-            </h4>
-          </div>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(submit)}>
-              <FormField
-                control={form.control}
-                name='message'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className='mt-4 flex items-center'>
-                        <Input className='rounded-r-none' {...field} />
-                        <Button
-                          type='submit'
-                          size='icon'
-                          className='h-9 rounded-l-none'
-                        >
-                          {isLoading && (
-                            <Loader2 className='size-5 animate-spin' />
-                          )}
-                          {!isLoading && <IoMdSend className='size-5' />}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </form>
-          </Form>
-        </div>
-      </PopoverContent>
-    </Popover>
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className='sm:max-w-[425px]'>
+        <DialogHeader>
+          <DialogTitle>
+            {t.rich('message_to_username', { username: `@${user.username}` })}
+          </DialogTitle>
+        </DialogHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(submit)}>
+            <FormField
+              control={form.control}
+              name='message'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea className='w-full' {...field} />
+                    {/* <div className='mt-4 flex items-center'>
+                      <Input className='rounded-r-none' {...field} />
+                      <Button
+                        type='submit'
+                        size='icon'
+                        className='h-9 rounded-l-none'
+                      >
+                        {isLoading && (
+                          <Loader2 className='size-5 animate-spin' />
+                        )}
+                        {!isLoading && <IoMdSend className='size-5' />}
+                      </Button>
+                    </div> */}
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className='mt-2 flex w-full justify-end'>
+              <Button type='submit'>
+                {isLoading && <Loader2 className='mr-2 size-5 animate-spin' />}
+                {!isLoading && <IoMdSend className='mr-2 size-5' />}
+                {t('send')}
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 }
