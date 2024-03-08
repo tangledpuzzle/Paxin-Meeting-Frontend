@@ -33,29 +33,30 @@ import toast from 'react-hot-toast';
 export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
   const t = useTranslations('main');
 
-  const formSchema =
-    z.object({
-      title: z.string().min(1, t('title_is_required')),
-      descr: z
-        .string()
-        .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
-          message: t('content_is_required'),
-        }),
-    });
+  const formSchema = z.object({
+    title: z.string().min(1, t('title_is_required')),
+    descr: z
+      .string()
+      .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
+        message: t('content_is_required'),
+      }),
+  });
 
   type FormData = z.infer<typeof formSchema>;
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues:
-    {
+    defaultValues: {
       title: '',
-      descr: ''
+      descr: '',
     },
   });
 
   const submitBlog = async (data: FormData) => {
-    const res = await axios.post(`/api/profiles/newReq?mode=${requestType === "city" ? 'ReqCity' : 'ReqCat'}`, data);
+    const res = await axios.post(
+      `/api/profiles/newReq?mode=${requestType === 'city' ? 'ReqCity' : 'ReqCat'}`,
+      data
+    );
 
     if (res.status === 200) {
       toast.success(t('request_save_success', { type: requestType }), {
@@ -81,7 +82,9 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
           <div>
             <DialogTitle>{t('send_request')}</DialogTitle>
             <DialogDescription>
-              {requestType === "city" ? t(`send_request_city_description`) : t(`send_request_category_description`)}
+              {requestType === 'city'
+                ? t(`send_request_city_description`)
+                : t(`send_request_category_description`)}
             </DialogDescription>
           </div>
         </DialogHeader>
@@ -96,7 +99,9 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
                 name='title'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='city'>{requestType === "category" ? t('category') : t('city')}</FormLabel>
+                    <FormLabel htmlFor='city'>
+                      {requestType === 'category' ? t('category') : t('city')}
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -111,7 +116,7 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
                   <FormItem>
                     <FormLabel htmlFor='category'>{t('description')}</FormLabel>
                     <FormControl>
-                      <Textarea  {...field} />
+                      <Textarea {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -119,9 +124,7 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
               />
             </div>
             <DialogFooter className='mt-4 flex flex-row justify-end'>
-              <Button type='submit'>
-                {t('send')}
-              </Button>
+              <Button type='submit'>{t('send')}</Button>
             </DialogFooter>
           </form>
         </Form>

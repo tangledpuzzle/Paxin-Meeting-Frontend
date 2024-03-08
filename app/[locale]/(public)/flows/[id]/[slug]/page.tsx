@@ -95,8 +95,6 @@ async function getData(locale: string, id: string, slug: string) {
       throw new Error('Failed to fetch data');
     }
 
-    console.log(blogData.data[0].user);
-
     const blog = {
       id: blogData.data[0].id,
       title:
@@ -178,7 +176,7 @@ export default async function FlowPage({
   const roomId = await getRoomId(blogDetails?.author?.userId || '');
 
   return blogDetails ? (
-    <section className='container py-4'>
+    <section className='container px-4 py-4 md:px-8'>
       <div className='flex justify-between'>
         <BackButton callback={searchParams['callback']} />
         <span className='flex items-center justify-center px-0 uppercase'>
@@ -199,8 +197,8 @@ export default async function FlowPage({
         <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
       </div> */}
 
-      <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-4'>
-        <div className='md:col-span-2 xl:col-span-3'>
+      <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-3'>
+        <div className='md:col-span-2 xl:col-span-2'>
           <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
             <div className='col-span-2 grid grid-cols-2 gap-2 xl:col-span-3'>
               <div>
@@ -218,7 +216,7 @@ export default async function FlowPage({
                       >
                         <Badge
                           variant='outline'
-                          className='max-w-full rounded-full border-primary bg-primary/10 text-primary hover:border-[#00ffc4]'
+                          className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                         >
                           {city}
                         </Badge>
@@ -241,7 +239,7 @@ export default async function FlowPage({
                       >
                         <Badge
                           variant='outline'
-                          className='max-w-full rounded-full border-primary bg-primary/10 text-primary hover:border-[#00ffc4]'
+                          className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                         >
                           {category}
                         </Badge>
@@ -263,7 +261,7 @@ export default async function FlowPage({
                     >
                       <Badge
                         variant='outline'
-                        className='max-w-full rounded-full border-primary bg-primary/10 text-primary hover:border-[#00ffc4]'
+                        className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                       >
                         {blogDetails.price?.toLocaleString('en-US', {
                           style: 'currency',
@@ -283,7 +281,7 @@ export default async function FlowPage({
                 <div className='flex gap-2'>
                   <Badge
                     variant='outline'
-                    className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
+                    className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                   >
                     {blogDetails.review?.views}
                   </Badge>

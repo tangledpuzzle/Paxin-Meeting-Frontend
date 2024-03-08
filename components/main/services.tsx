@@ -56,7 +56,6 @@ function ServiceCard({
       <div className=' text-center font-satoshi text-xs font-medium text-white sm:text-lg'>
         {t(title as keyof IntlMessages['main'])}
       </div>
-
     </div>
   );
 }
@@ -65,17 +64,17 @@ export default function ServicesSection() {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-start md:items-center justify-center px-0 pb-[40px] md:pb-[80px]'>
+    <div className='flex flex-col items-start justify-center px-0 pb-[40px] md:items-center md:pb-[80px]'>
       <div className='px-7'>
-      <SectionBadge>{t('services')}</SectionBadge>
+        <SectionBadge>{t('services')}</SectionBadge>
       </div>
-      <SectionTitle className='px-7 leading-[30px] text-left md:text-center'>
+      <SectionTitle className='px-7 text-left leading-[30px] md:text-center'>
         {t('combination_of_services_in_one_platform')}
       </SectionTitle>
-      <SectionDescription className='px-7 leading-[25.15px] text-left md:text-center'>
+      <SectionDescription className='px-7 text-left leading-[25.15px] md:text-center'>
         {t('combination_of_services_in_one_platform_description')}
       </SectionDescription>
-      <div className='relative mt-10 grid w-full max-w-full px-7 grid-cols-2 gap-4'>
+      <div className='relative mt-10 grid w-full max-w-full grid-cols-2 gap-4 px-7'>
         {services.map((service) => (
           <ServiceCard
             key={service.title}
@@ -101,9 +100,7 @@ export default function ServicesSection() {
               className='m-auto hidden size-full dark:block'
             />
           </div>
-          
         </div>
-
       </div>
     </div>
   );

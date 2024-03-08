@@ -8,14 +8,14 @@ export interface BreadcrumbProps extends React.HTMLAttributes<HTMLElement> {
 function Breadcrumb({ contents }: BreadcrumbProps) {
   return (
     <nav
-      className='my-4 text-sm font-bold text-gray-400 overflow-hidden'
+      className='my-4 overflow-hidden text-sm font-bold text-gray-400'
       aria-label='Breadcrumb'
     >
       <ol className='inline-flex list-none p-0'>
         {contents.map((content, index) => {
           return index == contents.length - 1 ? (
             <div
-              className='flex items-center text-secondary-foreground text-nowrap'
+              className='flex items-center text-nowrap text-secondary-foreground'
               key={index}
             >
               {content.name}

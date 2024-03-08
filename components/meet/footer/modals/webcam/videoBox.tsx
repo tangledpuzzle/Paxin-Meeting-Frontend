@@ -45,12 +45,12 @@ const VideoBox = ({
   };
 
   return (
-    <div className="preview-camera-webcam">
+    <div className='preview-camera-webcam'>
       <video
-        className="my-5 w-full"
+        className='my-5 w-full'
         ref={ref}
         autoPlay
-        height="50"
+        height='50'
         onLoadedData={handleVideoLoad}
       />
     </div>

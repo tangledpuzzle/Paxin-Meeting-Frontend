@@ -37,7 +37,7 @@ const VideoElm = ({ track }: IVideoElmProps) => {
     if (!document.fullscreenElement) {
       ref.current?.requestFullscreen().catch((err) => {
         alert(
-          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`,
+          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
         );
       });
     } else {
@@ -46,20 +46,20 @@ const VideoElm = ({ track }: IVideoElmProps) => {
   };
 
   return (
-    <div className="screen-share-video relative">
+    <div className='screen-share-video relative'>
       {!loaded ? (
-        <div className="loading flex justify-center">
-          <div className="lds-ripple">
-            <div className="border-secondaryColor" />
-            <div className="border-secondaryColor" />
+        <div className='loading flex justify-center'>
+          <div className='lds-ripple'>
+            <div className='border-secondaryColor' />
+            <div className='border-secondaryColor' />
           </div>
         </div>
       ) : null}
       <button
-        className="absolute z-[99] bottom-0 right-0 p-1 bg-black/50"
+        className='absolute bottom-0 right-0 z-[99] bg-black/50 p-1'
         onClick={fullScreen}
       >
-        <i className="icon pnm-fullscreen text[20px] text-white" />
+        <i className='icon pnm-fullscreen text[20px] text-white' />
       </button>
       <video
         onLoadedData={onLoadedData}

@@ -72,7 +72,7 @@ export default function MessageForm({
           return;
         }
 
-        router.push(`/profile/messages/${_roomId}`);
+        router.push(`/profile/chat/${_roomId}`);
       } else {
         const roomDataRes = await getRoomDetails({ roomId });
         if (!roomDataRes || !roomDataRes.data.Members) {
@@ -103,7 +103,7 @@ export default function MessageForm({
           return;
         }
 
-        router.push(`/profile/messages/${roomId}`);
+        router.push(`/profile/chat/${roomId}`);
       }
     } catch (error) {
       toast.error(t('failed_to_send_message'), {

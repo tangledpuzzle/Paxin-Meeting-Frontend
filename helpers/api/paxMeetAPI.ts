@@ -105,9 +105,13 @@ export const createRoomId = (feed: string): string => {
   const timestampHash = hashTimestamp(Date.now());
   const roomId = `${feed}-${randomPart}-${timestampHash}`;
   return roomId;
-}
+};
 
-export const createRoom = async (roomId: string, userId: string, userName: string): Promise<string> => {
+export const createRoom = async (
+  roomId: string,
+  userId: string,
+  userName: string
+): Promise<string> => {
   const roomInfo = {
     // room_id: data.get('room_id'),
     room_id: roomId,
@@ -193,10 +197,14 @@ export const createRoom = async (roomId: string, userId: string, userName: strin
   };
 
   const token = await processRequest('create', roomInfo, userInfo);
-  return token ?? ""
-}
+  return token ?? '';
+};
 
-export const joinRoom = async (roomId: string, userId: string, userName: string): Promise<string> => {
+export const joinRoom = async (
+  roomId: string,
+  userId: string,
+  userName: string
+): Promise<string> => {
   const roomInfo = {
     room_id: roomId,
   };
@@ -211,8 +219,8 @@ export const joinRoom = async (roomId: string, userId: string, userName: string)
   };
 
   const token = await processRequest('join', roomInfo, userInfo);
-  return token ?? ""
-}
+  return token ?? '';
+};
 
 const sendAPIRequest = async (
   path: string,
@@ -225,7 +233,7 @@ const sendAPIRequest = async (
     const API = axios.create({
       baseURL: process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL + '/api',
     });
-    
+
     if (json_encode) {
       body = JSON.stringify(body);
     }

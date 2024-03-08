@@ -1,6 +1,7 @@
 'use server';
 
 import getSubscribedRooms from './getSubscribedRooms';
+import getUnsubscribedNewRooms from './getUnsubscribedNewRooms';
 
 const getRoomId = async (userId: string) => {
   try {
@@ -8,17 +9,12 @@ const getRoomId = async (userId: string) => {
       return '';
     }
 
-    const data = await getSubscribedRooms();
+    const subscribedRooms = await getSubscribedRooms();
+    const unSubscribedRooms = await getUnsubscribedNewRooms();
 
-    if (!data) {
-      return '';
-    }
-
-    for (const room of data.data) {
-      for (const member of room.Members) {
-        if (member.UserID === userId) {
-          return `${room.ID}`;
-        }
+    for (const room of [...subscribedRooms, ...unSubscribedRooms]) {
+      if (room.user.id === userId) {
+        return room.id;
       }
     }
 

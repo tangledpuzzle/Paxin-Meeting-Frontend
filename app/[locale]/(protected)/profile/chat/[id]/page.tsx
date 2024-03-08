@@ -1,26 +1,32 @@
 'use client';
 
+import { ConfirmModal } from '@/components/common/confirm-modal';
+import ChatMessage from '@/components/dialogs/chat-message';
 import { Button } from '@/components/ui/button';
 import DropdownMenuDemo from '@/components/ui/chatmenu';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { PaxChatContext } from '@/context/chat-context';
 import { PaxContext } from '@/context/context';
-import getAllMessages from '@/lib/server/chat/getAllMessages';
-import getRoomDetails from '@/lib/server/chat/getRoomDetails';
+import deleteMessage from '@/lib/server/chat/deleteMessage';
+import editMessage from '@/lib/server/chat/editMessage';
 import sendMessage from '@/lib/server/chat/sendMessage';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { IoSendOutline } from 'react-icons/io5';
+import subscribe from '@/lib/server/chat/subscribe';
+import { useTranslations } from 'next-intl';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
+import { IoCheckmarkSharp, IoSendOutline } from 'react-icons/io5';
 
 interface ChatMessage {
   id: string;
   message: string;
-  time: string;
+  timestamp: string;
   user: {
     id: string;
     name: string;
     avatar: string;
   };
+  isDeleted?: boolean;
+  isEdited?: boolean;
 }
 
 export default function ChatDetailPage({
@@ -28,46 +34,168 @@ export default function ChatDetailPage({
 }: {
   params: { id: string };
 }) {
+  const t = useTranslations('chatting');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { user } = useContext(PaxContext);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const {
+    messages,
+    setMessages,
+    chatRooms,
+    setChatRooms,
+    activeRoom,
+    setActiveRoom,
+    activeRoomSubscribed,
+    setActiveRoomSubscribed,
+    isMessageLoading,
+    isRoomLoading,
+  } = useContext(PaxChatContext);
   const [inputMessage, setInputMessage] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
+  const [deleteMessageId, setDeleteMessageId] = useState('');
+  const [editMessageId, setEditMessageId] = useState('');
+  const [replyMessageId, setReplyMessageId] = useState('');
 
   const handleMessageSubmit = async () => {
     if (inputMessage === '') return;
 
     try {
       const res = await sendMessage({ roomId: id, message: inputMessage });
+
+      if (res?.status === 'success') {
+        setInputMessage('');
+        console.log(messages, '===');
+        setMessages([
+          ...messages,
+          {
+            id: `${res.data.message.ID}` as string,
+            message: res.data.message.Content as string,
+            owner: {
+              id: user?.id as string,
+              name: user?.username as string,
+              avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+            },
+            isDeleted: false,
+            isEdited: true,
+            timestamp: res.data.message.CreatedAt as string,
+          },
+        ]);
+      } else {
+        toast.error(t('failed_to_send_message'), {
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(t('failed_to_send_message'), {
+        position: 'top-right',
+      });
+    }
+  };
+
+  const handleMessageDelete = useCallback(async (id: string) => {
+    setIsDeleting(true);
+    setDeleteMessageId(id);
+  }, []);
+
+  const handleMessageEdit = useCallback(
+    async (id: string) => {
+      console.log(id, messages);
+      setIsEditing(true);
+      setEditMessageId(id);
+      setInputMessage(
+        messages.find((message) => message.id === id)?.message || ''
+      );
+      // textareaRef.current?.focus();
+    },
+    [messages]
+  );
+
+  const handleMessageReply = useCallback(async (id: string) => {
+    setIsReplying(true);
+    setReplyMessageId(id);
+    textareaRef.current?.focus();
+  }, []);
+
+  const handleMessageDeleteSubmit = async () => {
+    if (deleteMessageId === '') return;
+
+    try {
+      const res = await deleteMessage({ messageId: deleteMessageId });
+
+      if (res?.status === 'success') {
+        const index = messages.findIndex((msg) => msg.id === deleteMessageId);
+
+        const _messages = messages;
+        _messages[index].isDeleted = true;
+
+        setMessages(_messages);
+
+        setIsDeleting(false);
+        setDeleteMessageId('');
+      } else {
+        toast.error(t('failed_to_delete_message'), {
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsDeleting(false);
+      setDeleteMessageId('');
+    }
+  };
+
+  const handleMessageEditSubmit = async () => {
+    if (inputMessage === '') return;
+    if (editMessageId === '') return;
+
+    try {
+      const res = await editMessage({
+        messageId: editMessageId,
+        newMessage: inputMessage,
+      });
+
+      if (res?.status === 'success') {
+        // const index = messages.findIndex((msg) => msg.id === editMessageId);
+
+        // const _messages = messages;
+        // _messages[index].message = res.data.message.Content;
+        // _messages[index].isEdited = true;
+
+        // setMessages(_messages);
+
+        setIsEditing(false);
+        setEditMessageId('');
+        setInputMessage('');
+      } else {
+        toast.error(t('failed_to_edit_message'), {
+          position: 'top-right',
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    getAllMessages({ roomId: id }).then((res) => {
-      const _messages: ChatMessage[] = [];
+  const handleSubscribe = async (roomId: string) => {
+    try {
+      const res = await subscribe(roomId);
 
-      for (const item of res.data.messages) {
-        _messages.push({
-          id: `${item.ID}`,
-          message: item.Content,
-          time: item.CreatedAt,
-          user: {
-            id: item.UserID,
-            name: item.User.Name,
-            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${item.User.Photo}`,
-          },
+      if (res?.status === 'success') {
+        setChatRooms((chatRooms) => {
+          const index = chatRooms.findIndex((room) => room.id === roomId);
+          chatRooms[index].subscribed = true;
+
+          return chatRooms;
         });
+
+        setActiveRoomSubscribed(true);
       }
-
-      _messages.sort((a, b) => {
-        return new Date(a.time).getTime() - new Date(b.time).getTime();
-      });
-
-      setMessages(_messages);
-    });
-  }, [user]);
+    } catch (error) {}
+  };
 
   const auto_height = () => {
     const textarea = textareaRef.current;
@@ -78,58 +206,87 @@ export default function ChatDetailPage({
     }
   };
 
-  return (
+  useEffect(() => {
+    setActiveRoom(id);
+  }, []);
+
+  return !isMessageLoading && !isRoomLoading ? (
     <div>
+      <ConfirmModal
+        isOpen={isDeleting}
+        onClose={() => {
+          setIsDeleting(false);
+          setDeleteMessageId('');
+        }}
+        title={t('delete_message')}
+        description={t('are_you_sure_delete_message')}
+        onConfirm={() => {
+          handleMessageDeleteSubmit();
+        }}
+        loading={false}
+      />
+
       <ScrollArea
         ref={scrollAreaRef}
-        className='h-[calc(100vh_-_11rem)] w-full rounded-lg bg-background p-4'
+        className='h-[calc(100vh_-_10.5rem)] w-full rounded-lg bg-background p-4 py-0'
       >
         {messages.map((message) => (
-          <div
+          <ChatMessage
             key={message.id}
-            className={cn('chat-msg', { owner: message.user.id === user?.id })}
-          >
-            <div className='chat-msg-profile'>
-              <Image
-                width={40}
-                height={40}
-                className='chat-msg-img'
-                src={message.user.avatar}
-                alt=''
-              />
-              <div className='chat-msg-date'>Message seen 2.45pm</div>
-            </div>
-            <div className='chat-msg-content'>
-              <div
-                className={cn('chat-msg-text', {
-                  'bg-card-gradient-menu': message.user.id !== user?.id,
-                })}
-              >
-                {message.message}
-              </div>
-            </div>
-          </div>
+            {...message}
+            onDelete={handleMessageDelete}
+            onEdit={handleMessageEdit}
+          />
         ))}
       </ScrollArea>
       <div className='chatInput'>
-        <div className='flex justify-between '>
-          <DropdownMenuDemo />
-          <textarea
-            ref={textareaRef}
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            className='mb-[10px] ml-[10px] mr-[40px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2'
-            onInput={auto_height}
-          ></textarea>
-          <button
-            type='button'
-            onClick={handleMessageSubmit}
-            className='absolute right-0 flex h-full cursor-pointer items-end justify-center pb-6 pr-3'
+        {!activeRoomSubscribed && (
+          <Button
+            variant='ghost'
+            onClick={() => {
+              handleSubscribe(id);
+            }}
+            className='h-[100px] w-full'
           >
-            <IoSendOutline color='gray' size={18} />
-          </button>
-        </div>
+            {t('accept_chat')}
+          </Button>
+        )}
+        {activeRoomSubscribed && (
+          <div className='flex justify-between'>
+            <DropdownMenuDemo />
+            <textarea
+              ref={textareaRef}
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              className='mb-[10px] ml-[10px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2'
+              onInput={auto_height}
+            ></textarea>
+            {isEditing ? (
+              <Button
+                type='button'
+                variant='ghost'
+                size='icon'
+                onClick={handleMessageEditSubmit}
+                className='mx-2 mb-[10px] mt-auto'
+              >
+                <IoCheckmarkSharp color='green' size={18} />
+              </Button>
+            ) : (
+              <Button
+                type='button'
+                variant='ghost'
+                size='icon'
+                onClick={handleMessageSubmit}
+                className='mx-2 mb-[10px] mt-auto'
+              >
+                <IoSendOutline color='gray' size={18} />
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     </div>
+  ) : (
+    <></>
   );
 }

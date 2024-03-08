@@ -77,28 +77,28 @@ export class CreateIngressReq extends Message<CreateIngressReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): CreateIngressReq {
     return new CreateIngressReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreateIngressReq {
     return new CreateIngressReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreateIngressReq {
     return new CreateIngressReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: CreateIngressReq | PlainMessage<CreateIngressReq> | undefined,
-    b: CreateIngressReq | PlainMessage<CreateIngressReq> | undefined,
+    b: CreateIngressReq | PlainMessage<CreateIngressReq> | undefined
   ): boolean {
     return proto3.util.equals(CreateIngressReq, a, b);
   }
@@ -155,28 +155,28 @@ export class CreateIngressRes extends Message<CreateIngressRes> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): CreateIngressRes {
     return new CreateIngressRes().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreateIngressRes {
     return new CreateIngressRes().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreateIngressRes {
     return new CreateIngressRes().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: CreateIngressRes | PlainMessage<CreateIngressRes> | undefined,
-    b: CreateIngressRes | PlainMessage<CreateIngressRes> | undefined,
+    b: CreateIngressRes | PlainMessage<CreateIngressRes> | undefined
   ): boolean {
     return proto3.util.equals(CreateIngressRes, a, b);
   }

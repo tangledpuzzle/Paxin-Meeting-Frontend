@@ -33,7 +33,7 @@ const OutputViewer = ({
     backgroundConfig,
     segmentationConfig,
     bodyPix,
-    tflite,
+    tflite
   );
 
   useEffect(() => {
@@ -60,11 +60,11 @@ const OutputViewer = ({
   }, [canvasRef]);
 
   return (
-    <div className="root preview-camera-webcam">
+    <div className='root preview-camera-webcam'>
       <canvas
         key={segmentationConfig.pipeline}
         ref={canvasRef}
-        className="render w-full my-5"
+        className='render my-5 w-full'
         width={sourcePlayback.width}
         height={sourcePlayback.height}
         id={id}

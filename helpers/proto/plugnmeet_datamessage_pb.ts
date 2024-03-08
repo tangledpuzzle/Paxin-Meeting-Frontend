@@ -281,28 +281,28 @@ export class DataMessage extends Message<DataMessage> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): DataMessage {
     return new DataMessage().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): DataMessage {
     return new DataMessage().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): DataMessage {
     return new DataMessage().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: DataMessage | PlainMessage<DataMessage> | undefined,
-    b: DataMessage | PlainMessage<DataMessage> | undefined,
+    b: DataMessage | PlainMessage<DataMessage> | undefined
   ): boolean {
     return proto3.util.equals(DataMessage, a, b);
   }
@@ -383,28 +383,28 @@ export class DataMsgBody extends Message<DataMsgBody> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): DataMsgBody {
     return new DataMsgBody().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): DataMsgBody {
     return new DataMsgBody().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): DataMsgBody {
     return new DataMsgBody().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: DataMsgBody | PlainMessage<DataMsgBody> | undefined,
-    b: DataMsgBody | PlainMessage<DataMsgBody> | undefined,
+    b: DataMsgBody | PlainMessage<DataMsgBody> | undefined
   ): boolean {
     return proto3.util.equals(DataMsgBody, a, b);
   }
@@ -450,28 +450,28 @@ export class DataMsgReqFrom extends Message<DataMsgReqFrom> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): DataMsgReqFrom {
     return new DataMsgReqFrom().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): DataMsgReqFrom {
     return new DataMsgReqFrom().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): DataMsgReqFrom {
     return new DataMsgReqFrom().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: DataMsgReqFrom | PlainMessage<DataMsgReqFrom> | undefined,
-    b: DataMsgReqFrom | PlainMessage<DataMsgReqFrom> | undefined,
+    b: DataMsgReqFrom | PlainMessage<DataMsgReqFrom> | undefined
   ): boolean {
     return proto3.util.equals(DataMsgReqFrom, a, b);
   }

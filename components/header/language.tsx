@@ -24,7 +24,6 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
   const locale = useLocale();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  console.log(pathname, router);
   const newSearchParams = new URLSearchParams(searchParams).toString();
   const changeLang = (lang: string) => {
     router.push(

@@ -65,28 +65,28 @@ export class CreatePollReq extends Message<CreatePollReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): CreatePollReq {
     return new CreatePollReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreatePollReq {
     return new CreatePollReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreatePollReq {
     return new CreatePollReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: CreatePollReq | PlainMessage<CreatePollReq> | undefined,
-    b: CreatePollReq | PlainMessage<CreatePollReq> | undefined,
+    b: CreatePollReq | PlainMessage<CreatePollReq> | undefined
   ): boolean {
     return proto3.util.equals(CreatePollReq, a, b);
   }
@@ -120,28 +120,28 @@ export class CreatePollOptions extends Message<CreatePollOptions> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): CreatePollOptions {
     return new CreatePollOptions().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreatePollOptions {
     return new CreatePollOptions().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CreatePollOptions {
     return new CreatePollOptions().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: CreatePollOptions | PlainMessage<CreatePollOptions> | undefined,
-    b: CreatePollOptions | PlainMessage<CreatePollOptions> | undefined,
+    b: CreatePollOptions | PlainMessage<CreatePollOptions> | undefined
   ): boolean {
     return proto3.util.equals(CreatePollOptions, a, b);
   }
@@ -217,28 +217,28 @@ export class PollInfo extends Message<PollInfo> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): PollInfo {
     return new PollInfo().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PollInfo {
     return new PollInfo().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PollInfo {
     return new PollInfo().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: PollInfo | PlainMessage<PollInfo> | undefined,
-    b: PollInfo | PlainMessage<PollInfo> | undefined,
+    b: PollInfo | PlainMessage<PollInfo> | undefined
   ): boolean {
     return proto3.util.equals(PollInfo, a, b);
   }
@@ -295,28 +295,28 @@ export class SubmitPollResponseReq extends Message<SubmitPollResponseReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): SubmitPollResponseReq {
     return new SubmitPollResponseReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): SubmitPollResponseReq {
     return new SubmitPollResponseReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): SubmitPollResponseReq {
     return new SubmitPollResponseReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: SubmitPollResponseReq | PlainMessage<SubmitPollResponseReq> | undefined,
-    b: SubmitPollResponseReq | PlainMessage<SubmitPollResponseReq> | undefined,
+    b: SubmitPollResponseReq | PlainMessage<SubmitPollResponseReq> | undefined
   ): boolean {
     return proto3.util.equals(SubmitPollResponseReq, a, b);
   }
@@ -356,28 +356,28 @@ export class ClosePollReq extends Message<ClosePollReq> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): ClosePollReq {
     return new ClosePollReq().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ClosePollReq {
     return new ClosePollReq().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): ClosePollReq {
     return new ClosePollReq().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: ClosePollReq | PlainMessage<ClosePollReq> | undefined,
-    b: ClosePollReq | PlainMessage<ClosePollReq> | undefined,
+    b: ClosePollReq | PlainMessage<ClosePollReq> | undefined
   ): boolean {
     return proto3.util.equals(ClosePollReq, a, b);
   }
@@ -417,21 +417,21 @@ export class PollResponsesResultOptions extends Message<PollResponsesResultOptio
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): PollResponsesResultOptions {
     return new PollResponsesResultOptions().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PollResponsesResultOptions {
     return new PollResponsesResultOptions().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PollResponsesResultOptions {
     return new PollResponsesResultOptions().fromJsonString(jsonString, options);
   }
@@ -444,7 +444,7 @@ export class PollResponsesResultOptions extends Message<PollResponsesResultOptio
     b:
       | PollResponsesResultOptions
       | PlainMessage<PollResponsesResultOptions>
-      | undefined,
+      | undefined
   ): boolean {
     return proto3.util.equals(PollResponsesResultOptions, a, b);
   }
@@ -495,28 +495,28 @@ export class PollResponsesResult extends Message<PollResponsesResult> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): PollResponsesResult {
     return new PollResponsesResult().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PollResponsesResult {
     return new PollResponsesResult().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PollResponsesResult {
     return new PollResponsesResult().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: PollResponsesResult | PlainMessage<PollResponsesResult> | undefined,
-    b: PollResponsesResult | PlainMessage<PollResponsesResult> | undefined,
+    b: PollResponsesResult | PlainMessage<PollResponsesResult> | undefined
   ): boolean {
     return proto3.util.equals(PollResponsesResult, a, b);
   }
@@ -560,28 +560,28 @@ export class PollsStats extends Message<PollsStats> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): PollsStats {
     return new PollsStats().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PollsStats {
     return new PollsStats().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PollsStats {
     return new PollsStats().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: PollsStats | PlainMessage<PollsStats> | undefined,
-    b: PollsStats | PlainMessage<PollsStats> | undefined,
+    b: PollsStats | PlainMessage<PollsStats> | undefined
   ): boolean {
     return proto3.util.equals(PollsStats, a, b);
   }
@@ -711,28 +711,28 @@ export class PollResponse extends Message<PollResponse> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): PollResponse {
     return new PollResponse().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PollResponse {
     return new PollResponse().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PollResponse {
     return new PollResponse().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: PollResponse | PlainMessage<PollResponse> | undefined,
-    b: PollResponse | PlainMessage<PollResponse> | undefined,
+    b: PollResponse | PlainMessage<PollResponse> | undefined
   ): boolean {
     return proto3.util.equals(PollResponse, a, b);
   }

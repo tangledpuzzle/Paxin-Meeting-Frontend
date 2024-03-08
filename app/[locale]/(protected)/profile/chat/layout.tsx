@@ -1,6 +1,5 @@
 import ChatNavComponent from '@/components/dialogs/chat-nav';
-import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import ChatProviders from '@/provider/chat-provider';
 
 interface ChatLayoutProps {
   children: React.ReactNode;
@@ -8,9 +7,9 @@ interface ChatLayoutProps {
 
 export default function ChatLayout({ children }: ChatLayoutProps) {
   return (
-    <>
+    <ChatProviders>
       <ChatNavComponent />
       {children}
-    </>
+    </ChatProviders>
   );
 }
