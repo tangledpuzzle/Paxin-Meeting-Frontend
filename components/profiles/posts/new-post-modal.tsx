@@ -569,7 +569,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                               router.push(
                                 `${locale ? '/' + locale : ''}/profile/setting`
                               );
-                            } else value && form.setValue('city', [...value]);
+                            } else value && form.setValue('category', [...value]);
                           }}
                           options={categoryOptions}
                           classNames={{
