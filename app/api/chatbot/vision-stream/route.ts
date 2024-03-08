@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const res = await fetch(
-      `${process.env.AI_CHAT_ASSISTANT_API_URL}/api/assistant/chatStream`,
+      `${process.env.AI_CHAT_ASSISTANT_API_URL}/api/assistant/visionChatStream`,
       {
         method: 'POST',
         headers: {
