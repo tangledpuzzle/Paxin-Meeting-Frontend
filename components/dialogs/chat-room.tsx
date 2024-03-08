@@ -7,19 +7,19 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 import { ChatRoom, PaxChatContext } from '@/context/chat-context';
+import eventBus from '@/eventBus';
+import subscribe from '@/lib/server/chat/subscribe';
+import unsubscribe from '@/lib/server/chat/unsubscribe';
 import { cn } from '@/lib/utils';
 import { usePathname } from '@/navigation';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
-import eventBus from '@/eventBus';
-import { MdOutlineMarkChatRead } from 'react-icons/md';
-import { FaTrashCan } from 'react-icons/fa6';
-import subscribe from '@/lib/server/chat/subscribe';
 import { useContext, useState } from 'react';
-import unsubscribe from '@/lib/server/chat/unsubscribe';
-import { useTranslations } from 'next-intl';
+import { FaTrashCan } from 'react-icons/fa6';
+import { MdOutlineMarkChatRead } from 'react-icons/md';
 import { ConfirmModal } from '../common/confirm-modal';
-import { BiBot } from 'react-icons/bi';
+import { Badge } from '../ui/badge';
 
 export default function ChatRoom({ room }: { room: ChatRoom }) {
   const t = useTranslations('chatting');
@@ -107,9 +107,17 @@ export default function ChatRoom({ room }: { room: ChatRoom }) {
             </div>
 
             <div className='text-left rtl:text-right'>
-              <p className='line-clamp-1 text-sm font-medium text-gray-700 dark:text-white'>
-                {room.user.name}
-              </p>
+              <div className='flex text-sm font-medium text-gray-700 dark:text-white'>
+                <p className='line-clamp-1 max-w-36'>{room.user.name}</p>
+                {room.user.bot && (
+                  <Badge
+                    variant='outline'
+                    className='m-0 ml-1.5 rounded-full border-primary py-0 text-xs font-normal text-primary'
+                  >
+                    BOT
+                  </Badge>
+                )}
+              </div>
               <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
                 {room.lastMessage.message}
               </p>

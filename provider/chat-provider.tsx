@@ -3,19 +3,13 @@
 import { ChatMessage, ChatRoom, PaxChatContext } from '@/context/chat-context';
 import useCentrifuge from '@/hooks/useCentrifuge';
 import getAllMessages from '@/lib/server/chat/getAllMessages';
-import getConnectionToken from '@/lib/server/chat/getConnectionToken';
 import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
-import getSubscriptionToken from '@/lib/server/chat/getSubscriptionToken';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
-import {
-  Centrifuge,
-  PublicationContext,
-  SubscribedContext,
-  SubscriptionState,
-  SubscriptionStateContext,
-} from 'centrifuge';
+import { Howl, Howler } from 'howler';
 import { useSession } from 'next-auth/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+Howler.autoUnlock = true;
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
@@ -25,6 +19,13 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const [isMessageLoading, setIsMessageLoading] = useState(true);
   const [isRoomLoading, setIsRoomLoading] = useState(true);
   const { data: session } = useSession();
+
+  const messageReceivedSound = new Howl({
+    src: ['/audio/message-received.mp3'],
+    html5: true,
+    loop: false,
+    preload: true,
+  });
 
   const onPublication = (publication: any) => {
     console.log(publication);
@@ -75,6 +76,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
         return chatRooms;
       });
+
+      messageReceivedSound.play();
     } else if (publication.type === 'edit_message') {
       setMessages((messages) => {
         const index = messages.findIndex(
@@ -142,6 +145,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
         return chatRooms;
       });
+
+      messageReceivedSound.play();
     } else if (publication.type === 'subscribe_room') {
       setChatRooms((chatRooms) => {
         const index = chatRooms.findIndex(

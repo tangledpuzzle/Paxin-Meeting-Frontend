@@ -68,7 +68,7 @@ export function CTASection() {
         </ToggleGroupItem>
       </ToggleGroup>
 
-      <div className='flex w-full flex-row-reverse gap-3 sm:w-auto md:flex-row justify-between absolute md:static pt-2 md:pt-0 px-4 dark:bg-black bg-gray-100 -top-[10px]'>
+      <div className='absolute -top-[10px] flex w-full flex-row-reverse justify-between gap-3 bg-gray-100 px-4 pt-2 dark:bg-black sm:w-auto md:static md:flex-row md:pt-0'>
         <div className='relative w-[13rem] md:w-[15rem] lg:w-[30rem]'>
           <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
           <Input
