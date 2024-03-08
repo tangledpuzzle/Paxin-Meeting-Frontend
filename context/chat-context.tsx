@@ -12,6 +12,7 @@ export interface ChatRoom {
     name: string;
     avatar: string;
     online: boolean;
+    bot: boolean;
   };
   subscribed: boolean;
   timestamp: string;

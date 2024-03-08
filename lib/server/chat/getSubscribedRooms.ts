@@ -38,6 +38,7 @@ const getSubscribedRooms = async () => {
           name: '',
           avatar: '',
           online: false,
+          bot: false,
         },
         subscribed: true,
         timestamp: room.LastMessage.CreatedAt,
@@ -51,6 +52,7 @@ const getSubscribedRooms = async () => {
           _room.user.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
           _room.user.online = member.User.online;
           _room.subscribed = member.IsSubscribed;
+          _room.user.bot = member.User.IsBot;
         }
       }
 

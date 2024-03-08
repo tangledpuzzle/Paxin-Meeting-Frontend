@@ -134,6 +134,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             name: sender.user.name,
             avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${sender.user.photo}`,
             online: sender.user.online,
+            bot: sender.user.is_bot,
           },
           subscribed: false,
           timestamp: publication.body.created_at,
