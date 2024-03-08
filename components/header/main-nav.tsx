@@ -13,7 +13,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import eventBus from '@/eventBus';
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@/store';
-import SmallMeet from './meetwrapper';
+import SmallMeet from './SmallMeet';
 
 import { PaxContext } from '@/context/context';
 

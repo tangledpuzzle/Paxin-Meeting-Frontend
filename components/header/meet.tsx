@@ -68,7 +68,10 @@ const footerVisibilitySelector = createSelector(
   (state: RootState) => state.roomSettings,
   (roomSettings) => roomSettings.visibleFooter
 );
-
+const roomSelector = createSelector(
+  (state: RootState) => state.session,
+  (session) => session.currentRoom
+);
 export default function Meet({ currentConnection }: IMainAreaProps) {
   const isRecorder =
     currentConnection?.room.localParticipant.identity === 'RECORDER_BOT' ||
@@ -100,7 +103,6 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
   const [isActiveScreenShare, setIsActiveScreenShare] =
     useState<boolean>(false);
   const [height, setHeight] = useState<number>(screenHeight);
-  const assetPath = (window as any).STATIC_ASSETS_PATH ?? './assets';
 
   useEffect(() => {
     const metadata = store.getState().session.currentRoom
