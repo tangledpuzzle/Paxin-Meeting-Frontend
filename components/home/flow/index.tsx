@@ -123,7 +123,7 @@ export default function FlowSection() {
         <div className='flex gap-1 z-20 w-[100px]  fixed md:sticky bottom-0 h-[35px] top-[calc(100dvh_-_3.6rem)] md:top-[110px] md:right-[50px] !left-4 md:left-[calc(100%_-_10rem)] md:-mt-[152px]'>
         <span className='px-2 text-sm'>Just one page yet</span>
         </div>
-        )}
+      )}
       <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 md:mt-[120px] pt-[0px]'>
         {!error ? (
           flowData && !isLoading ? (
