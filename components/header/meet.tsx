@@ -15,7 +15,7 @@ import {
   CurrentConnectionEvents,
   IConnectLivekit,
 } from '@/helpers/livekit/types';
-
+import '@/styles/meet/index.scss';
 interface IMainAreaProps {
   currentConnection: IConnectLivekit | null;
 }
@@ -247,7 +247,7 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
   }, [screenHeight, isRecorder, headerVisible, footerVisible]);
 
   return (
-    <div className='inner flex h-[500px] w-[500px] justify-between rtl:flex-row-reverse'>
+    <div className='inner flex h-[500px] justify-between rtl:flex-row-reverse'>
       {renderLeftPanel}
 
       <div className='middle-area relative flex-auto'>

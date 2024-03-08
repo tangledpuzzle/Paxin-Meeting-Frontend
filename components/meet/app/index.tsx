@@ -321,6 +321,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
 
   const onCloseStartupModal = async () => {
     if (livekitInfo) {
+      console.log('MEET/StartLiveConnection');
       // @ts-ignore
       const currentConnection = startLivekitConnection(livekitInfo, t);
       setCurrentConnection(currentConnection);

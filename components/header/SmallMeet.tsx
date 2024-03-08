@@ -28,6 +28,8 @@ import {
 import Meet from './meet';
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@/store';
+import CopyClipboard from '@/components/common/copy-clipboard';
+import { useRouter } from 'next/navigation';
 
 const roomIdSelector = createSelector(
   (state: RootState) => state.session,
@@ -38,6 +40,7 @@ export default function SmallMeet() {
   const [isActive, setActive] = useState<boolean>(false);
   const participants = useAppSelector(participantSelector);
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const t = useTranslations('meet');
   const locale = useLocale();
   const toastId = useRef<string>(null);
@@ -238,11 +241,11 @@ export default function SmallMeet() {
   }, [roomConnectionStatus]);
 
   useEffect(() => {
-    if (livekitInfo) {
+    if (livekitInfo && !currentConnection) {
       // @ts-ignore
       console.log('HEADER/StartLivConnection');
-      const currentConnection = startLivekitConnection(livekitInfo, t);
-      setCurrentConnection(currentConnection);
+      const newConnection = startLivekitConnection(livekitInfo, t);
+      setCurrentConnection(newConnection);
     }
   }, [livekitInfo]);
   return true ? (
@@ -268,17 +271,30 @@ export default function SmallMeet() {
             //   position={null}
             scale={1}
           >
-            <div className='absolute w-[calc(80vw)] bg-red-900 sm:w-[calc(50vw)] md:w-[calc(30vw)]'>
-              <div className='flex justify-between'>
-                <span>Meeting id:{roomId}</span>
+            <div className='absolute w-[calc(80vw)] bg-darkPrimary sm:w-[calc(50vw)] md:w-[calc(30vw)]'>
+              <div className='bg-h flex justify-between p-2'>
+                <div className='flex w-full justify-between'>
+                  <p className='mx-auto'>{roomId}</p>
+                  <CopyClipboard
+                    text={`https://www.paxintrade.com/meet/${roomId}`}
+                  >
+                    <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
+                      <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
+                    </div>
+                  </CopyClipboard>
+                </div>
                 <div className='flex'>
                   <DraggableHandle>
                     <MoveIcon size={32} />
                   </DraggableHandle>
-                  <FullscreenIcon size={32} />
+                  <FullscreenIcon
+                    size={32}
+                    onClick={() => router.push(`/meet/${roomId}`)}
+                  />
                   <Minimize2Icon size={32} onClick={() => setActive(false)} />
                 </div>
               </div>
+              <div className='border-gardient-h relative w-full' />
 
               {currentConnection && (
                 <Meet currentConnection={currentConnection} />
