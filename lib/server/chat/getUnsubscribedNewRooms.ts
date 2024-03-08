@@ -59,7 +59,9 @@ const getUnsubscribedNewRooms = async () => {
             member.User.Profile &&
             member.User.Profile.length > 0 &&
             member.User.Profile[0].Guilds.map(
-              (guild: any) => guild.Translations[0].Name
+              (guild: any) =>
+                guild.Translations?.find((t: any) => t.Language === locale)
+                  ?.Name
             );
           _room.user.profile.bio =
             member.User.Profile &&

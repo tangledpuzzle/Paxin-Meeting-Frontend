@@ -25,8 +25,6 @@ const getSubscribedRooms = async () => {
       return [];
     }
 
-    console.log(res);
-
     const _rooms: ChatRoom[] = [];
 
     for (const room of res.data) {
@@ -54,7 +52,6 @@ const getSubscribedRooms = async () => {
 
       for (const member of room.Members) {
         if (member.UserID !== session?.user?.id) {
-          console.log(member);
           _room.user.id = member.UserID;
           _room.user.profile.name = member.User.Name;
           _room.user.profile.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
@@ -62,7 +59,9 @@ const getSubscribedRooms = async () => {
             member.User.Profile &&
             member.User.Profile.length > 0 &&
             member.User.Profile[0].Guilds.map(
-              (guild: any) => guild.Translations[0].Name
+              (guild: any) =>
+                guild.Translations?.find((t: any) => t.Language === locale)
+                  ?.Name
             );
           _room.user.profile.bio =
             member.User.Profile &&

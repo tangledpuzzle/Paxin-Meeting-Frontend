@@ -80,7 +80,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                   <span className='select-none'>{t('message_deleted')}</span>
                 </>
               ) : (
-                <ReactMarkdown className='prose' children={props.message} />
+                <ReactMarkdown children={props.message} />
               )}
             </div>
           </div>
