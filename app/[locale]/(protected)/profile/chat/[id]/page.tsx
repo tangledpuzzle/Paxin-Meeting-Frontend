@@ -12,25 +12,32 @@ import editMessage from '@/lib/server/chat/editMessage';
 import sendMessage from '@/lib/server/chat/sendMessage';
 import subscribe from '@/lib/server/chat/subscribe';
 import { Howl, Howler } from 'howler';
-import { useTranslations } from 'next-intl';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import {
+  startTransition,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import toast from 'react-hot-toast';
 import { IoCheckmarkSharp, IoSendOutline } from 'react-icons/io5';
 
 Howler.autoUnlock = true;
 
-interface ChatMessage {
-  id: string;
-  message: string;
-  timestamp: string;
-  user: {
-    id: string;
-    name: string;
-    avatar: string;
-  };
-  isDeleted?: boolean;
-  isEdited?: boolean;
-}
+// interface ChatMessage {
+//   id: string;
+//   message: string;
+//   timestamp: string;
+//   user: {
+//     id: string;
+//     name: string;
+//     avatar: string;
+//   };
+//   isDeleted?: boolean;
+//   isEdited?: boolean;
+// }
 
 export default function ChatDetailPage({
   params: { id },
@@ -38,6 +45,7 @@ export default function ChatDetailPage({
   params: { id: string };
 }) {
   const t = useTranslations('chatting');
+  const locale = useLocale();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { user } = useContext(PaxContext);
@@ -71,39 +79,159 @@ export default function ChatDetailPage({
   const handleMessageSubmit = async () => {
     if (inputMessage === '') return;
 
-    try {
-      const res = await sendMessage({ roomId: id, message: inputMessage });
+    const chatUser = chatRooms.find((room) => room.id === activeRoom)?.user;
+    console.log(chatUser);
 
-      if (res?.status === 'success') {
-        setInputMessage('');
-        console.log(messages, '===');
-        setMessages([
-          ...messages,
-          {
-            id: `${res.data.message.ID}` as string,
-            message: res.data.message.Content as string,
-            owner: {
-              id: user?.id as string,
-              name: user?.username as string,
-              avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+    if (chatUser?.bot) {
+      const _messages = messages;
+      _messages.push({
+        id: new Date().getTime().toString(),
+        message: inputMessage,
+        timestamp: new Date().toLocaleTimeString(),
+        owner: {
+          id: user?.id || '',
+          name: user?.username || '',
+          avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+        },
+      });
+
+      setMessages(_messages);
+
+      setInputMessage('');
+
+      messageSentSound.play();
+
+      try {
+        const res = await fetch('/api/chatbot/chat-stream', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            profile: {
+              categories: chatUser?.profile.categories || [],
+              bio: chatUser?.profile.bio || '',
             },
-            isDeleted: false,
-            isEdited: true,
-            timestamp: res.data.message.CreatedAt as string,
+            history: [
+              ..._messages.map((msg) => {
+                return {
+                  role: msg.owner.id === user?.id ? 'user' : 'assistant',
+                  content: msg.message,
+                };
+              }),
+            ],
+            lang: locale,
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to fetch chat stream');
+        }
+
+        const id = new Date().getTime().toString();
+
+        const reader = res.body?.getReader();
+        const decoder = new TextDecoder('utf-8');
+
+        if (!reader) return;
+
+        setMessages([
+          ..._messages,
+          {
+            id,
+            message: '',
+            timestamp: new Date().toLocaleTimeString(),
+            owner: {
+              id: chatUser?.id || '',
+              name: chatUser?.profile.name || '',
+              avatar: chatUser?.profile.avatar,
+            },
           },
         ]);
 
-        messageSentSound.play();
-      } else {
+        let streamText = '';
+        let lastStreamText = '';
+
+        while (true) {
+          const { value, done } = await reader.read();
+
+          if (done) {
+            break;
+          }
+
+          const rawText = decoder.decode(value);
+
+          const lines = rawText.trim().split('\n');
+
+          let parsedData = null;
+
+          for (const line of lines) {
+            try {
+              parsedData = JSON.parse(line);
+            } catch (error) {
+              if (lastStreamText) {
+                parsedData = JSON.parse(lastStreamText + line);
+                lastStreamText = '';
+              } else {
+                lastStreamText = line;
+              }
+            }
+
+            if (parsedData) {
+              streamText += parsedData.message.content;
+
+              console.log(parsedData.message.role);
+
+              setMessages((previousMessages) => {
+                const newMessages = previousMessages.map((msg) => {
+                  if (msg.id === id) {
+                    return { ...msg, message: streamText }; // Create a new object for the updated message
+                  }
+                  return msg;
+                });
+                return newMessages; // This is a new array reference
+              });
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const res = await sendMessage({ roomId: id, message: inputMessage });
+
+        if (res?.status === 'success') {
+          setInputMessage('');
+          console.log(messages, '===');
+          setMessages([
+            ...messages,
+            {
+              id: `${res.data.message.ID}` as string,
+              message: res.data.message.Content as string,
+              owner: {
+                id: user?.id as string,
+                name: user?.username as string,
+                avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+              },
+              isDeleted: false,
+              isEdited: true,
+              timestamp: res.data.message.CreatedAt as string,
+            },
+          ]);
+
+          messageSentSound.play();
+        } else {
+          toast.error(t('failed_to_send_message'), {
+            position: 'top-right',
+          });
+        }
+      } catch (error) {
+        console.log(error);
         toast.error(t('failed_to_send_message'), {
           position: 'top-right',
         });
       }
-    } catch (error) {
-      console.log(error);
-      toast.error(t('failed_to_send_message'), {
-        position: 'top-right',
-      });
     }
   };
 
