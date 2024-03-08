@@ -68,8 +68,6 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
         position: 'top-right',
       });
     }
-
-    
   };
 
   return (
