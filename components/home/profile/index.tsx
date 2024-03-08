@@ -98,8 +98,8 @@ export default function ProfileSection() {
   return (
     <div className='w-full'>
       {maxPage > 1 && (
-        <div className='flex gap-1 z-20 w-[100px]  fixed md:sticky bottom-0 h-[35px] top-[calc(100dvh_-_3.6rem)] md:top-[110px] md:right-[50px] !left-4 md:left-[calc(100%_-_10rem)] md:-mt-[152px]'>
-        <Button
+        <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
+          <Button
             aria-disabled={Number(searchParams.get('page') || 1) === 1}
             className='w-[40px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 md:w-[55px]'
             asChild
@@ -122,11 +122,11 @@ export default function ProfileSection() {
         </div>
       )}
       {maxPage === 1 && (
-        <div className='flex gap-1 z-20 w-[100px]  fixed md:sticky bottom-0 h-[35px] top-[calc(100dvh_-_3.6rem)] md:top-[110px] md:right-[50px] !left-4 md:left-[calc(100%_-_10rem)] md:-mt-[152px]'>
-        <span className='px-2 text-sm'>Just one page yet</span>
+        <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
+          <span className='px-2 text-sm'>Just one page yet</span>
         </div>
-        )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 md:mt-[120px] pt-[0px]'>
+      )}
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3'>
         {!error ? (
           !isLoading && profileData ? (
             profileData?.length > 0 ? (

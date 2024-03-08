@@ -11,10 +11,13 @@ import deleteMessage from '@/lib/server/chat/deleteMessage';
 import editMessage from '@/lib/server/chat/editMessage';
 import sendMessage from '@/lib/server/chat/sendMessage';
 import subscribe from '@/lib/server/chat/subscribe';
+import { Howl, Howler } from 'howler';
 import { useTranslations } from 'next-intl';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { IoCheckmarkSharp, IoSendOutline } from 'react-icons/io5';
+
+Howler.autoUnlock = true;
 
 interface ChatMessage {
   id: string;
@@ -58,6 +61,13 @@ export default function ChatDetailPage({
   const [editMessageId, setEditMessageId] = useState('');
   const [replyMessageId, setReplyMessageId] = useState('');
 
+  const messageSentSound = new Howl({
+    src: ['/audio/message-sent.mp3'],
+    html5: true,
+    loop: false,
+    preload: true,
+  });
+
   const handleMessageSubmit = async () => {
     if (inputMessage === '') return;
 
@@ -82,6 +92,8 @@ export default function ChatDetailPage({
             timestamp: res.data.message.CreatedAt as string,
           },
         ]);
+
+        messageSentSound.play();
       } else {
         toast.error(t('failed_to_send_message'), {
           position: 'top-right',

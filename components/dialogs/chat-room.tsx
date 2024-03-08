@@ -7,19 +7,18 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 import { ChatRoom, PaxChatContext } from '@/context/chat-context';
+import eventBus from '@/eventBus';
+import subscribe from '@/lib/server/chat/subscribe';
+import unsubscribe from '@/lib/server/chat/unsubscribe';
 import { cn } from '@/lib/utils';
 import { usePathname } from '@/navigation';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
-import eventBus from '@/eventBus';
-import { MdOutlineMarkChatRead } from 'react-icons/md';
-import { FaTrashCan } from 'react-icons/fa6';
-import subscribe from '@/lib/server/chat/subscribe';
 import { useContext, useState } from 'react';
-import unsubscribe from '@/lib/server/chat/unsubscribe';
-import { useTranslations } from 'next-intl';
+import { FaTrashCan } from 'react-icons/fa6';
+import { MdOutlineMarkChatRead } from 'react-icons/md';
 import { ConfirmModal } from '../common/confirm-modal';
-import { BiBot } from 'react-icons/bi';
 import { Badge } from '../ui/badge';
 
 export default function ChatRoom({ room }: { room: ChatRoom }) {
