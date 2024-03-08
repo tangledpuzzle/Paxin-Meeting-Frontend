@@ -3,7 +3,7 @@ import { CopyButton } from '@/components/common/copy-button';
 import { ReportModal } from '@/components/common/report-modal';
 import BackButton from '@/components/home/back-button';
 import { FlowImageGallery } from '@/components/home/flow/flow-image-gallery';
-import MessageForm from '@/components/home/flow/messsage-form';
+import MessageForm from '@/components/home/messsage-form';
 import { UpvoteCard } from '@/components/home/flow/upvote-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -24,11 +24,9 @@ import Link from 'next/link';
 import { BiSolidCategory } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
 import { FaSackDollar } from 'react-icons/fa6';
-import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
+import { IoEyeSharp, IoFlagOutline, IoLanguage } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
-import { IoLanguage } from 'react-icons/io5';
-import { MessageDialog } from '@/components/home/flow/message-dialog';
 
 interface GalleryData {
   original: string;
@@ -451,27 +449,27 @@ export default async function FlowPage({
                   {t('visit_profile')}
                 </Link>
               </Button>
-              <Button className='btn w-full !rounded-md' asChild>
-                {session ? (
-                  <MessageForm
-                    user={{
-                      username: blogDetails.author?.username,
-                      userId: blogDetails.author?.userId,
-                    }}
-                    roomId={roomId}
-                  >
-                    <Button className='btn w-full !rounded-md'>
-                      {roomId === '' ? t('start_chat') : t('send_message')}
-                    </Button>
-                  </MessageForm>
-                ) : (
+              {session ? (
+                <MessageForm
+                  user={{
+                    username: blogDetails.author?.username,
+                    userId: blogDetails.author?.userId,
+                  }}
+                  roomId={roomId}
+                >
+                  <Button className='btn w-full !rounded-md'>
+                    {roomId === '' ? t('start_chat') : t('send_message')}
+                  </Button>
+                </MessageForm>
+              ) : (
+                <Button className='btn w-full !rounded-md' asChild>
                   <Link
                     href={`/auth/signin?callbackUrl=/flows/${params.id}/${params.slug}`}
                   >
                     {t('start_chat')}
                   </Link>
-                )}
-              </Button>
+                </Button>
+              )}
             </div>
           </Card>
         </div>
