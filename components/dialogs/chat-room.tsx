@@ -20,6 +20,7 @@ import unsubscribe from '@/lib/server/chat/unsubscribe';
 import { useTranslations } from 'next-intl';
 import { ConfirmModal } from '../common/confirm-modal';
 import { BiBot } from 'react-icons/bi';
+import { Badge } from '../ui/badge';
 
 export default function ChatRoom({ room }: { room: ChatRoom }) {
   const t = useTranslations('chatting');
@@ -107,9 +108,17 @@ export default function ChatRoom({ room }: { room: ChatRoom }) {
             </div>
 
             <div className='text-left rtl:text-right'>
-              <p className='line-clamp-1 text-sm font-medium text-gray-700 dark:text-white'>
-                {room.user.name}
-              </p>
+              <div className='flex text-sm font-medium text-gray-700 dark:text-white'>
+                <p className='line-clamp-1 max-w-36'>{room.user.name}</p>
+                {room.user.bot && (
+                  <Badge
+                    variant='outline'
+                    className='m-0 ml-1.5 rounded-full border-primary py-0 text-xs font-normal text-primary'
+                  >
+                    BOT
+                  </Badge>
+                )}
+              </div>
               <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
                 {room.lastMessage.message}
               </p>
