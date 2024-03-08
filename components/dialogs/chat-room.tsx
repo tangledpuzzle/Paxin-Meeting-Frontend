@@ -98,8 +98,8 @@ export default function ChatRoom({ room }: { room: ChatRoom }) {
                 className='size-8 rounded-full'
                 fill
                 style={{ objectFit: 'cover' }}
-                src={room.user.avatar}
-                alt={room.user.name}
+                src={room.user.profile.avatar}
+                alt={room.user.profile.name}
               />
               {room.user.online && (
                 <span className='absolute bottom-0 right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-1 ring-white'></span>
@@ -108,7 +108,9 @@ export default function ChatRoom({ room }: { room: ChatRoom }) {
 
             <div className='text-left rtl:text-right'>
               <div className='flex text-sm font-medium text-gray-700 dark:text-white'>
-                <p className='line-clamp-1 max-w-36'>{room.user.name}</p>
+                <p className='line-clamp-1 max-w-36'>
+                  {room.user.profile.name}
+                </p>
                 {room.user.bot && (
                   <Badge
                     variant='outline'
