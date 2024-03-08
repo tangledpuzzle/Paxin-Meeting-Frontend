@@ -24,7 +24,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-
+import { LiaSmsSolid } from 'react-icons/lia';
 import { ReportModal } from '@/components/common/report-modal';
 import BackButton from '@/components/home/back-button';
 import { FollowButtonGroup } from '@/components/home/profile/follow-button-group';
@@ -34,6 +34,8 @@ import '@/styles/editor.css';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
+import MessageForm from '@/components/home/messsage-form';
+import getRoomId from '@/lib/server/chat/getRoomId';
 
 async function getData(locale: string, username: string) {
   const session = await getServerSession(authOptions);
@@ -209,6 +211,9 @@ export default async function ProfilePage({
     },
   ];
 
+  const session = await getServerSession(authOptions);
+  const roomId = await getRoomId(profileDetails?.id || '');
+
   return profileDetails ? (
     <section className='container py-4'>
       <BackButton callback={searchParams['callback']} />
@@ -246,6 +251,32 @@ export default async function ProfilePage({
             <Button variant='outline' className='rounded-full' size='icon'>
               <MdPhoneInTalk className='size-5' />
             </Button>
+            {session ? (
+              <MessageForm
+                user={{
+                  username: profileDetails.username,
+                  userId: profileDetails.id,
+                }}
+                roomId={roomId}
+              >
+                <Button variant='outline' className='rounded-full' size='icon'>
+                  <LiaSmsSolid className='size-4' />
+                </Button>
+              </MessageForm>
+            ) : (
+              <Button
+                variant='outline'
+                className='rounded-full'
+                size='icon'
+                asChild
+              >
+                <Link
+                  href={`/auth/signin?callbackUrl=/profiles/${params.username}`}
+                >
+                  <LiaSmsSolid className='size-4' />
+                </Link>
+              </Button>
+            )}
             <FollowButtonGroup
               me={profileDetails.me}
               follow={profileDetails.follow}

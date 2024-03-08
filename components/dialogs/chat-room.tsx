@@ -19,6 +19,7 @@ import { useContext, useState } from 'react';
 import unsubscribe from '@/lib/server/chat/unsubscribe';
 import { useTranslations } from 'next-intl';
 import { ConfirmModal } from '../common/confirm-modal';
+import { BiBot } from 'react-icons/bi';
 
 export default function ChatRoom({ room }: { room: ChatRoom }) {
   const t = useTranslations('chatting');
@@ -106,7 +107,7 @@ export default function ChatRoom({ room }: { room: ChatRoom }) {
             </div>
 
             <div className='text-left rtl:text-right'>
-              <p className='text-sm font-medium capitalize text-gray-700 dark:text-white'>
+              <p className='line-clamp-1 text-sm font-medium text-gray-700 dark:text-white'>
                 {room.user.name}
               </p>
               <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
