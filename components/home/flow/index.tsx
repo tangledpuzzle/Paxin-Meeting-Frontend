@@ -96,7 +96,7 @@ export default function FlowSection() {
   return (
     <div className='w-full'>
       {maxPage > 1 && (
-        <div className='flex  gap-1 z-20 w-[100px]  fixed md:sticky bottom-0 h-[35px] top-[calc(100dvh_-_3.6rem)] md:top-[110px] md:right-[50px] !left-4 md:left-[calc(100%_-_10rem)] md:-mt-[152px]'>
+        <div className='flex gap-1 z-20 w-[100px]  fixed md:sticky bottom-0 h-[35px] top-[calc(100dvh_-_3.6rem)] md:top-[110px] md:right-[50px] !left-4 md:left-[calc(100%_-_10rem)] md:-mt-[152px]'>
         <Button
             aria-disabled={Number(searchParams.get('page') || 1) === 1}
             className='w-[40px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60  md:w-[50px]'
@@ -119,7 +119,7 @@ export default function FlowSection() {
           </Button>
         </div>
       )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 md:pt-[40px] pt-[0px]'>
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 md:pt-[120px] pt-[0px]'>
         {!error ? (
           flowData && !isLoading ? (
             flowData?.length > 0 ? (
