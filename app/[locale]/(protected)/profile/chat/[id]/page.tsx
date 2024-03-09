@@ -80,7 +80,7 @@ export default function ChatDetailPage({
       _messages.push({
         id: new Date().getTime().toString(),
         message: inputMessage,
-        timestamp: new Date().toLocaleTimeString(),
+        timestamp: new Date().toLocaleString(),
         owner: {
           id: user?.id || '',
           name: user?.username || '',
@@ -133,7 +133,7 @@ export default function ChatDetailPage({
           {
             id,
             message: '',
-            timestamp: new Date().toLocaleTimeString(),
+            timestamp: new Date().toLocaleString(),
             owner: {
               id: chatUser?.id || '',
               name: chatUser?.profile.name || '',
