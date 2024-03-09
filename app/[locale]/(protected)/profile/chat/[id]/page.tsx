@@ -13,14 +13,7 @@ import sendMessage from '@/lib/server/chat/sendMessage';
 import subscribe from '@/lib/server/chat/subscribe';
 import { Howl, Howler } from 'howler';
 import { useLocale, useTranslations } from 'next-intl';
-import {
-  startTransition,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { IoCheckmarkSharp, IoSendOutline } from 'react-icons/io5';
 
@@ -87,7 +80,7 @@ export default function ChatDetailPage({
       _messages.push({
         id: new Date().getTime().toString(),
         message: inputMessage,
-        timestamp: new Date().toLocaleTimeString(),
+        timestamp: new Date().toLocaleString(),
         owner: {
           id: user?.id || '',
           name: user?.username || '',
@@ -140,7 +133,7 @@ export default function ChatDetailPage({
           {
             id,
             message: '',
-            timestamp: new Date().toLocaleTimeString(),
+            timestamp: new Date().toLocaleString(),
             owner: {
               id: chatUser?.id || '',
               name: chatUser?.profile.name || '',
@@ -350,6 +343,8 @@ export default function ChatDetailPage({
     setActiveRoom(id);
   }, []);
 
+  let lastDay: string | null = null;
+
   return !isMessageLoading && !isRoomLoading ? (
     <div>
       <ConfirmModal
@@ -370,14 +365,40 @@ export default function ChatDetailPage({
         ref={scrollAreaRef}
         className='h-[calc(100vh_-_10.5rem)] w-full rounded-lg bg-background p-4 py-0'
       >
-        {messages.map((message) => (
-          <ChatMessage
-            key={message.id}
-            {...message}
-            onDelete={handleMessageDelete}
-            onEdit={handleMessageEdit}
-          />
-        ))}
+        {messages.map((message) => {
+          const day = new Date(message.timestamp).toLocaleDateString('en-US', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          });
+          if (day !== lastDay) {
+            lastDay = day;
+            return (
+              <>
+                <div
+                  key={day}
+                  className='w-full text-center text-sm text-muted-foreground'
+                >
+                  {day}
+                </div>
+                <ChatMessage
+                  key={message.id}
+                  {...message}
+                  onDelete={handleMessageDelete}
+                  onEdit={handleMessageEdit}
+                />
+              </>
+            );
+          } else
+            return (
+              <ChatMessage
+                key={message.id}
+                {...message}
+                onDelete={handleMessageDelete}
+                onEdit={handleMessageEdit}
+              />
+            );
+        })}
       </ScrollArea>
       <div className='chatInput'>
         {!activeRoomSubscribed && (
