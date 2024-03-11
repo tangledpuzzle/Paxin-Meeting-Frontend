@@ -7,11 +7,13 @@ import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import { Howl, Howler } from 'howler';
 import { useSession } from 'next-auth/react';
+import { useLocale } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 Howler.autoUnlock = true;
 
 export default function Providers({ children }: { children: React.ReactNode }) {
+  const locale = useLocale();
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
   const [activeRoom, setActiveRoom] = useState<string>('');
   const [activeRoomSubscribed, setActiveRoomSubscribed] = useState(false);
@@ -30,31 +32,32 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const onPublication = (publication: any) => {
     console.log(publication);
     if (publication.type === 'new_message') {
-      setMessages((messages) => {
-        const index = messages.findIndex(
-          (msg) => msg.id === `${publication.body.id}`
-        );
+      if (`${publication.body.room_id}` === activeRoom)
+        setMessages((messages) => {
+          const index = messages.findIndex(
+            (msg) => msg.id === `${publication.body.id}`
+          );
 
-        if (index === -1) {
-          return [
-            ...messages,
-            {
-              id: `${publication.body.id}` as string,
-              message: publication.body.content as string,
-              owner: {
-                id: publication.body.user_id as string,
-                name: publication.body.user.name,
-                avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.user.photo}`,
+          if (index === -1) {
+            return [
+              ...messages,
+              {
+                id: `${publication.body.id}` as string,
+                message: publication.body.content as string,
+                owner: {
+                  id: publication.body.user_id as string,
+                  name: publication.body.user.name,
+                  avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.user.photo}`,
+                },
+                isDeleted: publication.body.is_deleted as boolean,
+                isEdited: publication.body.is_deleted as boolean,
+                timestamp: publication.body.created_at as string,
               },
-              isDeleted: publication.body.is_deleted as boolean,
-              isEdited: publication.body.is_deleted as boolean,
-              timestamp: publication.body.created_at as string,
-            },
-          ];
-        } else {
-          return messages;
-        }
-      });
+            ];
+          } else {
+            return messages;
+          }
+        });
 
       setChatRooms((chatRooms) => {
         chatRooms.forEach((room) => {
@@ -134,8 +137,16 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           lastMessage: publication.body.last_message.content,
           user: {
             id: sender.user.id,
-            name: sender.user.name,
-            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${sender.user.photo}`,
+            profile: {
+              name: sender.user.name,
+              avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${sender.user.photo}`,
+              categories: sender.user.profile[0].guild.map(
+                (guild: any) => guild.translations[0].name
+              ),
+              bio: sender.user.profile[0].multilang_descr[
+                locale.charAt(0).toUpperCase() + locale.slice(1)
+              ],
+            },
             online: sender.user.online,
             bot: sender.user.is_bot,
           },

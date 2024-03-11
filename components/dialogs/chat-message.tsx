@@ -6,6 +6,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
+import { useFormatter } from 'next-intl';
 import { PaxContext } from '@/context/context';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
@@ -19,6 +20,8 @@ import {
   MdOutlineDoNotDisturb,
   MdOutlineModeEditOutline,
 } from 'react-icons/md';
+import ReactMarkdown from 'react-markdown';
+import { formatTime } from 'video.js/dist/types/utils/time';
 
 interface ChatMessageProps {
   id: string;
@@ -35,6 +38,7 @@ interface ChatMessageProps {
   isSent?: boolean;
   isReceived?: boolean;
   isSeen?: boolean;
+  isBot?: boolean;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
 }
@@ -42,6 +46,7 @@ interface ChatMessageProps {
 export default function ChatMessage(props: ChatMessageProps) {
   const t = useTranslations('chatting');
   const { user } = useContext(PaxContext);
+  const format = useFormatter();
 
   const handleMessageCopy = async (text: string) => {
     await navigator.clipboard.writeText(text);
@@ -67,19 +72,28 @@ export default function ChatMessage(props: ChatMessageProps) {
         <ContextMenuTrigger asChild>
           <div className='chat-msg-content'>
             <div
-              className={cn('chat-msg-text flex items-center', {
+              className={cn('chat-msg-text', {
                 'bg-card-gradient-menu': user?.id !== props.owner.id,
                 '!text-gray-300': props.isDeleted,
               })}
             >
               {props.isDeleted ? (
-                <>
-                  <MdOutlineDoNotDisturb className='mr-2 size-4' />
+                <div className='mr-16 flex items-center gap-1'>
+                  <MdOutlineDoNotDisturb className='size-4' />
                   <span className='select-none'>{t('message_deleted')}</span>
-                </>
+                </div>
               ) : (
-                props.message
+                <ReactMarkdown
+                  className='prose mr-16'
+                  children={props.message}
+                />
               )}
+              <p className='-mt-2 w-full text-right text-xs text-gray-200'>
+                {format.dateTime(new Date(props.timestamp), {
+                  hour: 'numeric',
+                  minute: 'numeric',
+                })}
+              </p>
             </div>
           </div>
         </ContextMenuTrigger>

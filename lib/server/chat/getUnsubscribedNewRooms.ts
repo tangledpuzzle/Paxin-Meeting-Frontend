@@ -8,6 +8,8 @@ import authOptions from '@/lib/authOptions';
 import { ChatRoom } from '@/context/chat-context';
 
 const getUnsubscribedNewRooms = async () => {
+  const locale = cookies().get('NEXT_LOCALE')?.value || 'en';
+
   try {
     const accessToken = await getAccessToken();
     const session = await getServerSession(authOptions);
@@ -35,8 +37,12 @@ const getUnsubscribedNewRooms = async () => {
         },
         user: {
           id: '',
-          name: '',
-          avatar: '',
+          profile: {
+            name: '',
+            avatar: '',
+            categories: [],
+            bio: '',
+          },
           online: false,
           bot: false,
         },
@@ -47,8 +53,22 @@ const getUnsubscribedNewRooms = async () => {
       for (const member of room.Members) {
         if (member.UserID !== session?.user?.id) {
           _room.user.id = member.UserID;
-          _room.user.name = member.User.Name;
-          _room.user.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
+          _room.user.profile.name = member.User.Name;
+          _room.user.profile.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
+          _room.user.profile.categories =
+            member.User.Profile &&
+            member.User.Profile.length > 0 &&
+            member.User.Profile[0].Guilds.map(
+              (guild: any) =>
+                guild.Translations?.find((t: any) => t.Language === locale)
+                  ?.Name
+            );
+          _room.user.profile.bio =
+            member.User.Profile &&
+            member.User.Profile.length > 0 &&
+            member.User.Profile[0].MultilangDescr[
+              locale.charAt(0).toUpperCase() + locale.slice(1)
+            ];
           _room.user.online = member.User.online;
           _room.user.bot = member.User.IsBot;
         }
