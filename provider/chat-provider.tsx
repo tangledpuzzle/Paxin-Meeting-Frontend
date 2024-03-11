@@ -32,31 +32,32 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const onPublication = (publication: any) => {
     console.log(publication);
     if (publication.type === 'new_message') {
-      setMessages((messages) => {
-        const index = messages.findIndex(
-          (msg) => msg.id === `${publication.body.id}`
-        );
+      if (`${publication.body.room_id}` === activeRoom)
+        setMessages((messages) => {
+          const index = messages.findIndex(
+            (msg) => msg.id === `${publication.body.id}`
+          );
 
-        if (index === -1) {
-          return [
-            ...messages,
-            {
-              id: `${publication.body.id}` as string,
-              message: publication.body.content as string,
-              owner: {
-                id: publication.body.user_id as string,
-                name: publication.body.user.name,
-                avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.user.photo}`,
+          if (index === -1) {
+            return [
+              ...messages,
+              {
+                id: `${publication.body.id}` as string,
+                message: publication.body.content as string,
+                owner: {
+                  id: publication.body.user_id as string,
+                  name: publication.body.user.name,
+                  avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.user.photo}`,
+                },
+                isDeleted: publication.body.is_deleted as boolean,
+                isEdited: publication.body.is_deleted as boolean,
+                timestamp: publication.body.created_at as string,
               },
-              isDeleted: publication.body.is_deleted as boolean,
-              isEdited: publication.body.is_deleted as boolean,
-              timestamp: publication.body.created_at as string,
-            },
-          ];
-        } else {
-          return messages;
-        }
-      });
+            ];
+          } else {
+            return messages;
+          }
+        });
 
       setChatRooms((chatRooms) => {
         chatRooms.forEach((room) => {

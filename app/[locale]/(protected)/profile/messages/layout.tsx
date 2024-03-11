@@ -54,6 +54,12 @@ function ChatWindow({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null = null
   ) => {
     if (e) {
+      const chatContainer = document.querySelector(
+        '.new-container'
+      ) as HTMLElement | null;
+      if (chatContainer) {
+        chatContainer.style.marginTop = `${-24}px`;
+      }
       e.preventDefault();
     }
 
@@ -92,7 +98,6 @@ function ChatWindow({
       if (chatContainer) {
         chatContainer.style.top = `${-24}px`;
       }
-
       if (textareaRef.current) {
         textareaRef.current.style.height = '68px';
       }
@@ -114,16 +119,6 @@ function ChatWindow({
     }
   };
 
-  const getCurrentTime = () => {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const ampm = hours >= 12 ? 'pm' : 'am';
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-    return `${formattedHours}:${formattedMinutes} ${ampm}`;
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputMessage(e.target.value);
   };
@@ -138,18 +133,23 @@ function ChatWindow({
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         if (entry.contentBoxSize) {
+          
           const height = entry.contentBoxSize[0].blockSize;
           // Update the style of chat-container
           if (chatContainer) {
             if (height !== prevHeight) {
+
               if (height > prevHeight) {
-                const currentTop = parseInt(chatContainer.style.top || '0');
+                
+                const currentTop = parseInt(chatContainer.style.marginTop || '0');
                 const newTop = currentTop - 24;
-                chatContainer.style.top = `${newTop}px`;
+                chatContainer.style.marginTop = `${newTop}px`;
               } else {
-                const currentTop = parseInt(chatContainer.style.top || '0');
-                const newTop = currentTop + 24;
-                chatContainer.style.top = `${newTop}px`;
+                const currentTop = parseInt(chatContainer.style.marginTop || '0');
+                // const newTop = currentTop + 24;
+                // chatContainer.style.marginTop = `${newTop}px`;
+                // console.log(chatContainer.style.marginTop)
+                // chatContainer.style.marginTop = `${newTop}px`;
               }
               prevHeight = height;
             }
@@ -172,23 +172,25 @@ function ChatWindow({
   return (
     <div>
       <div id='chat-container' className='h-auto'>
-        {!isOpen && (
-          <div className={`bg-background h-[20px]${isOpen ? 'hidden' : ' '}`}>
+          <div className={`bg-background relative top-[40px] left-[10px] h-[20px]${isOpen ? '' : ' '}`}>
+          {!isOpen && (
+
             <div className='flex'>
               <div
-                className=' absolute left-0 top-0 z-10 cursor-pointer px-7 md:left-2 md:top-4'
+                className='left-0 top-0 z-10 cursor-pointer px-7 md:left-2 md:top-4'
                 onClick={toggleSidebar}
               >
                 <MoveLeft size='24' />
               </div>
             </div>
+            )}
           </div>
-        )}
 
         <ScrollArea
           ref={scrollAreaRef}
-          className='h-[calc(100vh_-_11rem)] w-full rounded-lg bg-background px-4'
-        >
+          style={{ height: `calc(100vh - ${isOpen ? '10rem' : '10rem'})` }}
+          className={`w-full rounded-lg bg-background px-4`}
+          >
           <div className='wrapper'>
             <div className='chat-area container !px-0'>
               <div className='chat-area-main'>
@@ -353,22 +355,16 @@ function ChatWindow({
         </ScrollArea>
         <div className='chatInput'>
           {/* <form onSubmit={sendMessage}> Обработчик отправки формы */}
-          <div className='flex justify-between '>
+          <div className='flex'>
             <Button className='h-auto !items-end !rounded-l-none !rounded-r-none bg-card-gradient-menu'>
               <DropdownMenuDemo />
             </Button>
-            {/* <input 
-                                value={inputMessage} 
-                                onChange={handleInputChange} 
-                                className='w-full px-4 mx-0 rounded-r-none pr-8 text-[16px]' 
-                                placeholder='Message' 
-                                onKeyDown={handleKeyDown}
-                            /> */}
+ 
             <textarea
               ref={textareaRef}
               value={inputMessage}
               onChange={handleInputChange}
-              className='mb-[10px] ml-[10px] mr-[40px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2'
+              className='mb-[10px] ml-[10px] mr-[40px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2 bg-card-gradient-menu-on'
               onInput={auto_height}
             ></textarea>
             <button
@@ -386,10 +382,44 @@ function ChatWindow({
   );
 }
 
+
 function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
   const textarea = event.currentTarget as HTMLTextAreaElement;
+  let prevHeight = textarea.scrollHeight;
+
   textarea.style.height = '68px';
   textarea.style.height = `${textarea.scrollHeight}px`;
+  if(textarea.scrollHeight === 68) {
+    const chatContainer = document.querySelector(
+      '.new-container'
+    ) as HTMLElement | null;
+    if (chatContainer) {
+      chatContainer.style.marginTop = `${-24}px`;
+    }
+  }
+
+  if (prevHeight > textarea.scrollHeight) {
+    const chatContainer = document.querySelector(
+      '.new-container'
+    ) as HTMLElement | null;
+    if (chatContainer) {
+
+
+      const chatContainer = document.querySelector(
+        '.new-container'
+      ) as HTMLElement | null;
+      if(chatContainer){
+
+
+      const currentTop = parseInt(chatContainer.style.marginTop || '0');
+      if(currentTop === -24){
+      } else {
+        const newTop = currentTop + 24;
+        chatContainer.style.marginTop = `${newTop}px`;
+      } 
+     }
+    } 
+   }
 }
 
 export default function Messages({ children }: MessagesProps) {
