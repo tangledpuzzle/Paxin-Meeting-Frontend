@@ -20,6 +20,7 @@ import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { ReportModal } from '@/components/common/report-modal';
+import { LuBrainCircuit } from "react-icons/lu";
 
 export interface FlowCardProps {
   id: string;
@@ -104,8 +105,8 @@ function FlowCard(profile: FlowCardProps) {
                   variant='default'
                   className='border-none bg-black/50 p-2 text-white'
                 >
-                  <Mail className='mr-2 size-4 text-white' />
-                  {t('regular_post')}
+                  <LuBrainCircuit className='mr-2 size-4 text-white' />
+                  {/* {t('regular_post')} */}
                 </Badge>
               )}
 
