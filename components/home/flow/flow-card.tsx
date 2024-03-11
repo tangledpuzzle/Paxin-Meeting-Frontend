@@ -120,16 +120,16 @@ function FlowCard(profile: FlowCardProps) {
             </div>
             <div className=' relative -top-[100px] grid grid-cols-2  '>
               <div></div>
-              <div className='flex h-0 flex-row-reverse'>
+              {/* <div className='flex h-0 flex-row-reverse'>
                 <span className='flex items-center justify-center px-4 uppercase'>
                   <IoLanguage className='h-[32px] w-[32px] px-2' />
                   {countrycode}
                 </span>
-                {/* <div
+                <div
                 className={`absolute bottom-0 mb-4 right-0 mr-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
                 style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
-              /> */}
-              </div>
+              />
+              </div> */}
             </div>
             <div className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
