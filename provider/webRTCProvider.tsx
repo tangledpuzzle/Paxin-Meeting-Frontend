@@ -4,6 +4,7 @@ import useLivekitConnect, {
   LivekitInfo,
 } from '@/helpers/livekit/hooks/useLivekitConnect';
 import { IConnectLivekit } from '@/helpers/livekit/types';
+import { clearAccessToken } from '@/helpers/utils';
 import React, { ReactNode, useState } from 'react';
 import { createContext } from 'react';
 interface IRTCContext {
@@ -19,6 +20,7 @@ interface IRTCContext {
     info: LivekitInfo,
     intl: (...e: any[]) => string
   ): IConnectLivekit;
+  clearSession: () => void;
 }
 export const RTCContext = createContext<IRTCContext>({
   livekitInfo: null,
@@ -47,6 +49,7 @@ export const RTCContext = createContext<IRTCContext>({
   ): IConnectLivekit {
     throw new Error('Function not implemented.');
   },
+  clearSession: () => {},
 });
 type Props = {
   children: ReactNode;
@@ -62,6 +65,13 @@ export function RTCProvider({ children }: Props) {
     setRoomConnectionStatus,
     startLivekitConnection,
   } = useLivekitConnect();
+  function clearSession() {
+    if (currentConnection) {
+      clearAccessToken();
+      currentConnection.room.disconnect();
+      setCurrentConnection(null);
+    }
+  }
   return (
     <RTCContext.Provider
       value={{
@@ -74,6 +84,7 @@ export function RTCProvider({ children }: Props) {
         roomConnectionStatus,
         setRoomConnectionStatus,
         startLivekitConnection,
+        clearSession,
       }}
     >
       {children}

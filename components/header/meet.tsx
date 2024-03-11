@@ -17,7 +17,7 @@ import {
 } from '@/helpers/livekit/types';
 import '@/styles/meet/index.scss';
 interface IMainAreaProps {
-  currentConnection: IConnectLivekit | null;
+  currentConnection: IConnectLivekit;
 }
 
 const columnCameraWidthSelector = createSelector(

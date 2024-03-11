@@ -248,12 +248,12 @@ export default function SmallMeet() {
       setCurrentConnection(newConnection);
     }
   }, [livekitInfo]);
-  return true ? (
+  return currentConnection ? (
     <>
       <button onClick={() => setActive((e) => true)}>
         <div className='flex items-center justify-center'>
           <span className='relative -top-2 left-12 rounded-full bg-card-gradient-menu px-2 text-center text-xs'>
-            {participants.length && participants.length}
+            {participants.length}
           </span>
           <TiVideo size={32} />
         </div>
@@ -271,7 +271,7 @@ export default function SmallMeet() {
             //   position={null}
             scale={1}
           >
-            <div className='absolute w-[calc(80vw)] bg-darkPrimary sm:w-[calc(50vw)] md:w-[calc(30vw)]'>
+            <div className='absolute w-[calc(80vw)] rounded-2xl bg-darkPrimary shadow-sky-50 sm:w-[calc(50vw)] lg:w-[calc(30vw)]'>
               <div className='bg-h flex justify-between p-2'>
                 <div className='flex w-full justify-between'>
                   <p className='mx-auto'>{roomId}</p>

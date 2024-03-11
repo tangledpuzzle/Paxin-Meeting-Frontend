@@ -205,6 +205,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
             text: t('app.token-missing-des'),
           });
         } else {
+          error && setError(undefined);
           setAccessTokenLocal(token), setAccessTokenLoaded(true);
         }
       });
@@ -349,7 +350,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     }
     //eslint-disable-next-line
   }, [loading, error, roomConnectionStatus, waitForApproval, renderMainApp]);
-  console.log('[Status]', roomConnectionStatus, isStartup);
+  console.log('[Status]', roomConnectionStatus, isStartup, error);
   return (
     <div
       className={`${orientationClass} ${deviceClass} ${userTypeClass} h-[calc(100vh-129px)] dark:bg-darkPrimary/70 sm:h-[calc(100vh-80px)]`}
