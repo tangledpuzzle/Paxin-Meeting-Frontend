@@ -793,7 +793,7 @@ textarea {
 .new-container {
   display: flex;
   overflow: hidden;
-  position: relative;
+  /* position: relative; */
 }
 
 .new-sidebar {
@@ -820,12 +820,12 @@ textarea {
   flex-grow: 1;
 }
 
-
-.new-content-container {
+/* 
+.new-container.open .new-main-content {
     width: calc(100% - 300px);
-}
+} */
 
-.new-main-content {
+.new-container.open .new-main-content {
     margin-left: 300px;
 }
 
@@ -845,6 +845,7 @@ textarea {
 
 .chatInput {
   position: fixed;
+  max-width: -webkit-fill-available;
   bottom: 0px;
   width: 100%;
   min-height: 80px;
@@ -1757,3 +1758,7 @@ textarea {
   z-index: 20;
   
 } */
+
+.image-gallery-icon:hover {
+  color: #019c78 !important;
+}
