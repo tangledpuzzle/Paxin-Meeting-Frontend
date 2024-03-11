@@ -34,7 +34,7 @@ interface ChatMessageProps {
     name: string;
     type: string;
     url: string;
-  };
+  }[];
   timestamp: string;
   isEdited?: boolean;
   isDeleted?: boolean;
@@ -81,6 +81,24 @@ export default function ChatMessage(props: ChatMessageProps) {
                 '!text-gray-300': props.isDeleted,
               })}
             >
+              <div className='flex items-center gap-1'>
+                {props.attachments &&
+                  props.attachments.length > 0 &&
+                  props.attachments.map((attachment) => {
+                    if (attachment.type.startsWith('image')) {
+                      return (
+                        <div key={attachment.id} className='relative size-12'>
+                          <Image
+                            src={attachment.url}
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            alt={attachment.name}
+                          />
+                        </div>
+                      );
+                    }
+                  })}
+              </div>
               {props.isDeleted ? (
                 <div className='mr-16 flex items-center gap-1'>
                   <MdOutlineDoNotDisturb className='size-4' />
