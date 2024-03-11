@@ -645,7 +645,7 @@ export default function SettingPage() {
         setOpenModal={setOpenModal}
         requestType={requestType}
       />
-      <Loader />
+      {/* <Loader /> */}
       <CTASection
         title={t('settings')}
         description={t('setting_description')}
