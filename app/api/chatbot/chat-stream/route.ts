@@ -11,9 +11,11 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
 
+  const mode = req.nextUrl.searchParams.get('mode') || 'text';
+
   try {
     const res = await fetch(
-      `${process.env.AI_CHAT_ASSISTANT_API_URL}/api/assistant/chatStream`,
+      `${process.env.AI_CHAT_ASSISTANT_API_URL}/api/assistant/${mode === 'image' ? 'visionChatStream' : 'chatStream'}`,
       {
         method: 'POST',
         headers: {
