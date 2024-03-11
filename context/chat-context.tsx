@@ -30,12 +30,20 @@ export interface ChatMessage {
     name: string;
     avatar: string;
   };
+  attachments?: {
+    id: string;
+    name: string;
+    type: string;
+    url: string;
+  };
   isDeleted?: boolean;
   isEdited?: boolean;
   timestamp: string;
 }
 
 export interface ChatContent {
+  showNav: boolean;
+  setShowNav: Dispatch<SetStateAction<boolean>>;
   chatRooms: ChatRoom[];
   setChatRooms: Dispatch<SetStateAction<ChatRoom[]>>;
   activeRoom: string;
@@ -51,6 +59,8 @@ export interface ChatContent {
 }
 
 export const PaxChatContext = createContext<ChatContent>({
+  showNav: true,
+  setShowNav: () => {},
   chatRooms: [],
   setChatRooms: () => {},
   activeRoom: '',
