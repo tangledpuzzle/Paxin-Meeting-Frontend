@@ -11,26 +11,71 @@ import deleteMessage from '@/lib/server/chat/deleteMessage';
 import editMessage from '@/lib/server/chat/editMessage';
 import sendMessage from '@/lib/server/chat/sendMessage';
 import subscribe from '@/lib/server/chat/subscribe';
+import { cn } from '@/lib/utils';
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { Howl, Howler } from 'howler';
+import { MoveLeft } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { IoCheckmarkSharp, IoSendOutline } from 'react-icons/io5';
+import { LiaTimesSolid } from 'react-icons/lia';
 
 Howler.autoUnlock = true;
 
-// interface ChatMessage {
-//   id: string;
-//   message: string;
-//   timestamp: string;
-//   user: {
-//     id: string;
-//     name: string;
-//     avatar: string;
-//   };
-//   isDeleted?: boolean;
-//   isEdited?: boolean;
-// }
+const PreviewFile = ({
+  file,
+  className,
+  onRemove,
+}: {
+  file: File;
+  className?: string;
+  onRemove?: () => void;
+}) => {
+  const [type, setType] = useState('');
+  const [preview, setPreview] = useState('');
+
+  useEffect(() => {
+    if (!file) {
+      return;
+    }
+
+    setType(file.type);
+
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      setPreview(reader.result as string);
+    };
+  }, [file]);
+
+  return (
+    <div
+      className={cn(
+        'relative mb-2 size-16 overflow-hidden rounded-sm bg-white',
+        className
+      )}
+    >
+      {onRemove && (
+        <Button
+          variant='destructive'
+          className='absolute right-1 top-1 z-10 size-4 rounded-full'
+          type='button'
+          size='icon'
+          onClick={onRemove}
+        >
+          <LiaTimesSolid className='size-3' />
+        </Button>
+      )}
+      {type.startsWith('image') && preview && (
+        <Image src={preview} alt='' style={{ objectFit: 'cover' }} fill />
+      )}
+    </div>
+  );
+};
 
 export default function ChatDetailPage({
   params: { id },
@@ -43,6 +88,8 @@ export default function ChatDetailPage({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { user } = useContext(PaxContext);
   const {
+    showNav,
+    setShowNav,
     messages,
     setMessages,
     chatRooms,
@@ -61,6 +108,11 @@ export default function ChatDetailPage({
   const [deleteMessageId, setDeleteMessageId] = useState('');
   const [editMessageId, setEditMessageId] = useState('');
   const [replyMessageId, setReplyMessageId] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [chatWindowHeight, setChatWindowHeight] = useState(
+    '100vh - 5rem - 20px - 68px'
+  );
 
   const messageSentSound = new Howl({
     src: ['/audio/message-sent.mp3'],
@@ -226,6 +278,10 @@ export default function ChatDetailPage({
         });
       }
     }
+
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
   };
 
   const handleMessageDelete = useCallback(async (id: string) => {
@@ -330,122 +386,193 @@ export default function ChatDetailPage({
     } catch (error) {}
   };
 
-  const auto_height = () => {
-    const textarea = textareaRef.current;
+  const autoHeight = () => {
+    if (!textareaRef.current) return;
 
-    if (textarea) {
-      textarea.style.height = '68px';
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    }
-    
+    textareaRef.current.style.height = '68px';
+    textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    setChatWindowHeight(
+      `100vh - 5rem - 20px - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''}`
+    );
   };
+
+  const handleFileUpload = (files: File[]) => {
+    setUploadedFiles((prev) => [...prev, ...files]);
+  };
+
+  const handleFileRemove = (index: number) => {
+    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  useEffect(() => {
+    autoHeight();
+  }, [uploadedFiles]);
 
   useEffect(() => {
     setActiveRoom(id);
   }, []);
 
+  useEffect(() => {
+    if (uploadedFiles.length > 0) {
+      for (const file of uploadedFiles) {
+        if (file.type.startsWith('image')) {
+          const reader = new FileReader();
+
+          reader.onload = () => {
+            const imgData = reader.result as string;
+          };
+        }
+      }
+    }
+  }, [uploadedFiles]);
+
   let lastDay: string | null = null;
 
   return !isMessageLoading && !isRoomLoading ? (
-    <div>
-      <ConfirmModal
-        isOpen={isDeleting}
-        onClose={() => {
-          setIsDeleting(false);
-          setDeleteMessageId('');
-        }}
-        title={t('delete_message')}
-        description={t('are_you_sure_delete_message')}
-        onConfirm={() => {
-          handleMessageDeleteSubmit();
-        }}
-        loading={false}
-      />
+    <div className='new-content-container'>
+      <div className='new-main-content'>
+        <ConfirmModal
+          isOpen={isDeleting}
+          onClose={() => {
+            setIsDeleting(false);
+            setDeleteMessageId('');
+          }}
+          title={t('delete_message')}
+          description={t('are_you_sure_delete_message')}
+          onConfirm={() => {
+            handleMessageDeleteSubmit();
+          }}
+          loading={false}
+        />
 
-      <ScrollArea
-        ref={scrollAreaRef}
-        className='h-[calc(100vh_-_10.5rem)] w-full rounded-lg bg-background p-4 py-0'
-      >
-        {messages.map((message) => {
-          const day = new Date(message.timestamp).toLocaleDateString('en-US', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-          });
-          if (day !== lastDay) {
-            lastDay = day;
-            return (
-              <>
-                <div
-                  key={day}
-                  className='w-full text-center text-sm text-muted-foreground'
-                >
-                  {day}
-                </div>
-                <ChatMessage
-                  key={message.id}
-                  {...message}
-                  onDelete={handleMessageDelete}
-                  onEdit={handleMessageEdit}
-                />
-              </>
-            );
-          } else
-            return (
-              <ChatMessage
-                key={message.id}
-                {...message}
-                onDelete={handleMessageDelete}
-                onEdit={handleMessageEdit}
-              />
-            );
-        })}
-      </ScrollArea>
-      <div className='chatInput !bg-card-gradient-menu-on px-4'>
-        {!activeRoomSubscribed && (
+        {!showNav && (
           <Button
             variant='ghost'
-            onClick={() => {
-              handleSubscribe(id);
-            }}
-            className='h-[100px] w-full'
+            size='icon'
+            className='absolute left-4 top-4 z-10'
+            onClick={() => setShowNav(!showNav)}
           >
-            {t('accept_chat')}
+            <MoveLeft size='24' />
           </Button>
         )}
-        {activeRoomSubscribed && (
-          <div className='flex justify-between items-end'>
-            <DropdownMenuDemo />
-            <textarea
-              ref={textareaRef}
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              className='mb-[10px] ml-[10px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2 bg-card-gradient-menu'
-              onInput={auto_height}
-            ></textarea>
-            {isEditing ? (
-              <Button
-                type='button'
-                variant='ghost'
-                size='icon'
-                onClick={handleMessageEditSubmit}
-                className='mx-2 mb-[10px] mt-auto'
-              >
-                <IoCheckmarkSharp color='green' size={18} />
-              </Button>
-            ) : (
-              <Button
-                type='button'
-                variant='ghost'
-                size='icon'
-                onClick={handleMessageSubmit}
-                className='mx-2 mb-[10px] mt-auto'
-              >
-                <IoSendOutline color='gray' size={18} />
-              </Button>
-            )}
+
+        <ScrollArea
+          ref={scrollAreaRef}
+          className='w-full rounded-none bg-background p-4 pb-0 pt-2'
+          style={{
+            height: `calc(${chatWindowHeight})`,
+          }}
+        >
+          <div className='wrapper'>
+            <div className='chat-area container !px-0'>
+              <div className='chat-area-main'>
+                {messages.map((message) => {
+                  const day = new Date(message.timestamp).toLocaleDateString(
+                    'en-US',
+                    {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
+                    }
+                  );
+                  if (day !== lastDay) {
+                    lastDay = day;
+                    return (
+                      <>
+                        <div
+                          key={day}
+                          className='w-full text-center text-sm text-muted-foreground'
+                        >
+                          {day}
+                        </div>
+                        <ChatMessage
+                          key={message.id}
+                          {...message}
+                          onDelete={handleMessageDelete}
+                          onEdit={handleMessageEdit}
+                        />
+                      </>
+                    );
+                  } else
+                    return (
+                      <ChatMessage
+                        key={message.id}
+                        {...message}
+                        onDelete={handleMessageDelete}
+                        onEdit={handleMessageEdit}
+                      />
+                    );
+                })}
+              </div>
+            </div>
           </div>
-        )}
+        </ScrollArea>
+        <div className='chatInput'>
+          {!activeRoomSubscribed && (
+            <Button
+              variant='ghost'
+              onClick={() => {
+                handleSubscribe(id);
+              }}
+              className='h-[100px] w-full'
+            >
+              {t('accept_chat')}
+            </Button>
+          )}
+          {activeRoomSubscribed && (
+            <div className='flex justify-between'>
+              <div className='flex h-auto items-end bg-card-gradient-menu px-4 py-2'>
+                <DropdownMenuDemo onFileUpload={handleFileUpload}>
+                  <Button variant='ghost' size='icon' className=''>
+                    <HamburgerMenuIcon />
+                  </Button>
+                </DropdownMenuDemo>
+              </div>
+              <div className='mb-[10px] ml-[10px] mt-[10px] flex h-full w-full flex-col justify-end'>
+                <div className='flex w-full gap-2'>
+                  {uploadedFiles.length > 0 &&
+                    uploadedFiles.map((file, index) => {
+                      return (
+                        <PreviewFile
+                          key={index}
+                          file={file}
+                          onRemove={() => handleFileRemove(index)}
+                        />
+                      );
+                    })}
+                </div>
+                <textarea
+                  ref={textareaRef}
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  className='h-[68px] max-h-[200px] w-full rounded-xl bg-card-gradient-menu-on p-2'
+                  onInput={autoHeight}
+                />
+              </div>
+              {isEditing ? (
+                <Button
+                  type='button'
+                  variant='ghost'
+                  size='icon'
+                  onClick={handleMessageEditSubmit}
+                  className='mx-2 mb-[10px] mt-auto'
+                >
+                  <IoCheckmarkSharp color='green' size={18} />
+                </Button>
+              ) : (
+                <Button
+                  type='button'
+                  variant='ghost'
+                  size='icon'
+                  onClick={handleMessageSubmit}
+                  className='mx-2 mb-[10px] mt-auto'
+                >
+                  <IoSendOutline color='gray' size={18} />
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   ) : (

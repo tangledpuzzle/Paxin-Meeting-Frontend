@@ -14,6 +14,7 @@ Howler.autoUnlock = true;
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const locale = useLocale();
+  const [showNav, setShowNav] = useState(true);
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
   const [activeRoom, setActiveRoom] = useState<string>('');
   const [activeRoomSubscribed, setActiveRoomSubscribed] = useState(false);
@@ -256,6 +257,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <PaxChatContext.Provider
       value={{
+        showNav,
+        setShowNav,
         chatRooms,
         setChatRooms,
         activeRoom,

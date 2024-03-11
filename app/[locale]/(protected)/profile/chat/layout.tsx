@@ -1,15 +1,11 @@
-import ChatNavComponent from '@/components/dialogs/chat-nav';
 import ChatProviders from '@/provider/chat-provider';
 
-interface ChatLayoutProps {
+interface ChatProvidersLayoutProps {
   children: React.ReactNode;
 }
 
-export default function ChatLayout({ children }: ChatLayoutProps) {
-  return (
-    <ChatProviders>
-      <ChatNavComponent />
-      {children}
-    </ChatProviders>
-  );
+export default function ChatProvidersLayout({
+  children,
+}: ChatProvidersLayoutProps) {
+  return <ChatProviders>{children}</ChatProviders>;
 }
