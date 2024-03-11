@@ -19,10 +19,14 @@ import toast from 'react-hot-toast';
 interface MeetCreateModalProps {
   children: React.ReactNode;
   isLoading: boolean;
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
   onCreate: (e: string) => void;
 }
 
 export function MeetCreateModal({
+  open,
+  setOpen,
   isLoading,
   onCreate,
   children,
@@ -36,7 +40,7 @@ export function MeetCreateModal({
   // const data = await getData(locale);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='max-w-md'>
         <DialogHeader>
