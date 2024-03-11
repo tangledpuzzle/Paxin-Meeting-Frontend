@@ -844,7 +844,7 @@ textarea {
 }
 
 .chatInput {
-  position: fixed;
+  position: sticky;
   max-width: -webkit-fill-available;
   bottom: 0px;
   width: 100%;
