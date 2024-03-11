@@ -216,6 +216,7 @@ export default function ChatDetailPage({
       textarea.style.height = '68px';
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
+    
   };
 
   useEffect(() => {
@@ -251,7 +252,7 @@ export default function ChatDetailPage({
           />
         ))}
       </ScrollArea>
-      <div className='chatInput'>
+      <div className='chatInput !bg-card-gradient-menu-on px-4'>
         {!activeRoomSubscribed && (
           <Button
             variant='ghost'
@@ -264,13 +265,13 @@ export default function ChatDetailPage({
           </Button>
         )}
         {activeRoomSubscribed && (
-          <div className='flex justify-between'>
+          <div className='flex justify-between items-end'>
             <DropdownMenuDemo />
             <textarea
               ref={textareaRef}
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              className='mb-[10px] ml-[10px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2'
+              className='mb-[10px] ml-[10px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2 bg-card-gradient-menu'
               onInput={auto_height}
             ></textarea>
             {isEditing ? (

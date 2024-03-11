@@ -53,10 +53,11 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const isChatPage = /^\/profile\/chat(\/(?!.*\/).*)?$/.test(pathname);
+  const isMessagesPage = /^\/profile\/messages(\/(?!.*\/).*)?$/.test(pathname);
 
   return (
     <div>
-      {!isChatPage && (
+      {!isChatPage && !isMessagesPage ? (
         <nav
           className={cn(
             `fixed bottom-0 z-30 w-full border-t bg-background sm:relative sm:h-screen sm:w-auto sm:border-r sm:pt-16 lg:w-72`
@@ -70,7 +71,7 @@ export default function Sidebar() {
             </div>
           </div>
         </nav>
-      )}
+      ) : null}
     </div>
   );
 }
