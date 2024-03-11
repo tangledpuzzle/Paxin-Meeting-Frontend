@@ -18,7 +18,7 @@ export default function HomePage() {
   }, [searchParams]);
 
   return (
-    <section className='container grid items-center gap-0 px-2 pb-8 pt-[0px] md:px-8 md:py-0'>
+    <section className='container'>
       <CTASection />
       <FilterListSection />
       {viewMode === 'profile' ? (
