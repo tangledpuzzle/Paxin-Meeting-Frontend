@@ -4,7 +4,7 @@ const useSocket = (locale: string): WebSocket | null => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
   useEffect(() => {
-    const wsProtocol = 'ws:';
+    const wsProtocol = 'wss:';
     const wsPath = process.env.NEXT_PUBLIC_SOCKET_URL!;
     const newSocket = new WebSocket(
       `${wsProtocol}//${wsPath}/stream/live?langue=` + locale
