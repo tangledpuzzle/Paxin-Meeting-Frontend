@@ -137,9 +137,12 @@ export default function ChatDetailPage({
 
       const _messages = messages;
 
+      let fileSize = 0;
+
       if (uploadedFiles.length > 0) {
         for (let i = 0; i < uploadedFiles.length; i++) {
           if (uploadedFiles[i].type.startsWith('image')) {
+            fileSize += uploadedFiles[i].size;
             const url = (await readFileAsDataURL(uploadedFiles[i])) as string;
             attachments.push({
               id: `${i}`,
@@ -148,6 +151,14 @@ export default function ChatDetailPage({
               url: url,
             });
           }
+        }
+
+        if (fileSize > 1024 * 1024) {
+          toast.error(t('image_size_too_big'), {
+            position: 'top-right',
+          });
+
+          return;
         }
 
         _messages.push({
