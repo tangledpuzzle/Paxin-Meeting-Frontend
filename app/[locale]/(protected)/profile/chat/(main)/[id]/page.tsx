@@ -11,7 +11,7 @@ import deleteMessage from '@/lib/server/chat/deleteMessage';
 import editMessage from '@/lib/server/chat/editMessage';
 import sendMessage from '@/lib/server/chat/sendMessage';
 import subscribe from '@/lib/server/chat/subscribe';
-import { cn } from '@/lib/utils';
+import { cn, readFileAsDataURL } from '@/lib/utils';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { Howl, Howler } from 'howler';
 import { MoveLeft } from 'lucide-react';
@@ -109,7 +109,6 @@ export default function ChatDetailPage({
   const [editMessageId, setEditMessageId] = useState('');
   const [replyMessageId, setReplyMessageId] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [chatWindowHeight, setChatWindowHeight] = useState(
     '100vh - 5rem - 20px - 68px'
   );
@@ -127,47 +126,113 @@ export default function ChatDetailPage({
     const chatUser = chatRooms.find((room) => room.id === activeRoom)?.user;
     console.log(chatUser);
 
+    // In case of chatting with bot
     if (chatUser?.bot) {
+      const attachments: {
+        id: string;
+        name: string;
+        type: string;
+        url: string;
+      }[] = [];
+
       const _messages = messages;
-      _messages.push({
-        id: new Date().getTime().toString(),
-        message: inputMessage,
-        timestamp: new Date().toLocaleString(),
-        owner: {
-          id: user?.id || '',
-          name: user?.username || '',
-          avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
-        },
-      });
+
+      let fileSize = 0;
+
+      if (uploadedFiles.length > 0) {
+        for (let i = 0; i < uploadedFiles.length; i++) {
+          if (uploadedFiles[i].type.startsWith('image')) {
+            fileSize += uploadedFiles[i].size;
+            const url = (await readFileAsDataURL(uploadedFiles[i])) as string;
+            attachments.push({
+              id: `${i}`,
+              name: uploadedFiles[i].name,
+              type: uploadedFiles[i].type,
+              url: url,
+            });
+          }
+        }
+
+        if (fileSize > 1024 * 1024) {
+          toast.error(t('image_size_too_big'), {
+            position: 'top-right',
+          });
+
+          return;
+        }
+
+        _messages.push({
+          id: new Date().getTime().toString(),
+          message: inputMessage,
+          attachments: attachments,
+          timestamp: new Date().toLocaleString(),
+          owner: {
+            id: user?.id || '',
+            name: user?.username || '',
+            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+          },
+        });
+      } else {
+        _messages.push({
+          id: new Date().getTime().toString(),
+          message: inputMessage,
+          timestamp: new Date().toLocaleString(),
+          owner: {
+            id: user?.id || '',
+            name: user?.username || '',
+            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+          },
+        });
+      }
 
       setMessages(_messages);
 
+      // Clear input message and uploaded files
       setInputMessage('');
+      setUploadedFiles([]);
 
+      // Play message sent sound
       messageSentSound.play();
 
+      const bodyData: { [key: string]: any } = {
+        lang: locale,
+      };
+
+      if (attachments.length > 0) {
+        bodyData['content'] = _messages.slice(-1)[0].message;
+        bodyData['images'] = attachments.map((a) => a.url.split(',')[1]);
+      } else {
+        bodyData['profile'] = {
+          categories: chatUser?.profile.categories || [],
+          bio: chatUser?.profile.bio || '',
+        };
+        bodyData['history'] = [
+          ..._messages
+            .filter(
+              (msg) =>
+                !(msg.attachments && msg.attachments.length > 0) &&
+                !msg.isDeleted
+            )
+            .map((msg) => {
+              return {
+                role: msg.owner.id === user?.id ? 'user' : 'assistant',
+                content: msg.message,
+              };
+            }),
+        ];
+      }
+
       try {
-        const res = await fetch('/api/chatbot/chat-stream', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            profile: {
-              categories: chatUser?.profile.categories || [],
-              bio: chatUser?.profile.bio || '',
+        const res = await fetch(
+          `/api/chatbot/chat-stream?mode=${attachments.length > 0 ? 'image' : 'text'}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
             },
-            history: [
-              ..._messages.map((msg) => {
-                return {
-                  role: msg.owner.id === user?.id ? 'user' : 'assistant',
-                  content: msg.message,
-                };
-              }),
-            ],
-            lang: locale,
-          }),
-        });
+            body: JSON.stringify(bodyData),
+          }
+        );
 
         if (!res.ok) {
           throw new Error('Failed to fetch chat stream');
@@ -223,9 +288,10 @@ export default function ChatDetailPage({
             }
 
             if (parsedData) {
-              streamText += parsedData.message.content;
-
-              console.log(parsedData.message.role);
+              streamText +=
+                attachments.length > 0
+                  ? parsedData.response
+                  : parsedData.message.content;
 
               setMessages((previousMessages) => {
                 const newMessages = previousMessages.map((msg) => {
@@ -243,6 +309,7 @@ export default function ChatDetailPage({
         console.log(error);
       }
     } else {
+      // In case of chatting with user
       try {
         const res = await sendMessage({ roomId: id, message: inputMessage });
 
@@ -529,7 +596,7 @@ export default function ChatDetailPage({
                 </DropdownMenuDemo>
               </div>
               <div className='mb-[10px] ml-[10px] mt-[10px] flex h-full w-full flex-col justify-end'>
-                <div className='flex w-full gap-2'>
+                <div className='flex w-full max-w-full gap-2 overflow-hidden'>
                   {uploadedFiles.length > 0 &&
                     uploadedFiles.map((file, index) => {
                       return (
