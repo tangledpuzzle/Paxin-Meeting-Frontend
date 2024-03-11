@@ -171,6 +171,9 @@ const sessionSlice = createSlice({
     updateUserDeviceType: (state, action: PayloadAction<UserDeviceType>) => {
       state.userDeviceType = action.payload;
     },
+    reset: (state) => {
+      state = initialState;
+    },
   },
 });
 
@@ -190,6 +193,7 @@ export const {
   updateMuteOnStart,
   clearToken,
   updateUserDeviceType,
+  reset,
 } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

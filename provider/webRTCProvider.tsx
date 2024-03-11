@@ -5,6 +5,8 @@ import useLivekitConnect, {
 } from '@/helpers/livekit/hooks/useLivekitConnect';
 import { IConnectLivekit } from '@/helpers/livekit/types';
 import { clearAccessToken } from '@/helpers/utils';
+import { useAppDispatch } from '@/store/hook';
+import { resetParticipant } from '@/store/slices/participantSlice';
 import React, { ReactNode, useState } from 'react';
 import { createContext } from 'react';
 interface IRTCContext {
@@ -65,9 +67,11 @@ export function RTCProvider({ children }: Props) {
     setRoomConnectionStatus,
     startLivekitConnection,
   } = useLivekitConnect();
+  const dispatch = useAppDispatch();
   function clearSession() {
     if (currentConnection) {
       clearAccessToken();
+      dispatch(resetParticipant());
       currentConnection.room.disconnect();
       setCurrentConnection(null);
     }
