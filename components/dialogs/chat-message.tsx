@@ -6,10 +6,9 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import { useFormatter } from 'next-intl';
 import { PaxContext } from '@/context/context';
 import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useContext } from 'react';
 import toast from 'react-hot-toast';
@@ -21,7 +20,6 @@ import {
   MdOutlineModeEditOutline,
 } from 'react-icons/md';
 import ReactMarkdown from 'react-markdown';
-import { formatTime } from 'video.js/dist/types/utils/time';
 
 interface ChatMessageProps {
   id: string;
@@ -30,6 +28,12 @@ interface ChatMessageProps {
     id: string;
     name: string;
     avatar: string;
+  };
+  attachments?: {
+    id: string;
+    name: string;
+    type: string;
+    url: string;
   };
   timestamp: string;
   isEdited?: boolean;

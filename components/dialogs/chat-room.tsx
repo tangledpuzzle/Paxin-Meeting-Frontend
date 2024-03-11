@@ -82,7 +82,6 @@ export default function ChatRoom({ room }: { room: ChatRoom }) {
       <ContextMenu>
         <ContextMenuTrigger asChild>
           <Link
-            onClick={() => eventBus.emit('startChat')}
             key={room.id}
             href='/profile/chat/[id]'
             as={`/profile/chat/${room.id}`}

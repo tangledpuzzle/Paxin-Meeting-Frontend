@@ -808,6 +808,7 @@ textarea {
 }
 
 .new-main-content {
+  position: relative;
   flex-grow: 1;
   transition: margin-left 0.3s ease;
   padding: 0px;
@@ -826,7 +827,7 @@ textarea {
 } */
 
 .new-container.open .new-main-content {
-    margin-left: 300px;
+  margin-left: 300px;
 }
 
 .new-container.open .new-sidebar {
