@@ -36,6 +36,7 @@ export default function FilterListSection() {
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [minPrice, setMinPrice] = useState<string>('');
   const [maxPrice, setMaxPrice] = useState<string>('');
+  const [filtersApplied, setFiltersApplied] = useState<string | boolean>('');
 
   const handleDeleteCity = (city: string) => {
     const _cities = cities.filter((c) => c !== city);
@@ -43,6 +44,7 @@ export default function FilterListSection() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('city', _cities.length > 0 ? _cities.join(',') : 'all');
     router.push(`?${newSearchParams.toString()}`);
+    setFiltersApplied(true); 
   };
 
   const handleDeleteCategory = (category: string) => {
@@ -54,6 +56,8 @@ export default function FilterListSection() {
       _categories.length > 0 ? _categories.join(',') : 'all'
     );
     router.push(`?${newSearchParams.toString()}`);
+    setFiltersApplied(true); 
+
   };
 
   const handleDeleteHashtag = (hashtag: string) => {
@@ -65,6 +69,8 @@ export default function FilterListSection() {
       _hashtags.length > 0 ? _hashtags.join(',') : 'all'
     );
     router.push(`?${newSearchParams.toString()}`);
+    setFiltersApplied(true); 
+
   };
 
   const handleDeleteMoney = () => {
@@ -73,6 +79,8 @@ export default function FilterListSection() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('money', 'all');
     router.push(`?${newSearchParams.toString()}`);
+    setFiltersApplied(true); 
+
   };
 
   useEffect(() => {
@@ -102,10 +110,20 @@ export default function FilterListSection() {
     setMinPrice(_minPrice || '');
     setMaxPrice(_maxPrice || '');
     console.log(_cities, _categories, _hashtags);
+      setFiltersApplied( 
+      _cities.length > 0 ||
+      _categories.length > 0 ||
+      _hashtags.length > 0 ||
+      (_minPrice && _maxPrice)
+    )
   }, [searchParams]);
 
+  const handleSave = () => {
+
+  };
+
   return (
-    <div className='flex w-full flex-wrap gap-2 pb-4 pt-2'>
+    <div className='flex w-full flex-wrap gap-2 pb-4 pt-2 items-center'>
       {cities.map((city) => (
         <FilterBadge onClick={() => handleDeleteCity(city)}>{city}</FilterBadge>
       ))}
@@ -135,6 +153,12 @@ export default function FilterListSection() {
           {'< '}${maxPrice}
         </FilterBadge>
       )}
+       {filtersApplied && (
+        <Button onClick={handleSave} className='btn !m-0 !mt-2 !rounded-md'>Save combination</Button>
+      )}
+      {/* {!filtersApplied && (
+        <Button onClick={handleSave} className='btn !m-0 !mt-2 !rounded-md'>Save combination</Button>
+      )} */}
     </div>
   );
 }
