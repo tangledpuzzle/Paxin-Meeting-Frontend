@@ -48,7 +48,7 @@ export function ReportModal({ children }: ReportModalProps) {
   const defaultValues = {
     type: '',
     name: '',
-    descr: ''
+    descr: '',
   };
 
   const formSchema = z.object({
@@ -64,7 +64,10 @@ export function ReportModal({ children }: ReportModalProps) {
   });
 
   const SendRequest = async (data: FormValue) => {
-    const res = await axios.post(`/api/profiles/newReq?mode=ComplaintUser`, data);
+    const res = await axios.post(
+      `/api/profiles/newReq?mode=ComplaintUser`,
+      data
+    );
 
     if (res.status === 200) {
       toast.success(t('report_save_success'), {
@@ -76,7 +79,7 @@ export function ReportModal({ children }: ReportModalProps) {
         position: 'top-right',
       });
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -107,7 +110,9 @@ export function ReportModal({ children }: ReportModalProps) {
                           onValueChange={field.onChange}
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder={t('select_type_of_report')} />
+                            <SelectValue
+                              placeholder={t('select_type_of_report')}
+                            />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
@@ -154,7 +159,6 @@ export function ReportModal({ children }: ReportModalProps) {
                     </FormItem>
                   )}
                 />
-
               </div>
               <div className=''>
                 <Label htmlFor='descr' className='text-right'>
@@ -172,7 +176,6 @@ export function ReportModal({ children }: ReportModalProps) {
                     </FormItem>
                   )}
                 />
-
               </div>
             </div>
             <DialogFooter>
@@ -181,9 +184,10 @@ export function ReportModal({ children }: ReportModalProps) {
                   {t('cancel')}
                 </Button>
               </DialogClose>
-              <Button type='submit' >{t('submit')}</Button>
+              <Button type='submit'>{t('submit')}</Button>
             </DialogFooter>
-          </form></Form>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

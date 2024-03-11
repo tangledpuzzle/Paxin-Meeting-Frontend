@@ -3,21 +3,17 @@
 import { ChatMessage, ChatRoom, PaxChatContext } from '@/context/chat-context';
 import useCentrifuge from '@/hooks/useCentrifuge';
 import getAllMessages from '@/lib/server/chat/getAllMessages';
-import getConnectionToken from '@/lib/server/chat/getConnectionToken';
 import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
-import getSubscriptionToken from '@/lib/server/chat/getSubscriptionToken';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
-import {
-  Centrifuge,
-  PublicationContext,
-  SubscribedContext,
-  SubscriptionState,
-  SubscriptionStateContext,
-} from 'centrifuge';
+import { Howl, Howler } from 'howler';
 import { useSession } from 'next-auth/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useLocale } from 'next-intl';
+import { useEffect, useState } from 'react';
+
+Howler.autoUnlock = true;
 
 export default function Providers({ children }: { children: React.ReactNode }) {
+  const locale = useLocale();
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
   const [activeRoom, setActiveRoom] = useState<string>('');
   const [activeRoomSubscribed, setActiveRoomSubscribed] = useState(false);
@@ -26,34 +22,42 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const [isRoomLoading, setIsRoomLoading] = useState(true);
   const { data: session } = useSession();
 
+  const messageReceivedSound = new Howl({
+    src: ['/audio/message-received.mp3'],
+    html5: true,
+    loop: false,
+    preload: true,
+  });
+
   const onPublication = (publication: any) => {
     console.log(publication);
     if (publication.type === 'new_message') {
-      setMessages((messages) => {
-        const index = messages.findIndex(
-          (msg) => msg.id === `${publication.body.id}`
-        );
+      if (`${publication.body.room_id}` === activeRoom)
+        setMessages((messages) => {
+          const index = messages.findIndex(
+            (msg) => msg.id === `${publication.body.id}`
+          );
 
-        if (index === -1) {
-          return [
-            ...messages,
-            {
-              id: `${publication.body.id}` as string,
-              message: publication.body.content as string,
-              owner: {
-                id: publication.body.user_id as string,
-                name: publication.body.user.name,
-                avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.user.photo}`,
+          if (index === -1) {
+            return [
+              ...messages,
+              {
+                id: `${publication.body.id}` as string,
+                message: publication.body.content as string,
+                owner: {
+                  id: publication.body.user_id as string,
+                  name: publication.body.user.name,
+                  avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.user.photo}`,
+                },
+                isDeleted: publication.body.is_deleted as boolean,
+                isEdited: publication.body.is_deleted as boolean,
+                timestamp: publication.body.created_at as string,
               },
-              isDeleted: publication.body.is_deleted as boolean,
-              isEdited: publication.body.is_deleted as boolean,
-              timestamp: publication.body.created_at as string,
-            },
-          ];
-        } else {
-          return messages;
-        }
-      });
+            ];
+          } else {
+            return messages;
+          }
+        });
 
       setChatRooms((chatRooms) => {
         chatRooms.forEach((room) => {
@@ -75,6 +79,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
         return chatRooms;
       });
+
+      messageReceivedSound.play();
     } else if (publication.type === 'edit_message') {
       setMessages((messages) => {
         const index = messages.findIndex(
@@ -131,9 +137,18 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           lastMessage: publication.body.last_message.content,
           user: {
             id: sender.user.id,
-            name: sender.user.name,
-            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${sender.user.photo}`,
+            profile: {
+              name: sender.user.name,
+              avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${sender.user.photo}`,
+              categories: sender.user.profile[0].guild.map(
+                (guild: any) => guild.translations[0].name
+              ),
+              bio: sender.user.profile[0].multilang_descr[
+                locale.charAt(0).toUpperCase() + locale.slice(1)
+              ],
+            },
             online: sender.user.online,
+            bot: sender.user.is_bot,
           },
           subscribed: false,
           timestamp: publication.body.created_at,
@@ -141,6 +156,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
         return chatRooms;
       });
+
+      messageReceivedSound.play();
     } else if (publication.type === 'subscribe_room') {
       setChatRooms((chatRooms) => {
         const index = chatRooms.findIndex(
@@ -222,6 +239,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     chatRooms.forEach((room) => {
       if (room.id === activeRoom) {
+        console.log(room.subscribed, chatRooms, activeRoom, 'SDF');
         setActiveRoomSubscribed(room.subscribed);
       }
     });

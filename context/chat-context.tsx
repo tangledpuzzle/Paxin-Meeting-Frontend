@@ -9,9 +9,14 @@ export interface ChatRoom {
   };
   user: {
     id: string;
-    name: string;
-    avatar: string;
+    profile: {
+      name: string;
+      avatar: string;
+      categories: string[];
+      bio: string;
+    };
     online: boolean;
+    bot: boolean;
   };
   subscribed: boolean;
   timestamp: string;

@@ -34,7 +34,7 @@ export default function ChatNavComponent() {
         ref={sidebarRef}
         className='new-sidebar w-full pt-[70px] md:w-[300px]'
       >
-        <div className='h-screen w-full overflow-y-auto border-l border-r bg-card-gradient py-2'>
+        <div className='h-screen w-full overflow-y-auto border-l border-r bg-white dark:bg-black py-2'>
           <div className='bg-card-gradient-menu px-5 text-lg font-medium text-gray-800 dark:text-white'>
             <button
               className='toggle-btn  absolute right-4 top-[92px] z-10'
@@ -68,8 +68,8 @@ export default function ChatNavComponent() {
             </div>
           </div>
           {currentTab === 'MESSAGE_LIST' && (
-            <div className='mb-[20%]'>
-              <div className='mx-2 my-2'>
+            <div className='mb-[0%]'>
+              <div className='px-2 py-2 bg-card-gradient-menu-on'>
                 <input
                   className='flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-8 pr-4 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input'
                   placeholder={t('search_by_name')}
@@ -81,7 +81,7 @@ export default function ChatNavComponent() {
               <ScrollArea className='h-[calc(100vh_-_14.5rem)] rounded-lg bg-background p-4'>
                 {chatRooms.length > 0 ? (
                   chatRooms
-                    .filter((room) => room.user.name.includes(keyword))
+                    .filter((room) => room.user.profile.name.includes(keyword))
                     .map((room) => <ChatRoom key={room.id} room={room} />)
                 ) : (
                   <>
