@@ -188,7 +188,7 @@ function ChatWindow({
 
         <ScrollArea
           ref={scrollAreaRef}
-          style={{ height: `calc(100vh - ${isOpen ? '10rem' : '10rem'})` }}
+          style={{ height: `calc(100dvh - ${isOpen ? '10rem' : '10rem'})` }}
           className={`w-full rounded-lg bg-background px-4`}
           >
           <div className='wrapper'>

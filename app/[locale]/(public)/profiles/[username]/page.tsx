@@ -36,6 +36,7 @@ import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import MessageForm from '@/components/home/messsage-form';
 import getRoomId from '@/lib/server/chat/getRoomId';
+import { IoLanguage } from 'react-icons/io5';
 
 async function getData(locale: string, username: string) {
   const session = await getServerSession(authOptions);
@@ -340,18 +341,30 @@ export default async function ProfilePage({
             </Button>
           </div>
         </div>
+
         <div className='md:col-span-2 xl:col-span-3'>
           <div className='grid grid-cols-1'>
             <div className='col-span-4 w-full'>
               <div className=''>
                 <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
                   @{profileDetails.username}
-                  <div
+                  {/* <div
                     className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
                     style={{
                       backgroundImage: `url('/images/${profileDetails.country}.svg')`,
                     }}
-                  />
+                  /> */}
+                  
+                  <div className='relative'>
+                  <div
+                    className={` right-0 top-[0.2rem] mr-0 rounded-md bg-cover bg-center bg-no-repeat`}
+                    style={{ backgroundImage: `url('/images/${profileDetails.country}.svg')` }}
+                  >
+                  <div className='flex justify-end items-center bg-black/50 px-2 text-white rounded-md'>
+                  <IoLanguage/><span className='uppercase'>{profileDetails.country}</span>
+                  </div>
+                  </div>
+                  </div>
                 </div>
                 <div className='pb-2 text-sm text-muted-foreground'>
                   {profileDetails.bio}
