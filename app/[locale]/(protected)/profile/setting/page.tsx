@@ -42,6 +42,7 @@ import { GrUpdate } from 'react-icons/gr';
 import * as z from 'zod';
 import { SubscriptionCard } from '@/components/profiles/setting/subscription-card';
 import { NewPostModal } from '@/components/profiles/setting/request4new';
+import Loader from '@/components/ui/loader';
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
 
@@ -497,8 +498,8 @@ export default function SettingPage() {
           uploadedGallery:
             files?.files && files?.files?.length > 0
               ? files?.files.map((file: any) => ({
-                  path: file?.path,
-                }))
+                path: file?.path,
+              }))
               : false,
           gallery: isNeededUpdate ? gallery : false,
         },
@@ -644,7 +645,7 @@ export default function SettingPage() {
         setOpenModal={setOpenModal}
         requestType={requestType}
       />
-
+      <Loader />
       <CTASection
         title={t('settings')}
         description={t('setting_description')}
@@ -1054,7 +1055,7 @@ export default function SettingPage() {
                       className='h-7 w-1/2 bg-background text-inherit shadow-none hover:bg-primary/10 data-[state=active]:bg-primary/10 data-[state=active]:text-primary'
                       data-state={
                         !searchParams.get('mode') ||
-                        searchParams.get('mode') === 'monthly'
+                          searchParams.get('mode') === 'monthly'
                           ? 'active'
                           : ''
                       }
