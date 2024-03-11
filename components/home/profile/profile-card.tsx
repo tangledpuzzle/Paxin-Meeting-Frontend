@@ -14,6 +14,7 @@ import { useTranslations } from 'next-intl';
 import { QRCodeModal } from '../../common/qrcode-modal';
 import { CategoryCard } from './category-card';
 import { CityCard } from './city-card';
+import { IoLanguage } from 'react-icons/io5';
 
 export interface ProfileCardProps {
   username: string;
@@ -90,9 +91,14 @@ function ProfileCard(profile: ProfileCardProps) {
         </div>
         <div className='relative'>
           <div
-            className={`absolute right-0 top-3 mr-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
+            className={`absolute right-0 top-3 mr-3 rounded-md bg-cover bg-center bg-no-repeat`}
             style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
-          ></div>
+          >
+          <div className='flex justify-end items-center bg-black/50 px-2 text-white rounded-md'>
+          <IoLanguage/><span className='uppercase'>{countrycode}</span>
+          </div>
+          </div>
+     
         </div>
         <div className='px-3 font-satoshi'>
           <Link
