@@ -35,7 +35,7 @@ export interface ChatMessage {
     name: string;
     type: string;
     url: string;
-  };
+  }[];
   isDeleted?: boolean;
   isEdited?: boolean;
   timestamp: string;
