@@ -120,7 +120,7 @@ export default function ChatDetailPage({
     preload: true,
   });
 
-  const handleMessageSubmit = async () => {
+  const handleMessageSubmit = async (inputMessage: string) => {
     if (inputMessage === '') return;
 
     const chatUser = chatRooms.find((room) => room.id === activeRoom)?.user;
@@ -471,6 +471,10 @@ export default function ChatDetailPage({
     setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleRoomCreate = (link: string) => {
+    handleMessageSubmit(link);
+  };
+
   useEffect(() => {
     autoHeight();
   }, [uploadedFiles]);
@@ -589,7 +593,10 @@ export default function ChatDetailPage({
           {activeRoomSubscribed && (
             <div className='flex justify-between'>
               <div className='flex h-auto items-end bg-card-gradient-menu px-4 py-2'>
-                <DropdownMenuDemo onFileUpload={handleFileUpload}>
+                <DropdownMenuDemo
+                  onFileUpload={handleFileUpload}
+                  onRoomCreate={handleRoomCreate}
+                >
                   <Button variant='ghost' size='icon' className=''>
                     <HamburgerMenuIcon />
                   </Button>
@@ -631,7 +638,7 @@ export default function ChatDetailPage({
                   type='button'
                   variant='ghost'
                   size='icon'
-                  onClick={handleMessageSubmit}
+                  onClick={() => handleMessageSubmit(inputMessage)}
                   className='mx-2 mb-[10px] mt-auto'
                 >
                   <IoSendOutline color='gray' size={18} />
