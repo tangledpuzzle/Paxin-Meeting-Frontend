@@ -17,6 +17,7 @@ import QRCode from 'react-qr-code';
 import { QRCodeModal } from '@/components/common/qrcode-modal';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import type { Metadata, ResolvingMetadata } from 'next';
 import {
   Card,
   CardDescription,
@@ -37,6 +38,54 @@ import Link from 'next/link';
 import MessageForm from '@/components/home/messsage-form';
 import getRoomId from '@/lib/server/chat/getRoomId';
 import { IoLanguage } from 'react-icons/io5';
+interface ProfileDetails {
+  id: string;
+  username: string;
+  bio: string;
+  hashtags: string[];
+  cities: string[];
+  categories: string[];
+  country: string;
+  review: {
+    totaltime: {
+      hour: number;
+      minutes: number;
+      seconds: number;
+    };
+    monthtime: {
+      hour: number;
+      minutes: number;
+      seconds: number;
+    };
+    totalposts: number;
+    monthposts: number;
+    followers: number;
+  };
+  latestblog?: {
+    title: string;
+    subtitle: string;
+    hero: string;
+    review: {
+      votes: number;
+    };
+    link: string;
+  };
+  gallery: {
+    original: string;
+    thumbnail: string;
+  }[];
+  description: string;
+  additionalinfo: string;
+  telegram: string;
+  qrcode: string;
+  follow: boolean;
+  me: boolean;
+}
+
+interface ProfilePageProps {
+  params: { username: string; locale: string };
+  searchParams: { [key: string]: string | undefined | null };
+}
 
 async function getData(locale: string, username: string) {
   const session = await getServerSession(authOptions);
@@ -144,59 +193,26 @@ async function getData(locale: string, username: string) {
   }
 }
 
-interface GalleryData {
-  original: string;
-  thumbnail: string;
-}
+export async function generateMetadata({
+  params,
+}: ProfilePageProps): Promise<Metadata> {
+  const profileDetails = await getData(params.locale, params.username);
 
-interface ProfileDetails {
-  id: string;
-  username: string;
-  bio: string;
-  hashtags: string[];
-  cities: string[];
-  categories: string[];
-  country: string;
-  review: {
-    totaltime: {
-      hour: number;
-      minutes: number;
-      seconds: number;
-    };
-    monthtime: {
-      hour: number;
-      minutes: number;
-      seconds: number;
-    };
-    totalposts: number;
-    monthposts: number;
-    followers: number;
+  return {
+    title: `@${profileDetails?.username || ''}`,
+    description: profileDetails?.bio || '',
+    openGraph: {
+      title: `@${profileDetails?.username || ''}`,
+      description: profileDetails?.bio || '',
+      images: profileDetails?.gallery.map((item: any) => item.original) || [],
+    },
   };
-  latestblog?: {
-    title: string;
-    subtitle: string;
-    hero: string;
-    review: {
-      votes: number;
-    };
-    link: string;
-  };
-  gallery: GalleryData[];
-  description: string;
-  additionalinfo: string;
-  telegram: string;
-  qrcode: string;
-  follow: boolean;
-  me: boolean;
 }
 
 export default async function ProfilePage({
   params,
   searchParams,
-}: {
-  params: { username: string; locale: string };
-  searchParams: { [key: string]: string | undefined | null };
-}) {
+}: ProfilePageProps) {
   const t = await getTranslations('main');
 
   const profileDetails = await getData(params.locale, params.username);
@@ -354,16 +370,20 @@ export default async function ProfilePage({
                       backgroundImage: `url('/images/${profileDetails.country}.svg')`,
                     }}
                   /> */}
-                  
                   <div className='relative'>
-                  <div
-                    className={` right-0 top-[0.2rem] mr-0 rounded-md bg-cover bg-center bg-no-repeat`}
-                    style={{ backgroundImage: `url('/images/${profileDetails.country}.svg')` }}
-                  >
-                  <div className='flex justify-end items-center bg-black/50 px-2 text-white rounded-md'>
-                  <IoLanguage/><span className='uppercase'>{profileDetails.country}</span>
-                  </div>
-                  </div>
+                    <div
+                      className={` right-0 top-[0.2rem] mr-0 rounded-md bg-cover bg-center bg-no-repeat`}
+                      style={{
+                        backgroundImage: `url('/images/${profileDetails.country}.svg')`,
+                      }}
+                    >
+                      <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
+                        <IoLanguage />
+                        <span className='uppercase'>
+                          {profileDetails.country}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className='pb-2 text-sm text-muted-foreground'>
