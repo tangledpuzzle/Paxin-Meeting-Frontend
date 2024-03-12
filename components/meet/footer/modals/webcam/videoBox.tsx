@@ -52,6 +52,7 @@ const VideoBox = ({
         autoPlay
         height='50'
         onLoadedData={handleVideoLoad}
+        playsInline
       />
     </div>
   );
