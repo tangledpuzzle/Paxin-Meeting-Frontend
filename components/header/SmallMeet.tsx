@@ -295,10 +295,11 @@ export default function SmallMeet() {
                 </div>
               </div>
               <div className='border-gardient-h relative w-full' />
-
-              {currentConnection && (
-                <Meet currentConnection={currentConnection} />
-              )}
+              <div id='main-area'>
+                {currentConnection && (
+                  <Meet currentConnection={currentConnection} />
+                )}
+              </div>
             </div>
           </Draggable>
         </div>
