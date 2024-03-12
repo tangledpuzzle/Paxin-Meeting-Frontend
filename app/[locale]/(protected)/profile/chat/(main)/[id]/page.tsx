@@ -2,6 +2,7 @@
 
 import { ConfirmModal } from '@/components/common/confirm-modal';
 import ChatMessage from '@/components/dialogs/chat-message';
+import ChatMessageSkeleton from '@/components/dialogs/chat-message-skeleton';
 import { Button } from '@/components/ui/button';
 import DropdownMenuDemo from '@/components/ui/chatmenu';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -650,6 +651,27 @@ export default function ChatDetailPage({
       </div>
     </div>
   ) : (
-    <></>
+    <div className='new-content-container'>
+      <div className='new-main-content'>
+        <div className='h-[calc(100vh-5rem)] w-full overflow-hidden rounded-none bg-background p-4 pb-0 pt-2'>
+          <div className='wrapper'>
+            <div className='chat-area container !px-0'>
+              <div className='chat-area-main'>
+                <ChatMessageSkeleton position='left' />
+                <ChatMessageSkeleton position='right' />
+                <ChatMessageSkeleton position='right' />
+                <ChatMessageSkeleton position='left' />
+                <ChatMessageSkeleton position='right' />
+                <ChatMessageSkeleton position='left' />
+                <ChatMessageSkeleton position='left' />
+                <ChatMessageSkeleton position='left' />
+                <ChatMessageSkeleton position='right' />
+                <ChatMessageSkeleton position='right' />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
