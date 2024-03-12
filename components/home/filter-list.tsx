@@ -5,6 +5,9 @@ import React, { useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
+import { useLocale, useTranslations } from 'next-intl';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function FilterBadge({
   children,
@@ -29,6 +32,7 @@ function FilterBadge({
 }
 
 export default function FilterListSection() {
+  const t = useTranslations('main');
   const searchParams = useSearchParams();
   const router = useRouter();
   const [cities, setCities] = useState<string[]>([]);
@@ -44,7 +48,7 @@ export default function FilterListSection() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('city', _cities.length > 0 ? _cities.join(',') : 'all');
     router.push(`?${newSearchParams.toString()}`);
-    setFiltersApplied(true); 
+    setFiltersApplied(true);
   };
 
   const handleDeleteCategory = (category: string) => {
@@ -56,7 +60,7 @@ export default function FilterListSection() {
       _categories.length > 0 ? _categories.join(',') : 'all'
     );
     router.push(`?${newSearchParams.toString()}`);
-    setFiltersApplied(true); 
+    setFiltersApplied(true);
 
   };
 
@@ -69,7 +73,7 @@ export default function FilterListSection() {
       _hashtags.length > 0 ? _hashtags.join(',') : 'all'
     );
     router.push(`?${newSearchParams.toString()}`);
-    setFiltersApplied(true); 
+    setFiltersApplied(true);
 
   };
 
@@ -79,7 +83,7 @@ export default function FilterListSection() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('money', 'all');
     router.push(`?${newSearchParams.toString()}`);
-    setFiltersApplied(true); 
+    setFiltersApplied(true);
 
   };
 
@@ -110,7 +114,7 @@ export default function FilterListSection() {
     setMinPrice(_minPrice || '');
     setMaxPrice(_maxPrice || '');
     console.log(_cities, _categories, _hashtags);
-      setFiltersApplied( 
+    setFiltersApplied(
       _cities.length > 0 ||
       _categories.length > 0 ||
       _hashtags.length > 0 ||
@@ -118,9 +122,30 @@ export default function FilterListSection() {
     )
   }, [searchParams]);
 
-  const handleSave = () => {
+  const saveCombination = async () => {
+    const res = await axios.post(`/api/flows/filter`, {
+      name: "My filter",
+      meta: {
+        city: cities[0],
+        category: categories[0],
+        hashtag: hashtags.join(','),
+        money: `${minPrice}-${maxPrice}`,
+        title: searchParams.get('title')
+      }
+    });
 
-  };
+    if (res.status === 200) {
+      toast.success(t('save_filter_success'), {
+        position: 'top-right',
+      });
+    } else {
+      toast.error(t('save_filter_fail'), {
+        position: 'top-right',
+      });
+    }
+
+  }
+
 
   return (
     <div className='flex w-full flex-wrap gap-2 pb-4 pt-2 items-center'>
@@ -153,12 +178,16 @@ export default function FilterListSection() {
           {'< '}${maxPrice}
         </FilterBadge>
       )}
-       {filtersApplied && (
-        <Button onClick={handleSave} className='btn !m-0 !mt-2 !rounded-md'>Save combination</Button>
+      {filtersApplied && (
+        <Button
+          onClick={saveCombination}
+          type='button'
+          className='btn !m-0 !mt-2 !rounded-md'
+        >
+          {t('save_combination')}
+        </Button>
+
       )}
-      {/* {!filtersApplied && (
-        <Button onClick={handleSave} className='btn !m-0 !mt-2 !rounded-md'>Save combination</Button>
-      )} */}
     </div>
   );
 }
