@@ -872,6 +872,7 @@
     "copy_message": "Copy Message",
     "delete": "Delete",
     "message_copied": "Message copied to clipboard",
-    "are_you_sure_leave_chat": "Are you sure you want to leave this chat?"
+    "are_you_sure_leave_chat": "Are you sure you want to leave this chat?",
+    "image_size_too_big": "Image size is too big, you can't upload up to 1MB"
   }
 }

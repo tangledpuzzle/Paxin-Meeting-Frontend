@@ -6,10 +6,9 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import { useFormatter } from 'next-intl';
 import { PaxContext } from '@/context/context';
 import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useContext } from 'react';
 import toast from 'react-hot-toast';
@@ -21,7 +20,6 @@ import {
   MdOutlineModeEditOutline,
 } from 'react-icons/md';
 import ReactMarkdown from 'react-markdown';
-import { formatTime } from 'video.js/dist/types/utils/time';
 
 interface ChatMessageProps {
   id: string;
@@ -31,6 +29,12 @@ interface ChatMessageProps {
     name: string;
     avatar: string;
   };
+  attachments?: {
+    id: string;
+    name: string;
+    type: string;
+    url: string;
+  }[];
   timestamp: string;
   isEdited?: boolean;
   isDeleted?: boolean;
@@ -77,6 +81,24 @@ export default function ChatMessage(props: ChatMessageProps) {
                 '!text-gray-300': props.isDeleted,
               })}
             >
+              <div className='flex items-center gap-1'>
+                {props.attachments &&
+                  props.attachments.length > 0 &&
+                  props.attachments.map((attachment) => {
+                    if (attachment.type.startsWith('image')) {
+                      return (
+                        <div key={attachment.id} className='relative size-12'>
+                          <Image
+                            src={attachment.url}
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            alt={attachment.name}
+                          />
+                        </div>
+                      );
+                    }
+                  })}
+              </div>
               {props.isDeleted ? (
                 <div className='mr-16 flex items-center gap-1'>
                   <MdOutlineDoNotDisturb className='size-4' />

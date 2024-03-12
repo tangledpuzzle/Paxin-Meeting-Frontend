@@ -133,19 +133,20 @@ function ChatWindow({
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         if (entry.contentBoxSize) {
-          
           const height = entry.contentBoxSize[0].blockSize;
           // Update the style of chat-container
           if (chatContainer) {
             if (height !== prevHeight) {
-
               if (height > prevHeight) {
-                
-                const currentTop = parseInt(chatContainer.style.marginTop || '0');
+                const currentTop = parseInt(
+                  chatContainer.style.marginTop || '0'
+                );
                 const newTop = currentTop - 24;
                 chatContainer.style.marginTop = `${newTop}px`;
               } else {
-                const currentTop = parseInt(chatContainer.style.marginTop || '0');
+                const currentTop = parseInt(
+                  chatContainer.style.marginTop || '0'
+                );
                 // const newTop = currentTop + 24;
                 // chatContainer.style.marginTop = `${newTop}px`;
                 // console.log(chatContainer.style.marginTop)
@@ -172,9 +173,10 @@ function ChatWindow({
   return (
     <div>
       <div id='chat-container' className='h-auto'>
-          <div className={`bg-background relative top-[40px] left-[10px] h-[20px]${isOpen ? '' : ' '}`}>
+        <div
+          className={`relative left-[10px] top-[40px] bg-background h-[20px]${isOpen ? '' : ' '}`}
+        >
           {!isOpen && (
-
             <div className='flex'>
               <div
                 className='left-0 top-0 z-10 cursor-pointer px-7 md:left-2 md:top-4'
@@ -183,14 +185,14 @@ function ChatWindow({
                 <MoveLeft size='24' />
               </div>
             </div>
-            )}
-          </div>
+          )}
+        </div>
 
         <ScrollArea
           ref={scrollAreaRef}
-          style={{ height: `calc(100vh - ${isOpen ? '10rem' : '10rem'})` }}
+          style={{ height: `calc(100dvh - ${isOpen ? '10rem' : '10rem'})` }}
           className={`w-full rounded-lg bg-background px-4`}
-          >
+        >
           <div className='wrapper'>
             <div className='chat-area container !px-0'>
               <div className='chat-area-main'>
@@ -359,12 +361,12 @@ function ChatWindow({
             <Button className='h-auto !items-end !rounded-l-none !rounded-r-none bg-card-gradient-menu'>
               <DropdownMenuDemo />
             </Button>
- 
+
             <textarea
               ref={textareaRef}
               value={inputMessage}
               onChange={handleInputChange}
-              className='mb-[10px] ml-[10px] mr-[40px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl pb-2 pl-[10px] pr-[10px] pt-2 bg-card-gradient-menu-on'
+              className='mb-[10px] ml-[10px] mr-[40px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl bg-card-gradient-menu-on pb-2 pl-[10px] pr-[10px] pt-2'
               onInput={auto_height}
             ></textarea>
             <button
@@ -382,14 +384,13 @@ function ChatWindow({
   );
 }
 
-
 function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
   const textarea = event.currentTarget as HTMLTextAreaElement;
   let prevHeight = textarea.scrollHeight;
 
   textarea.style.height = '68px';
   textarea.style.height = `${textarea.scrollHeight}px`;
-  if(textarea.scrollHeight === 68) {
+  if (textarea.scrollHeight === 68) {
     const chatContainer = document.querySelector(
       '.new-container'
     ) as HTMLElement | null;
@@ -403,23 +404,19 @@ function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
       '.new-container'
     ) as HTMLElement | null;
     if (chatContainer) {
-
-
       const chatContainer = document.querySelector(
         '.new-container'
       ) as HTMLElement | null;
-      if(chatContainer){
-
-
-      const currentTop = parseInt(chatContainer.style.marginTop || '0');
-      if(currentTop === -24){
-      } else {
-        const newTop = currentTop + 24;
-        chatContainer.style.marginTop = `${newTop}px`;
-      } 
-     }
-    } 
-   }
+      if (chatContainer) {
+        const currentTop = parseInt(chatContainer.style.marginTop || '0');
+        if (currentTop === -24) {
+        } else {
+          const newTop = currentTop + 24;
+          chatContainer.style.marginTop = `${newTop}px`;
+        }
+      }
+    }
+  }
 }
 
 export default function Messages({ children }: MessagesProps) {
