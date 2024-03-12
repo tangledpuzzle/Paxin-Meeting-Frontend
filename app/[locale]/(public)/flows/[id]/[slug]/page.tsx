@@ -50,6 +50,7 @@ interface BlogDetails {
     avatar: string;
     bio: string;
     telegram: string;
+    bot: boolean;
   };
   price: number;
   link: string;
@@ -83,6 +84,8 @@ async function getData(locale: string, id: string, slug: string) {
     }
 
     const blogData = await res.json();
+
+    console.log(blogData.data[0].user, '++++');
 
     const voteRes = await fetch(
       `${process.env.API_URL}/api/blog/allvotes/${blogData.data[0].id}`
@@ -142,6 +145,7 @@ async function getData(locale: string, id: string, slug: string) {
         telegram: blogData.data[0].user.telegramactivated
           ? blogData.data[0].user.telegramname
           : '',
+        bot: blogData.data[0].user.is_bot,
       },
       price: blogData.data[0].total,
       link: `/${blogData.data[0].uniqId}/${blogData.data[0].slug}`,
@@ -172,6 +176,7 @@ export async function generateMetadata({
   return {
     title: blogDetails?.title || '',
     description: blogDetails?.description || '',
+    metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL || ''),
     openGraph: {
       title: blogDetails?.title || '',
       description: blogDetails?.description || '',
@@ -478,6 +483,7 @@ export default async function FlowPage({
                   user={{
                     username: blogDetails.author?.username,
                     userId: blogDetails.author?.userId,
+                    bot: blogDetails.author?.bot,
                   }}
                   roomId={roomId}
                 >

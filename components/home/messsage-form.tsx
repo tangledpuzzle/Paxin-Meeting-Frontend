@@ -40,6 +40,7 @@ export default function MessageForm({
   user: {
     username: string;
     userId: string;
+    bot?: boolean;
   };
   roomId: string;
 }) {
@@ -118,9 +119,47 @@ export default function MessageForm({
     }
   };
 
+  const submitForBot = async () => {
+    try {
+      if (roomId === '') {
+        const _roomId = await createRoom({
+          acceptorId: user.userId,
+          initialMessage: 'Hi',
+        });
+
+        if (!_roomId) {
+          toast.error(t('failed_to_send_message'), {
+            position: 'top-right',
+          });
+
+          return;
+        }
+
+        router.push(`/profile/chat/${_roomId}`);
+      } else {
+        router.push(`/profile/chat/${roomId}`);
+      }
+    } catch (error) {
+      toast.error(t('failed_to_send_message'), {
+        position: 'top-right',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={user?.bot ? false : undefined}>
+      <DialogTrigger
+        asChild
+        onClick={() => {
+          if (user?.bot) {
+            submitForBot();
+          } else return;
+        }}
+      >
+        {children}
+      </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>

@@ -2,6 +2,7 @@
 
 import { ConfirmModal } from '@/components/common/confirm-modal';
 import ChatMessage from '@/components/dialogs/chat-message';
+import ChatMessageSkeleton from '@/components/dialogs/chat-message-skeleton';
 import { Button } from '@/components/ui/button';
 import DropdownMenuDemo from '@/components/ui/chatmenu';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -96,6 +97,7 @@ export default function ChatDetailPage({
     setChatRooms,
     activeRoom,
     setActiveRoom,
+    chatUser,
     activeRoomSubscribed,
     setActiveRoomSubscribed,
     isMessageLoading,
@@ -121,10 +123,7 @@ export default function ChatDetailPage({
   });
 
   const handleMessageSubmit = async (inputMessage: string) => {
-    if (inputMessage === '') return;
-
-    const chatUser = chatRooms.find((room) => room.id === activeRoom)?.user;
-    console.log(chatUser);
+    if (inputMessage.trim() === '') return;
 
     // In case of chatting with bot
     if (chatUser?.bot) {
@@ -165,7 +164,7 @@ export default function ChatDetailPage({
           id: new Date().getTime().toString(),
           message: inputMessage,
           attachments: attachments,
-          timestamp: new Date().toLocaleString(),
+          timestamp: new Date().toISOString(),
           owner: {
             id: user?.id || '',
             name: user?.username || '',
@@ -176,7 +175,7 @@ export default function ChatDetailPage({
         _messages.push({
           id: new Date().getTime().toString(),
           message: inputMessage,
-          timestamp: new Date().toLocaleString(),
+          timestamp: new Date().toISOString(),
           owner: {
             id: user?.id || '',
             name: user?.username || '',
@@ -546,7 +545,7 @@ export default function ChatDetailPage({
                       year: 'numeric',
                     }
                   );
-                  if (day !== lastDay) {
+                  if (!chatUser?.bot && day !== lastDay) {
                     lastDay = day;
                     return (
                       <>
@@ -561,6 +560,7 @@ export default function ChatDetailPage({
                           {...message}
                           onDelete={handleMessageDelete}
                           onEdit={handleMessageEdit}
+                          isBot={chatUser?.bot}
                         />
                       </>
                     );
@@ -571,6 +571,7 @@ export default function ChatDetailPage({
                         {...message}
                         onDelete={handleMessageDelete}
                         onEdit={handleMessageEdit}
+                        isBot={chatUser?.bot}
                       />
                     );
                 })}
@@ -650,6 +651,27 @@ export default function ChatDetailPage({
       </div>
     </div>
   ) : (
-    <></>
+    <div className='new-content-container'>
+      <div className='new-main-content'>
+        <div className='h-[calc(100vh-5rem)] w-full overflow-hidden rounded-none bg-background p-4 pb-0 pt-2'>
+          <div className='wrapper'>
+            <div className='chat-area container !px-0'>
+              <div className='chat-area-main'>
+                <ChatMessageSkeleton position='left' />
+                <ChatMessageSkeleton position='right' />
+                <ChatMessageSkeleton position='right' />
+                <ChatMessageSkeleton position='left' />
+                <ChatMessageSkeleton position='right' />
+                <ChatMessageSkeleton position='left' />
+                <ChatMessageSkeleton position='left' />
+                <ChatMessageSkeleton position='left' />
+                <ChatMessageSkeleton position='right' />
+                <ChatMessageSkeleton position='right' />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

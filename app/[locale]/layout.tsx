@@ -39,6 +39,7 @@ export async function generateMetadata({
   const metadata: Metadata = {
     title: t('title'),
     description: t('description'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL || ''),
     manifest: '/manifest-dark.webmanifest',
     icons: {
       icon: '/favicon-dark.ico',
