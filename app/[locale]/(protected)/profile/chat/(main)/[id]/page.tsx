@@ -165,7 +165,7 @@ export default function ChatDetailPage({
           id: new Date().getTime().toString(),
           message: inputMessage,
           attachments: attachments,
-          timestamp: new Date().toLocaleString(),
+          timestamp: new Date().toISOString(),
           owner: {
             id: user?.id || '',
             name: user?.username || '',
@@ -176,7 +176,7 @@ export default function ChatDetailPage({
         _messages.push({
           id: new Date().getTime().toString(),
           message: inputMessage,
-          timestamp: new Date().toLocaleString(),
+          timestamp: new Date().toISOString(),
           owner: {
             id: user?.id || '',
             name: user?.username || '',
