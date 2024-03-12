@@ -5,6 +5,9 @@ import React, { useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
+import { useLocale, useTranslations } from 'next-intl';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function FilterBadge({
   children,
@@ -29,6 +32,7 @@ function FilterBadge({
 }
 
 export default function FilterListSection() {
+  const t = useTranslations('main');
   const searchParams = useSearchParams();
   const router = useRouter();
   const [cities, setCities] = useState<string[]>([]);
@@ -104,6 +108,30 @@ export default function FilterListSection() {
     console.log(_cities, _categories, _hashtags);
   }, [searchParams]);
 
+  const saveCombination = async () => {
+    const res = await axios.post(`/api/flows/filter`, {
+      name: "My filter",
+      meta: {
+        city: cities[0],
+        category: categories[0],
+        hashtag: hashtags.join(','),
+        money: `${minPrice}-${maxPrice}`,
+        title: searchParams.get('title')
+      }
+    });
+
+    if (res.status === 200) {
+      toast.success(t('save_filter_success'), {
+        position: 'top-right',
+      });
+    } else {
+      toast.error(t('save_filter_fail'), {
+        position: 'top-right',
+      });
+    }
+
+  }
+
   return (
     <div className='flex w-full flex-wrap gap-2 pb-4 pt-2'>
       {cities.map((city) => (
@@ -135,6 +163,16 @@ export default function FilterListSection() {
           {'< '}${maxPrice}
         </FilterBadge>
       )}
+      <div className='mt-[10px]'>
+        <Button
+          onClick={saveCombination}
+          type='button'
+          className='btn btn--wide !ml-0 h-full !rounded-md gap-2 pl-4'
+        >
+          {t('save_combination')}
+        </Button>
+      </div>
+
     </div>
   );
 }
