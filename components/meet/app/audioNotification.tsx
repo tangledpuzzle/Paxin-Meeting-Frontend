@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppSelector, useAppDispatch } from '@/store/hook';
 import { updatePlayAudioNotification } from '@/store/slices/roomSettingsSlice';
 
 const playAudioNotificationSelector = createSelector(

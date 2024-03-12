@@ -5,7 +5,8 @@ import { Transition } from '@headlessui/react';
 import LeftPanel from '../left-panel';
 import RightPanel from '../right-panel';
 
-import { useAppSelector, RootState, store, useAppDispatch } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import ActiveSpeakers from '../active-speakers';
 import MainComponents from './mainComponents';
 import { IRoomMetadata } from '@/store/slices/interfaces/session';

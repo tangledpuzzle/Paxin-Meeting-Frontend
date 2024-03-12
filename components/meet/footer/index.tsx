@@ -3,7 +3,8 @@ import { Room } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector, useAppStore } from '@/store/hook';
 
 import WebcamIcon from './icons/webcam';
 import MicrophoneIcon from './icons/microphone';
@@ -39,6 +40,7 @@ const footerVisibilitySelector = createSelector(
 );
 
 const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
+  const store = useAppStore();
   const isAdmin = store.getState().session.currentUser?.metadata?.is_admin;
   const footerVisible = useAppSelector(footerVisibilitySelector);
   const dispatch = useAppDispatch();
@@ -79,6 +81,8 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
           type: 'error',
         });
       }
+      goBack();
+    } else if (task == 'stepOut') {
       goBack();
     }
   };
@@ -188,7 +192,7 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
       >
         <footer
           id='main-footer'
-          className={`light:bg-primary flex h-[55px] items-center justify-between px-2 shadow-footer dark:bg-darkPrimary md:px-4 lg:h-[60px]`}
+          className={`light:bg-primary flex h-[55px] items-center justify-between px-2 shadow-footer dark:bg-darkPrimary md:px-4 lg:h-[60px] z-[9999] relative`}
           style={{ display: isRecorder ? 'none' : '' }}
         >
           <div className='footer-inner flex w-full items-center justify-between rtl:flex-row-reverse'>
@@ -241,15 +245,13 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
       </Transition>
       {isRecorder ? null : (
         <div
-          className={`footer-collapse-arrow group fixed right-0 z-[1] flex h-5 w-[50px] cursor-pointer items-end justify-center rounded-tl-lg bg-white dark:bg-darkPrimary ${
-            footerVisible ? 'bottom-[60px] pb-[3px]' : 'bottom-0 pb-[6px]'
-          }`}
+          className={`footer-collapse-arrow group fixed right-0 z-[1] flex h-5 w-[50px] cursor-pointer items-end justify-center rounded-tl-lg bg-white dark:bg-darkPrimary ${footerVisible ? 'bottom-[60px] pb-[3px]' : 'bottom-0 pb-[6px]'
+            }`}
           onClick={() => dispatch(toggleFooterVisibility())}
         >
           <i
-            className={` pnm-arrow-below text-[10px] dark:text-secondaryColor sm:text-[12px] ${
-              footerVisible ? '' : 'rotate-180'
-            }`}
+            className={` pnm-arrow-below text-[10px] dark:text-secondaryColor sm:text-[12px] ${footerVisible ? '' : 'rotate-180'
+              }`}
           ></i>
           <span className='invisible absolute bottom-7 right-0 w-max rounded bg-white px-[10px] py-1 text-[12px] text-darkPrimary opacity-0 transition-all group-hover:visible group-hover:opacity-100 dark:bg-darkPrimary dark:text-white'>
             {footerVisible ? t('footer.hide-footer') : t('footer.show-footer')}

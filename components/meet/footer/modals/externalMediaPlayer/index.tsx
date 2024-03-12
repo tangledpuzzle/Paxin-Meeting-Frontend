@@ -1,7 +1,8 @@
 import React from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import StartPlaybackModal from './start';
 
 const externalMediaPlayerIsActiveSelector = createSelector(

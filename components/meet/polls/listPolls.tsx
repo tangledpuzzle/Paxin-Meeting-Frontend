@@ -4,7 +4,8 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { useGetPollListsQuery } from '@/store/services/pollsApi';
 import Poll from './poll';
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { PollInfo } from '@/helpers/proto/plugnmeet_polls_pb';
 
 const screenHeightSelector = createSelector(

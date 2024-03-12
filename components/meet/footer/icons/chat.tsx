@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { useAppSelector, RootState, useAppDispatch, store } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateIsActiveChatPanel } from '@/store/slices/bottomIconsActivitySlice';
 import { IRoomMetadata } from '@/store/slices/interfaces/session';
 import { useTranslations } from 'next-intl';

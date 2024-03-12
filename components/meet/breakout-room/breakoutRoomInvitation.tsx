@@ -5,7 +5,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { toast } from 'react-toastify';
 import copy from 'copy-text-to-clipboard';
 
-import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateReceivedInvitationFor } from '@/store/slices/breakoutRoomSlice';
 import { useJoinRoomMutation } from '@/store/services/breakoutRoomApi';
 import {

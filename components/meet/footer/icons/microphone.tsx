@@ -9,7 +9,8 @@ import {
 import { proto3 } from '@bufbuild/protobuf';
 import { isEmpty } from 'lodash';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import {
   updateIsActiveMicrophone,
   updateIsMicMuted,

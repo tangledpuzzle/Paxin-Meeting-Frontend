@@ -4,7 +4,8 @@ import sanitizeHtml from 'sanitize-html';
 import { Room } from 'livekit-client';
 import { isEmpty } from 'validator';
 
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { isSocketConnected, sendWebsocketMessage } from '@/helpers/websocket';
 import { IRoomMetadata } from '@/store/slices/interfaces/session';
 import FileSend from './fileSend';

@@ -3,7 +3,8 @@ import { Room } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
 import EmojiPicker, { EmojiClickData, Theme } from 'emoji-picker-react';
 
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import TextBoxArea from './text-box';
 import ChatTabs from './chatTabs';
 

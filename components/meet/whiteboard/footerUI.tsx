@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 import usePreviousPage from './helpers/hooks/usePreviousPage';
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { createSelector } from '@reduxjs/toolkit';
 import { setWhiteboardCurrentPage } from '@/store/slices/whiteboard';
 import { broadcastCurrentPageNumber } from './helpers/handleRequestedWhiteboardData';

@@ -3,7 +3,8 @@ import { createSelector } from '@reduxjs/toolkit';
 import { Transition, Dialog, Switch } from '@headlessui/react';
 import { toast } from 'react-toastify';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateShowLockSettingsModal } from '@/store/slices/bottomIconsActivitySlice';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import {

@@ -3,7 +3,7 @@ import { Room } from 'livekit-client';
 
 import ChatComponent from '../chat';
 import { updateIsActiveChatPanel } from '@/store/slices/bottomIconsActivitySlice';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 
 interface IRightPanelProps {
   currentRoom: Room;

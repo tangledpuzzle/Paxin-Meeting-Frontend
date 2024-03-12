@@ -14,7 +14,8 @@ import {
 } from 'livekit-client';
 
 import SubtitleArea from './subtitleArea';
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 
 import {
   getAzureToken,

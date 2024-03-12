@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { store } from '../../store';
+
 import { sendWebsocketMessage } from '../websocket';
 import {
   DataMessage,
@@ -7,8 +7,10 @@ import {
   DataMsgType,
 } from '../proto/plugnmeet_datamessage_pb';
 import { useTranslations } from 'next-intl';
+import { useAppStore } from '@/store/hook';
 
 const useWatchVisibilityChange = () => {
+  const store = useAppStore();
   const t = useTranslations('meet');
   const [hidden, setHidden] = useState<boolean>(false);
 

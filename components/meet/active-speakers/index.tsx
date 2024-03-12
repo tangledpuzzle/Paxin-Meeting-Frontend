@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { activeSpeakersSelector } from '@/store/slices/activeSpeakersSlice';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import SpeakerComponent from './speaker';

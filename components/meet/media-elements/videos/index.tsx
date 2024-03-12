@@ -3,7 +3,8 @@ import { LocalParticipant, RemoteParticipant, Track } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
 import { concat, isEmpty } from 'lodash';
 
-import { RootState, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { ICurrentUserMetadata } from '@/store/slices/interfaces/session';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import VideosComponentElms, {
