@@ -12,12 +12,13 @@ import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import { Howl, Howler } from 'howler';
 import { useSession } from 'next-auth/react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 Howler.autoUnlock = true;
 
 export default function Providers({ children }: { children: React.ReactNode }) {
+  const t = useTranslations('chatting');
   const locale = useLocale();
   const [showNav, setShowNav] = useState(true);
   const [chatRooms, setChatRooms] = useState<ChatRoomType[]>([]);
@@ -234,7 +235,25 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
     getAllMessages(activeRoom)
       .then((res) => {
-        setMessages(res);
+        const _chatUser =
+          chatRooms.find((room) => room.id === activeRoom)?.user || null;
+
+        if (_chatUser?.bot) {
+          setMessages([
+            {
+              id: new Date().getTime().toString(),
+              message: t('bot_default_msg', {
+                bot_name: `@${_chatUser?.profile.name}`,
+              }),
+              timestamp: new Date().toLocaleString(),
+              owner: {
+                id: _chatUser?.id || '',
+                name: _chatUser?.profile.name || '',
+                avatar: _chatUser?.profile.avatar || '',
+              },
+            },
+          ]);
+        } else setMessages(res);
 
         setIsMessageLoading(false);
       })
@@ -242,6 +261,29 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         setIsMessageLoading(false);
       });
   }, [activeRoom]);
+
+  useEffect(() => {
+    if (!chatUser) return;
+
+    if (chatUser.bot) {
+      setMessages([
+        {
+          id: new Date().getTime().toString(),
+          message: t('bot_default_msg', {
+            bot_name: `@${chatUser?.profile.name}`,
+          }),
+          timestamp: new Date().toLocaleString(),
+          owner: {
+            id: chatUser?.id || '',
+            name: chatUser?.profile.name || '',
+            avatar: chatUser?.profile.avatar || '',
+          },
+        },
+      ]);
+
+      setIsMessageLoading(false);
+    }
+  }, [chatUser]);
 
   useEffect(() => {
     chatRooms.forEach((room) => {

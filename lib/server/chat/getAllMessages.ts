@@ -33,6 +33,8 @@ const getAllMessages = async (roomId: string) => {
         isDeleted: item.IsDeleted,
         isEdited: item.IsEdited,
       });
+
+      console.log(item.User.IsBot, '===');
     }
 
     _messages.sort(
