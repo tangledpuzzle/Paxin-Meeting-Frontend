@@ -79,6 +79,8 @@ export default function ChatNavComponent() {
                   <ChatListSkeleton />
                   <ChatListSkeleton />
                   <ChatListSkeleton />
+                  <ChatListSkeleton />
+                  <ChatListSkeleton />
                 </>
               )}
             </ScrollArea>
