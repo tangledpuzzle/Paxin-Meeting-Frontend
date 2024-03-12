@@ -3,8 +3,8 @@ import { CopyButton } from '@/components/common/copy-button';
 import { ReportModal } from '@/components/common/report-modal';
 import BackButton from '@/components/home/back-button';
 import { FlowImageGallery } from '@/components/home/flow/flow-image-gallery';
-import MessageForm from '@/components/home/messsage-form';
 import { UpvoteCard } from '@/components/home/flow/upvote-card';
+import MessageForm from '@/components/home/messsage-form';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,6 +17,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import authOptions from '@/lib/authOptions';
 import getRoomId from '@/lib/server/chat/getRoomId';
+import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
@@ -24,14 +25,9 @@ import Link from 'next/link';
 import { BiSolidCategory } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
 import { FaSackDollar } from 'react-icons/fa6';
-import { IoEyeSharp, IoFlagOutline, IoLanguage } from 'react-icons/io5';
+import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
-
-interface GalleryData {
-  original: string;
-  thumbnail: string;
-}
 
 interface BlogDetails {
   id: number;
@@ -44,7 +40,10 @@ interface BlogDetails {
     downvotes: number;
   };
   vote: number;
-  gallery: GalleryData[];
+  gallery: {
+    original: string;
+    thumbnail: string;
+  }[];
   author: {
     username: string;
     userId: string;
@@ -59,6 +58,11 @@ interface BlogDetails {
   cities: string[];
   countrycode: string;
   me: boolean;
+}
+
+interface FlowPageProps {
+  params: { id: string; slug: string; locale: string };
+  searchParams: { [key: string]: string | undefined | null };
 }
 
 async function getData(locale: string, id: string, slug: string) {
@@ -154,6 +158,26 @@ async function getData(locale: string, id: string, slug: string) {
   } catch (error) {
     return null;
   }
+}
+
+export async function generateMetadata({
+  params,
+}: FlowPageProps): Promise<Metadata> {
+  const blogDetails: BlogDetails | null = await getData(
+    params.locale,
+    params.id,
+    params.slug
+  );
+
+  return {
+    title: blogDetails?.title || '',
+    description: blogDetails?.description || '',
+    openGraph: {
+      title: blogDetails?.title || '',
+      description: blogDetails?.description || '',
+      images: blogDetails?.gallery.map((item: any) => item.original) || [],
+    },
+  };
 }
 
 export default async function FlowPage({
