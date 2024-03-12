@@ -78,11 +78,13 @@ const PreviewWebcam = ({ deviceId }: IPreviewWebcamProps) => {
               : { width: 'auto' }
           }
         >
+           <div style={{ maxWidth: '50%' }}>
           <VideoBox
             deviceId={deviceId}
             onSourcePlayback={setSourcePlayback}
             onMediaStream={setMediaStream}
           />
+           </div>
         </div>
       ) : null}
       {show && sourcePlayback && currentUser && backgroundConfig ? (
