@@ -176,6 +176,7 @@ export async function generateMetadata({
   return {
     title: blogDetails?.title || '',
     description: blogDetails?.description || '',
+    metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL || ''),
     openGraph: {
       title: blogDetails?.title || '',
       description: blogDetails?.description || '',

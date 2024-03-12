@@ -201,6 +201,7 @@ export async function generateMetadata({
   return {
     title: `@${profileDetails?.username || ''}`,
     description: profileDetails?.bio || '',
+    metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL || ''),
     openGraph: {
       title: `@${profileDetails?.username || ''}`,
       description: profileDetails?.bio || '',
