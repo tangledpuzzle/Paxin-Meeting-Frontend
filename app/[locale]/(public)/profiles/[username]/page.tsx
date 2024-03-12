@@ -80,6 +80,7 @@ interface ProfileDetails {
   qrcode: string;
   follow: boolean;
   me: boolean;
+  bot: boolean;
 }
 
 interface ProfilePageProps {
@@ -182,9 +183,8 @@ async function getData(locale: string, username: string) {
           )?.length > 0
         : false,
       me: session?.user?.id === data.data.ID,
+      bot: data.data.IsBot,
     };
-
-    console.log(session?.user?.id, data.data.ID);
 
     return profile;
   } catch (error) {
@@ -201,6 +201,7 @@ export async function generateMetadata({
   return {
     title: `@${profileDetails?.username || ''}`,
     description: profileDetails?.bio || '',
+    metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL || ''),
     openGraph: {
       title: `@${profileDetails?.username || ''}`,
       description: profileDetails?.bio || '',
@@ -273,6 +274,7 @@ export default async function ProfilePage({
                 user={{
                   username: profileDetails.username,
                   userId: profileDetails.id,
+                  bot: profileDetails.bot,
                 }}
                 roomId={roomId}
               >
