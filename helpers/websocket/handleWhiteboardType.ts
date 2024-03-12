@@ -1,4 +1,3 @@
-import { store } from '@/store';
 import {
   addWhiteboardFileAsJSON,
   addWhiteboardUploadedOfficeFiles,
@@ -12,6 +11,7 @@ import {
   DataMsgBody,
   DataMsgBodyType,
 } from '../proto/plugnmeet_datamessage_pb';
+import { store } from '@/store';
 
 export const handleWhiteboardMsg = (body: DataMsgBody) => {
   const isPresenter =

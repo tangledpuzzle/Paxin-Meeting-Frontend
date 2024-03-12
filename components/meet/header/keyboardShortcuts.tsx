@@ -2,7 +2,8 @@ import React, { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateShowKeyboardShortcutsModal } from '@/store/slices/roomSettingsSlice';
 import { useTranslations } from 'next-intl';
 

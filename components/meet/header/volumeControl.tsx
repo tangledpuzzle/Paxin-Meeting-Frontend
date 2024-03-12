@@ -6,7 +6,8 @@ import {
   updateRoomAudioVolume,
   updateRoomScreenShareAudioVolume,
 } from '@/store/slices/roomSettingsSlice';
-import { store, useAppDispatch } from '@/store';
+import { store } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import { updateParticipant } from '@/store/slices/participantSlice';
 import { useTranslations } from 'next-intl';
 

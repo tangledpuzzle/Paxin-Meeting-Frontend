@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import { sendWebsocketMessage } from '@/helpers/websocket';
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { createSelector } from '@reduxjs/toolkit';
 import {
   DataMessage,

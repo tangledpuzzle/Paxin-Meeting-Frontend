@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { updateShowExternalMediaPlayerModal } from '@/store/slices/bottomIconsActivitySlice';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import {
   CommonResponse,
   ExternalMediaPlayerReq,

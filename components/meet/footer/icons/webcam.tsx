@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { createLocalVideoTrack, Room, Track } from 'livekit-client';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import {
   updateIsActiveWebcam,
   updateShowVideoShareModal,

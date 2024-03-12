@@ -3,7 +3,8 @@ import { createSelector } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
 
-import { RootState, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import {
   CommonResponse,

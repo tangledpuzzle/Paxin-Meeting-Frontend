@@ -6,7 +6,8 @@ import Draggable, {
   DraggableEvent,
 } from 'react-draggable';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateIsActiveSharedNotePad } from '@/store/slices/bottomIconsActivitySlice';
 import { useLocale } from 'next-intl';
 

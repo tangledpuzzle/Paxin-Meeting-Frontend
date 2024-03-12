@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
-import { useAppDispatch, useAppSelector } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import {
   participantsSelector,
   updateParticipant,

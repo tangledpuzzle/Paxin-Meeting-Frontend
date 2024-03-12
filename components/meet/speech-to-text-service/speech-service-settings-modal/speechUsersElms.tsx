@@ -1,7 +1,7 @@
 import React, { Dispatch, Fragment, useMemo } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import { useTranslations } from 'next-intl';
 

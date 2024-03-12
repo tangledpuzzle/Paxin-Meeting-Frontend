@@ -2,7 +2,7 @@ import { Room, Track } from 'livekit-client';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'react-toastify';
 
-import { store, useAppDispatch } from '@/store';
+import { useAppDispatch, useAppStore } from '@/store/hook';
 import {
   updateIsActiveChatPanel,
   updateIsActiveMicrophone,
@@ -31,6 +31,7 @@ import { DataMsgBodyType } from '../proto/plugnmeet_datamessage_pb';
 import { useTranslations } from 'next-intl';
 
 const useKeyboardShortcuts = (currentRoom?: Room) => {
+  const store = useAppStore();
   const dispatch = useAppDispatch();
   const t = useTranslations('meet');
 

@@ -2,7 +2,8 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { Transition, Dialog, Tab } from '@headlessui/react';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateShowRoomSettingsModal } from '@/store/slices/roomSettingsSlice';
 import DataSavings from './dataSavings';
 import Notification from './notification';
