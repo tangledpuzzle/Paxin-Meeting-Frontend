@@ -188,9 +188,6 @@ export default function FilterListSection() {
         </Button>
 
       )}
-
-
-
     </div>
   );
 }
