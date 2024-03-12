@@ -1,7 +1,6 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { toast } from 'react-toastify';
 
-import { store } from '../../store';
 import { updateIsChatServiceReady } from '../../store/slices/sessionSlice';
 import { handleSystemTypeData } from './handleSystemType';
 import { handleUserTypeData } from './handleUserType';
@@ -17,6 +16,7 @@ import {
   AnalyticsEvents,
   AnalyticsEventType,
 } from '../proto/plugnmeet_analytics_pb';
+import { store } from '@/store';
 // import i18n from '../i18n';
 
 let isConnected = false,
@@ -27,10 +27,15 @@ let ws: ReconnectingWebSocket;
 const toastId = 'websocketStatus';
 
 const createWS = (intl: (e: any) => string) => {
-  ws = new ReconnectingWebSocket(getURL, [], {
-    minReconnectionDelay: 2000,
-    maxRetries: 20,
-  });
+  const session = store.getState().session;
+  ws = new ReconnectingWebSocket(
+    () => getURL(session.token, session.currentUser, session.currentRoom),
+    [],
+    {
+      minReconnectionDelay: 2000,
+      maxRetries: 20,
+    }
+  );
   ws.binaryType = 'arraybuffer';
 
   ws.onopen = () => {
@@ -95,9 +100,9 @@ const onMessage = (event: any, intl: (...e: any[]) => string) => {
   }
 };
 
-const getURL = () => {
+const getURL = (token: string, currentUser: any, currentRoom: any) => {
   const url = new URL(process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL || '');
-  const session = store.getState().session;
+
   let webSocketUrl: string;
   let protocol = 'ws://';
 
@@ -109,9 +114,6 @@ const getURL = () => {
   if (url.pathname !== '/') {
     webSocketUrl = webSocketUrl + url.pathname;
   }
-  const token = session.token;
-  const currentUser = session.currentUser;
-  const currentRoom = session.currentRoom;
 
   webSocketUrl =
     webSocketUrl +

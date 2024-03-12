@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { useAppSelector, RootState, useAppDispatch, store } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateIsActiveParticipantsPanel } from '@/store/slices/bottomIconsActivitySlice';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import { useTranslations } from 'next-intl';

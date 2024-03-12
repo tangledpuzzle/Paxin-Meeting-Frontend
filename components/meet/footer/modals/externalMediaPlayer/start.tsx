@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Dialog, Tab, Transition } from '@headlessui/react';
 
 import { updateShowExternalMediaPlayerModal } from '@/store/slices/bottomIconsActivitySlice';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import DirectLink from './directLink';
 import Upload from './upload';
 import { useTranslations } from 'next-intl';

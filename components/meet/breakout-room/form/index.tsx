@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { RoomType, UserType } from './types';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import useStorePreviousInt from '@/helpers/hooks/useStorePreviousInt';

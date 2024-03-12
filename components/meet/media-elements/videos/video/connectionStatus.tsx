@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ConnectionQuality } from 'livekit-client';
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { participantsSelector } from '@/store/slices/participantSlice';
 
 interface IConnectionStatusProps {

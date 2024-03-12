@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { RootState, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { TextWithInfo } from '@/store/slices/interfaces/speechServices';
 
 interface FinalTexts {

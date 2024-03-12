@@ -1,7 +1,8 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
 
-import { store, useAppDispatch, useAppSelector } from '@/store';
+import { store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { updateIsActiveRaisehand } from '@/store/slices/bottomIconsActivitySlice';

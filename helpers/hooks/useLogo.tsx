@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { isURL } from 'validator';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppSelector } from '../../store';
+import { RootState } from '@/store';
+import { useAppSelector } from '@/store/hook';
 
 interface CustomLogo {
   main_logo_light?: string;

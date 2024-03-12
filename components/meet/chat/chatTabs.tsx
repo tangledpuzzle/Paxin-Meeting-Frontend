@@ -2,7 +2,8 @@ import React, { useEffect, useState, Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { chatMessagesSelector } from '@/store/slices/chatMessagesSlice';
 import Messages from './messages';
 import { participantsSelector } from '@/store/slices/participantSlice';

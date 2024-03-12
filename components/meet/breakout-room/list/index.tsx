@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import BroadcastingMsg from './broadcastingMsg';
 import RoomLists from './roomLists';
 import { useEndAllRoomsMutation } from '@/store/services/breakoutRoomApi';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import { updateShowManageBreakoutRoomModal } from '@/store/slices/bottomIconsActivitySlice';
 import { useTranslations } from 'next-intl';
 

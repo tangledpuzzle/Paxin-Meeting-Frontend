@@ -2,7 +2,7 @@ import React from 'react';
 
 import { IChatMsg } from '@/store/slices/interfaces/dataMessages';
 import { ICurrentUser } from '@/store/slices/interfaces/session';
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/store/hook';
 
 import Avatar from './avatar';
 import { participantsSelector } from '@/store/slices/participantSlice';

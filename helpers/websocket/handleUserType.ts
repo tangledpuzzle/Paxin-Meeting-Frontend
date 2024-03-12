@@ -1,4 +1,3 @@
-import { store } from '@/store';
 import { addChatMessage } from '@/store/slices/chatMessagesSlice';
 import {
   updateIsActiveChatPanel,
@@ -10,6 +9,7 @@ import {
   DataMsgBodyType,
 } from '../proto/plugnmeet_datamessage_pb';
 import { IChatMsg } from '@/store/slices/interfaces/dataMessages';
+import { store } from '@/store';
 
 export const handleUserTypeData = (
   body: DataMsgBody,

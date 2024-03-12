@@ -91,7 +91,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
             });
             axios.defaults.headers.common['session'] = data?.session;
           }
-        } catch (error) { }
+        } catch (error) {}
       };
 
       const intervalId = setInterval(() => {

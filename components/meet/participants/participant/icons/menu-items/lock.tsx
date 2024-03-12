@@ -2,7 +2,8 @@ import React from 'react';
 import { Menu } from '@headlessui/react';
 import { toast } from 'react-toastify';
 
-import { store, useAppSelector } from '@/store';
+import { store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { ICurrentUserMetadata } from '@/store/slices/interfaces/session';

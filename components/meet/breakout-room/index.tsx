@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
-import { store, useAppDispatch } from '@/store';
+import { store } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import { updateShowManageBreakoutRoomModal } from '@/store/slices/bottomIconsActivitySlice';
 import FromElems from './form';
 import BreakoutRoomLists from './list';

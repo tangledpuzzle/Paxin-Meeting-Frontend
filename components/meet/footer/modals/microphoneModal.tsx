@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { getDevices } from '@/helpers/utils';
 import { IMediaDevice } from '@/store/slices/interfaces/roomSettings';
 import { addAudioDevices } from '@/store/slices/roomSettingsSlice';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import { useTranslations } from 'next-intl';
 
 interface MicrophoneModalProps {
