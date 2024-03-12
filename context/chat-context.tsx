@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
-export interface ChatRoom {
+export interface ChatRoomType {
   id: string;
   lastMessage: {
     id: string;
@@ -22,7 +22,7 @@ export interface ChatRoom {
   timestamp: string;
 }
 
-export interface ChatMessage {
+export interface ChatMessageType {
   id: string;
   message: string;
   owner: {
@@ -44,14 +44,14 @@ export interface ChatMessage {
 export interface ChatContent {
   showNav: boolean;
   setShowNav: Dispatch<SetStateAction<boolean>>;
-  chatRooms: ChatRoom[];
-  setChatRooms: Dispatch<SetStateAction<ChatRoom[]>>;
+  chatRooms: ChatRoomType[];
+  setChatRooms: Dispatch<SetStateAction<ChatRoomType[]>>;
   activeRoom: string;
   setActiveRoom: Dispatch<SetStateAction<string>>;
   activeRoomSubscribed: boolean;
   setActiveRoomSubscribed: Dispatch<SetStateAction<boolean>>;
-  messages: ChatMessage[];
-  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
+  messages: ChatMessageType[];
+  setMessages: Dispatch<SetStateAction<ChatMessageType[]>>;
   isMessageLoading: boolean;
   setIsMessageLoading: Dispatch<SetStateAction<boolean>>;
   isRoomLoading: boolean;
