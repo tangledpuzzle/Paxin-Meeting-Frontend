@@ -14,7 +14,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
         const result = await res.json();
 
-        console.log(result.data.length);
 
         for (let i = 0; i < result.data.length; i++) {
             data.push({
