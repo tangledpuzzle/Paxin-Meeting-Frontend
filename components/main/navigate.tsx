@@ -20,33 +20,33 @@ export default function NavigateSection() {
       <SectionDescription className='px-7 text-left md:text-center'>
         {t('navigating_your_digital_universe_description')}
       </SectionDescription>
-      <div className='px-0 md:px-7 flex flex-col md:flex-row  gap-4  mt-4 '>
-        <div className=' h-full  flex-col justify-center bg-card-gradient-menu px-7 pb-4 pt-2 rounded-none md:rounded-md'>
-            <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
-              Конференц залы
-            </div>
-            <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Собирайте рабочие комнаты и проводите встречи с богатым инструментарием
-            </div>
+      <div className='mt-4 flex flex-col gap-4 px-0 pb-4  md:flex-row  md:px-7 '>
+        <div className=' h-full  flex-col justify-center rounded-none bg-card-gradient-menu px-7 pb-4 pt-2 md:rounded-md'>
+          <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+            {t('s_1')}
           </div>
-          <div className='flex h-full  flex-col justify-center bg-card-gradient-menu px-7 pb-4 pt-2 rounded-none md:rounded-md'>
-            <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
-              Мессенджер
-            </div>
-            <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Созадвайте деловое пространство в едином месте
-            </div>
+          <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            {t('s_1d')}
           </div>
-          <div className='flex h-full  flex-col justify-center bg-card-gradient-menu px-7 pb-4 pt-2 rounded-none md:rounded-md'>
-            <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
-              Поддержка нейросетей
-            </div>
-            <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
-              Создавайте контент вместе с нейросетями 
-            </div>
+        </div>
+        <div className='flex h-full  flex-col justify-center rounded-none bg-card-gradient-menu px-7 pb-4 pt-2 md:rounded-md'>
+          <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+            {t('s_2')}
           </div>
+          <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            {t('s_2d')}
+          </div>
+        </div>
+        <div className='flex h-full  flex-col justify-center rounded-none bg-card-gradient-menu px-7 pb-4 pt-2 md:rounded-md'>
+          <div className='text-md  pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
+            {t('s_3')}
+          </div>
+          <div className='translate-all md:text-md max-w-xl justify-center text-left text-[1rem] font-[1em]  leading-[25.15px] text-muted-foreground duration-500 group-hover:text-white/70'>
+            {t('s_3d')}
+          </div>
+        </div>
       </div>
-      <div className='relative mt-0 md:mt-5 grid w-full grid-cols-1 gap-4 px-0 md:grid-cols-3 md:px-7'>
+      <div className='relative mt-0 grid w-full grid-cols-1 gap-4 px-0 md:mt-5 md:grid-cols-3 md:px-7'>
         {/* <div
           className="bg-s hover:navigate-hover flex min-h-72 flex-col justify-center group relative overflow-hidden rounded-xl transition-all hover:bg-none bg-cover p-4 sm:p-8 md:col-span-2"
           style={{ backgroundImage: `url("/images/home/bg-nav.png")` }}
@@ -83,7 +83,7 @@ export default function NavigateSection() {
           ></div>
 
           <div
-            className='flex size-full flex-col items-start justify-center bg-[#00000008] bg-cover px-7 pt-20 md:pt-0 pb-[160px] md:pb-0'
+            className='flex size-full flex-col items-start justify-center bg-[#00000008] bg-cover px-7 pb-[160px] pt-20 md:pb-0 md:pt-0'
             style={{ backgroundImage: `url("/images/home/bg-nav-dark.webp")` }}
           >
             <div className='text-md pb-2 text-left font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
@@ -125,7 +125,6 @@ export default function NavigateSection() {
               {t('private_asks_description')}
             </div>
           </div>
-          
         </div>
 
         <div className='bg-with-gradient group relative grid grid-cols-1 overflow-hidden rounded-none hover:bg-none sm:grid-cols-2 md:col-span-3 md:rounded-xl'>

@@ -39,7 +39,7 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='mr-4 w-60'>
-        <DropdownMenuLabel>
+        <DropdownMenuItem className='cursor-pointer text-base' asChild>
           <Link
             href='/profile/dashboard'
             className='flex w-full items-center gap-2 overflow-hidden'
@@ -62,7 +62,7 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
               </div>
             </div>
           </Link>
-        </DropdownMenuLabel>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className='cursor-pointer text-base' asChild>
           <Link href='/profile/posts'>

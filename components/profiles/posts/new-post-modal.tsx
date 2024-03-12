@@ -1,6 +1,7 @@
 'use client';
 
 import { ImageUpload } from '@/components/common/file-uploader';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -19,7 +20,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -29,25 +29,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { Textarea } from '@/components/ui/textarea';
 import { PaxContext } from '@/context/context';
+import getAssistantData from '@/lib/server/assistant';
+import { cn } from '@/lib/utils';
 import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { LuBrain } from 'react-icons/lu';
 import { TfiWrite } from 'react-icons/tfi';
 import 'react-quill/dist/quill.snow.css';
 import ReactSelect from 'react-select';
 import CreatableSelect from 'react-select/creatable';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
-import { LuBrain } from 'react-icons/lu';
 import * as z from 'zod';
-import { cn } from '@/lib/utils';
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -66,6 +69,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function NewPostModal({ children, mutate }: NewPostModalProps) {
   const t = useTranslations('main');
+  const router = useRouter();
   const { user } = useContext(PaxContext);
   const locale = useLocale();
   const [formData, setFormData] = useState<{
@@ -82,10 +86,10 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   const [formIndex, setFormIndex] = useState<number>(0);
   const [cityOptions, setCityOptions] = useState<
     { value: number; label: string }[]
-  >([]);
+  >([{ value: -1, label: t('need_more_city') }]);
   const [categoryOptions, setCategoryOptions] = useState<
     { value: number; label: string }[]
-  >([]);
+  >([{ value: -1, label: t('need_more_category') }]);
   const [hashtagOptions, setHashtagOptions] = useState<
     { value: string; label: string }[]
   >([]);
@@ -104,14 +108,12 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     content?: string[];
   }>({});
 
-  const [newHashtags, setNewHashtags] = useState<string[]>([]);
-
   const [hashtagKeyword, setHashtagKeyword] = useState<string>('');
 
   const { data: fetchedHashtags, error: fetchedHashtagsError } = useSWR(
     hashtagKeyword
       ? `/api/hashtags/get?name=${hashtagKeyword}&type=BLOG`
-      : null,
+      : `/api/hashtags/blog/get`,
     fetcher
   );
 
@@ -148,6 +150,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     }),
     z.object({
       title: z.string().min(1, t('title_is_required')),
+    }),
+    z.object({
       subtitle: z.string().min(1, t('subtitle_is_required')),
     }),
     z.object({
@@ -214,6 +218,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
       },
       {
         title: formData?.title || '',
+      },
+      {
         subtitle: formData?.subtitle || '',
       },
       {
@@ -228,7 +234,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   });
 
   const submitBlog = (data: FormData) => {
-    if (formIndex < 4) {
+    if (formIndex < 5) {
       setFormIndex(formIndex + 1);
       setFormData({
         ...formData,
@@ -240,22 +246,93 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   };
 
   const handleAIAssistant = async (type: 'title' | 'subtitle' | 'content') => {
+    if (formIndex === 5) return;
+
     setGenerating({ ...generating, [type]: true });
 
     try {
-      setGeneratedString({
-        ...generatedString,
-        [type]: [
-          'You can add components to your app using the cli.',
-          'You can add components to your app using the cli.',
-          'You can add components to your app using the cli.',
-        ],
-      });
+      if (type === 'title') {
+        const data = await getAssistantData(type, {
+          lang: locale,
+          category: (formData?.category && formData?.category[0].label) || '',
+          title: formData?.title || '',
+          hashtags: formData?.hashtags
+            ? formData?.hashtags?.map((h: any) => h.label)
+            : [],
+        });
+
+        if (data) {
+          setGeneratedString({
+            ...generatedString,
+            [type]: data.titles.map((title: any) => title.title),
+          });
+        } else {
+          toast.error(
+            t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+            {
+              position: 'top-right',
+            }
+          );
+        }
+      } else if (type === 'subtitle') {
+        const data = await getAssistantData(type, {
+          lang: locale,
+          category: (formData?.category && formData?.category[0].label) || '',
+          title: formData?.title || '',
+          subtitle: formData?.subtitle || '',
+          hashtags: formData?.hashtags
+            ? formData?.hashtags?.map((h: any) => h.label)
+            : [],
+        });
+
+        if (data) {
+          setGeneratedString({
+            ...generatedString,
+            [type]: data.subtitles.map((subtitle: any) => subtitle.subtitle),
+          });
+        } else {
+          toast.error(
+            t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+            {
+              position: 'top-right',
+            }
+          );
+        }
+      } else if (type === 'content') {
+        const data = await getAssistantData(type, {
+          lang: locale,
+          category: (formData?.category && formData?.category[0].label) || '',
+          title: formData?.title || '',
+          subtitle: formData?.subtitle || '',
+          content: formData?.content || '',
+          hashtags: formData?.hashtags
+            ? formData?.hashtags?.map((h: any) => h.label)
+            : [],
+        });
+
+        if (data) {
+          setGeneratedString({
+            ...generatedString,
+            [type]: [data.content],
+          });
+        } else {
+          toast.error(
+            t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+            {
+              position: 'top-right',
+            }
+          );
+        }
+      }
     } catch (error) {
+      toast.error(
+        t(`failed_to_generate_${type}` as keyof IntlMessages['main']),
+        {
+          position: 'top-right',
+        }
+      );
     } finally {
-      setTimeout(() => {
-        setGenerating({ ...generating, [type]: false });
-      }, 1000);
+      setGenerating({ ...generating, [type]: false });
     }
   };
 
@@ -347,6 +424,8 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
 
         form.reset();
 
+        setFormIndex(0);
+
         if (mutate) {
           mutate();
         }
@@ -367,19 +446,21 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   };
 
   useEffect(() => {
-    setCityOptions(
-      user?.city.map((city: any) => ({
+    setCityOptions([
+      ...(user?.city.map((city: any) => ({
         label: city.name,
         value: city.id * 1,
-      })) || []
-    );
+      })) || []),
+      { value: -1, label: t('need_more_city') },
+    ]);
 
-    setCategoryOptions(
-      user?.category.map((category: any) => ({
+    setCategoryOptions([
+      ...(user?.category.map((category: any) => ({
         label: category.name,
         value: category.id * 1,
-      })) || []
-    );
+      })) || []),
+      { value: -1, label: t('need_more_category') },
+    ]);
 
     // setHashtagOptions(
     //   user?.hashtags.map((hashtag: any) => ({
@@ -410,7 +491,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className='w-full overflow-y-auto sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
+      <DialogContent className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl'>
         <DialogHeader className='flex flex-row items-center gap-3'>
           <div className='rounded-full bg-primary/10 p-3 text-primary'>
             <TfiWrite className='size-5' />
@@ -423,10 +504,12 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(submitBlog)}
-            className='flex w-full flex-col'
+            className={cn('flex w-full flex-col px-2', {
+              'overflow-y-auto': formIndex > 0,
+            })}
           >
-            {(formIndex === 0 || formIndex === 4) && (
-              <div className='mb-3 grid gap-2'>
+            {(formIndex === 0 || formIndex === 5) && (
+              <div className='grid gap-2'>
                 <FormField
                   control={form.control}
                   name='city'
@@ -440,6 +523,16 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           noOptionsMessage={() => t('no_options')}
                           options={cityOptions}
                           {...field}
+                          onChange={(value) => {
+                            if (
+                              value.slice(-1)[0] &&
+                              value.slice(-1)[0].value === -1
+                            ) {
+                              router.push(
+                                `${locale ? '/' + locale : ''}/profile/setting`
+                              );
+                            } else value && form.setValue('city', [...value]);
+                          }}
                           classNames={{
                             input: () =>
                               'dark:text-white text-black text-[16px]',
@@ -449,7 +542,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                               '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                             menu: () => '!bg-muted',
                           }}
-                          isDisabled={isLoading || formIndex === 4}
+                          isDisabled={isLoading || formIndex === 5}
                         />
                       </FormControl>
                       <FormMessage />
@@ -468,6 +561,17 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           placeholder={t('select') + '...'}
                           noOptionsMessage={() => t('no_options')}
                           {...field}
+                          onChange={(value) => {
+                            if (
+                              value.slice(-1)[0] &&
+                              value.slice(-1)[0].value === -1
+                            ) {
+                              router.push(
+                                `${locale ? '/' + locale : ''}/profile/setting`
+                              );
+                            } else
+                              value && form.setValue('category', [...value]);
+                          }}
                           options={categoryOptions}
                           classNames={{
                             input: () =>
@@ -478,7 +582,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                               '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                             menu: () => '!bg-muted',
                           }}
-                          isDisabled={isLoading || formIndex === 4}
+                          isDisabled={isLoading || formIndex === 5}
                         />
                       </FormControl>
                       <FormMessage />
@@ -508,7 +612,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                               '!bg-transparent !my-0 hover:!bg-muted-foreground !cursor-pointer',
                             menu: () => '!bg-muted',
                           }}
-                          isDisabled={isLoading || formIndex === 4}
+                          isDisabled={isLoading || formIndex === 5}
                         />
                       </FormControl>
                       <FormMessage />
@@ -517,9 +621,9 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                 />
               </div>
             )}
-            {(formIndex === 1 || formIndex === 4) && (
+            {(formIndex === 1 || formIndex === 5) && (
               <div
-                className={cn('grid gap-2', { 'order-first': formIndex === 4 })}
+                className={cn('grid gap-2', { 'order-first': formIndex === 5 })}
               >
                 <FormField
                   control={form.control}
@@ -529,10 +633,10 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                       <div className='relative'>
                         <FormLabel htmlFor='title'>{t('title')}</FormLabel>
                         <FormControl>
-                          <Input
+                          <Textarea
                             className=''
                             {...field}
-                            disabled={isLoading || formIndex === 4}
+                            disabled={isLoading || formIndex === 5}
                           />
                         </FormControl>
                         <Button
@@ -541,6 +645,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           size='icon'
                           data-tooltip-id='ai-assistant'
                           className='absolute bottom-0.5 right-1'
+                          disabled={isLoading || formIndex === 5}
                           onClick={() => handleAIAssistant('title')}
                         >
                           {generating.title ? (
@@ -551,20 +656,31 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                         </Button>
                       </div>
                       <FormMessage />
+                      {generatedString?.title &&
+                        generatedString?.title?.length > 0 && (
+                          <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                            {generatedString?.title?.map((text, index) => (
+                              <Alert
+                                key={text}
+                                className='cursor-pointer hover:scale-[1.005]'
+                                onClick={() =>
+                                  setGeneratedAIString('title', index)
+                                }
+                              >
+                                <AlertDescription>{text}</AlertDescription>
+                              </Alert>
+                            ))}
+                          </div>
+                        )}
                     </FormItem>
                   )}
                 />
-                <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
-                  {generatedString?.title?.map((text, index) => (
-                    <Alert
-                      key={text}
-                      className='cursor-pointer hover:scale-[1.005]'
-                      onClick={() => setGeneratedAIString('title', index)}
-                    >
-                      <AlertDescription>{text}</AlertDescription>
-                    </Alert>
-                  ))}
-                </div>
+              </div>
+            )}
+            {(formIndex === 2 || formIndex === 5) && (
+              <div
+                className={cn('grid gap-2', { 'order-first': formIndex === 5 })}
+              >
                 <FormField
                   control={form.control}
                   name='subtitle'
@@ -575,10 +691,10 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           {t('subtitle')}
                         </FormLabel>
                         <FormControl>
-                          <Input
+                          <Textarea
                             className=''
                             {...field}
-                            disabled={isLoading || formIndex === 4}
+                            disabled={isLoading || formIndex === 5}
                           />
                         </FormControl>
                         <Button
@@ -587,6 +703,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           size='icon'
                           data-tooltip-id='ai-assistant'
                           className='absolute bottom-0.5 right-1'
+                          disabled={isLoading || formIndex === 5}
                           onClick={() => handleAIAssistant('subtitle')}
                         >
                           {generating.subtitle ? (
@@ -597,26 +714,31 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                         </Button>
                       </div>
                       <FormMessage />
+                      {generatedString?.subtitle &&
+                        generatedString?.subtitle?.length > 0 && (
+                          <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                            {generatedString?.subtitle?.map((text, index) => (
+                              <Alert
+                                key={text}
+                                className='cursor-pointer hover:scale-[1.005]'
+                                onClick={() =>
+                                  setGeneratedAIString('subtitle', index)
+                                }
+                              >
+                                <AlertDescription>{text}</AlertDescription>
+                              </Alert>
+                            ))}
+                          </div>
+                        )}
                     </FormItem>
                   )}
                 />
-                <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
-                  {generatedString?.subtitle?.map((text, index) => (
-                    <Alert
-                      key={text}
-                      className='cursor-pointer hover:scale-[1.005]'
-                      onClick={() => setGeneratedAIString('subtitle', index)}
-                    >
-                      <AlertDescription>{text}</AlertDescription>
-                    </Alert>
-                  ))}
-                </div>
               </div>
             )}
-            {(formIndex === 2 || formIndex === 4) && (
+            {(formIndex === 3 || formIndex === 5) && (
               <div
                 className={cn('relative grid', {
-                  'order-first': formIndex === 4,
+                  'order-first': formIndex === 5,
                 })}
               >
                 <FormField
@@ -634,7 +756,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                             formats={formats}
                             placeholder={t('type_content_here')}
                             className='placeholder:text-white'
-                            readOnly={isLoading || formIndex === 4}
+                            readOnly={isLoading || formIndex === 5}
                           />
                           <Button
                             type='button'
@@ -642,6 +764,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                             size='icon'
                             data-tooltip-id='ai-assistant'
                             className='absolute bottom-0.5 right-1'
+                            disabled={isLoading || formIndex === 5}
                             onClick={() => handleAIAssistant('content')}
                           >
                             {generating.content ? (
@@ -653,23 +776,30 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                         </div>
                       </FormControl>
                       <FormMessage />
+                      {generatedString?.content &&
+                        generatedString?.content?.length > 0 && (
+                          <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
+                            {generatedString?.content?.map((text, index) => (
+                              <Alert
+                                key={text}
+                                className='cursor-pointer hover:scale-[1.005]'
+                                onClick={() =>
+                                  setGeneratedAIString('content', index)
+                                }
+                              >
+                                <div
+                                  dangerouslySetInnerHTML={{ __html: text }}
+                                ></div>
+                              </Alert>
+                            ))}
+                          </div>
+                        )}
                     </FormItem>
                   )}
                 />
-                <div className='mx-auto grid w-full gap-1 px-2 md:w-4/5 md:p-0'>
-                  {generatedString?.content?.map((text, index) => (
-                    <Alert
-                      key={text}
-                      className='cursor-pointer hover:scale-[1.005]'
-                      onClick={() => setGeneratedAIString('content', index)}
-                    >
-                      <AlertDescription>{text}</AlertDescription>
-                    </Alert>
-                  ))}
-                </div>
               </div>
             )}
-            {(formIndex === 3 || formIndex === 4) && (
+            {(formIndex === 4 || formIndex === 5) && (
               <div className='flex flex-col gap-4'>
                 <div className='grid gap-4 sm:grid-cols-2'>
                   <FormField
@@ -683,7 +813,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                             className=''
                             type='number'
                             {...field}
-                            disabled={isLoading || formIndex === 4}
+                            disabled={isLoading || formIndex === 5}
                           />
                         </FormControl>
                         <FormMessage />
@@ -702,7 +832,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           <Select
                             value={field.value}
                             onValueChange={field.onChange}
-                            disabled={isLoading || formIndex === 4}
+                            disabled={isLoading || formIndex === 5}
                           >
                             <SelectTrigger className='w-full'>
                               <SelectValue placeholder='' />
@@ -737,7 +867,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           ref={imageUploadRef}
                           value={field.value}
                           onChange={field.onChange}
-                          disabled={isLoading || formIndex === 4}
+                          disabled={isLoading || formIndex === 5}
                         />
                       </FormControl>
                       <FormMessage />
@@ -746,7 +876,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                 />
               </div>
             )}
-            <DialogFooter>
+            <DialogFooter className='mt-4 flex flex-row justify-end'>
               <Button
                 type='button'
                 disabled={formIndex === 0}
@@ -754,7 +884,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
               >
                 {t('back_flow')}
               </Button>
-              {formIndex < 4 && (
+              {formIndex < 5 && (
                 <Button type='submit' disabled={isLoading}>
                   {isLoading && (
                     <Loader2 className='mr-2 size-4 animate-spin' />
@@ -762,7 +892,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                   {t('next')}
                 </Button>
               )}
-              {formIndex === 4 && (
+              {formIndex === 5 && (
                 <Button type='button' disabled={isLoading} onClick={handlePost}>
                   {isLoading && (
                     <Loader2 className='mr-2 size-4 animate-spin' />

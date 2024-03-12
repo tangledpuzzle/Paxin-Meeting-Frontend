@@ -48,3 +48,14 @@ export function hashTimestamp(timestamp: number): string {
   }
   return Math.abs(hash).toString(36);
 }
+
+export async function readFileAsDataURL(file: File) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+
+    reader.readAsDataURL(file);
+  });
+}

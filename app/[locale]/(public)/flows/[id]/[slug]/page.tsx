@@ -2,9 +2,9 @@ import { ComplainModal } from '@/components/common/complain-modal';
 import { CopyButton } from '@/components/common/copy-button';
 import { ReportModal } from '@/components/common/report-modal';
 import BackButton from '@/components/home/back-button';
-// import { TagSlider } from '@/components/common/tag-slider';
 import { FlowImageGallery } from '@/components/home/flow/flow-image-gallery';
 import { UpvoteCard } from '@/components/home/flow/upvote-card';
+import MessageForm from '@/components/home/messsage-form';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,10 +13,11 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import authOptions from '@/lib/authOptions';
+import getRoomId from '@/lib/server/chat/getRoomId';
+import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
@@ -27,12 +28,6 @@ import { FaSackDollar } from 'react-icons/fa6';
 import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
-import QRCode from 'react-qr-code';
-
-interface GalleryData {
-  original: string;
-  thumbnail: string;
-}
 
 interface BlogDetails {
   id: number;
@@ -45,9 +40,13 @@ interface BlogDetails {
     downvotes: number;
   };
   vote: number;
-  gallery: GalleryData[];
+  gallery: {
+    original: string;
+    thumbnail: string;
+  }[];
   author: {
     username: string;
+    userId: string;
     avatar: string;
     bio: string;
     telegram: string;
@@ -59,6 +58,11 @@ interface BlogDetails {
   cities: string[];
   countrycode: string;
   me: boolean;
+}
+
+interface FlowPageProps {
+  params: { id: string; slug: string; locale: string };
+  searchParams: { [key: string]: string | undefined | null };
 }
 
 async function getData(locale: string, id: string, slug: string) {
@@ -130,6 +134,7 @@ async function getData(locale: string, id: string, slug: string) {
       }),
       author: {
         username: blogData.data[0].user.name,
+        userId: blogData.data[0].user.userID,
         avatar: `https://proxy.paxintrade.com/100/https://img.paxintrade.com/${blogData.data[0].user.photo}`,
         bio: blogData.data[0].userProfile.multilangtitle[
           locale.charAt(0).toUpperCase() + locale.slice(1)
@@ -155,6 +160,26 @@ async function getData(locale: string, id: string, slug: string) {
   }
 }
 
+export async function generateMetadata({
+  params,
+}: FlowPageProps): Promise<Metadata> {
+  const blogDetails: BlogDetails | null = await getData(
+    params.locale,
+    params.id,
+    params.slug
+  );
+
+  return {
+    title: blogDetails?.title || '',
+    description: blogDetails?.description || '',
+    openGraph: {
+      title: blogDetails?.title || '',
+      description: blogDetails?.description || '',
+      images: blogDetails?.gallery.map((item: any) => item.original) || [],
+    },
+  };
+}
+
 export default async function FlowPage({
   params,
   searchParams,
@@ -163,6 +188,7 @@ export default async function FlowPage({
   searchParams: { [key: string]: string | undefined | null };
 }) {
   const t = await getTranslations('main');
+  const session = await getServerSession(authOptions);
 
   const blogDetails: BlogDetails | null = await getData(
     params.locale,
@@ -170,32 +196,21 @@ export default async function FlowPage({
     params.slug
   );
 
-  console.log(blogDetails);
-
-  const breadcrumbs = [
-    {
-      name: t('flow'),
-      url: '/home?mode=flow',
-    },
-    {
-      name: params.slug,
-      url: `flows/${params.id}/${params.slug}`,
-    },
-  ];
+  const roomId = await getRoomId(blogDetails?.author?.userId || '');
 
   return blogDetails ? (
-    <section className='container py-4'>
-      <BackButton callback={searchParams['callback']} />
+    <section className='container px-4 py-4 md:px-8'>
+      <div className='flex justify-between'>
+        <BackButton callback={searchParams['callback']} />
+        {/* <span className='flex items-center justify-center px-0 uppercase'>
+          <IoLanguage className='h-[32px] w-[32px] px-2' />
+          {blogDetails?.countrycode}
+        </span> */}
+      </div>
       {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='font-satoshi'>
         <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
           {blogDetails?.title}
-          <div
-            className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
-            style={{
-              backgroundImage: `url('/images/${blogDetails?.countrycode}.svg')`,
-            }}
-          />
         </div>
         <div className='mb-4 text-sm text-muted-foreground'>
           {blogDetails?.description}
@@ -205,16 +220,16 @@ export default async function FlowPage({
         <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
       </div> */}
 
-      <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-4'>
-        <div className='md:col-span-2 xl:col-span-3'>
+      <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-3'>
+        <div className='md:col-span-2 xl:col-span-2'>
           <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
-            <div className='grid grid-cols-2 gap-2 xl:col-span-3 col-span-2'>
+            <div className='col-span-2 grid grid-cols-2 gap-2 xl:col-span-3'>
               <div>
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2 '>
                   <MdOutlineHouseSiding className='size-5' />
                   {t('city')}
                 </div>
-                <div className='l flex gap-2'>
+                <div className='flex gap-2'>
                   {blogDetails.cities &&
                     blogDetails.cities.map((city: string) => (
                       <Link
@@ -224,7 +239,7 @@ export default async function FlowPage({
                       >
                         <Badge
                           variant='outline'
-                          className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
+                          className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                         >
                           {city}
                         </Badge>
@@ -247,7 +262,7 @@ export default async function FlowPage({
                       >
                         <Badge
                           variant='outline'
-                          className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
+                          className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                         >
                           {category}
                         </Badge>
@@ -269,7 +284,7 @@ export default async function FlowPage({
                     >
                       <Badge
                         variant='outline'
-                        className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
+                        className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                       >
                         {blogDetails.price?.toLocaleString('en-US', {
                           style: 'currency',
@@ -289,7 +304,7 @@ export default async function FlowPage({
                 <div className='flex gap-2'>
                   <Badge
                     variant='outline'
-                    className='max-w-full rounded-full border-primary bg-primary/10 text-primary'
+                    className='max-w-full rounded-full bg-primary/10 text-primary hover:border-primary'
                   >
                     {blogDetails.review?.views}
                   </Badge>
@@ -338,7 +353,7 @@ export default async function FlowPage({
           </div>
           <Separator className='my-4' />
           <div className='block md:hidden'>
-          <FlowImageGallery images={blogDetails?.gallery || []} />
+            <FlowImageGallery images={blogDetails?.gallery || []} />
           </div>
           <div>
             <Label className='text-xl font-semibold '>
@@ -352,9 +367,9 @@ export default async function FlowPage({
         </div>
         <div className='mx-auto max-w-sm space-y-4'>
           <div className='hidden md:block'>
-          <Card>
-          <FlowImageGallery images={blogDetails?.gallery || []} />
-          </Card>
+            <Card>
+              <FlowImageGallery images={blogDetails?.gallery || []} />
+            </Card>
           </div>
 
           <Card className='mx-auto w-full'>
@@ -388,7 +403,6 @@ export default async function FlowPage({
                   downvotes={blogDetails.review?.downvotes}
                   me={blogDetails.me}
                 />
-          
               </div>
             </CardContent>
           </Card>
@@ -459,11 +473,27 @@ export default async function FlowPage({
                   {t('visit_profile')}
                 </Link>
               </Button>
-              <Button className='btn w-full !rounded-md' asChild>
-                <Link href={`/profiles/${blogDetails.author?.username}`}>
-                  Start chat
-                </Link>
-              </Button>
+              {session ? (
+                <MessageForm
+                  user={{
+                    username: blogDetails.author?.username,
+                    userId: blogDetails.author?.userId,
+                  }}
+                  roomId={roomId}
+                >
+                  <Button className='btn w-full !rounded-md'>
+                    {roomId === '' ? t('start_chat') : t('send_message')}
+                  </Button>
+                </MessageForm>
+              ) : (
+                <Button className='btn w-full !rounded-md' asChild>
+                  <Link
+                    href={`/auth/signin?callbackUrl=/flows/${params.id}/${params.slug}`}
+                  >
+                    {t('start_chat')}
+                  </Link>
+                </Button>
+              )}
             </div>
           </Card>
         </div>

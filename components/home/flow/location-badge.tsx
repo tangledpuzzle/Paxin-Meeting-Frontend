@@ -15,7 +15,7 @@ function LocationBadge({ children }: SectionBadgeProps) {
     >
       <div className='absolute inset-0 size-full bg-gradient-to-b from-transparent to-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100'></div>
       <MdOutlineHouseSiding className='size-4 text-gray-500 dark:text-white' />
-      <span className='text-[0.8rem] font-normal text-secondary-foreground'>
+      <span className='text-[0.8rem] font-normal text-secondary-foreground text-center'>
         {children}
       </span>
     </Badge>

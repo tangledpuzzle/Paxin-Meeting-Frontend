@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { TiMessages, TiVideo } from 'react-icons/ti';
 
-import { NavItem } from '@/types/nav';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
+import { NavItem } from '@/types/nav';
 import { useLocale, useTranslations } from 'next-intl';
 import eventBus from '@/eventBus';
 import { createSelector } from '@reduxjs/toolkit';
@@ -43,14 +43,6 @@ export function MainNav({ items }: MainNavProps) {
       alert(`Link "${title}" clicked!`);
     } else {
       window.location.href = href;
-    }
-  };
-
-  const checkMessagesInPathname = () => {
-    if (pathname.includes('messages')) {
-      eventBus.emit('startChat', '0');
-    } else {
-      router.push('/profile/messages');
     }
   };
 
@@ -95,17 +87,7 @@ export function MainNav({ items }: MainNavProps) {
           )}
         </nav>
       ) : null}
-      <div>
-        <button onClick={checkMessagesInPathname}>
-          <div className='flex items-center justify-center'>
-            <span className='relative -top-2 left-12 rounded-full bg-card-gradient-menu px-2 text-center text-xs'>
-              10
-            </span>
-            <TiMessages size={32} />
-          </div>
-        </button>
-        {user && <SmallMeet />}
-      </div>
+      <div>{user && <SmallMeet />}</div>
     </div>
   );
 }

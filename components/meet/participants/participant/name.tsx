@@ -6,7 +6,7 @@ interface IParticipantNameProps {
 }
 const ParticipantName = ({ name, isCurrentUser }: IParticipantNameProps) => {
   return (
-    <p className="text-[11px] xl:text-[13px] primaryColor dark:text-darkText">
+    <p className='primaryColor text-[11px] dark:text-darkText xl:text-[13px]'>
       {name} {isCurrentUser ? ' (me)' : null}
     </p>
   );

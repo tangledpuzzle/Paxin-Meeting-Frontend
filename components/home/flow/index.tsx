@@ -4,14 +4,14 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
+import { FlowCard } from '@/components/home/flow/flow-card';
+import { FlowCardSkeleton } from '@/components/home/flow/flow-card-skeleton';
 import { Button } from '@/components/ui/button';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { FlowCard } from '@/components/home/flow/flow-card';
-import { FlowCardSkeleton } from '@/components/home/flow/flow-card-skeleton';
-import { GrNext } from 'react-icons/gr';
-import { GrPrevious } from 'react-icons/gr';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -44,68 +44,46 @@ const pageSize = 12;
 export default function FlowSection() {
   const t = useTranslations('main');
   const searchParams = useSearchParams();
-  const router = useRouter();
   const [flowData, setFlowData] = useState<FlowData[] | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(
-    Number(searchParams.get('page') || 1)
-  );
   const [maxPage, setMaxPage] = useState<number>(1);
   const locale = useLocale();
-  const [fetchURL, setFetchURL] = useState(
-    `/api/flows/get?language=en&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}`
-  );
-  const [title, setTitle] = useState<string>(
-    searchParams.get('title') ? searchParams.get('title') || 'all' : 'all'
-  );
-  const [city, setCity] = useState<string | null>(
-    searchParams.get('city') ? searchParams.get('title') || 'all' : 'all'
-  );
-  const [category, setCategory] = useState<string | null>(
-    searchParams.get('category') ? searchParams.get('category') || 'all' : 'all'
-  );
-  const [hashtag, setHashtag] = useState<string | null>(
-    searchParams.get('hashtag') ? searchParams.get('hashtag') || 'all' : 'all'
-  );
-  const [money, setMoney] = useState<string | null>(
-    searchParams.get('money') ? searchParams.get('money') || 'all' : 'all'
-  );
+  const [fetchURL, setFetchURL] = useState('');
+  const [nextPageLink, setNextPageLink] = useState<string | null>(null);
+  const [prevPageLink, setPrevPageLink] = useState<string | null>(null);
 
-  const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
-
-  const goto = (page: number) => {
-    setCurrentPage(page);
-
-    const newsearchParams = new URLSearchParams(searchParams);
-    newsearchParams.set('page', page.toString());
-
-    router.push(`?${newsearchParams.toString()}`);
-  };
+  const { data: fetchedData, isLoading, error } = useSWR(fetchURL, fetcher);
 
   useEffect(() => {
-    const _title = searchParams.get('title');
-    const _city = searchParams.get('city');
-    const _category = searchParams.get('category');
-    const _hashtag = searchParams.get('hashtag');
-    const _money = searchParams.get('money');
+    const _title = searchParams.get('title') || 'all';
+    const _city = searchParams.get('city') || 'all';
+    const _category = searchParams.get('category') || 'all';
+    const _hashtag = searchParams.get('hashtag') || 'all';
+    const _money = searchParams.get('money') || 'all';
+    const _page = Number(searchParams.get('page') || 1);
 
-    if (_title || _city || _category || _hashtag || _money) setCurrentPage(1);
-
-    setTitle(_title || 'all');
-    setCity(_city || 'all');
-    setCategory(_category || 'all');
-    setHashtag(_hashtag || 'all');
-    setMoney(_money || 'all');
-  }, [searchParams]);
+    setFetchURL(
+      `/api/flows/get?language=${locale}&limit=${pageSize}&skip=${(_page - 1) * pageSize}&title=${_title}&city=${_city}&category=${_category}&hashtag=${_hashtag}&money=${_money}`
+    );
+  }, [searchParams, locale]);
 
   useEffect(() => {
-    const generateFetchURL = () => {
-      let baseURL = `/api/flows/get?language=${locale}&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}`;
+    const _page = Number(searchParams.get('page') || 1);
 
-      return baseURL;
-    };
+    console.log(_page, maxPage);
 
-    setFetchURL(generateFetchURL());
-  }, [title, city, category, hashtag, money, locale, currentPage]);
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (_page === 1) setPrevPageLink(null);
+    else if (_page > 1) {
+      newSearchParams.set('page', (_page - 1).toString());
+      setPrevPageLink(`/home?${newSearchParams.toString()}`);
+    }
+
+    if (_page === maxPage) setNextPageLink(null);
+    else if (_page < maxPage) {
+      newSearchParams.set('page', (_page + 1).toString());
+      setNextPageLink(`/home?${newSearchParams.toString()}`);
+    }
+  }, [searchParams, maxPage]);
 
   useEffect(() => {
     if (!error && fetchedData) {
@@ -116,28 +94,44 @@ export default function FlowSection() {
   }, [fetchedData, error]);
 
   return (
-    <div className='w-full space-y-6'>
+    <div className='w-full'>
       {maxPage > 1 && (
-        <div className='flex w-full justify-start gap-2'>
+        <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
           <Button
-            disabled={currentPage === 1}
-            onClick={() => goto(currentPage - 1)}
+            aria-disabled={Number(searchParams.get('page') || 1) === 1}
+            className='w-[40px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60  md:w-[50px]'
+            asChild
           >
-            {/* {t('back_flow')} */}
-            <GrPrevious />
+            <Link href={prevPageLink || ''}>
+              {/* {t('back_flow')} */}
+              <GrPrevious />
+            </Link>
           </Button>
           <Button
-            disabled={currentPage === maxPage}
-            onClick={() => goto(currentPage + 1)}
+            aria-disabled={Number(searchParams.get('page') || 1) === maxPage}
+            className='w-[40px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 md:w-[50px]'
+            asChild
           >
-            {/* {t('next_flow')} */}
-            <GrNext />
+            <Link href={nextPageLink || ''}>
+              {/* {t('next_flow')} */}
+              <GrNext />
+            </Link>
           </Button>
         </div>
       )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3'>
+      {maxPage === 1 && (
+        <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
+          <span className='px-0 text-sm'>Just one page yet</span>
+        </div>
+      )}
+            {maxPage === 0 && (
+        <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
+          <span className='px-0 text-sm'>Just one page yet</span>
+        </div>
+      )}
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3'>
         {!error ? (
-          flowData ? (
+          flowData && !isLoading ? (
             flowData?.length > 0 ? (
               flowData.map((flow: FlowData) => (
                 <FlowCard key={flow.id} {...flow} callbackURL={''} />
@@ -168,24 +162,6 @@ export default function FlowSection() {
           <></>
         )}
       </div>
-      {maxPage > 1 && (
-        <div className='flex w-full justify-start gap-2'>
-          <Button
-            disabled={currentPage === 1}
-            onClick={() => goto(currentPage - 1)}
-          >
-            {/* {t('back_flow')} */}
-            <GrPrevious />
-          </Button>
-          <Button
-            disabled={currentPage === maxPage}
-            onClick={() => goto(currentPage + 1)}
-          >
-            {/* {t('next_flow')} */}
-            <GrNext />
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

@@ -39,11 +39,13 @@ export function FilterModal() {
   const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
   const [hashtagOptions, setHashtagOptions] = useState<Option[]>([]);
   const [viewMode, setViewMode] = useState<string>(
-    searchParams.get('mode') || 'profile'
+    searchParams.get('mode') || 'flow'
   );
 
   const [hashTag, setHashTag] = useState<Option[]>([]);
-  const [hashtagURL, setHashtagURL] = useState<string>('');
+  const [hashtagURL, setHashtagURL] = useState<string>(
+    viewMode === 'flow' ? `/api/hashtags/blog/get` : `/api/hashtags/profile/get`
+  );
   const [city, setCity] = useState<Option[]>();
   const [category, setCategory] = useState<Option[]>();
   const [minPrice, setMinPrice] = useState<string>('');
@@ -82,6 +84,12 @@ export function FilterModal() {
 
   const handleHashtagSearch = useDebouncedCallback((query: string) => {
     if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
+    else
+      setHashtagURL(
+        viewMode === 'flow'
+          ? `/api/hashtags/blog/get`
+          : `/api/hashtags/profile/get`
+      );
   }, 300);
 
   const handleMinPrice = (value: string) => {
@@ -127,6 +135,7 @@ export function FilterModal() {
       newSearchParams.delete('city');
       newSearchParams.delete('category');
       newSearchParams.delete('money');
+      newSearchParams.delete('page');
       router.push(`?${newSearchParams.toString()}`);
 
       setIsReset(false);
@@ -135,21 +144,33 @@ export function FilterModal() {
     }
 
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set(
-      'hashtag',
-      hashTag ? hashTag.map((item) => item.value).join(',') || 'all' : 'all'
-    );
-    newSearchParams.set(
-      'city',
-      city && city.length > 0 ? city[0].label : 'all'
-    );
-    newSearchParams.set(
-      'category',
-      category && category.length > 0 ? category[0].label : 'all'
-    );
-    if (minPrice || maxPrice)
-      newSearchParams.set('money', `${minPrice}-${maxPrice}`);
-    else newSearchParams.delete('money');
+    const _hashtag = hashTag
+      ? hashTag.map((item) => item.value).join(',') || 'all'
+      : 'all';
+    const _city = city && city.length > 0 ? city[0].label : 'all';
+    const _category =
+      category && category.length > 0 ? category[0].label : 'all';
+    const _money =
+      minPrice && maxPrice
+        ? `${minPrice}-${maxPrice}`
+        : minPrice
+          ? minPrice
+          : maxPrice
+            ? `0-${maxPrice}`
+            : 'all';
+
+    let _page = searchParams.get('page') || '1';
+
+    if (_city !== newSearchParams.get('city')) _page = '1';
+    if (_category !== newSearchParams.get('category')) _page = '1';
+    if (_hashtag !== newSearchParams.get('hashtag')) _page = '1';
+    if (_money !== newSearchParams.get('money')) _page = '1';
+
+    newSearchParams.set('page', _page);
+    newSearchParams.set('city', _city);
+    newSearchParams.set('category', _category);
+    newSearchParams.set('hashtag', _hashtag);
+    newSearchParams.set('money', _money);
 
     router.push(`?${newSearchParams.toString()}`);
   };
@@ -253,11 +274,17 @@ export function FilterModal() {
     const _city = searchParams.get('city');
     const _category = searchParams.get('category');
     const _viewMode = searchParams.get('mode');
+    const _money = searchParams.get('money');
 
     if (_hashtag && _hashtag !== 'all') handleHashtagSearch(_hashtag);
     if (_city && _city !== 'all') setCityKeyword(_city);
     if (_category && _category !== 'all') setCategoryKeyword(_category);
     if (_viewMode) setViewMode(_viewMode);
+    if (_money) {
+      const [min, max] = _money.split('-');
+      setMinPrice(min);
+      setMaxPrice(max);
+    }
   }, [searchParams]);
 
   useEffect(() => {
@@ -272,6 +299,7 @@ export function FilterModal() {
       setHashTag(_hashtag.split(',').map((h) => ({ value: h, label: h })));
     else if (_hashtag === 'all') setHashTag([]);
     if (_city && _city !== 'all') {
+      setCityKeyword('');
       let newCity: Option[] = city || [];
 
       // _city.split(',').forEach((c) => {
@@ -288,7 +316,7 @@ export function FilterModal() {
     } else if (_city === 'all') setCity([]);
     if (_category && _category !== 'all') {
       let newCategory: Option[] = category || [];
-
+      setCategoryKeyword('');
       // _category.split(',').forEach((c) => {
       const categoryFound = newCategory.find((cat) => cat.label === _category);
       const categoryOptionFound = categoryOptions.find(
@@ -411,7 +439,7 @@ export function FilterModal() {
   return (
     <Dialog open={isFilterModalOpen} onOpenChange={setIsFilterModalOpen}>
       <DialogTrigger asChild>
-        <Button variant='clear' className='!p-0'>
+        <Button variant='clear' className='filtersButton !p-0'>
           {/* <Filter className='mr-2 size-4' /> */}
           <GlowingButton buttonText={t('filters')} />
         </Button>

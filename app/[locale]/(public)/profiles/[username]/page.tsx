@@ -17,6 +17,7 @@ import QRCode from 'react-qr-code';
 import { QRCodeModal } from '@/components/common/qrcode-modal';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import type { Metadata, ResolvingMetadata } from 'next';
 import {
   Card,
   CardDescription,
@@ -24,7 +25,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-
+import { LiaSmsSolid } from 'react-icons/lia';
 import { ReportModal } from '@/components/common/report-modal';
 import BackButton from '@/components/home/back-button';
 import { FollowButtonGroup } from '@/components/home/profile/follow-button-group';
@@ -34,6 +35,57 @@ import '@/styles/editor.css';
 import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
+import MessageForm from '@/components/home/messsage-form';
+import getRoomId from '@/lib/server/chat/getRoomId';
+import { IoLanguage } from 'react-icons/io5';
+interface ProfileDetails {
+  id: string;
+  username: string;
+  bio: string;
+  hashtags: string[];
+  cities: string[];
+  categories: string[];
+  country: string;
+  review: {
+    totaltime: {
+      hour: number;
+      minutes: number;
+      seconds: number;
+    };
+    monthtime: {
+      hour: number;
+      minutes: number;
+      seconds: number;
+    };
+    totalposts: number;
+    monthposts: number;
+    followers: number;
+  };
+  latestblog?: {
+    title: string;
+    subtitle: string;
+    hero: string;
+    review: {
+      votes: number;
+    };
+    link: string;
+  };
+  gallery: {
+    original: string;
+    thumbnail: string;
+  }[];
+  description: string;
+  additionalinfo: string;
+  telegram: string;
+  qrcode: string;
+  follow: boolean;
+  me: boolean;
+}
+
+interface ProfilePageProps {
+  params: { username: string; locale: string };
+  searchParams: { [key: string]: string | undefined | null };
+}
 
 async function getData(locale: string, username: string) {
   const session = await getServerSession(authOptions);
@@ -141,59 +193,26 @@ async function getData(locale: string, username: string) {
   }
 }
 
-interface GalleryData {
-  original: string;
-  thumbnail: string;
-}
+export async function generateMetadata({
+  params,
+}: ProfilePageProps): Promise<Metadata> {
+  const profileDetails = await getData(params.locale, params.username);
 
-interface ProfileDetails {
-  id: string;
-  username: string;
-  bio: string;
-  hashtags: string[];
-  cities: string[];
-  categories: string[];
-  country: string;
-  review: {
-    totaltime: {
-      hour: number;
-      minutes: number;
-      seconds: number;
-    };
-    monthtime: {
-      hour: number;
-      minutes: number;
-      seconds: number;
-    };
-    totalposts: number;
-    monthposts: number;
-    followers: number;
+  return {
+    title: `@${profileDetails?.username || ''}`,
+    description: profileDetails?.bio || '',
+    openGraph: {
+      title: `@${profileDetails?.username || ''}`,
+      description: profileDetails?.bio || '',
+      images: profileDetails?.gallery.map((item: any) => item.original) || [],
+    },
   };
-  latestblog?: {
-    title: string;
-    subtitle: string;
-    hero: string;
-    review: {
-      votes: number;
-    };
-    link: string;
-  };
-  gallery: GalleryData[];
-  description: string;
-  additionalinfo: string;
-  telegram: string;
-  qrcode: string;
-  follow: boolean;
-  me: boolean;
 }
 
 export default async function ProfilePage({
   params,
   searchParams,
-}: {
-  params: { username: string; locale: string };
-  searchParams: { [key: string]: string | undefined | null };
-}) {
+}: ProfilePageProps) {
   const t = await getTranslations('main');
 
   const profileDetails = await getData(params.locale, params.username);
@@ -208,6 +227,9 @@ export default async function ProfilePage({
       url: `profiles/${params.username}`,
     },
   ];
+
+  const session = await getServerSession(authOptions);
+  const roomId = await getRoomId(profileDetails?.id || '');
 
   return profileDetails ? (
     <section className='container py-4'>
@@ -246,6 +268,32 @@ export default async function ProfilePage({
             <Button variant='outline' className='rounded-full' size='icon'>
               <MdPhoneInTalk className='size-5' />
             </Button>
+            {session ? (
+              <MessageForm
+                user={{
+                  username: profileDetails.username,
+                  userId: profileDetails.id,
+                }}
+                roomId={roomId}
+              >
+                <Button variant='outline' className='rounded-full' size='icon'>
+                  <LiaSmsSolid className='size-4' />
+                </Button>
+              </MessageForm>
+            ) : (
+              <Button
+                variant='outline'
+                className='rounded-full'
+                size='icon'
+                asChild
+              >
+                <Link
+                  href={`/auth/signin?callbackUrl=/profiles/${params.username}`}
+                >
+                  <LiaSmsSolid className='size-4' />
+                </Link>
+              </Button>
+            )}
             <FollowButtonGroup
               me={profileDetails.me}
               follow={profileDetails.follow}
@@ -309,18 +357,34 @@ export default async function ProfilePage({
             </Button>
           </div>
         </div>
+
         <div className='md:col-span-2 xl:col-span-3'>
           <div className='grid grid-cols-1'>
             <div className='col-span-4 w-full'>
               <div className=''>
                 <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
                   @{profileDetails.username}
-                  <div
+                  {/* <div
                     className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
                     style={{
                       backgroundImage: `url('/images/${profileDetails.country}.svg')`,
                     }}
-                  />
+                  /> */}
+                  <div className='relative'>
+                    <div
+                      className={` right-0 top-[0.2rem] mr-0 rounded-md bg-cover bg-center bg-no-repeat`}
+                      style={{
+                        backgroundImage: `url('/images/${profileDetails.country}.svg')`,
+                      }}
+                    >
+                      <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
+                        <IoLanguage />
+                        <span className='uppercase'>
+                          {profileDetails.country}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className='pb-2 text-sm text-muted-foreground'>
                   {profileDetails.bio}

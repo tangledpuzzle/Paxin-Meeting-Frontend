@@ -37,10 +37,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
   const metadata: Metadata = {
-    title: {
-      default: t('title'),
-      template: `%s - ${t('title')}`,
-    },
+    title: t('title'),
     description: t('description'),
     manifest: '/manifest-dark.webmanifest',
     icons: {

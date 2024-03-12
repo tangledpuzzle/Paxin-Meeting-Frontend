@@ -15,7 +15,7 @@ const breakoutRoomSlice = createSlice({
   reducers: {
     updateBreakoutRoomDroppedUser: (
       state,
-      action: PayloadAction<DroppedUser>,
+      action: PayloadAction<DroppedUser>
     ) => {
       state.droppedUser = action.payload;
     },

@@ -184,28 +184,28 @@ export class PlugNmeetToRecorder extends Message<PlugNmeetToRecorder> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): PlugNmeetToRecorder {
     return new PlugNmeetToRecorder().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PlugNmeetToRecorder {
     return new PlugNmeetToRecorder().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PlugNmeetToRecorder {
     return new PlugNmeetToRecorder().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: PlugNmeetToRecorder | PlainMessage<PlugNmeetToRecorder> | undefined,
-    b: PlugNmeetToRecorder | PlainMessage<PlugNmeetToRecorder> | undefined,
+    b: PlugNmeetToRecorder | PlainMessage<PlugNmeetToRecorder> | undefined
   ): boolean {
     return proto3.util.equals(PlugNmeetToRecorder, a, b);
   }
@@ -315,28 +315,28 @@ export class RecorderToPlugNmeet extends Message<RecorderToPlugNmeet> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): RecorderToPlugNmeet {
     return new RecorderToPlugNmeet().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): RecorderToPlugNmeet {
     return new RecorderToPlugNmeet().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): RecorderToPlugNmeet {
     return new RecorderToPlugNmeet().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: RecorderToPlugNmeet | PlainMessage<RecorderToPlugNmeet> | undefined,
-    b: RecorderToPlugNmeet | PlainMessage<RecorderToPlugNmeet> | undefined,
+    b: RecorderToPlugNmeet | PlainMessage<RecorderToPlugNmeet> | undefined
   ): boolean {
     return proto3.util.equals(RecorderToPlugNmeet, a, b);
   }
@@ -391,28 +391,28 @@ export class FromParentToChild extends Message<FromParentToChild> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): FromParentToChild {
     return new FromParentToChild().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): FromParentToChild {
     return new FromParentToChild().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): FromParentToChild {
     return new FromParentToChild().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: FromParentToChild | PlainMessage<FromParentToChild> | undefined,
-    b: FromParentToChild | PlainMessage<FromParentToChild> | undefined,
+    b: FromParentToChild | PlainMessage<FromParentToChild> | undefined
   ): boolean {
     return proto3.util.equals(FromParentToChild, a, b);
   }
@@ -479,28 +479,28 @@ export class FromChildToParent extends Message<FromChildToParent> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): FromChildToParent {
     return new FromChildToParent().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): FromChildToParent {
     return new FromChildToParent().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): FromChildToParent {
     return new FromChildToParent().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: FromChildToParent | PlainMessage<FromChildToParent> | undefined,
-    b: FromChildToParent | PlainMessage<FromChildToParent> | undefined,
+    b: FromChildToParent | PlainMessage<FromChildToParent> | undefined
   ): boolean {
     return proto3.util.equals(FromChildToParent, a, b);
   }
@@ -672,21 +672,21 @@ export class StartRecorderChildArgs extends Message<StartRecorderChildArgs> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): StartRecorderChildArgs {
     return new StartRecorderChildArgs().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): StartRecorderChildArgs {
     return new StartRecorderChildArgs().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): StartRecorderChildArgs {
     return new StartRecorderChildArgs().fromJsonString(jsonString, options);
   }
@@ -696,10 +696,7 @@ export class StartRecorderChildArgs extends Message<StartRecorderChildArgs> {
       | StartRecorderChildArgs
       | PlainMessage<StartRecorderChildArgs>
       | undefined,
-    b:
-      | StartRecorderChildArgs
-      | PlainMessage<StartRecorderChildArgs>
-      | undefined,
+    b: StartRecorderChildArgs | PlainMessage<StartRecorderChildArgs> | undefined
   ): boolean {
     return proto3.util.equals(StartRecorderChildArgs, a, b);
   }
@@ -751,28 +748,28 @@ export class PlugNmeetInfo extends Message<PlugNmeetInfo> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): PlugNmeetInfo {
     return new PlugNmeetInfo().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PlugNmeetInfo {
     return new PlugNmeetInfo().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): PlugNmeetInfo {
     return new PlugNmeetInfo().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: PlugNmeetInfo | PlainMessage<PlugNmeetInfo> | undefined,
-    b: PlugNmeetInfo | PlainMessage<PlugNmeetInfo> | undefined,
+    b: PlugNmeetInfo | PlainMessage<PlugNmeetInfo> | undefined
   ): boolean {
     return proto3.util.equals(PlugNmeetInfo, a, b);
   }
@@ -812,28 +809,28 @@ export class CopyToPath extends Message<CopyToPath> {
 
   static fromBinary(
     bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
+    options?: Partial<BinaryReadOptions>
   ): CopyToPath {
     return new CopyToPath().fromBinary(bytes, options);
   }
 
   static fromJson(
     jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CopyToPath {
     return new CopyToPath().fromJson(jsonValue, options);
   }
 
   static fromJsonString(
     jsonString: string,
-    options?: Partial<JsonReadOptions>,
+    options?: Partial<JsonReadOptions>
   ): CopyToPath {
     return new CopyToPath().fromJsonString(jsonString, options);
   }
 
   static equals(
     a: CopyToPath | PlainMessage<CopyToPath> | undefined,
-    b: CopyToPath | PlainMessage<CopyToPath> | undefined,
+    b: CopyToPath | PlainMessage<CopyToPath> | undefined
   ): boolean {
     return proto3.util.equals(CopyToPath, a, b);
   }

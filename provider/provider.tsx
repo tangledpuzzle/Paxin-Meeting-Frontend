@@ -73,7 +73,8 @@ const Providers: React.FC<IProps> = ({ children }) => {
 
   useEffect(() => {
     if (process.browser) {
-      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsProtocol =
+        window.location.protocol === 'https:' ? 'wss:' : 'wss:';
       const _socket = new WebSocket(
         `${wsProtocol}//${process.env.NEXT_PUBLIC_SOCKET_URL}/socket.io/`
       );
@@ -90,7 +91,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
             });
             axios.defaults.headers.common['session'] = data?.session;
           }
-        } catch (error) { }
+        } catch (error) {}
       };
 
       const intervalId = setInterval(() => {

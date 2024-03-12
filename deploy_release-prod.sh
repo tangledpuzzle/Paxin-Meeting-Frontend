@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
-BRANCH_NAME="release/prod"
+SERVICE_PATH="~/workspace/paxintrade/mainsite/frontend"
+SERVICE_NAME="app"
 
 # Abort on errors
 set -e
@@ -24,28 +25,30 @@ chmod 600 "$PRIVATE_KEY_PATH"
 
 # SSH into the EC2 instance
 ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
-  set -e
-  cd ~/workspace/paxintrade/frontend-built
-  source ~/.nvm/nvm.sh || exit 1
-  nvm use node || nvm install node
-  pm2 stop ecosystem.config.js || true
-  pm2 delete ecosystem.config.js || true
-  pm2 save || true
-  rm -rf ./*
+  cd $SERVICE_PATH
+  source ~/.bashrc
+  echo $ECR_PASSWORD | docker login --username AWS --password-stdin $REPOSITORY_URI
+  git restore .
+  git pull
+  docker compose stop $SERVICE_NAME || { echo "Failed to stop $SERVICE_NAME"; exit 1; }
+  docker compose pull $SERVICE_NAME || { echo "Failed to pull $SERVICE_NAME"; exit 1; }
+  docker compose up -d || { echo "Failed to start services with Docker Compose."; exit 1; }
+
+  echo "Docker Compose started successfully. Checking if the $SERVICE_NAME service is running..."
+  sleep 5
+
+  if ! docker compose top $SERVICE_NAME; then
+    echo "Failed to confirm that $SERVICE_NAME service is running. Please check logs."
+    exit 1
+  else
+    echo "$SERVICE_NAME service is up and running."
+  fi
 ENDSSH
 
-# Copy the build artifacts to the server's deployment directory
-rsync -avz -e "ssh -i $PRIVATE_KEY_PATH" --exclude '.git' .next/standalone/ "$HOST_ADDRESS":~/workspace/paxintrade/frontend-built
-
-# SSH into the EC2 instance
-ssh -o StrictHostKeyChecking=no -i "$PRIVATE_KEY_PATH" "$HOST_ADDRESS" << ENDSSH
-  set -e
-  cd ~/workspace/paxintrade/frontend-built
-  source ~/.nvm/nvm.sh || exit 1
-  nvm use node || nvm install node
-  pm2 start ecosystem.config.js || true
-  pm2 save || true
-ENDSSH
+if [ $? -ne 0 ]; then
+  echo "Deployment script encountered an error. Failing the pipeline."
+  exit 1
+fi
 
 # Clean up the private key
 rm "$PRIVATE_KEY_PATH"

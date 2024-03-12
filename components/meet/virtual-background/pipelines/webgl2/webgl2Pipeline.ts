@@ -31,7 +31,7 @@ export function buildWebGL2Pipeline(
   canvas: HTMLCanvasElement,
   tflite: TFLite,
   timerWorker: TimerWorker,
-  addFrameEvent: () => void,
+  addFrameEvent: () => void
 ) {
   const vertexShaderSource = glsl`#version 300 es
 
@@ -62,7 +62,7 @@ export function buildWebGL2Pipeline(
   gl.bufferData(
     gl.ARRAY_BUFFER,
     new Float32Array([-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0, 1.0]),
-    gl.STATIC_DRAW,
+    gl.STATIC_DRAW
   );
 
   const texCoordBuffer = gl.createBuffer()!;
@@ -70,7 +70,7 @@ export function buildWebGL2Pipeline(
   gl.bufferData(
     gl.ARRAY_BUFFER,
     new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0]),
-    gl.STATIC_DRAW,
+    gl.STATIC_DRAW
   );
 
   // We don't use texStorage2D here because texImage2D seems faster
@@ -89,13 +89,13 @@ export function buildWebGL2Pipeline(
     gl,
     gl.RGBA8,
     segmentationWidth,
-    segmentationHeight,
+    segmentationHeight
   )!;
   const personMaskTexture = createTexture(
     gl,
     gl.RGBA8,
     frameWidth,
-    frameHeight,
+    frameHeight
   )!;
 
   const resizingStage = buildResizingStage(
@@ -105,7 +105,7 @@ export function buildWebGL2Pipeline(
     positionBuffer,
     texCoordBuffer,
     segmentationConfig,
-    tflite,
+    tflite
   );
   const loadSegmentationStage =
     segmentationConfig.model === 'meet'
@@ -116,7 +116,7 @@ export function buildWebGL2Pipeline(
           texCoordBuffer,
           segmentationConfig,
           tflite,
-          segmentationTexture,
+          segmentationTexture
         )
       : buildLoadSegmentationStage(
           gl,
@@ -125,7 +125,7 @@ export function buildWebGL2Pipeline(
           texCoordBuffer,
           segmentationConfig,
           tflite,
-          segmentationTexture,
+          segmentationTexture
         );
   const jointBilateralFilterStage = buildJointBilateralFilterStage(
     gl,
@@ -135,7 +135,7 @@ export function buildWebGL2Pipeline(
     segmentationTexture,
     segmentationConfig,
     personMaskTexture,
-    canvas,
+    canvas
   );
   const backgroundStage =
     backgroundConfig.type === 'blur'
@@ -145,7 +145,7 @@ export function buildWebGL2Pipeline(
           positionBuffer,
           texCoordBuffer,
           personMaskTexture,
-          canvas,
+          canvas
         )
       : buildBackgroundImageStage(
           gl,
@@ -153,7 +153,7 @@ export function buildWebGL2Pipeline(
           texCoordBuffer,
           personMaskTexture,
           backgroundImage,
-          canvas,
+          canvas
         );
 
   async function render() {
@@ -168,7 +168,7 @@ export function buildWebGL2Pipeline(
       gl.RGBA,
       gl.RGBA,
       gl.UNSIGNED_BYTE,
-      sourcePlayback.htmlElement,
+      sourcePlayback.htmlElement
     );
 
     gl.bindVertexArray(vertexArray);
@@ -187,20 +187,20 @@ export function buildWebGL2Pipeline(
   }
 
   function updatePostProcessingConfig(
-    postProcessingConfig: PostProcessingConfig,
+    postProcessingConfig: PostProcessingConfig
   ) {
     jointBilateralFilterStage.updateSigmaSpace(
-      postProcessingConfig.jointBilateralFilter.sigmaSpace,
+      postProcessingConfig.jointBilateralFilter.sigmaSpace
     );
     jointBilateralFilterStage.updateSigmaColor(
-      postProcessingConfig.jointBilateralFilter.sigmaColor,
+      postProcessingConfig.jointBilateralFilter.sigmaColor
     );
 
     if (backgroundConfig.type === 'image') {
       const backgroundImageStage = backgroundStage as BackgroundImageStage;
       backgroundImageStage.updateCoverage(postProcessingConfig.coverage);
       backgroundImageStage.updateLightWrapping(
-        postProcessingConfig.lightWrapping,
+        postProcessingConfig.lightWrapping
       );
       backgroundImageStage.updateBlendMode(postProcessingConfig.blendMode);
     } else if (backgroundConfig.type === 'blur') {

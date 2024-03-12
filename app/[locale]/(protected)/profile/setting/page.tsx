@@ -41,7 +41,8 @@ import { useDebouncedCallback } from 'use-debounce';
 import { GrUpdate } from 'react-icons/gr';
 import * as z from 'zod';
 import { SubscriptionCard } from '@/components/profiles/setting/subscription-card';
-
+import { NewPostModal } from '@/components/profiles/setting/request4new';
+import Loader from '@/components/ui/loader';
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
 
@@ -172,7 +173,7 @@ export default function SettingPage() {
   const locale = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const [openModal, setOpenModal] = useState(false);
   const [currentTab, setCurrentTab] = useState<string>('profile');
 
   const imageUploadRef = useRef<ImageUploadComponentType>(null);
@@ -181,6 +182,7 @@ export default function SettingPage() {
   const [additionalInfo, setAdditionalInfo] = useState<string>('');
   const [gallery, setGallery] = useState<GalleryType>({} as GalleryType);
   const [rechargecode, setRechargecode] = useState<string>('');
+  const [requestType, setRequestType] = useState('');
 
   const [isBasicLoading, setIsBasicLoading] = useState<boolean>(false);
   const [isDeleteAccountLoading, setIsDeleteAccountLoading] =
@@ -194,11 +196,13 @@ export default function SettingPage() {
     useState<boolean>(false);
   const [isRechargeLoading, setIsRechargeLoading] = useState<boolean>(false);
 
-  const [hashtagURL, setHashtagURL] = useState<string>('');
+  const [hashtagURL, setHashtagURL] = useState<string>(
+    `/api/hashtags/profile/get`
+  );
 
   const [isNeededUpdate, setIsNeededUpdate] = useState<boolean>(false);
 
-  const [cityOptions, setCityOptions] = useState<Option[]>();
+  const [cityOptions, setCityOptions] = useState<Option[]>([]);
   const [categoryOptions, setCategoryOptions] = useState<Option[]>();
   const [hashtagOptions, setHashtagOptions] = useState<Option[]>([]);
   const [cityKeyword, setCityKeyword] = useState<string>('');
@@ -240,13 +244,16 @@ export default function SettingPage() {
     setCategoryKeyword(value);
   }, 300);
 
+  function customFilterFunction(option: Option, searchInput: string) {
+    return true;
+  }
+
   useEffect(() => {
     setCurrentTab(searchParams.get('tab') || 'profile');
   }, [searchParams]);
 
   useEffect(() => {
     if (!error && fetchedData) {
-      console.log(fetchedData);
       setProfile(fetchedData);
       setGallery(fetchedData.gallery);
       setAdditionalInfo(fetchedData.additionalinfo);
@@ -281,24 +288,43 @@ export default function SettingPage() {
 
   useEffect(() => {
     if (fetchedCities) {
-      setCityOptions(
-        fetchedCities.data.map((city: any) => ({
-          value: city.ID,
-          label: city.Translations.find((t: any) => t.Language === locale).Name,
-        }))
-      );
+      if (fetchedCities.data.length == 0) {
+        setCityOptions([
+          {
+            value: -1,
+            label: t('no_city'),
+          },
+        ]);
+      } else {
+        setCityOptions(
+          fetchedCities.data.map((city: any) => ({
+            value: city.ID,
+            label: city.Translations.find((t: any) => t.Language === locale)
+              .Name,
+          }))
+        );
+      }
     }
   }, [fetchedCities]);
 
   useEffect(() => {
     if (fetchedCategories) {
-      setCategoryOptions(
-        fetchedCategories.data.map((category: any) => ({
-          value: category.ID,
-          label: category.Translations.find((t: any) => t.Language === locale)
-            .Name,
-        }))
-      );
+      if (fetchedCategories.data.length == 0) {
+        setCategoryOptions([
+          {
+            value: -1,
+            label: t('no_category'),
+          },
+        ]);
+      } else {
+        setCategoryOptions(
+          fetchedCategories.data.map((category: any) => ({
+            value: category.ID,
+            label: category.Translations.find((t: any) => t.Language === locale)
+              .Name,
+          }))
+        );
+      }
     }
   }, [fetchedCategories]);
 
@@ -472,8 +498,8 @@ export default function SettingPage() {
           uploadedGallery:
             files?.files && files?.files?.length > 0
               ? files?.files.map((file: any) => ({
-                  path: file?.path,
-                }))
+                path: file?.path,
+              }))
               : false,
           gallery: isNeededUpdate ? gallery : false,
         },
@@ -555,6 +581,7 @@ export default function SettingPage() {
 
   const handleHashtagSearch = useDebouncedCallback((query: string) => {
     if (query) setHashtagURL(`/api/hashtags/get?name=${query}`);
+    else setHashtagURL(`/api/hashtags/profile/get`);
   }, 300);
 
   const handleDeleteAccount = async () => {
@@ -613,13 +640,19 @@ export default function SettingPage() {
 
   return (
     <div className='p-4'>
+      <NewPostModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        requestType={requestType}
+      />
+      {/* <Loader /> */}
       <CTASection
         title={t('settings')}
         description={t('setting_description')}
         icon={RiUserSettingsFill}
       />
       <Separator className='my-4' />
-      <div className='w-full'>
+      <div className='mb-[100px] w-full md:mb-[0px]'>
         <ConfirmModal
           isOpen={showDeleteModal}
           onClose={() => setShowDeleteModal(false)}
@@ -736,10 +769,21 @@ export default function SettingPage() {
                                   isMulti
                                   options={cityOptions}
                                   value={field.value}
-                                  onChange={field.onChange}
+                                  onChange={(value) => {
+                                    if (
+                                      value.slice(-1)[0] &&
+                                      value.slice(-1)[0].value === -1
+                                    ) {
+                                      setRequestType('city');
+                                      setOpenModal(true);
+                                    } else
+                                      value &&
+                                        basicForm.setValue('city', [...value]);
+                                  }}
                                   onInputChange={(value) =>
                                     handleCitySearch(value)
                                   }
+                                  filterOption={customFilterFunction}
                                   noOptionsMessage={() => t('no_options')}
                                   placeholder={t('select') + '...'}
                                   classNames={{
@@ -775,7 +819,20 @@ export default function SettingPage() {
                                   onInputChange={(value) =>
                                     handleCategorySearch(value)
                                   }
-                                  onChange={field.onChange}
+                                  filterOption={customFilterFunction}
+                                  onChange={(value) => {
+                                    if (
+                                      value.slice(-1)[0] &&
+                                      value.slice(-1)[0].value === -1
+                                    ) {
+                                      setRequestType('category');
+                                      setOpenModal(true);
+                                    } else
+                                      value &&
+                                        basicForm.setValue('category', [
+                                          ...value,
+                                        ]);
+                                  }}
                                   classNames={{
                                     input: () =>
                                       'dark:text-white text-black text-[16px]',
@@ -998,7 +1055,7 @@ export default function SettingPage() {
                       className='h-7 w-1/2 bg-background text-inherit shadow-none hover:bg-primary/10 data-[state=active]:bg-primary/10 data-[state=active]:text-primary'
                       data-state={
                         !searchParams.get('mode') ||
-                        searchParams.get('mode') === 'monthly'
+                          searchParams.get('mode') === 'monthly'
                           ? 'active'
                           : ''
                       }

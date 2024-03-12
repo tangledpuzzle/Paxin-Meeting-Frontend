@@ -1,6 +1,7 @@
 'use client';
 
 import { CTASection } from '@/components/home/cta';
+import FilterListSection from '@/components/home/filter-list';
 import FlowSection from '@/components/home/flow';
 import ProfileSection from '@/components/home/profile';
 import { useSearchParams } from 'next/navigation';
@@ -17,8 +18,9 @@ export default function HomePage() {
   }, [searchParams]);
 
   return (
-    <section className='container grid items-center gap-6 pb-8 pt-6 md:py-10'>
+    <section className='container'>
       <CTASection />
+      <FilterListSection />
       {viewMode === 'profile' ? (
         <ProfileSection />
       ) : viewMode === 'flow' ? (

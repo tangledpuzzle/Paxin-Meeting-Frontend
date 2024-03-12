@@ -19,7 +19,7 @@ export function buildResizingStage(
   positionBuffer: WebGLBuffer,
   texCoordBuffer: WebGLBuffer,
   segmentationConfig: SegmentationConfig,
-  tflite: TFLite,
+  tflite: TFLite
 ) {
   const fragmentShaderSource = glsl`#version 300 es
 
@@ -46,14 +46,14 @@ export function buildResizingStage(
   const fragmentShader = compileShader(
     gl,
     gl.FRAGMENT_SHADER,
-    fragmentShaderSource,
+    fragmentShaderSource
   );
   const program = createPiplelineStageProgram(
     gl,
     vertexShader,
     fragmentShader,
     positionBuffer,
-    texCoordBuffer,
+    texCoordBuffer
   );
   const inputFrameLocation = gl.getUniformLocation(program, 'u_inputFrame');
   const outputTexture = createTexture(gl, gl.RGBA8, outputWidth, outputHeight);
@@ -65,7 +65,7 @@ export function buildResizingStage(
     gl.COLOR_ATTACHMENT0,
     gl.TEXTURE_2D,
     outputTexture,
-    0,
+    0
   );
   const outputPixels = new Uint8Array(outputPixelCount * 4);
 
@@ -87,7 +87,7 @@ export function buildResizingStage(
       outputHeight,
       gl.RGBA,
       gl.UNSIGNED_BYTE,
-      outputPixels,
+      outputPixels
     );
 
     if (segmentationConfig.deferInputResizing) {

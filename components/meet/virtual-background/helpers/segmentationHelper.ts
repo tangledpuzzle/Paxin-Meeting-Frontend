@@ -33,7 +33,7 @@ export const defaultSegmentationConfig: SegmentationConfig = {
 
 export function getTFLiteModelFileName(
   model: SegmentationModel,
-  inputResolution: InputResolution,
+  inputResolution: InputResolution
 ) {
   switch (model) {
     case 'meet':

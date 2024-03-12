@@ -7,9 +7,6 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_PNM_VERSION: PackageJson.version,
   },
-  // sassOptions:{
-  // includePaths: [path.join(__dirname, 'node_modules/@excalidraw/excalidraw/dist/excalidraw-ass')],
-  // },
   reactStrictMode: true,
   images: {
     remotePatterns: [
