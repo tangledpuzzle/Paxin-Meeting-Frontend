@@ -6,7 +6,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import { ChatRoom, PaxChatContext } from '@/context/chat-context';
+import { ChatRoomType, PaxChatContext } from '@/context/chat-context';
 import eventBus from '@/eventBus';
 import subscribe from '@/lib/server/chat/subscribe';
 import unsubscribe from '@/lib/server/chat/unsubscribe';
@@ -21,7 +21,7 @@ import { MdOutlineMarkChatRead } from 'react-icons/md';
 import { ConfirmModal } from '../common/confirm-modal';
 import { Badge } from '../ui/badge';
 
-export default function ChatRoom({ room }: { room: ChatRoom }) {
+export default function ChatRoom({ room }: { room: ChatRoomType }) {
   const t = useTranslations('chatting');
   const pathname = usePathname();
   const { activeRoom, setActiveRoomSubscribed, setChatRooms } =

@@ -5,7 +5,7 @@ import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 import { getServerSession } from 'next-auth';
 import authOptions from '@/lib/authOptions';
-import { ChatRoom } from '@/context/chat-context';
+import { ChatRoomType } from '@/context/chat-context';
 
 const getUnsubscribedNewRooms = async () => {
   const locale = cookies().get('NEXT_LOCALE')?.value || 'en';
@@ -25,7 +25,7 @@ const getUnsubscribedNewRooms = async () => {
       return [];
     }
 
-    const _rooms: ChatRoom[] = [];
+    const _rooms: ChatRoomType[] = [];
 
     for (const room of res.data) {
       const _room = {

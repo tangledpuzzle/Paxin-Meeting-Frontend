@@ -1,6 +1,10 @@
 'use client';
 
-import { ChatMessage, ChatRoom, PaxChatContext } from '@/context/chat-context';
+import {
+  ChatMessageType,
+  ChatRoomType,
+  PaxChatContext,
+} from '@/context/chat-context';
 import useCentrifuge from '@/hooks/useCentrifuge';
 import getAllMessages from '@/lib/server/chat/getAllMessages';
 import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
@@ -15,10 +19,10 @@ Howler.autoUnlock = true;
 export default function Providers({ children }: { children: React.ReactNode }) {
   const locale = useLocale();
   const [showNav, setShowNav] = useState(true);
-  const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
+  const [chatRooms, setChatRooms] = useState<ChatRoomType[]>([]);
   const [activeRoom, setActiveRoom] = useState<string>('');
   const [activeRoomSubscribed, setActiveRoomSubscribed] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [isMessageLoading, setIsMessageLoading] = useState(true);
   const [isRoomLoading, setIsRoomLoading] = useState(true);
   const { data: session } = useSession();
