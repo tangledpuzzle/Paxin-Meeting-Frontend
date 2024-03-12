@@ -121,7 +121,7 @@ export default function ChatDetailPage({
   });
 
   const handleMessageSubmit = async (inputMessage: string) => {
-    if (inputMessage === '') return;
+    if (inputMessage.trim() === '') return;
 
     const chatUser = chatRooms.find((room) => room.id === activeRoom)?.user;
     console.log(chatUser);
