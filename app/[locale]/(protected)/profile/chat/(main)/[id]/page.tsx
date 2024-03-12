@@ -96,6 +96,7 @@ export default function ChatDetailPage({
     setChatRooms,
     activeRoom,
     setActiveRoom,
+    chatUser,
     activeRoomSubscribed,
     setActiveRoomSubscribed,
     isMessageLoading,
@@ -122,9 +123,6 @@ export default function ChatDetailPage({
 
   const handleMessageSubmit = async (inputMessage: string) => {
     if (inputMessage.trim() === '') return;
-
-    const chatUser = chatRooms.find((room) => room.id === activeRoom)?.user;
-    console.log(chatUser);
 
     // In case of chatting with bot
     if (chatUser?.bot) {
@@ -546,7 +544,7 @@ export default function ChatDetailPage({
                       year: 'numeric',
                     }
                   );
-                  if (day !== lastDay) {
+                  if (!chatUser?.bot && day !== lastDay) {
                     lastDay = day;
                     return (
                       <>
@@ -561,6 +559,7 @@ export default function ChatDetailPage({
                           {...message}
                           onDelete={handleMessageDelete}
                           onEdit={handleMessageEdit}
+                          isBot={chatUser?.bot}
                         />
                       </>
                     );
@@ -571,6 +570,7 @@ export default function ChatDetailPage({
                         {...message}
                         onDelete={handleMessageDelete}
                         onEdit={handleMessageEdit}
+                        isBot={chatUser?.bot}
                       />
                     );
                 })}

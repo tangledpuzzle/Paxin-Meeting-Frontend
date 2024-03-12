@@ -3,6 +3,7 @@
 import {
   ChatMessageType,
   ChatRoomType,
+  ChatUserType,
   PaxChatContext,
 } from '@/context/chat-context';
 import useCentrifuge from '@/hooks/useCentrifuge';
@@ -21,6 +22,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const [showNav, setShowNav] = useState(true);
   const [chatRooms, setChatRooms] = useState<ChatRoomType[]>([]);
   const [activeRoom, setActiveRoom] = useState<string>('');
+  const [chatUser, setChatUser] = useState<ChatUserType | null>(null);
   const [activeRoomSubscribed, setActiveRoomSubscribed] = useState(false);
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [isMessageLoading, setIsMessageLoading] = useState(true);
@@ -248,6 +250,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         setActiveRoomSubscribed(room.subscribed);
       }
     });
+
+    const _chatUser =
+      chatRooms.find((room) => room.id === activeRoom)?.user || null;
+    setChatUser(_chatUser);
   }, [chatRooms, activeRoom]);
 
   // useEffect(() => {
@@ -267,6 +273,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         setChatRooms,
         activeRoom,
         setActiveRoom,
+        chatUser,
+        setChatUser,
         activeRoomSubscribed,
         setActiveRoomSubscribed,
         messages,
