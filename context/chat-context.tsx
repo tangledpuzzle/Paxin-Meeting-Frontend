@@ -1,5 +1,17 @@
 import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
+export interface ChatUserType {
+  id: string;
+  profile: {
+    name: string;
+    avatar: string;
+    categories: string[];
+    bio: string;
+  };
+  online: boolean;
+  bot: boolean;
+}
+
 export interface ChatRoomType {
   id: string;
   lastMessage: {
@@ -7,17 +19,7 @@ export interface ChatRoomType {
     message: string;
     owner: string;
   };
-  user: {
-    id: string;
-    profile: {
-      name: string;
-      avatar: string;
-      categories: string[];
-      bio: string;
-    };
-    online: boolean;
-    bot: boolean;
-  };
+  user: ChatUserType;
   subscribed: boolean;
   timestamp: string;
 }
@@ -48,6 +50,8 @@ export interface ChatContent {
   setChatRooms: Dispatch<SetStateAction<ChatRoomType[]>>;
   activeRoom: string;
   setActiveRoom: Dispatch<SetStateAction<string>>;
+  chatUser: ChatUserType | null;
+  setChatUser: Dispatch<SetStateAction<ChatUserType | null>>;
   activeRoomSubscribed: boolean;
   setActiveRoomSubscribed: Dispatch<SetStateAction<boolean>>;
   messages: ChatMessageType[];
@@ -65,6 +69,8 @@ export const PaxChatContext = createContext<ChatContent>({
   setChatRooms: () => {},
   activeRoom: '',
   setActiveRoom: () => {},
+  chatUser: null,
+  setChatUser: () => {},
   activeRoomSubscribed: false,
   setActiveRoomSubscribed: () => {},
   messages: [],
