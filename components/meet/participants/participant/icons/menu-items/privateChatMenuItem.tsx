@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
 
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import {
   updateInitiatePrivateChat,
   updateSelectedChatOption,

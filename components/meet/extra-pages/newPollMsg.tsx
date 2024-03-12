@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import { updateIsActiveParticipantsPanel } from '@/store/slices/bottomIconsActivitySlice';
 import { updateSelectedTabLeftPanel } from '@/store/slices/roomSettingsSlice';
 import { useTranslations } from 'next-intl';

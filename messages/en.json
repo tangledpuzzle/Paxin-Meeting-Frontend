@@ -484,6 +484,7 @@
         "keyboard-shortcuts": "Keyboard Shortcuts",
         "logout": "Logout",
         "end": "End",
+        "stepout": "Step out",
         "alert": {
           "confirm": "Are you sure?",
           "logout": "You are about to leave the session.",

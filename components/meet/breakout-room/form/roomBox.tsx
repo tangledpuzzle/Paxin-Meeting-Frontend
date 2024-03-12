@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 
 import UserBox from './userBox';
 import { UserType, ItemTypes } from './types';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import { updateBreakoutRoomDroppedUser } from '@/store/slices/breakoutRoomSlice';
 
 interface IRoomBoxProps {

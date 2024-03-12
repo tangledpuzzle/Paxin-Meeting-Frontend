@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
-import { useAppDispatch, useAppSelector } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateShowManageWaitingRoomModal } from '@/store/slices/bottomIconsActivitySlice';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import { IParticipant } from '@/store/slices/interfaces/participant';

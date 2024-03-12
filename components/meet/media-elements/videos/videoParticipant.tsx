@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { LocalParticipant, RemoteParticipant, Track } from 'livekit-client';
 
 import VideoComponent from './video';
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { activeSpeakersSelector } from '@/store/slices/activeSpeakersSlice';
 import { VideoParticipantType } from './videosComponentElms';
 

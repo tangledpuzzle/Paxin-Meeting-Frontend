@@ -3,12 +3,12 @@ import { useEffect } from 'react';
 import {
   ColumnCameraPosition,
   ColumnCameraWidth,
-} from '../../store/slices/interfaces/roomSettings';
+} from '@/store/slices/interfaces/roomSettings';
 import {
   updateColumnCameraPosition,
   updateColumnCameraWidth,
-} from '../../store/slices/roomSettingsSlice';
-import { useAppDispatch } from '../../store';
+} from '@/store/slices/roomSettingsSlice';
+import { useAppDispatch } from '@/store/hook';
 
 export interface ICustomDesignParams {
   primary_color?: string;

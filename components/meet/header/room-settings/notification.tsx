@@ -2,7 +2,8 @@ import React from 'react';
 import { Switch } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateAllowPlayAudioNotification } from '@/store/slices/roomSettingsSlice';
 import { useTranslations } from 'next-intl';
 

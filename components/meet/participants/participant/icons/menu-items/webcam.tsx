@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Menu } from '@headlessui/react';
 import { toast } from 'react-toastify';
 
-import { store, useAppSelector } from '@/store';
+import { store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import { sendWebsocketMessage } from '@/helpers/websocket';
 import {

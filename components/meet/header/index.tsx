@@ -4,7 +4,8 @@ import { Dialog, Menu, Transition } from '@headlessui/react';
 import { Room } from 'livekit-client';
 import { toast } from 'react-toastify';
 
-import { useAppSelector, RootState, store, useAppDispatch } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 
 import HeaderMenus from './menus';

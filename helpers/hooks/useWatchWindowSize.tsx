@@ -9,14 +9,15 @@ import {
   updateIsActiveParticipantsPanel,
   updateScreenHeight,
   updateScreenWidth,
-} from '../../store/slices/bottomIconsActivitySlice';
-import { store, useAppDispatch } from '../../store';
+} from '@/store/slices/bottomIconsActivitySlice';
+import { useAppDispatch, useAppStore } from '@/store/hook';
 import { updateUserDeviceType } from '../../store/slices/sessionSlice';
 import { UserDeviceType } from '../../store/slices/interfaces/session';
 import useStorePreviousInt from './useStorePreviousInt';
 import { doRefreshWhiteboard } from '../../store/slices/whiteboard';
 
 const useWatchWindowSize = (currentRoom: Room | undefined) => {
+  const store = useAppStore();
   const dispatch = useAppDispatch();
   const noSleep = new NoSleep();
   const initialRef = useRef(false);

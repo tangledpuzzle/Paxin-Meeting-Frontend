@@ -4,7 +4,8 @@ import { createSelector } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
 import { updateDisplaySpeechSettingsModal } from '@/store/slices/bottomIconsActivitySlice';
-import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { SpeechToTextTranslationReq } from '@/helpers/proto/plugnmeet_speech_services_pb';
 import { enableOrDisableSpeechService } from '../helpers/apiConnections';
 import SpeechLangsElms from './speechLangsElms';

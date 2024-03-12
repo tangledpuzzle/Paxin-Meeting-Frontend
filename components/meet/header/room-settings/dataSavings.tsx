@@ -3,7 +3,8 @@ import { Switch } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 import { VideoQuality } from 'livekit-client';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import {
   updateActivateWebcamsView,
   updateActiveScreenSharingView,

@@ -18,9 +18,14 @@ const participantsSlice = createSlice({
     addParticipant: participantAdapter.addOne,
     removeParticipant: participantAdapter.removeOne,
     updateParticipant: participantAdapter.updateOne,
+    resetParticipant: participantAdapter.removeAll,
   },
 });
 
-export const { addParticipant, removeParticipant, updateParticipant } =
-  participantsSlice.actions;
+export const {
+  addParticipant,
+  removeParticipant,
+  updateParticipant,
+  resetParticipant,
+} = participantsSlice.actions;
 export default participantsSlice.reducer;

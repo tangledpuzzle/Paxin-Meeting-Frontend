@@ -1,7 +1,7 @@
 import { Participant } from 'livekit-client';
 
 import { IConnectLivekit } from './types';
-import { store } from '../../store';
+
 import {
   activeSpeakersSelector,
   addSpeaker,
@@ -9,10 +9,11 @@ import {
   setAllSpeakers,
 } from '../../store/slices/activeSpeakersSlice';
 import { IActiveSpeaker } from '../../store/slices/interfaces/activeSpeakers';
+import { useAppStore } from '@/store/hook';
+import { store } from '@/store';
 
 const ACTIVE_SPEAKER_LIST_CHANGE_DURATION = 1000; // milliseconds
 const ACTIVE_SPEAKER_VIDEO_REARRANGE_DURATION = 4000; // milliseconds
-
 export default class HandleActiveSpeakers {
   private that: IConnectLivekit;
   private lastActiveWebcamChanged: number = Date.now();

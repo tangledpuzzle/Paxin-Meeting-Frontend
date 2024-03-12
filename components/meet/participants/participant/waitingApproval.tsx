@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import {

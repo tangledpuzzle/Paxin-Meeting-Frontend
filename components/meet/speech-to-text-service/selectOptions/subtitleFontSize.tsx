@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import useStorePreviousInt from '@/helpers/hooks/useStorePreviousInt';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import { updateSubtitleFontSize } from '@/store/slices/speechServicesSlice';
 import { useTranslations } from 'next-intl';
 

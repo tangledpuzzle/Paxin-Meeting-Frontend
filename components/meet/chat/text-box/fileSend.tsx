@@ -3,7 +3,8 @@ import { toast } from 'react-toastify';
 import { Room } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import {
   isSocketConnected,
   sendAnalyticsByWebsocket,

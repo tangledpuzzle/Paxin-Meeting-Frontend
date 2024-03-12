@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useAppSelector } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { participantsSelector } from '@/store/slices/participantSlice';
 
 interface IRaiseHandIconProps {
