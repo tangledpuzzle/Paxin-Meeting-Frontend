@@ -77,7 +77,7 @@ export default function MessageForm({
           return;
         }
 
-        router.push(`/profile/chat/${_roomId}?mode=false`);
+        router.push(`/chat/${_roomId}?mode=false`);
       } else {
         const roomDataRes = await getRoomDetails({ roomId });
         if (!roomDataRes || !roomDataRes.data.Members) {
@@ -108,7 +108,7 @@ export default function MessageForm({
           return;
         }
 
-        router.push(`/profile/chat/${roomId}?mode=false`);
+        router.push(`/chat/${roomId}?mode=false`);
       }
     } catch (error) {
       toast.error(t('failed_to_send_message'), {
@@ -135,9 +135,9 @@ export default function MessageForm({
           return;
         }
 
-        router.push(`/profile/chat/${_roomId}?mode=false`);
+        router.push(`/chat/${_roomId}?mode=false`);
       } else {
-        router.push(`/profile/chat/${roomId}?mode=false`);
+        router.push(`/chat/${roomId}?mode=false`);
       }
     } catch (error) {
       toast.error(t('failed_to_send_message'), {
