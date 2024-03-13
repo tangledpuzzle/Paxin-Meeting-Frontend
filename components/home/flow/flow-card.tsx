@@ -168,13 +168,13 @@ function FlowCard(profile: FlowCardProps) {
           )}
           <Link
             className='w-full'
-            href={{ query: { ...queries, city: location } }}
+            href={{ query: { ...queries, city: location, page: 1 } }}
           >
             <LocationBadge>{location}</LocationBadge>
           </Link>
           <Link
             className='w-full'
-            href={{ query: { ...queries, category: category } }}
+            href={{ query: { ...queries, category: category, page: 1 } }}
           >
             <CategoryBadge>{category}</CategoryBadge>
           </Link>
