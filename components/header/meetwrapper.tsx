@@ -1,7 +1,4 @@
-import {
-  useCallback,
-  useMemo,
-} from 'react';
+import { useCallback, useMemo } from 'react';
 import Meet from './meet';
 // import { useTranslation } from 'react-i18next';
 import { createSelector } from '@reduxjs/toolkit';
@@ -19,9 +16,7 @@ import AudioNotification from '@/components/meet/app/audioNotification';
 
 // import useThemeSettings from '@/helpers/hooks/useThemeSettings';
 import { IConnectLivekit } from '@/helpers/livekit/types';
-import {
-  setAccessToken,
-} from '@/helpers/utils';
+import { setAccessToken } from '@/helpers/utils';
 
 import '@/styles/meet/index.scss';
 import { getDirectionBasedOnLocale } from '@/helpers/languages';
@@ -43,4 +38,4 @@ export const participantSelector = createSelector(
   (participants) => participants.ids
 );
 
-// 
+//
