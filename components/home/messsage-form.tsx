@@ -40,6 +40,7 @@ export default function MessageForm({
   user: {
     username: string;
     userId: string;
+    bot?: boolean;
   };
   roomId: string;
 }) {
@@ -76,7 +77,7 @@ export default function MessageForm({
           return;
         }
 
-        router.push(`/profile/chat/${_roomId}`);
+        router.push(`/profile/chat/${_roomId}?mode=false`);
       } else {
         const roomDataRes = await getRoomDetails({ roomId });
         if (!roomDataRes || !roomDataRes.data.Members) {
@@ -107,7 +108,36 @@ export default function MessageForm({
           return;
         }
 
-        router.push(`/profile/chat/${roomId}`);
+        router.push(`/profile/chat/${roomId}?mode=false`);
+      }
+    } catch (error) {
+      toast.error(t('failed_to_send_message'), {
+        position: 'top-right',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const submitForBot = async () => {
+    try {
+      if (roomId === '') {
+        const _roomId = await createRoom({
+          acceptorId: user.userId,
+          initialMessage: 'Hi',
+        });
+
+        if (!_roomId) {
+          toast.error(t('failed_to_send_message'), {
+            position: 'top-right',
+          });
+
+          return;
+        }
+
+        router.push(`/profile/chat/${_roomId}?mode=false`);
+      } else {
+        router.push(`/profile/chat/${roomId}?mode=false`);
       }
     } catch (error) {
       toast.error(t('failed_to_send_message'), {
@@ -119,8 +149,17 @@ export default function MessageForm({
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={user?.bot ? false : undefined}>
+      <DialogTrigger
+        asChild
+        onClick={() => {
+          if (user?.bot) {
+            submitForBot();
+          } else return;
+        }}
+      >
+        {children}
+      </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>

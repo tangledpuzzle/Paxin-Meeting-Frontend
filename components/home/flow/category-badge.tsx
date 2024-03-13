@@ -15,7 +15,7 @@ function CategoryBadge({ children }: SectionBadgeProps) {
     >
       <div className='absolute inset-0 size-full bg-gradient-to-b from-transparent to-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100'></div>
       <BiSolidCategory className='size-4 text-gray-500 dark:text-white' />
-      <span className='text-[0.8rem] font-normal text-secondary-foreground text-center'>
+      <span className='text-center text-[0.8rem] font-normal text-secondary-foreground'>
         {children}
       </span>
     </Badge>
