@@ -30,6 +30,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@/store';
 import CopyClipboard from '@/components/common/copy-clipboard';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const roomIdSelector = createSelector(
   (state: RootState) => state.session,
@@ -287,10 +288,9 @@ export default function SmallMeet() {
                   <DraggableHandle>
                     <MoveIcon size={32} />
                   </DraggableHandle>
-                  <FullscreenIcon
-                    size={32}
-                    onClick={() => router.push(`/meet/${roomId}`)}
-                  />
+                  <Link href={`/meet/${roomId}`}>
+                    <FullscreenIcon size={32} />
+                  </Link>
                   <Minimize2Icon size={32} onClick={() => setActive(false)} />
                 </div>
               </div>

@@ -121,7 +121,6 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   const getMeetAccessToken = async (): Promise<string> => {
     console.log('MEET/getMeetAccessToken');
     const accessToken = getAccessToken();
-    console.log(accessToken);
     if (accessToken) return accessToken;
     const randomPart = generateRandomString(4);
     const timestampHash = hashTimestamp(Date.now());
