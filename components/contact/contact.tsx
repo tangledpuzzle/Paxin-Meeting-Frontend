@@ -24,39 +24,45 @@ import axios from 'axios';
 export function ContactSection() {
   const t = useTranslations('main');
 
-  const formSchema = z.object({
-    Name: z
-      .string()
-      .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
-        message: t('content_is_required'),
-      }),
-    SecondName: z
-      .string()
-      .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
-        message: t('content_is_required'),
-      }),
-    Email: z
-      .string().email(t('invalid_email')).refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
-        message: t('content_is_required'),
-      }),
-    Phone: z
-      .string()
-      .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
-        message: t('content_is_required'),
-      }),
-    Msg: z
-      .string()
-      .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
-        message: t('content_is_required'),
-      }),
-    agreePolicy: z.boolean()
-  }).refine((values) => {
-    return values.agreePolicy === true
-  },
-    {
-      message: 'please agree to out policy',
-      path: ['agreePolicy'],
-    });
+  const formSchema = z
+    .object({
+      Name: z
+        .string()
+        .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
+          message: t('content_is_required'),
+        }),
+      SecondName: z
+        .string()
+        .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
+          message: t('content_is_required'),
+        }),
+      Email: z
+        .string()
+        .email(t('invalid_email'))
+        .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
+          message: t('content_is_required'),
+        }),
+      Phone: z
+        .string()
+        .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
+          message: t('content_is_required'),
+        }),
+      Msg: z
+        .string()
+        .refine((value) => value.replace(/<[^>]*>?/gm, '').trim(), {
+          message: t('content_is_required'),
+        }),
+      agreePolicy: z.boolean(),
+    })
+    .refine(
+      (values) => {
+        return values.agreePolicy === true;
+      },
+      {
+        message: 'please agree to out policy',
+        path: ['agreePolicy'],
+      }
+    );
   type FormData = z.infer<typeof formSchema>;
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -66,21 +72,17 @@ export function ContactSection() {
       Email: '',
       Phone: '',
       Msg: '',
-      agreePolicy: false
+      agreePolicy: false,
     },
   });
   const submitBlog = async (data: FormData) => {
-
-    const res = await axios.post(
-      `/api/contact/`,
-      {
-        Name: data.Name,
-        SecondName: data.SecondName,
-        Email: data.Email,
-        Phone: data.Phone,
-        Msg: data.Msg,
-      }
-    );
+    const res = await axios.post(`/api/contact/`, {
+      Name: data.Name,
+      SecondName: data.SecondName,
+      Email: data.Email,
+      Phone: data.Phone,
+      Msg: data.Msg,
+    });
 
     if (res.status === 200) {
       toast.success(t('contact_us_success'), {
@@ -106,9 +108,7 @@ export function ContactSection() {
         </div>
         <div className='mt-8 flex w-full max-w-md flex-col gap-3'>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(submitBlog)}
-            >
+            <form onSubmit={form.handleSubmit(submitBlog)}>
               <div className='grid grid-cols-2 gap-4'>
                 <div>
                   <Label htmlFor='firstname'>{t('firstname')}</Label>
@@ -235,7 +235,11 @@ export function ContactSection() {
                     <FormItem>
                       <FormControl>
                         <div className='flex items-center space-x-2'>
-                          <Checkbox id='terms' checked={field.value} onCheckedChange={field.onChange} />
+                          <Checkbox
+                            id='terms'
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
                           <Label htmlFor='terms'>
                             {t('you_agree_our_friendly')}{' '}
                             <Button variant='link' className='px-1' asChild>

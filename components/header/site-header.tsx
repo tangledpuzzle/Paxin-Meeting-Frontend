@@ -46,7 +46,7 @@ export async function SiteHeader() {
       <div className='border-gardient-h relative top-[80px] w-full'></div>
       <div className='flex h-20 items-center space-x-4 px-2 sm:justify-between sm:space-x-0 md:px-8'>
         <MainNav items={siteConfig.mainNav} />
-        {data && <AlarmNav />}
+        <AlarmNav authenticated={!!data} />
         <RightNav
           user={
             data
