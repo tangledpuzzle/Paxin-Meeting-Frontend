@@ -31,7 +31,7 @@ function CityCard({ cities }: CityCardProps) {
       <div className='flex w-full flex-wrap gap-1'>
         {cities.map((city, i) => (
           <Link
-            href={{ query: { ...queries, city } }}
+            href={{ query: { ...queries, city, page: 1 } }}
             key={i}
             className='z-10 cursor-pointer'
           >
