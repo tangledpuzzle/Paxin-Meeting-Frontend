@@ -61,7 +61,6 @@ export default function FilterListSection() {
     );
     router.push(`?${newSearchParams.toString()}`);
     setFiltersApplied(true);
-
   };
 
   const handleDeleteHashtag = (hashtag: string) => {
@@ -74,7 +73,6 @@ export default function FilterListSection() {
     );
     router.push(`?${newSearchParams.toString()}`);
     setFiltersApplied(true);
-
   };
 
   const handleDeleteMoney = () => {
@@ -84,7 +82,6 @@ export default function FilterListSection() {
     newSearchParams.set('money', 'all');
     router.push(`?${newSearchParams.toString()}`);
     setFiltersApplied(true);
-
   };
 
   useEffect(() => {
@@ -116,22 +113,22 @@ export default function FilterListSection() {
     console.log(_cities, _categories, _hashtags);
     setFiltersApplied(
       _cities.length > 0 ||
-      _categories.length > 0 ||
-      _hashtags.length > 0 ||
-      (_minPrice && _maxPrice)
-    )
+        _categories.length > 0 ||
+        _hashtags.length > 0 ||
+        (_minPrice && _maxPrice)
+    );
   }, [searchParams]);
 
   const saveCombination = async () => {
     const res = await axios.post(`/api/flows/filter`, {
-      name: "My filter",
+      name: 'My filter',
       meta: {
         city: cities[0],
         category: categories[0],
         hashtag: hashtags.join(','),
         money: `${minPrice}-${maxPrice}`,
-        title: searchParams.get('title')
-      }
+        title: searchParams.get('title'),
+      },
     });
 
     if (res.status === 200) {
@@ -143,12 +140,10 @@ export default function FilterListSection() {
         position: 'top-right',
       });
     }
-
-  }
-
+  };
 
   return (
-    <div className='flex w-full flex-wrap gap-2 pb-4 pt-2 items-center'>
+    <div className='flex w-full flex-wrap items-center gap-2 pb-4 pt-2'>
       {cities.map((city) => (
         <FilterBadge onClick={() => handleDeleteCity(city)}>{city}</FilterBadge>
       ))}
@@ -186,7 +181,6 @@ export default function FilterListSection() {
         >
           {t('save_combination')}
         </Button>
-
       )}
     </div>
   );

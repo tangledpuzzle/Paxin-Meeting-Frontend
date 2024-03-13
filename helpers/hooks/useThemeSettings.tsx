@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState} from '@/store';
-import { useAppDispatch, useAppSelector } from '@/store/hook'
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateTheme } from '@/store/slices/roomSettingsSlice';
 
 const themeSelector = createSelector(
