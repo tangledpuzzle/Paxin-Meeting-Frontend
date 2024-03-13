@@ -1,13 +1,21 @@
 'use client';
 
+import React, { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { TiMessages, TiVideo } from 'react-icons/ti';
 
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { NavItem } from '@/types/nav';
 import { useLocale, useTranslations } from 'next-intl';
+import eventBus from '@/eventBus';
+import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from '@/store';
+import SmallMeet from './SmallMeet';
+
+import { PaxContext } from '@/context/context';
 
 interface MainNavProps {
   items?: NavItem[];
@@ -15,6 +23,7 @@ interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps) {
   const t = useTranslations('main');
+  const { user } = useContext(PaxContext);
 
   const locale = useLocale();
   const router = useRouter();
@@ -67,7 +76,7 @@ export function MainNav({ items }: MainNavProps) {
                   key={index}
                   href={item.href}
                   className={cn(
-                    'flex items-center rounded-lg px-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary active:bg-secondary/80',
+                    'flex items-center rounded-lg px-3 font-medium text-muted-foreground hover:bg-secondary hover:text-primary active:bg-secondary/80',
                     item.disabled && 'cursor-not-allowed opacity-80',
                     pathname === item.href && 'bg-secondary text-primary'
                   )}
@@ -78,6 +87,7 @@ export function MainNav({ items }: MainNavProps) {
           )}
         </nav>
       ) : null}
+      <div>{user && <SmallMeet />}</div>
     </div>
   );
 }

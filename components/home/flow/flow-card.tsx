@@ -20,7 +20,7 @@ import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { ReportModal } from '@/components/common/report-modal';
-import { LuBrainCircuit } from "react-icons/lu";
+import { LuBrainCircuit } from 'react-icons/lu';
 
 export interface FlowCardProps {
   id: string;

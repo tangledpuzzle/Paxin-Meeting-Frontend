@@ -873,6 +873,7 @@
     "delete": "Borrar",
     "message_copied": "Mensaje copiado al portapapeles",
     "are_you_sure_leave_chat": "¿Estás seguro que deseas salir de este chat?",
-    "image_size_too_big": "El tamaño de la imagen es demasiado grande, no puedes subir más de 1MB"
+    "image_size_too_big": "El tamaño de la imagen es demasiado grande, no puedes subir más de 1MB",
+    "bot_default_msg": "Hola, soy {bot_name}. ¿Cómo puedo asistirte hoy?"
   }
 }

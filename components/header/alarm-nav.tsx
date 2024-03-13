@@ -3,24 +3,29 @@
 import { usePathname, useRouter } from 'next/navigation';
 import eventBus from '@/eventBus';
 import { TiMessages } from 'react-icons/ti';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import useCentrifuge from '@/hooks/useCentrifuge';
+import { PaxContext } from '@/context/context';
 
-export default function AlarmNav() {
+export default function AlarmNav({
+  authenticated,
+}: {
+  authenticated: boolean;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const [roomCount, setRoomCount] = useState(0);
-  const { data: session } = useSession();
+  const { user } = useContext(PaxContext);
 
   const checkMessagesInPathname = () => {
     if (pathname.includes('chat')) {
       eventBus.emit('startChat', '0');
       eventBus.emit('close');
     } else {
-      router.push('/profile/chat');
+      router.push('/profile/chat?mode=true');
     }
   };
 
@@ -47,7 +52,7 @@ export default function AlarmNav() {
     getRoomCount().then((roomCount) => setRoomCount(roomCount));
   }, []);
 
-  return (
+  return authenticated || user ? (
     <div>
       <button onClick={checkMessagesInPathname}>
         <div className='flex items-center justify-center'>
@@ -58,5 +63,7 @@ export default function AlarmNav() {
         </div>
       </button>
     </div>
+  ) : (
+    <></>
   );
 }

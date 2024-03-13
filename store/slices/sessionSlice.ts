@@ -109,7 +109,6 @@ const sessionSlice = createSlice({
   initialState,
   reducers: {
     addToken: (state, action: PayloadAction<string>) => {
-      console.log('Add Token ', action.payload);
       state.token = action.payload;
     },
     clearToken: (state) => {
@@ -172,6 +171,9 @@ const sessionSlice = createSlice({
     updateUserDeviceType: (state, action: PayloadAction<UserDeviceType>) => {
       state.userDeviceType = action.payload;
     },
+    reset: (state) => {
+      state = initialState;
+    },
   },
 });
 
@@ -191,6 +193,7 @@ export const {
   updateMuteOnStart,
   clearToken,
   updateUserDeviceType,
+  reset,
 } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

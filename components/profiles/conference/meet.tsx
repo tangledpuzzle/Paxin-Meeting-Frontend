@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HiUserGroup } from 'react-icons/hi';
@@ -15,6 +15,7 @@ import { MeetCreateModal } from './meet-create-modal';
 import { MeetJoinModal } from './meet-join-modal';
 import { setAccessToken } from '@/helpers/utils';
 import { createRoom, createRoomId, joinRoom } from '@/helpers/api/paxMeetAPI';
+import { RTCContext } from '@/provider/webRTCProvider';
 
 interface IConferenceProps {
   email: string;
@@ -27,6 +28,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
   const t = useTranslations('main');
   console.log('render Conference');
   const [isLoading, setLoading] = useState<boolean>(false);
+  const { clearSession } = useContext(RTCContext);
 
   async function onCreateRoom(feed: string) {
     setLoading(true);
@@ -35,6 +37,8 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
     setLoading(false);
 
     if (token) {
+      console.log('NEW TOKEN: ', token);
+      await clearSession();
       toast.success('New Room is created.');
       setAccessToken(token);
       router.push(`/meet/${roomId}`);
@@ -47,6 +51,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
     setLoading(false);
 
     if (token) {
+      await clearSession();
       setAccessToken(token);
       router.push(`/meet/${roomId}`);
     }

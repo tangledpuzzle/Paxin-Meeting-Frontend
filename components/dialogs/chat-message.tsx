@@ -100,22 +100,30 @@ export default function ChatMessage(props: ChatMessageProps) {
                   })}
               </div>
               {props.isDeleted ? (
-                <div className='mr-16 flex items-center gap-1'>
+                <div
+                  className={cn('flex items-center gap-1', {
+                    'mr-16': !props.isBot,
+                  })}
+                >
                   <MdOutlineDoNotDisturb className='size-4' />
                   <span className='select-none'>{t('message_deleted')}</span>
                 </div>
               ) : (
                 <ReactMarkdown
-                  className='prose mr-16'
+                  className={cn('prose', {
+                    'mr-16': !props.isBot,
+                  })}
                   children={props.message}
                 />
               )}
-              <p className='-mt-2 w-full text-right text-xs text-gray-200'>
-                {format.dateTime(new Date(props.timestamp), {
-                  hour: 'numeric',
-                  minute: 'numeric',
-                })}
-              </p>
+              {!props.isBot && (
+                <p className='-mt-2 w-full text-right text-xs text-gray-200'>
+                  {format.dateTime(new Date(props.timestamp), {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  })}
+                </p>
+              )}
             </div>
           </div>
         </ContextMenuTrigger>

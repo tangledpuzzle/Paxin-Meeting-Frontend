@@ -3,7 +3,8 @@ import { createSelector } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { Room } from 'livekit-client';
 
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { IRoomMetadata } from '@/store/slices/interfaces/session';
 import RecordingModal from './recording/recordingModal';
 import { RecordingEvent, RecordingType } from './recording/IRecording';

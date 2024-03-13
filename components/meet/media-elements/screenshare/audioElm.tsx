@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { RemoteTrackPublication } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppSelector } from '@/store/hook';
 
 interface IAudioElmProps {
   track: RemoteTrackPublication;

@@ -3,7 +3,8 @@ import { Menu } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 import { Room, Track } from 'livekit-client';
 
-import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateSelectedAudioDevice } from '@/store/slices/roomSettingsSlice';
 import {
   updateIsActiveMicrophone,

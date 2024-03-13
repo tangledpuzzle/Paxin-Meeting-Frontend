@@ -86,7 +86,6 @@ export default function FilterListSection() {
     );
     router.push(`?${newSearchParams.toString()}`);
     setFiltersApplied(true);
-
   };
 
   const handleDeleteHashtag = (hashtag: string) => {
@@ -99,7 +98,6 @@ export default function FilterListSection() {
     );
     router.push(`?${newSearchParams.toString()}`);
     setFiltersApplied(true);
-
   };
 
   const handleDeleteMoney = () => {
@@ -109,7 +107,6 @@ export default function FilterListSection() {
     newSearchParams.set('money', 'all');
     router.push(`?${newSearchParams.toString()}`);
     setFiltersApplied(true);
-
   };
 
   useEffect(() => {
@@ -143,7 +140,7 @@ export default function FilterListSection() {
       _categories.length > 0 ||
       _hashtags.length > 0 ||
       (_minPrice && _maxPrice)
-    )
+    );
   }, [searchParams]);
 
   const saveCombination = async (data: FormValue) => {
@@ -154,8 +151,8 @@ export default function FilterListSection() {
         category: categories[0],
         hashtag: hashtags.join(','),
         money: `${minPrice}-${maxPrice}`,
-        title: searchParams.get('title')
-      }
+        title: searchParams.get('title'),
+      },
     });
 
     if (res.status === 200) {

@@ -12,6 +12,8 @@ import { Metadata, Viewport } from 'next';
 import { getServerSession } from 'next-auth';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { Toaster } from 'react-hot-toast';
+import StoreProvider from '../StoreProvider';
+import { RTCProvider } from '@/provider/webRTCProvider';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -37,6 +39,7 @@ export async function generateMetadata({
   const metadata: Metadata = {
     title: t('title'),
     description: t('description'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL || ''),
     manifest: '/manifest-dark.webmanifest',
     icons: {
       icon: '/favicon-dark.ico',
@@ -70,16 +73,20 @@ export default async function RootLayout({
       >
         <SessionProviders session={session}>
           <Providers>
-            <ThemeProvider
-              attribute='class'
-              defaultTheme='dark'
-              // enableSystem={false}
-            >
-              {children}
-              <Toaster />
-              <MetadataUpdater />
-            </ThemeProvider>
-            <TailwindIndicator />
+            <StoreProvider>
+              <RTCProvider>
+                <ThemeProvider
+                  attribute='class'
+                  defaultTheme='dark'
+                  // enableSystem={false}
+                >
+                  {children}
+                  <Toaster />
+                  <MetadataUpdater />
+                </ThemeProvider>
+                <TailwindIndicator />
+              </RTCProvider>
+            </StoreProvider>
           </Providers>
         </SessionProviders>
       </body>

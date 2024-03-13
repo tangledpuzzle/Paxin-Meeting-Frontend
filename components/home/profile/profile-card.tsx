@@ -94,11 +94,11 @@ function ProfileCard(profile: ProfileCardProps) {
             className={`absolute right-0 top-3 mr-3 rounded-md bg-cover bg-center bg-no-repeat`}
             style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
           >
-          <div className='flex justify-end items-center bg-black/50 px-2 text-white rounded-md'>
-          <IoLanguage/><span className='uppercase'>{countrycode}</span>
+            <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
+              <IoLanguage />
+              <span className='uppercase'>{countrycode}</span>
+            </div>
           </div>
-          </div>
-     
         </div>
         <div className='px-3 font-satoshi'>
           <Link

@@ -1,9 +1,10 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useContext } from 'react';
 import { Room } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector, useAppStore } from '@/store/hook';
 
 import WebcamIcon from './icons/webcam';
 import MicrophoneIcon from './icons/microphone';
@@ -28,6 +29,7 @@ import {
 import { toast } from 'react-toastify';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { useRouter } from 'next/navigation';
+import { RTCContext } from '@/provider/webRTCProvider';
 interface IFooterProps {
   currentRoom: Room;
   isRecorder: boolean;
@@ -39,6 +41,8 @@ const footerVisibilitySelector = createSelector(
 );
 
 const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
+  const store = useAppStore();
+  const { clearSession } = useContext(RTCContext);
   const isAdmin = store.getState().session.currentUser?.metadata?.is_admin;
   const footerVisible = useAppSelector(footerVisibilitySelector);
   const dispatch = useAppDispatch();
@@ -57,7 +61,8 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
     }
 
     if (task === 'logout') {
-      await currentRoom.disconnect();
+      // await currentRoom.disconnect();
+      await clearSession();
       goBack();
     } else if (task === 'end Room') {
       const session = store.getState().session;
@@ -79,6 +84,9 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
           type: 'error',
         });
       }
+      await clearSession();
+      goBack();
+    } else if (task == 'stepOut') {
       goBack();
     }
   };
@@ -188,7 +196,7 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
       >
         <footer
           id='main-footer'
-          className={`light:bg-primary flex h-[55px] items-center justify-between px-2 shadow-footer dark:bg-darkPrimary md:px-4 lg:h-[60px]`}
+          className={`light:bg-primary relative z-[9999] flex h-[55px] items-center justify-between px-2 shadow-footer dark:bg-darkPrimary md:px-4 lg:h-[60px]`}
           style={{ display: isRecorder ? 'none' : '' }}
         >
           <div className='footer-inner flex w-full items-center justify-between rtl:flex-row-reverse'>

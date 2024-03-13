@@ -6,6 +6,7 @@ import React, {
   useCallback,
   useMemo,
   useRef,
+  useContext,
 } from 'react';
 import { usePathname } from 'next/navigation';
 // import { useTranslation } from 'react-i18next';
@@ -18,16 +19,14 @@ import Footer from '../footer';
 import MainArea from '../main-area';
 
 import sendAPIRequest, { joinRoom } from '@/helpers/api/paxMeetAPI';
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector, useAppStore } from '@/store/hook';
 import {
   addServerVersion,
   addToken,
   // clearToken,
 } from '@/store/slices/sessionSlice';
 import StartupJoinModal from './joinModal';
-import useLivekitConnect, {
-  LivekitInfo,
-} from '@/helpers/livekit/hooks/useLivekitConnect';
 import AudioNotification from './audioNotification';
 import useBodyPix from '../virtual-background/hooks/useBodyPix';
 import useKeyboardShortcuts from '@/helpers/hooks/useKeyboardShortcuts';
@@ -41,7 +40,6 @@ import {
   VerifyTokenReq,
   VerifyTokenRes,
 } from '@/helpers/proto/plugnmeet_common_api_pb';
-import { IConnectLivekit } from '@/helpers/livekit/types';
 import {
   clearAccessToken,
   getAccessToken,
@@ -53,6 +51,7 @@ import '@/styles/meet/index.scss';
 import { getDirectionBasedOnLocale } from '@/helpers/languages';
 import type { Locale } from '@/helpers/languages';
 import { generateRandomString, hashTimestamp } from '@/lib/utils';
+import { RTCContext } from '@/provider/webRTCProvider';
 
 const debugSelector = createSelector(
   (state: RootState) => state,
@@ -82,6 +81,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   // // document.dir = i18n.dir();
   const debugStore = useAppSelector(debugSelector);
   const toastId = useRef<string>(null);
+  const store = useAppStore();
 
   const [loading, setLoading] = useState<boolean>(true);
   // // it could be recorder or RTMP bot
@@ -89,8 +89,18 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   const [userTypeClass, setUserTypeClass] = useState('participant');
   const [accessTokenLocal, setAccessTokenLocal] = useState('');
   const [accessTokenLoaded, setAccessTokenLoaded] = useState(false);
-  const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
-  const [currentConnection, setCurrentConnection] = useState<IConnectLivekit>();
+  // const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
+  const {
+    livekitInfo,
+    setLivekitInfo,
+    currentConnection,
+    setCurrentConnection,
+    error,
+    setError,
+    roomConnectionStatus,
+    setRoomConnectionStatus,
+    startLivekitConnection,
+  } = useContext(RTCContext);
   const waitForApproval = useAppSelector(waitingForApprovalSelector);
   const pathname = usePathname();
 
@@ -100,13 +110,6 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   useBodyPix();
   const isStartup = useAppSelector(isStartupSelector);
   // // some custom hooks
-  const {
-    error,
-    setError,
-    roomConnectionStatus,
-    setRoomConnectionStatus,
-    startLivekitConnection,
-  } = useLivekitConnect();
 
   useKeyboardShortcuts(currentConnection?.room);
   useDesignCustomization();
@@ -116,6 +119,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   );
 
   const getMeetAccessToken = async (): Promise<string> => {
+    console.log('MEET/getMeetAccessToken');
     const accessToken = getAccessToken();
     if (accessToken) return accessToken;
     const randomPart = generateRandomString(4);
@@ -123,22 +127,18 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     const userId = `user-${randomPart}-${timestampHash}`;
     const userName = `User ${randomPart}`;
     const userEmail = `${randomPart}-${timestampHash}@test.me`;
-    console.log('Random UserId:', userId);
-    console.log('Random UserName:', userName);
-    console.log('Random UserEmail:', userEmail);
-
     setLoading(true);
     const token = await joinRoom(roomId, userId, userName);
+    console.log('JOIN TOKEN: ', token);
+    setAccessToken(token);
     setLoading(false);
-
     if (token) {
-      setAccessToken(token);
-      setAccessTokenLocal(token);
       return token;
     } else return '';
   };
 
   const verifyToken = async () => {
+    console.log('[Meet] Verify token');
     let res: VerifyTokenRes;
     try {
       const isProductionStr = process.env.NEXT_PUBLIC_IS_PRODUCTION;
@@ -181,6 +181,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
       dispatch(addServerVersion(res.serverVersion ?? ''));
 
       // for livekit need to use generated token & host
+      console.log('MEET/setLivekitInfo', res.token);
       setLivekitInfo({
         livekit_host: res.livekitHost,
         token: res.token,
@@ -200,20 +201,29 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   useEffect(() => {
     if (!accessTokenLoaded) {
       getMeetAccessToken().then((token) => {
-        setAccessTokenLocal(token), setAccessTokenLoaded(true);
+        if (token === '') {
+          setLoading(false);
+          setError({
+            title: t('app.token-missing-title'),
+            text: t('app.token-missing-des'),
+          });
+        } else {
+          error && setError(undefined);
+          setAccessTokenLocal(token), setAccessTokenLoaded(true);
+        }
       });
     }
   }, [pathname, accessTokenLoaded]);
 
-  useEffect(() => {
-    if (accessTokenLoaded && !accessTokenLocal) {
-      setLoading(false);
-      setError({
-        title: t('app.token-missing-title'),
-        text: t('app.token-missing-des'),
-      });
-    }
-  }, [accessTokenLocal, accessTokenLoaded]);
+  // useEffect(() => {
+  //   if (accessTokenLoaded && !accessTokenLocal) {
+  //     setLoading(false);
+  //     setError({
+  //       title: t('app.token-missing-title'),
+  //       text: t('app.token-missing-des'),
+  //     });
+  //   }
+  // }, [accessTokenLocal, accessTokenLoaded]);
 
   useEffect(() => {
     if (
@@ -231,7 +241,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   useEffect(() => {
     if (accessTokenLoaded && accessTokenLocal) {
       let timeout: any;
-      if (!currentConnection) {
+      if (!currentConnection && roomConnectionStatus !== 'connected') {
         setRoomConnectionStatus('checking');
         timeout = setTimeout(() => {
           verifyToken();
@@ -293,11 +303,6 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     //eslint-disable-next-line
   }, [roomConnectionStatus]);
 
-  useEffect(() => {
-    console.log('Meet rendered');
-    return () => console.log('Meet unmounted');
-  }, []);
-
   const renderMainApp = useCallback(() => {
     if (currentConnection) {
       return (
@@ -320,6 +325,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
 
   const onCloseStartupModal = async () => {
     if (livekitInfo) {
+      console.log('MEET/StartLiveConnection');
       // @ts-ignore
       const currentConnection = startLivekitConnection(livekitInfo, t);
       setCurrentConnection(currentConnection);
@@ -347,7 +353,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     }
     //eslint-disable-next-line
   }, [loading, error, roomConnectionStatus, waitForApproval, renderMainApp]);
-  console.log('[Status]', roomConnectionStatus, isStartup);
+  console.log('[Status]', roomConnectionStatus, isStartup, error);
   return (
     <div
       className={`${orientationClass} ${deviceClass} ${userTypeClass} h-[calc(100vh-129px)] dark:bg-darkPrimary/70 sm:h-[calc(100vh-80px)]`}

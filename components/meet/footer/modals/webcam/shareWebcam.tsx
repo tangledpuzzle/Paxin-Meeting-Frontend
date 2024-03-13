@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { Dialog, Transition } from '@headlessui/react';
 
-import { useAppSelector, RootState, useAppDispatch } from '@/store';
+import { RootState } from '@/store';
+import { useAppSelector, useAppDispatch } from '@/store/hook';
 import {
   updateIsActiveWebcam,
   updateShowVideoShareModal,

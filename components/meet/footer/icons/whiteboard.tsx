@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import {
   updateIsActiveChatPanel,
   updateIsActiveWhiteboard,

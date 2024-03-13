@@ -1,11 +1,14 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
-import { store, useAppDispatch } from '@/store';
+
+import { store } from '@/store';
+import { useAppDispatch } from '@/store/hook';
 import {
   updateShowKeyboardShortcutsModal,
   updateShowRoomSettingsModal,
 } from '@/store/slices/roomSettingsSlice';
 import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
 
 interface IHeaderMenusProps {
   onOpenAlert(task: string): void;
@@ -13,6 +16,7 @@ interface IHeaderMenusProps {
 
 const HeaderMenus = ({ onOpenAlert }: IHeaderMenusProps) => {
   const isAdmin = store.getState().session.currentUser?.metadata?.is_admin;
+  const session = useSession();
   const dispatch = useAppDispatch();
   const t = useTranslations('meet');
 
@@ -22,7 +26,9 @@ const HeaderMenus = ({ onOpenAlert }: IHeaderMenusProps) => {
   const endRoom = () => {
     onOpenAlert('end Room');
   };
-
+  const stepOut = () => {
+    onOpenAlert('stepOut');
+  };
   const showRoomSettings = () => {
     dispatch(updateShowRoomSettingsModal(true));
   };
@@ -59,6 +65,19 @@ const HeaderMenus = ({ onOpenAlert }: IHeaderMenusProps) => {
             </button>
           </Menu.Item>
         </div>
+        {session.status == 'authenticated' && (
+          <div className='relative py-1' role='none'>
+            <Menu.Item>
+              <button
+                className='group flex w-full items-center rounded px-4 py-2 text-left text-sm text-gray-700 transition ease-in hover:text-secondaryColor dark:text-darkText'
+                onClick={() => stepOut()}
+              >
+                <i className='pnm-logout text-primaryColor transition ease-in group-hover:text-secondaryColor dark:text-secondaryColor dark:group-hover:text-white ltr:mr-2 rtl:ml-2' />
+                {t('header.menus.stepout')}
+              </button>
+            </Menu.Item>
+          </div>
+        )}
         <div className='relative py-1' role='none'>
           <Menu.Item>
             <button

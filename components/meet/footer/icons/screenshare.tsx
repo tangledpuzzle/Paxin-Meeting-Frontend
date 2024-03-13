@@ -9,7 +9,8 @@ import {
   Track,
 } from 'livekit-client';
 
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { updateIsActiveScreenshare } from '@/store/slices/bottomIconsActivitySlice';
 import { updateScreenSharing } from '@/store/slices/sessionSlice';
 import { IRoomMetadata } from '@/store/slices/interfaces/session';

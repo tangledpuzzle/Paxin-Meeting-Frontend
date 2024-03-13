@@ -52,9 +52,12 @@ const VideoBox = ({
         autoPlay
         height='50'
         onLoadedData={handleVideoLoad}
+        playsInline
+        webkit-playsInline
       />
     </div>
   );
+  
 };
 
 export default VideoBox;

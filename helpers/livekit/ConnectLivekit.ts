@@ -145,6 +145,7 @@ export default class ConnectLivekit
       maxAttempts: 5,
     };
     try {
+      console.log(this.url, this.token);
       await retry(async () => {
         await this._room.connect(this.url, this.token, {
           autoSubscribe: true,

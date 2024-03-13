@@ -8,7 +8,8 @@ import {
   CreateIngressRes,
   IngressInput,
 } from '@/helpers/proto/plugnmeet_ingress_pb';
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { useTranslations } from 'next-intl';
 

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import useVirtual from 'react-cool-virtual';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import ParticipantComponent from './participant';
 import { participantsSelector } from '@/store/slices/participantSlice';
 import { IParticipant } from '@/store/slices/interfaces/participant';

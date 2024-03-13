@@ -2,7 +2,8 @@ import React from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
 
-import { RootState, useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import Logo from './logo';
 import { useTranslations } from 'next-intl';
 

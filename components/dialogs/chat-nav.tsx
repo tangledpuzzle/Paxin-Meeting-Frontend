@@ -4,13 +4,17 @@ import { PaxChatContext } from '@/context/chat-context';
 import eventBus from '@/eventBus';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useRef, useState, useEffect } from 'react';
 import { IoIosClose } from 'react-icons/io';
 import { ScrollArea } from '../ui/scroll-area';
 import ChatListSkeleton from './chat-list-skeleton';
 import ChatRoom from './chat-room';
 
-export default function ChatNavComponent() {
+interface Props {
+  mode: boolean;
+}
+
+const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
   const t = useTranslations('chatting');
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [currentTab, setCurrentTab] = useState<'MESSAGE_LIST' | 'SETTINGS'>(
@@ -18,6 +22,13 @@ export default function ChatNavComponent() {
   );
   const { chatRooms, showNav, setShowNav } = useContext(PaxChatContext);
   const [keyword, setKeyword] = useState<string>('');
+
+  useEffect(() => {
+    if (!mode) {
+      setShowNav(false);
+    }
+  }, [mode]);
+
 
   eventBus.on('startChat', () => {
     setShowNav(!showNav);
@@ -79,6 +90,8 @@ export default function ChatNavComponent() {
                   <ChatListSkeleton />
                   <ChatListSkeleton />
                   <ChatListSkeleton />
+                  <ChatListSkeleton />
+                  <ChatListSkeleton />
                 </>
               )}
             </ScrollArea>
@@ -89,3 +102,4 @@ export default function ChatNavComponent() {
     </div>
   );
 }
+export default ChatNavComponent;

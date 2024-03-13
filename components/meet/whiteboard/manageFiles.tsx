@@ -6,7 +6,8 @@ import { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 
 import UploadFilesUI from './uploadFilesUI';
 import { IWhiteboardOfficeFile } from '@/store/slices/interfaces/whiteboard';
-import { RootState, store, useAppDispatch, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { sleep } from '@/helpers/utils';
 import { broadcastWhiteboardOfficeFile } from './helpers/handleRequestedWhiteboardData';
 import { updateCurrentWhiteboardOfficeFileId } from '@/store/slices/whiteboard';

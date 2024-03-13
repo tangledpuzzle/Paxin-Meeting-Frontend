@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import {
   participantsSelector,
   updateParticipant,

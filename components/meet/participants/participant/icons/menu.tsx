@@ -9,7 +9,8 @@ import LockSettingMenuItem from './menu-items/lock';
 import RemoveUserMenuItem from './menu-items/removeUser';
 import PrivateChatMenuItem from './menu-items/privateChatMenuItem';
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState, store, useAppSelector } from '@/store';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 
 interface IMenuIconProps {
   userId: string;
