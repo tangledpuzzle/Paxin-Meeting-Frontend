@@ -561,6 +561,7 @@ export default function ChatDetailPage({
                           onDelete={handleMessageDelete}
                           onEdit={handleMessageEdit}
                           isBot={chatUser?.bot}
+                          isEdited={message.isEdited}
                         />
                       </>
                     );
