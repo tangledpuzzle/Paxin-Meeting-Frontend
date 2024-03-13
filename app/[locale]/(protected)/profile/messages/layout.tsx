@@ -437,7 +437,8 @@ export default function Messages({ children }: MessagesProps) {
 
   const [selectedContact, setSelectedContact] = useState<number | null>(null);
   const pathname = usePathname();
-
+  const [mode, setMode] = useState(true);
+  
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -512,7 +513,7 @@ export default function Messages({ children }: MessagesProps) {
                 </nav>
               </div>
             </div>
-            <ChatNavComponent />
+            <ChatNavComponent mode={mode} />
             {/* <ScrollArea className='h-[calc(100vh_-_12rem)] rounded-lg bg-background p-4'>
               {React.Children.map(children, (child) => {
                 if (React.isValidElement(child)) {
