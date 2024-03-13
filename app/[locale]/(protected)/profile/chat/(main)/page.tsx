@@ -1,3 +1,10 @@
+// import dynamic from 'next/dynamic';
+
 export default function ChatPage() {
-  return <div></div>;
+//   const ChatSSRSkeleton = dynamic(() => import('@/components/dialogs/skeleton'), {
+//     ssr: true,
+//   });
+  return <div>
+          {/* <ChatSSRSkeleton/> */}
+         </div>;
 }
