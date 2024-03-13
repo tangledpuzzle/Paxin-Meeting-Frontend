@@ -1,7 +1,7 @@
+'use client';
 // eslint-disable-next-line import/no-unresolved
-import { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
-
-import { broadcastSceneOnChange } from './handleRequestedWhiteboardData';
+import type { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
+// import { broadcastSceneOnChange } from './handleRequestedWhiteboardData';
 import { store } from '@/store';
 import {
   IWhiteboardFile,
@@ -10,7 +10,15 @@ import {
 import { randomString } from '@/helpers/utils';
 import { IWhiteboardFeatures } from '@/store/slices/interfaces/session';
 import { addWhiteboardUploadedOfficeFiles } from '@/store/slices/whiteboard';
-
+import dynamic from 'next/dynamic';
+const broadcastSceneOnChange = dynamic(
+  //@ts-ignore
+  async () =>
+    (await import('./handleRequestedWhiteboardData')).broadcastSceneOnChange,
+  {
+    ssr: false,
+  }
+);
 const defaultPreloadedLibraryItems = [
   'https://libraries.excalidraw.com/libraries/BjoernKW/UML-ER-library.excalidrawlib',
   'https://libraries.excalidraw.com/libraries/aretecode/decision-flow-control.excalidrawlib',
@@ -74,6 +82,7 @@ export const displaySavedPageData = (
       excalidrawAPI.updateScene({ elements });
       if (isPresenter) {
         // better to broadcast full screen
+        //@ts-ignore
         broadcastSceneOnChange(intl, elements, true);
       }
     }

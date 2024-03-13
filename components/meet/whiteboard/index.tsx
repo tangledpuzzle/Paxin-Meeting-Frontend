@@ -1,3 +1,4 @@
+'use client';
 import React, { useCallback, useEffect, useState } from 'react';
 import throttle from 'lodash/throttle';
 import { createSelector } from '@reduxjs/toolkit';
@@ -27,13 +28,13 @@ import { participantsSelector } from '@/store/slices/participantSlice';
 
 import { IWhiteboardFile } from '@/store/slices/interfaces/whiteboard';
 import { fetchFileWithElm } from './helpers/fileReader';
-import {
-  broadcastAppStateChanges,
-  broadcastMousePointerUpdate,
-  broadcastSceneOnChange,
-  sendRequestedForWhiteboardData,
-  sendWhiteboardDataAsDonor,
-} from './helpers/handleRequestedWhiteboardData';
+// import {
+//   broadcastAppStateChanges,
+//   broadcastMousePointerUpdate,
+//   broadcastSceneOnChange,
+//   sendRequestedForWhiteboardData,
+//   sendWhiteboardDataAsDonor,
+// } from './helpers/handleRequestedWhiteboardData';
 import FooterUI from './footerUI';
 import usePreviousFileId from './helpers/hooks/usePreviousFileId';
 import usePreviousPage from './helpers/hooks/usePreviousPage';
@@ -45,7 +46,53 @@ import {
 
 import './style.scss';
 import { useLocale, useTranslations } from 'next-intl';
-
+import dynamic from 'next/dynamic';
+const broadcastAppStateChanges = dynamic(
+  //@ts-ignore
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .broadcastAppStateChanges,
+  {
+    ssr: false,
+  }
+);
+const broadcastMousePointerUpdate = dynamic(
+  //@ts-ignore
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .broadcastMousePointerUpdate,
+  {
+    ssr: false,
+  }
+);
+const broadcastSceneOnChange = dynamic(
+  //@ts-ignore
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .broadcastSceneOnChange,
+  {
+    ssr: false,
+  }
+);
+const sendRequestedForWhiteboardData = dynamic(
+  //@ts-ignore
+  async () =>
+    import('./helpers/handleRequestedWhiteboardData').then(
+      (e) => e.sendRequestedForWhiteboardData
+    ),
+  {
+    ssr: false,
+  }
+);
+const sendWhiteboardDataAsDonor = dynamic(
+  //@ts-ignore
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .sendWhiteboardDataAsDonor,
+  {
+    ssr: false,
+  }
+);
 interface WhiteboardProps {
   onReadyExcalidrawAPI: (excalidrawAPI: ExcalidrawImperativeAPI) => void;
 }
@@ -126,11 +173,13 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
     if (!fetchedData && excalidrawAPI) {
       // get initial data from other users
       // who had joined before me
+      //@ts-ignore
       sendRequestedForWhiteboardData(t);
       setFetchedData(true);
     }
 
     if (whiteboard.requestedWhiteboardData.requested && excalidrawAPI) {
+      //@ts-ignore
       sendWhiteboardDataAsDonor(
         excalidrawAPI,
         whiteboard.requestedWhiteboardData.sendTo,
@@ -439,11 +488,13 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
       }
       if (getSceneVersion(elements) > lastBroadcastOrReceivedSceneVersion) {
         setLastBroadcastOrReceivedSceneVersion(getSceneVersion(elements));
+        //@ts-ignore
         broadcastSceneOnChange(t, elements, false);
       }
 
       // broadcast AppState Changes
       if (isPresenter) {
+        //@ts-ignore
         broadcastAppStateChanges(
           t,
           appState.height,
@@ -477,6 +528,7 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
           userId: currentUser.userId,
           name: currentUser.name,
         };
+        //@ts-ignore
         broadcastMousePointerUpdate(t, msg);
       }
     },
