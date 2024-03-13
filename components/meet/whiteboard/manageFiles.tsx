@@ -16,6 +16,7 @@ import { formatStorageKey } from './helpers/utils';
 import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 const broadcastWhiteboardOfficeFile = dynamic(
+  //@ts-ignore
   async () =>
     (await import('./helpers/handleRequestedWhiteboardData'))
       .broadcastWhiteboardOfficeFile,
@@ -85,6 +86,7 @@ const ManageFiles = ({ excalidrawAPI }: IManageFilesProps) => {
     await saveCurrentPageData();
     dispatch(updateCurrentWhiteboardOfficeFileId(f.fileId));
     await sleep(500);
+    //@ts-ignore
     broadcastWhiteboardOfficeFile(t, f);
   };
 
