@@ -20,7 +20,7 @@ export default function AlarmNav() {
       eventBus.emit('startChat', '0');
       eventBus.emit('close');
     } else {
-      router.push('/profile/chat');
+      router.push('/profile/chat?mode=true');
     }
   };
 
