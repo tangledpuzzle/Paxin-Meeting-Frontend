@@ -38,7 +38,7 @@ const roomIdSelector = createSelector(
 );
 
 export default function SmallMeet() {
-  const [isActive, setActive] = useState<boolean>(false);
+  const [isActive, setActive] = useState<boolean>(true);
   const participants = useAppSelector(participantSelector);
   const dispatch = useAppDispatch();
   const router = useRouter();
