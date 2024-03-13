@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
@@ -9,11 +10,19 @@ import { IWhiteboardOfficeFile } from '@/store/slices/interfaces/whiteboard';
 import { RootState, store } from '@/store';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { sleep } from '@/helpers/utils';
-import { broadcastWhiteboardOfficeFile } from './helpers/handleRequestedWhiteboardData';
+// import { broadcastWhiteboardOfficeFile } from './helpers/handleRequestedWhiteboardData';
 import { updateCurrentWhiteboardOfficeFileId } from '@/store/slices/whiteboard';
 import { formatStorageKey } from './helpers/utils';
 import { useTranslations } from 'next-intl';
-
+import dynamic from 'next/dynamic';
+const broadcastWhiteboardOfficeFile = dynamic(
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .broadcastWhiteboardOfficeFile,
+  {
+    ssr: false,
+  }
+);
 interface IManageFilesProps {
   excalidrawAPI: ExcalidrawImperativeAPI;
 }

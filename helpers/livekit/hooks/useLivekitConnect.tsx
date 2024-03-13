@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 
 import { IErrorPageProps } from '@/components/meet/extra-pages/Error';

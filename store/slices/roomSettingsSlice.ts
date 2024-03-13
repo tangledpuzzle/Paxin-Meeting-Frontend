@@ -1,3 +1,4 @@
+'use client';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { VideoQuality } from 'livekit-client';
 import type { Theme } from '@excalidraw/excalidraw/types/element/types';
