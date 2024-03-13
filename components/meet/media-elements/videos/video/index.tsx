@@ -1,10 +1,14 @@
+'use client';
 import React from 'react';
 import { LocalTrackPublication, RemoteTrackPublication } from 'livekit-client';
-import VideoElm from './videoElm';
+// import VideoElm from './videoElm';
 import ConnectionStatus from './connectionStatus';
 import MicStatus from './micStatus';
 import PinWebcam from './pinWebcam';
-
+import dynamic from 'next/dynamic';
+const VideoElm = dynamic(async () => (await import('./videoElm')).default, {
+  ssr: false,
+});
 export interface IVideoComponentProps {
   userId: string;
   track: RemoteTrackPublication | LocalTrackPublication;

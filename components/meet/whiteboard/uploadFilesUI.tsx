@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -12,7 +13,7 @@ import {
 } from '@/helpers/websocket';
 import { randomString, sleep } from '@/helpers/utils';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
-import { broadcastWhiteboardOfficeFile } from './helpers/handleRequestedWhiteboardData';
+// import { broadcastWhiteboardOfficeFile } from './helpers/handleRequestedWhiteboardData';
 import useResumableFilesUpload from '@/helpers/hooks/useResumableFilesUpload';
 // eslint-disable-next-line import/no-unresolved
 import { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
@@ -31,6 +32,15 @@ import {
   AnalyticsEventType,
 } from '@/helpers/proto/plugnmeet_analytics_pb';
 import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
+const broadcastWhiteboardOfficeFile = dynamic(
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .broadcastWhiteboardOfficeFile,
+  {
+    ssr: false,
+  }
+);
 
 interface IUploadFilesProps {
   refreshFileBrowser: number;

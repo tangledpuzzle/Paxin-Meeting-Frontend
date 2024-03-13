@@ -1,6 +1,6 @@
 'use client';
-import { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
-import {
+import type { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
+import type {
   ExcalidrawImperativeAPI,
   NormalizedZoomValue,
 } from '@excalidraw/excalidraw/types/types';

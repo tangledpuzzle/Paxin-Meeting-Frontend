@@ -1,3 +1,4 @@
+'use client';
 import React, { useCallback, useEffect, useState } from 'react';
 import throttle from 'lodash/throttle';
 import { createSelector } from '@reduxjs/toolkit';
@@ -27,13 +28,13 @@ import { participantsSelector } from '@/store/slices/participantSlice';
 
 import { IWhiteboardFile } from '@/store/slices/interfaces/whiteboard';
 import { fetchFileWithElm } from './helpers/fileReader';
-import {
-  broadcastAppStateChanges,
-  broadcastMousePointerUpdate,
-  broadcastSceneOnChange,
-  sendRequestedForWhiteboardData,
-  sendWhiteboardDataAsDonor,
-} from './helpers/handleRequestedWhiteboardData';
+// import {
+//   broadcastAppStateChanges,
+//   broadcastMousePointerUpdate,
+//   broadcastSceneOnChange,
+//   sendRequestedForWhiteboardData,
+//   sendWhiteboardDataAsDonor,
+// } from './helpers/handleRequestedWhiteboardData';
 import FooterUI from './footerUI';
 import usePreviousFileId from './helpers/hooks/usePreviousFileId';
 import usePreviousPage from './helpers/hooks/usePreviousPage';
@@ -45,7 +46,47 @@ import {
 
 import './style.scss';
 import { useLocale, useTranslations } from 'next-intl';
-
+import dynamic from 'next/dynamic';
+const broadcastAppStateChanges = dynamic(
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .broadcastAppStateChanges,
+  {
+    ssr: false,
+  }
+);
+const broadcastMousePointerUpdate = dynamic(
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .broadcastMousePointerUpdate,
+  {
+    ssr: false,
+  }
+);
+const broadcastSceneOnChange = dynamic(
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .broadcastSceneOnChange,
+  {
+    ssr: false,
+  }
+);
+const sendRequestedForWhiteboardData = dynamic(
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .sendRequestedForWhiteboardData,
+  {
+    ssr: false,
+  }
+);
+const sendWhiteboardDataAsDonor = dynamic(
+  async () =>
+    (await import('./helpers/handleRequestedWhiteboardData'))
+      .sendWhiteboardDataAsDonor,
+  {
+    ssr: false,
+  }
+);
 interface WhiteboardProps {
   onReadyExcalidrawAPI: (excalidrawAPI: ExcalidrawImperativeAPI) => void;
 }

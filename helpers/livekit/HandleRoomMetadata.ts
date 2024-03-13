@@ -1,3 +1,4 @@
+'use client';
 import { toast } from 'react-toastify';
 import { isEmpty } from 'validator';
 import { isE2EESupported } from 'livekit-client';
