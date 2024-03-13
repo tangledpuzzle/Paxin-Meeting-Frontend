@@ -119,6 +119,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   );
 
   const getMeetAccessToken = async (): Promise<string> => {
+    console.log('MEET/getMeetAccessToken');
     const accessToken = getAccessToken();
     if (accessToken) return accessToken;
     const randomPart = generateRandomString(4);
@@ -128,6 +129,8 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     const userEmail = `${randomPart}-${timestampHash}@test.me`;
     setLoading(true);
     const token = await joinRoom(roomId, userId, userName);
+    console.log('JOIN TOKEN: ', token);
+    setAccessToken(token);
     setLoading(false);
     if (token) {
       return token;
