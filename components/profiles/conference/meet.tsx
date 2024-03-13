@@ -38,7 +38,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
 
     if (token) {
       console.log('NEW TOKEN: ', token);
-      clearSession();
+      await clearSession();
       toast.success('New Room is created.');
       setAccessToken(token);
       router.push(`/meet/${roomId}`);
@@ -51,6 +51,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
     setLoading(false);
 
     if (token) {
+      await clearSession();
       setAccessToken(token);
       router.push(`/meet/${roomId}`);
     }

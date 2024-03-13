@@ -7,6 +7,7 @@ import { IConnectLivekit } from '@/helpers/livekit/types';
 import { clearAccessToken } from '@/helpers/utils';
 import { useAppDispatch } from '@/store/hook';
 import { resetParticipant } from '@/store/slices/participantSlice';
+import { clearToken } from '@/store/slices/sessionSlice';
 import React, { ReactNode, useState } from 'react';
 import { createContext } from 'react';
 interface IRTCContext {
@@ -68,12 +69,15 @@ export function RTCProvider({ children }: Props) {
     startLivekitConnection,
   } = useLivekitConnect();
   const dispatch = useAppDispatch();
-  function clearSession() {
+  async function clearSession() {
+    clearAccessToken();
+    dispatch(resetParticipant());
+    dispatch(clearToken());
     if (currentConnection) {
-      clearAccessToken();
-      dispatch(resetParticipant());
-      currentConnection.room.disconnect();
+      console.log('CLEAR SESSION');
+      setLivekitInfo(null);
       setCurrentConnection(null);
+      await currentConnection.room.disconnect();
     }
   }
   return (
