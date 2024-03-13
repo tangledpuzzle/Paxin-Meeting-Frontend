@@ -20,7 +20,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
-
+import { Badge } from '../ui/badge';
+import { IoMdClose } from 'react-icons/io';
 interface Option {
   value: number | string;
   label: string;
@@ -52,7 +53,7 @@ export function FilterModal() {
   const [maxPrice, setMaxPrice] = useState<string>('');
   const [priceHasError, setPriceHasError] = useState<boolean>(false);
   const [isReset, setIsReset] = useState<boolean>(false);
-
+  const [filtersList, setFiltersList] = useState<any[]>([]);
   const [cityKeyword, setCityKeyword] = useState<string>('');
   const [categoryKeyword, setCategoryKeyword] = useState<string>('');
 
@@ -74,6 +75,14 @@ export function FilterModal() {
     fetcher
   );
 
+  const getfilters = async () => {
+    const filters = await axios.get('/api/flows/filter');
+    console.log(filters.data.data)
+    setFiltersList(filters.data.data);
+  }
+  useEffect(() => {
+    getfilters();
+  }, [])
   const handleCitySearch = useDebouncedCallback((value: string) => {
     setCityKeyword(value);
   }, 300);
@@ -226,7 +235,9 @@ export function FilterModal() {
       }
     }
   };
-
+  const deleteFilter = async (id: any) => {
+    const result = await axios.delete(`/api/flows/filter/${id}`);
+  }
   // const getCityTranslation = async (city: string) => {
   //   const res = await axios.get(
   //     `/api/cities/query?name=${city}&lang=${locale}&mode=translate`
@@ -561,6 +572,21 @@ export function FilterModal() {
             </div>
           )}
         </div>
+        <div className='flex w-full flex-wrap gap-2 pb-4 items-center'>
+          {filtersList.map((each, key) =>
+            <Badge variant='outline' className='gap-2 rounded-full pl-4' key={key}>
+              {each?.Name}
+              <Button
+                variant='ghost'
+                className='rounded-full hover:text-red-500'
+                size='icon'
+                onClick={() => deleteFilter(each.ID)}
+              >
+                <IoMdClose className='size-4' />
+              </Button>
+            </Badge>
+          )}
+        </div>
         <DialogFooter className='ml-auto flex-row gap-3'>
           <Button type='submit' variant='outline' onClick={handleResetFilters}>
             {t('reset')}
@@ -572,6 +598,6 @@ export function FilterModal() {
           </DialogClose>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
+    </Dialog >
   );
 }

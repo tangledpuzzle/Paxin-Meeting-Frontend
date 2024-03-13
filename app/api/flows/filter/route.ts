@@ -35,3 +35,36 @@ export async function POST(req: NextRequest) {
         );
     }
 }
+
+export async function GET(req: NextRequest) {
+    try {
+        const session = await getServerSession(authOptions);
+
+        if (!session) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
+        const res = await fetch(
+            `${process.env.API_URL}/api/presavedfilter/get`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${session?.accessToken}`,
+                    'Content-Type': 'application/json',
+                }
+            }
+        );
+        const result = await res.json()
+
+        if (!res.ok) {
+            throw new Error('Failed to get items');
+        }
+        return NextResponse.json({ success: true, data: result.data });
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(
+            { error: 'Failed to fetch data' },
+            { status: 500 }
+        );
+    }
+}
