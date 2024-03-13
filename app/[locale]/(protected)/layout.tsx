@@ -9,7 +9,7 @@ type Props = {
   params: { locale: string };
 };
 
-export default function ProfilePageLayout({
+export default function ProtectedLayout({
   children,
   params: { locale },
 }: Props) {
@@ -18,12 +18,7 @@ export default function ProfilePageLayout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <SiteHeader />
-      <div className='absolute top-0 flex w-full'>
-        <Sidebar />
-        <main className='mb-0 mt-20 w-full bg-secondary/60 md:mb-0'>
-          {children}
-        </main>
-      </div>
+      {children}
     </NextIntlClientProvider>
   );
 }
