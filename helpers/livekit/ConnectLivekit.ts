@@ -1,3 +1,4 @@
+'use client';
 import { Dispatch } from 'react';
 import { isEmpty } from 'validator';
 import { retry } from '@lifeomic/attempt';
