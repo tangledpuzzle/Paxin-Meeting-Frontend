@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState, useRef } from 'react';
 import { LocalTrackPublication, RemoteTrackPublication } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';

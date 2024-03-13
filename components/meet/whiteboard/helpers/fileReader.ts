@@ -1,3 +1,4 @@
+'use client';
 // eslint-disable-next-line import/no-unresolved
 import { BinaryFileData, DataURL } from '@excalidraw/excalidraw/types/types';
 import { randomInteger } from '@/helpers/utils';

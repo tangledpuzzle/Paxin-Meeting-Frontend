@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useMemo, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import type { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
@@ -7,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hook';
 import ScreenShareElements from '../media-elements/screenshare';
 import AudioElements from '../media-elements/audios';
 import SharedNotepadElement from '../shared-notepad';
-import Whiteboard from '../whiteboard';
+// import Whiteboard from '../whiteboard';
 import ExternalMediaPlayer from '../external-media-player';
 import DisplayExternalLink from '../display-external-link';
 import VideosComponent from '../media-elements/videos';
@@ -23,6 +24,14 @@ import {
 import SpeechToTextService from '../speech-to-text-service';
 import { useCallbackRefState } from '../whiteboard/helpers/hooks/useCallbackRefState';
 import { savePageData } from '../whiteboard/helpers/utils';
+import dynamic from 'next/dynamic';
+
+const Whiteboard = dynamic(
+  async () => (await import('../whiteboard')).default,
+  {
+    ssr: false,
+  }
+);
 
 interface IMainComponentsProps {
   currentConnection: IConnectLivekit;

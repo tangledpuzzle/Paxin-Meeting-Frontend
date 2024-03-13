@@ -20,7 +20,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
-
+import { Badge } from '../ui/badge';
+import { IoMdClose } from 'react-icons/io';
+import { SavedFilterModal } from '@/components/home/saved-filter-modal'
 interface Option {
   value: number | string;
   label: string;
@@ -52,7 +54,7 @@ export function FilterModal() {
   const [maxPrice, setMaxPrice] = useState<string>('');
   const [priceHasError, setPriceHasError] = useState<boolean>(false);
   const [isReset, setIsReset] = useState<boolean>(false);
-
+  const [filtersList, setFiltersList] = useState<any[]>([]);
   const [cityKeyword, setCityKeyword] = useState<string>('');
   const [categoryKeyword, setCategoryKeyword] = useState<string>('');
 
@@ -74,6 +76,14 @@ export function FilterModal() {
     fetcher
   );
 
+  const getfilters = async () => {
+    const filters = await axios.get('/api/flows/filter');
+    console.log(filters.data.data)
+    setFiltersList(filters.data.data);
+  }
+  useEffect(() => {
+    getfilters();
+  }, [])
   const handleCitySearch = useDebouncedCallback((value: string) => {
     setCityKeyword(value);
   }, 300);
@@ -216,58 +226,12 @@ export function FilterModal() {
 
       if (_city) {
         setCityKeyword(_city);
-        // setCity([cityOptions.find((c) => c.label === _city) as Option]);
       }
       if (_category) {
         setCategoryKeyword(_category);
-        // setCategory([
-        //   categoryOptions.find((c) => c.label === _category) as Option,
-        // ]);
       }
     }
   };
-
-  // const getCityTranslation = async (city: string) => {
-  //   const res = await axios.get(
-  //     `/api/cities/query?name=${city}&lang=${locale}&mode=translate`
-  //   );
-  //   if (res.status === 200) {
-  //     const newCity = res.data.data;
-
-  //     if (newCity && city !== newCity) {
-  //       const newSearchParams = new URLSearchParams(searchParams);
-
-  //       newSearchParams.set('city', newCity);
-  //       router.push(`?${newSearchParams.toString()}`);
-
-  //       // setCity([cityOptions.find((c) => c.label === newCity) as Option]);
-  //     }
-
-  //     setCityKeyword(newCity);
-  //   }
-  // };
-
-  // const getCategoryTranslation = async (category: string) => {
-  //   const res = await axios.get(
-  //     `/api/categories/query?name=${category}&lang=${locale}&mode=translate`
-  //   );
-  //   if (res.status === 200) {
-  //     const newCategory = res.data.data;
-
-  //     if (newCategory && category !== newCategory) {
-  //       const newSearchParams = new URLSearchParams(searchParams);
-
-  //       newSearchParams.set('category', newCategory);
-  //       router.push(`?${newSearchParams.toString()}`);
-
-  //       // setCategory([
-  //       //   categoryOptions.find((c) => c.label === newCategory) as Option,
-  //       // ]);
-  //     }
-
-  //     setCategoryKeyword(newCategory);
-  //   }
-  // };
 
   useEffect(() => {
     const _hashtag = searchParams.get('hashtag');
@@ -440,7 +404,6 @@ export function FilterModal() {
     <Dialog open={isFilterModalOpen} onOpenChange={setIsFilterModalOpen}>
       <DialogTrigger asChild>
         <Button variant='clear' className='filtersButton !p-0'>
-          {/* <Filter className='mr-2 size-4' /> */}
           <GlowingButton buttonText={t('filters')} />
         </Button>
       </DialogTrigger>
@@ -519,16 +482,6 @@ export function FilterModal() {
                 menu: () => '!bg-muted',
               }}
             />
-            {/* <div className='relative w-full'>
-              <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
-              <Input
-                type='text'
-                placeholder={t('search')}
-                className='pl-12 pr-4'
-                value={hashTag}
-                onChange={(e) => setHashTag(e.target.value)}
-              />
-            </div> */}
           </div>
           {viewMode === 'flow' && (
             <div className=''>
@@ -561,17 +514,22 @@ export function FilterModal() {
             </div>
           )}
         </div>
-        <DialogFooter className='ml-auto flex-row gap-3'>
-          <Button type='submit' variant='outline' onClick={handleResetFilters}>
-            {t('reset')}
-          </Button>
-          <DialogClose asChild>
-            <Button type='submit' onClick={handleApplyFilters}>
-              {t('apply')}
-            </Button>
-          </DialogClose>
+        <DialogFooter >
+          <div className='w-full justify-between flex'>
+            <SavedFilterModal setIsFilterModalOpen={setIsFilterModalOpen} />
+            <div>
+              <Button type='submit' className='mr-3' variant='outline' onClick={handleResetFilters}>
+                {t('reset')}
+              </Button>
+              <DialogClose asChild>
+                <Button type='submit' onClick={handleApplyFilters}>
+                  {t('apply')}
+                </Button>
+              </DialogClose>
+            </div>
+          </div>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
+    </Dialog >
   );
 }
