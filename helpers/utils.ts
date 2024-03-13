@@ -177,9 +177,9 @@ export const getAccessToken = () => {
   console.log('Access LocalStorage', accessToken);
   if (accessToken) {
     return accessToken;
+  } else {
+    return null;
   }
-
-  return null;
 };
 
 export async function copyToClipboard(text: string) {
