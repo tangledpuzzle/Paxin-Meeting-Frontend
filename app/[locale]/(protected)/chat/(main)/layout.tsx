@@ -9,10 +9,9 @@ interface ChatLayoutProps {
   children: React.ReactNode;
 }
 
-
 export default function ChatLayout({ children }: ChatLayoutProps) {
   const { showNav } = useContext(PaxChatContext);
-  const [mode, setMode] = useState(true); 
+  const [mode, setMode] = useState(true);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -22,12 +21,13 @@ export default function ChatLayout({ children }: ChatLayoutProps) {
         setMode(false);
       } else {
         setMode(true);
-      }    }
+      }
+    }
   }, []);
 
   return (
     <div className={cn('new-container', { open: showNav })}>
-      <ChatNavComponent mode={mode}/>
+      <ChatNavComponent mode={mode} />
       {children}
     </div>
   );
