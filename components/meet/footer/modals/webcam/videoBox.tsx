@@ -44,6 +44,15 @@ const VideoBox = ({
     });
   };
 
+  document.addEventListener('DOMContentLoaded', function() {
+    var videos = document.querySelectorAll('video');
+    videos.forEach(function(video) {
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+    });
+  });
+
+
   return (
     <div className='preview-camera-webcam'>
       <video
@@ -57,6 +66,7 @@ const VideoBox = ({
       />
     </div>
   );
+  
 };
 
 export default VideoBox;
