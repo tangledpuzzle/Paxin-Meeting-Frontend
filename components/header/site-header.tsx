@@ -1,13 +1,8 @@
-import { MainNav } from '@/components/header/main-nav';
-import { siteConfig } from '@/config/site';
 import { headers } from 'next/headers';
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { useLocale, useTranslations } from 'next-intl';
-import { MobileMenu } from './mobile-menu';
-import { RightNav } from './right-nav';
-import { usePathname } from 'next/navigation';
-import AlarmNav from './alarm-nav';
+import ClientHeader from './client.header';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
@@ -36,42 +31,12 @@ async function getData(locale: string) {
 export async function SiteHeader() {
   const t = useTranslations('main');
   const locale = useLocale();
-  const pathname = headers().get('x-pathname') || '';
+
+  // const pathname = headers().get('x-pathname') || '';
+  // console.log(pathname);
   const data = await getData(locale);
 
-  return pathname.includes('/meet/') ? (
-    <></>
-  ) : (
-    <header className={`bg-h sticky top-0 z-40 w-full bg-background`}>
-      <div className='border-gardient-h relative top-[80px] w-full'></div>
-      <div className='flex h-20 items-center space-x-4 px-2 sm:justify-between sm:space-x-0 md:px-8'>
-        <MainNav items={siteConfig.mainNav} />
-        <AlarmNav authenticated={!!data} />
-        <RightNav
-          user={
-            data
-              ? {
-                  email: data.data.user.email,
-                  avatar: data.data.user.photo,
-                  username: data.data.user.name,
-                }
-              : null
-          }
-        />
-        <MobileMenu
-          user={
-            data
-              ? {
-                  email: data.data.user.email,
-                  avatar: data.data.user.photo,
-                  username: data.data.user.name,
-                }
-              : null
-          }
-        />
-      </div>
-    </header>
-  );
+  return <ClientHeader data={data} />;
 }
 
 export default SiteHeader;

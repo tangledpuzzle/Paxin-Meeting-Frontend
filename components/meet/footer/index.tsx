@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useContext } from 'react';
 import { Room } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
 import { Dialog, Menu, Transition } from '@headlessui/react';
@@ -29,6 +29,7 @@ import {
 import { toast } from 'react-toastify';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { useRouter } from 'next/navigation';
+import { RTCContext } from '@/provider/webRTCProvider';
 interface IFooterProps {
   currentRoom: Room;
   isRecorder: boolean;
@@ -41,6 +42,7 @@ const footerVisibilitySelector = createSelector(
 
 const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
   const store = useAppStore();
+  const { clearSession } = useContext(RTCContext);
   const isAdmin = store.getState().session.currentUser?.metadata?.is_admin;
   const footerVisible = useAppSelector(footerVisibilitySelector);
   const dispatch = useAppDispatch();
@@ -59,7 +61,8 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
     }
 
     if (task === 'logout') {
-      await currentRoom.disconnect();
+      // await currentRoom.disconnect();
+      await clearSession();
       goBack();
     } else if (task === 'end Room') {
       const session = store.getState().session;
@@ -81,6 +84,7 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
           type: 'error',
         });
       }
+      await clearSession();
       goBack();
     } else if (task == 'stepOut') {
       goBack();
