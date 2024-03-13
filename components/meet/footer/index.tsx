@@ -192,7 +192,7 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
       >
         <footer
           id='main-footer'
-          className={`light:bg-primary flex h-[55px] items-center justify-between px-2 shadow-footer dark:bg-darkPrimary md:px-4 lg:h-[60px] z-[9999] relative`}
+          className={`light:bg-primary relative z-[9999] flex h-[55px] items-center justify-between px-2 shadow-footer dark:bg-darkPrimary md:px-4 lg:h-[60px]`}
           style={{ display: isRecorder ? 'none' : '' }}
         >
           <div className='footer-inner flex w-full items-center justify-between rtl:flex-row-reverse'>
@@ -245,13 +245,15 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
       </Transition>
       {isRecorder ? null : (
         <div
-          className={`footer-collapse-arrow group fixed right-0 z-[1] flex h-5 w-[50px] cursor-pointer items-end justify-center rounded-tl-lg bg-white dark:bg-darkPrimary ${footerVisible ? 'bottom-[60px] pb-[3px]' : 'bottom-0 pb-[6px]'
-            }`}
+          className={`footer-collapse-arrow group fixed right-0 z-[1] flex h-5 w-[50px] cursor-pointer items-end justify-center rounded-tl-lg bg-white dark:bg-darkPrimary ${
+            footerVisible ? 'bottom-[60px] pb-[3px]' : 'bottom-0 pb-[6px]'
+          }`}
           onClick={() => dispatch(toggleFooterVisibility())}
         >
           <i
-            className={` pnm-arrow-below text-[10px] dark:text-secondaryColor sm:text-[12px] ${footerVisible ? '' : 'rotate-180'
-              }`}
+            className={` pnm-arrow-below text-[10px] dark:text-secondaryColor sm:text-[12px] ${
+              footerVisible ? '' : 'rotate-180'
+            }`}
           ></i>
           <span className='invisible absolute bottom-7 right-0 w-max rounded bg-white px-[10px] py-1 text-[12px] text-darkPrimary opacity-0 transition-all group-hover:visible group-hover:opacity-100 dark:bg-darkPrimary dark:text-white'>
             {footerVisible ? t('footer.hide-footer') : t('footer.show-footer')}
