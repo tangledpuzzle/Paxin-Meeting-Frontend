@@ -38,6 +38,7 @@ import Link from 'next/link';
 import MessageForm from '@/components/home/messsage-form';
 import getRoomId from '@/lib/server/chat/getRoomId';
 import { IoLanguage } from 'react-icons/io5';
+import CallModal from '@/components/common/call-modal';
 interface ProfileDetails {
   id: string;
   username: string;
@@ -266,9 +267,17 @@ export default async function ProfilePage({
                 </Link>
               </Button>
             )}
-            <Button variant='outline' className='rounded-full' size='icon'>
-              <MdPhoneInTalk className='size-5' />
-            </Button>
+            <CallModal
+              callee={{
+                username: profileDetails.username || '',
+                avatar: profileDetails.gallery?.[0]?.original || '',
+                id: profileDetails.id || '',
+              }}
+            >
+              <Button variant='outline' className='rounded-full' size='icon'>
+                <MdPhoneInTalk className='size-5' />
+              </Button>
+            </CallModal>
             {session ? (
               <MessageForm
                 user={{
@@ -276,7 +285,6 @@ export default async function ProfilePage({
                   userId: profileDetails.id,
                   bot: profileDetails.bot,
                 }}
-                roomId={roomId}
               >
                 <Button variant='outline' className='rounded-full' size='icon'>
                   <LiaSmsSolid className='size-4' />
@@ -431,7 +439,7 @@ export default async function ProfilePage({
                   <Link href={`/home?mode=profile&city=${city}`} key={index}>
                     <Badge
                       variant='outline'
-                      className='mb-2 max-w-fit rounded-full hover:border-primary bg-primary/10 p-2 text-primary px-4'
+                      className='mb-2 max-w-fit rounded-full bg-primary/10 p-2 px-4 text-primary hover:border-primary'
                     >
                       <p>{city}</p>
                     </Badge>
@@ -461,7 +469,7 @@ export default async function ProfilePage({
                     >
                       <Badge
                         variant='outline'
-                        className='max-w-fit rounded-full hover:border-primary bg-primary/10 p-2 text-primary px-4'
+                        className='max-w-fit rounded-full bg-primary/10 p-2 px-4 text-primary hover:border-primary'
                       >
                         {category}
                       </Badge>

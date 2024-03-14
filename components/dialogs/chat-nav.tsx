@@ -29,7 +29,6 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
     }
   }, [mode]);
 
-
   eventBus.on('startChat', () => {
     setShowNav(!showNav);
   });
@@ -101,5 +100,5 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
       </div>
     </div>
   );
-}
+};
 export default ChatNavComponent;

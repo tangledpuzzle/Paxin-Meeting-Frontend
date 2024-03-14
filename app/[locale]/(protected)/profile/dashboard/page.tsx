@@ -85,26 +85,39 @@ export default function DashboardPage() {
                 {t('view_all_alerts_description')}
               </div>
               <div className='relative mt-8 flex items-center gap-2'>
-                <div className='space-y-4 text-center'>
-                  <div className='text-center text-sm text-muted-foreground'>
-                    {t('subscribers')}
-                  </div>
-                  <div className='text-center text-3xl font-extrabold'>
-                    {user?.followers || 0}
-                  </div>
-                </div>
-                <Separator
+                {/* <Separator
                   orientation='vertical'
                   className='relative mx-2 h-14 w-[1px]'
-                />
-                <div className='space-y-4 text-center'>
+                /> */}
+                <div className='cursor-pointer space-y-4 text-center'>
+                  <Link
+                    href={`/profile/posts?callback=${encodeURIComponent('/profile/dashboard')}`}
+                    className='cursor-pointer space-y-4 text-center'
+                  >
                   <div className='text-center text-sm text-muted-foreground'>
                     {t('publications')}
                   </div>
                   <div className='text-center text-3xl font-extrabold'>
                     {user?.totalposts || 0}
                   </div>
+                  </Link>
+
                 </div>
+                <Separator
+                  orientation='vertical'
+                  className='relative mx-2 h-14 w-[1px]'
+                />
+                <Link
+                  href={`/relationships?callback=${encodeURIComponent('/profile/dashboard')}`}
+                  className='cursor-pointer space-y-4 text-center'
+                >
+                  <div className='text-center text-sm text-muted-foreground'>
+                    {t('followers')}
+                  </div>
+                  <div className='text-center text-3xl font-extrabold'>
+                    {user?.followers || 0}
+                  </div>
+                </Link>
               </div>
             </div>
             <div className=''>

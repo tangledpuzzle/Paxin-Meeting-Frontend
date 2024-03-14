@@ -11,9 +11,15 @@ export interface FollowButtonGroupProps {
   me: boolean;
   follow: boolean;
   followerID: string;
+  onChangeFollow?: () => void;
 }
 
-function FollowButtonGroup({ me, follow, followerID }: FollowButtonGroupProps) {
+function FollowButtonGroup({
+  me,
+  follow,
+  followerID,
+  onChangeFollow,
+}: FollowButtonGroupProps) {
   const t = useTranslations('main');
   const [isFollowLoading, setIsFollowLoading] = useState(false);
   const [isFollowable, setIsFollowable] = useState(!follow);
@@ -40,6 +46,8 @@ function FollowButtonGroup({ me, follow, followerID }: FollowButtonGroupProps) {
         });
 
         setIsFollowable(false);
+
+        onChangeFollow && onChangeFollow();
       } else {
         toast.error(t('follow_failed'), {
           position: 'top-right',
@@ -68,6 +76,8 @@ function FollowButtonGroup({ me, follow, followerID }: FollowButtonGroupProps) {
         });
 
         setIsFollowable(true);
+
+        onChangeFollow && onChangeFollow();
       } else {
         toast.error(t('unfollow_failed'), {
           position: 'top-right',
@@ -86,8 +96,9 @@ function FollowButtonGroup({ me, follow, followerID }: FollowButtonGroupProps) {
     <>
       {isFollowable ? (
         <Button
-          className='btn btn--wide !mr-0 ml-auto !rounded-md'
+          className='btn btn--wide !my-0 !mr-0 ml-auto !rounded-md'
           disabled={isFollowLoading || me}
+          size='sm'
           onClick={handleFollow}
         >
           {isFollowLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
@@ -96,8 +107,9 @@ function FollowButtonGroup({ me, follow, followerID }: FollowButtonGroupProps) {
       ) : (
         <Button
           variant='outline'
-          className='ml-auto rounded-full'
+          className='ml-auto !rounded-md'
           disabled={isFollowLoading}
+          size='sm'
           onClick={handleUnFollow}
         >
           {isFollowLoading && <Loader2 className='mr-2 size-4 animate-spin' />}

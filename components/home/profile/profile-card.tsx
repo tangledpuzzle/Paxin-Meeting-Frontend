@@ -58,6 +58,16 @@ function ProfileCard(profile: ProfileCardProps) {
     callbackURL,
   } = profile;
 
+  const saveScrollPosition = () => {
+    if (window === undefined) return;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(
+        'home-page-scroll-position',
+        (window.scrollY || document.documentElement.scrollTop).toString()
+      );
+    }
+  };
+
   return (
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-0'>
@@ -77,7 +87,8 @@ function ProfileCard(profile: ProfileCardProps) {
           </div>
           <Link
             href='/profiles/[username]'
-            as={`/profiles/${username}?callback=${callbackURL}`}
+            as={`/profiles/${username}`}
+            onClick={saveScrollPosition}
             className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'
           ></Link>
           <div className='absolute top-3 flex w-full justify-between gap-2 px-4'>
@@ -103,7 +114,8 @@ function ProfileCard(profile: ProfileCardProps) {
         <div className='px-3 font-satoshi'>
           <Link
             href='/profiles/[username]'
-            as={`/profiles/${username}?callback=${callbackURL}`}
+            as={`/profiles/${username}`}
+            onClick={saveScrollPosition}
             className='line-clamp-1 pb-4 text-xl font-semibold text-secondary-foreground'
           >
             @{username}
@@ -156,7 +168,8 @@ function ProfileCard(profile: ProfileCardProps) {
           >
             <Link
               href='/profiles/[username]'
-              as={`/profiles/${username}?callback=${callbackURL}`}
+              as={`/profiles/${username}`}
+              onClick={saveScrollPosition}
             >
               {t('view_detail')}
             </Link>

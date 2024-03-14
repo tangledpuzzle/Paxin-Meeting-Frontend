@@ -90,8 +90,8 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
           <Link
             onClick={() => handleRoomClick()}
             key={room.id}
-            href='/profile/chat/[id]'
-            as={`/profile/chat/${room.id}`}
+            href='/chat/[id]'
+            as={`/chat/${room.id}`}
             className={cn(
               'flex w-full items-center gap-x-2 px-5 py-2 transition-colors duration-200 hover:bg-card-gradient-menu focus:outline-none',
               {
