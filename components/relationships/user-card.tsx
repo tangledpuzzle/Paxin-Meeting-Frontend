@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { BiSolidCategory } from 'react-icons/bi';
 import { LiaSmsSolid } from 'react-icons/lia';
 import { MdOutlineHouseSiding } from 'react-icons/md';
+import MessageForm from '../home/messsage-form';
+import { FollowButtonGroup } from '../home/profile/follow-button-group';
 
 interface UserType {
   id: string;
@@ -18,14 +20,16 @@ interface UserType {
   categories: string[];
   hashtags: string[];
   country: string;
+  bot: boolean;
 }
 
 interface UserCardProps {
   user: UserType;
   follow: boolean;
+  mutate?: () => void;
 }
 
-export default function UserCard({ user, follow }: UserCardProps) {
+export default function UserCard({ user, follow, mutate }: UserCardProps) {
   return (
     <div className='flex gap-4 border-b py-4'>
       <Avatar className='size-16'>
@@ -34,7 +38,7 @@ export default function UserCard({ user, follow }: UserCardProps) {
       </Avatar>
       <div>
         <Link href='/profiles/[username]' as={`/profiles/${user.username}`}>
-          {user.username}
+          @{user.username}
         </Link>
         <p className='line-clamp-2 !text-xs text-muted-foreground'>
           {user.bio}
@@ -54,13 +58,27 @@ export default function UserCard({ user, follow }: UserCardProps) {
           ))}
         </div>
       </div>
-      <div className='flex gap-2'>
-        <Button variant='outline' className='rounded-full' size='icon'>
-          <LiaSmsSolid className='size-4' />
-        </Button>
-        <Button variant='outline' size='sm' className='rounded-full'>
+      <div className='ml-auto flex gap-2'>
+        <MessageForm
+          user={{
+            username: user.username,
+            userId: user.id,
+            bot: user.bot,
+          }}
+        >
+          <Button variant='outline' className='rounded-full' size='icon'>
+            <LiaSmsSolid className='size-4' />
+          </Button>
+        </MessageForm>
+        <FollowButtonGroup
+          me={false}
+          follow={follow}
+          followerID={user.id}
+          onChangeFollow={mutate ? () => mutate() : undefined}
+        />
+        {/* <Button variant='outline' size='sm' className='rounded-full'>
           {follow ? 'Unfollow' : 'Follow'}
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

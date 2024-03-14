@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import createRoom from '@/lib/server/chat/createRoom';
 import getRoomDetails from '@/lib/server/chat/getRoomDetails';
+import getRoomId from '@/lib/server/chat/getRoomId';
 import sendMessage from '@/lib/server/chat/sendMessage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
@@ -34,7 +35,6 @@ import { z } from 'zod';
 export default function MessageForm({
   children,
   user,
-  roomId,
 }: {
   children: React.ReactNode;
   user: {
@@ -42,7 +42,6 @@ export default function MessageForm({
     userId: string;
     bot?: boolean;
   };
-  roomId: string;
 }) {
   const t = useTranslations('chatting');
   const router = useRouter();
@@ -63,6 +62,8 @@ export default function MessageForm({
     setIsLoading(true);
 
     try {
+      const roomId = await getRoomId(user.userId);
+
       if (roomId === '') {
         const _roomId = await createRoom({
           acceptorId: user.userId,
@@ -121,6 +122,8 @@ export default function MessageForm({
 
   const submitForBot = async () => {
     try {
+      const roomId = await getRoomId(user.userId);
+
       if (roomId === '') {
         const _roomId = await createRoom({
           acceptorId: user.userId,

@@ -1,20 +1,14 @@
 'use client';
 
-import { PaginationComponent } from '@/components/common/pagination';
+// import { PaginationComponent } from '@/components/common/pagination';
 import BackButton from '@/components/home/back-button';
+import UserCard from '@/components/relationships/user-card';
 import UserCardSkeleton from '@/components/relationships/user-card-skeleton';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { PaxContext } from '@/context/context';
 import axios from 'axios';
-import { MoveLeft } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { BiSolidCategory } from 'react-icons/bi';
-import { LiaSmsSolid } from 'react-icons/lia';
-import { MdOutlineHouseSiding } from 'react-icons/md';
+import { useContext, useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 interface UserType {
@@ -26,22 +20,34 @@ interface UserType {
   categories: string[];
   hashtags: string[];
   country: string;
+  bot: boolean;
+}
+
+interface FollowType {
+  user: UserType;
+  follow: boolean;
 }
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function Relationships() {
   const t = useTranslations('main');
+  const { user } = useContext(PaxContext);
   const locale = useLocale();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [followers, setFollowers] = useState<UserType[]>([]);
+  const [followers, setFollowers] = useState<FollowType[]>([]);
   const [currentTab, setCurrentTab] = useState<'FOLLOWERS' | 'FOLLOWINGS'>(
     'FOLLOWERS'
   );
 
-  const { data: fetchedData, error } = useSWR(
-    `/api/users/me?language=${locale}`,
+  const {
+    data: fetchedData,
+    isLoading: isFetchLoading,
+    mutate,
+    error,
+  } = useSWR(
+    `/api/relations/${currentTab.toLowerCase()}/get?language=${locale}`,
     fetcher
   );
 
@@ -58,30 +64,58 @@ export default function Relationships() {
     setCurrentTab(_tab.toUpperCase() as 'FOLLOWERS' | 'FOLLOWINGS');
   }, [searchParams]);
 
-  // useEffect(() => {
-  //   if (fetchedData) {
-  //     const _followers = fetchedData?.data?.user?.followers?.map(
-  //       (follower: any) => {
-  //         return {
-  //           id: follower?.ID,
-  //           username: follower?.Name,
-  //           avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${follower?.Photo}`,
-  //           bio: follower?.bio,
-  //           cities: follower?.profile[0]?.City,
-  //           categories: follower?.profile[0]?.Category,
-  //           hashtags: follower?.profile[0]?.Hashtag,
-  //           country: follower?.profile[0]?.Country,
-  //         };
-  //       }
-  //     );
-  //   }
-  // }, [fetchedData]);
+  useEffect(() => {
+    if (fetchedData) {
+      const _followers = fetchedData.data.map((follower: any) => {
+        return {
+          user: {
+            id: follower.ID,
+            username: follower.Name,
+            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${follower.Photo}`,
+            bio:
+              follower.Profile && follower.Profile.length > 0
+                ? follower.Profile[0].Descr
+                : [],
+            cities:
+              follower.Profile && follower.Profile.length > 0
+                ? follower.Profile[0].City.map(
+                    (c: any) => c.Translations[0].Name
+                  )
+                : [],
+            categories:
+              follower.Profile && follower.Profile.length > 0
+                ? follower.Profile[0].Guilds.map(
+                    (guild: any) => guild.Translations[0].Name
+                  )
+                : [],
+            hashtags:
+              follower.Profile && follower.Profile.length > 0
+                ? follower.Profile[0].Hashtags.map((tag: any) => tag.Hashtag)
+                : [],
+            country:
+              follower.Profile && follower.Profile.length > 0
+                ? follower.Profile[0].Lang
+                : '',
+            bot: follower.IsBot,
+          },
+          follow:
+            currentTab === 'FOLLOWINGS'
+              ? true
+              : follower.Followings.find((item: any) => item.ID === user?.id)
+                ? true
+                : false,
+        };
+      });
+
+      setFollowers(_followers);
+    }
+  }, [fetchedData, user]);
 
   return (
     <div className='container mx-auto'>
-      <BackButton callback={''} />
+      <BackButton callback={searchParams.get('callback') || ''} />
       <div className='mx-auto max-w-5xl'>
-        <div className='flex'>
+        <div className='my-4 flex'>
           <div
             className='me-2 cursor-pointer'
             onClick={() => handleTabChange('FOLLOWERS')}
@@ -89,7 +123,7 @@ export default function Relationships() {
             <div
               className={`inline-flex items-center justify-center rounded-t-lg border-b-2 p-4 ${currentTab === 'FOLLOWERS' ? 'border-primary text-primary' : 'group hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'}`}
             >
-              <span>Followers</span>
+              <span>{t('followers')}</span>
             </div>
           </div>
           <div
@@ -99,157 +133,28 @@ export default function Relationships() {
             <div
               className={`inline-flex items-center justify-center rounded-t-lg border-b-2 p-4 ${currentTab === 'FOLLOWINGS' ? 'border-primary text-primary' : 'group hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'}`}
             >
-              <span>Followings</span>
+              <span>{t('followings')}</span>
             </div>
           </div>
         </div>
-        <UserCardSkeleton />
-        <UserCardSkeleton />
-        <div className='flex gap-4 border-b py-4'>
-          <Avatar className='size-16'>
-            <AvatarImage
-              src='https://proxy.paxintrade.com/150/https://img.paxintrade.com/1707317655_eTWDDVRb/61d931fe4979eec5e6bf4ed533e29b8411b9d7fb65cb42575f37e25b0a4ecf7c_880.jpg.jpg'
-              alt='@shadcn'
+
+        {!isFetchLoading && fetchedData ? (
+          followers.map((follower) => (
+            <UserCard
+              key={follower.user.id}
+              user={follower.user}
+              follow={follower.follow}
+              mutate={mutate}
             />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div>
-            <Link href='/'>@alexanderjensen-1698</Link>
-            <p className='line-clamp-2 !text-xs text-muted-foreground'>
-              Hello there! I'm Alexander Jensen, an economic enthusiast from the
-              charming city of Randers, Denmark. Always keen to connect with
-              like-minded individuals and learn about new trends in the world of
-              economy. Let's exchange ideas and make a difference together!
-            </p>
-            <div className='flex flex-wrap gap-2'>
-              <Badge variant='outline' className='rounded-full text-xs'>
-                <MdOutlineHouseSiding className='mr-1 size-4 text-gray-500 dark:text-white' />
-                Economist
-              </Badge>
-              <Badge variant='outline' className='rounded-full text-xs'>
-                <BiSolidCategory className='mr-1 size-4 text-gray-500 dark:text-white' />
-                DenmarkUnited
-              </Badge>
-            </div>
-          </div>
-          <div className='flex gap-2'>
-            <Button variant='outline' className='rounded-full' size='icon'>
-              <LiaSmsSolid className='size-4' />
-            </Button>
-            <Button variant='outline' size='sm' className='rounded-full'>
-              Follow
-            </Button>
-          </div>
-        </div>
-        <div className='flex gap-4 border-b py-4'>
-          <Avatar className='size-16'>
-            <AvatarImage
-              src='https://proxy.paxintrade.com/150/https://img.paxintrade.com/1707317655_eTWDDVRb/61d931fe4979eec5e6bf4ed533e29b8411b9d7fb65cb42575f37e25b0a4ecf7c_880.jpg.jpg'
-              alt='@shadcn'
-            />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div>
-            <h3>@alexanderjensen-1698</h3>
-            <p className='line-clamp-2 !text-xs text-muted-foreground'>
-              Hello there! I'm Alexander Jensen, an economic enthusiast from the
-              charming city of Randers, Denmark. Always keen to connect with
-              like-minded individuals and learn about new trends in the world of
-              economy. Let's exchange ideas and make a difference together!
-            </p>
-            <div className='flex flex-wrap gap-2'>
-              <Badge variant='outline' className='rounded-full text-xs'>
-                <MdOutlineHouseSiding className='mr-1 size-4 text-gray-500 dark:text-white' />
-                Economist
-              </Badge>
-              <Badge variant='outline' className='rounded-full text-xs'>
-                <BiSolidCategory className='mr-1 size-4 text-gray-500 dark:text-white' />
-                DenmarkUnited
-              </Badge>
-            </div>
-          </div>
-          <div className='flex gap-2'>
-            <Button variant='outline' className='rounded-full' size='icon'>
-              <LiaSmsSolid className='size-4' />
-            </Button>
-            <Button variant='outline' size='sm' className='rounded-full'>
-              Follow
-            </Button>
-          </div>
-        </div>
-        <div className='flex gap-4 border-b py-4'>
-          <Avatar className='size-16'>
-            <AvatarImage
-              src='https://proxy.paxintrade.com/150/https://img.paxintrade.com/1707317655_eTWDDVRb/61d931fe4979eec5e6bf4ed533e29b8411b9d7fb65cb42575f37e25b0a4ecf7c_880.jpg.jpg'
-              alt='@shadcn'
-            />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div>
-            <h3>@alexanderjensen-1698</h3>
-            <p className='line-clamp-2 !text-xs text-muted-foreground'>
-              Hello there! I'm Alexander Jensen, an economic enthusiast from the
-              charming city of Randers, Denmark. Always keen to connect with
-              like-minded individuals and learn about new trends in the world of
-              economy. Let's exchange ideas and make a difference together!
-            </p>
-            <div className='flex flex-wrap gap-2'>
-              <Badge variant='outline' className='rounded-full text-xs'>
-                <MdOutlineHouseSiding className='mr-1 size-4 text-gray-500 dark:text-white' />
-                Economist
-              </Badge>
-              <Badge variant='outline' className='rounded-full text-xs'>
-                <BiSolidCategory className='mr-1 size-4 text-gray-500 dark:text-white' />
-                DenmarkUnited
-              </Badge>
-            </div>
-          </div>
-          <div className='flex gap-2'>
-            <Button variant='outline' className='rounded-full' size='icon'>
-              <LiaSmsSolid className='size-4' />
-            </Button>
-            <Button variant='outline' size='sm' className='rounded-full'>
-              Follow
-            </Button>
-          </div>
-        </div>
-        <div className='flex gap-4 border-b py-4'>
-          <Avatar className='size-16'>
-            <AvatarImage
-              src='https://proxy.paxintrade.com/150/https://img.paxintrade.com/1707317655_eTWDDVRb/61d931fe4979eec5e6bf4ed533e29b8411b9d7fb65cb42575f37e25b0a4ecf7c_880.jpg.jpg'
-              alt='@shadcn'
-            />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div>
-            <h3>@alexanderjensen-1698</h3>
-            <p className='line-clamp-2 !text-xs text-muted-foreground'>
-              Hello there! I'm Alexander Jensen, an economic enthusiast from the
-              charming city of Randers, Denmark. Always keen to connect with
-              like-minded individuals and learn about new trends in the world of
-              economy. Let's exchange ideas and make a difference together!
-            </p>
-            <div className='flex flex-wrap gap-2'>
-              <Badge variant='outline' className='rounded-full text-xs'>
-                <MdOutlineHouseSiding className='mr-1 size-4 text-gray-500 dark:text-white' />
-                Economist
-              </Badge>
-              <Badge variant='outline' className='rounded-full text-xs'>
-                <BiSolidCategory className='mr-1 size-4 text-gray-500 dark:text-white' />
-                DenmarkUnited
-              </Badge>
-            </div>
-          </div>
-          <div className='flex gap-2'>
-            <Button variant='outline' className='rounded-full' size='icon'>
-              <LiaSmsSolid className='size-4' />
-            </Button>
-            <Button variant='outline' size='sm' className='rounded-full'>
-              Follow
-            </Button>
-          </div>
-        </div>
-        <PaginationComponent
+          ))
+        ) : (
+          <>
+            <UserCardSkeleton />
+            <UserCardSkeleton />
+            <UserCardSkeleton />
+          </>
+        )}
+        {/* <PaginationComponent
           currentPage={
             searchParams.get('page') ? Number(searchParams.get('page')) : 1
           }
@@ -260,7 +165,7 @@ export default function Relationships() {
 
             router.push(`?${newSearchParams.toString()}`);
           }}
-        />
+        /> */}
       </div>
     </div>
   );
