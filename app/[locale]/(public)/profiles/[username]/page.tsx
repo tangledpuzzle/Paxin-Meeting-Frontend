@@ -276,7 +276,6 @@ export default async function ProfilePage({
                   userId: profileDetails.id,
                   bot: profileDetails.bot,
                 }}
-                roomId={roomId}
               >
                 <Button variant='outline' className='rounded-full' size='icon'>
                   <LiaSmsSolid className='size-4' />

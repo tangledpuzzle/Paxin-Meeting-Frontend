@@ -1,15 +1,8 @@
-import React, { useContext } from 'react';
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import {
-  HamburgerMenuIcon,
-  DotFilledIcon,
-  CheckIcon,
-  ChevronRightIcon,
-} from '@radix-ui/react-icons';
-import { MeetCreateModal } from '../profiles/conference/meet-create-modal';
-import { Button } from './button';
-import { createRoom, createRoomId } from '@/helpers/api/paxMeetAPI';
 import { PaxContext } from '@/context/context';
+import { createRoom, createRoomId } from '@/helpers/api/paxMeetAPI';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { CheckIcon } from '@radix-ui/react-icons';
+import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
 
 interface DropdownMenuDemoProps {
@@ -27,11 +20,7 @@ const DropdownMenuDemo = ({
   const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
   const [urlsChecked, setUrlsChecked] = React.useState(false);
   const [person, setPerson] = React.useState('pedro');
-  const [roomCreateLoading, setRoomCreateLoading] =
-    React.useState<boolean>(false);
-  const [conferenceModalOpen, setConferenceModalOpen] = React.useState(false);
   const inputFileRef = React.useRef<HTMLInputElement>(null);
-  const conferenceModalButtonRef = React.useRef<HTMLButtonElement>(null);
 
   const handleFileUpload = () => {
     if (!inputFileRef.current) return;
@@ -51,26 +40,16 @@ const DropdownMenuDemo = ({
     }
   };
 
-  const handleOpenConferenceModal = () => {
-    setConferenceModalOpen(true);
-    // conferenceModalButtonRef.current &&
-    //   conferenceModalButtonRef.current.click();
-  };
-
-  const onCreateRoom = async (feed: string) => {
+  const onCreateRoom = async () => {
     if (!user) return;
 
-    setRoomCreateLoading(true);
-    const roomId = createRoomId(feed);
+    const roomId = createRoomId(Math.random().toString(36).substring(2, 7));
     const token = await createRoom(roomId, user.id, user.username);
-    setRoomCreateLoading(false);
 
     if (token) {
       toast.success('New Room is created.', {
         position: 'top-right',
       });
-
-      setConferenceModalOpen(false);
 
       onRoomCreate &&
         onRoomCreate(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/meet/${roomId}`);
@@ -91,14 +70,6 @@ const DropdownMenuDemo = ({
         multiple
         onChange={handleFileUpload}
       />
-      <MeetCreateModal
-        isLoading={roomCreateLoading}
-        open={conferenceModalOpen}
-        setOpen={setConferenceModalOpen}
-        onCreate={onCreateRoom}
-      >
-        <Button className='hidden' ref={conferenceModalButtonRef}></Button>
-      </MeetCreateModal>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
 
@@ -165,7 +136,7 @@ const DropdownMenuDemo = ({
 
             <DropdownMenu.Item
               className='DropdownMenuItem'
-              onClick={handleOpenConferenceModal}
+              onClick={onCreateRoom}
             >
               Create a conference
             </DropdownMenu.Item>
