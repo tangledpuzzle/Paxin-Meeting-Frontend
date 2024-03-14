@@ -110,7 +110,7 @@ export default function DashboardPage() {
                   className='relative mx-2 h-14 w-[1px]'
                 />
                 <Link
-                  href={'/relationships'}
+                  href={`/relationships?callback=${encodeURIComponent('/profile/dashboard')}`}
                   className='cursor-pointer space-y-4 text-center'
                 >
                   <div className='text-center text-sm text-muted-foreground'>
