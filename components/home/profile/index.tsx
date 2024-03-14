@@ -149,7 +149,7 @@ export default function ProfileSection() {
           <span className='px-0 text-sm'>Just one page yet</span>
         </div>
       )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3 pb-8'>
         {!error ? (
           !isLoading && profileData ? (
             profileData?.length > 0 ? (
