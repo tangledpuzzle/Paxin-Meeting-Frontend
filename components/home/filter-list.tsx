@@ -73,7 +73,7 @@ export default function FilterListSection() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('city', _cities.length > 0 ? _cities.join(',') : 'all');
     router.push(`?${newSearchParams.toString()}`);
-    setFiltersApplied(true);
+
   };
 
   const handleDeleteCategory = (category: string) => {
@@ -85,7 +85,7 @@ export default function FilterListSection() {
       _categories.length > 0 ? _categories.join(',') : 'all'
     );
     router.push(`?${newSearchParams.toString()}`);
-    setFiltersApplied(true);
+
   };
 
   const handleDeleteHashtag = (hashtag: string) => {
@@ -97,7 +97,7 @@ export default function FilterListSection() {
       _hashtags.length > 0 ? _hashtags.join(',') : 'all'
     );
     router.push(`?${newSearchParams.toString()}`);
-    setFiltersApplied(true);
+
   };
 
   const handleDeleteMoney = () => {
@@ -106,7 +106,7 @@ export default function FilterListSection() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('money', 'all');
     router.push(`?${newSearchParams.toString()}`);
-    setFiltersApplied(true);
+
   };
 
   useEffect(() => {

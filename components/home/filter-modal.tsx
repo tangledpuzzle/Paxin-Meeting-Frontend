@@ -418,6 +418,7 @@ export function FilterModal() {
         <DialogHeader>
           <DialogTitle>{t('filters')}</DialogTitle>
         </DialogHeader>
+        <SavedFilterModal setIsFilterModalOpen={setIsFilterModalOpen} />
         <div className='grid gap-4 py-4'>
           <div className=''>
             <Label htmlFor='name' className='text-right'>
@@ -522,9 +523,9 @@ export function FilterModal() {
           )}
         </div>
         <DialogFooter >
-          {session ?
+          {/* {session ?
             <div className='w-full justify-between flex'>
-              <SavedFilterModal setIsFilterModalOpen={setIsFilterModalOpen} />
+
               <div>
                 <Button type='submit' className='mr-3' variant='outline' onClick={handleResetFilters}>
                   {t('reset')}
@@ -536,16 +537,16 @@ export function FilterModal() {
                 </DialogClose>
               </div>
             </div> :
-            <>
-              <Button type='submit' className='mr-3' variant='outline' onClick={handleResetFilters}>
-                {t('reset')}
-              </Button>
-              <DialogClose asChild>
-                <Button type='submit' onClick={handleApplyFilters}>
-                  {t('apply')}
-                </Button>
-              </DialogClose>
-            </>}
+            <> */}
+          <Button type='submit' className='mr-3' variant='outline' onClick={handleResetFilters}>
+            {t('reset')}
+          </Button>
+          <DialogClose asChild>
+            <Button type='submit' onClick={handleApplyFilters}>
+              {t('apply')}
+            </Button>
+          </DialogClose>
+          {/* </>} */}
 
         </DialogFooter>
       </DialogContent>
