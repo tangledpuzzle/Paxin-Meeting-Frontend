@@ -24,6 +24,7 @@ import { useAppDispatch, useAppSelector, useAppStore } from '@/store/hook';
 import {
   addServerVersion,
   addToken,
+  clearToken,
   // clearToken,
 } from '@/store/slices/sessionSlice';
 import StartupJoinModal from './joinModal';
@@ -43,7 +44,9 @@ import {
 import {
   clearAccessToken,
   getAccessToken,
+  getMeetId,
   setAccessToken,
+  setMeetingId,
 } from '@/helpers/utils';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -199,6 +202,15 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   };
 
   useEffect(() => {
+    const prevMeetId = getMeetId();
+    if (prevMeetId && prevMeetId !== roomId) {
+      // In this case we clear localstoreage
+      console.log('MEET/Already Existing session');
+      clearToken();
+    }
+  }, []);
+
+  useEffect(() => {
     if (!accessTokenLoaded) {
       getMeetAccessToken().then((token) => {
         if (token === '') {
@@ -329,6 +341,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
       // @ts-ignore
       const currentConnection = startLivekitConnection(livekitInfo, t);
       setCurrentConnection(currentConnection);
+      setMeetingId(roomId);
     }
   };
 

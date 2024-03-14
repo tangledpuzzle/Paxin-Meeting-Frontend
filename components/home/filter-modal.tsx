@@ -22,7 +22,7 @@ import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
 import { Badge } from '../ui/badge';
 import { IoMdClose } from 'react-icons/io';
-import { SavedFilterModal } from '@/components/home/saved-filter-modal'
+import { SavedFilterModal } from '@/components/home/saved-filter-modal';
 interface Option {
   value: number | string;
   label: string;
@@ -77,13 +77,19 @@ export function FilterModal() {
   );
 
   const getfilters = async () => {
-    const filters = await axios.get('/api/flows/filter');
-    console.log(filters.data.data)
-    setFiltersList(filters.data.data);
-  }
+    try {
+      const filters = await axios.get('/api/flows/filter');
+      console.log(filters.data.data);
+      setFiltersList(filters.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getfilters();
-  }, [])
+  }, []);
+
   const handleCitySearch = useDebouncedCallback((value: string) => {
     setCityKeyword(value);
   }, 300);
@@ -514,11 +520,16 @@ export function FilterModal() {
             </div>
           )}
         </div>
-        <DialogFooter >
-          <div className='w-full justify-between flex'>
+        <DialogFooter>
+          <div className='flex w-full justify-between'>
             <SavedFilterModal setIsFilterModalOpen={setIsFilterModalOpen} />
             <div>
-              <Button type='submit' className='mr-3' variant='outline' onClick={handleResetFilters}>
+              <Button
+                type='submit'
+                className='mr-3'
+                variant='outline'
+                onClick={handleResetFilters}
+              >
                 {t('reset')}
               </Button>
               <DialogClose asChild>
@@ -530,6 +541,6 @@ export function FilterModal() {
           </div>
         </DialogFooter>
       </DialogContent>
-    </Dialog >
+    </Dialog>
   );
 }
