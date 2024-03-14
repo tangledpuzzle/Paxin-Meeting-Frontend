@@ -438,7 +438,7 @@ export default function Messages({ children }: MessagesProps) {
   const [selectedContact, setSelectedContact] = useState<number | null>(null);
   const pathname = usePathname();
   const [mode, setMode] = useState(true);
-  
+
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
