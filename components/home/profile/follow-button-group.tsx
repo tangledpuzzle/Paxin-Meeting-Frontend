@@ -96,7 +96,7 @@ function FollowButtonGroup({
     <>
       {isFollowable ? (
         <Button
-          className='btn btn--wide !my-0 !mr-0 ml-auto !rounded-full'
+          className='btn btn--wide !my-0 !mr-0 ml-auto !rounded-md'
           disabled={isFollowLoading || me}
           size='sm'
           onClick={handleFollow}
@@ -107,7 +107,7 @@ function FollowButtonGroup({
       ) : (
         <Button
           variant='outline'
-          className='ml-auto rounded-full'
+          className='ml-auto !rounded-md'
           disabled={isFollowLoading}
           size='sm'
           onClick={handleUnFollow}

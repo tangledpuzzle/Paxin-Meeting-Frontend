@@ -119,21 +119,21 @@ export default function Relationships() {
       <div className='mx-auto max-w-5xl'>
         <div className='my-4 flex'>
           <div
-            className='me-2 cursor-pointer'
+            className='me-2 cursor-pointer w-full'
             onClick={() => handleTabChange('FOLLOWERS')}
           >
             <div
-              className={`inline-flex items-center justify-center rounded-t-lg border-b-2 p-4 ${currentTab === 'FOLLOWERS' ? 'border-primary text-primary' : 'group hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'}`}
+              className={`inline-flex w-full items-center justify-center rounded-t-lg border-b-2 p-4 ${currentTab === 'FOLLOWERS' ? 'border-primary text-primary' : 'group hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'}`}
             >
               <span>{t('followers')}</span>
             </div>
           </div>
           <div
-            className='me-2 cursor-pointer'
+            className='me-2 cursor-pointer w-full'
             onClick={() => handleTabChange('FOLLOWINGS')}
           >
             <div
-              className={`inline-flex items-center justify-center rounded-t-lg border-b-2 p-4 ${currentTab === 'FOLLOWINGS' ? 'border-primary text-primary' : 'group hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'}`}
+              className={`inline-flex w-full items-center justify-center rounded-t-lg border-b-2 p-4 ${currentTab === 'FOLLOWINGS' ? 'border-primary text-primary' : 'group hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'}`}
             >
               <span>{t('followings')}</span>
             </div>

@@ -31,7 +31,7 @@ interface UserCardProps {
 
 export default function UserCard({ user, follow, mutate }: UserCardProps) {
   return (
-    <div className='flex gap-4 border-b py-4'>
+    <div className='flex flex-col md:flex-row gap-4 border-b py-4'>
       <Avatar className='size-16'>
         <AvatarImage src={user.avatar} alt={user.username} />
         <AvatarFallback>{getInitials(user.username || '')}</AvatarFallback>
@@ -58,7 +58,7 @@ export default function UserCard({ user, follow, mutate }: UserCardProps) {
           ))}
         </div>
       </div>
-      <div className='ml-auto flex gap-2'>
+      <div className='ml-auto flex gap-2 justify-start items-start'>
         <MessageForm
           user={{
             username: user.username,
@@ -66,7 +66,7 @@ export default function UserCard({ user, follow, mutate }: UserCardProps) {
             bot: user.bot,
           }}
         >
-          <Button variant='outline' className='rounded-full' size='icon'>
+          <Button variant='outline' className='!rounded-full' size='icon'>
             <LiaSmsSolid className='size-4' />
           </Button>
         </MessageForm>

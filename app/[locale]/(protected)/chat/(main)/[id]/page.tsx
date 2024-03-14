@@ -122,6 +122,8 @@ export default function ChatDetailPage({
     preload: true,
   });
 
+
+
   const handleMessageSubmit = async (inputMessage: string) => {
     if (inputMessage.trim() === '') return;
 
@@ -183,7 +185,7 @@ export default function ChatDetailPage({
           },
         });
       }
-
+      
       setMessages(_messages);
 
       // Clear input message and uploaded files
@@ -192,6 +194,8 @@ export default function ChatDetailPage({
 
       // Play message sent sound
       messageSentSound.play();
+
+  
 
       const bodyData: { [key: string]: any } = {
         lang: locale,
@@ -622,7 +626,6 @@ export default function ChatDetailPage({
                 <textarea
                   ref={textareaRef}
                   value={inputMessage}
-                  onClick={autoHeight}
                   onChange={(e) => setInputMessage(e.target.value)}
                   className='h-[68px] max-h-[200px] w-full rounded-xl bg-card-gradient-menu-on p-2'
                   onInput={autoHeight}
