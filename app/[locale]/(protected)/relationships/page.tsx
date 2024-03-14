@@ -74,7 +74,9 @@ export default function Relationships() {
             avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${follower.Photo}`,
             bio:
               follower.Profile && follower.Profile.length > 0
-                ? follower.Profile[0].Descr
+                ? follower.Profile[0].MultilangDescr[
+                    locale.charAt(0).toUpperCase() + locale.slice(1)
+                  ]
                 : [],
             cities:
               follower.Profile && follower.Profile.length > 0
