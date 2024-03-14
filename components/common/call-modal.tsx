@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FaPlus, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { HiOutlinePlus } from 'react-icons/hi';
 import { MdCallEnd } from 'react-icons/md';
@@ -20,6 +20,9 @@ import { PiMicrophoneLight, PiMicrophoneSlash } from 'react-icons/pi';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getInitials } from '@/lib/utils';
 import { PaxContext } from '@/context/context';
+import { Howl, Howler } from 'howler';
+
+Howler.autoUnlock = true;
 
 interface UserType {
   id: string;
@@ -38,9 +41,41 @@ export default function CallModal({ children, callee }: CallModalProps) {
   const [isVideo, setIsVideo] = useState(true);
   const [isMicrophone, setIsMicrophone] = useState(true);
 
+  const callSound = new Howl({
+    src: ['/audio/call.mp3'],
+    html5: true,
+    loop: true,
+    preload: true,
+  });
+
+  const endSound = new Howl({
+    src: ['/audio/end.mp3'],
+    html5: true,
+    loop: false,
+    preload: true,
+  });
+
+  const busySound = new Howl({
+    src: ['/audio/busy.mp3'],
+    html5: true,
+    loop: false,
+    preload: true,
+  });
+
   const onEndCall = () => {
+    endSound.play();
     setOpen(false);
   };
+
+  useEffect(() => {
+    callSound.play();
+
+    return () => {
+      callSound.stop();
+      endSound.stop();
+      busySound.stop();
+    };
+  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(true)}>
