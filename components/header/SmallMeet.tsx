@@ -265,24 +265,25 @@ export default function SmallMeet() {
 
       {/* <Meet currentConnection={currentConnection} />; */}
       {isActive && (
-        <div className='fixed left-[calc(10vw)] mx-auto'>
+        <>
           {/* @ts-ignore */}
           <Draggable
             axis='both'
             header='handle'
             handle='.handle'
-            defaultPosition={{ x: 0, y: 0 }}
+            defaultClassName='fixed left-0 top-0'
+            defaultPosition={{ x: 0, y: 120 }}
             //   position={null}
             scale={1}
           >
             <Resizable
-              minWidth={300}
+              minWidth={150}
               defaultSize={{
-                width: 500,
-                height: 600,
+                width: 400,
+                height: 300,
               }}
             >
-              <div className='w-full rounded-2xl bg-darkPrimary shadow-sky-50'>
+              <div className='h-full w-full rounded-2xl bg-darkPrimary shadow-sky-50'>
                 <div className='bg-h flex justify-between p-2'>
                   <div className='flex w-full justify-between'>
                     <p className='mx-auto'>{roomId}</p>
@@ -327,7 +328,7 @@ export default function SmallMeet() {
               </div>
             </Resizable>
           </Draggable>
-        </div>
+        </>
       )}
     </>
   ) : null;
