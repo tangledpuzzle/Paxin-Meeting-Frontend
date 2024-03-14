@@ -4,6 +4,8 @@
     "description": ""
   },
   "main": {
+    "one_page": "Only 1 page",
+
     "back_flow": "Back",
     "next_flow": "Forward",
     "scroll_down": "don't refuse",
