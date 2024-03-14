@@ -18,6 +18,7 @@ import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import usePreventBodyScroll from '@/components/ui/scrollmouse';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 export function SavedFilterModal({ setIsFilterModalOpen }: any) {
@@ -155,7 +156,19 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
         <DialogHeader>
           <DialogTitle>{t('saved_filters')} </DialogTitle>
         </DialogHeader>
-        {filtersList.map((each, key) =>
+        {filtersList.length === 0 ? <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
+          <div className='flex flex-col items-center'>
+            <Image
+              src={'/images/home/empty-search-result.svg'}
+              width={200}
+              height={200}
+              alt='Empty Search Result'
+            />
+            <p className='text-center text-lg font-bold'>
+              {t('empty_search_result')}
+            </p>
+          </div>
+        </div> : <>{filtersList.map((each, key) =>
           <div className='flex justify-between gap-4' key={key}>
             {editMode == key ?
               <Input className='w-[20%]' value={newName} onChange={(event) => { setNewName(event.target.value) }}></Input> :
@@ -201,7 +214,10 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
               </Button>
             }
           </div>
-        )}
+        )}</>}
+
+
+
       </DialogContent>
     </Dialog >
   );
