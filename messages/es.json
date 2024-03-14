@@ -483,6 +483,7 @@
         "settings": "Configuraciones",
         "keyboard-shortcuts": "Atajos de teclado",
         "logout": "Cerrar sesión",
+        "stepout": "Salir",
         "end": "Fin",
         "alert": {
           "confirm": "¿Estás seguro?",
