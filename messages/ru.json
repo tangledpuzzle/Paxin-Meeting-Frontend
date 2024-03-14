@@ -4,6 +4,7 @@
     "description": ""
   },
   "main": {
+    "one_page": "Только 1 страница",
     "back_flow": "Назад",
     "next_flow": "Вперед",
     "scroll_down": "Не отказывайтесь",

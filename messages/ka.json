@@ -4,6 +4,7 @@
     "description": ""
   },
   "main": {
+    "one_page": "მხოლოდ 1 გვერდი",
     "back_flow": "უკან",
     "next_flow": "წინ",
     "scroll_down": "უარი არ თქვა",
