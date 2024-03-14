@@ -484,6 +484,7 @@
         "settings": "Настройки",
         "keyboard-shortcuts": "Сочетание клавиш",
         "logout": "Выход",
+        "stepout": "Выйти",
         "end": "Конец",
         "alert": {
           "confirm": "Вы уверены?",

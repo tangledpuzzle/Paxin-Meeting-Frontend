@@ -7,10 +7,11 @@ import useSWR from 'swr';
 import { FlowCard } from '@/components/home/flow/flow-card';
 import { FlowCardSkeleton } from '@/components/home/flow/flow-card-skeleton';
 import { Button } from '@/components/ui/button';
+import { scrollToTransition } from '@/lib/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
@@ -43,6 +44,7 @@ const pageSize = 12;
 
 export default function FlowSection() {
   const t = useTranslations('main');
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [flowData, setFlowData] = useState<FlowData[] | null>(null);
   const [maxPage, setMaxPage] = useState<number>(1);
@@ -50,6 +52,7 @@ export default function FlowSection() {
   const [fetchURL, setFetchURL] = useState('');
   const [nextPageLink, setNextPageLink] = useState<string | null>(null);
   const [prevPageLink, setPrevPageLink] = useState<string | null>(null);
+  const [scrollPos, setScrollPos] = useState(0);
 
   const { data: fetchedData, isLoading, error } = useSWR(fetchURL, fetcher);
 
@@ -83,6 +86,14 @@ export default function FlowSection() {
       newSearchParams.set('page', (_page + 1).toString());
       setNextPageLink(`/home?${newSearchParams.toString()}`);
     }
+
+    const prevScrollPos = Number(searchParams.get('scrollPos') || 0);
+    if (prevScrollPos > 0) {
+      scrollToTransition(prevScrollPos);
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.delete('scrollPos');
+      router.replace(`?${newSearchParams.toString()}`, { scroll: false });
+    }
   }, [searchParams, maxPage]);
 
   useEffect(() => {
@@ -92,6 +103,18 @@ export default function FlowSection() {
       setMaxPage(Math.ceil(fetchedData.meta.total / pageSize));
     }
   }, [fetchedData, error]);
+
+  useEffect(() => {
+    if (window === undefined) return;
+
+    const handleScroll = () => {
+      setScrollPos(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className='w-full'>
@@ -134,7 +157,13 @@ export default function FlowSection() {
           flowData && !isLoading ? (
             flowData?.length > 0 ? (
               flowData.map((flow: FlowData) => (
-                <FlowCard key={flow.id} {...flow} callbackURL={''} />
+                <FlowCard
+                  key={flow.id}
+                  {...flow}
+                  callbackURL={encodeURIComponent(
+                    `/home?mode=flow&scrollPos=${scrollPos}${searchParams.toString() ? '&' : ''}${searchParams.toString()}`
+                  )}
+                />
               ))
             ) : (
               <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>

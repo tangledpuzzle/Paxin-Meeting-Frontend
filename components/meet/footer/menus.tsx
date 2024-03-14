@@ -17,6 +17,7 @@ interface IHeaderMenusProps {
 const HeaderMenus = ({ onOpenAlert }: IHeaderMenusProps) => {
   const isAdmin = store.getState().session.currentUser?.metadata?.is_admin;
   const session = useSession();
+  console.log(session);
   const dispatch = useAppDispatch();
   const t = useTranslations('meet');
 
