@@ -519,13 +519,15 @@ export default function ChatDetailPage({
           <Button
             variant='ghost'
             size='icon'
-            className='absolute left-4 top-4 z-10'
+            className='absolute left-4 top-[5px] z-10 lg:left-9'
             onClick={() => setShowNav(!showNav)}
           >
             <MoveLeft size='24' />
           </Button>
         )}
-
+        <div className='flex px-4 py-2 justify-center bg-card-gradient-menu'>
+        Name
+        </div>
         <ScrollArea
           ref={scrollAreaRef}
           className='w-full rounded-none bg-background p-4 pb-0 pt-2'
@@ -533,9 +535,9 @@ export default function ChatDetailPage({
             height: `calc(${chatWindowHeight})`,
           }}
         >
-          <div className='wrapper'>
+          <div className='wrapper h-full items-end'>
             <div className='chat-area container !px-0'>
-              <div className='chat-area-main'>
+              <div className='chat-area-main pb-[40px]'>
                 {messages.map((message) => {
                   const day = new Date(message.timestamp).toLocaleDateString(
                     'en-US',
@@ -619,6 +621,7 @@ export default function ChatDetailPage({
                 <textarea
                   ref={textareaRef}
                   value={inputMessage}
+                  onClick={autoHeight}
                   onChange={(e) => setInputMessage(e.target.value)}
                   className='h-[68px] max-h-[200px] w-full rounded-xl bg-card-gradient-menu-on p-2'
                   onInput={autoHeight}
