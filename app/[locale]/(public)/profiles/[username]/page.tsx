@@ -431,7 +431,7 @@ export default async function ProfilePage({
                   <Link href={`/home?mode=profile&city=${city}`} key={index}>
                     <Badge
                       variant='outline'
-                      className='mb-2 max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
+                      className='mb-2 max-w-fit rounded-full hover:border-primary bg-primary/10 p-2 text-primary px-4'
                     >
                       <p>{city}</p>
                     </Badge>
@@ -461,7 +461,7 @@ export default async function ProfilePage({
                     >
                       <Badge
                         variant='outline'
-                        className='max-w-fit rounded-full border-primary bg-primary/10 p-2 text-primary'
+                        className='max-w-fit rounded-full hover:border-primary bg-primary/10 p-2 text-primary px-4'
                       >
                         {category}
                       </Badge>

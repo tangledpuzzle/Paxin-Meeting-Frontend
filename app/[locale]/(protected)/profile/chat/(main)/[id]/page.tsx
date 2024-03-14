@@ -592,8 +592,8 @@ export default function ChatDetailPage({
             </Button>
           )}
           {activeRoomSubscribed && (
-            <div className='flex justify-between'>
-              <div className='flex h-auto items-end bg-card-gradient-menu px-4 py-2'>
+            <div className='flex justify-between bg-card-gradient-menu'>
+              <div className='flex h-auto items-end px-4 py-2'>
                 <DropdownMenuDemo
                   onFileUpload={handleFileUpload}
                   onRoomCreate={handleRoomCreate}
