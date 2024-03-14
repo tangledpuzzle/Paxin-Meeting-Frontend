@@ -485,7 +485,6 @@ export default async function FlowPage({
                     userId: blogDetails.author?.userId,
                     bot: blogDetails.author?.bot,
                   }}
-                  roomId={roomId}
                 >
                   <Button className='btn w-full !rounded-md'>
                     {roomId === '' ? t('start_chat') : t('send_message')}
