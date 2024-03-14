@@ -32,7 +32,7 @@ function CategoryCard({ categories }: CategoryCardProps) {
       <div className='flex w-full flex-wrap gap-1'>
         {categories.map((category, i) => (
           <Link
-            href={{ query: { ...queries, category } }}
+            href={{ query: { ...queries, category, page: 1 } }}
             key={i}
             className='z-10 cursor-pointer'
           >

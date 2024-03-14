@@ -13,6 +13,7 @@ import { ProfileCardSkeleton } from './profile-card-skeleton';
 import { GrNext } from 'react-icons/gr';
 import { GrPrevious } from 'react-icons/gr';
 import Link from 'next/link';
+import { scrollToTransition } from '@/lib/utils';
 
 interface ProfileData {
   username: string;
@@ -46,13 +47,15 @@ const pageSize = 12;
 
 export default function ProfileSection() {
   const t = useTranslations('main');
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const locale = useLocale();
   const [maxPage, setMaxPage] = useState<number>(1);
   const [profileData, setProfileData] = useState<ProfileData[] | null>(null);
   const [fetchURL, setFetchURL] = useState('');
   const [nextPageLink, setNextPageLink] = useState<string | null>(null);
   const [prevPageLink, setPrevPageLink] = useState<string | null>(null);
-  const locale = useLocale();
+  const [scrollPos, setScrollPos] = useState(0);
 
   const { data: fetchedData, isLoading, error } = useSWR(fetchURL, fetcher);
 
@@ -85,6 +88,14 @@ export default function ProfileSection() {
       newSearchParams.set('page', (_page + 1).toString());
       setNextPageLink(`/home?${newSearchParams.toString()}`);
     }
+
+    const prevScrollPos = Number(searchParams.get('scrollPos') || 0);
+    if (prevScrollPos > 0) {
+      scrollToTransition(prevScrollPos);
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.delete('scrollPos');
+      router.replace(`?${newSearchParams.toString()}`, { scroll: false });
+    }
   }, [searchParams, maxPage]);
 
   useEffect(() => {
@@ -94,6 +105,18 @@ export default function ProfileSection() {
       setMaxPage(Math.ceil(fetchedData.meta.total / pageSize));
     }
   }, [fetchedData, error]);
+
+  useEffect(() => {
+    if (window === undefined) return;
+
+    const handleScroll = () => {
+      setScrollPos(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  });
 
   return (
     <div className='w-full'>
@@ -134,7 +157,9 @@ export default function ProfileSection() {
                 <ProfileCard
                   key={profile.username}
                   {...profile}
-                  callbackURL={''}
+                  callbackURL={encodeURIComponent(
+                    `/home?mode=profile&scrollPos=${scrollPos}${searchParams.toString() ? '&' : ''}${searchParams.toString()}`
+                  )}
                 />
               ))
             ) : (

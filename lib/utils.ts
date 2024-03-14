@@ -59,3 +59,16 @@ export async function readFileAsDataURL(file: File) {
     reader.readAsDataURL(file);
   });
 }
+
+export function scrollToTransition(pos: number) {
+  if (
+    window === undefined ||
+    window.document.body.scrollHeight - window.innerHeight < pos
+  ) {
+    setTimeout(() => {
+      scrollToTransition(pos);
+    }, 100);
+  } else {
+    window.scrollTo(0, pos);
+  }
+}

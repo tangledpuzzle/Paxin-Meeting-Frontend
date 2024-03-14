@@ -159,7 +159,26 @@ export function clearAccessToken() {
   const tokenName = 'paxmeet_access_token';
   localStorage.removeItem(tokenName);
 }
+export function setMeetingId(id:string){
+  const tokenName = 'paxmeet_id';
+  localStorage.setItem(tokenName, id)
+}
+export function clearMeetingId(){
+  const tokenName = 'paxmeet_id';
+  localStorage.removeItem(tokenName);
+}
+export const getMeetId = () => {
+  let accessToken: string;
+  const tokenName = 'paxmeet_id';
 
+  accessToken = localStorage.getItem(tokenName) ?? '';
+  console.log('Access LocalStorage', accessToken);
+  if (accessToken) {
+    return accessToken;
+  } else {
+    return null;
+  }
+};
 export const getAccessToken = () => {
   let accessToken: string;
   const tokenName = 'paxmeet_access_token';

@@ -143,14 +143,15 @@ export default async function LandingPage({
     <section className='container grid items-center gap-0 px-0 pb-8'>
       <HeroSection />
       <NavigateSection />
-      <DynamicLiAds tags={categories} />
+      <ServicesSection />
       <FeatureSection />
       <ProfilesComponentWithSSR images={profilePhotos} />
       <ServiceList />
       {/* <RatingSSR /> */}
       {/* <TestimonialSection /> */}
       {/* <AboutSection /> */}
-      <ServicesSection />
+      <DynamicLiAds tags={categories} />
+
       <DynamicComponentWithSSR />
       <ProfilestagsWithSSR />
       <JoinUsSection />

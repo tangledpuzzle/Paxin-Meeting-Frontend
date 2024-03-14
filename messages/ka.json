@@ -370,6 +370,7 @@
     "subscribers": "მგზავრები",
     "no_blogs_yet": "ჯერ არც ბლოგი არ არსებობს...",
     "empty_search_result": "თქვენი ძებნის შესახებ არაფერია ნაპოვნი...",
+    "empty_saved_filter": "შენახული ფილტრი არ არის.",
     "testominal1": "PaxinTrade-თან ვაქცევნი ლაიფს ერთდროულად გაბალიანებით! მათი პლატფორმა შემიწყვეტს მექნე მოძვავა და მხარს ისევე გინდა იცოდეს ძვირფასი მოღალატეები ორივე შინაურმა გადმოცემეძუღან. მადლობა, PaxinTrade!",
     "testominal2": "PaxinTrade-თან მოქანცევნი დიდი თავიდან! გაყიდვები სუპერად მომგრენენ და საკაბატორო მხარდაჭერა მეტყ კარონ. მისურვებს!",
     "testominal3": "ვახომ ძviolates ყალაყი ვცვდებ რაუგოვლე თური მკნეklied PaxinTrade-სთთან დროებულები ყველაურ შიაურიაშს და გამოხიმავბს ეს!",
@@ -384,7 +385,12 @@
     "complaint_save_success": "ახალი შეტყობინება წარმოადგენს წარმატებულ გაგზავნას.",
     "complaint_fail_success": "ახალი შეტყობინების გაგზავნისას შეცდომა მოხდა.",
     "request_save_success": "ახალი {type} შეთავაზება წარმოადგენს წარმატებულ გაგზავნას.",
-    "request_fail_success": "ახალი {type} შეთავაზების გაგზავნისას შეცდომა მოხდა."
+    "request_fail_success": "ახალი {type} შეთავაზების გაგზავნისას შეცდომა მოხდა.",
+    "saved_filters": "შენახული ფილტრები",
+    "success_delete_saved_filters": "ფილტრების კომბინაციის წაშლა წარმატებით მოხდა.",
+    "fail_delete_saved_filters": "ფილტრების კომბინაციის წაშლა ვერ მოხერხდა.",
+    "success_update_saved_filters": "ფილტრების კომბინაციის განახლება წარმატებით მოხდა.",
+    "fail_update_saved_filters": "ფილტრების კომბინაციის განახლება ვერ მოხერხდა."
   },
   "privacy": {
     "rulesprivacy": "კონფიდენციალურობის წესები",
@@ -484,6 +490,7 @@
         "settings": "Configuraciones",
         "keyboard-shortcuts": "Atajos de teclado",
         "logout": "Cerrar sesión",
+        "stepout": "გამოდი",
         "end": "Fin",
         "alert": {
           "confirm": "¿Estás seguro?",
