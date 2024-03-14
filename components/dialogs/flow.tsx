@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useLocale } from 'next-intl';
 import { MdFavorite } from 'react-icons/md'; // Importing MdFavorite icon
 import useSocket from '@/hooks/useSocket';
+import { useRouter } from 'next/navigation';
 
 interface Chat {
   ele: HTMLDivElement;
@@ -56,6 +57,8 @@ const createElement = (
 
 const ChatComponent: React.FC = () => {
   const locale = useLocale();
+  const router = useRouter(); 
+
   const chatRef = useRef<Chat | null>(null);
   const socket = useSocket(locale);
   useEffect(() => {
@@ -82,7 +85,7 @@ const ChatComponent: React.FC = () => {
       socket.onmessage = (event) => {
         const receivedData = JSON.parse(event.data);
         if (receivedData) {
-          const newLine = new Line(receivedData, locale);
+          const newLine = new Line(receivedData, locale, router);
           chatRef.current?.ele.appendChild(newLine.ele.lineContainer);
           removeOldest();
         }
@@ -158,8 +161,11 @@ class Line {
   urlPhoto: string = '';
   hashtags: string[] = [];
   locale: string;
+  data: any;
+  router: any; 
 
-  constructor(data: any, locale: string) {
+  constructor(data: any, locale: string, router: any) {
+    this.router = router;
     this.locale = locale.charAt(0).toUpperCase() + locale.slice(1);
     const multilangTitle = data.MultilangTitle;
     const title = multilangTitle[this.locale];
@@ -172,6 +178,7 @@ class Line {
     } else {
       this.hashtags = [];
     }
+    this.data = data; 
 
     this.pickColor();
     this.pickName();
@@ -220,10 +227,20 @@ class Line {
 
   setupElements() {
     const ele = this.ele;
+    const data = this.data; 
+    const router = this.router;
 
     ele.profileImg.style.backgroundImage = `url(${`https://proxy.paxintrade.com/100/` + `https://img.paxintrade.com/` + this.urlPhoto})`;
     ele.name.style.width = this.name * (textWidth / 2) + 'px';
 
+
+    ele.profileImg.addEventListener('click', () => {
+      router.push(`/flows/${data.UniqId}/${data.Slug}`);
+    });
+  
+    ele.name.addEventListener('click', () => {
+      router.push(`/flows/${data.UniqId}/${data.Slug}`);
+    });
     // ele.name.style.backgroundColor = this.color;
     // ele.profileImg.style.backgroundColor = this.profileImgColor;
   }
@@ -265,16 +282,16 @@ class Line {
     });
     const profileImg = createElement({ class: ['profile-img', 'mb-2'] });
 
-    profileImg.addEventListener('click', () => {
-      window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`;
-    });
+    // profileImg.addEventListener('click', () => {
+    //   window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`;
+    // });
 
     const body = createElement({ class: 'body' });
     const name = createElement({ class: ['!w-[85%]', 'cursor-pointer'] });
 
-    name.addEventListener('click', () => {
-      window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`;
-    });
+    // name.addEventListener('click', () => {
+    //   window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`;
+    // });
 
     const img = createElement({ class: 'img' });
     const richBody = createElement({ class: 'rich-body' });
