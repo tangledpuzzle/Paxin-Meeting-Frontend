@@ -19,7 +19,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useAppSelector } from '@/store/hook';
 import { RTCContext } from '@/provider/webRTCProvider';
 import { TiVideo } from 'react-icons/ti';
-import Draggable, { DraggableHandle } from '../ui/draggable.tsx';
+import Draggable, { DraggableHandle } from '../ui/draggable';
 import { FullscreenIcon, Minimize2Icon, MoveIcon } from 'lucide-react';
 import {
   participantSelector,
@@ -32,6 +32,8 @@ import { RootState } from '@/store';
 import CopyClipboard from '@/components/common/copy-clipboard';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Footer from '../meet/footer';
+import AudioNotification from '../meet/app/audioNotification';
 
 const roomIdSelector = createSelector(
   (state: RootState) => state.session,
@@ -274,12 +276,13 @@ export default function SmallMeet() {
             scale={1}
           >
             <Resizable
+              minWidth={300}
               defaultSize={{
                 width: 500,
                 height: 600,
               }}
             >
-              <div className='absolute w-full rounded-2xl bg-darkPrimary shadow-sky-50'>
+              <div className='w-full rounded-2xl bg-darkPrimary shadow-sky-50'>
                 <div className='bg-h flex justify-between p-2'>
                   <div className='flex w-full justify-between'>
                     <p className='mx-auto'>{roomId}</p>
@@ -304,7 +307,21 @@ export default function SmallMeet() {
                 <div className='border-gardient-h relative w-full' />
                 <div id='main-area'>
                   {currentConnection && (
-                    <Meet currentConnection={currentConnection} />
+                    <>
+                      <Meet currentConnection={currentConnection} />
+                      <Footer
+                        currentRoom={currentConnection.room}
+                        isRecorder={
+                          currentConnection?.room.localParticipant.identity ===
+                            'RECORDER_BOT' ||
+                          currentConnection?.room.localParticipant.identity ===
+                            'RTMP_BOT'
+                            ? true
+                            : false
+                        }
+                      />
+                      <AudioNotification />
+                    </>
                   )}
                 </div>
               </div>
