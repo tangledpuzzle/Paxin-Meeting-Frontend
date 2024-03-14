@@ -101,28 +101,39 @@ export default function ChatMessage(props: ChatMessageProps) {
               </div>
               {props.isDeleted ? (
                 <div
-                  className={cn('flex items-center gap-1', {
-                    'mr-16': !props.isBot,
-                  })}
+                  className={cn(
+                    'flex items-center gap-1',
+                    {
+                      'mr-14': !props.isBot,
+                    },
+                    { 'mr-24': props.isEdited }
+                  )}
                 >
                   <MdOutlineDoNotDisturb className='size-4' />
                   <span className='select-none'>{t('message_deleted')}</span>
                 </div>
               ) : (
                 <ReactMarkdown
-                  className={cn('prose', {
-                    'mr-16': !props.isBot,
-                  })}
+                  className={cn(
+                    'prose',
+                    {
+                      'mr-14': !props.isBot,
+                    },
+                    { 'mr-24': props.isEdited }
+                  )}
                   children={props.message}
                 />
               )}
               {!props.isBot && (
-                <p className='-mt-2 w-full text-right text-xs text-gray-200'>
-                  {format.dateTime(new Date(props.timestamp), {
-                    hour: 'numeric',
-                    minute: 'numeric',
-                  })}
-                </p>
+                <div className='-mt-3 flex w-full justify-end gap-1 text-xs text-gray-200'>
+                  {props.isEdited && <p>{t('edited')}</p>}
+                  <p>
+                    {format.dateTime(new Date(props.timestamp), {
+                      hour: 'numeric',
+                      minute: 'numeric',
+                    })}
+                  </p>
+                </div>
               )}
             </div>
           </div>
