@@ -20,9 +20,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
-import { Badge } from '../ui/badge';
-import { IoMdClose } from 'react-icons/io';
+import { useSession } from 'next-auth/react';
 import { SavedFilterModal } from '@/components/home/saved-filter-modal';
+
 interface Option {
   value: number | string;
   label: string;
@@ -57,6 +57,7 @@ export function FilterModal() {
   const [filtersList, setFiltersList] = useState<any[]>([]);
   const [cityKeyword, setCityKeyword] = useState<string>('');
   const [categoryKeyword, setCategoryKeyword] = useState<string>('');
+  const { data: session } = useSession();
 
   const { data: fetchedCities, error: cityFetchError } = useSWR(
     cityKeyword
@@ -520,16 +521,23 @@ export function FilterModal() {
             </div>
           )}
         </div>
-        <DialogFooter>
-          <div className='flex w-full justify-between'>
-            <SavedFilterModal setIsFilterModalOpen={setIsFilterModalOpen} />
-            <div>
-              <Button
-                type='submit'
-                className='mr-3'
-                variant='outline'
-                onClick={handleResetFilters}
-              >
+        <DialogFooter >
+          {session ?
+            <div className='w-full justify-between flex'>
+              <SavedFilterModal setIsFilterModalOpen={setIsFilterModalOpen} />
+              <div>
+                <Button type='submit' className='mr-3' variant='outline' onClick={handleResetFilters}>
+                  {t('reset')}
+                </Button>
+                <DialogClose asChild>
+                  <Button type='submit' onClick={handleApplyFilters}>
+                    {t('apply')}
+                  </Button>
+                </DialogClose>
+              </div>
+            </div> :
+            <>
+              <Button type='submit' className='mr-3' variant='outline' onClick={handleResetFilters}>
                 {t('reset')}
               </Button>
               <DialogClose asChild>
@@ -537,8 +545,8 @@ export function FilterModal() {
                   {t('apply')}
                 </Button>
               </DialogClose>
-            </div>
-          </div>
+            </>}
+
         </DialogFooter>
       </DialogContent>
     </Dialog>
