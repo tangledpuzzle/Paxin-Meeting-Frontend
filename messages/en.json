@@ -382,7 +382,12 @@
     "complaint_save_success": "New complaint is sent successfully.",
     "complaint_fail_success": "There was an error while sending new complaint.",
     "request_save_success": "Request for a new {type} is sent successfully.",
-    "request_fail_success": "There was an error while sending request for a new {type}."
+    "request_fail_success": "There was an error while sending request for a new {type}.",
+    "saved_filters": "Saved Filters",
+    "success_delete_saved_filters": "Successfully deleted filter combination.",
+    "fail_delete_saved_filters": "Failed to delete filter combination.",
+    "success_update_saved_filters": "Successfully updated filter combination.",
+    "fail_update_saved_filters": "Failed to update filter combination."
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",

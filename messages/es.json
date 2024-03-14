@@ -383,7 +383,12 @@
     "complaint_save_success": "La nueva queja se envió correctamente.",
     "complaint_fail_success": "Hubo un error al enviar la nueva queja.",
     "request_save_success": "La solicitud de un nuevo {type} se envió correctamente.",
-    "request_fail_success": "Hubo un error al enviar la solicitud de un nuevo {type}."
+    "request_fail_success": "Hubo un error al enviar la solicitud de un nuevo {type}.",
+    "saved_filters": "Filtros Guardados",
+    "success_delete_saved_filters": "Combinación de filtros eliminada exitosamente.",
+    "fail_delete_saved_filters": "Error al eliminar la combinación de filtros.",
+    "success_update_saved_filters": "Combinación de filtros actualizada exitosamente.",
+    "fail_update_saved_filters": "Error al actualizar la combinación de filtros."
   },
   "privacy": {
     "rulesprivacy": "política de privacidad",

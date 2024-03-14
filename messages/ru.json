@@ -384,7 +384,12 @@
     "complaint_save_success": "Новая жалоба успешно отправлена.",
     "complaint_fail_success": "Произошла ошибка при отправке новой жалобы.",
     "request_save_success": "Запрос на новый {type} успешно отправлен.",
-    "request_fail_success": "Произошла ошибка при отправке запроса на новый {type}."
+    "request_fail_success": "Произошла ошибка при отправке запроса на новый {type}.",
+    "saved_filters": "Сохраненные фильтры",
+    "success_delete_saved_filters": "Фильтрные комбинации успешно удалены.",
+    "fail_delete_saved_filters": "Не удалось удалить фильтрованную комбинацию.",
+    "success_update_saved_filters": "Фильтрованная комбинация успешно обновлена.",
+    "fail_update_saved_filters": "Не удалось обновить фильтрованную комбинацию."
   },
   "privacy": {
     "rulesprivacy": "Правила конфиденциальности",
