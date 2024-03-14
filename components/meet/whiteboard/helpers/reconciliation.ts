@@ -1,7 +1,8 @@
+'use client';
 // eslint-disable-next-line import/no-unresolved
-import { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
+import type { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
 // eslint-disable-next-line import/no-unresolved
-import { AppState } from '@excalidraw/excalidraw/types/types';
+import type { AppState } from '@excalidraw/excalidraw/types/types';
 
 export const PRECEDING_ELEMENT_KEY = '__precedingElement__';
 

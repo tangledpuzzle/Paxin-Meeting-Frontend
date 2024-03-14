@@ -1,3 +1,4 @@
+'use client';
 import type { NormalizedZoomValue } from '@excalidraw/excalidraw/types/types';
 
 export interface IWhiteboardSlice {
