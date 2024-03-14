@@ -13,6 +13,7 @@ import {
   VerifyTokenReq,
   VerifyTokenRes,
 } from '@/helpers/proto/plugnmeet_common_api_pb';
+import { Resizable } from 're-resizable';
 import { clearAccessToken, getAccessToken } from '@/helpers/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAppSelector } from '@/store/hook';
@@ -272,35 +273,42 @@ export default function SmallMeet() {
             //   position={null}
             scale={1}
           >
-            <div className='absolute w-[calc(80vw)] rounded-2xl bg-darkPrimary shadow-sky-50 sm:w-[calc(50vw)] lg:w-[calc(30vw)]'>
-              <div className='bg-h flex justify-between p-2'>
-                <div className='flex w-full justify-between'>
-                  <p className='mx-auto'>{roomId}</p>
-                  <CopyClipboard
-                    text={`https://www.paxintrade.com/meet/${roomId}`}
-                  >
-                    <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
-                      <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
-                    </div>
-                  </CopyClipboard>
+            <Resizable
+              defaultSize={{
+                width: 500,
+                height: 600,
+              }}
+            >
+              <div className='absolute w-full rounded-2xl bg-darkPrimary shadow-sky-50'>
+                <div className='bg-h flex justify-between p-2'>
+                  <div className='flex w-full justify-between'>
+                    <p className='mx-auto'>{roomId}</p>
+                    <CopyClipboard
+                      text={`https://www.paxintrade.com/meet/${roomId}`}
+                    >
+                      <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
+                        <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
+                      </div>
+                    </CopyClipboard>
+                  </div>
+                  <div className='flex'>
+                    <DraggableHandle>
+                      <MoveIcon size={32} />
+                    </DraggableHandle>
+                    <Link href={`/meet/${roomId}`}>
+                      <FullscreenIcon size={32} />
+                    </Link>
+                    <Minimize2Icon size={32} onClick={() => setActive(false)} />
+                  </div>
                 </div>
-                <div className='flex'>
-                  <DraggableHandle>
-                    <MoveIcon size={32} />
-                  </DraggableHandle>
-                  <Link href={`/meet/${roomId}`}>
-                    <FullscreenIcon size={32} />
-                  </Link>
-                  <Minimize2Icon size={32} onClick={() => setActive(false)} />
+                <div className='border-gardient-h relative w-full' />
+                <div id='main-area'>
+                  {currentConnection && (
+                    <Meet currentConnection={currentConnection} />
+                  )}
                 </div>
               </div>
-              <div className='border-gardient-h relative w-full' />
-              <div id='main-area'>
-                {currentConnection && (
-                  <Meet currentConnection={currentConnection} />
-                )}
-              </div>
-            </div>
+            </Resizable>
           </Draggable>
         </div>
       )}
