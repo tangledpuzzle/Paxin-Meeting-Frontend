@@ -1,6 +1,7 @@
 'use client';
 
 import { Mail, Phone, UserRound } from 'lucide-react';
+import { useContext } from 'react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -20,9 +21,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import axios from 'axios';
+import { PaxContext } from '@/context/context';
 
 export function ContactSection() {
   const t = useTranslations('main');
+  const { setGlobalLoading } = useContext(PaxContext);
 
   const formSchema = z
     .object({
@@ -76,11 +79,8 @@ export function ContactSection() {
     },
   });
   const submitBlog = async (data: FormData) => {
-    toast.error(t('contact_us_fail'), {
-      position: 'top-right',
-    });
-
     try {
+      setGlobalLoading(true);
       const res = await axios.post(`/api/contact/`, {
         Name: data.Name,
         SecondName: data.SecondName,
@@ -103,7 +103,7 @@ export function ContactSection() {
         position: 'top-right',
       });
     }
-
+    setGlobalLoading(false);
   };
 
   return (

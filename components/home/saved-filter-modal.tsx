@@ -7,23 +7,23 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import axios from 'axios';
-import { useLocale, useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 import { Input } from '@/components/ui/input';
 import toast from "react-hot-toast";
 import { useSwipe } from '@/components/ui/mobileswipe';
 import React from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import usePreventBodyScroll from '@/components/ui/scrollmouse';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import { PaxContext } from '@/context/context';
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 export function SavedFilterModal({ setIsFilterModalOpen }: any) {
   const t = useTranslations('main');
-  const locale = useLocale();
   const router = useRouter();
 
   const [isFilterModalOpen, setModalOpen] = useState<boolean>(false);
@@ -31,28 +31,44 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
   const [filtersList, setFiltersList] = useState<any[]>([]);
   const [editMode, setEditMode] = useState<null | number>(null);
   const [newName, setNewName] = useState('');
+  const { setGlobalLoading } = useContext(PaxContext);
 
   const getfilters = async () => {
-    const filters = await axios.get('/api/flows/filter');
-    setFiltersList(filters.data.data);
+    setGlobalLoading(true);
+    try {
+      const filters = await axios.get('/api/flows/filter');
+      setFiltersList(filters.data.data);
+    } catch (e) {
+
+    }
+
+    setGlobalLoading(false);
   }
+
   useEffect(() => {
     getfilters();
   }, [])
 
   const deleteFilter = async (id: any, key: any) => {
-    const result = await axios.delete(`/api/flows/filter/${id}`);
+    setGlobalLoading(true);
+    try {
+      const result = await axios.delete(`/api/flows/filter/${id}`);
 
-    if (result.status === 200) {
-      toast.success(t('success_delete_saved_filters'))
-      let _filtersList = [];
-      for (let i = 0; i < filtersList.length; i++) {
-        if (i !== key) _filtersList.push(filtersList[i]);
+      if (result.status === 200) {
+        toast.success(t('success_delete_saved_filters'))
+        let _filtersList = [];
+        for (let i = 0; i < filtersList.length; i++) {
+          if (i !== key) _filtersList.push(filtersList[i]);
+        }
+        setFiltersList(_filtersList);
+      } else {
+        toast.error(t('fail_delete_saved_filters'))
       }
-      setFiltersList(_filtersList);
-    } else {
+    } catch (e) {
       toast.error(t('fail_delete_saved_filters'))
     }
+
+    setGlobalLoading(false);
   }
 
   const navigateUrl = (each: any) => {
@@ -89,22 +105,29 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
     setIsFilterModalOpen(false);
   }
   const updateFilter = async (id: any, each: any) => {
-    const result = await axios.patch(`/api/flows/filter/${id}`, { data: { ...each, Name: newName } });
+    setGlobalLoading(true);
 
-    let _filtersList = filtersList.map((each, key) => {
-      if (key == editMode) {
-        return { ...each, Name: newName }
+    try {
+      const result = await axios.patch(`/api/flows/filter/${id}`, { data: { ...each, Name: newName } });
+      let _filtersList = filtersList.map((each, key) => {
+        if (key == editMode) {
+          return { ...each, Name: newName }
+        } else {
+          return each
+        }
+      });
+      setFiltersList(_filtersList);
+      setEditMode(null);
+      if (result.status === 200) {
+        toast.success(t('success_update_saved_filters'))
       } else {
-        return each
+        toast.error(t('fail_update_saved_filters'))
       }
-    });
-    setFiltersList(_filtersList);
-    setEditMode(null);
-    if (result.status === 200) {
-      toast.success(t('success_update_saved_filters'))
-    } else {
+    } catch (e) {
       toast.error(t('fail_update_saved_filters'))
     }
+
+    setGlobalLoading(false);
   }
   const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();
   const { disableScroll, enableScroll } = usePreventBodyScroll();
@@ -215,9 +238,6 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
             }
           </div>
         )}</>}
-
-
-
       </DialogContent>
     </Dialog >
   );
