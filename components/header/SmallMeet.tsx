@@ -62,6 +62,8 @@ export default function SmallMeet() {
   const [accessTokenLoaded, setAccessTokenLoaded] = useState(false);
   // const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
   const {
+    showPopup,
+    togglePopup,
     livekitInfo,
     setLivekitInfo,
     currentConnection,
@@ -263,7 +265,7 @@ export default function SmallMeet() {
   // console.log(popup);
   return currentConnection ? (
     <>
-      <button onClick={() => setActive((e) => true)}>
+      <button onClick={togglePopup}>
         <div className='flex items-center justify-center'>
           <span className='relative -top-2 left-12 rounded-full bg-card-gradient-menu px-2 text-center text-xs'>
             {participants.length}
@@ -273,7 +275,7 @@ export default function SmallMeet() {
       </button>
 
       {/* <Meet currentConnection={currentConnection} />; */}
-      {isActive && (
+      {showPopup && (
         <>
           {/* @ts-ignore */}
           <Draggable
@@ -326,7 +328,7 @@ export default function SmallMeet() {
                     </Link>
                     <Minimize2Icon
                       size={isMobile ? 24 : 32}
-                      onClick={() => setActive(false)}
+                      onClick={togglePopup}
                     />
                   </div>
                 </div>
