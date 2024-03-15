@@ -32,6 +32,8 @@ export default function AlarmNav({
   const onPublication = (publication: any) => {
     if (publication.type === 'new_room') {
       setRoomCount((roomCount) => roomCount + 1);
+    } else if (publication.type === 'unsubscribe_room') {
+      setRoomCount((roomCount) => roomCount - 1);
     }
   };
 
