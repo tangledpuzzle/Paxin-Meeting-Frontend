@@ -1,22 +1,24 @@
+'use client';
 import React, { useEffect, useMemo, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { Transition } from '@headlessui/react';
 
-import LeftPanel from '@/components/meet/left-panel';
-import RightPanel from '@/components/meet/right-panel';
+import LeftPanel from '../left-panel';
+import RightPanel from '../right-panel';
 
 import { RootState, store } from '@/store';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
-import ActiveSpeakers from '@/components/meet/active-speakers';
-import MainComponents from '@/components/meet/main-area/mainComponents';
+import ActiveSpeakers from '../active-speakers';
+import MainComponents from './mainComponents';
 import { IRoomMetadata } from '@/store/slices/interfaces/session';
 import { updateIsActiveChatPanel } from '@/store/slices/bottomIconsActivitySlice';
 import {
   CurrentConnectionEvents,
   IConnectLivekit,
 } from '@/helpers/livekit/types';
-import '@/styles/meet/index.scss';
+
 interface IMainAreaProps {
+  isRecorder: boolean; // it could be recorder or RTMP bot.
   currentConnection: IConnectLivekit;
 }
 
@@ -68,16 +70,8 @@ const footerVisibilitySelector = createSelector(
   (state: RootState) => state.roomSettings,
   (roomSettings) => roomSettings.visibleFooter
 );
-const roomSelector = createSelector(
-  (state: RootState) => state.session,
-  (session) => session.currentRoom
-);
-export default function Meet({ currentConnection }: IMainAreaProps) {
-  const isRecorder =
-    currentConnection?.room.localParticipant.identity === 'RECORDER_BOT' ||
-    currentConnection?.room.localParticipant.identity === 'RTMP_BOT'
-      ? true
-      : false;
+
+const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
   const columnCameraWidth = useAppSelector(columnCameraWidthSelector);
   const columnCameraPosition = useAppSelector(columnCameraPositionSelector);
   const isActiveParticipantsPanel = useAppSelector(
@@ -103,6 +97,7 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
   const [isActiveScreenShare, setIsActiveScreenShare] =
     useState<boolean>(false);
   const [height, setHeight] = useState<number>(screenHeight);
+  const assetPath = (window as any).STATIC_ASSETS_PATH ?? './assets';
 
   useEffect(() => {
     const metadata = store.getState().session.currentRoom
@@ -115,19 +110,16 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
   }, [dispatch]);
 
   useEffect(() => {
-    currentConnection &&
-      setIsActiveScreenShare(currentConnection.screenShareTracksMap.size > 0);
-    currentConnection &&
-      currentConnection.on(
+    setIsActiveScreenShare(currentConnection.screenShareTracksMap.size > 0);
+    currentConnection.on(
+      CurrentConnectionEvents.ScreenShareStatus,
+      setIsActiveScreenShare
+    );
+    return () => {
+      currentConnection.off(
         CurrentConnectionEvents.ScreenShareStatus,
         setIsActiveScreenShare
       );
-    return () => {
-      currentConnection &&
-        currentConnection.off(
-          CurrentConnectionEvents.ScreenShareStatus,
-          setIsActiveScreenShare
-        );
     };
   }, [currentConnection]);
 
@@ -247,15 +239,29 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
   }, [screenHeight, isRecorder, headerVisible, footerVisible]);
 
   return (
-    <div className='inner flex h-full justify-between rtl:flex-row-reverse'>
-      {renderLeftPanel}
+    <div
+      id='main-area'
+      className={`plugNmeet-app-main-area relative mb-[0px] flex h-full overflow-hidden ${customCSS} column-camera-width-${columnCameraWidth} column-camera-position-${columnCameraPosition}`}
+      // style={{ height: `${height}px` }}
+    >
+      <div
+        className={`main-app-bg pointer-events-none absolute left-0 top-0 h-full w-full bg-cover bg-center bg-no-repeat object-cover`}
+        style={{
+          backgroundImage: `url("${assetPath}/imgs/app-banner.jpg")`,
+        }}
+      />
+      <div className='inner flex w-full justify-between rtl:flex-row-reverse'>
+        {renderLeftPanel}
 
-      <div className='relative flex-auto'>
-        <ActiveSpeakers />
-        {renderMainComponentElms}
+        <div className='middle-area relative flex-auto'>
+          <ActiveSpeakers />
+          {renderMainComponentElms}
+        </div>
+
+        {renderRightPanel}
       </div>
-
-      {renderRightPanel}
     </div>
   );
-}
+};
+
+export default MainArea;

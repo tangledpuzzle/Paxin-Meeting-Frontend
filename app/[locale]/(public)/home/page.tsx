@@ -28,9 +28,6 @@ export default function HomePage() {
         );
       }
     };
-
-    window.addEventListener('beforeunload', saveScrollPosition);
-
     return () => {
       window.removeEventListener('beforeunload', saveScrollPosition);
     };

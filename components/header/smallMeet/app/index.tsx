@@ -1,63 +1,96 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+'use client';
+
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  useContext,
+} from 'react';
+import { usePathname } from 'next/navigation';
+// import { useTranslation } from 'react-i18next';
+import { createSelector } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import sendAPIRequest from '@/helpers/api/paxMeetAPI';
-import { useAppDispatch, useAppStore } from '@/store/hook';
-import { addServerVersion, addToken } from '@/store/slices/sessionSlice';
-import useBodyPix from '@/components/meet/virtual-background/hooks/useBodyPix';
+import ErrorPage from '../extra-pages/Error';
+import Loading from '../extra-pages/Loading';
+import Footer from '../footer';
+// import Header from '../header';
+import MainArea from '../main-area';
+
+import sendAPIRequest, { joinRoom } from '@/helpers/api/paxMeetAPI';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector, useAppStore } from '@/store/hook';
+import {
+  addServerVersion,
+  addToken,
+  clearToken,
+  // clearToken,
+} from '@/store/slices/sessionSlice';
+import StartupJoinModal from './joinModal';
+import AudioNotification from './audioNotification';
+import useBodyPix from '../virtual-background/hooks/useBodyPix';
 import useKeyboardShortcuts from '@/helpers/hooks/useKeyboardShortcuts';
 import useDesignCustomization from '@/helpers/hooks/useDesignCustomization';
 import useWatchWindowSize from '@/helpers/hooks/useWatchWindowSize';
 import useWatchVisibilityChange from '@/helpers/hooks/useWatchVisibilityChange';
-import { useWindowSize } from 'react-use';
+import WaitingRoomPage from '../waiting-room/room-page';
 import { updateIsActiveChatPanel } from '@/store/slices/bottomIconsActivitySlice';
+// import useThemeSettings from '@/helpers/hooks/useThemeSettings';
 import {
   VerifyTokenReq,
   VerifyTokenRes,
 } from '@/helpers/proto/plugnmeet_common_api_pb';
-import { Resizable } from 're-resizable';
-import { clearAccessToken, getAccessToken } from '@/helpers/utils';
-import { useLocale, useTranslations } from 'next-intl';
-import { useAppSelector } from '@/store/hook';
-import { RTCContext } from '@/provider/webRTCProvider';
-import { TiVideo } from 'react-icons/ti';
-import Draggable, { DraggableHandle } from '../ui/draggable';
-import { FullscreenIcon, Minimize2Icon, MoveIcon } from 'lucide-react';
 import {
-  participantSelector,
-  waitingForApprovalSelector,
-  isStartupSelector,
-} from './meetwrapper';
-import Meet from './meet';
-import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '@/store';
-import CopyClipboard from '@/components/common/copy-clipboard';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import Footer from './smallMeet/footer';
-import AudioNotification from './smallMeet/app/audioNotification';
+  clearAccessToken,
+  getAccessToken,
+  getMeetId,
+  setAccessToken,
+  setMeetingId,
+} from '@/helpers/utils';
+import { useLocale, useTranslations } from 'next-intl';
 
-const roomIdSelector = createSelector(
-  (state: RootState) => state.session,
-  (session) => session.currentRoom.room_id
+import '@/styles/meet/index.scss';
+import { getDirectionBasedOnLocale } from '@/helpers/languages';
+import type { Locale } from '@/helpers/languages';
+import { generateRandomString, hashTimestamp } from '@/lib/utils';
+import { RTCContext } from '@/provider/webRTCProvider';
+
+const debugSelector = createSelector(
+  (state: RootState) => state,
+  (e) => e
 );
 
-export default function SmallMeet() {
-  const [isActive, setActive] = useState<boolean>(true);
-  const participants = useAppSelector(participantSelector);
+const waitingForApprovalSelector = createSelector(
+  (state: RootState) => state.session.currentUser?.metadata,
+  (metadata) => metadata?.wait_for_approval
+);
+
+const isStartupSelector = createSelector(
+  (state: RootState) => state.session,
+  (session) => session.isStartup
+);
+
+type MeetProps = {
+  roomId: string;
+};
+
+const Meet: React.FC<MeetProps> = ({ roomId }) => {
   const dispatch = useAppDispatch();
-  const router = useRouter();
   const t = useTranslations('meet');
   const locale = useLocale();
+  document.dir = getDirectionBasedOnLocale(locale as Locale);
+  // // make sure we're using correct body dir
+  // // document.dir = i18n.dir();
+  const debugStore = useAppSelector(debugSelector);
   const toastId = useRef<string>(null);
   const store = useAppStore();
-  const roomId = useAppSelector(roomIdSelector);
+
   const [loading, setLoading] = useState<boolean>(true);
-  const { width, height } = useWindowSize();
-  console.log(width, height);
   // // it could be recorder or RTMP bot
   const [isRecorder, setIsRecorder] = useState<boolean>(false);
   const [userTypeClass, setUserTypeClass] = useState('participant');
-  const [accessTokenLocal, setAccessTokenLocal] = useState<string>('');
+  const [accessTokenLocal, setAccessTokenLocal] = useState('');
   const [accessTokenLoaded, setAccessTokenLoaded] = useState(false);
   // const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
   const {
@@ -72,13 +105,15 @@ export default function SmallMeet() {
     startLivekitConnection,
   } = useContext(RTCContext);
   const waitForApproval = useAppSelector(waitingForApprovalSelector);
+  const pathname = usePathname();
 
-  // console.log('[App Store]: ', debugStore);
+  console.log('[App Store]: ', debugStore);
   // // we'll require making ready virtual background
   // // elements as early as possible.
   useBodyPix();
   const isStartup = useAppSelector(isStartupSelector);
   // // some custom hooks
+
   useKeyboardShortcuts(currentConnection?.room);
   useDesignCustomization();
   useWatchVisibilityChange();
@@ -86,8 +121,27 @@ export default function SmallMeet() {
     currentConnection?.room
   );
 
+  const getMeetAccessToken = async (): Promise<string> => {
+    console.log('MEET/getMeetAccessToken');
+    const accessToken = getAccessToken();
+    if (accessToken) return accessToken;
+    const randomPart = generateRandomString(4);
+    const timestampHash = hashTimestamp(Date.now());
+    const userId = `user-${randomPart}-${timestampHash}`;
+    const userName = `User ${randomPart}`;
+    const userEmail = `${randomPart}-${timestampHash}@test.me`;
+    setLoading(true);
+    const token = await joinRoom(roomId, userId, userName);
+    console.log('JOIN TOKEN: ', token);
+    setAccessToken(token);
+    setLoading(false);
+    if (token) {
+      return token;
+    } else return '';
+  };
+
   const verifyToken = async () => {
-    console.log('HEADER/VerifyToken');
+    console.log('[Meet] Verify token');
     let res: VerifyTokenRes;
     try {
       const isProductionStr = process.env.NEXT_PUBLIC_IS_PRODUCTION;
@@ -130,6 +184,7 @@ export default function SmallMeet() {
       dispatch(addServerVersion(res.serverVersion ?? ''));
 
       // for livekit need to use generated token & host
+      console.log('MEET/setLivekitInfo', res.token);
       setLivekitInfo({
         livekit_host: res.livekitHost,
         token: res.token,
@@ -147,17 +202,30 @@ export default function SmallMeet() {
   };
 
   useEffect(() => {
-    const token = getAccessToken();
-    if (token === null) {
-      setLoading(false);
-      setError({
-        title: t('app.token-missing-title'),
-        text: t('app.token-missing-des'),
-      });
-    } else {
-      setAccessTokenLocal(token), setAccessTokenLoaded(true);
+    const prevMeetId = getMeetId();
+    if (prevMeetId && prevMeetId !== roomId) {
+      // In this case we clear localstoreage
+      console.log('MEET/Already Existing session');
+      clearToken();
     }
   }, []);
+
+  useEffect(() => {
+    if (!accessTokenLoaded) {
+      getMeetAccessToken().then((token) => {
+        if (token === '') {
+          setLoading(false);
+          setError({
+            title: t('app.token-missing-title'),
+            text: t('app.token-missing-des'),
+          });
+        } else {
+          error && setError(undefined);
+          setAccessTokenLocal(token), setAccessTokenLoaded(true);
+        }
+      });
+    }
+  }, [pathname, accessTokenLoaded]);
 
   // useEffect(() => {
   //   if (accessTokenLoaded && !accessTokenLocal) {
@@ -168,6 +236,7 @@ export default function SmallMeet() {
   //     });
   //   }
   // }, [accessTokenLocal, accessTokenLoaded]);
+
   useEffect(() => {
     if (
       window.location.protocol === 'http:' &&
@@ -184,7 +253,6 @@ export default function SmallMeet() {
   useEffect(() => {
     if (accessTokenLoaded && accessTokenLocal) {
       let timeout: any;
-
       if (!currentConnection && roomConnectionStatus !== 'connected') {
         setRoomConnectionStatus('checking');
         timeout = setTimeout(() => {
@@ -247,100 +315,66 @@ export default function SmallMeet() {
     //eslint-disable-next-line
   }, [roomConnectionStatus]);
 
-  useEffect(() => {
-    if (livekitInfo && !currentConnection) {
-      // @ts-ignore
-      console.log('HEADER/StartLivConnection');
-      const newConnection = startLivekitConnection(livekitInfo, t);
-      setCurrentConnection(newConnection);
-    }
-  }, [livekitInfo]);
-  const isMobile = width > 450 ? false : true;
-  return currentConnection ? (
-    <>
-      <button onClick={() => setActive((e) => true)}>
-        <div className='flex items-center justify-center'>
-          <span className='relative -top-2 left-12 rounded-full bg-card-gradient-menu px-2 text-center text-xs'>
-            {participants.length}
-          </span>
-          <TiVideo size={32} />
+  const renderMainApp = useCallback(() => {
+    if (currentConnection) {
+      return (
+        <div className='plugNmeet-app flex h-full flex-col justify-between  overflow-x-hidden'>
+          {/* {!isRecorder ? <Header currentRoom={currentConnection.room} /> : null} */}
+          <MainArea
+            isRecorder={isRecorder}
+            currentConnection={currentConnection}
+          />
+          <Footer
+            currentRoom={currentConnection.room}
+            isRecorder={isRecorder}
+          />
+          <AudioNotification />
         </div>
-      </button>
+      );
+    }
+    return null;
+  }, [isRecorder, currentConnection]);
 
-      {/* <Meet currentConnection={currentConnection} />; */}
-      {isActive && (
-        <>
-          {/* @ts-ignore */}
-          <Draggable
-            axis='both'
-            header='handle'
-            handle='.handle'
-            defaultClassName='fixed left-0 top-0'
-            defaultPosition={{
-              x: !isMobile ? width - 350 : width - 200,
-              y: !isMobile ? height - 350 : height - 200,
-            }}
-            //   position={null}
-            scale={1}
-          >
-            <Resizable
-              minWidth={!isMobile ? 350 : 200}
-              minHeight={!isMobile ? 350 : 200}
-              defaultSize={{
-                width: !isMobile ? 350 : 200,
-                height: !isMobile ? 350 : 200,
-              }}
-            >
-              <div className='flex h-full w-full flex-col rounded-2xl bg-darkPrimary shadow-sky-50'>
-                <div className='bg-h flex justify-between px-2 pt-2'>
-                  <div className='flex w-full justify-between'>
-                    {!isMobile && <p className='mx-auto'>{roomId}</p>}
-                    <CopyClipboard
-                      text={`https://www.paxintrade.com/meet/${roomId}`}
-                    >
-                      <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
-                        <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
-                      </div>
-                    </CopyClipboard>
-                  </div>
-                  <div className='flex items-center'>
-                    <DraggableHandle>
-                      <MoveIcon size={isMobile ? 24 : 32} />
-                    </DraggableHandle>
-                    <Link href={`/meet/${roomId}`}>
-                      <FullscreenIcon size={isMobile ? 24 : 32} />
-                    </Link>
-                    <Minimize2Icon
-                      size={isMobile ? 24 : 32}
-                      onClick={() => setActive(false)}
-                    />
-                  </div>
-                </div>
-                <div className='border-gardient-h relative w-full' />
+  const onCloseStartupModal = async () => {
+    if (livekitInfo) {
+      console.log('MEET/StartLiveConnection');
+      // @ts-ignore
+      const currentConnection = startLivekitConnection(livekitInfo, t);
+      setCurrentConnection(currentConnection);
+      setMeetingId(roomId);
+    }
+  };
 
-                {currentConnection && (
-                  <div className='flex h-full flex-col justify-between'>
-                    <Meet currentConnection={currentConnection} />
-                    <Footer
-                      isMobile={isMobile}
-                      currentRoom={currentConnection.room}
-                      isRecorder={
-                        currentConnection?.room.localParticipant.identity ===
-                          'RECORDER_BOT' ||
-                        currentConnection?.room.localParticipant.identity ===
-                          'RTMP_BOT'
-                          ? true
-                          : false
-                      }
-                    />
-                    <AudioNotification />
-                  </div>
-                )}
-              </div>
-            </Resizable>
-          </Draggable>
-        </>
-      )}
-    </>
-  ) : null;
-}
+  const renderElms = useMemo(() => {
+    if (loading) {
+      // @ts-ignore
+      return <Loading text={t('app.' + roomConnectionStatus)} />;
+    } else if (error && !loading) {
+      return <ErrorPage title={error.title} text={error.text} />;
+    } else if (
+      roomConnectionStatus === 'connected' ||
+      roomConnectionStatus === 're-connecting'
+    ) {
+      if (waitForApproval) {
+        return <WaitingRoomPage />;
+      }
+      return renderMainApp();
+    } else if (roomConnectionStatus === 'ready') {
+      return <StartupJoinModal onCloseModal={onCloseStartupModal} />;
+    } else {
+      return null;
+    }
+    //eslint-disable-next-line
+  }, [loading, error, roomConnectionStatus, waitForApproval, renderMainApp]);
+  console.log('[Status]', roomConnectionStatus, isStartup, error);
+  return (
+    <div
+      className={`${orientationClass} ${deviceClass} ${userTypeClass} h-[calc(100vh-129px)] dark:bg-darkPrimary/70 sm:h-[calc(100vh-80px)]`}
+      // style={{ height: screenHeight }}
+    >
+      {renderElms}
+    </div>
+  );
+};
+
+export default Meet;
