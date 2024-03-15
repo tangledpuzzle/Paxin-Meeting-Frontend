@@ -15,7 +15,7 @@ import subscribe from '@/lib/server/chat/subscribe';
 import { cn, readFileAsDataURL } from '@/lib/utils';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { Howl, Howler } from 'howler';
-import { MoveLeft } from 'lucide-react';
+import { Loader2, MoveLeft } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
@@ -104,6 +104,7 @@ export default function ChatDetailPage({
     isRoomLoading,
   } = useContext(PaxChatContext);
   const [inputMessage, setInputMessage] = useState('');
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
@@ -121,8 +122,6 @@ export default function ChatDetailPage({
     loop: false,
     preload: true,
   });
-
-
 
   const handleMessageSubmit = async (inputMessage: string) => {
     if (inputMessage.trim() === '') return;
@@ -185,7 +184,7 @@ export default function ChatDetailPage({
           },
         });
       }
-      
+
       setMessages(_messages);
 
       // Clear input message and uploaded files
@@ -194,8 +193,6 @@ export default function ChatDetailPage({
 
       // Play message sent sound
       messageSentSound.play();
-
-  
 
       const bodyData: { [key: string]: any } = {
         lang: locale,
@@ -313,6 +310,7 @@ export default function ChatDetailPage({
       }
     } else {
       // In case of chatting with user
+      setIsLoadingSubmit(true);
       try {
         const res = await sendMessage({ roomId: id, message: inputMessage });
 
@@ -330,7 +328,7 @@ export default function ChatDetailPage({
                 avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
               },
               isDeleted: false,
-              isEdited: true,
+              isEdited: false,
               timestamp: res.data.message.CreatedAt as string,
             },
           ]);
@@ -346,6 +344,8 @@ export default function ChatDetailPage({
         toast.error(t('failed_to_send_message'), {
           position: 'top-right',
         });
+      } finally {
+        setIsLoadingSubmit(false);
       }
     }
 
@@ -478,27 +478,34 @@ export default function ChatDetailPage({
     handleMessageSubmit(link);
   };
 
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleMessageSubmit(inputMessage);
+    }
+  };
+
   useEffect(() => {
     autoHeight();
-  }, [uploadedFiles]);
+  }, [uploadedFiles, inputMessage]);
 
   useEffect(() => {
     setActiveRoom(id);
   }, []);
 
-  useEffect(() => {
-    if (uploadedFiles.length > 0) {
-      for (const file of uploadedFiles) {
-        if (file.type.startsWith('image')) {
-          const reader = new FileReader();
+  // useEffect(() => {
+  //   if (uploadedFiles.length > 0) {
+  //     for (const file of uploadedFiles) {
+  //       if (file.type.startsWith('image')) {
+  //         const reader = new FileReader();
 
-          reader.onload = () => {
-            const imgData = reader.result as string;
-          };
-        }
-      }
-    }
-  }, [uploadedFiles]);
+  //         reader.onload = () => {
+  //           const imgData = reader.result as string;
+  //         };
+  //       }
+  //     }
+  //   }
+  // }, [uploadedFiles]);
 
   let lastDay: string | null = null;
 
@@ -529,8 +536,8 @@ export default function ChatDetailPage({
             <MoveLeft size='24' />
           </Button>
         )}
-        <div className='flex px-4 py-2 justify-center bg-card-gradient-menu'>
-        Name
+        <div className='flex justify-center bg-card-gradient-menu px-4 py-2'>
+          Name
         </div>
         <ScrollArea
           ref={scrollAreaRef}
@@ -628,7 +635,7 @@ export default function ChatDetailPage({
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   className='h-[68px] max-h-[200px] w-full rounded-xl bg-card-gradient-menu-on p-2'
-                  onInput={autoHeight}
+                  onKeyDown={handleInputKeyDown}
                 />
               </div>
               {isEditing ? (
@@ -649,7 +656,11 @@ export default function ChatDetailPage({
                   onClick={() => handleMessageSubmit(inputMessage)}
                   className='mx-2 mb-[10px] mt-auto'
                 >
-                  <IoSendOutline color='gray' size={18} />
+                  {isLoadingSubmit ? (
+                    <Loader2 color='gray' size={18} className='animate-spin' />
+                  ) : (
+                    <IoSendOutline color='gray' size={18} />
+                  )}
                 </Button>
               )}
             </div>

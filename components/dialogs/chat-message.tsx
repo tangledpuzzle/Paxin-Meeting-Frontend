@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/context-menu';
 import { PaxContext } from '@/context/context';
 import { cn } from '@/lib/utils';
+import DOMPurify from 'dompurify';
 import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useContext } from 'react';
@@ -60,6 +61,25 @@ export default function ChatMessage(props: ChatMessageProps) {
     });
   };
 
+  const linkify = (inputText: string) => {
+    const urlRegex =
+      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    return inputText.replace(
+      urlRegex,
+      (url) =>
+        `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+    );
+  };
+
+  const processText = (text: string) => {
+    let processedText = linkify(text);
+
+    // Handling newline characters by replacing them with the HTML line break.
+    processedText = processedText.replace(/\n/g, '<br />');
+
+    return processedText;
+  };
+
   return (
     <div className={cn('chat-msg', { owner: user?.id === props.owner.id })}>
       <div className='chat-msg-profile'>
@@ -81,6 +101,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                 '!text-gray-300': props.isDeleted,
               })}
             >
+              {/** Display attachments */}
               <div className='flex items-center gap-1'>
                 {props.attachments &&
                   props.attachments.length > 0 &&
@@ -112,7 +133,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                   <MdOutlineDoNotDisturb className='size-4' />
                   <span className='select-none'>{t('message_deleted')}</span>
                 </div>
-              ) : (
+              ) : props.isBot && props.owner.id !== user?.id ? (
                 <ReactMarkdown
                   className={cn(
                     'prose',
@@ -122,6 +143,22 @@ export default function ChatMessage(props: ChatMessageProps) {
                     { 'mr-24': props.isEdited }
                   )}
                   children={props.message}
+                />
+              ) : (
+                <div
+                  className={cn(
+                    'flex items-center gap-1',
+                    {
+                      'mr-14': !props.isBot,
+                    },
+                    { 'mr-24': props.isEdited }
+                  )}
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(processText(props.message), {
+                      ALLOWED_TAGS: ['a', 'br'],
+                      ALLOWED_ATTR: ['href', 'target', 'rel'],
+                    }),
+                  }}
                 />
               )}
               {!props.isBot && (
