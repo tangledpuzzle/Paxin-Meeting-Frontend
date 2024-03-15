@@ -76,23 +76,34 @@ export function ContactSection() {
     },
   });
   const submitBlog = async (data: FormData) => {
-    const res = await axios.post(`/api/contact/`, {
-      Name: data.Name,
-      SecondName: data.SecondName,
-      Email: data.Email,
-      Phone: data.Phone,
-      Msg: data.Msg,
+    toast.error(t('contact_us_fail'), {
+      position: 'top-right',
     });
 
-    if (res.status === 200) {
-      toast.success(t('contact_us_success'), {
-        position: 'top-right',
+    try {
+      const res = await axios.post(`/api/contact/`, {
+        Name: data.Name,
+        SecondName: data.SecondName,
+        Email: data.Email,
+        Phone: data.Phone,
+        Msg: data.Msg,
       });
-    } else {
+
+      if (res.status === 200) {
+        toast.success(t('contact_us_success'), {
+          position: 'top-right',
+        });
+      } else {
+        toast.error(t('contact_us_fail'), {
+          position: 'top-right',
+        });
+      }
+    } catch (e) {
       toast.error(t('contact_us_fail'), {
         position: 'top-right',
       });
     }
+
   };
 
   return (
