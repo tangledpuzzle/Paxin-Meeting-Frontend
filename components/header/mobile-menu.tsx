@@ -51,33 +51,31 @@ export function MobileMenu({ user }: MobileMenuProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='mr-4 w-60'>
-          {(user || userData) && (
-            <>
-              <DropdownMenuLabel
-                className='flex w-full cursor-pointer items-center gap-2 overflow-hidden'
-                onClick={() => router.push('/profile/dashboard')}
-              >
-                <Avatar>
-                  <AvatarImage
-                    src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${(user || userData)?.avatar}`}
-                    alt={(user || userData)?.username}
-                  />
-                  <AvatarFallback>
-                    {getInitials((user || userData)?.username || '')}
-                  </AvatarFallback>
-                </Avatar>
-                <div className='w-40'>
-                  <div className='overflow-hidden text-ellipsis text-sm font-bold'>
-                    {(user || userData)?.username}
-                  </div>
-                  <div className='overflow-hidden text-ellipsis text-xs font-normal'>
-                    {(user || userData)?.email}
-                  </div>
+          <DropdownMenuItem className='cursor-pointer text-base' asChild>
+            <Link
+              href='/profile/dashboard'
+              className='flex w-full items-center gap-2 overflow-hidden'
+            >
+              <Avatar>
+                <AvatarImage
+                  src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${user?.avatar}`}
+                  alt={user?.username}
+                />
+                <AvatarFallback>
+                  {getInitials(user?.username || '')}
+                </AvatarFallback>
+              </Avatar>
+              <div className='w-40'>
+                <div className='overflow-hidden text-ellipsis text-sm font-bold'>
+                  {user?.username}
                 </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-            </>
-          )}
+                <div className='overflow-hidden text-ellipsis text-xs font-normal'>
+                  {user?.email}
+                </div>
+              </div>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           {!(user || userData) && (
             <DropdownMenuItem className='cursor-pointer text-base' asChild>
               <Link href='/auth/signin'>
