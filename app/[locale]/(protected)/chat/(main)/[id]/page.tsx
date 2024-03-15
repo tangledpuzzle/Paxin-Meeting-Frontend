@@ -23,6 +23,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { IoCheckmarkSharp, IoSendOutline } from 'react-icons/io5';
 import { LiaTimesSolid } from 'react-icons/lia';
+import { IoMdMore } from 'react-icons/io';
 
 Howler.autoUnlock = true;
 
@@ -316,7 +317,7 @@ export default function ChatDetailPage({
       // In case of chatting with user
       setIsLoadingSubmit(true);
 
-      const pendingId = `${new Date().getTime()}`;
+      const pendingId = '00000';
 
       setMessages([
         ...messages,
@@ -553,6 +554,18 @@ export default function ChatDetailPage({
     }
   };
 
+  const scrollToEnd = () => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.querySelector(
+        '[data-radix-scroll-area-viewport]'
+      )!.scrollTop = scrollAreaRef.current.querySelector(
+        '[data-radix-scroll-area-viewport]'
+      )!.scrollHeight;
+
+      console.log('scroll to end');
+    }
+  };
+
   useEffect(() => {
     autoHeight();
   }, [uploadedFiles, inputMessage]);
@@ -562,9 +575,17 @@ export default function ChatDetailPage({
   }, []);
 
   useEffect(() => {
+    if (!isMessageLoading && !isRoomLoading) scrollToEnd();
+  }, [isMessageLoading, isRoomLoading]);
+
+  useEffect(() => {
     if (window !== undefined)
       mdRef.current = new MobileDetect(window.navigator.userAgent);
   }, []);
+
+  useEffect(() => {
+    scrollToEnd();
+  }, [messages]);
 
   // useEffect(() => {
   //   if (uploadedFiles.length > 0) {
@@ -625,6 +646,11 @@ export default function ChatDetailPage({
               {chatUser?.online ? 'online' : 'offline'}
             </p>
           </div>
+          <div className='ml-auto'>
+            <Button variant='ghost' size='icon' className='rounded-full'>
+              <IoMdMore size={20} />
+            </Button>
+          </div>
         </div>
         <ScrollArea
           ref={scrollAreaRef}
@@ -635,7 +661,7 @@ export default function ChatDetailPage({
         >
           <div className='wrapper h-full items-end'>
             <div className='chat-area container !px-0'>
-              <div className='chat-area-main pb-[40px]'>
+              <div className='chat-area-main'>
                 {messages.map((message) => {
                   const day = new Date(message.timestamp).toLocaleDateString(
                     'en-US',

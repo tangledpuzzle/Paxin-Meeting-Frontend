@@ -144,7 +144,7 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
                 )}
               </div>
               <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
-                {room.lastMessage.owner === user?.id && (
+                {room.lastMessage.owner === user?.id && !room.user.bot && (
                   <BsCheck2All
                     className={cn('mr-1 inline-block size-4 text-gray-500', {
                       'text-primary':

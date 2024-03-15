@@ -45,7 +45,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       if (`${publication.body.room_id}` === activeRoom)
         setMessages((messages) => {
           const index = messages.findIndex(
-            (msg) => msg.id === `${publication.body.id}`
+            (msg) => msg.id === `${publication.body.id}` || msg.id === '00000'
           );
 
           if (index === -1) {
