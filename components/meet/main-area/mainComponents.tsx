@@ -240,7 +240,7 @@ const MainComponents = ({
     const cssClasses: Array<string> = [];
     if (isActiveScreenSharingView && isActiveScreenShare) {
       cssClasses.push(
-        'middle-fullscreen-wrapper share-screen-wrapper is-share-screen-running'
+        'middle-fullscreen-wrapper h-full share-screen-wrapper is-share-screen-running'
       );
       if (showVideoElms && showVerticalVideoView) {
         cssClasses.push('verticalsWebcamsActivated');
