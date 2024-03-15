@@ -24,6 +24,8 @@ interface IPopUp {
 }
 
 interface IRTCContext {
+  showPopup: boolean;
+  togglePopup: () => void;
   livekitInfo: LivekitInfo | null;
   setLivekitInfo: (e: LivekitInfo) => void;
   currentConnection: IConnectLivekit | null;
@@ -85,11 +87,16 @@ export const RTCContext = createContext<IRTCContext>({
   updatePosition: function (): void {
     throw new Error('Function not implemented.');
   },
+  showPopup: false,
+  togglePopup: function (): void {
+    throw new Error('Function not implemented.');
+  },
 });
 type Props = {
   children: ReactNode;
 };
 export function RTCProvider({ children }: Props) {
+  const [showPopup, togglePopup] = useState<boolean>(true);
   const [livekitInfo, setLivekitInfo] = useState<LivekitInfo | null>(null);
   const { width, height } = useWindowSize();
 
@@ -155,6 +162,8 @@ export function RTCProvider({ children }: Props) {
           setPopUp((e) => ({ ...e, dimension: { width: w, height: h } })),
         updatePosition: (x: number, y: number) =>
           setPopUp((e) => ({ ...e, position: { x, y } })),
+        showPopup,
+        togglePopup: () => togglePopup((e) => !e),
       }}
     >
       {children}
