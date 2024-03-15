@@ -13,12 +13,14 @@ import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import { Howl, Howler } from 'howler';
 import { useSession } from 'next-auth/react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 Howler.autoUnlock = true;
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const t = useTranslations('chatting');
+  const router = useRouter();
   const locale = useLocale();
   const [showNav, setShowNav] = useState(true);
   const [chatRooms, setChatRooms] = useState<ChatRoomType[]>([]);
@@ -180,15 +182,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       });
     } else if (publication.type === 'unsubscribe_room') {
       setChatRooms((chatRooms) => {
-        const index = chatRooms.findIndex(
-          (room) => room.id === `${publication.body.id}`
+        const newChatRooms = chatRooms.filter(
+          (room) => room.id !== `${publication.body.id}`
         );
 
-        if (index > -1) {
-          chatRooms[index].subscribed = false;
-        }
-
-        return chatRooms;
+        return newChatRooms;
       });
     }
   };

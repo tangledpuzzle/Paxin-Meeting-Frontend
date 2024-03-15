@@ -392,13 +392,15 @@ export default function ChatDetailPage({
       if (res?.status === 'success') {
         const index = messages.findIndex((msg) => msg.id === deleteMessageId);
 
-        const _messages = messages;
-        _messages[index].isDeleted = true;
+        if (index > -1) {
+          const _messages = messages;
+          _messages[index].isDeleted = true;
 
-        setMessages(_messages);
+          setMessages(_messages);
 
-        setIsDeleting(false);
-        setDeleteMessageId('');
+          setIsDeleting(false);
+          setDeleteMessageId('');
+        }
       } else {
         toast.error(t('failed_to_delete_message'), {
           position: 'top-right',
@@ -451,7 +453,8 @@ export default function ChatDetailPage({
       if (res?.status === 'success') {
         setChatRooms((chatRooms) => {
           const index = chatRooms.findIndex((room) => room.id === roomId);
-          chatRooms[index].subscribed = true;
+
+          if (index > -1) chatRooms[index].subscribed = true;
 
           return chatRooms;
         });

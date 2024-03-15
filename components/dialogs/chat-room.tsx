@@ -20,9 +20,11 @@ import { FaTrashCan } from 'react-icons/fa6';
 import { MdOutlineMarkChatRead } from 'react-icons/md';
 import { ConfirmModal } from '../common/confirm-modal';
 import { Badge } from '../ui/badge';
+import { useRouter } from 'next/navigation';
 
 export default function ChatRoom({ room }: { room: ChatRoomType }) {
   const t = useTranslations('chatting');
+  const router = useRouter();
   const pathname = usePathname();
   const { activeRoom, setActiveRoomSubscribed, setChatRooms } =
     useContext(PaxChatContext);
@@ -35,7 +37,8 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
       if (res?.status === 'success') {
         setChatRooms((chatRooms) => {
           const index = chatRooms.findIndex((_room) => _room.id === room.id);
-          chatRooms[index].subscribed = true;
+
+          if (index > -1) chatRooms[index].subscribed = true;
 
           return chatRooms;
         });
@@ -51,13 +54,14 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
 
       if (res?.status === 'success') {
         setChatRooms((chatRooms) => {
-          const index = chatRooms.findIndex((_room) => _room.id === room.id);
-          chatRooms[index].subscribed = false;
+          const newChatRooms = chatRooms.filter(
+            (_room) => _room.id !== room.id
+          );
 
-          return chatRooms;
+          return newChatRooms;
         });
 
-        if (room.id === activeRoom) setActiveRoomSubscribed(false);
+        if (room.id === activeRoom) router.push('/chat');
       }
     } catch (error) {
     } finally {
