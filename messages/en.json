@@ -4,6 +4,8 @@
     "description": ""
   },
   "main": {
+    "one_page": "Only 1 page",
+
     "back_flow": "Back",
     "next_flow": "Forward",
     "scroll_down": "don't refuse",
@@ -301,6 +303,7 @@
     "this_month": "This Month",
     "publications": "Publications",
     "followers": "Followers",
+    "followings": "Followings",
     "profile_description": "Profile Description",
     "additional_info": "Additional Info",
     "type_your_content_here": "Type your content here...",
@@ -368,6 +371,7 @@
     "subscribers": "Subscribers",
     "no_blogs_yet": "There are no blogs yet...",
     "empty_search_result": "There is no result for your search query...",
+    "empty_saved_filter": "There is no saved filter.",
     "testominal1": "Trading with PaxinTrade has been a game-changer! Their platform is filled with opportunities, and the support team goes above and beyond. I've seen exceptional profits since I joined. Thank you, PaxinTrade!",
     "testominal2": "Trading with PaxinTrade has been an amazing experience. The platform is super user-friendly, and the customer support is top-notch. Highly recommended!",
     "testominal3": "I am extremely happy with my decision to trade with PaxinTrade. Their platform offers a wide variety of options and the support team is always there to assist.",
@@ -382,7 +386,12 @@
     "complaint_save_success": "New complaint is sent successfully.",
     "complaint_fail_success": "There was an error while sending new complaint.",
     "request_save_success": "Request for a new {type} is sent successfully.",
-    "request_fail_success": "There was an error while sending request for a new {type}."
+    "request_fail_success": "There was an error while sending request for a new {type}.",
+    "saved_filters": "Saved Filters",
+    "success_delete_saved_filters": "Successfully deleted filter combination.",
+    "fail_delete_saved_filters": "Failed to delete filter combination.",
+    "success_update_saved_filters": "Successfully updated filter combination.",
+    "fail_update_saved_filters": "Failed to update filter combination."
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",
@@ -875,6 +884,7 @@
     "message_copied": "Message copied to clipboard",
     "are_you_sure_leave_chat": "Are you sure you want to leave this chat?",
     "image_size_too_big": "Image size is too big, you can't upload up to 1MB",
-    "bot_default_msg": "Hi there, I am {bot_name}. How can I assist you today?"
+    "bot_default_msg": "Hi there, I am {bot_name}. How can I assist you today?",
+    "edited": "edited"
   }
 }

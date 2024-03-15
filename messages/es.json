@@ -4,6 +4,8 @@
     "description": ""
   },
   "main": {
+    "one_page": "Sólo 1 página",
+
     "back_flow": "Volver",
     "next_flow": "Adelante",
     "scroll_down": "no te niegues",
@@ -301,6 +303,7 @@
     "this_month": "Este mes",
     "publications": "Publicaciones",
     "followers": "Seguidores",
+    "followings": "Siguiendo",
     "profile_description": "Descripción del perfil",
     "additional_info": "Información adicional",
     "type_your_content_here": "Escribe aquí tu contenido...",
@@ -369,6 +372,7 @@
     "subscribers": "Suscriptores",
     "no_blogs_yet": "Aún no hay blogs...",
     "empty_search_result": "No hay resultados para tu búsqueda...",
+    "empty_saved_filter": "No hay ningún filtro guardado.",
     "testominal1": "¡Negociar con PaxinTrade ha sido un cambio de juego! Su plataforma está llena de oportunidades, y el equipo de soporte va más allá. He visto ganancias excepcionales desde que me uní. ¡Gracias, PaxinTrade!",
     "testominal2": "Negociar con PaxinTrade ha sido una experiencia increíble. La plataforma es súper fácil de usar y el soporte al cliente es excelente. ¡Altamente recomendado!",
     "testominal3": "Estoy extremadamente feliz con mi decisión de negociar con PaxinTrade. Su plataforma ofrece una amplia variedad de opciones y el equipo de soporte siempre está allí para ayudar.",
@@ -383,7 +387,12 @@
     "complaint_save_success": "La nueva queja se envió correctamente.",
     "complaint_fail_success": "Hubo un error al enviar la nueva queja.",
     "request_save_success": "La solicitud de un nuevo {type} se envió correctamente.",
-    "request_fail_success": "Hubo un error al enviar la solicitud de un nuevo {type}."
+    "request_fail_success": "Hubo un error al enviar la solicitud de un nuevo {type}.",
+    "saved_filters": "Filtros Guardados",
+    "success_delete_saved_filters": "Combinación de filtros eliminada exitosamente.",
+    "fail_delete_saved_filters": "Error al eliminar la combinación de filtros.",
+    "success_update_saved_filters": "Combinación de filtros actualizada exitosamente.",
+    "fail_update_saved_filters": "Error al actualizar la combinación de filtros."
   },
   "privacy": {
     "rulesprivacy": "política de privacidad",
@@ -875,6 +884,7 @@
     "message_copied": "Mensaje copiado al portapapeles",
     "are_you_sure_leave_chat": "¿Estás seguro que deseas salir de este chat?",
     "image_size_too_big": "El tamaño de la imagen es demasiado grande, no puedes subir más de 1MB",
-    "bot_default_msg": "Hola, soy {bot_name}. ¿Cómo puedo asistirte hoy?"
+    "bot_default_msg": "Hola, soy {bot_name}. ¿Cómo puedo asistirte hoy?",
+    "edited": "edit."
   }
 }

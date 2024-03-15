@@ -38,7 +38,7 @@ export default function HomePage() {
 
     if (typeof localStorage !== 'undefined') {
       const savedPosition = localStorage.getItem('home-page-scroll-position');
-      if (savedPosition && !searchParams.get('scrollPos')) {
+      if (savedPosition) {
         scrollToTransition(Number(savedPosition));
 
         localStorage.removeItem('home-page-scroll-position');

@@ -29,10 +29,21 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
     }
   }, [mode]);
 
-
   eventBus.on('startChat', () => {
     setShowNav(!showNav);
   });
+
+  useEffect(() => {
+    if (showNav) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [showNav]);
 
   return (
     <div ref={sidebarRef} className='new-sidebar w-full pt-[70px] md:w-[300px]'>
@@ -101,5 +112,5 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
       </div>
     </div>
   );
-}
+};
 export default ChatNavComponent;

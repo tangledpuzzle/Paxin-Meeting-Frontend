@@ -55,7 +55,6 @@ export default function ProfileSection() {
   const [fetchURL, setFetchURL] = useState('');
   const [nextPageLink, setNextPageLink] = useState<string | null>(null);
   const [prevPageLink, setPrevPageLink] = useState<string | null>(null);
-  const [scrollPos, setScrollPos] = useState(0);
 
   const { data: fetchedData, isLoading, error } = useSWR(fetchURL, fetcher);
 
@@ -88,14 +87,6 @@ export default function ProfileSection() {
       newSearchParams.set('page', (_page + 1).toString());
       setNextPageLink(`/home?${newSearchParams.toString()}`);
     }
-
-    const prevScrollPos = Number(searchParams.get('scrollPos') || 0);
-    if (prevScrollPos > 0) {
-      scrollToTransition(prevScrollPos);
-      const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.delete('scrollPos');
-      router.replace(`?${newSearchParams.toString()}`, { scroll: false });
-    }
   }, [searchParams, maxPage]);
 
   useEffect(() => {
@@ -105,18 +96,6 @@ export default function ProfileSection() {
       setMaxPage(Math.ceil(fetchedData.meta.total / pageSize));
     }
   }, [fetchedData, error]);
-
-  useEffect(() => {
-    if (window === undefined) return;
-
-    const handleScroll = () => {
-      setScrollPos(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  });
 
   return (
     <div className='w-full'>
@@ -149,7 +128,7 @@ export default function ProfileSection() {
           <span className='px-0 text-sm'>Just one page yet</span>
         </div>
       )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3 pb-8'>
         {!error ? (
           !isLoading && profileData ? (
             profileData?.length > 0 ? (
@@ -157,9 +136,7 @@ export default function ProfileSection() {
                 <ProfileCard
                   key={profile.username}
                   {...profile}
-                  callbackURL={encodeURIComponent(
-                    `/home?mode=profile&scrollPos=${scrollPos}${searchParams.toString() ? '&' : ''}${searchParams.toString()}`
-                  )}
+                  callbackURL=''
                 />
               ))
             ) : (

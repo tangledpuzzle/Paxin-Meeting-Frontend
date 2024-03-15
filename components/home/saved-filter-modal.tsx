@@ -18,8 +18,7 @@ import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import usePreventBodyScroll from '@/components/ui/scrollmouse';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { LeftArrow, RightArrow } from '@/components/ui/arrow';
-import { TagSlider } from '../common/tag-slider';
+import Image from 'next/image';
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 export function SavedFilterModal({ setIsFilterModalOpen }: any) {
@@ -45,14 +44,14 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
     const result = await axios.delete(`/api/flows/filter/${id}`);
 
     if (result.status === 200) {
-      toast.success('Deleted filter succuessfully')
+      toast.success(t('success_delete_saved_filters'))
       let _filtersList = [];
       for (let i = 0; i < filtersList.length; i++) {
         if (i !== key) _filtersList.push(filtersList[i]);
       }
       setFiltersList(_filtersList);
     } else {
-      toast.error('qkrmek.')
+      toast.error(t('fail_delete_saved_filters'))
     }
   }
 
@@ -102,14 +101,13 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
     setFiltersList(_filtersList);
     setEditMode(null);
     if (result.status === 200) {
-      toast.success('Updated filter succuessfully')
+      toast.success(t('success_update_saved_filters'))
     } else {
-      toast.error('qkrmek.')
+      toast.error(t('fail_update_saved_filters'))
     }
   }
   const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();
   const { disableScroll, enableScroll } = usePreventBodyScroll();
-
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = React.useState(0);
 
@@ -129,14 +127,14 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
   }
   React.useEffect(() => {
     if (containerRef.current && !containerWidth) {
-      setContainerWidth(containerRef.current.clientWidth - 96);
+      setContainerWidth(containerRef.current.clientWidth);
     }
   }, [containerRef, containerWidth]);
 
   React.useEffect(() => {
     const handleResize = () => {
       if (containerRef.current) {
-        setContainerWidth(containerRef.current.clientWidth - 96);
+        setContainerWidth(containerRef.current.clientWidth);
       }
     };
     window.addEventListener('resize', handleResize);
@@ -151,14 +149,26 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
     <Dialog open={isFilterModalOpen} onOpenChange={setModalOpen} >
       <DialogTrigger asChild>
         <Button type='button' >
-          Show Saved Filters
+          {t('saved_filters')}
         </Button>
       </DialogTrigger>
       <DialogContent className=' max-w-3xl rounded-lg sm:mx-auto'>
         <DialogHeader>
-          <DialogTitle>Saved Filters</DialogTitle>
+          <DialogTitle>{t('saved_filters')} </DialogTitle>
         </DialogHeader>
-        {filtersList.map((each, key) =>
+        {filtersList.length === 0 ? <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
+          <div className='flex flex-col items-center'>
+            <Image
+              src={'/images/home/empty-search-result.svg'}
+              width={200}
+              height={200}
+              alt='Empty Search Result'
+            />
+            <p className='text-center text-lg font-bold'>
+              {t('empty_search_result')}
+            </p>
+          </div>
+        </div> : <>{filtersList.map((each, key) =>
           <div className='flex justify-between gap-4' key={key}>
             {editMode == key ?
               <Input className='w-[20%]' value={newName} onChange={(event) => { setNewName(event.target.value) }}></Input> :
@@ -167,26 +177,24 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
               </Button>
             }
             <div className='flex gap-2 w-[70%] overflow-hidden'>
-              {/* <>
+              <div className='relative max-w-[100%] w-full'>
                 <div ref={containerRef}>
                   <div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
                     <ScrollMenu
-                      LeftArrow={LeftArrow}
-                      RightArrow={RightArrow}
                       onWheel={onWheel}
                       onTouchEnd={onTouchEnd}
                       onTouchMove={onTouchMove}
                       onTouchStart={onTouchStart}
-                    > */}
-              {each.Meta.category && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap' >{each.Meta.category}</div>}
-              {each.Meta.city && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap' >{each.Meta.city}</div>}
-              {each.Meta.hashtag && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap' >{each.Meta.hashtag}</div>}
-              {each.Meta.money !== '-' && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap' >{each.Meta.money}</div>}
-              {each.Meta.title && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap' >{each.Meta.title}</div>}
-              {/* </ScrollMenu>
+                    >
+                      {each.Meta.category && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap'>{each.Meta.category}</div>}
+                      {each.Meta.city && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap' >{each.Meta.city}</div>}
+                      {each.Meta.hashtag && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap'>{each.Meta.hashtag}</div>}
+                      {each.Meta.money !== '-' && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap'  >{each.Meta.money}</div>}
+                      {each.Meta.title && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap'>{each.Meta.title}</div>}
+                    </ScrollMenu>
                   </div>
                 </div>
-              </> */}
+              </div>
               {/* <TagSlider tags={["wewew", "wewewewe"]} /> */}
             </div>
             {editMode == key ?
@@ -206,7 +214,10 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
               </Button>
             }
           </div>
-        )}
+        )}</>}
+
+
+
       </DialogContent>
     </Dialog >
   );

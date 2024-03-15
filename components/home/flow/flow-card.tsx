@@ -82,12 +82,23 @@ function FlowCard(profile: FlowCardProps) {
     });
   };
 
+  const saveScrollPosition = () => {
+    if (window === undefined) return;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(
+        'home-page-scroll-position',
+        (window.scrollY || document.documentElement.scrollTop).toString()
+      );
+    }
+  };
+
   return (
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-0'>
         <Link
           href='/flows/[id]/[slug]'
           as={`/flows/${id}/${slug}?callback=${callbackURL}`}
+          onClick={saveScrollPosition}
         >
           <div className='relative'>
             <div className='max-h-auto h-auto min-h-[300px] w-full md:min-h-[416px] '>
@@ -143,6 +154,7 @@ function FlowCard(profile: FlowCardProps) {
             <Link
               href='/flows/[id]/[slug]'
               as={`/flows/${id}/${slug}?callback=${callbackURL}`}
+              onClick={saveScrollPosition}
             >
               {title}
             </Link>
@@ -185,6 +197,7 @@ function FlowCard(profile: FlowCardProps) {
               <Link
                 href='/profiles/[username]'
                 as={`/profiles/${user.username}`}
+                onClick={saveScrollPosition}
               >
                 <div className='flex gap-2'>
                   <ProfileAvatar

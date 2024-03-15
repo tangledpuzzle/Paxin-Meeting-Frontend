@@ -31,8 +31,6 @@ export function CardSlide({
         margin: '0 0px',
         textAlign: 'center',
         width: '100%',
-        // marginLeft: margin,
-        // marginRight: margin,
         userSelect: 'none',
       }}
       tabIndex={0}
@@ -42,10 +40,6 @@ export function CardSlide({
         <div className='overflow-hidden text-ellipsis whitespace-nowrap px-4 text-base'>
           # {title}
         </div>
-        {/* <div style={{ backgroundColor: visible ? "transparent" : "gray" }}>
-          visible: {JSON.stringify(visible)}
-        </div> */}
-        {/* <div>selected: {JSON.stringify(!!selected)}</div> */}
       </div>
       <div
         style={{

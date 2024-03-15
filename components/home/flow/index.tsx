@@ -44,7 +44,6 @@ const pageSize = 12;
 
 export default function FlowSection() {
   const t = useTranslations('main');
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [flowData, setFlowData] = useState<FlowData[] | null>(null);
   const [maxPage, setMaxPage] = useState<number>(1);
@@ -52,7 +51,6 @@ export default function FlowSection() {
   const [fetchURL, setFetchURL] = useState('');
   const [nextPageLink, setNextPageLink] = useState<string | null>(null);
   const [prevPageLink, setPrevPageLink] = useState<string | null>(null);
-  const [scrollPos, setScrollPos] = useState(0);
 
   const { data: fetchedData, isLoading, error } = useSWR(fetchURL, fetcher);
 
@@ -86,14 +84,6 @@ export default function FlowSection() {
       newSearchParams.set('page', (_page + 1).toString());
       setNextPageLink(`/home?${newSearchParams.toString()}`);
     }
-
-    const prevScrollPos = Number(searchParams.get('scrollPos') || 0);
-    if (prevScrollPos > 0) {
-      scrollToTransition(prevScrollPos);
-      const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.delete('scrollPos');
-      router.replace(`?${newSearchParams.toString()}`, { scroll: false });
-    }
   }, [searchParams, maxPage]);
 
   useEffect(() => {
@@ -103,18 +93,6 @@ export default function FlowSection() {
       setMaxPage(Math.ceil(fetchedData.meta.total / pageSize));
     }
   }, [fetchedData, error]);
-
-  useEffect(() => {
-    if (window === undefined) return;
-
-    const handleScroll = () => {
-      setScrollPos(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
     <div className='w-full'>
@@ -144,15 +122,15 @@ export default function FlowSection() {
       )}
       {maxPage === 1 && (
         <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
-          <span className='px-0 text-sm'>Just one page yet</span>
+          <span className='px-0 text-sm'>{t('one_page')}</span>
         </div>
       )}
       {maxPage === 0 && (
         <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
-          <span className='px-0 text-sm'>Just one page yet</span>
+          <span className='px-0 text-sm'>{t('one_page')}</span>
         </div>
       )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3 pb-8'>
         {!error ? (
           flowData && !isLoading ? (
             flowData?.length > 0 ? (
@@ -160,9 +138,10 @@ export default function FlowSection() {
                 <FlowCard
                   key={flow.id}
                   {...flow}
-                  callbackURL={encodeURIComponent(
-                    `/home?mode=flow&scrollPos=${scrollPos}${searchParams.toString() ? '&' : ''}${searchParams.toString()}`
-                  )}
+                  // callbackURL={encodeURIComponent(
+                  //   `/home?mode=flow&scrollPos=${scrollPos}${searchParams.toString() ? '&' : ''}${searchParams.toString()}`
+                  // )}
+                  callbackURL=''
                 />
               ))
             ) : (
