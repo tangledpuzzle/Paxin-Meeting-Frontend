@@ -1,5 +1,6 @@
 'use client';
 
+import MobileDetect from 'mobile-detect';
 import { ConfirmModal } from '@/components/common/confirm-modal';
 import ChatMessage from '@/components/dialogs/chat-message';
 import ChatMessageSkeleton from '@/components/dialogs/chat-message-skeleton';
@@ -116,6 +117,8 @@ export default function ChatDetailPage({
     '100vh - 5rem - 20px - 68px'
   );
 
+  const md = new MobileDetect(navigator.userAgent);
+
   const messageSentSound = new Howl({
     src: ['/audio/message-sent.mp3'],
     html5: true,
@@ -125,6 +128,8 @@ export default function ChatDetailPage({
 
   const handleMessageSubmit = async (inputMessage: string) => {
     if (inputMessage.trim() === '') return;
+
+    inputMessage = inputMessage.trim();
 
     // In case of chatting with bot
     if (chatUser?.bot) {
@@ -479,9 +484,30 @@ export default function ChatDetailPage({
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleMessageSubmit(inputMessage);
+    if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey) {
+      if (!md.mobile()) {
+        e.preventDefault();
+        handleMessageSubmit(inputMessage);
+      }
+    } else if (e.key === 'Enter' && e.ctrlKey) {
+      e.preventDefault(); // Prevent the default action (submit form, etc.)
+
+      // Get the current textarea and its selection positions
+      const textarea = e.target as HTMLTextAreaElement;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+
+      // Insert the newline character at the cursor's current position
+      const newValue =
+        inputMessage.substring(0, start) + '\n' + inputMessage.substring(end);
+
+      // Update the state with the new value
+      setInputMessage(newValue);
+
+      // Move the cursor to right after the newly inserted newline
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + 1;
+      }, 0);
     }
   };
 
