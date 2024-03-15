@@ -35,6 +35,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Footer from './smallMeet/footer';
 import AudioNotification from './smallMeet/app/audioNotification';
+import type { DraggableData, DraggableEvent } from 'react-draggable';
 
 const roomIdSelector = createSelector(
   (state: RootState) => state.session,
@@ -53,7 +54,7 @@ export default function SmallMeet() {
   const roomId = useAppSelector(roomIdSelector);
   const [loading, setLoading] = useState<boolean>(true);
   const { width, height } = useWindowSize();
-  console.log(width, height);
+
   // // it could be recorder or RTMP bot
   const [isRecorder, setIsRecorder] = useState<boolean>(false);
   const [userTypeClass, setUserTypeClass] = useState('participant');
@@ -70,6 +71,9 @@ export default function SmallMeet() {
     roomConnectionStatus,
     setRoomConnectionStatus,
     startLivekitConnection,
+    popup,
+    updateDimension,
+    updatePosition,
   } = useContext(RTCContext);
   const waitForApproval = useAppSelector(waitingForApprovalSelector);
 
@@ -256,6 +260,7 @@ export default function SmallMeet() {
     }
   }, [livekitInfo]);
   const isMobile = width > 450 ? false : true;
+  // console.log(popup);
   return currentConnection ? (
     <>
       <button onClick={() => setActive((e) => true)}>
@@ -273,49 +278,59 @@ export default function SmallMeet() {
           {/* @ts-ignore */}
           <Draggable
             axis='both'
+            onStop={(e: DraggableEvent, d: DraggableData) => {
+              updatePosition(d.x, d.y);
+            }}
             header='handle'
             handle='.handle'
             defaultClassName='fixed left-0 top-0'
-            defaultPosition={{
-              x: !isMobile ? width - 350 : width - 200,
-              y: !isMobile ? height - 350 : height - 200,
-            }}
+            defaultPosition={popup.position}
             //   position={null}
             scale={1}
           >
             <Resizable
+              onResizeStop={(a, b, c, e) => {
+                const newWidth = popup.dimension.width + e.width;
+                const newHeight = popup.dimension.height + e.height;
+                const maxWidth = !isMobile ? 350 : 200;
+                const maxHeight = !isMobile ? 350 : 200;
+
+                updateDimension(
+                  newWidth > maxWidth ? newWidth : maxWidth,
+                  newHeight > maxHeight ? newHeight : maxHeight
+                );
+              }}
+              // size={popup.dimension}
               minWidth={!isMobile ? 350 : 200}
               minHeight={!isMobile ? 350 : 200}
-              defaultSize={{
-                width: !isMobile ? 350 : 200,
-                height: !isMobile ? 350 : 200,
-              }}
+              defaultSize={popup.dimension}
             >
               <div className='flex h-full w-full flex-col rounded-2xl bg-darkPrimary shadow-sky-50'>
-                <div className='bg-h flex justify-between px-2 pt-2'>
-                  <div className='flex w-full justify-between'>
-                    {!isMobile && <p className='mx-auto'>{roomId}</p>}
-                    <CopyClipboard
-                      text={`https://www.paxintrade.com/meet/${roomId}`}
-                    >
-                      <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
-                        <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
-                      </div>
-                    </CopyClipboard>
+                <DraggableHandle>
+                  <div className='bg-h flex justify-between px-2 pt-2'>
+                    <div className='flex w-full justify-between'>
+                      {!isMobile && <p className='mx-auto'>{roomId}</p>}
+                      <CopyClipboard
+                        text={`https://www.paxintrade.com/meet/${roomId}`}
+                      >
+                        <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
+                          <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
+                        </div>
+                      </CopyClipboard>
+                    </div>
+                    <div className='flex items-center'>
+                      {/* <MoveIcon size={isMobile ? 24 : 32} /> */}
+
+                      <Link href={`/meet/${roomId}`}>
+                        <FullscreenIcon size={isMobile ? 24 : 32} />
+                      </Link>
+                      <Minimize2Icon
+                        size={isMobile ? 24 : 32}
+                        onClick={() => setActive(false)}
+                      />
+                    </div>
                   </div>
-                  <div className='flex items-center'>
-                    <DraggableHandle>
-                      <MoveIcon size={isMobile ? 24 : 32} />
-                    </DraggableHandle>
-                    <Link href={`/meet/${roomId}`}>
-                      <FullscreenIcon size={isMobile ? 24 : 32} />
-                    </Link>
-                    <Minimize2Icon
-                      size={isMobile ? 24 : 32}
-                      onClick={() => setActive(false)}
-                    />
-                  </div>
-                </div>
+                </DraggableHandle>
                 <div className='border-gardient-h relative w-full' />
 
                 {currentConnection && (
