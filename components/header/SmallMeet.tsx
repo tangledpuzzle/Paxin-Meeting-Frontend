@@ -306,31 +306,31 @@ export default function SmallMeet() {
               defaultSize={popup.dimension}
             >
               <div className='flex h-full w-full flex-col rounded-2xl bg-darkPrimary shadow-sky-50'>
-                <DraggableHandle>
-                  <div className='bg-h flex justify-between px-2 pt-2'>
-                    <div className='flex w-full justify-between'>
-                      {!isMobile && <p className='mx-auto'>{roomId}</p>}
-                      <CopyClipboard
-                        text={`https://www.paxintrade.com/meet/${roomId}`}
-                      >
-                        <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
-                          <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
-                        </div>
-                      </CopyClipboard>
-                    </div>
-                    <div className='flex items-center'>
-                      {/* <MoveIcon size={isMobile ? 24 : 32} /> */}
-
-                      <Link href={`/meet/${roomId}`}>
-                        <FullscreenIcon size={isMobile ? 24 : 32} />
-                      </Link>
-                      <Minimize2Icon
-                        size={isMobile ? 24 : 32}
-                        onClick={() => setActive(false)}
-                      />
-                    </div>
+                <div className='bg-h flex justify-between px-2 pt-2'>
+                  <div className='flex w-full justify-between'>
+                    {!isMobile && <p className='mx-auto'>{roomId}</p>}
+                    <CopyClipboard
+                      text={`https://www.paxintrade.com/meet/${roomId}`}
+                    >
+                      <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
+                        <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
+                      </div>
+                    </CopyClipboard>
                   </div>
-                </DraggableHandle>
+                  <div className='flex items-center'>
+                    <DraggableHandle>
+                      <MoveIcon size={isMobile ? 24 : 32} />
+                    </DraggableHandle>
+                    <Link href={`/meet/${roomId}`}>
+                      <FullscreenIcon size={isMobile ? 24 : 32} />
+                    </Link>
+                    <Minimize2Icon
+                      size={isMobile ? 24 : 32}
+                      onClick={() => setActive(false)}
+                    />
+                  </div>
+                </div>
+
                 <div className='border-gardient-h relative w-full' />
 
                 {currentConnection && (
