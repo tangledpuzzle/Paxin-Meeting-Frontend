@@ -8,9 +8,24 @@ import { clearAccessToken } from '@/helpers/utils';
 import { useAppDispatch } from '@/store/hook';
 import { resetParticipant } from '@/store/slices/participantSlice';
 import { clearToken } from '@/store/slices/sessionSlice';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { createContext } from 'react';
+import { useWindowSize } from 'react-use';
+
+interface IPopUp {
+  position: {
+    x: number;
+    y: number;
+  };
+  dimension: {
+    width: number;
+    height: number;
+  };
+}
+
 interface IRTCContext {
+  showPopup: boolean;
+  togglePopup: () => void;
   livekitInfo: LivekitInfo | null;
   setLivekitInfo: (e: LivekitInfo) => void;
   currentConnection: IConnectLivekit | null;
@@ -24,6 +39,9 @@ interface IRTCContext {
     intl: (...e: any[]) => string
   ): IConnectLivekit;
   clearSession: () => void;
+  popup: IPopUp;
+  updateDimension: (w: number, h: number) => void;
+  updatePosition: (x: number, y: number) => void;
 }
 export const RTCContext = createContext<IRTCContext>({
   livekitInfo: null,
@@ -53,12 +71,45 @@ export const RTCContext = createContext<IRTCContext>({
     throw new Error('Function not implemented.');
   },
   clearSession: () => {},
+  popup: {
+    position: {
+      x: 0,
+      y: 0,
+    },
+    dimension: {
+      width: 0,
+      height: 0,
+    },
+  },
+  updateDimension: function (): void {
+    throw new Error('Function not implemented.');
+  },
+  updatePosition: function (): void {
+    throw new Error('Function not implemented.');
+  },
+  showPopup: false,
+  togglePopup: function (): void {
+    throw new Error('Function not implemented.');
+  },
 });
 type Props = {
   children: ReactNode;
 };
 export function RTCProvider({ children }: Props) {
+  const [showPopup, togglePopup] = useState<boolean>(true);
   const [livekitInfo, setLivekitInfo] = useState<LivekitInfo | null>(null);
+  const { width, height } = useWindowSize();
+
+  const [popup, setPopUp] = useState<IPopUp>({
+    dimension: {
+      height: 0,
+      width: 0,
+    },
+    position: {
+      x: 0,
+      y: 0,
+    },
+  });
   const [currentConnection, setCurrentConnection] =
     useState<IConnectLivekit | null>(null);
   const {
@@ -80,6 +131,19 @@ export function RTCProvider({ children }: Props) {
       await currentConnection.room.disconnect();
     }
   }
+  useEffect(() => {
+    const isMobile = width > 450 ? false : true;
+    setPopUp({
+      dimension: {
+        width: !isMobile ? 350 : 200,
+        height: !isMobile ? 350 : 200,
+      },
+      position: {
+        x: !isMobile ? width - 350 : width - 200,
+        y: !isMobile ? height - 350 : height - 200,
+      },
+    });
+  }, [width]);
   return (
     <RTCContext.Provider
       value={{
@@ -93,6 +157,13 @@ export function RTCProvider({ children }: Props) {
         setRoomConnectionStatus,
         startLivekitConnection,
         clearSession,
+        popup,
+        updateDimension: (w: number, h: number) =>
+          setPopUp((e) => ({ ...e, dimension: { width: w, height: h } })),
+        updatePosition: (x: number, y: number) =>
+          setPopUp((e) => ({ ...e, position: { x, y } })),
+        showPopup,
+        togglePopup: () => togglePopup((e) => !e),
       }}
     >
       {children}
