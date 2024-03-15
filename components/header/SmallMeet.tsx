@@ -8,6 +8,7 @@ import useKeyboardShortcuts from '@/helpers/hooks/useKeyboardShortcuts';
 import useDesignCustomization from '@/helpers/hooks/useDesignCustomization';
 import useWatchWindowSize from '@/helpers/hooks/useWatchWindowSize';
 import useWatchVisibilityChange from '@/helpers/hooks/useWatchVisibilityChange';
+import { useWindowSize } from 'react-use';
 import { updateIsActiveChatPanel } from '@/store/slices/bottomIconsActivitySlice';
 import {
   VerifyTokenReq,
@@ -32,8 +33,9 @@ import { RootState } from '@/store';
 import CopyClipboard from '@/components/common/copy-clipboard';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Footer from '../meet/footer';
-import AudioNotification from '../meet/app/audioNotification';
+import Footer from './smallMeet/footer';
+import AudioNotification from './smallMeet/app/audioNotification';
+import type { DraggableData, DraggableEvent } from 'react-draggable';
 
 const roomIdSelector = createSelector(
   (state: RootState) => state.session,
@@ -51,6 +53,8 @@ export default function SmallMeet() {
   const store = useAppStore();
   const roomId = useAppSelector(roomIdSelector);
   const [loading, setLoading] = useState<boolean>(true);
+  const { width, height } = useWindowSize();
+
   // // it could be recorder or RTMP bot
   const [isRecorder, setIsRecorder] = useState<boolean>(false);
   const [userTypeClass, setUserTypeClass] = useState('participant');
@@ -58,6 +62,8 @@ export default function SmallMeet() {
   const [accessTokenLoaded, setAccessTokenLoaded] = useState(false);
   // const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
   const {
+    showPopup,
+    togglePopup,
     livekitInfo,
     setLivekitInfo,
     currentConnection,
@@ -67,6 +73,9 @@ export default function SmallMeet() {
     roomConnectionStatus,
     setRoomConnectionStatus,
     startLivekitConnection,
+    popup,
+    updateDimension,
+    updatePosition,
   } = useContext(RTCContext);
   const waitForApproval = useAppSelector(waitingForApprovalSelector);
 
@@ -252,9 +261,11 @@ export default function SmallMeet() {
       setCurrentConnection(newConnection);
     }
   }, [livekitInfo]);
+  const isMobile = width > 450 ? false : true;
+  // console.log(popup);
   return currentConnection ? (
     <>
-      <button onClick={() => setActive((e) => true)}>
+      <button onClick={togglePopup}>
         <div className='flex items-center justify-center'>
           <span className='relative -top-2 left-12 rounded-full bg-card-gradient-menu px-2 text-center text-xs'>
             {participants.length}
@@ -264,28 +275,42 @@ export default function SmallMeet() {
       </button>
 
       {/* <Meet currentConnection={currentConnection} />; */}
-      {isActive && (
-        <div className='fixed left-[calc(10vw)] mx-auto'>
+      {showPopup && (
+        <>
           {/* @ts-ignore */}
           <Draggable
             axis='both'
+            onStop={(e: DraggableEvent, d: DraggableData) => {
+              updatePosition(d.x, d.y);
+            }}
             header='handle'
             handle='.handle'
-            defaultPosition={{ x: 0, y: 0 }}
+            defaultClassName='fixed left-0 top-0'
+            defaultPosition={popup.position}
             //   position={null}
             scale={1}
           >
             <Resizable
-              minWidth={300}
-              defaultSize={{
-                width: 500,
-                height: 600,
+              onResizeStop={(a, b, c, e) => {
+                const newWidth = popup.dimension.width + e.width;
+                const newHeight = popup.dimension.height + e.height;
+                const maxWidth = !isMobile ? 350 : 200;
+                const maxHeight = !isMobile ? 350 : 200;
+
+                updateDimension(
+                  newWidth > maxWidth ? newWidth : maxWidth,
+                  newHeight > maxHeight ? newHeight : maxHeight
+                );
               }}
+              // size={popup.dimension}
+              minWidth={!isMobile ? 350 : 200}
+              minHeight={!isMobile ? 350 : 200}
+              defaultSize={popup.dimension}
             >
-              <div className='w-full rounded-2xl bg-darkPrimary shadow-sky-50'>
-                <div className='bg-h flex justify-between p-2'>
+              <div className='flex h-full w-full flex-col rounded-2xl bg-darkPrimary shadow-sky-50'>
+                <div className='bg-h flex justify-between px-2 pt-2'>
                   <div className='flex w-full justify-between'>
-                    <p className='mx-auto'>{roomId}</p>
+                    {!isMobile && <p className='mx-auto'>{roomId}</p>}
                     <CopyClipboard
                       text={`https://www.paxintrade.com/meet/${roomId}`}
                     >
@@ -294,40 +319,44 @@ export default function SmallMeet() {
                       </div>
                     </CopyClipboard>
                   </div>
-                  <div className='flex'>
+                  <div className='flex items-center'>
                     <DraggableHandle>
-                      <MoveIcon size={32} />
+                      <MoveIcon size={isMobile ? 24 : 32} />
                     </DraggableHandle>
                     <Link href={`/meet/${roomId}`}>
-                      <FullscreenIcon size={32} />
+                      <FullscreenIcon size={isMobile ? 24 : 32} />
                     </Link>
-                    <Minimize2Icon size={32} onClick={() => setActive(false)} />
+                    <Minimize2Icon
+                      size={isMobile ? 24 : 32}
+                      onClick={togglePopup}
+                    />
                   </div>
                 </div>
+
                 <div className='border-gardient-h relative w-full' />
-                <div id='main-area'>
-                  {currentConnection && (
-                    <>
-                      <Meet currentConnection={currentConnection} />
-                      <Footer
-                        currentRoom={currentConnection.room}
-                        isRecorder={
-                          currentConnection?.room.localParticipant.identity ===
-                            'RECORDER_BOT' ||
-                          currentConnection?.room.localParticipant.identity ===
-                            'RTMP_BOT'
-                            ? true
-                            : false
-                        }
-                      />
-                      <AudioNotification />
-                    </>
-                  )}
-                </div>
+
+                {currentConnection && (
+                  <div className='flex h-full flex-col justify-between'>
+                    <Meet currentConnection={currentConnection} />
+                    <Footer
+                      isMobile={isMobile}
+                      currentRoom={currentConnection.room}
+                      isRecorder={
+                        currentConnection?.room.localParticipant.identity ===
+                          'RECORDER_BOT' ||
+                        currentConnection?.room.localParticipant.identity ===
+                          'RTMP_BOT'
+                          ? true
+                          : false
+                      }
+                    />
+                    <AudioNotification />
+                  </div>
+                )}
               </div>
             </Resizable>
           </Draggable>
-        </div>
+        </>
       )}
     </>
   ) : null;
