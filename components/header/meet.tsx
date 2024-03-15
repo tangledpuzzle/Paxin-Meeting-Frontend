@@ -248,14 +248,14 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
 
   return (
     <div className='inner flex h-full justify-between rtl:flex-row-reverse'>
-      {renderLeftPanel}
+      {/* {renderLeftPanel} */}
 
       <div className='relative flex-auto'>
         <ActiveSpeakers />
         {renderMainComponentElms}
       </div>
 
-      {renderRightPanel}
+      {/* {renderRightPanel} */}
     </div>
   );
 }

@@ -292,7 +292,7 @@ const WebcamIcon = ({ currentRoom, isMobile }: IWebcamIconProps) => {
     return (
       <div className='relative z-10'>
         <div
-          className={`camera footer-icon relative flex h-[${isMobile ? 20 : 35}px] w-[${isMobile ? 20 : 35}px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
+          className={`camera footer-icon relative flex h-[${isMobile ? 25 : 35}px] w-[${isMobile ? 25 : 35}px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
             showTooltip ? 'has-tooltip' : ''
           }`}
           onClick={() => toggleWebcam()}
