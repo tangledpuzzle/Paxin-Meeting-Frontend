@@ -116,8 +116,7 @@ export default function ChatDetailPage({
   const [chatWindowHeight, setChatWindowHeight] = useState(
     '100vh - 5rem - 20px - 68px'
   );
-
-  const md = new MobileDetect(navigator.userAgent);
+  const mdRef = useRef<MobileDetect | null>(null);
 
   const messageSentSound = new Howl({
     src: ['/audio/message-sent.mp3'],
@@ -316,27 +315,65 @@ export default function ChatDetailPage({
     } else {
       // In case of chatting with user
       setIsLoadingSubmit(true);
+
+      const pendingId = `${new Date().getTime()}`;
+
+      setMessages([
+        ...messages,
+        {
+          id: pendingId,
+          message: inputMessage,
+          owner: {
+            id: user?.id as string,
+            name: user?.username as string,
+            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+          },
+          isDeleted: false,
+          isEdited: false,
+          isPending: true,
+          timestamp: new Date().toISOString(),
+        },
+      ]);
+
+      setInputMessage('');
+
       try {
         const res = await sendMessage({ roomId: id, message: inputMessage });
 
         if (res?.status === 'success') {
           setInputMessage('');
           console.log(messages, '===');
-          setMessages([
-            ...messages,
-            {
-              id: `${res.data.message.ID}` as string,
-              message: res.data.message.Content as string,
-              owner: {
-                id: user?.id as string,
-                name: user?.username as string,
-                avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
-              },
-              isDeleted: false,
-              isEdited: false,
-              timestamp: res.data.message.CreatedAt as string,
-            },
-          ]);
+          setMessages((messages) => {
+            const newMessages = messages.map((msg) => {
+              if (msg.id === pendingId) {
+                return {
+                  ...msg,
+                  id: res.data.message.ID,
+                  message: res.data.message.Content,
+                  timestamp: res.data.message.CreatedAt,
+                  isPending: false,
+                }; // Create a new object for the updated message
+              }
+              return msg;
+            });
+
+            return newMessages; // This is a new array reference
+          });
+          // setMessages([
+          //   ...messages,
+          //   {
+          //     id: `${res.data.message.ID}` as string,
+          //     message: res.data.message.Content as string,
+          //     owner: {
+          //       id: user?.id as string,
+          //       name: user?.username as string,
+          //       avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+          //     },
+          //     isDeleted: false,
+          //     isEdited: false,
+          //     timestamp: res.data.message.CreatedAt as string,
+          //   },
+          // ]);
 
           messageSentSound.play();
         } else {
@@ -488,7 +525,9 @@ export default function ChatDetailPage({
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey) {
-      if (!md.mobile()) {
+      const isMobile = mdRef.current && mdRef.current.mobile();
+
+      if (!isMobile) {
         e.preventDefault();
         handleMessageSubmit(inputMessage);
       }
@@ -520,6 +559,11 @@ export default function ChatDetailPage({
 
   useEffect(() => {
     setActiveRoom(id);
+  }, []);
+
+  useEffect(() => {
+    if (window !== undefined)
+      mdRef.current = new MobileDetect(window.navigator.userAgent);
   }, []);
 
   // useEffect(() => {
@@ -590,22 +634,17 @@ export default function ChatDetailPage({
                   if (!chatUser?.bot && day !== lastDay) {
                     lastDay = day;
                     return (
-                      <>
-                        <div
-                          key={day}
-                          className='w-full text-center text-sm text-muted-foreground'
-                        >
+                      <div key={message.id}>
+                        <div className='my-2 w-full text-center text-sm text-muted-foreground'>
                           {day}
                         </div>
                         <ChatMessage
-                          key={message.id}
                           {...message}
                           onDelete={handleMessageDelete}
                           onEdit={handleMessageEdit}
                           isBot={chatUser?.bot}
-                          isEdited={message.isEdited}
                         />
-                      </>
+                      </div>
                     );
                   } else
                     return (

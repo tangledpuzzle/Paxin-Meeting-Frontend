@@ -157,9 +157,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 locale.charAt(0).toUpperCase() + locale.slice(1)
               ],
             },
+            lastSeenMessage: '',
             online: sender.user.online,
             bot: sender.user.is_bot,
           },
+          unreadCount: 0,
+          lastSeenMessage: '',
           subscribed: false,
           timestamp: publication.body.created_at,
         });
@@ -187,6 +190,27 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         );
 
         return newChatRooms;
+      });
+    } else if (publication.type === 'updated_last_read_msg_id') {
+      // publication.body.lastReadMessageId
+      // publication.body.roomId
+      // publication.body.ownerId
+      setChatRooms((chatRooms) => {
+        const index = chatRooms.findIndex(
+          (room) => room.id === `${publication.body.roomId}`
+        );
+
+        if (index > -1) {
+          if (chatRooms[index].user.id === `${publication.body.ownerId}`) {
+            chatRooms[index].user.lastSeenMessage =
+              `${publication.body.lastReadMessageId}`;
+          } else {
+            chatRooms[index].lastSeenMessage =
+              `${publication.body.lastReadMessageId}`;
+          }
+        }
+
+        return chatRooms;
       });
     }
   };
