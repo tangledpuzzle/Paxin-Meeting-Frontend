@@ -7,6 +7,7 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 import { ChatRoomType, PaxChatContext } from '@/context/chat-context';
+import { PaxContext } from '@/context/context';
 import eventBus from '@/eventBus';
 import subscribe from '@/lib/server/chat/subscribe';
 import unsubscribe from '@/lib/server/chat/unsubscribe';
@@ -15,14 +16,14 @@ import { usePathname } from '@/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
+import { BsCheck2All } from 'react-icons/bs';
 import { FaTrashCan } from 'react-icons/fa6';
-import { MdOutlineMarkChatRead } from 'react-icons/md';
+import { MdOutlineMarkChatRead, MdOutlineMarkChatUnread } from 'react-icons/md';
 import { ConfirmModal } from '../common/confirm-modal';
 import { Badge } from '../ui/badge';
-import { useRouter } from 'next/navigation';
-import { PaxContext } from '@/context/context';
-import { BsCheck2All } from 'react-icons/bs';
+import markAsRead from '@/lib/server/chat/markAsRead';
 
 export default function ChatRoom({ room }: { room: ChatRoomType }) {
   const t = useTranslations('chatting');
@@ -76,6 +77,15 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
     if (window.innerWidth < 768) {
       eventBus.emit('startChat');
     }
+  };
+
+  const handleMarkAsRead = async (id: string) => {
+    console.log('MARK AS READ', activeRoom, id);
+    markAsRead(activeRoom, id);
+  };
+
+  const handleMarkAsUnread = async (id: string) => {
+    console.log('MARK AS UNREAD', activeRoom, id);
   };
 
   return (
@@ -164,6 +174,27 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
             >
               <MdOutlineMarkChatRead className='mr-2 size-4' />
               {t('accept_chat')}
+              {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
+            </ContextMenuItem>
+          )}
+          {room.lastMessage.owner !== user?.id &&
+          Number(room.lastMessage.id || 0) >
+            Number(room.lastSeenMessage || 0) ? (
+            <ContextMenuItem
+              className='cursor-pointer'
+              onClick={() => handleMarkAsRead(room.lastMessage.id)}
+            >
+              <MdOutlineMarkChatRead className='mr-2 size-4' />
+              {t('mark_as_read')}
+              {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
+            </ContextMenuItem>
+          ) : (
+            <ContextMenuItem
+              className='cursor-pointer'
+              onClick={() => handleMarkAsUnread(room.lastMessage.id)}
+            >
+              <MdOutlineMarkChatUnread className='mr-2 size-4' />
+              {t('mark_as_unread')}
               {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
             </ContextMenuItem>
           )}

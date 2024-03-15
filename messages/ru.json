@@ -873,6 +873,8 @@
     "search_by_name": "Поиск по имени",
     "accept_chat": "Принять чат",
     "leave_chat": "Покинуть чат",
+    "mark_as_read": "Отметить как прочитанное",
+    "mark_as_unread": "Отметить как непрочитанное",
     "delete_message": "Удалить сообщение",
     "are_you_sure_delete_message": "Вы уверены, что хотите удалить это сообщение?",
     "message_deleted": "Это сообщение было удалено",
