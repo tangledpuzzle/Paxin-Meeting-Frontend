@@ -33,6 +33,18 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
     setShowNav(!showNav);
   });
 
+  useEffect(() => {
+    if (showNav) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [showNav]);
+
   return (
     <div ref={sidebarRef} className='new-sidebar w-full pt-[70px] md:w-[300px]'>
       <div className='h-screen w-full overflow-y-auto border-l border-r bg-white py-2 dark:bg-black'>

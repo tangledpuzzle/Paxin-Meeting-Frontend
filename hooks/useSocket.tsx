@@ -20,9 +20,20 @@ const useSocket = (locale: string): WebSocket | null => {
 
     newSocket.onmessage = (event) => {};
 
+    const pingIntervalId = setInterval(() => {
+      if (newSocket.readyState === WebSocket.OPEN) {
+        const pingData = JSON.stringify({
+          messageType: 'ping',
+          data: [] 
+        });
+        newSocket.send(pingData); 
+      }
+    }, 50000);
+    
     setSocket(newSocket);
 
     return () => {
+      clearInterval(pingIntervalId); 
       newSocket.close();
     };
   }, [locale]);
@@ -31,3 +42,4 @@ const useSocket = (locale: string): WebSocket | null => {
 };
 
 export default useSocket;
+
