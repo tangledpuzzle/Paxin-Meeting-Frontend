@@ -247,15 +247,15 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
   }, [screenHeight, isRecorder, headerVisible, footerVisible]);
 
   return (
-    <div className='inner flex h-[500px] justify-between rtl:flex-row-reverse'>
-      {renderLeftPanel}
+    <div className='inner flex h-full justify-between rtl:flex-row-reverse'>
+      {/* {renderLeftPanel} */}
 
-      <div className='middle-area relative flex-auto'>
+      <div className='relative flex-auto'>
         <ActiveSpeakers />
         {renderMainComponentElms}
       </div>
 
-      {renderRightPanel}
+      {/* {renderRightPanel} */}
     </div>
   );
 }
