@@ -114,7 +114,7 @@ export default function ChatDetailPage({
   const [replyMessageId, setReplyMessageId] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [chatWindowHeight, setChatWindowHeight] = useState(
-    '100vh - 5rem - 20px - 68px'
+    '100vh - 5rem - 20px - 68px - 4rem'
   );
   const mdRef = useRef<MobileDetect | null>(null);
 
@@ -507,7 +507,7 @@ export default function ChatDetailPage({
     textareaRef.current.style.height = '68px';
     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     setChatWindowHeight(
-      `100vh - 5rem - 20px - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''}`
+      `100vh - 5rem - 20px -4rem - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''}`
     );
   };
 
@@ -599,18 +599,32 @@ export default function ChatDetailPage({
           loading={false}
         />
 
-        {!showNav && (
-          <Button
-            variant='ghost'
-            size='icon'
-            className='absolute left-4 top-[5px] z-10 lg:left-9'
-            onClick={() => setShowNav(!showNav)}
-          >
-            <MoveLeft size='24' />
-          </Button>
-        )}
-        <div className='flex justify-center bg-card-gradient-menu px-4 py-2'>
-          Name
+        <div className='flex items-center gap-2 bg-card-gradient-menu px-4 py-2'>
+          {!showNav && (
+            <Button
+              variant='ghost'
+              size='icon'
+              className=''
+              onClick={() => setShowNav(!showNav)}
+            >
+              <MoveLeft size='24' />
+            </Button>
+          )}
+          <div className='relative size-12 min-w-12'>
+            <Image
+              className='size-8 rounded-full'
+              fill
+              style={{ objectFit: 'cover' }}
+              src={chatUser?.profile.avatar || ''}
+              alt={chatUser?.profile.name || ''}
+            />
+          </div>
+          <div className='flex cursor-pointer flex-col justify-center'>
+            <p>@{chatUser?.profile.name || ''}</p>
+            <p className='text-xs text-gray-500'>
+              {chatUser?.online ? 'online' : 'offline'}
+            </p>
+          </div>
         </div>
         <ScrollArea
           ref={scrollAreaRef}
