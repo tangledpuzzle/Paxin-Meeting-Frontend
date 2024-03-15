@@ -43,15 +43,20 @@ const getUnsubscribedNewRooms = async () => {
             categories: [],
             bio: '',
           },
+          lastSeenMessage: '',
           online: false,
           bot: false,
         },
         subscribed: false,
+        unreadCount: 0,
+        lastSeenMessage: '',
         timestamp: room.LastMessage.CreatedAt,
       };
 
       for (const member of room.Members) {
-        if (member.UserID !== session?.user?.id) {
+        if (member.UserID === session?.user?.id) {
+          _room.lastSeenMessage = member.LastReadMessageID || '';
+        } else if (member.UserID !== session?.user?.id) {
           _room.user.id = member.UserID;
           _room.user.profile.name = member.User.Name;
           _room.user.profile.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
@@ -69,6 +74,7 @@ const getUnsubscribedNewRooms = async () => {
             member.User.Profile[0].MultilangDescr[
               locale.charAt(0).toUpperCase() + locale.slice(1)
             ];
+          _room.user.lastSeenMessage = member.LastReadMessageID || '';
           _room.user.online = member.User.online;
           _room.user.bot = member.User.IsBot;
         }

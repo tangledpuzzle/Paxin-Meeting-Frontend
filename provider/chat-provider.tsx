@@ -13,12 +13,14 @@ import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import { Howl, Howler } from 'howler';
 import { useSession } from 'next-auth/react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 Howler.autoUnlock = true;
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const t = useTranslations('chatting');
+  const router = useRouter();
   const locale = useLocale();
   const [showNav, setShowNav] = useState(true);
   const [chatRooms, setChatRooms] = useState<ChatRoomType[]>([]);
@@ -43,7 +45,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       if (`${publication.body.room_id}` === activeRoom)
         setMessages((messages) => {
           const index = messages.findIndex(
-            (msg) => msg.id === `${publication.body.id}`
+            (msg) => msg.id === `${publication.body.id}` || msg.id === '00000'
           );
 
           if (index === -1) {
@@ -155,9 +157,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 locale.charAt(0).toUpperCase() + locale.slice(1)
               ],
             },
+            lastSeenMessage: '',
             online: sender.user.online,
             bot: sender.user.is_bot,
           },
+          unreadCount: 0,
+          lastSeenMessage: '',
           subscribed: false,
           timestamp: publication.body.created_at,
         });
@@ -180,12 +185,29 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       });
     } else if (publication.type === 'unsubscribe_room') {
       setChatRooms((chatRooms) => {
+        const newChatRooms = chatRooms.filter(
+          (room) => room.id !== `${publication.body.id}`
+        );
+
+        return newChatRooms;
+      });
+    } else if (publication.type === 'updated_last_read_msg_id') {
+      // publication.body.lastReadMessageId
+      // publication.body.roomId
+      // publication.body.ownerId
+      setChatRooms((chatRooms) => {
         const index = chatRooms.findIndex(
-          (room) => room.id === `${publication.body.id}`
+          (room) => room.id === `${publication.body.roomId}`
         );
 
         if (index > -1) {
-          chatRooms[index].subscribed = false;
+          if (chatRooms[index].user.id === `${publication.body.ownerId}`) {
+            chatRooms[index].user.lastSeenMessage =
+              `${publication.body.lastReadMessageId}`;
+          } else {
+            chatRooms[index].lastSeenMessage =
+              `${publication.body.lastReadMessageId}`;
+          }
         }
 
         return chatRooms;
