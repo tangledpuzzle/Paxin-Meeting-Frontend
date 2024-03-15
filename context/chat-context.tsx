@@ -8,6 +8,7 @@ export interface ChatUserType {
     categories: string[];
     bio: string;
   };
+  lastSeenMessage: string;
   online: boolean;
   bot: boolean;
 }
@@ -21,6 +22,8 @@ export interface ChatRoomType {
   };
   user: ChatUserType;
   subscribed: boolean;
+  unreadCount: number;
+  lastSeenMessage: string;
   timestamp: string;
 }
 
@@ -40,6 +43,7 @@ export interface ChatMessageType {
   }[];
   isDeleted?: boolean;
   isEdited?: boolean;
+  isPending?: boolean;
   timestamp: string;
 }
 

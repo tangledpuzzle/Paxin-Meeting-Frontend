@@ -872,6 +872,8 @@
     "search_by_name": "ძიება სახელით",
     "accept_chat": "ჩაირთვა ჩეთი",
     "leave_chat": "გატოვე ჩეთი",
+    "mark_as_read": "მონიშნე როგორც წაკითხული",
+    "mark_as_unread": "მონიშნე როგორც წაუკითხავი",
     "delete_message": "შეტყობინების წაშლა",
     "are_you_sure_delete_message": "ნამდვილად გსურთ ამ შეტყობინების წაშლა?",
     "message_deleted": "ეს შეტყობინება წაშლილია",

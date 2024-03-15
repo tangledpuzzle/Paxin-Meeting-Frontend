@@ -6,19 +6,25 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
+import { ChatRoomType, PaxChatContext } from '@/context/chat-context';
 import { PaxContext } from '@/context/context';
+import markAsRead from '@/lib/server/chat/markAsRead';
 import { cn } from '@/lib/utils';
+import DOMPurify from 'dompurify';
 import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { BsReply } from 'react-icons/bs';
+import { BsCheck2, BsCheck2All, BsReply } from 'react-icons/bs';
 import { FaTrashCan } from 'react-icons/fa6';
+import { IoCheckmarkDone } from 'react-icons/io5';
 import {
   MdOutlineContentCopy,
   MdOutlineDoNotDisturb,
   MdOutlineModeEditOutline,
 } from 'react-icons/md';
+import { PiChecksBold } from 'react-icons/pi';
+import { TbChecks } from 'react-icons/tb';
 import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageProps {
@@ -43,13 +49,19 @@ interface ChatMessageProps {
   isReceived?: boolean;
   isSeen?: boolean;
   isBot?: boolean;
+  isPending?: boolean;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
 }
 
 export default function ChatMessage(props: ChatMessageProps) {
   const t = useTranslations('chatting');
+  const ref = useRef<HTMLDivElement>(null);
   const { user } = useContext(PaxContext);
+  const { activeRoom, chatRooms } = useContext(PaxChatContext);
+  const [currentChatRoom, setCurrentChatRoom] = useState<ChatRoomType | null>(
+    null
+  );
   const format = useFormatter();
 
   const handleMessageCopy = async (text: string) => {
@@ -60,8 +72,73 @@ export default function ChatMessage(props: ChatMessageProps) {
     });
   };
 
+  const linkify = (inputText: string) => {
+    const urlRegex =
+      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    return inputText.replace(
+      urlRegex,
+      (url) =>
+        `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+    );
+  };
+
+  const processText = (text: string) => {
+    let processedText = linkify(text);
+
+    // Handling newline characters by replacing them with the HTML line break.
+    processedText = processedText.replace(/\n/g, '<br />');
+
+    return processedText;
+  };
+
+  const handleMarkAsRead = async (id: string) => {
+    console.log('MARK AS READ', activeRoom, id);
+    markAsRead(activeRoom, id);
+  };
+
+  useEffect(() => {
+    if (activeRoom) {
+      setCurrentChatRoom(
+        chatRooms.find((chatRoom) => chatRoom.id === activeRoom) || null
+      );
+    }
+  }, [activeRoom, chatRooms]);
+
+  useEffect(() => {
+    if (user?.id === props.owner.id || props.isBot || props.isSeen) return;
+
+    if (Number(currentChatRoom?.lastSeenMessage || 0) >= Number(props.id))
+      return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            handleMarkAsRead(props.id);
+            if (entry.target) observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 1.0,
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    // Cleanup observer on component unmount
+    return () => observer.disconnect();
+  }, [props.id, currentChatRoom]);
+
   return (
-    <div className={cn('chat-msg', { owner: user?.id === props.owner.id })}>
+    <div
+      className={cn('chat-msg', { owner: user?.id === props.owner.id })}
+      ref={ref}
+    >
       <div className='chat-msg-profile'>
         <Image
           width={40}
@@ -70,7 +147,21 @@ export default function ChatMessage(props: ChatMessageProps) {
           src={props.owner.avatar}
           alt={props.owner.name}
         />
-        {/* <div className='chat-msg-date'>Message seen 2.45pm</div> */}
+        {props.owner.id === user?.id && !props.isBot && (
+          <div className='chat-msg-date'>
+            {!props?.isPending ? (
+              <BsCheck2All
+                className={cn('size-5 text-gray-500', {
+                  'text-primary':
+                    Number(currentChatRoom?.user.lastSeenMessage || 0) >=
+                    Number(props.id),
+                })}
+              />
+            ) : (
+              <BsCheck2 className='size-5 text-gray-500' />
+            )}
+          </div>
+        )}
       </div>
       <ContextMenu>
         <ContextMenuTrigger asChild>
@@ -81,6 +172,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                 '!text-gray-300': props.isDeleted,
               })}
             >
+              {/** Display attachments */}
               <div className='flex items-center gap-1'>
                 {props.attachments &&
                   props.attachments.length > 0 &&
@@ -112,7 +204,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                   <MdOutlineDoNotDisturb className='size-4' />
                   <span className='select-none'>{t('message_deleted')}</span>
                 </div>
-              ) : (
+              ) : props.isBot && props.owner.id !== user?.id ? (
                 <ReactMarkdown
                   className={cn(
                     'prose',
@@ -122,6 +214,22 @@ export default function ChatMessage(props: ChatMessageProps) {
                     { 'mr-24': props.isEdited }
                   )}
                   children={props.message}
+                />
+              ) : (
+                <div
+                  className={cn(
+                    'flex items-center gap-1',
+                    {
+                      'mr-14': !props.isBot,
+                    },
+                    { 'mr-24': props.isEdited }
+                  )}
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(processText(props.message), {
+                      ALLOWED_TAGS: ['a', 'br'],
+                      ALLOWED_ATTR: ['href', 'target', 'rel'],
+                    }),
+                  }}
                 />
               )}
               {!props.isBot && (

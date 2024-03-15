@@ -7,6 +7,7 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 import { ChatRoomType, PaxChatContext } from '@/context/chat-context';
+import { PaxContext } from '@/context/context';
 import eventBus from '@/eventBus';
 import subscribe from '@/lib/server/chat/subscribe';
 import unsubscribe from '@/lib/server/chat/unsubscribe';
@@ -15,15 +16,20 @@ import { usePathname } from '@/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
+import { BsCheck2All } from 'react-icons/bs';
 import { FaTrashCan } from 'react-icons/fa6';
-import { MdOutlineMarkChatRead } from 'react-icons/md';
+import { MdOutlineMarkChatRead, MdOutlineMarkChatUnread } from 'react-icons/md';
 import { ConfirmModal } from '../common/confirm-modal';
 import { Badge } from '../ui/badge';
+import markAsRead from '@/lib/server/chat/markAsRead';
 
 export default function ChatRoom({ room }: { room: ChatRoomType }) {
   const t = useTranslations('chatting');
+  const router = useRouter();
   const pathname = usePathname();
+  const { user } = useContext(PaxContext);
   const { activeRoom, setActiveRoomSubscribed, setChatRooms } =
     useContext(PaxChatContext);
   const [isLeavingChat, setIsLeavingChat] = useState(false);
@@ -35,7 +41,8 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
       if (res?.status === 'success') {
         setChatRooms((chatRooms) => {
           const index = chatRooms.findIndex((_room) => _room.id === room.id);
-          chatRooms[index].subscribed = true;
+
+          if (index > -1) chatRooms[index].subscribed = true;
 
           return chatRooms;
         });
@@ -51,13 +58,14 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
 
       if (res?.status === 'success') {
         setChatRooms((chatRooms) => {
-          const index = chatRooms.findIndex((_room) => _room.id === room.id);
-          chatRooms[index].subscribed = false;
+          const newChatRooms = chatRooms.filter(
+            (_room) => _room.id !== room.id
+          );
 
-          return chatRooms;
+          return newChatRooms;
         });
 
-        if (room.id === activeRoom) setActiveRoomSubscribed(false);
+        if (room.id === activeRoom) router.push('/chat');
       }
     } catch (error) {
     } finally {
@@ -69,6 +77,15 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
     if (window.innerWidth < 768) {
       eventBus.emit('startChat');
     }
+  };
+
+  const handleMarkAsRead = async (id: string) => {
+    console.log('MARK AS READ', activeRoom, id);
+    markAsRead(activeRoom, id);
+  };
+
+  const handleMarkAsUnread = async (id: string) => {
+    console.log('MARK AS UNREAD', activeRoom, id);
   };
 
   return (
@@ -93,7 +110,7 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
             href='/chat/[id]'
             as={`/chat/${room.id}`}
             className={cn(
-              'flex w-full items-center gap-x-2 px-5 py-2 transition-colors duration-200 hover:bg-card-gradient-menu focus:outline-none',
+              'relative flex w-full items-center gap-x-2 px-5 py-2 transition-colors duration-200 hover:bg-card-gradient-menu focus:outline-none',
               {
                 'bg-card-gradient-menu': pathname.split('chat/')[1] === room.id,
               }
@@ -127,9 +144,26 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
                 )}
               </div>
               <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
+                {room.lastMessage.owner === user?.id && !room.user.bot && (
+                  <BsCheck2All
+                    className={cn('mr-1 inline-block size-4 text-gray-500', {
+                      'text-primary':
+                        Number(room.user.lastSeenMessage || 0) >=
+                        Number(room.lastMessage.id),
+                    })}
+                  />
+                )}
                 {room.lastMessage.message}
               </p>
             </div>
+            {room.unreadCount > 0 && (
+              <Badge
+                variant='default'
+                className='absolute bottom-2 right-2 m-0 size-5 min-w-5 rounded-full p-0.5 text-xs font-normal'
+              >
+                {room.unreadCount}
+              </Badge>
+            )}
           </Link>
         </ContextMenuTrigger>
         <ContextMenuContent className='w-48'>
@@ -140,6 +174,27 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
             >
               <MdOutlineMarkChatRead className='mr-2 size-4' />
               {t('accept_chat')}
+              {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
+            </ContextMenuItem>
+          )}
+          {room.lastMessage.owner !== user?.id &&
+          Number(room.lastMessage.id || 0) >
+            Number(room.lastSeenMessage || 0) ? (
+            <ContextMenuItem
+              className='cursor-pointer'
+              onClick={() => handleMarkAsRead(room.lastMessage.id)}
+            >
+              <MdOutlineMarkChatRead className='mr-2 size-4' />
+              {t('mark_as_read')}
+              {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
+            </ContextMenuItem>
+          ) : (
+            <ContextMenuItem
+              className='cursor-pointer'
+              onClick={() => handleMarkAsUnread(room.lastMessage.id)}
+            >
+              <MdOutlineMarkChatUnread className='mr-2 size-4' />
+              {t('mark_as_unread')}
               {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
             </ContextMenuItem>
           )}
