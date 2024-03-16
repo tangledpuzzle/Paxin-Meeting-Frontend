@@ -1,11 +1,11 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
@@ -31,6 +31,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import * as z from 'zod';
 import { Separator } from '../ui/separator';
+import { PaxContext } from '@/context/context';
 
 function FilterBadge({
   children,
@@ -66,6 +67,7 @@ export default function FilterListSection() {
   const [filtersApplied, setFiltersApplied] = useState<string | boolean>('');
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
+  const { setGlobalLoading } = useContext(PaxContext);
 
   const handleDeleteCity = (city: string) => {
     const _cities = cities.filter((c) => c !== city);
@@ -144,28 +146,36 @@ export default function FilterListSection() {
   }, [searchParams]);
 
   const saveCombination = async (data: FormValue) => {
-    const res = await axios.post(`/api/flows/filter`, {
-      name: data.name,
-      meta: {
-        city: cities[0],
-        category: categories[0],
-        hashtag: hashtags.join(','),
-        money: `${minPrice}-${maxPrice}`,
-        title: searchParams.get('title'),
-      },
-    });
-
-    if (res.status === 200) {
-      toast.success(t('save_filter_success'), {
-        position: 'top-right',
+    setGlobalLoading(true);
+    try {
+      const res = await axios.post(`/api/flows/filter`, {
+        name: data.name,
+        meta: {
+          city: cities[0],
+          category: categories[0],
+          hashtag: hashtags.join(','),
+          money: `${minPrice}-${maxPrice}`,
+          title: searchParams.get('title'),
+        },
       });
-      setOpen(false);
-    } else {
+
+      if (res.status === 200) {
+        toast.success(t('save_filter_success'), {
+          position: 'top-right',
+        });
+        setOpen(false);
+      } else {
+        toast.error(t('save_filter_fail'), {
+          position: 'top-right',
+        });
+      }
+    } catch (e) {
       toast.error(t('save_filter_fail'), {
         position: 'top-right',
       });
     }
 
+    setGlobalLoading(false)
   }
 
   const defaultValues = {
@@ -210,7 +220,7 @@ export default function FilterListSection() {
       </FilterBadge>
     )}</>
   return (
-    <div className='flex w-full flex-wrap gap-2 pb-4 pt-2 items-center'>
+    <div className='flex w-full flex-wrap gap-2 pb-4 pt-2 items-center relative'>
 
       <Badges />
       {filtersApplied && session?.user?.id && (
@@ -224,8 +234,9 @@ export default function FilterListSection() {
             </Button>
           </DialogTrigger>
           <DialogContent className='sm:max-w-lg'>
+            {/* {isLoading && <Loader />} */}
             <DialogHeader>
-              <DialogTitle>{t('complaints')}</DialogTitle>
+              <DialogTitle>{t('save_combination')}</DialogTitle>
             </DialogHeader>
             <Form {...form}>
               <form

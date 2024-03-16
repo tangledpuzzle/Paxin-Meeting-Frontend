@@ -23,7 +23,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { Separator } from '../ui/separator';
 import { Textarea } from '../ui/textarea';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import * as z from 'zod';
@@ -37,7 +37,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-
+import { PaxContext } from '@/context/context';
 interface ReportModalProps {
   children?: React.ReactNode;
 }
@@ -50,7 +50,7 @@ export function ReportModal({ children }: ReportModalProps) {
     name: '',
     descr: '',
   };
-
+  const { setGlobalLoading } = useContext(PaxContext);
   const formSchema = z.object({
     type: z.string().min(1, t('select_type_of_report')),
     name: z.string().min(1, t('require_title')),
@@ -64,21 +64,29 @@ export function ReportModal({ children }: ReportModalProps) {
   });
 
   const SendRequest = async (data: FormValue) => {
-    const res = await axios.post(
-      `/api/profiles/newReq?mode=ComplaintUser`,
-      data
-    );
+    setGlobalLoading(true);
+    try {
+      const res = await axios.post(
+        `/api/profiles/newReq?mode=ComplaintUser`,
+        data
+      );
 
-    if (res.status === 200) {
-      toast.success(t('report_save_success'), {
-        position: 'top-right',
-      });
-      setOpen(false);
-    } else {
+      if (res.status === 200) {
+        toast.success(t('report_save_success'), {
+          position: 'top-right',
+        });
+        setOpen(false);
+      } else {
+        toast.error(t('report_fail_success'), {
+          position: 'top-right',
+        });
+      }
+    } catch (e) {
       toast.error(t('report_fail_success'), {
         position: 'top-right',
       });
     }
+    setGlobalLoading(false);
   };
 
   return (

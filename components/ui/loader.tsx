@@ -1,5 +1,13 @@
 import '@/styles/loader.css';
-
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 const Loader = () => {
   return (
     <div className='loader-background'>
