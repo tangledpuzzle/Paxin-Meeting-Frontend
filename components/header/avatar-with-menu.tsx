@@ -30,7 +30,7 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
   return (
     
     <DropdownMenu>
-      {(user || userData) && (
+      {(user) && (
       <DropdownMenuTrigger asChild>
         <Avatar className='mr-3'>
           <AvatarImage
