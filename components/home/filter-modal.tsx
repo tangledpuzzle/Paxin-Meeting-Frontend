@@ -54,7 +54,6 @@ export function FilterModal() {
   const [maxPrice, setMaxPrice] = useState<string>('');
   const [priceHasError, setPriceHasError] = useState<boolean>(false);
   const [isReset, setIsReset] = useState<boolean>(false);
-  const [filtersList, setFiltersList] = useState<any[]>([]);
   const [cityKeyword, setCityKeyword] = useState<string>('');
   const [categoryKeyword, setCategoryKeyword] = useState<string>('');
   const { data: session } = useSession();
@@ -76,20 +75,6 @@ export function FilterModal() {
     hashtagURL,
     fetcher
   );
-
-  const getfilters = async () => {
-    try {
-      const filters = await axios.get('/api/flows/filter');
-      console.log(filters.data.data);
-      setFiltersList(filters.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getfilters();
-  }, []);
 
   const handleCitySearch = useDebouncedCallback((value: string) => {
     setCityKeyword(value);
@@ -189,6 +174,9 @@ export function FilterModal() {
     newSearchParams.set('hashtag', _hashtag);
     newSearchParams.set('money', _money);
 
+    handleCitySearch('');
+    handleCategorySearch('');
+    handleHashtagSearch('');
     router.push(`?${newSearchParams.toString()}`);
   };
 
@@ -231,12 +219,12 @@ export function FilterModal() {
 
       router.push(`?${newSearchParams.toString()}`);
 
-      if (_city) {
-        setCityKeyword(_city);
-      }
-      if (_category) {
-        setCategoryKeyword(_category);
-      }
+      // if (_city) {
+      //   setCityKeyword(_city);
+      // }
+      // if (_category) {
+      //   setCategoryKeyword(_category);
+      // }
     }
   };
 
@@ -247,9 +235,9 @@ export function FilterModal() {
     const _viewMode = searchParams.get('mode');
     const _money = searchParams.get('money');
 
-    if (_hashtag && _hashtag !== 'all') handleHashtagSearch(_hashtag);
-    if (_city && _city !== 'all') setCityKeyword(_city);
-    if (_category && _category !== 'all') setCategoryKeyword(_category);
+    // if (_hashtag && _hashtag !== 'all') handleHashtagSearch(_hashtag);
+    // if (_city && _city !== 'all') setCityKeyword(_city);
+    // if (_category && _category !== 'all') setCategoryKeyword(_category);
     if (_viewMode) setViewMode(_viewMode);
     if (_money) {
       const [min, max] = _money.split('-');
