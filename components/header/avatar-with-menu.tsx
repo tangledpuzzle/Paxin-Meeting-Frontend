@@ -28,7 +28,9 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
   const t = useTranslations('main');
 
   return (
+    
     <DropdownMenu>
+      {(user || userData) && (
       <DropdownMenuTrigger asChild>
         <Avatar className='mr-3'>
           <AvatarImage
@@ -38,6 +40,7 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
           <AvatarFallback>{getInitials(user?.username || '')}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
+      )}
       <DropdownMenuContent className='mr-4 w-60'>
         <DropdownMenuItem className='cursor-pointer text-base' asChild>
           <Link
