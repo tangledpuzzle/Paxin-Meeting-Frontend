@@ -508,7 +508,7 @@ export default function ChatDetailPage({
     textareaRef.current.style.height = '68px';
     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     setChatWindowHeight(
-      `100vh - 5rem - 20px -4rem - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''}`
+      `100vh - 5rem - 20px - 4rem - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''}`
     );
   };
 
@@ -575,7 +575,10 @@ export default function ChatDetailPage({
   }, []);
 
   useEffect(() => {
-    if (!isMessageLoading && !isRoomLoading) scrollToEnd();
+    if (!isMessageLoading && !isRoomLoading) {
+      scrollToEnd();
+      autoHeight();
+    }
   }, [isMessageLoading, isRoomLoading]);
 
   useEffect(() => {
