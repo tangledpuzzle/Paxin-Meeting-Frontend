@@ -63,18 +63,16 @@ export default function CallModal({ children, callee }: CallModalProps) {
   });
 
   const onEndCall = () => {
+    Howler.stop();
+
     endSound.play();
     setOpen(false);
   };
 
   useEffect(() => {
-    callSound.play();
-
-    return () => {
-      callSound.stop();
-      endSound.stop();
-      busySound.stop();
-    };
+    if (open) {
+      callSound.play();
+    }
   }, [open]);
 
   return (
