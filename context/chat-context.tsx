@@ -64,6 +64,8 @@ export interface ChatContent {
   setIsMessageLoading: Dispatch<SetStateAction<boolean>>;
   isRoomLoading: boolean;
   setIsRoomLoading: Dispatch<SetStateAction<boolean>>;
+  isOnline: boolean;
+  setIsOnline: Dispatch<SetStateAction<boolean>>;
 }
 
 export const PaxChatContext = createContext<ChatContent>({
@@ -83,6 +85,8 @@ export const PaxChatContext = createContext<ChatContent>({
   setIsMessageLoading: () => {},
   isRoomLoading: false,
   setIsRoomLoading: () => {},
+  isOnline: false,
+  setIsOnline: () => {},
 });
 
 export const usePaxChatContext = () => useContext(PaxChatContext);
