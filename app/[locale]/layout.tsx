@@ -2,18 +2,18 @@ import Providers from '@/provider/provider';
 import SessionProviders from '@/provider/session-provider';
 import '@/styles/globals.css';
 
+import CustomToaster from '@/components/common/custom-toast';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
 import { MetadataUpdater } from '@/lib/dynamicMetadata';
 import { fontRoboto, fontSatoshi } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { locales } from '@/navigation';
+import { RTCProvider } from '@/provider/webRTCProvider';
 import { Metadata, Viewport } from 'next';
 import { getServerSession } from 'next-auth';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
-import { Toaster } from 'react-hot-toast';
 import StoreProvider from '../StoreProvider';
-import { RTCProvider } from '@/provider/webRTCProvider';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -78,10 +78,10 @@ export default async function RootLayout({
                 <ThemeProvider
                   attribute='class'
                   defaultTheme='dark'
-                  // enableSystem={false}
+                // enableSystem={false}
                 >
                   {children}
-                  <Toaster />
+                  <CustomToaster />
                   <MetadataUpdater />
                 </ThemeProvider>
                 <TailwindIndicator />
