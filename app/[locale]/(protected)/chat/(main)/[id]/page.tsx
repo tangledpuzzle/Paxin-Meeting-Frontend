@@ -531,7 +531,13 @@ export default function ChatDetailPage({
 
       if (!isMobile) {
         e.preventDefault();
-        handleMessageSubmit(inputMessage);
+        if (isEditing) {
+          handleMessageEditSubmit();
+        } else if (isReplying) {
+          // handleMessageReplySubmit();
+        } else {
+          handleMessageSubmit(inputMessage);
+        }
       }
     } else if (e.key === 'Enter' && e.ctrlKey) {
       e.preventDefault(); // Prevent the default action (submit form, etc.)
