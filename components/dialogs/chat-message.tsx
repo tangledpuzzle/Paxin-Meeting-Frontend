@@ -58,7 +58,7 @@ export default function ChatMessage(props: ChatMessageProps) {
   const t = useTranslations('chatting');
   const ref = useRef<HTMLDivElement>(null);
   const { user } = useContext(PaxContext);
-  const { activeRoom, chatRooms } = useContext(PaxChatContext);
+  const { activeRoom, chatRooms, isOnline } = useContext(PaxChatContext);
   const [currentChatRoom, setCurrentChatRoom] = useState<ChatRoomType | null>(
     null
   );
@@ -93,7 +93,13 @@ export default function ChatMessage(props: ChatMessageProps) {
 
   const handleMarkAsRead = async (id: string) => {
     console.log('MARK AS READ', activeRoom, id);
-    markAsRead(activeRoom, id);
+
+    try {
+      const res = await markAsRead(activeRoom, id);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -113,7 +119,7 @@ export default function ChatMessage(props: ChatMessageProps) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && isOnline) {
             handleMarkAsRead(props.id);
             if (entry.target) observer.unobserve(entry.target);
           }
@@ -132,7 +138,7 @@ export default function ChatMessage(props: ChatMessageProps) {
 
     // Cleanup observer on component unmount
     return () => observer.disconnect();
-  }, [props.id, currentChatRoom]);
+  }, [props.id, currentChatRoom, isOnline]);
 
   return (
     <div
@@ -225,10 +231,13 @@ export default function ChatMessage(props: ChatMessageProps) {
                     { 'mr-24': props.isEdited }
                   )}
                   dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(processText(props.message), {
-                      ALLOWED_TAGS: ['a', 'br'],
-                      ALLOWED_ATTR: ['href', 'target', 'rel'],
-                    }),
+                    __html: DOMPurify.sanitize(
+                      processText(props.id + ' ' + props.message),
+                      {
+                        ALLOWED_TAGS: ['a', 'br'],
+                        ALLOWED_ATTR: ['href', 'target', 'rel'],
+                      }
+                    ),
                   }}
                 />
               )}

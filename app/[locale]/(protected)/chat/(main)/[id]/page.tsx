@@ -104,6 +104,7 @@ export default function ChatDetailPage({
     setActiveRoomSubscribed,
     isMessageLoading,
     isRoomLoading,
+    isOnline,
   } = useContext(PaxChatContext);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
@@ -589,6 +590,10 @@ export default function ChatDetailPage({
   useEffect(() => {
     scrollToEnd();
   }, [messages]);
+
+  useEffect(() => {
+    console.log('online', isOnline);
+  }, [isOnline]);
 
   // useEffect(() => {
   //   if (uploadedFiles.length > 0) {

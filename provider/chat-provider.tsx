@@ -30,6 +30,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [isMessageLoading, setIsMessageLoading] = useState(true);
   const [isRoomLoading, setIsRoomLoading] = useState(true);
+  const [isOnline, setIsOnline] = useState(false);
   const { data: session } = useSession();
 
   const messageReceivedSound = new Howl({
@@ -201,7 +202,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         );
 
         if (index > -1) {
-          if (chatRooms[index].user.id === `${publication.body.ownerId}`) {
+          if (chatRooms[index].user.id === `${publication.body.readerId}`) {
             chatRooms[index].user.lastSeenMessage =
               `${publication.body.lastReadMessageId}`;
           } else {
@@ -320,6 +321,34 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     setChatUser(_chatUser);
   }, [chatRooms, activeRoom]);
 
+  useEffect(() => {
+    if (window === undefined) return;
+
+    const handleVisibilityChange = () => {
+      setIsOnline(!window.document.hidden);
+    };
+
+    const handleFocus = () => {
+      setIsOnline(true);
+    };
+
+    const handleBlur = () => {
+      setIsOnline(false);
+    };
+
+    // Add event listeners
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleFocus);
+    window.addEventListener('blur', handleBlur);
+
+    // Remove event listeners on cleanup
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('blur', handleBlur);
+    };
+  }, []); // Empty array ensures this effect runs only on mount and unmount
+
   // useEffect(() => {
   //   if (!sub.current) return;
 
@@ -347,6 +376,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         setIsMessageLoading,
         isRoomLoading,
         setIsRoomLoading,
+        isOnline,
+        setIsOnline,
       }}
     >
       {children}
