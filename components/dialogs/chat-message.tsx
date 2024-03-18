@@ -58,7 +58,8 @@ export default function ChatMessage(props: ChatMessageProps) {
   const t = useTranslations('chatting');
   const ref = useRef<HTMLDivElement>(null);
   const { user } = useContext(PaxContext);
-  const { activeRoom, chatRooms, isOnline } = useContext(PaxChatContext);
+  const { activeRoom, chatRooms, setChatRooms, isOnline } =
+    useContext(PaxChatContext);
   const [currentChatRoom, setCurrentChatRoom] = useState<ChatRoomType | null>(
     null
   );
@@ -96,6 +97,16 @@ export default function ChatMessage(props: ChatMessageProps) {
 
     try {
       const res = await markAsRead(activeRoom, id);
+
+      if (res?.success) {
+        setChatRooms((chatRooms) => {
+          const index = chatRooms.findIndex((room) => room.id === activeRoom);
+
+          if (index > -1) chatRooms[index].lastSeenMessage = id;
+
+          return chatRooms;
+        });
+      }
       console.log(res);
     } catch (error) {
       console.log(error);
