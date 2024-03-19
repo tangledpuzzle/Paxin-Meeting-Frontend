@@ -65,16 +65,19 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             return [
               ...messages,
               {
-                id: `${publication.body.id}` as string,
-                message: publication.body.content as string,
+                id: `${publication.body.id}`,
+                parentMessageId: publication.body.parent_msg_id
+                  ? publication.body.parent_msg_id
+                  : undefined,
+                message: publication.body.content,
                 owner: {
-                  id: publication.body.user_id as string,
+                  id: publication.body.user_id,
                   name: publication.body.user.name,
                   avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.user.photo}`,
                 },
-                isDeleted: publication.body.is_deleted as boolean,
-                isEdited: publication.body.is_deleted as boolean,
-                timestamp: publication.body.created_at as string,
+                isDeleted: publication.body.is_deleted,
+                isEdited: publication.body.is_deleted,
+                timestamp: publication.body.created_at,
               },
             ];
           } else {
