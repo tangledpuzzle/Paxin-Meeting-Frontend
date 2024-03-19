@@ -41,6 +41,16 @@ export default function ChatMessageContainer() {
     }
   };
 
+  const scrollToMessage = (id: string) => {
+    if (window && window.document) {
+      const messageElement = window.document.getElementById(
+        `chat-message-${id}`
+      );
+      if (messageElement)
+        messageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   const handleMessageEdit = async (id: string) => {
     setIsEditing(true);
     setEditMessageId(id);
@@ -157,6 +167,7 @@ export default function ChatMessageContainer() {
                         onDelete={handleMessageDelete}
                         onEdit={handleMessageEdit}
                         onReply={handleMessageReply}
+                        scrollToMessage={scrollToMessage}
                         isBot={chatUser?.bot}
                       />
                     </div>
@@ -169,6 +180,7 @@ export default function ChatMessageContainer() {
                       onDelete={handleMessageDelete}
                       onEdit={handleMessageEdit}
                       onReply={handleMessageReply}
+                      scrollToMessage={scrollToMessage}
                       isBot={chatUser?.bot}
                     />
                   );

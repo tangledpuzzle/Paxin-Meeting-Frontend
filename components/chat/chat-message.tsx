@@ -54,6 +54,7 @@ interface ChatMessageProps {
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
   onReply: (id: string) => void;
+  scrollToMessage: (id: string) => void;
 }
 
 export default function ChatMessage(props: ChatMessageProps) {
@@ -155,6 +156,7 @@ export default function ChatMessage(props: ChatMessageProps) {
 
   return (
     <div
+      id={`chat-message-${props.id}`}
       className={cn('chat-msg', { owner: user?.id === props.owner.id })}
       ref={ref}
     >
@@ -236,15 +238,18 @@ export default function ChatMessage(props: ChatMessageProps) {
                 />
               ) : (
                 <>
-                  {props.parentMessageId && (
+                  {props.parentMessageId !== undefined && (
                     <div
                       className={cn(
-                        'mb-1 max-w-sm rounded-md border-l-4 bg-background/10 p-2',
+                        'mb-1 max-w-sm cursor-pointer rounded-md border-l-4 bg-background/10 p-2',
                         {
                           'border-white': user?.id === props.owner.id,
                           'border-primary': user?.id !== props.owner.id,
                         }
                       )}
+                      onClick={() =>
+                        props.scrollToMessage(props.parentMessageId!)
+                      }
                     >
                       <span>
                         @
