@@ -122,7 +122,7 @@ export default function ChatInputComponent() {
   };
 
   const handleRoomCreate = (link: string) => {
-    handleMessageSubmit('', '1', { link });
+    handleMessageSubmit(link, '1', { link });
   };
 
   const handleMessageSubmit = async (
