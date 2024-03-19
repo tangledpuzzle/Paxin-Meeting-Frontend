@@ -69,7 +69,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 parentMessageId: publication.body.parent_msg_id
                   ? publication.body.parent_msg_id
                   : undefined,
+                messageType: `${publication.body.msgType}` as '0' | '1' | '2',
                 message: publication.body.content,
+                customData:
+                  publication.body.msgType > 0
+                    ? JSON.parse(publication.body.jsonData)
+                    : undefined,
                 owner: {
                   id: publication.body.user_id,
                   name: publication.body.user.name,
