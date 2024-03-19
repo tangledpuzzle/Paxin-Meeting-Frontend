@@ -8,7 +8,7 @@ const getAllMessages = async (roomId: string) => {
   try {
     const accessToken = await getAccessToken();
     const res = await requestHelper({
-      url: `${process.env.API_URL}/api/chat/message/${roomId}?page=1&pageSize=10`,
+      url: `${process.env.API_URL}/api/chat/message/${roomId}?page=1&pageSize=1000`,
       method: 'GET',
       token: accessToken || '',
       session: cookies().get('session')?.value || '',
