@@ -1,6 +1,6 @@
 'use client';
 
-import ChatNavComponent from '@/components/dialogs/chat-nav';
+import ChatNavComponent from '@/components/chat/chat-nav';
 import { PaxChatContext } from '@/context/chat-context';
 import { cn } from '@/lib/utils';
 import { useContext, useState, useEffect } from 'react';

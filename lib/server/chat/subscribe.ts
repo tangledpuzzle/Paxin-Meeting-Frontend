@@ -15,8 +15,6 @@ const subscribe = async (roomId: string) => {
       session: cookies().get('session')?.value || '',
     });
 
-    console.log(JSON.stringify(res, null, 2));
-
     return res;
   } catch (error) {
     console.error(error);

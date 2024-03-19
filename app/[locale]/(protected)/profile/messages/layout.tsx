@@ -12,13 +12,13 @@ import useOutsideClick from '@/lib/outsideclick';
 import { Button } from '@/components/ui/button';
 import { IoSendOutline } from 'react-icons/io5';
 import DropdownMenuDemo from '@/components/ui/chatmenu';
-import ChatNavComponent from '@/components/dialogs/chat-nav';
+import ChatNavComponent from '@/components/chat/chat-nav';
 
 interface MessagesProps {
   children: React.ReactNode;
 }
 
-const ChatSSRSkeleton = dynamic(() => import('@/components/dialogs/skeleton'), {
+const ChatSSRSkeleton = dynamic(() => import('@/components/chat/skeleton'), {
   ssr: true,
 });
 
@@ -467,11 +467,27 @@ export default function Messages({ children }: MessagesProps) {
     const handleHideSideBar = () => {
       setIsOpen((prevIsOpen) => !prevIsOpen);
     };
+
+    const scrollToMessage = () => {
+      const id = '522';
+      alert(id);
+      console.log('SCROLL TO MESSAGE', id);
+      if (window && window.document) {
+        const messageElement = window.document.getElementById(
+          `chat-message-${id}`
+        );
+        if (messageElement)
+          messageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
     eventBus.on('startChat', handleHideSideBar);
     eventBus.on('contactId', handleContactSelectWrapper);
+    eventBus.on('scrollToMessage', () => alert(10));
     return () => {
       eventBus.off('contactId', handleContactSelectWrapper);
       eventBus.off('startChat', handleHideSideBar);
+      eventBus.off('scrollToMessage', () => alert(10));
     };
   }, []);
 

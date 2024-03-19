@@ -29,6 +29,7 @@ export interface ChatRoomType {
 
 export interface ChatMessageType {
   id: string;
+  parentMessageId?: string;
   message: string;
   owner: {
     id: string;
@@ -66,6 +67,26 @@ export interface ChatContent {
   setIsRoomLoading: Dispatch<SetStateAction<boolean>>;
   isOnline: boolean;
   setIsOnline: Dispatch<SetStateAction<boolean>>;
+  inputMessage: string;
+  setInputMessage: Dispatch<SetStateAction<string>>;
+  isLoadingSubmit: boolean;
+  setIsLoadingSubmit: Dispatch<SetStateAction<boolean>>;
+  isDeleting: boolean;
+  setIsDeleting: Dispatch<SetStateAction<boolean>>;
+  isEditing: boolean;
+  setIsEditing: Dispatch<SetStateAction<boolean>>;
+  isReplying: boolean;
+  setIsReplying: Dispatch<SetStateAction<boolean>>;
+  deleteMessageId: string;
+  setDeleteMessageId: Dispatch<SetStateAction<string>>;
+  editMessageId: string;
+  setEditMessageId: Dispatch<SetStateAction<string>>;
+  replyMessageId: string;
+  setReplyMessageId: Dispatch<SetStateAction<string>>;
+  uploadedFiles: File[];
+  setUploadedFiles: Dispatch<SetStateAction<File[]>>;
+  chatWindowHeight: string;
+  setChatWindowHeight: Dispatch<SetStateAction<string>>;
 }
 
 export const PaxChatContext = createContext<ChatContent>({
@@ -87,6 +108,26 @@ export const PaxChatContext = createContext<ChatContent>({
   setIsRoomLoading: () => {},
   isOnline: false,
   setIsOnline: () => {},
+  inputMessage: '',
+  setInputMessage: () => {},
+  isLoadingSubmit: false,
+  setIsLoadingSubmit: () => {},
+  isDeleting: false,
+  setIsDeleting: () => {},
+  isEditing: false,
+  setIsEditing: () => {},
+  isReplying: false,
+  setIsReplying: () => {},
+  deleteMessageId: '',
+  setDeleteMessageId: () => {},
+  editMessageId: '',
+  setEditMessageId: () => {},
+  replyMessageId: '',
+  setReplyMessageId: () => {},
+  uploadedFiles: [],
+  setUploadedFiles: () => {},
+  chatWindowHeight: '',
+  setChatWindowHeight: () => {},
 });
 
 export const usePaxChatContext = () => useContext(PaxChatContext);

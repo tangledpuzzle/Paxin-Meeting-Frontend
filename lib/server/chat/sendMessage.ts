@@ -8,9 +8,13 @@ import subscribe from './subscribe';
 const sendMessage = async ({
   roomId,
   message,
+  parentMessageId,
+  msgType,
 }: {
   roomId: string;
   message: string;
+  parentMessageId?: string;
+  msgType?: string;
 }) => {
   try {
     const accessToken = await getAccessToken();
@@ -20,12 +24,12 @@ const sendMessage = async ({
       method: 'POST',
       data: {
         content: message,
+        parentMessageId,
+        msgType,
       },
       token: accessToken || '',
       session: cookies().get('session')?.value || '',
     });
-
-    console.log(JSON.stringify(res, null, 2), 'sendMessage');
 
     return res;
   } catch (error) {
