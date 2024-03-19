@@ -29,9 +29,31 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
     }
   }, [mode]);
 
-  eventBus.on('startChat', () => {
-    setShowNav(!showNav);
-  });
+  useEffect(() => {
+    const scrollToMessage = (id: string) => {
+      console.log('SCROLL TO MESSAGE', id);
+      if (window && window.document) {
+        const messageElement = window.document.getElementById(
+          `chat-message-${id}`
+        );
+        if (messageElement)
+          messageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    eventBus.on('startChat', () => {
+      setShowNav(!showNav);
+    });
+
+    eventBus.on('scrollToMessage', (data: any) => {
+      scrollToMessage(data.id);
+    });
+
+    return () => {
+      eventBus.off('startChat');
+      eventBus.off('scrollToMessage');
+    };
+  }, []);
 
   useEffect(() => {
     if (showNav) {
@@ -39,7 +61,7 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
     } else {
       document.body.style.overflow = 'auto';
     }
-  
+
     return () => {
       document.body.style.overflow = 'auto';
     };
