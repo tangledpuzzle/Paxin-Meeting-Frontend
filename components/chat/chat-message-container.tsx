@@ -1,12 +1,12 @@
 import { PaxChatContext } from '@/context/chat-context';
-import { useContext, useEffect, useRef } from 'react';
+import { startTransition, useContext, useEffect, useRef } from 'react';
 import ChatMessage from './chat-message';
 import { ScrollArea } from '../ui/scroll-area';
 import deleteMessage from '@/lib/server/chat/deleteMessage';
 import toast from 'react-hot-toast';
 import { useTranslations } from 'next-intl';
 import { ConfirmModal } from '../common/confirm-modal';
-import { set } from 'lodash';
+import eventBus from '@/eventBus';
 
 export default function ChatMessageContainer() {
   const t = useTranslations('chatting');
@@ -58,18 +58,16 @@ export default function ChatMessageContainer() {
       messages.find((message) => message.id === id)?.message || ''
     );
 
-    if (window && window.document) {
-      (
-        window.document.querySelector(
-          'textarea#chat-message-input'
-        ) as HTMLTextAreaElement | null
-      )?.focus();
-    }
+    setIsReplying(false);
+    setReplyMessageId('');
   };
 
   const handleMessageReply = async (id: string) => {
     setIsReplying(true);
     setReplyMessageId(id);
+
+    setIsEditing(false);
+    setEditMessageId('');
   };
 
   const handleMessageDelete = async (id: string) => {
@@ -167,7 +165,7 @@ export default function ChatMessageContainer() {
                         onDelete={handleMessageDelete}
                         onEdit={handleMessageEdit}
                         onReply={handleMessageReply}
-                        scrollToMessage={scrollToMessage}
+                        scrollToMessage={() => scrollToMessage(message.id)}
                         isBot={chatUser?.bot}
                       />
                     </div>
@@ -180,7 +178,7 @@ export default function ChatMessageContainer() {
                       onDelete={handleMessageDelete}
                       onEdit={handleMessageEdit}
                       onReply={handleMessageReply}
-                      scrollToMessage={scrollToMessage}
+                      scrollToMessage={() => scrollToMessage(message.id)}
                       isBot={chatUser?.bot}
                     />
                   );

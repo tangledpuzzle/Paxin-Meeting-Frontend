@@ -17,6 +17,7 @@ import { cn, readFileAsDataURL } from '@/lib/utils';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { Howl, Howler } from 'howler';
 import { Loader2, MoveLeft } from 'lucide-react';
+import eventBus from '@/eventBus';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
@@ -57,6 +58,44 @@ const PreviewFile = ({
       setPreview(reader.result as string);
     };
   }, [file]);
+
+  const scrollToMessage = () => {
+    const id = '522';
+    alert(id);
+    console.log('SCROLL TO MESSAGE', id);
+    if (window && window.document) {
+      const messageElement = window.document.getElementById(
+        `chat-message-${id}`
+      );
+      if (messageElement)
+        messageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // eventBus.on('scrollToMessage', () => {
+  //   alert(10);
+  // });
+
+  // useEffect(() => {
+  //   const scrollToMessage = () => {
+  //     const id = '522';
+  //     alert(id);
+  //     console.log('SCROLL TO MESSAGE', id);
+  //     if (window && window.document) {
+  //       const messageElement = window.document.getElementById(
+  //         `chat-message-${id}`
+  //       );
+  //       if (messageElement)
+  //         messageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  //     }
+  //   };
+
+  //   eventBus.on('scrollToMessage', scrollToMessage);
+
+  //   return () => {
+  //     eventBus.off('scrollToMessage', scrollToMessage);
+  //   };
+  // }, []);
 
   return (
     <div
@@ -121,6 +160,16 @@ export default function ChatDetailPage({
         setActiveRoomSubscribed(true);
       }
     } catch (error) {}
+  };
+
+  const scrollToMessage = (id: string) => {
+    if (window && window.document) {
+      const messageElement = window.document.getElementById(
+        `chat-message-${id}`
+      );
+      if (messageElement)
+        messageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   useEffect(() => {

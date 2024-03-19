@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import DropdownMenuDemo from '@/components/ui/chatmenu';
 import { PaxChatContext } from '@/context/chat-context';
 import { PaxContext } from '@/context/context';
+import eventBus from '@/eventBus';
 import deleteMessage from '@/lib/server/chat/deleteMessage';
 import editMessage from '@/lib/server/chat/editMessage';
 import sendMessage from '@/lib/server/chat/sendMessage';
@@ -18,6 +19,7 @@ import toast from 'react-hot-toast';
 import { BsReply } from 'react-icons/bs';
 import { IoCheckmarkSharp, IoClose, IoSendOutline } from 'react-icons/io5';
 import { LiaTimesSolid } from 'react-icons/lia';
+import { MdOutlineEdit } from 'react-icons/md';
 
 const PreviewFile = ({
   file,
@@ -407,58 +409,6 @@ export default function ChatInputComponent() {
     }
   };
 
-  const handleMessageDelete = async (id: string) => {
-    setIsDeleting(true);
-    setDeleteMessageId(id);
-  };
-
-  const handleMessageEdit = async (id: string) => {
-    console.log(id, messages);
-    setIsEditing(true);
-    setEditMessageId(id);
-    setInputMessage(
-      messages.find((message) => message.id === id)?.message || ''
-    );
-    // textareaRef.current?.focus();
-  };
-
-  const handleMessageReply = async (id: string) => {
-    setIsReplying(true);
-    setReplyMessageId(id);
-    textareaRef.current?.focus();
-  };
-
-  const handleMessageDeleteSubmit = async () => {
-    if (deleteMessageId === '') return;
-
-    try {
-      const res = await deleteMessage({ messageId: deleteMessageId });
-
-      if (res?.status === 'success') {
-        const index = messages.findIndex((msg) => msg.id === deleteMessageId);
-
-        if (index > -1) {
-          const _messages = messages;
-          _messages[index].isDeleted = true;
-
-          setMessages(_messages);
-
-          setIsDeleting(false);
-          setDeleteMessageId('');
-        }
-      } else {
-        toast.error(t('failed_to_delete_message'), {
-          position: 'top-right',
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsDeleting(false);
-      setDeleteMessageId('');
-    }
-  };
-
   const handleMessageEditSubmit = async () => {
     if (inputMessage === '') return;
     if (editMessageId === '') return;
@@ -533,7 +483,7 @@ export default function ChatInputComponent() {
     textareaRef.current.style.height = '68px';
     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     setChatWindowHeight(
-      `100vh - 5rem - 20px - 4rem - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''} - ${isReplying && replyMessageId ? '2rem' : '0px'}`
+      `100vh - 5rem - 20px - 4rem - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''} - ${isReplying && replyMessageId ? '4.5rem' : '0px'} - ${isEditing && editMessageId ? '4.5rem' : '0px'}`
     );
   };
 
@@ -545,6 +495,17 @@ export default function ChatInputComponent() {
   useEffect(() => {
     autoHeight();
   }, [uploadedFiles, inputMessage, isReplying, replyMessageId]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      if (isReplying && replyMessageId) {
+        textareaRef.current.focus();
+      }
+      if (isEditing && editMessageId) {
+        textareaRef.current.focus();
+      }
+    }
+  }, [isReplying, replyMessageId, isEditing, editMessageId]);
 
   return (
     <div className='flex justify-between bg-card-gradient-menu'>
@@ -572,18 +533,65 @@ export default function ChatInputComponent() {
             })}
         </div>
         {isReplying && replyMessageId && (
-          <div className='flex w-full items-center gap-2 py-1'>
-            <BsReply color='gray' className='size-5 min-w-5' />
-            <p className='line-clamp-1 text-sm'>
-              {messages.find((msg) => msg.id === replyMessageId)?.message}
-            </p>
+          <div className='flex w-full items-center gap-4 py-1'>
+            <BsReply className='size-6 min-w-6 text-primary' />
+            <div
+              className='mb-1 w-full cursor-pointer rounded-md border-l-4 border-primary bg-background/10 p-2'
+              onClick={() => {
+                eventBus.emit('scrollToMessage', { id: replyMessageId });
+              }}
+            >
+              <span className='text-sm text-primary'>
+                @
+                {
+                  messages.find((message) => message.id === replyMessageId)
+                    ?.owner.name
+                }
+              </span>
+              <p className='line-clamp-1 text-sm'>
+                {
+                  messages.find((message) => message.id === replyMessageId)
+                    ?.message
+                }
+              </p>
+            </div>
             <Button
               size='icon'
               variant='ghost'
-              className='ml-auto size-6 min-w-6 rounded-full'
+              className='ml-auto size-8 min-w-8 rounded-full'
               onClick={() => {
                 setIsReplying(false);
                 setReplyMessageId('');
+              }}
+            >
+              <IoClose size={18} />
+            </Button>
+          </div>
+        )}
+        {isEditing && editMessageId && (
+          <div className='flex w-full items-center gap-4 py-1'>
+            <MdOutlineEdit className='size-6 min-w-6 text-primary' />
+            <div
+              className='mb-1 w-full cursor-pointer rounded-md border-l-4 border-primary bg-background/10 p-2'
+              onClick={() => {
+                eventBus.emit('scrollToMessage', { id: editMessageId });
+              }}
+            >
+              <span className='text-sm text-primary'>Edit Message</span>
+              <p className='line-clamp-1 text-sm'>
+                {
+                  messages.find((message) => message.id === editMessageId)
+                    ?.message
+                }
+              </p>
+            </div>
+            <Button
+              size='icon'
+              variant='ghost'
+              className='ml-auto size-8 min-w-8 rounded-full'
+              onClick={() => {
+                setIsEditing(false);
+                setEditMessageId('');
               }}
             >
               <IoClose size={18} />
