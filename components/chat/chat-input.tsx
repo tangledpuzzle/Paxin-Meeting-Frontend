@@ -320,6 +320,8 @@ export default function ChatInputComponent() {
         ...messages,
         {
           id: pendingId,
+          parentMessageId:
+            isReplying && replyMessageId ? replyMessageId : undefined,
           message: inputMessage,
           owner: {
             id: user?.id as string,
@@ -352,8 +354,9 @@ export default function ChatInputComponent() {
                 return {
                   ...msg,
                   id: res.data.message.ID,
-                  parentMessageId:
-                    isReplying && replyMessageId ? replyMessageId : undefined,
+                  parentMessageId: res.data.message.ParentMessageID
+                    ? `${res.data.message.ParentMessageID}`
+                    : undefined,
                   message: res.data.message.Content,
                   timestamp: res.data.message.CreatedAt,
                   isPending: false,
@@ -497,7 +500,7 @@ export default function ChatInputComponent() {
         if (isEditing) {
           handleMessageEditSubmit();
         } else if (isReplying) {
-          // handleMessageReplySubmit();
+          handleMessageSubmit(inputMessage);
         } else {
           handleMessageSubmit(inputMessage);
         }
@@ -530,7 +533,7 @@ export default function ChatInputComponent() {
     textareaRef.current.style.height = '68px';
     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     setChatWindowHeight(
-      `100vh - 5rem - 20px - 4rem - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''}`
+      `100vh - 5rem - 20px - 4rem - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''} - ${isReplying && replyMessageId ? '2rem' : '0px'}`
     );
   };
 
@@ -541,7 +544,7 @@ export default function ChatInputComponent() {
 
   useEffect(() => {
     autoHeight();
-  }, [uploadedFiles, inputMessage]);
+  }, [uploadedFiles, inputMessage, isReplying, replyMessageId]);
 
   return (
     <div className='flex justify-between bg-card-gradient-menu'>
