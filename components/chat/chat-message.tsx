@@ -13,6 +13,8 @@ import { cn } from '@/lib/utils';
 import DOMPurify from 'dompurify';
 import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsCheck2, BsCheck2All, BsReply } from 'react-icons/bs';
@@ -30,7 +32,9 @@ import ReactMarkdown from 'react-markdown';
 interface ChatMessageProps {
   id: string;
   parentMessageId?: string;
+  messageType?: '0' | '1' | '2';
   message: string;
+  customData?: any;
   owner: {
     id: string;
     name: string;
@@ -59,6 +63,7 @@ interface ChatMessageProps {
 
 export default function ChatMessage(props: ChatMessageProps) {
   const t = useTranslations('chatting');
+  const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
   const { user } = useContext(PaxContext);
   const { activeRoom, chatRooms, setChatRooms, messages, isOnline } =
@@ -114,6 +119,74 @@ export default function ChatMessage(props: ChatMessageProps) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const renderUserMessage = () => {
+    if (!props.messageType || props.messageType === '0')
+      return (
+        <div
+          className={cn(
+            'flex items-center gap-1',
+            {
+              'mr-14': !props.isBot,
+            },
+            { 'mr-24': props.isEdited }
+          )}
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(processText(props.message), {
+              ALLOWED_TAGS: ['a', 'br'],
+              ALLOWED_ATTR: ['href', 'target', 'rel'],
+            }),
+          }}
+        />
+      );
+    else if (props.messageType === '1')
+      return (
+        <>
+          <div
+            className={cn(
+              'mb-1 w-full cursor-pointer rounded-md bg-background/10 p-2'
+            )}
+            onClick={() => window.open(props.customData.link, '_blank')}
+          >
+            <div className='flex w-fit items-center justify-start gap-1'>
+              <Image
+                src='/logo-black.svg'
+                alt='logo'
+                width={40.44}
+                height={40.44}
+                className='size-5 dark:hidden'
+              />
+              <Image
+                src='/logo-white.svg'
+                alt='logo'
+                width={40.44}
+                height={40.44}
+                className='hidden size-5 dark:block'
+              />
+              <span>PaxMeet</span>
+            </div>
+            <span className='line-clamp-1 !text-xs text-muted-foreground'>
+              {t('click_to_join_the_conference')}
+            </span>
+          </div>
+          <div
+            className={cn(
+              'flex items-center gap-1',
+              {
+                'mr-14': !props.isBot,
+              },
+              { 'mr-24': props.isEdited }
+            )}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(processText(props.customData.link), {
+                ALLOWED_TAGS: ['a', 'br'],
+                ALLOWED_ATTR: ['href', 'target', 'rel'],
+              }),
+            }}
+          />
+        </>
+      );
   };
 
   useEffect(() => {
@@ -268,24 +341,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                       </p>
                     </div>
                   )}
-                  <div
-                    className={cn(
-                      'flex items-center gap-1',
-                      {
-                        'mr-14': !props.isBot,
-                      },
-                      { 'mr-24': props.isEdited }
-                    )}
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(
-                        processText(props.id + ' ' + props.message),
-                        {
-                          ALLOWED_TAGS: ['a', 'br'],
-                          ALLOWED_ATTR: ['href', 'target', 'rel'],
-                        }
-                      ),
-                    }}
-                  />
+                  {renderUserMessage()}
                 </>
               )}
               {!props.isBot && (

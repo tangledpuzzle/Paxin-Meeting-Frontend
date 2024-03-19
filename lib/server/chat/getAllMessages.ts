@@ -8,7 +8,7 @@ const getAllMessages = async (roomId: string) => {
   try {
     const accessToken = await getAccessToken();
     const res = await requestHelper({
-      url: `${process.env.API_URL}/api/chat/message/${roomId}`,
+      url: `${process.env.API_URL}/api/chat/message/${roomId}?page=1&pageSize=10`,
       method: 'GET',
       token: accessToken || '',
       session: cookies().get('session')?.value || '',
@@ -24,7 +24,9 @@ const getAllMessages = async (roomId: string) => {
       _messages.push({
         id: `${item.ID}`,
         parentMessageId: item.ParentMessageID ? `${item.ParentMessageID}`: undefined,
+        messageType: `${item.MsgType}` as '0' | '1' | '2',
         message: item.Content,
+        customData: item.MsgType > 0 ? JSON.parse(item.JsonData) : undefined,
         owner: {
           id: item.UserID,
           name: item.User.Name,

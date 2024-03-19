@@ -122,11 +122,19 @@ export default function ChatInputComponent() {
   };
 
   const handleRoomCreate = (link: string) => {
-    handleMessageSubmit(link);
+    handleMessageSubmit('', '1', { link });
   };
 
-  const handleMessageSubmit = async (inputMessage: string) => {
-    if (inputMessage.trim() === '') return;
+  const handleMessageSubmit = async (
+    inputMessage: string,
+    msgType?: '0' | '1' | '2',
+    jsonData?: any
+  ) => {
+    // inputMessage: string
+    // msgType: 0 = text, 1 = conference link, 2 = attached post
+    // jsonData: Object
+
+    if (msgType === '0' && inputMessage.trim() === '') return;
 
     inputMessage = inputMessage.trim();
 
@@ -324,7 +332,9 @@ export default function ChatInputComponent() {
           id: pendingId,
           parentMessageId:
             isReplying && replyMessageId ? replyMessageId : undefined,
+          messageType: msgType || '0',
           message: inputMessage,
+          customData: jsonData ? jsonData : undefined,
           owner: {
             id: user?.id as string,
             name: user?.username as string,
@@ -345,6 +355,8 @@ export default function ChatInputComponent() {
           message: inputMessage,
           parentMessageId:
             isReplying && replyMessageId ? replyMessageId : undefined,
+          msgType,
+          customData: jsonData ? JSON.stringify(jsonData) : undefined,
         });
 
         if (res?.status === 'success') {
@@ -577,7 +589,7 @@ export default function ChatInputComponent() {
                 eventBus.emit('scrollToMessage', { id: editMessageId });
               }}
             >
-              <span className='text-sm text-primary'>Edit Message</span>
+              <span className='text-sm text-primary'>{t('edit_message')}</span>
               <p className='line-clamp-1 text-sm'>
                 {
                   messages.find((message) => message.id === editMessageId)

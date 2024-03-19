@@ -887,6 +887,8 @@
     "are_you_sure_leave_chat": "Are you sure you want to leave this chat?",
     "image_size_too_big": "Image size is too big, you can't upload up to 1MB",
     "bot_default_msg": "Hi there, I am {bot_name}. How can I assist you today?",
-    "edited": "edited"
+    "edited": "edited",
+    "edit_message": "Edit message",
+    "click_to_join_the_conference": "Click here to join the conference"
   }
 }

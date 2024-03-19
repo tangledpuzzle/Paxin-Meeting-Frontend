@@ -30,7 +30,9 @@ export interface ChatRoomType {
 export interface ChatMessageType {
   id: string;
   parentMessageId?: string;
+  messageType?: '0' | '1' | '2';
   message: string;
+  customData?: any;
   owner: {
     id: string;
     name: string;
