@@ -29,6 +29,7 @@ import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageProps {
   id: string;
+  parentMessageId?: string;
   message: string;
   owner: {
     id: string;
@@ -52,13 +53,16 @@ interface ChatMessageProps {
   isPending?: boolean;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
+  onReply: (id: string) => void;
+  scrollToMessage: (id: string) => void;
 }
 
 export default function ChatMessage(props: ChatMessageProps) {
   const t = useTranslations('chatting');
   const ref = useRef<HTMLDivElement>(null);
   const { user } = useContext(PaxContext);
-  const { activeRoom, chatRooms } = useContext(PaxChatContext);
+  const { activeRoom, chatRooms, setChatRooms, messages, isOnline } =
+    useContext(PaxChatContext);
   const [currentChatRoom, setCurrentChatRoom] = useState<ChatRoomType | null>(
     null
   );
@@ -93,7 +97,23 @@ export default function ChatMessage(props: ChatMessageProps) {
 
   const handleMarkAsRead = async (id: string) => {
     console.log('MARK AS READ', activeRoom, id);
-    markAsRead(activeRoom, id);
+
+    try {
+      const res = await markAsRead(activeRoom, id);
+
+      if (res?.success) {
+        setChatRooms((chatRooms) => {
+          const index = chatRooms.findIndex((room) => room.id === activeRoom);
+
+          if (index > -1) chatRooms[index].lastSeenMessage = id;
+
+          return chatRooms;
+        });
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -113,7 +133,7 @@ export default function ChatMessage(props: ChatMessageProps) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && isOnline) {
             handleMarkAsRead(props.id);
             if (entry.target) observer.unobserve(entry.target);
           }
@@ -132,10 +152,11 @@ export default function ChatMessage(props: ChatMessageProps) {
 
     // Cleanup observer on component unmount
     return () => observer.disconnect();
-  }, [props.id, currentChatRoom]);
+  }, [props.id, currentChatRoom, isOnline]);
 
   return (
     <div
+      id={`chat-message-${props.id}`}
       className={cn('chat-msg', { owner: user?.id === props.owner.id })}
       ref={ref}
     >
@@ -216,21 +237,56 @@ export default function ChatMessage(props: ChatMessageProps) {
                   children={props.message}
                 />
               ) : (
-                <div
-                  className={cn(
-                    'flex items-center gap-1',
-                    {
-                      'mr-14': !props.isBot,
-                    },
-                    { 'mr-24': props.isEdited }
+                <>
+                  {props.parentMessageId !== undefined && (
+                    <div
+                      className={cn(
+                        'mb-1 max-w-sm cursor-pointer rounded-md border-l-4 bg-background/10 p-2',
+                        {
+                          'border-white': user?.id === props.owner.id,
+                          'border-primary': user?.id !== props.owner.id,
+                        }
+                      )}
+                      onClick={() =>
+                        props.scrollToMessage(props.parentMessageId!)
+                      }
+                    >
+                      <span>
+                        @
+                        {
+                          messages.find(
+                            (message) => message.id === props.parentMessageId
+                          )?.owner.name
+                        }
+                      </span>
+                      <p className='line-clamp-1'>
+                        {
+                          messages.find(
+                            (message) => message.id === props.parentMessageId
+                          )?.message
+                        }
+                      </p>
+                    </div>
                   )}
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(processText(props.message), {
-                      ALLOWED_TAGS: ['a', 'br'],
-                      ALLOWED_ATTR: ['href', 'target', 'rel'],
-                    }),
-                  }}
-                />
+                  <div
+                    className={cn(
+                      'flex items-center gap-1',
+                      {
+                        'mr-14': !props.isBot,
+                      },
+                      { 'mr-24': props.isEdited }
+                    )}
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        processText(props.id + ' ' + props.message),
+                        {
+                          ALLOWED_TAGS: ['a', 'br'],
+                          ALLOWED_ATTR: ['href', 'target', 'rel'],
+                        }
+                      ),
+                    }}
+                  />
+                </>
               )}
               {!props.isBot && (
                 <div className='-mt-3 flex w-full justify-end gap-1 text-xs text-gray-200'>
@@ -248,7 +304,10 @@ export default function ChatMessage(props: ChatMessageProps) {
         </ContextMenuTrigger>
         {!props.isDeleted && (
           <ContextMenuContent className='w-48'>
-            <ContextMenuItem className='cursor-pointer'>
+            <ContextMenuItem
+              className='cursor-pointer'
+              onClick={() => props.onReply(props.id)}
+            >
               <BsReply className='mr-2 size-4' />
               {t('reply')}
               {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}

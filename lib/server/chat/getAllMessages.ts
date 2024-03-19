@@ -23,6 +23,7 @@ const getAllMessages = async (roomId: string) => {
     for (const item of res.data.messages) {
       _messages.push({
         id: `${item.ID}`,
+        parentMessageId: item.ParentMessageID ? `${item.ParentMessageID}`: undefined,
         message: item.Content,
         owner: {
           id: item.UserID,
