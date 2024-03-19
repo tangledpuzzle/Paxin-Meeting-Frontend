@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 // import Slideshow from '@/components/ui/slideshow';
 import dynamic from 'next/dynamic';
 
-const ChatSSRSkeleton = dynamic(() => import('@/components/dialogs/flow'), {
+const ChatSSRSkeleton = dynamic(() => import('@/components/chat/flow'), {
   ssr: true,
 });
 export interface SectionHeroImageProps

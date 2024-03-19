@@ -12,13 +12,13 @@ import useOutsideClick from '@/lib/outsideclick';
 import { Button } from '@/components/ui/button';
 import { IoSendOutline } from 'react-icons/io5';
 import DropdownMenuDemo from '@/components/ui/chatmenu';
-import ChatNavComponent from '@/components/dialogs/chat-nav';
+import ChatNavComponent from '@/components/chat/chat-nav';
 
 interface MessagesProps {
   children: React.ReactNode;
 }
 
-const ChatSSRSkeleton = dynamic(() => import('@/components/dialogs/skeleton'), {
+const ChatSSRSkeleton = dynamic(() => import('@/components/chat/skeleton'), {
   ssr: true,
 });
 

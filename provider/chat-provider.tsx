@@ -31,6 +31,18 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const [isMessageLoading, setIsMessageLoading] = useState(true);
   const [isRoomLoading, setIsRoomLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(false);
+  const [inputMessage, setInputMessage] = useState('');
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
+  const [deleteMessageId, setDeleteMessageId] = useState('');
+  const [editMessageId, setEditMessageId] = useState('');
+  const [replyMessageId, setReplyMessageId] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [chatWindowHeight, setChatWindowHeight] = useState(
+    '100vh - 5rem - 20px - 68px - 4rem'
+  );
   const { data: session } = useSession();
 
   const messageReceivedSound = new Howl({
@@ -258,6 +270,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
     getAllMessages(activeRoom)
       .then((res) => {
+        console.log(res);
         const _chatUser =
           chatRooms.find((room) => room.id === activeRoom)?.user || null;
 
@@ -311,7 +324,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     chatRooms.forEach((room) => {
       if (room.id === activeRoom) {
-        console.log(room.subscribed, chatRooms, activeRoom, 'SDF');
         setActiveRoomSubscribed(room.subscribed);
       }
     });
@@ -378,6 +390,26 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         setIsRoomLoading,
         isOnline,
         setIsOnline,
+        inputMessage,
+        setInputMessage,
+        isLoadingSubmit,
+        setIsLoadingSubmit,
+        isDeleting,
+        setIsDeleting,
+        isEditing,
+        setIsEditing,
+        isReplying,
+        setIsReplying,
+        deleteMessageId,
+        setDeleteMessageId,
+        editMessageId,
+        setEditMessageId,
+        replyMessageId,
+        setReplyMessageId,
+        uploadedFiles,
+        setUploadedFiles,
+        chatWindowHeight,
+        setChatWindowHeight,
       }}
     >
       {children}
