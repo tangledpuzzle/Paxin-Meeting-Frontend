@@ -10,11 +10,13 @@ const sendMessage = async ({
   message,
   parentMessageId,
   msgType,
+  customData,
 }: {
   roomId: string;
   message: string;
   parentMessageId?: string;
   msgType?: string;
+  customData?: any;
 }) => {
   try {
     const accessToken = await getAccessToken();
@@ -26,6 +28,7 @@ const sendMessage = async ({
         content: message,
         parentMessageId,
         msgType,
+        jsonData: customData,
       },
       token: accessToken || '',
       session: cookies().get('session')?.value || '',
