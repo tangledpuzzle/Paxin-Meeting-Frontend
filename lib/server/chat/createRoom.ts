@@ -35,8 +35,6 @@ const createRoom = async ({
       throw new Error('Room ID not found');
     }
 
-    console.log('Room created successfully', res.data.room.ID);
-
     return res.data.room.ID;
   } catch (error) {
     console.error(error);

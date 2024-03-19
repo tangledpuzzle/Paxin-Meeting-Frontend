@@ -6,7 +6,6 @@ import ClientHeader from './client.header';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
-  console.log(session, '===');
 
   try {
     const res = await fetch(
