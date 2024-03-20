@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
-const limit = 10;
+const limit = 20;
 
 const getAllMessages = async (roomId: string, skip: number = 1) => {
   try {
