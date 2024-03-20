@@ -43,15 +43,15 @@ function useCentrifuge(onPublication: (data: any) => void | null) {
       getToken: getPersonalChannelSubscriptionToken,
     });
 
-    sub.current
-      .on('publication', (ctx: PublicationContext) => {
-        onPublication(ctx.data);
-      })
-      .on('subscribed', (ctx: SubscribedContext) => {
-        if (ctx.wasRecovering && !ctx.recovered) {
-          setUnrecoverableError('State LOST - please reload the page');
-        }
-      });
+    sub.current.on('publication', (ctx: PublicationContext) => {
+      onPublication && onPublication(ctx.data);
+    });
+
+    sub.current.on('subscribed', (ctx: SubscribedContext) => {
+      if (ctx.wasRecovering && !ctx.recovered) {
+        setUnrecoverableError('State LOST - please reload the page');
+      }
+    });
 
     sub.current.on('state', (ctx: SubscriptionStateContext) => {
       if (ctx.newState == SubscriptionState.Subscribed) {
@@ -68,7 +68,31 @@ function useCentrifuge(onPublication: (data: any) => void | null) {
       console.log('disconnect Centrifuge');
       centrifuge.current && centrifuge.current.disconnect();
     };
-  }, [session, onPublication]);
+  }, [session]);
+
+  useEffect(() => {
+    if (sub.current) {
+      sub.current.removeAllListeners();
+
+      sub.current.on('publication', (ctx: PublicationContext) => {
+        onPublication(ctx.data);
+      });
+
+      sub.current.on('subscribed', (ctx: SubscribedContext) => {
+        if (ctx.wasRecovering && !ctx.recovered) {
+          setUnrecoverableError('State LOST - please reload the page');
+        }
+      });
+
+      sub.current.on('state', (ctx: SubscriptionStateContext) => {
+        if (ctx.newState == SubscriptionState.Subscribed) {
+          setRealTimeStatus('🟢');
+        } else {
+          setRealTimeStatus('🔴');
+        }
+      });
+    }
+  }, [onPublication]);
 
   return { centrifuge, sub };
 }

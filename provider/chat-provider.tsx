@@ -369,7 +369,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         });
       }
     };
-  }, [activeRoom]);
+  }, [activeRoom, messages]);
 
   return (
     <PaxChatContext.Provider
