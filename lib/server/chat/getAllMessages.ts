@@ -4,18 +4,26 @@ import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
-const getAllMessages = async (roomId: string) => {
+const pageSize = 10
+
+const getAllMessages = async (roomId: string, page: number = 1) => {
   try {
     const accessToken = await getAccessToken();
     const res = await requestHelper({
-      url: `${process.env.API_URL}/api/chat/message/${roomId}?page=1&pageSize=1000`,
+      url: `${process.env.API_URL}/api/chat/message/${roomId}?page=${page}&pageSize=${pageSize}`,
       method: 'GET',
       token: accessToken || '',
       session: cookies().get('session')?.value || '',
     });
 
     if (res.status !== 'success') {
-      return [];
+      return {
+        success: false,
+        messages: [],
+        total: 0,
+        pageSize: 10,
+        page: 1
+      };
     }
 
     const _messages = [];
@@ -43,11 +51,23 @@ const getAllMessages = async (roomId: string) => {
         new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
     );
 
-    return _messages;
+    return {
+      success: true,
+      messages: _messages,
+      total: 0,
+      pageSize: 10,
+      page: page
+    };
   } catch (error) {
     console.error(error);
 
-    return [];
+    return {
+      success: false,
+      messages: [],
+      total: 0,
+      pageSize: 10,
+      page: page
+    };
   }
 };
 

@@ -145,24 +145,24 @@ export default function ChatMessage(props: ChatMessageProps) {
         <>
           <div
             className={cn(
-              'mb-1 w-full cursor-pointer rounded-md bg-background/10 p-2'
+              'mb-1 w-full max-w-[100%] cursor-pointer rounded-md bg-background/10 p-2'
             )}
             onClick={() => window.open(props.customData.link, '_blank')}
           >
-            <div className='flex w-fit items-center justify-start gap-1'>
+            <div className='flex items-center gap-1'>
               <Image
                 src='/logo-black.svg'
                 alt='logo'
                 width={40.44}
                 height={40.44}
-                className='size-5 dark:hidden'
+                className='!size-5 !min-w-5 !max-w-5 dark:hidden'
               />
               <Image
                 src='/logo-white.svg'
                 alt='logo'
                 width={40.44}
                 height={40.44}
-                className='hidden size-5 dark:block'
+                className='hidden !size-5 !min-w-5 !max-w-5 dark:block'
               />
               <span>PaxMeet</span>
             </div>
@@ -187,6 +187,7 @@ export default function ChatMessage(props: ChatMessageProps) {
           />
         </>
       );
+    else return null;
   };
 
   useEffect(() => {
@@ -267,7 +268,7 @@ export default function ChatMessage(props: ChatMessageProps) {
               })}
             >
               {/** Display attachments */}
-              <div className='flex items-center gap-1'>
+              <div className='flex w-full max-w-[100%] items-center gap-1'>
                 {props.attachments &&
                   props.attachments.length > 0 &&
                   props.attachments.map((attachment) => {
@@ -314,7 +315,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                   {props.parentMessageId !== undefined && (
                     <div
                       className={cn(
-                        'mb-1 max-w-sm cursor-pointer rounded-md border-l-4 bg-background/10 p-2',
+                        'mb-1 w-full max-w-[100%] cursor-pointer rounded-md border-l-4 bg-background/10 p-2',
                         {
                           'border-white': user?.id === props.owner.id,
                           'border-primary': user?.id !== props.owner.id,

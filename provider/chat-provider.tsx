@@ -297,7 +297,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
               },
             },
           ]);
-        } else setMessages(res);
+        } else setMessages(res.messages);
 
         setIsMessageLoading(false);
       })
