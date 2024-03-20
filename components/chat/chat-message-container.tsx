@@ -239,6 +239,20 @@ export default function ChatMessageContainer() {
 
   return (
     <>
+      <Button
+        size='icon'
+        className={cn(
+          'fixed bottom-36 right-4 z-50 size-12 translate-y-60 rounded-full transition-transform duration-500 ease-in-out',
+          {
+            'translate-y-0': showScrollDown,
+          }
+        )}
+        onClick={() => {
+          scrollToEnd();
+        }}
+      >
+        <IoArrowDown className='size-5' />
+      </Button>
       <ConfirmModal
         isOpen={isDeleting}
         onClose={() => {
@@ -259,20 +273,6 @@ export default function ChatMessageContainer() {
           height: `calc(${chatWindowHeight})`,
         }}
       >
-        <Button
-          size='icon'
-          className={cn(
-            'absolute bottom-4 right-4 z-10 size-12 translate-y-40 rounded-full transition-transform duration-300 ease-in-out',
-            {
-              'translate-y-0': showScrollDown,
-            }
-          )}
-          onClick={() => {
-            scrollToEnd();
-          }}
-        >
-          <IoArrowDown className='size-5' />
-        </Button>
         {hasMore && (
           <div className='flex w-full items-center justify-center gap-2'>
             <Loader2 className='size-4 animate-spin' ref={loaderRef} />
