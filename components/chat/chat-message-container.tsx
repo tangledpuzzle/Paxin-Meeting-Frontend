@@ -9,6 +9,9 @@ import { useInView } from 'react-intersection-observer';
 import { ConfirmModal } from '../common/confirm-modal';
 import { ScrollArea } from '../ui/scroll-area';
 import ChatMessage from './chat-message';
+import { Button } from '../ui/button';
+import { IoArrowDown } from 'react-icons/io5';
+import { cn } from '@/lib/utils';
 
 export default function ChatMessageContainer() {
   const t = useTranslations('chatting');
@@ -37,7 +40,7 @@ export default function ChatMessageContainer() {
   } = useContext(PaxChatContext);
   const [firstLoading, setFirstLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
-  const messageListLoader = useRef(null);
+  const [showScrollDown, setShowScrollDown] = useState(false);
 
   const loadMessages = async () => {
     const res = await getAllMessages(activeRoom, Number(messages.length || 0));
@@ -191,6 +194,35 @@ export default function ChatMessageContainer() {
     setMessages([]);
   }, [activeRoom]);
 
+  useEffect(() => {
+    if (window === undefined) return;
+
+    const checkScrollDown = () => {
+      if (scrollAreaRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } =
+          scrollAreaRef.current.querySelector(
+            '[data-radix-scroll-area-viewport]'
+          )!;
+
+        console.log(scrollTop, clientHeight, scrollHeight);
+
+        setShowScrollDown(scrollTop + clientHeight + 30 < scrollHeight);
+      }
+    };
+
+    scrollAreaRef.current &&
+      scrollAreaRef.current
+        .querySelector('[data-radix-scroll-area-viewport]')!
+        .addEventListener('scroll', checkScrollDown);
+
+    return () => {
+      scrollAreaRef.current &&
+        scrollAreaRef.current
+          .querySelector('[data-radix-scroll-area-viewport]')!
+          .removeEventListener('scroll', checkScrollDown);
+    };
+  }, []);
+
   let lastDay: string | null = null;
 
   return (
@@ -210,11 +242,25 @@ export default function ChatMessageContainer() {
       />
       <ScrollArea
         ref={scrollAreaRef}
-        className='w-full rounded-none bg-background p-4 pb-0 pt-2'
+        className='relative w-full rounded-none bg-background p-4 pb-0 pt-2'
         style={{
           height: `calc(${chatWindowHeight})`,
         }}
       >
+        <Button
+          size='icon'
+          className={cn(
+            'absolute bottom-4 right-4 z-10 size-12 translate-y-40 rounded-full transition-transform duration-300 ease-in-out',
+            {
+              'translate-y-0': showScrollDown,
+            }
+          )}
+          onClick={() => {
+            scrollToEnd();
+          }}
+        >
+          <IoArrowDown className='size-5' />
+        </Button>
         {hasMore && (
           <div className='flex w-full items-center justify-center gap-2'>
             <Loader2 className='size-4 animate-spin' ref={loaderRef} />
