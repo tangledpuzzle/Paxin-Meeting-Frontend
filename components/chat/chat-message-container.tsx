@@ -41,31 +41,43 @@ export default function ChatMessageContainer() {
   const [firstLoading, setFirstLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [showScrollDown, setShowScrollDown] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadMessages = async () => {
-    const res = await getAllMessages(activeRoom, Number(messages.length || 0));
+    setIsLoading(true);
 
-    const _chatUser =
-      chatRooms.find((room) => room.id === activeRoom)?.user || null;
+    try {
+      const res = await getAllMessages(
+        activeRoom,
+        Number(messages.length || 0)
+      );
 
-    if (_chatUser?.bot) {
-      setMessages([
-        {
-          id: new Date().getTime().toString(),
-          message: t('bot_default_msg', {
-            bot_name: `@${_chatUser?.profile.name}`,
-          }),
-          timestamp: new Date().toLocaleString(),
-          owner: {
-            id: _chatUser?.id || '',
-            name: _chatUser?.profile.name || '',
-            avatar: _chatUser?.profile.avatar || '',
+      const _chatUser =
+        chatRooms.find((room) => room.id === activeRoom)?.user || null;
+
+      if (_chatUser?.bot) {
+        setMessages([
+          {
+            id: new Date().getTime().toString(),
+            message: t('bot_default_msg', {
+              bot_name: `@${_chatUser?.profile.name}`,
+            }),
+            timestamp: new Date().toLocaleString(),
+            owner: {
+              id: _chatUser?.id || '',
+              name: _chatUser?.profile.name || '',
+              avatar: _chatUser?.profile.avatar || '',
+            },
           },
-        },
-      ]);
-    } else setMessages((messages) => [...res.messages, ...messages]);
+        ]);
+      } else setMessages((messages) => [...res.messages, ...messages]);
 
-    setHasMore(res.total > res.skip + res.messages.length);
+      setHasMore(res.total > res.skip + res.messages.length);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getScrollHeight = () => {
@@ -186,7 +198,7 @@ export default function ChatMessageContainer() {
   useEffect(() => {
     if (inView) {
       setPrevScrollHeight(getScrollHeight());
-      loadMessages();
+      !isLoading && loadMessages();
     }
   }, [inView]);
 
