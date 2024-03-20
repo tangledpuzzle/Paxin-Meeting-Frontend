@@ -143,12 +143,16 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('focus', handleFocus);
     window.addEventListener('blur', handleBlur);
+    window.addEventListener('online', handleFocus);
+    window.addEventListener('offline', handleBlur);
 
     // Remove event listeners on cleanup
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('focus', handleFocus);
       window.removeEventListener('blur', handleBlur);
+      window.removeEventListener('online', handleFocus);
+      window.removeEventListener('offline', handleBlur);
     };
   }, []); // Empty array ensures this effect runs only on mount and unmount
 
