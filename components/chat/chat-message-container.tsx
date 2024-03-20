@@ -318,7 +318,6 @@ export default function ChatMessageContainer() {
                       onDelete={handleMessageDelete}
                       onEdit={handleMessageEdit}
                       onReply={handleMessageReply}
-                      scrollToMessage={() => scrollToMessage(message.id)}
                       isBot={chatUser?.bot}
                     />
                   );

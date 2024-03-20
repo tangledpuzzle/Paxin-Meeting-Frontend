@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/context-menu';
 import { ChatRoomType, PaxChatContext } from '@/context/chat-context';
 import { PaxContext } from '@/context/context';
+import eventBus from '@/eventBus';
 import markAsRead from '@/lib/server/chat/markAsRead';
 import { cn } from '@/lib/utils';
 import DOMPurify from 'dompurify';
@@ -18,12 +19,12 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsCheck2, BsCheck2All, BsReply } from 'react-icons/bs';
 import { FaTrashCan } from 'react-icons/fa6';
-import { useInView } from 'react-intersection-observer';
 import {
   MdOutlineContentCopy,
   MdOutlineDoNotDisturb,
   MdOutlineModeEditOutline,
 } from 'react-icons/md';
+import { useInView } from 'react-intersection-observer';
 import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageProps {
@@ -55,7 +56,6 @@ interface ChatMessageProps {
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
   onReply: (id: string) => void;
-  scrollToMessage: (id: string) => void;
 }
 
 export default function ChatMessage(props: ChatMessageProps) {
@@ -331,7 +331,9 @@ export default function ChatMessage(props: ChatMessageProps) {
                         }
                       )}
                       onClick={() =>
-                        props.scrollToMessage(props.parentMessageId!)
+                        eventBus.emit('scrollToMessage', {
+                          id: props.parentMessageId,
+                        })
                       }
                     >
                       <span>
