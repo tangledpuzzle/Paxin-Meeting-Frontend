@@ -15,8 +15,6 @@ const deleteMessage = async ({ messageId }: { messageId: string }) => {
       session: cookies().get('session')?.value || '',
     });
 
-    console.log(JSON.stringify(res, null, 2), 'DELETE MESSAGE');
-
     return res;
   } catch (error) {
     console.error(error);
