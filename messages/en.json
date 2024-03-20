@@ -889,6 +889,7 @@
     "bot_default_msg": "Hi there, I am {bot_name}. How can I assist you today?",
     "edited": "edited",
     "edit_message": "Edit message",
-    "click_to_join_the_conference": "Click here to join the conference"
+    "click_to_join_the_conference": "Click here to join the conference",
+    "loading_messages": "Loading messages..."
   }
 }

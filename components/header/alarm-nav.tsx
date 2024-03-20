@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import eventBus from '@/eventBus';
 import { TiMessages } from 'react-icons/ti';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
@@ -19,6 +19,7 @@ export default function AlarmNav({
   const router = useRouter();
   const [roomCount, setRoomCount] = useState(0);
   const { user } = useContext(PaxContext);
+  const onPublication = useRef<any>(null);
 
   const checkMessagesInPathname = () => {
     if (pathname.includes('chat')) {
@@ -29,15 +30,7 @@ export default function AlarmNav({
     }
   };
 
-  const onPublication = (publication: any) => {
-    if (publication.type === 'new_room') {
-      setRoomCount((roomCount) => roomCount + 1);
-    } else if (publication.type === 'unsubscribe_room') {
-      setRoomCount((roomCount) => roomCount - 1);
-    }
-  };
-
-  useCentrifuge(onPublication);
+  useCentrifuge(onPublication.current);
 
   const getRoomCount = async () => {
     try {
@@ -52,6 +45,14 @@ export default function AlarmNav({
 
   useEffect(() => {
     getRoomCount().then((roomCount) => setRoomCount(roomCount));
+
+    onPublication.current = (publication: any) => {
+      if (publication.type === 'new_room') {
+        setRoomCount((roomCount) => roomCount + 1);
+      } else if (publication.type === 'unsubscribe_room') {
+        setRoomCount((roomCount) => roomCount - 1);
+      }
+    };
   }, []);
 
   return authenticated || user ? (

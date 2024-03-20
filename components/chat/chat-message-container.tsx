@@ -1,19 +1,27 @@
 import { PaxChatContext } from '@/context/chat-context';
-import { startTransition, useContext, useEffect, useRef } from 'react';
-import ChatMessage from './chat-message';
-import { ScrollArea } from '../ui/scroll-area';
 import deleteMessage from '@/lib/server/chat/deleteMessage';
-import toast from 'react-hot-toast';
+import getAllMessages from '@/lib/server/chat/getAllMessages';
+import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useInView } from 'react-intersection-observer';
 import { ConfirmModal } from '../common/confirm-modal';
-import eventBus from '@/eventBus';
+import { ScrollArea } from '../ui/scroll-area';
+import ChatMessage from './chat-message';
+import { Button } from '../ui/button';
+import { IoArrowDown } from 'react-icons/io5';
+import { cn } from '@/lib/utils';
 
 export default function ChatMessageContainer() {
   const t = useTranslations('chatting');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { ref: loaderRef, inView } = useInView();
   const {
     messages,
     setMessages,
+    activeRoom,
+    chatRooms,
     chatUser,
     isMessageLoading,
     isRoomLoading,
@@ -27,7 +35,60 @@ export default function ChatMessageContainer() {
     setIsReplying,
     setReplyMessageId,
     chatWindowHeight,
+    prevScrollHeight,
+    setPrevScrollHeight,
   } = useContext(PaxChatContext);
+  const [firstLoading, setFirstLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const [showScrollDown, setShowScrollDown] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const loadMessages = async () => {
+    setIsLoading(true);
+
+    try {
+      const res = await getAllMessages(
+        activeRoom,
+        Number(messages.length || 0)
+      );
+
+      const _chatUser =
+        chatRooms.find((room) => room.id === activeRoom)?.user || null;
+
+      if (_chatUser?.bot) {
+        setMessages([
+          {
+            id: new Date().getTime().toString(),
+            message: t('bot_default_msg', {
+              bot_name: `@${_chatUser?.profile.name}`,
+            }),
+            timestamp: new Date().toLocaleString(),
+            owner: {
+              id: _chatUser?.id || '',
+              name: _chatUser?.profile.name || '',
+              avatar: _chatUser?.profile.avatar || '',
+            },
+          },
+        ]);
+      } else setMessages((messages) => [...res.messages, ...messages]);
+
+      setHasMore(res.total > res.skip + res.messages.length);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getScrollHeight = () => {
+    if (scrollAreaRef.current) {
+      return scrollAreaRef.current.querySelector(
+        '[data-radix-scroll-area-viewport]'
+      )!.scrollHeight;
+    } else {
+      return 0;
+    }
+  };
 
   const scrollToEnd = () => {
     if (scrollAreaRef.current) {
@@ -38,6 +99,14 @@ export default function ChatMessageContainer() {
       )!.scrollHeight;
 
       console.log('scroll to end');
+    }
+  };
+
+  const scrollTo = (top: number) => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.querySelector(
+        '[data-radix-scroll-area-viewport]'
+      )!.scrollTop += top;
     }
   };
 
@@ -114,13 +183,76 @@ export default function ChatMessageContainer() {
   }, [isMessageLoading, isRoomLoading]);
 
   useEffect(() => {
-    scrollToEnd();
+    if (firstLoading && messages.length > 0) {
+      scrollToEnd();
+      setFirstLoading(false);
+    }
+
+    let deltaHeight = getScrollHeight() - prevScrollHeight;
+
+    if (deltaHeight > 0) {
+      scrollTo(deltaHeight);
+    }
   }, [messages]);
+
+  useEffect(() => {
+    if (inView) {
+      setPrevScrollHeight(getScrollHeight());
+      !isLoading && loadMessages();
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    setMessages([]);
+  }, [activeRoom]);
+
+  useEffect(() => {
+    if (window === undefined) return;
+
+    const checkScrollDown = () => {
+      if (scrollAreaRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } =
+          scrollAreaRef.current.querySelector(
+            '[data-radix-scroll-area-viewport]'
+          )!;
+
+        console.log(scrollTop, clientHeight, scrollHeight);
+
+        setShowScrollDown(scrollTop + clientHeight + 30 < scrollHeight);
+      }
+    };
+
+    scrollAreaRef.current &&
+      scrollAreaRef.current
+        .querySelector('[data-radix-scroll-area-viewport]')!
+        .addEventListener('scroll', checkScrollDown);
+
+    return () => {
+      scrollAreaRef.current &&
+        scrollAreaRef.current
+          .querySelector('[data-radix-scroll-area-viewport]')!
+          .removeEventListener('scroll', checkScrollDown);
+    };
+  }, []);
 
   let lastDay: string | null = null;
 
   return (
     <>
+      <Button
+        size='icon'
+        className={cn(
+          'fixed bottom-36 right-4 z-50 size-12 translate-y-60 rounded-full transition-transform duration-500 ease-in-out',
+          {
+            'translate-y-0': showScrollDown,
+          }
+        )}
+        onClick={() => {
+          scrollToEnd();
+        }}
+      >
+        <IoArrowDown className='size-5' />
+      </Button>
       <ConfirmModal
         isOpen={isDeleting}
         onClose={() => {
@@ -136,11 +268,19 @@ export default function ChatMessageContainer() {
       />
       <ScrollArea
         ref={scrollAreaRef}
-        className='w-full rounded-none bg-background p-4 pb-0 pt-2'
+        className='relative w-full rounded-none bg-background p-4 pb-0 pt-2'
         style={{
           height: `calc(${chatWindowHeight})`,
         }}
       >
+        {hasMore && (
+          <div className='flex w-full items-center justify-center gap-2'>
+            <Loader2 className='size-4 animate-spin' ref={loaderRef} />
+            <span className='!text-sm text-muted-foreground'>
+              {t('loading_messages')}
+            </span>
+          </div>
+        )}
         <div className='wrapper h-full items-end'>
           <div className='chat-area container !px-0'>
             <div className='chat-area-main'>
@@ -165,7 +305,6 @@ export default function ChatMessageContainer() {
                         onDelete={handleMessageDelete}
                         onEdit={handleMessageEdit}
                         onReply={handleMessageReply}
-                        scrollToMessage={() => scrollToMessage(message.id)}
                         isBot={chatUser?.bot}
                       />
                     </div>
@@ -178,7 +317,6 @@ export default function ChatMessageContainer() {
                       onDelete={handleMessageDelete}
                       onEdit={handleMessageEdit}
                       onReply={handleMessageReply}
-                      scrollToMessage={() => scrollToMessage(message.id)}
                       isBot={chatUser?.bot}
                     />
                   );

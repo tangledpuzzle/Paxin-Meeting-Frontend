@@ -89,6 +89,8 @@ export interface ChatContent {
   setUploadedFiles: Dispatch<SetStateAction<File[]>>;
   chatWindowHeight: string;
   setChatWindowHeight: Dispatch<SetStateAction<string>>;
+  prevScrollHeight: number;
+  setPrevScrollHeight: Dispatch<SetStateAction<number>>;
 }
 
 export const PaxChatContext = createContext<ChatContent>({
@@ -130,6 +132,8 @@ export const PaxChatContext = createContext<ChatContent>({
   setUploadedFiles: () => {},
   chatWindowHeight: '',
   setChatWindowHeight: () => {},
+  prevScrollHeight: 0,
+  setPrevScrollHeight: () => {},
 });
 
 export const usePaxChatContext = () => useContext(PaxChatContext);
