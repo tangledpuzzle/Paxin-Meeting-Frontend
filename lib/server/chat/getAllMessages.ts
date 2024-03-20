@@ -4,13 +4,13 @@ import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
-const pageSize = 10
+const limit = 10;
 
-const getAllMessages = async (roomId: string, page: number = 1) => {
+const getAllMessages = async (roomId: string, skip: number = 1) => {
   try {
     const accessToken = await getAccessToken();
     const res = await requestHelper({
-      url: `${process.env.API_URL}/api/chat/message/${roomId}?page=${page}&pageSize=${pageSize}`,
+      url: `${process.env.API_URL}/api/chat/message/${roomId}?skip=${skip}&limit=${limit}`,
       method: 'GET',
       token: accessToken || '',
       session: cookies().get('session')?.value || '',
@@ -21,8 +21,8 @@ const getAllMessages = async (roomId: string, page: number = 1) => {
         success: false,
         messages: [],
         total: 0,
-        pageSize: 10,
-        page: 1
+        limit,
+        skip,
       };
     }
 
@@ -31,9 +31,14 @@ const getAllMessages = async (roomId: string, page: number = 1) => {
     for (const item of res.data.messages) {
       _messages.push({
         id: `${item.ID}`,
-        parentMessageId: item.ParentMessageID ? `${item.ParentMessageID}`: undefined,
+        parentMessageId: item.ParentMessageID
+          ? `${item.ParentMessageID}`
+          : undefined,
         messageType: `${item.MsgType}` as '0' | '1' | '2',
-        message: item.Content,
+        message:
+          process.env.NODE_ENV === 'development'
+            ? item.ID + ' - ' + item.Content
+            : item.Content,
         customData: item.MsgType > 0 ? JSON.parse(item.JsonData) : undefined,
         owner: {
           id: item.UserID,
@@ -54,9 +59,9 @@ const getAllMessages = async (roomId: string, page: number = 1) => {
     return {
       success: true,
       messages: _messages,
-      total: 0,
-      pageSize: 10,
-      page: page
+      total: res.totalCount,
+      limit,
+      skip,
     };
   } catch (error) {
     console.error(error);
@@ -65,8 +70,8 @@ const getAllMessages = async (roomId: string, page: number = 1) => {
       success: false,
       messages: [],
       total: 0,
-      pageSize: 10,
-      page: page
+      limit,
+      skip,
     };
   }
 };

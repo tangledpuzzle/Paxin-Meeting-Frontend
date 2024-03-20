@@ -143,7 +143,7 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
                   </Badge>
                 )}
               </div>
-              <p className='line-clamp-1 text-xs text-gray-500 dark:text-gray-400'>
+              <p className='line-clamp-1 max-w-40 text-xs text-gray-500 dark:text-gray-400'>
                 {room.lastMessage.owner === user?.id && !room.user.bot && (
                   <BsCheck2All
                     className={cn('mr-1 inline-block size-4 text-gray-500', {
@@ -159,7 +159,7 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
             {room.unreadCount > 0 && (
               <Badge
                 variant='default'
-                className='absolute bottom-2 right-2 m-0 size-5 min-w-5 rounded-full p-0.5 text-xs font-normal'
+                className='absolute bottom-2 right-2 m-0 size-5 min-w-5 items-center justify-center rounded-full p-0.5 text-xs font-normal'
               >
                 {room.unreadCount}
               </Badge>

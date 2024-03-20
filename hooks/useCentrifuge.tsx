@@ -13,7 +13,7 @@ import {
 import getSubscriptionToken from '@/lib/server/chat/getSubscriptionToken';
 import getConnectionToken from '@/lib/server/chat/getConnectionToken';
 
-function useCentrifuge(onPublication: (data: any) => void) {
+function useCentrifuge(onPublication: (data: any) => void | null) {
   const [unrecoverableError, setUnrecoverableError] = useState('');
   const [realTimeStatus, setRealTimeStatus] = useState('🔴');
   const { data: session } = useSession();
@@ -68,7 +68,7 @@ function useCentrifuge(onPublication: (data: any) => void) {
       console.log('disconnect Centrifuge');
       centrifuge.current && centrifuge.current.disconnect();
     };
-  }, [session]);
+  }, [session, onPublication]);
 
   return { centrifuge, sub };
 }

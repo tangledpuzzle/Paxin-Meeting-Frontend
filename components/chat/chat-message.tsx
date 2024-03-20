@@ -13,20 +13,17 @@ import { cn } from '@/lib/utils';
 import DOMPurify from 'dompurify';
 import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsCheck2, BsCheck2All, BsReply } from 'react-icons/bs';
 import { FaTrashCan } from 'react-icons/fa6';
-import { IoCheckmarkDone } from 'react-icons/io5';
+import { useInView } from 'react-intersection-observer';
 import {
   MdOutlineContentCopy,
   MdOutlineDoNotDisturb,
   MdOutlineModeEditOutline,
 } from 'react-icons/md';
-import { PiChecksBold } from 'react-icons/pi';
-import { TbChecks } from 'react-icons/tb';
 import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageProps {
@@ -65,6 +62,7 @@ export default function ChatMessage(props: ChatMessageProps) {
   const t = useTranslations('chatting');
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
+  const { ref: messageRef, inView } = useInView();
   const { user } = useContext(PaxContext);
   const { activeRoom, chatRooms, setChatRooms, messages, isOnline } =
     useContext(PaxChatContext);
@@ -198,41 +196,52 @@ export default function ChatMessage(props: ChatMessageProps) {
     }
   }, [activeRoom, chatRooms]);
 
+  // useEffect(() => {
+  //   if (user?.id === props.owner.id || props.isBot || props.isSeen) return;
+
+  //   if (Number(currentChatRoom?.lastSeenMessage || 0) >= Number(props.id))
+  //     return;
+
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting && isOnline) {
+  //           handleMarkAsRead(props.id);
+  //           if (entry.target) observer.unobserve(entry.target);
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null,
+  //       rootMargin: '0px',
+  //       threshold: 1.0,
+  //     }
+  //   );
+
+  //   if (ref.current) {
+  //     observer.observe(ref.current);
+  //   }
+
+  //   // Cleanup observer on component unmount
+  //   return () => observer.disconnect();
+  // }, [currentChatRoom, isOnline]);
+
   useEffect(() => {
-    if (user?.id === props.owner.id || props.isBot || props.isSeen) return;
+    if (inView && isOnline) {
+      if (user?.id === props.owner.id || props.isBot || props.isSeen) return;
 
-    if (Number(currentChatRoom?.lastSeenMessage || 0) >= Number(props.id))
-      return;
+      if (Number(currentChatRoom?.lastSeenMessage || 0) >= Number(props.id))
+        return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && isOnline) {
-            handleMarkAsRead(props.id);
-            if (entry.target) observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 1.0,
-      }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
+      handleMarkAsRead(props.id);
     }
-
-    // Cleanup observer on component unmount
-    return () => observer.disconnect();
-  }, [props.id, currentChatRoom, isOnline]);
+  }, [inView, currentChatRoom, isOnline]);
 
   return (
     <div
       id={`chat-message-${props.id}`}
       className={cn('chat-msg', { owner: user?.id === props.owner.id })}
-      ref={ref}
+      ref={messageRef}
     >
       <div className='chat-msg-profile'>
         <Image
