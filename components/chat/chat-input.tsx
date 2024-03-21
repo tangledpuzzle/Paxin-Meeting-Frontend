@@ -515,16 +515,7 @@ export default function ChatInputComponent() {
   }, [uploadedFiles, inputMessage, isReplying, replyMessageId]);
 
   useEffect(() => {
-    if (true) {
-      if (isReplying && replyMessageId) {
-        console.log(isReplying, replyMessageId);
-        setTimeout(() => textareaRef.current?.focus(), 100);
-      }
-      if (isEditing && editMessageId) {
-        console.log(isEditing, editMessageId);
-        setTimeout(() => textareaRef.current?.focus(), 100);
-      }
-    }
+    setTimeout(() => textareaRef.current?.focus(), 100);
   }, [isReplying, replyMessageId, isEditing, editMessageId]);
 
   return (
