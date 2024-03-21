@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '../ui/badge';
 import { Separator } from '../ui/separator';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { BiSolidCalendar, BiSolidCategory } from 'react-icons/bi';
 import { MdOutlineHouseSiding, MdOutlinePostAdd } from 'react-icons/md';
 import { RiUserFollowFill } from 'react-icons/ri';
@@ -18,12 +18,13 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function ChatUserInfo() {
   const t = useTranslations('main');
+  const locale = useLocale();
   const { showSidebar, setShowSidebar, chatUser } = useContext(PaxChatContext);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const { data, error } = useSWR(
     chatUser?.profile.name
-      ? `/api/profiles/get/${chatUser?.profile.name}`
+      ? `/api/profiles/get/${chatUser?.profile.name}?language=${locale}`
       : null,
     fetcher
   );
