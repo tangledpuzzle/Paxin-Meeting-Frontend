@@ -36,7 +36,7 @@ export default function ChatUserInfo() {
     <div
       ref={sidebarRef}
       className={cn(
-        'fixed right-0 h-full w-[300px] bg-black transition-all duration-300',
+        'fixed right-0 h-[calc(100vh-5rem-1px)] w-[300px] overflow-y-auto bg-black transition-all duration-300',
         {
           'translate-x-full': !showSidebar,
         }
