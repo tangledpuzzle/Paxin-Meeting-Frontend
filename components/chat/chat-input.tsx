@@ -420,9 +420,11 @@ export default function ChatInputComponent() {
       }
     }
 
-    if (textareaRef.current) {
-      textareaRef.current.focus();
-    }
+    // eventBus.emit('focusInput');
+
+    // if (textareaRef.current) {
+    //   textareaRef.current.focus();
+    // }
   };
 
   const handleMessageEditSubmit = async () => {
@@ -513,14 +515,14 @@ export default function ChatInputComponent() {
   }, [uploadedFiles, inputMessage, isReplying, replyMessageId]);
 
   useEffect(() => {
-    if (textareaRef.current) {
+    if (true) {
       if (isReplying && replyMessageId) {
         console.log(isReplying, replyMessageId);
-        textareaRef.current.focus();
+        setTimeout(() => textareaRef.current?.focus(), 100);
       }
       if (isEditing && editMessageId) {
         console.log(isEditing, editMessageId);
-        textareaRef.current.focus();
+        setTimeout(() => textareaRef.current?.focus(), 100);
       }
     }
   }, [isReplying, replyMessageId, isEditing, editMessageId]);

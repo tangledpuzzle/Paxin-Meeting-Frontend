@@ -12,6 +12,7 @@ import ChatMessage from './chat-message';
 import { Button } from '../ui/button';
 import { IoArrowDown } from 'react-icons/io5';
 import { cn } from '@/lib/utils';
+import eventBus from '@/eventBus';
 
 export default function ChatMessageContainer() {
   const t = useTranslations('chatting');
