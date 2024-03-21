@@ -515,9 +515,11 @@ export default function ChatInputComponent() {
   useEffect(() => {
     if (textareaRef.current) {
       if (isReplying && replyMessageId) {
+        console.log(isReplying, replyMessageId);
         textareaRef.current.focus();
       }
       if (isEditing && editMessageId) {
+        console.log(isEditing, editMessageId);
         textareaRef.current.focus();
       }
     }

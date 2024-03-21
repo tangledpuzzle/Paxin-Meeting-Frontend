@@ -204,6 +204,10 @@ export default function ChatMessageContainer() {
 
   useEffect(() => {
     setMessages([]);
+    setIsReplying(false);
+    setReplyMessageId('');
+    setIsEditing(false);
+    setEditMessageId('');
   }, [activeRoom]);
 
   useEffect(() => {
