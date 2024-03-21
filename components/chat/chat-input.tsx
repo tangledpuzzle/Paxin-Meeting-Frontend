@@ -612,6 +612,7 @@ export default function ChatInputComponent() {
               onClick={() => {
                 setIsEditing(false);
                 setEditMessageId('');
+                setInputMessage('');
               }}
             >
               <IoClose size={18} />
