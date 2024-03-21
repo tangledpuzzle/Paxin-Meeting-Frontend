@@ -114,19 +114,21 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
               />
             </div>
             <ScrollArea className='h-[calc(100vh_-_14.5rem)] rounded-lg bg-background p-4'>
-              {chatRooms.length > 0 ? (
-                chatRooms
-                  .filter((room) => room.user.profile.name.includes(keyword))
-                  .map((room) => <ChatRoom key={room.id} room={room} />)
-              ) : (
-                <>
-                  <ChatListSkeleton />
-                  <ChatListSkeleton />
-                  <ChatListSkeleton />
-                  <ChatListSkeleton />
-                  <ChatListSkeleton />
-                </>
-              )}
+              <div>
+                {chatRooms.length > 0 ? (
+                  chatRooms
+                    .filter((room) => room.user.profile.name.includes(keyword))
+                    .map((room) => <ChatRoom key={room.id} room={room} />)
+                ) : (
+                  <>
+                    <ChatListSkeleton />
+                    <ChatListSkeleton />
+                    <ChatListSkeleton />
+                    <ChatListSkeleton />
+                    <ChatListSkeleton />
+                  </>
+                )}
+              </div>
             </ScrollArea>
           </div>
         )}

@@ -8,25 +8,23 @@ import {
 } from '@/components/ui/context-menu';
 import { ChatRoomType, PaxChatContext } from '@/context/chat-context';
 import { PaxContext } from '@/context/context';
+import eventBus from '@/eventBus';
 import markAsRead from '@/lib/server/chat/markAsRead';
 import { cn } from '@/lib/utils';
 import DOMPurify from 'dompurify';
 import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsCheck2, BsCheck2All, BsReply } from 'react-icons/bs';
 import { FaTrashCan } from 'react-icons/fa6';
-import { IoCheckmarkDone } from 'react-icons/io5';
 import {
   MdOutlineContentCopy,
   MdOutlineDoNotDisturb,
   MdOutlineModeEditOutline,
 } from 'react-icons/md';
-import { PiChecksBold } from 'react-icons/pi';
-import { TbChecks } from 'react-icons/tb';
+import { useInView } from 'react-intersection-observer';
 import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageProps {
@@ -58,13 +56,13 @@ interface ChatMessageProps {
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
   onReply: (id: string) => void;
-  scrollToMessage: (id: string) => void;
 }
 
 export default function ChatMessage(props: ChatMessageProps) {
   const t = useTranslations('chatting');
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
+  const { ref: messageRef, inView } = useInView();
   const { user } = useContext(PaxContext);
   const { activeRoom, chatRooms, setChatRooms, messages, isOnline } =
     useContext(PaxChatContext);
@@ -145,24 +143,24 @@ export default function ChatMessage(props: ChatMessageProps) {
         <>
           <div
             className={cn(
-              'mb-1 w-full cursor-pointer rounded-md bg-background/10 p-2'
+              'mb-1 w-full max-w-[100%] cursor-pointer rounded-md bg-background/10 p-2'
             )}
             onClick={() => window.open(props.customData.link, '_blank')}
           >
-            <div className='flex w-fit items-center justify-start gap-1'>
+            <div className='flex items-center gap-1'>
               <Image
                 src='/logo-black.svg'
                 alt='logo'
                 width={40.44}
                 height={40.44}
-                className='size-5 dark:hidden'
+                className='!size-5 !min-w-5 !max-w-5 dark:hidden'
               />
               <Image
                 src='/logo-white.svg'
                 alt='logo'
                 width={40.44}
                 height={40.44}
-                className='hidden size-5 dark:block'
+                className='hidden !size-5 !min-w-5 !max-w-5 dark:block'
               />
               <span>PaxMeet</span>
             </div>
@@ -187,6 +185,7 @@ export default function ChatMessage(props: ChatMessageProps) {
           />
         </>
       );
+    else return null;
   };
 
   useEffect(() => {
@@ -197,41 +196,52 @@ export default function ChatMessage(props: ChatMessageProps) {
     }
   }, [activeRoom, chatRooms]);
 
+  // useEffect(() => {
+  //   if (user?.id === props.owner.id || props.isBot || props.isSeen) return;
+
+  //   if (Number(currentChatRoom?.lastSeenMessage || 0) >= Number(props.id))
+  //     return;
+
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting && isOnline) {
+  //           handleMarkAsRead(props.id);
+  //           if (entry.target) observer.unobserve(entry.target);
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null,
+  //       rootMargin: '0px',
+  //       threshold: 1.0,
+  //     }
+  //   );
+
+  //   if (ref.current) {
+  //     observer.observe(ref.current);
+  //   }
+
+  //   // Cleanup observer on component unmount
+  //   return () => observer.disconnect();
+  // }, [currentChatRoom, isOnline]);
+
   useEffect(() => {
-    if (user?.id === props.owner.id || props.isBot || props.isSeen) return;
+    if (inView && isOnline) {
+      if (user?.id === props.owner.id || props.isBot || props.isSeen) return;
 
-    if (Number(currentChatRoom?.lastSeenMessage || 0) >= Number(props.id))
-      return;
+      if (Number(currentChatRoom?.lastSeenMessage || 0) >= Number(props.id))
+        return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && isOnline) {
-            handleMarkAsRead(props.id);
-            if (entry.target) observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 1.0,
-      }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
+      handleMarkAsRead(props.id);
     }
-
-    // Cleanup observer on component unmount
-    return () => observer.disconnect();
-  }, [props.id, currentChatRoom, isOnline]);
+  }, [inView, currentChatRoom, isOnline]);
 
   return (
     <div
       id={`chat-message-${props.id}`}
       className={cn('chat-msg', { owner: user?.id === props.owner.id })}
-      ref={ref}
+      ref={messageRef}
     >
       <div className='chat-msg-profile'>
         <Image
@@ -267,7 +277,7 @@ export default function ChatMessage(props: ChatMessageProps) {
               })}
             >
               {/** Display attachments */}
-              <div className='flex items-center gap-1'>
+              <div className='flex w-full max-w-[100%] items-center gap-1'>
                 {props.attachments &&
                   props.attachments.length > 0 &&
                   props.attachments.map((attachment) => {
@@ -314,14 +324,16 @@ export default function ChatMessage(props: ChatMessageProps) {
                   {props.parentMessageId !== undefined && (
                     <div
                       className={cn(
-                        'mb-1 max-w-sm cursor-pointer rounded-md border-l-4 bg-background/10 p-2',
+                        'mb-1 w-full max-w-[100%] cursor-pointer rounded-md border-l-4 bg-background/10 p-2',
                         {
                           'border-white': user?.id === props.owner.id,
                           'border-primary': user?.id !== props.owner.id,
                         }
                       )}
                       onClick={() =>
-                        props.scrollToMessage(props.parentMessageId!)
+                        eventBus.emit('scrollToMessage', {
+                          id: props.parentMessageId,
+                        })
                       }
                     >
                       <span>

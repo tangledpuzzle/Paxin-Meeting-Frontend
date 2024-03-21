@@ -1255,6 +1255,7 @@ textarea {
   line-height: 1.5;
   font-size: 14px;
   font-weight: 500;
+  max-width: 100%;
 }
 .chat-msg-text + .chat-msg-text {
   margin-top: 10px;

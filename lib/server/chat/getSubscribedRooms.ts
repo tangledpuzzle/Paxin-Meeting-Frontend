@@ -47,7 +47,7 @@ const getSubscribedRooms = async () => {
           online: false,
           bot: false,
         },
-        unreadCount: 0,
+        unreadCount: Number(room.unreadMessages || 0),
         lastSeenMessage: '',
         subscribed: true,
         timestamp: room.LastMessage.CreatedAt,
