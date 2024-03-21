@@ -247,7 +247,7 @@ export default function ChatMessageContainer() {
       <Button
         size='icon'
         className={cn(
-          'fixed bottom-36 right-4 z-50 size-12 translate-y-60 rounded-full transition-transform duration-500 ease-in-out',
+          'absolute bottom-36 right-4 z-50 size-12 translate-y-60 rounded-full transition-transform duration-500 ease-in-out',
           {
             'translate-y-0': showScrollDown,
           }

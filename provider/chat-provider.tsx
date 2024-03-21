@@ -20,6 +20,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const t = useTranslations('chatting');
   const locale = useLocale();
   const [showNav, setShowNav] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [chatRooms, setChatRooms] = useState<ChatRoomType[]>([]);
   const [activeRoom, setActiveRoom] = useState<string>('');
   const [chatUser, setChatUser] = useState<ChatUserType | null>(null);
@@ -380,6 +381,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       value={{
         showNav,
         setShowNav,
+        showSidebar,
+        setShowSidebar,
         chatRooms,
         setChatRooms,
         activeRoom,

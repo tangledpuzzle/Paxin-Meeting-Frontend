@@ -24,6 +24,7 @@ export default function ChatDetailPage({
   const {
     showNav,
     setShowNav,
+    setShowSidebar,
     setChatRooms,
     setActiveRoom,
     chatUser,
@@ -78,7 +79,10 @@ export default function ChatDetailPage({
               alt={chatUser?.profile.name || ''}
             />
           </div>
-          <div className='flex cursor-pointer flex-col justify-center'>
+          <div
+            className='flex cursor-pointer flex-col justify-center'
+            onClick={() => setShowSidebar(true)}
+          >
             <p>@{chatUser?.profile.name || ''}</p>
             <p className='text-xs text-gray-500'>
               {chatUser?.online ? 'online' : 'offline'}
