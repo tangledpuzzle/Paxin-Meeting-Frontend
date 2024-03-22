@@ -20,22 +20,22 @@ const markAsRead = async (roomId: string, messageId: string) => {
       token: accessToken || '',
       session: cookies().get('session')?.value || '',
     });
-    
+
     if (res.status === 'success') {
       return {
-        success: true
+        success: true,
       };
     } else {
       return {
-        success: false
+        success: false,
       };
     }
   } catch (error) {
     console.log(error);
 
     return {
-      success: false
-    }
+      success: false,
+    };
   }
 };
 

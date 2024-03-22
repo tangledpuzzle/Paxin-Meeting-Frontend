@@ -57,7 +57,7 @@ const createElement = (
 
 const ChatComponent: React.FC = () => {
   const locale = useLocale();
-  const router = useRouter(); 
+  const router = useRouter();
 
   const chatRef = useRef<Chat | null>(null);
   const socket = useSocket(locale);
@@ -162,7 +162,7 @@ class Line {
   hashtags: string[] = [];
   locale: string;
   data: any;
-  router: any; 
+  router: any;
 
   constructor(data: any, locale: string, router: any) {
     this.router = router;
@@ -178,7 +178,7 @@ class Line {
     } else {
       this.hashtags = [];
     }
-    this.data = data; 
+    this.data = data;
 
     this.pickColor();
     this.pickName();
@@ -227,17 +227,16 @@ class Line {
 
   setupElements() {
     const ele = this.ele;
-    const data = this.data; 
+    const data = this.data;
     const router = this.router;
 
     ele.profileImg.style.backgroundImage = `url(${`https://proxy.paxintrade.com/100/` + `https://img.paxintrade.com/` + this.urlPhoto})`;
     ele.name.style.width = this.name * (textWidth / 2) + 'px';
 
-
     ele.profileImg.addEventListener('click', () => {
       router.push(`/flows/${data.UniqId}/${data.Slug}`);
     });
-  
+
     ele.name.addEventListener('click', () => {
       router.push(`/flows/${data.UniqId}/${data.Slug}`);
     });

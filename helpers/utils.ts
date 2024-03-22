@@ -159,11 +159,11 @@ export function clearAccessToken() {
   const tokenName = 'paxmeet_access_token';
   localStorage.removeItem(tokenName);
 }
-export function setMeetingId(id:string){
+export function setMeetingId(id: string) {
   const tokenName = 'paxmeet_id';
-  localStorage.setItem(tokenName, id)
+  localStorage.setItem(tokenName, id);
 }
-export function clearMeetingId(){
+export function clearMeetingId() {
   const tokenName = 'paxmeet_id';
   localStorage.removeItem(tokenName);
 }

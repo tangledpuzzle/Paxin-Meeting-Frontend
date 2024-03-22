@@ -392,7 +392,9 @@
     "success_delete_saved_filters": "Combinación de filtros eliminada exitosamente.",
     "fail_delete_saved_filters": "Error al eliminar la combinación de filtros.",
     "success_update_saved_filters": "Combinación de filtros actualizada exitosamente.",
-    "fail_update_saved_filters": "Error al actualizar la combinación de filtros."
+    "fail_update_saved_filters": "Error al actualizar la combinación de filtros.",
+    "roomid_required": "Se requiere ID de sala.",
+    "use_latin_letters_and_numbers_only": "ID de sala inválido. Use solo letras latinas y números."
   },
   "privacy": {
     "rulesprivacy": "política de privacidad",

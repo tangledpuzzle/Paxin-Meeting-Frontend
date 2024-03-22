@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useTranslations } from 'next-intl';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 import { Input } from '@/components/ui/input';
-import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
 import { useSwipe } from '@/components/ui/mobileswipe';
 import React from 'react';
 import { useState, useContext, useEffect } from 'react';
@@ -38,16 +38,14 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
     try {
       const filters = await axios.get('/api/flows/filter');
       setFiltersList(filters.data.data);
-    } catch (e) {
-
-    }
+    } catch (e) {}
 
     setGlobalLoading(false);
-  }
+  };
 
   useEffect(() => {
     getfilters();
-  }, [])
+  }, []);
 
   const deleteFilter = async (id: any, key: any) => {
     setGlobalLoading(true);
@@ -55,21 +53,21 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
       const result = await axios.delete(`/api/flows/filter/${id}`);
 
       if (result.status === 200) {
-        toast.success(t('success_delete_saved_filters'))
+        toast.success(t('success_delete_saved_filters'));
         let _filtersList = [];
         for (let i = 0; i < filtersList.length; i++) {
           if (i !== key) _filtersList.push(filtersList[i]);
         }
         setFiltersList(_filtersList);
       } else {
-        toast.error(t('fail_delete_saved_filters'))
+        toast.error(t('fail_delete_saved_filters'));
       }
     } catch (e) {
-      toast.error(t('fail_delete_saved_filters'))
+      toast.error(t('fail_delete_saved_filters'));
     }
 
     setGlobalLoading(false);
-  }
+  };
 
   const navigateUrl = (each: any) => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -103,38 +101,43 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
     router.push(`?${newSearchParams.toString()}`);
     setModalOpen(false);
     setIsFilterModalOpen(false);
-  }
+  };
   const updateFilter = async (id: any, each: any) => {
     setGlobalLoading(true);
 
     try {
-      const result = await axios.patch(`/api/flows/filter/${id}`, { data: { ...each, Name: newName } });
+      const result = await axios.patch(`/api/flows/filter/${id}`, {
+        data: { ...each, Name: newName },
+      });
       let _filtersList = filtersList.map((each, key) => {
         if (key == editMode) {
-          return { ...each, Name: newName }
+          return { ...each, Name: newName };
         } else {
-          return each
+          return each;
         }
       });
       setFiltersList(_filtersList);
       setEditMode(null);
       if (result.status === 200) {
-        toast.success(t('success_update_saved_filters'))
+        toast.success(t('success_update_saved_filters'));
       } else {
-        toast.error(t('fail_update_saved_filters'))
+        toast.error(t('fail_update_saved_filters'));
       }
     } catch (e) {
-      toast.error(t('fail_update_saved_filters'))
+      toast.error(t('fail_update_saved_filters'));
     }
 
     setGlobalLoading(false);
-  }
+  };
   const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();
   const { disableScroll, enableScroll } = usePreventBodyScroll();
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = React.useState(0);
 
-  function onWheel(apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void {
+  function onWheel(
+    apiObj: scrollVisibilityApiType,
+    ev: React.WheelEvent
+  ): void {
     const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
 
     if (isThouchpad) {
@@ -169,76 +172,138 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
   }, []);
 
   return (
-    <Dialog open={isFilterModalOpen} onOpenChange={setModalOpen} >
+    <Dialog open={isFilterModalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
-        <Button type='button' >
-          {t('saved_filters')}
-        </Button>
+        <Button type='button'>{t('saved_filters')}</Button>
       </DialogTrigger>
       <DialogContent className=' max-w-3xl rounded-lg sm:mx-auto'>
         <DialogHeader>
           <DialogTitle>{t('saved_filters')} </DialogTitle>
         </DialogHeader>
-        {filtersList.length === 0 ? <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
-          <div className='flex flex-col items-center'>
-            <Image
-              src={'/images/home/empty-search-result.svg'}
-              width={200}
-              height={200}
-              alt='Empty Search Result'
-            />
-            <p className='text-center text-lg font-bold'>
-              {t('empty_search_result')}
-            </p>
-          </div>
-        </div> : <>{filtersList.map((each, key) =>
-          <div className='flex justify-between gap-4' key={key}>
-            {editMode == key ?
-              <Input className='w-[20%]' value={newName} onChange={(event) => { setNewName(event.target.value) }}></Input> :
-              <Button className='w-[20%] flex items-center bg-transparent text-black shadow-none hover:bg-transparent dark:text-white' onClick={() => navigateUrl(each.Meta)}>
-                {each.Name}
-              </Button>
-            }
-            <div className='flex gap-2 w-[70%] overflow-hidden'>
-              <div className='relative max-w-[100%] w-full'>
-                <div ref={containerRef}>
-                  <div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
-                    <ScrollMenu
-                      onWheel={onWheel}
-                      onTouchEnd={onTouchEnd}
-                      onTouchMove={onTouchMove}
-                      onTouchStart={onTouchStart}
-                    >
-                      {each.Meta.category && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap'>{each.Meta.category}</div>}
-                      {each.Meta.city && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap' >{each.Meta.city}</div>}
-                      {each.Meta.hashtag && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap'>{each.Meta.hashtag}</div>}
-                      {each.Meta.money !== '-' && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap'  >{each.Meta.money}</div>}
-                      {each.Meta.title && <div className='bg-card-gradient-menu px-2 rounded-lg  flex items-center whitespace-nowrap'>{each.Meta.title}</div>}
-                    </ScrollMenu>
-                  </div>
-                </div>
-              </div>
-              {/* <TagSlider tags={["wewew", "wewewewe"]} /> */}
+        {filtersList.length === 0 ? (
+          <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
+            <div className='flex flex-col items-center'>
+              <Image
+                src={'/images/home/empty-search-result.svg'}
+                width={200}
+                height={200}
+                alt='Empty Search Result'
+              />
+              <p className='text-center text-lg font-bold'>
+                {t('empty_search_result')}
+              </p>
             </div>
-            {editMode == key ?
-              <Button type='submit' className='mr-3' onClick={() => updateFilter(each.ID, each)}>
-                <FaCheck />
-              </Button> :
-              <Button type='submit' className='mr-3' onClick={() => { setEditMode(key); setNewName(each.Name) }}>
-                <FaEdit />
-              </Button>
-            }
-            {editMode == key ?
-              <Button type='submit' className='mr-3' variant='destructive' onClick={() => setEditMode(null)}>
-                <FaTimes />
-              </Button> :
-              <Button type='submit' className='mr-3' variant='destructive' onClick={() => { deleteFilter(each.ID, key) }}>
-                <FaTrash />
-              </Button>
-            }
           </div>
-        )}</>}
+        ) : (
+          <>
+            {filtersList.map((each, key) => (
+              <div className='flex justify-between gap-4' key={key}>
+                {editMode == key ? (
+                  <Input
+                    className='w-[20%]'
+                    value={newName}
+                    onChange={(event) => {
+                      setNewName(event.target.value);
+                    }}
+                  ></Input>
+                ) : (
+                  <Button
+                    className='flex w-[20%] items-center bg-transparent text-black shadow-none hover:bg-transparent dark:text-white'
+                    onClick={() => navigateUrl(each.Meta)}
+                  >
+                    {each.Name}
+                  </Button>
+                )}
+                <div className='flex w-[70%] gap-2 overflow-hidden'>
+                  <div className='relative w-full max-w-[100%]'>
+                    <div ref={containerRef}>
+                      <div
+                        onMouseEnter={disableScroll}
+                        onMouseLeave={enableScroll}
+                      >
+                        <ScrollMenu
+                          onWheel={onWheel}
+                          onTouchEnd={onTouchEnd}
+                          onTouchMove={onTouchMove}
+                          onTouchStart={onTouchStart}
+                        >
+                          {each.Meta.category && (
+                            <div className='flex items-center whitespace-nowrap  rounded-lg bg-card-gradient-menu px-2'>
+                              {each.Meta.category}
+                            </div>
+                          )}
+                          {each.Meta.city && (
+                            <div className='flex items-center whitespace-nowrap  rounded-lg bg-card-gradient-menu px-2'>
+                              {each.Meta.city}
+                            </div>
+                          )}
+                          {each.Meta.hashtag && (
+                            <div className='flex items-center whitespace-nowrap  rounded-lg bg-card-gradient-menu px-2'>
+                              {each.Meta.hashtag}
+                            </div>
+                          )}
+                          {each.Meta.money !== '-' && (
+                            <div className='flex items-center whitespace-nowrap  rounded-lg bg-card-gradient-menu px-2'>
+                              {each.Meta.money}
+                            </div>
+                          )}
+                          {each.Meta.title && (
+                            <div className='flex items-center whitespace-nowrap  rounded-lg bg-card-gradient-menu px-2'>
+                              {each.Meta.title}
+                            </div>
+                          )}
+                        </ScrollMenu>
+                      </div>
+                    </div>
+                  </div>
+                  {/* <TagSlider tags={["wewew", "wewewewe"]} /> */}
+                </div>
+                {editMode == key ? (
+                  <Button
+                    type='submit'
+                    className='mr-3'
+                    onClick={() => updateFilter(each.ID, each)}
+                  >
+                    <FaCheck />
+                  </Button>
+                ) : (
+                  <Button
+                    type='submit'
+                    className='mr-3'
+                    onClick={() => {
+                      setEditMode(key);
+                      setNewName(each.Name);
+                    }}
+                  >
+                    <FaEdit />
+                  </Button>
+                )}
+                {editMode == key ? (
+                  <Button
+                    type='submit'
+                    className='mr-3'
+                    variant='destructive'
+                    onClick={() => setEditMode(null)}
+                  >
+                    <FaTimes />
+                  </Button>
+                ) : (
+                  <Button
+                    type='submit'
+                    className='mr-3'
+                    variant='destructive'
+                    onClick={() => {
+                      deleteFilter(each.ID, key);
+                    }}
+                  >
+                    <FaTrash />
+                  </Button>
+                )}
+              </div>
+            ))}
+          </>
+        )}
       </DialogContent>
-    </Dialog >
+    </Dialog>
   );
 }
