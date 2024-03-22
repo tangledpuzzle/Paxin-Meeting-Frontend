@@ -363,6 +363,8 @@ export default function ChatMessage(props: ChatMessageProps) {
                     {format.dateTime(new Date(props.timestamp), {
                       hour: 'numeric',
                       minute: 'numeric',
+                      timeZone:
+                        Intl.DateTimeFormat().resolvedOptions().timeZone,
                     })}
                   </p>
                 </div>

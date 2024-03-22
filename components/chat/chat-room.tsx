@@ -80,8 +80,8 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
   };
 
   const handleMarkAsRead = async (id: string) => {
-    console.log('MARK AS READ', activeRoom, id);
-    markAsRead(activeRoom, id);
+    console.log('MARK AS READ', room.id, id);
+    markAsRead(room.id, id);
   };
 
   const handleMarkAsUnread = async (id: string) => {
