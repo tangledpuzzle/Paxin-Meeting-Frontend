@@ -16,6 +16,7 @@ import { MeetJoinModal } from './meet-join-modal';
 import { setAccessToken } from '@/helpers/utils';
 import { createRoom, createRoomId, joinRoom } from '@/helpers/api/paxMeetAPI';
 import { RTCContext } from '@/provider/webRTCProvider';
+import { isValidLatinAndNumber } from '@/lib/utils';
 
 interface IConferenceProps {
   email: string;
@@ -31,7 +32,17 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
   const { clearSession } = useContext(RTCContext);
 
   async function onCreateRoom(feed: string) {
+    feed = feed.trim();
+    if (feed === '') {
+      toast.error(t("roomid_required"));
+      return;
+    } else if (!isValidLatinAndNumber(feed)) {
+      toast.error(t("use_latin_letters_and_numbers_only"));
+      return;
+    }
+
     setLoading(true);
+
     const roomId = createRoomId(feed);
     const token = await createRoom(roomId, userId, name);
     setLoading(false);
@@ -46,6 +57,15 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
   }
 
   async function onJoinRoom(roomId: string) {
+    roomId = roomId.trim();
+    if (roomId === '') {
+      toast.error(t("roomid_required"));
+      return;
+    } else if (!isValidLatinAndNumber(roomId)) {
+      toast.error(t("use_latin_letters_and_numbers_only"));
+      return;
+    }
+
     setLoading(true);
     const token = await joinRoom(roomId, userId, name);
     setLoading(false);

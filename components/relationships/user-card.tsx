@@ -31,7 +31,7 @@ interface UserCardProps {
 
 export default function UserCard({ user, follow, mutate }: UserCardProps) {
   return (
-    <div className='flex flex-col md:flex-row gap-4 border-b py-4'>
+    <div className='flex flex-col gap-4 border-b py-4 md:flex-row'>
       <Avatar className='size-16'>
         <AvatarImage src={user.avatar} alt={user.username} />
         <AvatarFallback>{getInitials(user.username || '')}</AvatarFallback>
@@ -58,7 +58,7 @@ export default function UserCard({ user, follow, mutate }: UserCardProps) {
           ))}
         </div>
       </div>
-      <div className='ml-auto flex gap-2 justify-start items-start'>
+      <div className='ml-auto flex items-start justify-start gap-2'>
         <MessageForm
           user={{
             username: user.username,

@@ -77,9 +77,9 @@ export function MobileMenu({ user }: MobileMenuProps) {
                   </div>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuSeparator /></>
+              <DropdownMenuSeparator />
+            </>
           )}
-
 
           {!(user || userData) && (
             <DropdownMenuItem className='cursor-pointer text-base' asChild>

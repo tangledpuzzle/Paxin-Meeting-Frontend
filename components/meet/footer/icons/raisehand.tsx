@@ -40,7 +40,7 @@ const RaiseHandIcon = ({ currentRoom }: IRaiseHandIconProps) => {
   }, [isActiveRaisehand]);
 
   const toggleRaiseHand = async () => {
-    let sid = await currentRoom.getSid()
+    let sid = await currentRoom.getSid();
 
     if (!isActiveRaisehand) {
       const body = new DataMessageReq({
