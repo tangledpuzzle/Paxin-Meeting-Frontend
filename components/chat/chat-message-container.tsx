@@ -1,6 +1,6 @@
 import { PaxChatContext } from '@/context/chat-context';
 import deleteMessage from '@/lib/server/chat/deleteMessage';
-import getAllMessages from '@/lib/server/chat/getAllMessages';
+import getMessages from '@/lib/server/chat/getMessages';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
@@ -22,6 +22,7 @@ export default function ChatMessageContainer() {
     messages,
     setMessages,
     activeRoom,
+    showSidebar,
     chatRooms,
     chatUser,
     isMessageLoading,
@@ -44,13 +45,14 @@ export default function ChatMessageContainer() {
   const [showScrollDown, setShowScrollDown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const loadMessages = async () => {
+  const loadMessages = async (end_msg_id?: string) => {
     setIsLoading(true);
 
     try {
-      const res = await getAllMessages(
+      const res = await getMessages(
         activeRoom,
-        Number(messages.length || 0)
+        Number(messages.length || 0),
+        (end_msg_id = end_msg_id ? end_msg_id : undefined)
       );
 
       const _chatUser =
@@ -240,6 +242,23 @@ export default function ChatMessageContainer() {
     };
   }, []);
 
+  useEffect(() => {
+    eventBus.on('scrollToMessage', async (data: any) => {
+      if (messages.find((msg) => msg.id === data.id)?.id) {
+        scrollToMessage(data.id);
+      } else {
+        await loadMessages(data.id);
+        setTimeout(() => {
+          scrollToMessage(data.id);
+        }, 300);
+      }
+    });
+
+    return () => {
+      eventBus.off('scrollToMessage');
+    };
+  });
+
   let lastDay: string | null = null;
 
   return (
@@ -247,9 +266,10 @@ export default function ChatMessageContainer() {
       <Button
         size='icon'
         className={cn(
-          'absolute bottom-8 right-4 z-50 size-12 translate-y-60 rounded-full transition-transform duration-500 ease-in-out',
+          'fixed bottom-36 right-4 z-50 size-12 translate-y-60 rounded-full transition-transform duration-500 ease-in-out',
           {
             'translate-y-0': showScrollDown,
+            '-translate-x-[300px]': showSidebar,
           }
         )}
         onClick={() => {
