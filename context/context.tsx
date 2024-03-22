@@ -50,15 +50,15 @@ export type GlobalContent = {
 };
 export const PaxContext = createContext<GlobalContent>({
   user: null,
-  setUser: () => { },
-  userMutate: () => { },
+  setUser: () => {},
+  userMutate: () => {},
   postMode: 'all',
   currentPlan: 'BASIC',
   socket: null,
-  setPostMode: () => { },
-  setCurrentPlan: () => { },
-  setSocket: () => { },
+  setPostMode: () => {},
+  setCurrentPlan: () => {},
+  setSocket: () => {},
   globalLoading: false,
-  setGlobalLoading: () => { }
+  setGlobalLoading: () => {},
 });
 export const usePaxContext = () => useContext(PaxContext);

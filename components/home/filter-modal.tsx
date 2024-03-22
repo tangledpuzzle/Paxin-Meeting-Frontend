@@ -406,7 +406,11 @@ export function FilterModal() {
         <DialogHeader>
           <DialogTitle>{t('filters')}</DialogTitle>
         </DialogHeader>
-        {session ? <SavedFilterModal setIsFilterModalOpen={setIsFilterModalOpen} /> : <></>}
+        {session ? (
+          <SavedFilterModal setIsFilterModalOpen={setIsFilterModalOpen} />
+        ) : (
+          <></>
+        )}
 
         <div className='grid gap-4 py-4'>
           <div className=''>
@@ -511,8 +515,13 @@ export function FilterModal() {
             </div>
           )}
         </div>
-        <DialogFooter >
-          <Button type='submit' className='mr-3' variant='outline' onClick={handleResetFilters}>
+        <DialogFooter>
+          <Button
+            type='submit'
+            className='mr-3'
+            variant='outline'
+            onClick={handleResetFilters}
+          >
             {t('reset')}
           </Button>
           <DialogClose asChild>

@@ -247,7 +247,8 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
     }
     if (muteOnStart) {
       setTimeout(async () => {
-        const audioTracks = currentRoom?.localParticipant.audioTrackPublications;
+        const audioTracks =
+          currentRoom?.localParticipant.audioTrackPublications;
 
         if (audioTracks) {
           for (const [, publication] of audioTracks.entries()) {

@@ -55,7 +55,6 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
   });
 
   const submitBlog = async (data: FormData) => {
-
     setGlobalLoading(true);
     try {
       const res = await axios.post(
