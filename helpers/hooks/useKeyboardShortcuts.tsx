@@ -253,11 +253,11 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
 
   useHotkeys(
     'ctrl+alt+r',
-    () => {
+    async () => {
       if (currentRoom) {
         const isActiveRaisehand =
           store.getState().bottomIconsActivity.isActiveRaisehand;
-        toggleRaiseHand(isActiveRaisehand, currentRoom);
+        await toggleRaiseHand(isActiveRaisehand, currentRoom);
       }
     },
     [currentRoom]
