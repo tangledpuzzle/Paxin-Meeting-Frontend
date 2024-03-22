@@ -6,11 +6,15 @@ import requestHelper from './requestHelper';
 
 const limit = 20;
 
-const getAllMessages = async (roomId: string, skip: number = 1) => {
+const getMessages = async (
+  roomId: string,
+  skip: number = 1,
+  end_msg_id?: string
+) => {
   try {
     const accessToken = await getAccessToken();
     const res = await requestHelper({
-      url: `${process.env.API_URL}/api/chat/message/${roomId}?skip=${skip}&limit=${limit}`,
+      url: `${process.env.API_URL}/api/chat/message/${roomId}?skip=${skip}&limit=${limit}${end_msg_id ? `&end_msg_id=${end_msg_id}` : ''}`,
       method: 'GET',
       token: accessToken || '',
       session: cookies().get('session')?.value || '',
@@ -23,6 +27,7 @@ const getAllMessages = async (roomId: string, skip: number = 1) => {
         total: 0,
         limit,
         skip,
+        end_msg_id,
       };
     }
 
@@ -62,6 +67,7 @@ const getAllMessages = async (roomId: string, skip: number = 1) => {
       total: res.totalCount,
       limit,
       skip,
+      end_msg_id,
     };
   } catch (error) {
     console.error(error);
@@ -72,8 +78,9 @@ const getAllMessages = async (roomId: string, skip: number = 1) => {
       total: 0,
       limit,
       skip,
+      end_msg_id,
     };
   }
 };
 
-export default getAllMessages;
+export default getMessages;
