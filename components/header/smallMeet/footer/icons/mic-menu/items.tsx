@@ -75,7 +75,7 @@ const MicMenuItems = ({ currentRoom }: IMicMenuItemsProps) => {
   }, [newDevice, currentRoom, dispatch]);
 
   const muteUnmuteMic = () => {
-    currentRoom?.localParticipant.audioTracks.forEach(async (publication) => {
+    currentRoom?.localParticipant.trackPublications.forEach(async (publication) => {
       if (
         publication.track &&
         publication.track.source === Track.Source.Microphone
@@ -92,7 +92,7 @@ const MicMenuItems = ({ currentRoom }: IMicMenuItemsProps) => {
   };
 
   const leaveMic = () => {
-    currentRoom?.localParticipant.audioTracks.forEach(async (publication) => {
+    currentRoom?.localParticipant.trackPublications.forEach(async (publication) => {
       if (publication.track && publication.kind === Track.Kind.Audio) {
         currentRoom.localParticipant.unpublishTrack(publication.track, true);
       }

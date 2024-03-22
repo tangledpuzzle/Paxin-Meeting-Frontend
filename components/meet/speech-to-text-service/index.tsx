@@ -185,8 +185,8 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
         setCreatedMediaStream(mStream);
 
         // for the beginning, we'll check if our room mic is muted or not
-        if (currentRoom.localParticipant.audioTracks.size) {
-          currentRoom.localParticipant.audioTracks.forEach((t) => {
+        if (currentRoom.localParticipant.audioTrackPublications.size) {
+          currentRoom.localParticipant.audioTrackPublications.forEach((t) => {
             if (t.isMuted && mStream) {
               mStream.getAudioTracks().forEach((t) => {
                 if (t.enabled) {
@@ -226,7 +226,7 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
         setMediaStream(undefined);
         setCreatedMediaStream(undefined);
       } else {
-        currentRoom.localParticipant.audioTracks.forEach((publication) => {
+        currentRoom.localParticipant.audioTrackPublications.forEach((publication) => {
           if (
             publication.track &&
             publication.track.source === Track.Source.Microphone &&
@@ -245,7 +245,7 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
       }
     },
     //eslint-disable-next-line
-    [currentRoom.localParticipant.audioTracks, recognizer]
+    [currentRoom.localParticipant.audioTrackPublications, recognizer]
   );
 
   const onOpenSelectedOptionsModal = () => {

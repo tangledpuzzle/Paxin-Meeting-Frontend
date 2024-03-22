@@ -41,7 +41,7 @@ const BreakoutRoomInvitation = ({
   const [token, setToken] = useState<string>('');
 
   const closeLocalTracks = useCallback(() => {
-    currentRoom.localParticipant.tracks.forEach(async (publication) => {
+    currentRoom.localParticipant.trackPublications.forEach(async (publication) => {
       if (!publication.track) {
         return;
       }

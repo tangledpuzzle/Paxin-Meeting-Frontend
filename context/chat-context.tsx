@@ -53,6 +53,8 @@ export interface ChatMessageType {
 export interface ChatContent {
   showNav: boolean;
   setShowNav: Dispatch<SetStateAction<boolean>>;
+  showSidebar: boolean;
+  setShowSidebar: Dispatch<SetStateAction<boolean>>;
   chatRooms: ChatRoomType[];
   setChatRooms: Dispatch<SetStateAction<ChatRoomType[]>>;
   activeRoom: string;
@@ -89,11 +91,15 @@ export interface ChatContent {
   setUploadedFiles: Dispatch<SetStateAction<File[]>>;
   chatWindowHeight: string;
   setChatWindowHeight: Dispatch<SetStateAction<string>>;
+  prevScrollHeight: number;
+  setPrevScrollHeight: Dispatch<SetStateAction<number>>;
 }
 
 export const PaxChatContext = createContext<ChatContent>({
   showNav: true,
   setShowNav: () => {},
+  showSidebar: true,
+  setShowSidebar: () => {},
   chatRooms: [],
   setChatRooms: () => {},
   activeRoom: '',
@@ -130,6 +136,8 @@ export const PaxChatContext = createContext<ChatContent>({
   setUploadedFiles: () => {},
   chatWindowHeight: '',
   setChatWindowHeight: () => {},
+  prevScrollHeight: 0,
+  setPrevScrollHeight: () => {},
 });
 
 export const usePaxChatContext = () => useContext(PaxChatContext);

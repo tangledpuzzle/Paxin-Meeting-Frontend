@@ -102,6 +102,7 @@ export default function ChatInputComponent() {
     uploadedFiles,
     setUploadedFiles,
     setChatWindowHeight,
+    setPrevScrollHeight,
   } = useContext(PaxChatContext);
   const { user } = useContext(PaxContext);
   const mdRef = useRef<MobileDetect | null>(null);
@@ -324,6 +325,9 @@ export default function ChatInputComponent() {
       // In case of chatting with user
       setIsLoadingSubmit(true);
 
+      // This is needed to scroll to the bottom after sending msg
+      setPrevScrollHeight(0);
+
       const pendingId = '00000';
 
       setMessages([
@@ -416,9 +420,11 @@ export default function ChatInputComponent() {
       }
     }
 
-    if (textareaRef.current) {
-      textareaRef.current.focus();
-    }
+    // eventBus.emit('focusInput');
+
+    // if (textareaRef.current) {
+    //   textareaRef.current.focus();
+    // }
   };
 
   const handleMessageEditSubmit = async () => {
@@ -509,14 +515,7 @@ export default function ChatInputComponent() {
   }, [uploadedFiles, inputMessage, isReplying, replyMessageId]);
 
   useEffect(() => {
-    if (textareaRef.current) {
-      if (isReplying && replyMessageId) {
-        textareaRef.current.focus();
-      }
-      if (isEditing && editMessageId) {
-        textareaRef.current.focus();
-      }
-    }
+    setTimeout(() => textareaRef.current?.focus(), 100);
   }, [isReplying, replyMessageId, isEditing, editMessageId]);
 
   return (
@@ -604,6 +603,7 @@ export default function ChatInputComponent() {
               onClick={() => {
                 setIsEditing(false);
                 setEditMessageId('');
+                setInputMessage('');
               }}
             >
               <IoClose size={18} />

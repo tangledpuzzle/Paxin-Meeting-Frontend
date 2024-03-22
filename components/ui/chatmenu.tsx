@@ -1,5 +1,6 @@
 import { PaxContext } from '@/context/context';
 import { createRoom, createRoomId } from '@/helpers/api/paxMeetAPI';
+import { setAccessToken } from '@/helpers/utils';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { CheckIcon } from '@radix-ui/react-icons';
 import React, { useContext } from 'react';
@@ -50,6 +51,8 @@ const DropdownMenuDemo = ({
       toast.success('New Room is created.', {
         position: 'top-right',
       });
+
+      setAccessToken(token);
 
       onRoomCreate &&
         onRoomCreate(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/meet/${roomId}`);

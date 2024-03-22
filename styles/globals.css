@@ -810,7 +810,7 @@ textarea {
 .new-main-content {
   position: relative;
   flex-grow: 1;
-  transition: margin-left 0.3s ease;
+  transition: margin 0.3s ease;
   padding: 0px;
   margin-left: 0;
 }
@@ -828,6 +828,14 @@ textarea {
 
 .new-container.open .new-main-content {
   margin-left: 300px;
+}
+
+.new-container.side-open .new-main-content {
+  margin-right: 300px;
+}
+
+.new-container.side-open .chatInput {
+  margin-right: 300px;
 }
 
 .new-container.open .new-sidebar {
@@ -853,6 +861,7 @@ textarea {
   background-color: #242424;
   border-radius: 0px;
   overflow: hidden;
+  transition: margin 0.3s ease;
 }
 
 :root {
@@ -1255,6 +1264,7 @@ textarea {
   line-height: 1.5;
   font-size: 14px;
   font-weight: 500;
+  max-width: 100%;
 }
 .chat-msg-text + .chat-msg-text {
   margin-top: 10px;

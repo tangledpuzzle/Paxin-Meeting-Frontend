@@ -38,7 +38,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
   // muteUnmute start (ctrl+option+m)
   const muteUnmute = (currentRoom: Room) => {
     if (currentRoom) {
-      currentRoom.localParticipant.audioTracks.forEach(async (publication) => {
+      currentRoom.localParticipant.audioTrackPublications.forEach(async (publication) => {
         if (
           publication.track &&
           publication.track.source === Track.Source.Microphone
@@ -79,7 +79,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
 
   // leaveMic start (ctrl+alt+o)
   const leaveMic = (currentRoom: Room) => {
-    currentRoom.localParticipant.audioTracks.forEach(async (publication) => {
+    currentRoom.localParticipant.audioTrackPublications.forEach(async (publication) => {
       if (publication.track && publication.kind === Track.Kind.Audio) {
         currentRoom.localParticipant.unpublishTrack(publication.track, true);
       }
@@ -113,7 +113,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
 
   // start close video (ctrl+alt+x)
   const leaveWebcam = (currentRoom: Room) => {
-    currentRoom.localParticipant.videoTracks.forEach(async (publication) => {
+    currentRoom.localParticipant.videoTrackPublications.forEach(async (publication) => {
       if (
         publication.track &&
         publication.track.source === Track.Source.Camera
@@ -189,9 +189,10 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
     isActiveRaisehand: boolean,
     currentRoom: Room
   ) => {
+    let sid = await currentRoom.getSid()
     if (!isActiveRaisehand) {
       const body = new DataMessageReq({
-        roomSid: currentRoom.sid,
+        roomSid: sid,
         roomId: currentRoom.name,
         msgBodyType: DataMsgBodyType.RAISE_HAND,
         msg: t('footer.notice.has-raised-hand', {
@@ -220,7 +221,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
       }
     } else {
       const body = new DataMessageReq({
-        roomSid: currentRoom.sid,
+        roomSid: sid,
         roomId: currentRoom.name,
         msgBodyType: DataMsgBodyType.LOWER_HAND,
         msg: SystemMsgType.LOWER_HAND,

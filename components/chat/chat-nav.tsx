@@ -16,7 +16,7 @@ interface Props {
 
 const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
   const t = useTranslations('chatting');
-  const sidebarRef = useRef<HTMLDivElement>(null);
+  const navbarRef = useRef<HTMLDivElement>(null);
   const [currentTab, setCurrentTab] = useState<'MESSAGE_LIST' | 'SETTINGS'>(
     'MESSAGE_LIST'
   );
@@ -68,7 +68,7 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
   }, [showNav]);
 
   return (
-    <div ref={sidebarRef} className='new-sidebar w-full pt-[70px] md:w-[300px]'>
+    <div ref={navbarRef} className='new-sidebar w-full pt-[70px] md:w-[300px]'>
       <div className='h-screen w-full overflow-y-auto border-l border-r bg-white py-2 dark:bg-black'>
         <div className='bg-card-gradient-menu px-5 text-lg font-medium text-gray-800 dark:text-white'>
           <button
@@ -114,19 +114,21 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
               />
             </div>
             <ScrollArea className='h-[calc(100vh_-_14.5rem)] rounded-lg bg-background p-4'>
-              {chatRooms.length > 0 ? (
-                chatRooms
-                  .filter((room) => room.user.profile.name.includes(keyword))
-                  .map((room) => <ChatRoom key={room.id} room={room} />)
-              ) : (
-                <>
-                  <ChatListSkeleton />
-                  <ChatListSkeleton />
-                  <ChatListSkeleton />
-                  <ChatListSkeleton />
-                  <ChatListSkeleton />
-                </>
-              )}
+              <div>
+                {chatRooms.length > 0 ? (
+                  chatRooms
+                    .filter((room) => room.user.profile.name.includes(keyword))
+                    .map((room) => <ChatRoom key={room.id} room={room} />)
+                ) : (
+                  <>
+                    <ChatListSkeleton />
+                    <ChatListSkeleton />
+                    <ChatListSkeleton />
+                    <ChatListSkeleton />
+                    <ChatListSkeleton />
+                  </>
+                )}
+              </div>
             </ScrollArea>
           </div>
         )}

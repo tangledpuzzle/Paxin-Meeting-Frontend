@@ -4,18 +4,26 @@ import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
 
-const getAllMessages = async (roomId: string) => {
+const limit = 20;
+
+const getAllMessages = async (roomId: string, skip: number = 1) => {
   try {
     const accessToken = await getAccessToken();
     const res = await requestHelper({
-      url: `${process.env.API_URL}/api/chat/message/${roomId}?page=1&pageSize=1000`,
+      url: `${process.env.API_URL}/api/chat/message/${roomId}?skip=${skip}&limit=${limit}`,
       method: 'GET',
       token: accessToken || '',
       session: cookies().get('session')?.value || '',
     });
 
     if (res.status !== 'success') {
-      return [];
+      return {
+        success: false,
+        messages: [],
+        total: 0,
+        limit,
+        skip,
+      };
     }
 
     const _messages = [];
@@ -23,9 +31,14 @@ const getAllMessages = async (roomId: string) => {
     for (const item of res.data.messages) {
       _messages.push({
         id: `${item.ID}`,
-        parentMessageId: item.ParentMessageID ? `${item.ParentMessageID}`: undefined,
+        parentMessageId: item.ParentMessageID
+          ? `${item.ParentMessageID}`
+          : undefined,
         messageType: `${item.MsgType}` as '0' | '1' | '2',
-        message: item.Content,
+        message:
+          process.env.NODE_ENV === 'development'
+            ? item.ID + ' - ' + item.Content
+            : item.Content,
         customData: item.MsgType > 0 ? JSON.parse(item.JsonData) : undefined,
         owner: {
           id: item.UserID,
@@ -43,11 +56,23 @@ const getAllMessages = async (roomId: string) => {
         new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
     );
 
-    return _messages;
+    return {
+      success: true,
+      messages: _messages,
+      total: res.totalCount,
+      limit,
+      skip,
+    };
   } catch (error) {
     console.error(error);
 
-    return [];
+    return {
+      success: false,
+      messages: [],
+      total: 0,
+      limit,
+      skip,
+    };
   }
 };
 

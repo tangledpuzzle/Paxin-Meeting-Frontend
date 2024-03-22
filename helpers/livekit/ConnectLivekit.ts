@@ -305,10 +305,10 @@ export default class ConnectLivekit
     }
 
     // all other connected Participants
-    this._room.participants.forEach((participant) => {
+    this._room.remoteParticipants.forEach((participant) => {
       this.handleParticipant.addParticipant(participant);
 
-      participant.getTracks().forEach((track) => {
+      participant.getTrackPublications().forEach((track) => {
         if (track.isSubscribed) {
           if (
             track.source === Track.Source.ScreenShare ||
@@ -361,9 +361,11 @@ export default class ConnectLivekit
   }
 
   private updateSession = async () => {
+    const sid = await this._room.getSid();
+
     store.dispatch(
       addCurrentRoom({
-        sid: this._room.sid,
+        sid: sid,
         room_id: this._room.name,
       })
     );
@@ -442,13 +444,14 @@ export default class ConnectLivekit
 
   // this method basically update paxmeet token
   // livekit will renew token by itself automatically
-  private startTokenRenewInterval = () => {
+  private startTokenRenewInterval = async () => {
+    const sid = await this._room.getSid();
     this.tokenRenewInterval = setInterval(() => {
       // get current token that is store in redux
       const token = store.getState().session.token;
       const dataMsg = new DataMessage({
         type: DataMsgType.SYSTEM,
-        roomSid: this._room.sid,
+        roomSid: sid,
         roomId: this._room.name,
         body: {
           type: DataMsgBodyType.RENEW_TOKEN,
