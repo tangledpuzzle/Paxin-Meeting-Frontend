@@ -20,8 +20,10 @@ const isRecordingSelector = createSelector(
   (state: RootState) => state.session,
   (session) => session.isActiveRecording
 );
-const RecordingIcon = ({ currentRoom }: IRecordingIconProps) => {
+const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
   const showTooltip = store.getState().session.userDeviceType === 'desktop';
+  let sid = await currentRoom.getSid()
+
   const {
     hasError: localRecordingError,
     recordingEvent: localRecordingEvent,
@@ -35,7 +37,7 @@ const RecordingIcon = ({ currentRoom }: IRecordingIconProps) => {
     resetError: resetCloudRecordingError,
     startRecording: startCloudRecording,
     stopRecording: stopCloudRecording,
-  } = useCloudRecording(currentRoom.sid);
+  } = useCloudRecording(sid);
 
   const t = useTranslations('meet');
   const roomMetadata = store.getState().session.currentRoom

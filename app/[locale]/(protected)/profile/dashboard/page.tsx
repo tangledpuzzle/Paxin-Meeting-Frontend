@@ -14,6 +14,7 @@ import { FaTelegram, FaUser } from 'react-icons/fa';
 import { FaUserGear } from 'react-icons/fa6';
 import { MdAccountBalanceWallet, MdLockReset } from 'react-icons/md';
 import { RiArticleLine } from 'react-icons/ri';
+import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 
 const services = [
   {
@@ -78,8 +79,8 @@ export default function DashboardPage() {
         <div className='col-span-2 grid gap-3 md:grid-cols-2'>
           <div className='relative flex justify-between rounded-lg bg-white p-6 dark:bg-black md:col-span-2'>
             <div>
-              <div className='text-2xl font-semibold'>
-                {t('hello')} {user?.username}
+              <div className='text-2xl font-semibold flex items-center cursor-pointer'>
+                {t('hello')} {user?.username}<span><MdOutlineDriveFileRenameOutline /></span>
               </div>
               <div className='text-sm text-muted-foreground'>
                 {t('view_all_alerts_description')}

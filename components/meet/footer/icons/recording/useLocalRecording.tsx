@@ -79,7 +79,7 @@ const useLocalRecording = (
       ctx.createMediaStreamSource(captureStream).connect(dest);
     }
 
-    const localTrack = localParticipant.getTrack(Track.Source.Microphone);
+    const localTrack = localParticipant.getTrackPublication(Track.Source.Microphone);
     if (localTrack?.audioTrack?.mediaStream) {
       ctx
         .createMediaStreamSource(localTrack?.audioTrack?.mediaStream)

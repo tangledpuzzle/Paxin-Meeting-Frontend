@@ -66,7 +66,7 @@ const WebcamMenuItems = ({ currentRoom }: IWebcamMenuItemsProps) => {
   }, [newDevice, dispatch]);
 
   const leaveWebcam = () => {
-    currentRoom.localParticipant.videoTracks.forEach(async (publication) => {
+    currentRoom.localParticipant.videoTrackPublications.forEach(async (publication) => {
       if (
         publication.track &&
         publication.track.source === Track.Source.Camera

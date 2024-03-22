@@ -187,7 +187,7 @@ export default class HandleMediaTracks {
     } else if (track.source === Track.Source.Microphone) {
       this.that.updateAudioSubscribers(participant);
       const count = participant
-        .getTracks()
+        .getTrackPublications()
         .filter((track) => track.source === Track.Source.Microphone).length;
       // now update store
       store.dispatch(
@@ -203,7 +203,7 @@ export default class HandleMediaTracks {
     } else if (track.source === Track.Source.Camera) {
       this.that.updateVideoSubscribers(participant);
       const count = participant
-        .getTracks()
+        .getTrackPublications()
         .filter((track) => track.source === Track.Source.Camera).length;
       // now update store
       store.dispatch(
@@ -248,7 +248,7 @@ export default class HandleMediaTracks {
           changes: {
             audioTracks:
               participant
-                .getTracks()
+                .getTrackPublications()
                 .filter((track) => track.source === Track.Source.Microphone)
                 .length ?? 0,
             isMuted: track.audioTrack?.isMuted ?? false,
@@ -264,7 +264,7 @@ export default class HandleMediaTracks {
           changes: {
             videoTracks:
               participant
-                .getTracks()
+                .getTrackPublications()
                 .filter((track) => track.source === Track.Source.Camera)
                 .length ?? 0,
           },
