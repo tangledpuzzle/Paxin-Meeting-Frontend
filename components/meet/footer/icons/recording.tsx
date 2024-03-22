@@ -20,9 +20,8 @@ const isRecordingSelector = createSelector(
   (state: RootState) => state.session,
   (session) => session.isActiveRecording
 );
-const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
+const RecordingIcon = ({ currentRoom }: IRecordingIconProps) => {
   const showTooltip = store.getState().session.userDeviceType === 'desktop';
-  let sid = await currentRoom.getSid()
 
   const {
     hasError: localRecordingError,
@@ -37,7 +36,7 @@ const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
     resetError: resetCloudRecordingError,
     startRecording: startCloudRecording,
     stopRecording: stopCloudRecording,
-  } = useCloudRecording(sid);
+  } = useCloudRecording(currentRoom);
 
   const t = useTranslations('meet');
   const roomMetadata = store.getState().session.currentRoom
@@ -139,7 +138,7 @@ const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
     //eslint-disable-next-line
   }, [hasCloudRecordingError, localRecordingError]);
 
-  const onClickRecordingBtn = () => {
+  const onClickRecordingBtn = async () => {
     if (!isRecording) {
       setOpenModal(true);
     } else {
@@ -149,7 +148,7 @@ const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
       if (recordingType === RecordingType.RECORDING_TYPE_LOCAL) {
         stopLocalRecording();
       } else if (recordingType === RecordingType.RECORDING_TYPE_CLOUD) {
-        stopCloudRecording();
+        await stopCloudRecording();
 
         const timer = setTimeout(() => {
           setDisable(false);
@@ -163,7 +162,7 @@ const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
     }
   };
 
-  const startRecording = (recordingType: RecordingType) => {
+  const startRecording = async (recordingType: RecordingType) => {
     if (recordingType === RecordingType.RECORDING_TYPE_LOCAL) {
       setDisable(true);
       setRecordingType(recordingType);
@@ -171,7 +170,7 @@ const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
     } else if (recordingType === RecordingType.RECORDING_TYPE_CLOUD) {
       setDisable(true);
       setRecordingType(recordingType);
-      startCloudRecording();
+      await startCloudRecording();
 
       const timer = setTimeout(() => {
         setDisable(false);
@@ -184,7 +183,7 @@ const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
     }
   };
 
-  const onCloseModal = (recordingType: RecordingType) => {
+  const onCloseModal = async (recordingType: RecordingType) => {
     setOpenModal(false);
     startRecording(recordingType);
   };
@@ -200,8 +199,8 @@ const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
       !checkedAutoRecording &&
       roomMetadata.room_features.recording_features.enable_auto_cloud_recording
     ) {
-      timeout = setTimeout(() => {
-        startRecording(RecordingType.RECORDING_TYPE_CLOUD);
+      timeout = setTimeout(async () => {
+        await startRecording(RecordingType.RECORDING_TYPE_CLOUD);
       }, 1000);
     }
     setCheckedAutoRecording(true);
