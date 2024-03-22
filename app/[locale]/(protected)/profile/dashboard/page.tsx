@@ -14,7 +14,7 @@ import { FaTelegram, FaUser } from 'react-icons/fa';
 import { FaUserGear } from 'react-icons/fa6';
 import { MdAccountBalanceWallet, MdLockReset } from 'react-icons/md';
 import { RiArticleLine } from 'react-icons/ri';
-import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import { MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 
 const services = [
   {
@@ -79,8 +79,11 @@ export default function DashboardPage() {
         <div className='col-span-2 grid gap-3 md:grid-cols-2'>
           <div className='relative flex justify-between rounded-lg bg-white p-6 dark:bg-black md:col-span-2'>
             <div>
-              <div className='text-2xl font-semibold flex items-center cursor-pointer'>
-                {t('hello')} {user?.username}<span><MdOutlineDriveFileRenameOutline /></span>
+              <div className='flex cursor-pointer items-center text-2xl font-semibold'>
+                {t('hello')} {user?.username}
+                <span>
+                  <MdOutlineDriveFileRenameOutline />
+                </span>
               </div>
               <div className='text-sm text-muted-foreground'>
                 {t('view_all_alerts_description')}
@@ -95,14 +98,13 @@ export default function DashboardPage() {
                     href={`/profile/posts?callback=${encodeURIComponent('/profile/dashboard')}`}
                     className='cursor-pointer space-y-4 text-center'
                   >
-                  <div className='text-center text-sm text-muted-foreground'>
-                    {t('publications')}
-                  </div>
-                  <div className='text-center text-3xl font-extrabold'>
-                    {user?.totalposts || 0}
-                  </div>
+                    <div className='text-center text-sm text-muted-foreground'>
+                      {t('publications')}
+                    </div>
+                    <div className='text-center text-3xl font-extrabold'>
+                      {user?.totalposts || 0}
+                    </div>
                   </Link>
-
                 </div>
                 <Separator
                   orientation='vertical'

@@ -391,7 +391,9 @@
     "success_delete_saved_filters": "ფილტრების კომბინაციის წაშლა წარმატებით მოხდა.",
     "fail_delete_saved_filters": "ფილტრების კომბინაციის წაშლა ვერ მოხერხდა.",
     "success_update_saved_filters": "ფილტრების კომბინაციის განახლება წარმატებით მოხდა.",
-    "fail_update_saved_filters": "ფილტრების კომბინაციის განახლება ვერ მოხერხდა."
+    "fail_update_saved_filters": "ფილტრების კომბინაციის განახლება ვერ მოხერხდა.",
+    "roomid_required": "საჭიროა ოთახის ID.",
+    "use_latin_letters_and_numbers_only": "არასწორი ოთახის ID. გამოიყენეთ მხოლოდ ლათინური ასოები და ციფრები."
   },
   "privacy": {
     "rulesprivacy": "კონფიდენციალურობის წესები",

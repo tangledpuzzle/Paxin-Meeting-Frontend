@@ -391,7 +391,9 @@
     "success_delete_saved_filters": "Successfully deleted filter combination.",
     "fail_delete_saved_filters": "Failed to delete filter combination.",
     "success_update_saved_filters": "Successfully updated filter combination.",
-    "fail_update_saved_filters": "Failed to update filter combination."
+    "fail_update_saved_filters": "Failed to update filter combination.",
+    "roomid_required": "Room ID is required.",
+    "use_latin_letters_and_numbers_only": "Invalid room id. Use Latin letters and numbers only."
   },
   "privacy": {
     "rulesprivacy": "Privacy Rules",

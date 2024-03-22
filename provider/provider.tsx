@@ -32,7 +32,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
   const [userFetchURL, setUserFetchURL] = useState<string>(
     `/api/users/me?language=${locale}`
   );
-  const [globalLoading, setGlobalLoading] = useState(false)
+  const [globalLoading, setGlobalLoading] = useState(false);
 
   const {
     data: fetchedData,
@@ -93,7 +93,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
             });
             axios.defaults.headers.common['session'] = data?.session;
           }
-        } catch (error) { }
+        } catch (error) {}
       };
 
       const intervalId = setInterval(() => {

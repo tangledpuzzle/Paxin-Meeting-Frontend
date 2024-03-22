@@ -64,7 +64,7 @@ export default function ServicesSection() {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-start justify-center px-0 pb-[40px] md:items-center md:pb-[80px] pt-8'>
+    <div className='flex flex-col items-start justify-center px-0 pb-[40px] pt-8 md:items-center md:pb-[80px]'>
       <div className='px-7'>
         <SectionBadge>{t('services')}</SectionBadge>
       </div>

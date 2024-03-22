@@ -22,7 +22,7 @@ const isRecordingSelector = createSelector(
 );
 const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
   const showTooltip = store.getState().session.userDeviceType === 'desktop';
-  let sid = await currentRoom.getSid()
+  let sid = await currentRoom.getSid();
 
   const {
     hasError: localRecordingError,
