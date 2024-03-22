@@ -20,7 +20,6 @@ import {
   IRoomMetadata,
 } from '../../store/slices/interfaces/session';
 import { isEmpty } from 'lodash';
-
 export default class HandleMediaTracks {
   private that: IConnectLivekit;
   private roomMetadata: IRoomMetadata | undefined;
