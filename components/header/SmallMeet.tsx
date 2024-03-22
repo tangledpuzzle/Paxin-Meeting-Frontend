@@ -285,7 +285,7 @@ export default function SmallMeet() {
             }}
             header='handle'
             handle='.handle'
-            defaultClassName='fixed left-0 top-0'
+            defaultClassName='fixed left-0 top-0 bg-white border-gray-500  shadow-md'
             defaultPosition={popup.position}
             //   position={null}
             scale={1}
@@ -307,7 +307,7 @@ export default function SmallMeet() {
               minHeight={!isMobile ? 350 : 200}
               defaultSize={popup.dimension}
             >
-              <div className='flex h-full w-full flex-col rounded-2xl bg-darkPrimary shadow-sky-50'>
+              <div className='flex h-full w-full flex-col rounded-2xl shadow-sky-50 dark:bg-darkPrimary'>
                 <div className='bg-h flex justify-between px-2 pt-2'>
                   <div className='flex w-full justify-between'>
                     {!isMobile && <p className='mx-auto'>{roomId}</p>}

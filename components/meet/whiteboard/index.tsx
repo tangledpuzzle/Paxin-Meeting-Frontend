@@ -47,52 +47,7 @@ import {
 import './style.scss';
 import { useLocale, useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
-const broadcastAppStateChanges = dynamic(
-  //@ts-ignore
-  async () =>
-    (await import('./helpers/handleRequestedWhiteboardData'))
-      .broadcastAppStateChanges,
-  {
-    ssr: false,
-  }
-);
-const broadcastMousePointerUpdate = dynamic(
-  //@ts-ignore
-  async () =>
-    (await import('./helpers/handleRequestedWhiteboardData'))
-      .broadcastMousePointerUpdate,
-  {
-    ssr: false,
-  }
-);
-const broadcastSceneOnChange = dynamic(
-  //@ts-ignore
-  async () =>
-    (await import('./helpers/handleRequestedWhiteboardData'))
-      .broadcastSceneOnChange,
-  {
-    ssr: false,
-  }
-);
-const sendRequestedForWhiteboardData = dynamic(
-  //@ts-ignore
-  async () =>
-    import('./helpers/handleRequestedWhiteboardData').then(
-      (e) => e.sendRequestedForWhiteboardData
-    ),
-  {
-    ssr: false,
-  }
-);
-const sendWhiteboardDataAsDonor = dynamic(
-  //@ts-ignore
-  async () =>
-    (await import('./helpers/handleRequestedWhiteboardData'))
-      .sendWhiteboardDataAsDonor,
-  {
-    ssr: false,
-  }
-);
+
 interface WhiteboardProps {
   onReadyExcalidrawAPI: (excalidrawAPI: ExcalidrawImperativeAPI) => void;
 }
@@ -173,17 +128,21 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
     if (!fetchedData && excalidrawAPI) {
       // get initial data from other users
       // who had joined before me
+      import('./helpers/handleRequestedWhiteboardData').then((e) =>
+        e.sendRequestedForWhiteboardData(t)
+      );
       //@ts-ignore
-      sendRequestedForWhiteboardData(t);
+      // sendRequestedForWhiteboardData(t);
       setFetchedData(true);
     }
 
     if (whiteboard.requestedWhiteboardData.requested && excalidrawAPI) {
-      //@ts-ignore
-      sendWhiteboardDataAsDonor(
-        excalidrawAPI,
-        whiteboard.requestedWhiteboardData.sendTo,
-        t
+      import('./helpers/handleRequestedWhiteboardData').then((el) =>
+        el.sendWhiteboardDataAsDonor(
+          excalidrawAPI,
+          whiteboard.requestedWhiteboardData.sendTo,
+          t
+        )
       );
     }
   }, [excalidrawAPI, whiteboard.requestedWhiteboardData, fetchedData]);
@@ -488,25 +447,27 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
       }
       if (getSceneVersion(elements) > lastBroadcastOrReceivedSceneVersion) {
         setLastBroadcastOrReceivedSceneVersion(getSceneVersion(elements));
-        //@ts-ignore
-        broadcastSceneOnChange(t, elements, false);
+        import('./helpers/handleRequestedWhiteboardData').then((e) => {
+          e.broadcastSceneOnChange(t, elements, false);
+        });
       }
 
       // broadcast AppState Changes
       if (isPresenter) {
-        //@ts-ignore
-        broadcastAppStateChanges(
-          t,
-          appState.height,
-          appState.width,
-          appState.scrollX,
-          appState.scrollY,
-          appState.zoom.value,
-          appState.theme,
-          appState.viewBackgroundColor,
-          appState.zenModeEnabled,
-          appState.gridSize
-        );
+        import('./helpers/handleRequestedWhiteboardData').then((e) => {
+          e.broadcastAppStateChanges(
+            t,
+            appState.height,
+            appState.width,
+            appState.scrollX,
+            appState.scrollY,
+            appState.zoom.value,
+            appState.theme,
+            appState.viewBackgroundColor,
+            appState.zenModeEnabled,
+            appState.gridSize
+          );
+        });
       }
     }
   };
@@ -528,8 +489,9 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
           userId: currentUser.userId,
           name: currentUser.name,
         };
-        //@ts-ignore
-        broadcastMousePointerUpdate(t, msg);
+        import('./helpers/handleRequestedWhiteboardData').then((e) => {
+          e.broadcastMousePointerUpdate(t, msg);
+        });
       }
     },
     CURSOR_SYNC_TIMEOUT

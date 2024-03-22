@@ -110,7 +110,7 @@ export default class HandleParticipants {
       audioTracksCount = 0,
       screenShareTrackCount = 0,
       isMuted = false;
-    participant.getTracks().forEach((t) => {
+    participant.getTrackPublications().forEach((t) => {
       if (t.source === Track.Source.Camera) {
         videoTracksCount += 1;
       } else if (t.source === Track.Source.Microphone) {
