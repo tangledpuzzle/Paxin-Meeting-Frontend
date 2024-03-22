@@ -45,13 +45,13 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
       setShowNav(!showNav);
     });
 
-    eventBus.on('scrollToMessage', (data: any) => {
-      scrollToMessage(data.id);
-    });
+    // eventBus.on('scrollToMessage', (data: any) => {
+    //   scrollToMessage(data.id);
+    // });
 
     return () => {
       eventBus.off('startChat');
-      eventBus.off('scrollToMessage');
+      // eventBus.off('scrollToMessage');
     };
   }, []);
 
