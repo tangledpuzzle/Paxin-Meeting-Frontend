@@ -128,7 +128,7 @@ export default function ChatInputComponent() {
 
   const handleMessageSubmit = async (
     inputMessage: string,
-    msgType?: '0' | '1' | '2',
+    msgType: '0' | '1' | '2' = '0',
     jsonData?: any
   ) => {
     // inputMessage: string
