@@ -12,6 +12,7 @@ import ChatMessage from './chat-message';
 import { Button } from '../ui/button';
 import { IoArrowDown } from 'react-icons/io5';
 import { cn } from '@/lib/utils';
+import eventBus from '@/eventBus';
 
 export default function ChatMessageContainer() {
   const t = useTranslations('chatting');
@@ -204,6 +205,10 @@ export default function ChatMessageContainer() {
 
   useEffect(() => {
     setMessages([]);
+    setIsReplying(false);
+    setReplyMessageId('');
+    setIsEditing(false);
+    setEditMessageId('');
   }, [activeRoom]);
 
   useEffect(() => {
@@ -242,7 +247,7 @@ export default function ChatMessageContainer() {
       <Button
         size='icon'
         className={cn(
-          'fixed bottom-36 right-4 z-50 size-12 translate-y-60 rounded-full transition-transform duration-500 ease-in-out',
+          'absolute bottom-8 right-4 z-50 size-12 translate-y-60 rounded-full transition-transform duration-500 ease-in-out',
           {
             'translate-y-0': showScrollDown,
           }

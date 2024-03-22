@@ -12,6 +12,22 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useContext, useEffect } from 'react';
 import { IoMdMore } from 'react-icons/io';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { FaTrashCan } from 'react-icons/fa6';
+import ChatRoomDropdown from '@/components/chat/chat-room-dropdown';
 
 Howler.autoUnlock = true;
 
@@ -24,6 +40,7 @@ export default function ChatDetailPage({
   const {
     showNav,
     setShowNav,
+    setShowSidebar,
     setChatRooms,
     setActiveRoom,
     chatUser,
@@ -78,16 +95,21 @@ export default function ChatDetailPage({
               alt={chatUser?.profile.name || ''}
             />
           </div>
-          <div className='flex cursor-pointer flex-col justify-center'>
+          <div
+            className='flex cursor-pointer flex-col justify-center'
+            onClick={() => setShowSidebar(true)}
+          >
             <p>@{chatUser?.profile.name || ''}</p>
             <p className='text-xs text-gray-500'>
               {chatUser?.online ? 'online' : 'offline'}
             </p>
           </div>
           <div className='ml-auto'>
-            <Button variant='ghost' size='icon' className='rounded-full'>
-              <IoMdMore size={20} />
-            </Button>
+            <ChatRoomDropdown>
+              <Button variant='ghost' size='icon' className='rounded-full'>
+                <IoMdMore size={20} />
+              </Button>
+            </ChatRoomDropdown>
           </div>
         </div>
         <ChatMessageContainer />

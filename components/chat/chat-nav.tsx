@@ -16,7 +16,7 @@ interface Props {
 
 const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
   const t = useTranslations('chatting');
-  const sidebarRef = useRef<HTMLDivElement>(null);
+  const navbarRef = useRef<HTMLDivElement>(null);
   const [currentTab, setCurrentTab] = useState<'MESSAGE_LIST' | 'SETTINGS'>(
     'MESSAGE_LIST'
   );
@@ -68,7 +68,7 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
   }, [showNav]);
 
   return (
-    <div ref={sidebarRef} className='new-sidebar w-full pt-[70px] md:w-[300px]'>
+    <div ref={navbarRef} className='new-sidebar w-full pt-[70px] md:w-[300px]'>
       <div className='h-screen w-full overflow-y-auto border-l border-r bg-white py-2 dark:bg-black'>
         <div className='bg-card-gradient-menu px-5 text-lg font-medium text-gray-800 dark:text-white'>
           <button
