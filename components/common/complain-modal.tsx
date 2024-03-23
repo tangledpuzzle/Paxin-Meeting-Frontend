@@ -23,6 +23,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { Separator } from '../ui/separator';
 import { Textarea } from '../ui/textarea';
+import { useState } from 'react';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,8 +37,7 @@ import {
 } from '@/components/ui/form';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { PaxContext } from '@/context/context';
-import { useState, useContext } from 'react';
+
 interface ComplainModalProps {
   children?: React.ReactNode;
 }
@@ -45,7 +45,6 @@ interface ComplainModalProps {
 export function ComplainModal({ children }: ComplainModalProps) {
   const t = useTranslations('main');
   const [open, setOpen] = useState(false);
-  const { setGlobalLoading } = useContext(PaxContext);
   const defaultValues = {
     type: '',
     name: '',
@@ -63,29 +62,21 @@ export function ComplainModal({ children }: ComplainModalProps) {
   });
 
   const SendRequest = async (data: FormValue) => {
-    setGlobalLoading(true);
-    try {
-      const res = await axios.post(
-        `/api/profiles/newReq?mode=ComplaintPost`,
-        data
-      );
+    const res = await axios.post(
+      `/api/profiles/newReq?mode=ComplaintPost`,
+      data
+    );
 
-      if (res.status === 200) {
-        toast.success(t('complaint_save_success'), {
-          position: 'top-right',
-        });
-        setOpen(false);
-      } else {
-        toast.error(t('complaint_fail_success'), {
-          position: 'top-right',
-        });
-      }
-    } catch (e) {
+    if (res.status === 200) {
+      toast.success(t('complaint_save_success'), {
+        position: 'top-right',
+      });
+      setOpen(false);
+    } else {
       toast.error(t('complaint_fail_success'), {
         position: 'top-right',
       });
     }
-    setGlobalLoading(false);
   };
 
   return (

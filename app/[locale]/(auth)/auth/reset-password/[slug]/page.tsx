@@ -9,12 +9,12 @@ import axios from 'axios';
 import { Loader2, Lock } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
 import Image from 'next/image';
-import { PaxContext } from '@/context/context';
+
 import {
   Form,
   FormControl,
@@ -31,8 +31,8 @@ export default function ResetPasswordPage({
 }) {
   const t = useTranslations('main');
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isAccepted, setIsAccepted] = useState<boolean>(false);
-  const { setGlobalLoading, globalLoading } = useContext(PaxContext);
 
   const formSchema = z.object({
     password: z.string().min(8, t('password_must_be_at_least_8_characters')),
@@ -56,7 +56,7 @@ export default function ResetPasswordPage({
       return;
     }
 
-    setGlobalLoading(true);
+    setIsLoading(true);
 
     try {
       const res = await axios.post('/api/auth/reset-password', {
@@ -81,7 +81,7 @@ export default function ResetPasswordPage({
       });
     }
 
-    setGlobalLoading(false);
+    setIsLoading(false);
   };
 
   return (
@@ -158,8 +158,8 @@ export default function ResetPasswordPage({
                   </Label>
                 </div>
 
-                <Button className='w-full' disabled={globalLoading}>
-                  {globalLoading && (
+                <Button className='w-full' disabled={isLoading}>
+                  {isLoading && (
                     <Loader2 className='mr-2 size-4 animate-spin' />
                   )}
                   {t('continue')}

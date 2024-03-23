@@ -28,13 +28,11 @@ import { useForm } from 'react-hook-form';
 import { TfiWrite } from 'react-icons/tfi';
 import 'react-quill/dist/quill.snow.css';
 import * as z from 'zod';
-import { useContext } from 'react';
 import toast from 'react-hot-toast';
-import { PaxContext } from '@/context/context';
 
 export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
   const t = useTranslations('main');
-  const { setGlobalLoading } = useContext(PaxContext);
+
   const formSchema = z.object({
     title: z.string().min(1, t('title_is_required')),
     descr: z
@@ -55,29 +53,21 @@ export function NewPostModal({ openModal, setOpenModal, requestType }: any) {
   });
 
   const submitBlog = async (data: FormData) => {
-    setGlobalLoading(true);
-    try {
-      const res = await axios.post(
-        `/api/profiles/newReq?mode=${requestType === 'city' ? 'ReqCity' : 'ReqCat'}`,
-        data
-      );
+    setOpenModal(false);
+    const res = await axios.post(
+      `/api/profiles/newReq?mode=${requestType === 'city' ? 'ReqCity' : 'ReqCat'}`,
+      data
+    );
 
-      if (res.status === 200) {
-        toast.success(t('request_save_success', { type: requestType }), {
-          position: 'top-right',
-        });
-        setOpenModal(false);
-      } else {
-        toast.error(t('request_fail_success', { type: requestType }), {
-          position: 'top-right',
-        });
-      }
-    } catch (e) {
-      toast.error(t('request_fail_success', { type: requestType }), {
+    if (res.status === 200) {
+      toast.success(t('request_save_success', { type: requestType }), {
+        position: 'top-right',
+      });
+    } else {
+      toast.error(t('request_save_success', { type: requestType }), {
         position: 'top-right',
       });
     }
-    setGlobalLoading(false);
   };
 
   return (
