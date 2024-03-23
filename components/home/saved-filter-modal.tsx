@@ -33,21 +33,9 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
   const [newName, setNewName] = useState('');
 
   const getfilters = async () => {
-<<<<<<< HEAD
     const filters = await axios.get('/api/flows/filter');
     setFiltersList(filters.data.data);
   }
-=======
-    setGlobalLoading(true);
-    try {
-      const filters = await axios.get('/api/flows/filter');
-      setFiltersList(filters.data.data);
-    } catch (e) {}
-
-    setGlobalLoading(false);
-  };
-
->>>>>>> 21c6eceac082baec1f551a32fa1d45ad7faf61fa
   useEffect(() => {
     getfilters();
   }, []);
@@ -55,7 +43,6 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
   const deleteFilter = async (id: any, key: any) => {
     const result = await axios.delete(`/api/flows/filter/${id}`);
 
-<<<<<<< HEAD
     if (result.status === 200) {
       toast.success(t('success_delete_saved_filters'))
       let _filtersList = [];
@@ -67,24 +54,6 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
       toast.error(t('fail_delete_saved_filters'))
     }
   }
-=======
-      if (result.status === 200) {
-        toast.success(t('success_delete_saved_filters'));
-        let _filtersList = [];
-        for (let i = 0; i < filtersList.length; i++) {
-          if (i !== key) _filtersList.push(filtersList[i]);
-        }
-        setFiltersList(_filtersList);
-      } else {
-        toast.error(t('fail_delete_saved_filters'));
-      }
-    } catch (e) {
-      toast.error(t('fail_delete_saved_filters'));
-    }
-
-    setGlobalLoading(false);
-  };
->>>>>>> 21c6eceac082baec1f551a32fa1d45ad7faf61fa
 
   const navigateUrl = (each: any) => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -122,7 +91,6 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
   const updateFilter = async (id: any, each: any) => {
     const result = await axios.patch(`/api/flows/filter/${id}`, { data: { ...each, Name: newName } });
 
-<<<<<<< HEAD
     let _filtersList = filtersList.map((each, key) => {
       if (key == editMode) {
         return { ...each, Name: newName }
@@ -138,32 +106,6 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
       toast.error(t('fail_update_saved_filters'))
     }
   }
-=======
-    try {
-      const result = await axios.patch(`/api/flows/filter/${id}`, {
-        data: { ...each, Name: newName },
-      });
-      let _filtersList = filtersList.map((each, key) => {
-        if (key == editMode) {
-          return { ...each, Name: newName };
-        } else {
-          return each;
-        }
-      });
-      setFiltersList(_filtersList);
-      setEditMode(null);
-      if (result.status === 200) {
-        toast.success(t('success_update_saved_filters'));
-      } else {
-        toast.error(t('fail_update_saved_filters'));
-      }
-    } catch (e) {
-      toast.error(t('fail_update_saved_filters'));
-    }
-
-    setGlobalLoading(false);
-  };
->>>>>>> 21c6eceac082baec1f551a32fa1d45ad7faf61fa
   const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();
   const { disableScroll, enableScroll } = usePreventBodyScroll();
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -229,12 +171,6 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
               </p>
             </div>
           </div>
-<<<<<<< HEAD
-        )}</>}
-
-
-
-=======
         ) : (
           <>
             {filtersList.map((each, key) => (
@@ -344,7 +280,6 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
             ))}
           </>
         )}
->>>>>>> 21c6eceac082baec1f551a32fa1d45ad7faf61fa
       </DialogContent>
     </Dialog>
   );
