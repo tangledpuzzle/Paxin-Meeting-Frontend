@@ -60,10 +60,10 @@ export default class HandleParticipants {
    * startParticipantCounter will only call if participant was a recorder or RTMP bot
    * */
   private startParticipantCounter() {
-    this.participantCounterInterval = setInterval(() => {
+    this.participantCounterInterval = setInterval(async () => {
       if (this.participantsCount === 0) {
         console.log('NO_USER_ONLINE');
-        this.that.room.disconnect();
+        await this.that.room.disconnect();
       }
     }, 3000);
   }

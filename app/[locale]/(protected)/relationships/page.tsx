@@ -119,7 +119,7 @@ export default function Relationships() {
       <div className='mx-auto max-w-5xl'>
         <div className='my-4 flex'>
           <div
-            className='me-2 cursor-pointer w-full'
+            className='me-2 w-full cursor-pointer'
             onClick={() => handleTabChange('FOLLOWERS')}
           >
             <div
@@ -129,7 +129,7 @@ export default function Relationships() {
             </div>
           </div>
           <div
-            className='me-2 cursor-pointer w-full'
+            className='me-2 w-full cursor-pointer'
             onClick={() => handleTabChange('FOLLOWINGS')}
           >
             <div

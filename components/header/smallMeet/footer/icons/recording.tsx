@@ -30,8 +30,7 @@ const RecordingIcon = async ({ currentRoom }: IRecordingIconProps) => {
     resetError: resetLocalRecordingError,
   } = useLocalRecording(currentRoom.localParticipant, currentRoom.name);
 
-  let sid = await currentRoom.getSid()
-
+  let sid = await currentRoom.getSid();
 
   const {
     hasError: hasCloudRecordingError,

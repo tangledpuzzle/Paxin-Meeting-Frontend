@@ -7,16 +7,18 @@ import { RecordingTasks } from '@/helpers/proto/plugnmeet_recorder_pb';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { CommonResponse } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { useTranslations } from 'next-intl';
+import { Room } from 'livekit-client';
 
-const useCloudRecording = (roomSid: string): IUseCloudRecordingReturn => {
+const useCloudRecording = (currentRoom: Room): IUseCloudRecordingReturn => {
   const TYPE_OF_RECORDING = RecordingType.RECORDING_TYPE_LOCAL;
   const [hasError, setHasError] = useState<boolean>(false);
   const t = useTranslations('meet');
 
   const startRecording = async () => {
+    const sid = await currentRoom.getSid();
     const body = new RecordingReq({
       task: RecordingTasks.START_RECORDING,
-      sid: roomSid,
+      sid,
     });
     if (typeof (window as any).DESIGN_CUSTOMIZATION !== 'undefined') {
       body.customDesign = `${(window as any).DESIGN_CUSTOMIZATION}`.replace(
@@ -45,9 +47,10 @@ const useCloudRecording = (roomSid: string): IUseCloudRecordingReturn => {
   };
 
   const stopRecording = async () => {
+    const sid = await currentRoom.getSid();
     const body = new RecordingReq({
       task: RecordingTasks.STOP_RECORDING,
-      sid: roomSid,
+      sid,
     });
     const r = await sendAPIRequest(
       'recording',
