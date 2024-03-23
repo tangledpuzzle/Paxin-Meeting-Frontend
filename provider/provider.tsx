@@ -1,6 +1,5 @@
 'use client';
 
-import Loader from '@/components/ui/loader';
 import { PaxContext, User } from '@/context/context';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
@@ -32,7 +31,6 @@ const Providers: React.FC<IProps> = ({ children }) => {
   const [userFetchURL, setUserFetchURL] = useState<string>(
     `/api/users/me?language=${locale}`
   );
-  const [globalLoading, setGlobalLoading] = useState(false)
 
   const {
     data: fetchedData,
@@ -93,7 +91,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
             });
             axios.defaults.headers.common['session'] = data?.session;
           }
-        } catch (error) { }
+        } catch (error) {}
       };
 
       const intervalId = setInterval(() => {
@@ -128,11 +126,8 @@ const Providers: React.FC<IProps> = ({ children }) => {
         setCurrentPlan,
         socket,
         setSocket,
-        globalLoading,
-        setGlobalLoading,
       }}
     >
-      {globalLoading && <Loader />}
       {children}
     </PaxContext.Provider>
   );
