@@ -1,4 +1,4 @@
-import { PaxChatContext } from '@/context/chat-context';
+import { ChatMessageType, PaxChatContext } from '@/context/chat-context';
 import deleteMessage from '@/lib/server/chat/deleteMessage';
 import getMessages from '@/lib/server/chat/getMessages';
 import { Loader2 } from 'lucide-react';
@@ -13,11 +13,13 @@ import { Button } from '../ui/button';
 import { IoArrowDown } from 'react-icons/io5';
 import { cn } from '@/lib/utils';
 import eventBus from '@/eventBus';
+import { PaxContext } from '@/context/context';
 
 export default function ChatMessageContainer() {
   const t = useTranslations('chatting');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { ref: loaderRef, inView } = useInView();
+  const {user} = useContext(PaxContext)
   const {
     messages,
     setMessages,
@@ -73,7 +75,20 @@ export default function ChatMessageContainer() {
             },
           },
         ]);
-      } else setMessages((messages) => [...res.messages, ...messages]);
+      } else {
+        const _messages = res.messages.map((msg) => {
+          return {...msg, parentMessage: msg.parentMessage ? {
+            id: msg.parentMessage.id,
+            owner: {
+              id: msg.parentMessage.owner.id,
+              name: _chatUser?.id === msg.parentMessage.owner.id ? _chatUser?.profile.name || "" : user?.username || "",
+              avatar: _chatUser?.id === msg.parentMessage.owner.id ? _chatUser?.profile.avatar || "" : user?.avatar || "",
+            },
+            message: msg.parentMessage.message,
+          } : undefined}
+        }) || [] as ChatMessageType[];
+        setMessages((messages) => [..._messages, ...messages]);
+      }
 
       setHasMore(res.total > res.skip + res.messages.length);
     } catch (error) {
@@ -222,8 +237,6 @@ export default function ChatMessageContainer() {
           scrollAreaRef.current.querySelector(
             '[data-radix-scroll-area-viewport]'
           )!;
-
-        console.log(scrollTop, clientHeight, scrollHeight);
 
         setShowScrollDown(scrollTop + clientHeight + 30 < scrollHeight);
       }
