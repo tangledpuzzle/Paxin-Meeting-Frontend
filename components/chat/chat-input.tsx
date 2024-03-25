@@ -336,6 +336,8 @@ export default function ChatInputComponent() {
           id: pendingId,
           parentMessageId:
             isReplying && replyMessageId ? replyMessageId : undefined,
+          parentMessage:
+            isReplying && replyMessageId ? messages.find((msg) => msg.id === replyMessageId) : undefined,
           messageType: msgType || '0',
           message: inputMessage,
           customData: jsonData ? jsonData : undefined,

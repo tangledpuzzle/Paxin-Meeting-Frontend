@@ -176,6 +176,15 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                   parentMessageId: publication.body.parent_msg_id
                     ? publication.body.parent_msg_id
                     : undefined,
+                  parentMessage: publication.body.parent_msg_id && publication.body.parentMsg ? {
+                    id: `${publication.body.parent_msg_id}`,
+                    message: publication.body.parentMsg.content,
+                    owner: {
+                      id: publication.body.parentMsg.user.id,
+                      name: publication.body.parentMsg.user.name,
+                      avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.parentMsg.user.photo}`,
+                    },
+                  } : undefined,
                   messageType: `${publication.body.msgType}` as '0' | '1' | '2',
                   message: publication.body.content,
                   customData:

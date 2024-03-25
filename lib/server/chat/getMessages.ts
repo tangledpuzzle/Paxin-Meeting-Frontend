@@ -39,6 +39,13 @@ const getMessages = async (
         parentMessageId: item.ParentMessageID
           ? `${item.ParentMessageID}`
           : undefined,
+        parentMessage: item.ParentMessageID && item.ParentMessage ? {
+          id: `${item.ParentMessage.ID}`,
+          owner: {
+            id: item.ParentMessage.UserID,
+          },
+          message: item.ParentMessage.Content,
+        } : undefined,
         messageType: `${item.MsgType}` as '0' | '1' | '2',
         message:
           process.env.NODE_ENV === 'development'
