@@ -72,3 +72,7 @@ export function scrollToTransition(pos: number) {
     window.scrollTo(0, pos);
   }
 }
+
+export function isValidLatinAndNumber(inputString: string): boolean {
+  return /^[A-Za-z0-9]+$/.test(inputString);
+}

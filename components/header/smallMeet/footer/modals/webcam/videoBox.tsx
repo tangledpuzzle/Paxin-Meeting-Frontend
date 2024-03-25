@@ -57,7 +57,6 @@ const VideoBox = ({
       />
     </div>
   );
-  
 };
 
 export default VideoBox;

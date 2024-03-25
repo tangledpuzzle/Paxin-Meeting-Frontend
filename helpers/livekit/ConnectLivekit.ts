@@ -81,7 +81,7 @@ export default class ConnectLivekit
   private readonly url: string;
   private readonly enabledE2EE: boolean = false;
   private tokenRenewInterval: any;
-  private _e2eeKeyProvider: ExternalE2EEKeyProvider;
+  private readonly _e2eeKeyProvider: ExternalE2EEKeyProvider;
 
   private handleParticipant: HandleParticipants;
   private handleMediaTracks: HandleMediaTracks;
@@ -291,7 +291,7 @@ export default class ConnectLivekit
         isRecorder,
       })
     );
-    this.handleParticipant.setParticipantMetadata(
+    await this.handleParticipant.setParticipantMetadata(
       '',
       this._room.localParticipant
     );
@@ -300,7 +300,7 @@ export default class ConnectLivekit
     if (isRecorder) {
       this.handleParticipant.recorderJoined();
     } else {
-      // otherwise we'll added user
+      // otherwise we'll add user
       this.handleParticipant.addParticipant(this._room.localParticipant);
     }
 
@@ -346,9 +346,9 @@ export default class ConnectLivekit
     await this.handleRoomMetadata.setRoomMetadata(metadata);
   }
 
-  public disconnectRoom() {
+  public async disconnectRoom() {
     if (this._room.state === ConnectionState.Connected) {
-      this._room.disconnect(true);
+      await this._room.disconnect(true);
     }
   }
 
@@ -442,12 +442,12 @@ export default class ConnectLivekit
     console.error(error);
   };
 
-  // this method basically update paxmeet token
+  // this method basically updates paxmeet token
   // livekit will renew token by itself automatically
-  private startTokenRenewInterval = async () => {
-    const sid = await this._room.getSid();
-    this.tokenRenewInterval = setInterval(() => {
+  private startTokenRenewInterval = () => {
+    this.tokenRenewInterval = setInterval(async () => {
       // get current token that is store in redux
+      const sid = await this._room.getSid();
       const token = store.getState().session.token;
       const dataMsg = new DataMessage({
         type: DataMsgType.SYSTEM,
@@ -470,9 +470,9 @@ export default class ConnectLivekit
 
   /**
    * This method will set screenshare media track
-   * @param track: LocalTrackPublication | RemoteTrackPublication
-   * @param participant: LocalParticipant | RemoteParticipant
-   * @param add: boolean
+   * @param track
+   * @param participant
+   * @param add
    */
   public setScreenShareTrack = (
     track: LocalTrackPublication | RemoteTrackPublication,
@@ -500,15 +500,15 @@ export default class ConnectLivekit
       this.emit(CurrentConnectionEvents.ScreenShareStatus, false);
     }
 
-    // emit new tracks map
+    // emit a new tracks map
     const screenShareTracks = new Map(this._screenShareTracksMap) as any;
     this.emit(CurrentConnectionEvents.ScreenShareTracks, screenShareTracks);
   };
 
   /**
-   * This method will update screen sharing if user disconnect
+   * This method will update screen sharing if user disconnects
    * This will ensure UI has been updated properly
-   * @param participant: LocalParticipant | RemoteParticipant
+   * @param participant
    */
   public updateScreenShareOnUserDisconnect = (
     participant: RemoteParticipant
@@ -538,8 +538,8 @@ export default class ConnectLivekit
 
   /**
    * This method will add/update audio subscribers
-   * @param participant: Participant | LocalParticipant | RemoteParticipant
-   * @param add: boolean
+   * @param participant
+   * @param add
    */
   public updateAudioSubscribers = (
     participant: Participant | LocalParticipant | RemoteParticipant,
@@ -573,8 +573,8 @@ export default class ConnectLivekit
   /**
    * This method will add/update webcams
    * This will also sort webcam lists based on active speaker event
-   * @param participant: Participant | LocalParticipant | RemoteParticipant
-   * @param add: boolean
+   * @param participant
+   * @param add
    */
   public updateVideoSubscribers = (
     participant: Participant | LocalParticipant | RemoteParticipant,

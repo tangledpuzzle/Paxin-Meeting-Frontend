@@ -21,8 +21,14 @@ export async function GET(req: NextRequest) {
 
     data.data.forEach((item: any) => {
       feed.item({
-        title: item.multilangtitle[locale.charAt(0).toUpperCase() + locale.slice(1)] || item.title,
-        description: item.multilangdescr[locale.charAt(0).toUpperCase() + locale.slice(1)] || item.description,
+        title:
+          item.multilangtitle[
+            locale.charAt(0).toUpperCase() + locale.slice(1)
+          ] || item.title,
+        description:
+          item.multilangdescr[
+            locale.charAt(0).toUpperCase() + locale.slice(1)
+          ] || item.description,
         url: `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${item.uniqId}/${item.slug}`,
         date: new Date(item.createdAt),
       });

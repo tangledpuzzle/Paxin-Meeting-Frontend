@@ -28,7 +28,6 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
   const t = useTranslations('main');
 
   return (
-    
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className='mr-3'>

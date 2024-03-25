@@ -1,11 +1,11 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
@@ -31,7 +31,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import * as z from 'zod';
 import { Separator } from '../ui/separator';
-import { PaxContext } from '@/context/context';
 
 function FilterBadge({
   children,
@@ -67,7 +66,6 @@ export default function FilterListSection() {
   const [filtersApplied, setFiltersApplied] = useState<string | boolean>('');
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
-  const { setGlobalLoading } = useContext(PaxContext);
 
   const handleDeleteCity = (city: string) => {
     const _cities = cities.filter((c) => c !== city);
@@ -75,7 +73,6 @@ export default function FilterListSection() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('city', _cities.length > 0 ? _cities.join(',') : 'all');
     router.push(`?${newSearchParams.toString()}`);
-
   };
 
   const handleDeleteCategory = (category: string) => {
@@ -87,7 +84,6 @@ export default function FilterListSection() {
       _categories.length > 0 ? _categories.join(',') : 'all'
     );
     router.push(`?${newSearchParams.toString()}`);
-
   };
 
   const handleDeleteHashtag = (hashtag: string) => {
@@ -99,7 +95,6 @@ export default function FilterListSection() {
       _hashtags.length > 0 ? _hashtags.join(',') : 'all'
     );
     router.push(`?${newSearchParams.toString()}`);
-
   };
 
   const handleDeleteMoney = () => {
@@ -108,7 +103,6 @@ export default function FilterListSection() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('money', 'all');
     router.push(`?${newSearchParams.toString()}`);
-
   };
 
   useEffect(() => {
@@ -139,43 +133,35 @@ export default function FilterListSection() {
     setMaxPrice(_maxPrice || '');
     setFiltersApplied(
       _cities.length > 0 ||
-      _categories.length > 0 ||
-      _hashtags.length > 0 ||
-      (_minPrice && _maxPrice)
+        _categories.length > 0 ||
+        _hashtags.length > 0 ||
+        (_minPrice && _maxPrice)
     );
   }, [searchParams]);
 
   const saveCombination = async (data: FormValue) => {
-    setGlobalLoading(true);
-    try {
-      const res = await axios.post(`/api/flows/filter`, {
-        name: data.name,
-        meta: {
-          city: cities[0],
-          category: categories[0],
-          hashtag: hashtags.join(','),
-          money: `${minPrice}-${maxPrice}`,
-          title: searchParams.get('title'),
-        },
-      });
+    const res = await axios.post(`/api/flows/filter`, {
+      name: data.name,
+      meta: {
+        city: cities[0],
+        category: categories[0],
+        hashtag: hashtags.join(','),
+        money: `${minPrice}-${maxPrice}`,
+        title: searchParams.get('title'),
+      },
+    });
 
-      if (res.status === 200) {
-        toast.success(t('save_filter_success'), {
-          position: 'top-right',
-        });
-        setOpen(false);
-      } else {
-        toast.error(t('save_filter_fail'), {
-          position: 'top-right',
-        });
-      }
-    } catch (e) {
+    if (res.status === 200) {
+      toast.success(t('save_filter_success'), {
+        position: 'top-right',
+      });
+      setOpen(false);
+    } else {
       toast.error(t('save_filter_fail'), {
         position: 'top-right',
       });
     }
 
-    setGlobalLoading(false)
   }
 
   const defaultValues = {
@@ -189,54 +175,52 @@ export default function FilterListSection() {
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-  const Badges = () => <>
-    {cities.map((city) => (
-      <FilterBadge onClick={() => handleDeleteCity(city)}>{city}</FilterBadge>
-    ))}
-    {categories.map((category) => (
-      <FilterBadge onClick={() => handleDeleteCategory(category)}>
-        {category}
-      </FilterBadge>
-    ))}
-    {hashtags.map((hashtag) => (
-      <FilterBadge onClick={() => handleDeleteHashtag(hashtag)}>
-        {hashtag}
-      </FilterBadge>
-    ))}
-    {minPrice && maxPrice && (
-      <FilterBadge onClick={handleDeleteMoney}>
-        ${minPrice} - ${maxPrice}
-      </FilterBadge>
-    )}
-    {minPrice && !maxPrice && (
-      <FilterBadge onClick={handleDeleteMoney}>
-        ${minPrice}
-        {' <'}
-      </FilterBadge>
-    )}
-    {!minPrice && maxPrice && (
-      <FilterBadge onClick={handleDeleteMoney}>
-        {'< '}${maxPrice}
-      </FilterBadge>
-    )}</>
+  const Badges = () => (
+    <>
+      {cities.map((city) => (
+        <FilterBadge onClick={() => handleDeleteCity(city)}>{city}</FilterBadge>
+      ))}
+      {categories.map((category) => (
+        <FilterBadge onClick={() => handleDeleteCategory(category)}>
+          {category}
+        </FilterBadge>
+      ))}
+      {hashtags.map((hashtag) => (
+        <FilterBadge onClick={() => handleDeleteHashtag(hashtag)}>
+          {hashtag}
+        </FilterBadge>
+      ))}
+      {minPrice && maxPrice && (
+        <FilterBadge onClick={handleDeleteMoney}>
+          ${minPrice} - ${maxPrice}
+        </FilterBadge>
+      )}
+      {minPrice && !maxPrice && (
+        <FilterBadge onClick={handleDeleteMoney}>
+          ${minPrice}
+          {' <'}
+        </FilterBadge>
+      )}
+      {!minPrice && maxPrice && (
+        <FilterBadge onClick={handleDeleteMoney}>
+          {'< '}${maxPrice}
+        </FilterBadge>
+      )}
+    </>
+  );
   return (
-    <div className='flex w-full flex-wrap gap-2 pb-4 pt-2 items-center relative'>
-
+    <div className='relative flex w-full flex-wrap items-center gap-2 pb-4 pt-2'>
       <Badges />
       {filtersApplied && session?.user?.id && (
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button
-              type='button'
-              className='btn !m-0 !mt-2 !rounded-md'
-            >
+            <Button type='button' className='btn !m-0 !mt-2 !rounded-md'>
               {t('save_combination')}
             </Button>
           </DialogTrigger>
           <DialogContent className='sm:max-w-lg'>
-            {/* {isLoading && <Loader />} */}
             <DialogHeader>
-              <DialogTitle>{t('save_combination')}</DialogTitle>
+              <DialogTitle>{t('complaints')}</DialogTitle>
             </DialogHeader>
             <Form {...form}>
               <form
@@ -262,7 +246,7 @@ export default function FilterListSection() {
                       )}
                     />
                   </div>
-                  <div className='flex w-full flex-wrap gap-2 pb-4 items-center'>
+                  <div className='flex w-full flex-wrap items-center gap-2 pb-4'>
                     <Badges />
                   </div>
                 </div>
