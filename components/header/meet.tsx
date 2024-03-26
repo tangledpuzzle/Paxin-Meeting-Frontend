@@ -1,10 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
-import { Transition } from '@headlessui/react';
-
-import LeftPanel from '@/components/meet/left-panel';
-import RightPanel from '@/components/meet/right-panel';
-
 import { RootState, store } from '@/store';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import ActiveSpeakers from '@/components/meet/active-speakers';
@@ -144,14 +139,10 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
 
   return (
     <div className='inner flex h-full justify-between rtl:flex-row-reverse'>
-      {/* {renderLeftPanel} */}
-
       <div className='relative flex-auto'>
         <ActiveSpeakers />
         {renderMainComponentElms}
       </div>
-
-      {/* {renderRightPanel} */}
     </div>
   );
 }
