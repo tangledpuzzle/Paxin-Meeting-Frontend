@@ -8,20 +8,9 @@ import { useAppDispatch, useAppSelector, useAppStore } from '@/store/hook';
 
 import WebcamIcon from './icons/webcam';
 import MicrophoneIcon from './icons/microphone';
-import ChatIcon from './icons/chat';
-import ParticipantIcon from './icons/participant';
-import RaiseHandIcon from './icons/raisehand';
-import ScreenshareIcon from './icons/screenshare';
-import RecordingIcon from './icons/recording';
-import MenusIcon from './icons/menus';
-import SharedNotePadIcon from './icons/sharedNotePad';
-import WhiteboardIcon from './icons/whiteboard';
-import BreakoutRoomInvitation from '../breakout-room/breakoutRoomInvitation';
+
 import { toggleFooterVisibility } from '@/store/slices/roomSettingsSlice';
 import { useTranslations } from 'next-intl';
-import HeaderMenus from './menus';
-import RoomSettings from '../header/room-settings';
-import KeyboardShortcuts from '../header/keyboardShortcuts';
 import {
   CommonResponse,
   RoomEndAPIReq,
