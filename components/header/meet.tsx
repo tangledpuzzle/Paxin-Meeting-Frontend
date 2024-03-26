@@ -20,22 +20,6 @@ interface IMainAreaProps {
   currentConnection: IConnectLivekit;
 }
 
-const columnCameraWidthSelector = createSelector(
-  (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.columnCameraWidth
-);
-const columnCameraPositionSelector = createSelector(
-  (state: RootState) => state.roomSettings,
-  (roomSettings) => roomSettings.columnCameraPosition
-);
-const isActiveParticipantsPanelSelector = createSelector(
-  (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveParticipantsPanel
-);
-const isActiveChatPanelSelector = createSelector(
-  (state: RootState) => state.bottomIconsActivity,
-  (bottomIconsActivity) => bottomIconsActivity.isActiveChatPanel
-);
 const activeScreenSharingViewSelector = createSelector(
   (state: RootState) => state.roomSettings,
   (roomSettings) => roomSettings.activeScreenSharingView
@@ -68,21 +52,14 @@ const footerVisibilitySelector = createSelector(
   (state: RootState) => state.roomSettings,
   (roomSettings) => roomSettings.visibleFooter
 );
-const roomSelector = createSelector(
-  (state: RootState) => state.session,
-  (session) => session.currentRoom
-);
+
 export default function Meet({ currentConnection }: IMainAreaProps) {
   const isRecorder =
     currentConnection?.room.localParticipant.identity === 'RECORDER_BOT' ||
     currentConnection?.room.localParticipant.identity === 'RTMP_BOT'
       ? true
       : false;
-  const columnCameraWidth = useAppSelector(columnCameraWidthSelector);
-  const columnCameraPosition = useAppSelector(columnCameraPositionSelector);
-  const isActiveParticipantsPanel = useAppSelector(
-    isActiveParticipantsPanelSelector
-  );
+
   const isActiveScreenSharingView = useAppSelector(
     activeScreenSharingViewSelector
   );
@@ -93,7 +70,7 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
   const isActiveDisplayExternalLink = useAppSelector(
     isActiveDisplayExternalLinkSelector
   );
-  const isActiveChatPanel = useAppSelector(isActiveChatPanelSelector);
+
   const screenHeight = useAppSelector(screenHeightSelector);
   const headerVisible = useAppSelector(headerVisibilitySelector);
   const footerVisible = useAppSelector(footerVisibilitySelector);
@@ -131,62 +108,6 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
     };
   }, [currentConnection]);
 
-  const customCSS = useMemo(() => {
-    const css: Array<string> = [];
-
-    isActiveChatPanel ? css.push('showChatPanel') : css.push('hideChatPanel');
-    isActiveParticipantsPanel
-      ? css.push('showParticipantsPanel')
-      : css.push('hideParticipantsPanel');
-
-    isActiveScreenSharingView && isActiveScreenShare
-      ? css.push('showScreenShare fullWidthMainArea')
-      : css.push('hideScreenShare');
-
-    isActiveWhiteboard
-      ? css.push('showWhiteboard fullWidthMainArea')
-      : css.push('hideWhiteboard');
-
-    isActiveExternalMediaPlayer
-      ? css.push('showExternalMediaPlayer fullWidthMainArea')
-      : css.push('hideExternalMediaPlayer');
-
-    isActiveDisplayExternalLink
-      ? css.push('showDisplayExternalLink fullWidthMainArea')
-      : css.push('hideDisplayExternalLink');
-
-    isRecorder ? css.push(`isRecorder`) : null;
-
-    return css.join(' ');
-  }, [
-    isActiveScreenSharingView,
-    isActiveScreenShare,
-    isActiveChatPanel,
-    isActiveParticipantsPanel,
-    isActiveWhiteboard,
-    isActiveExternalMediaPlayer,
-    isActiveDisplayExternalLink,
-    isRecorder,
-  ]);
-
-  const renderLeftPanel = useMemo(() => {
-    return (
-      <Transition
-        className='transition-left-panel'
-        show={isActiveParticipantsPanel}
-        unmount={false}
-        enter='transform transition duration-[400ms]'
-        enterFrom='opacity-0 translate-x-0'
-        enterTo='opacity-100'
-        leave='transform transition duration-[400ms]'
-        leaveFrom='opacity-100'
-        leaveTo='opacity-0 -translate-x-full'
-      >
-        <LeftPanel />
-      </Transition>
-    );
-  }, [isActiveParticipantsPanel]);
-
   const renderMainComponentElms = useMemo(() => {
     return (
       <MainComponents
@@ -204,31 +125,6 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
     isActiveExternalMediaPlayer,
     isActiveWhiteboard,
   ]);
-
-  const renderRightPanel = useMemo(() => {
-    if (allowChat) {
-      return (
-        <Transition
-          className='transition-right-panel'
-          show={isActiveChatPanel}
-          unmount={false}
-          enter='transform transition duration-[400ms]'
-          enterFrom='opacity-0 translate-x-0'
-          enterTo='opacity-100'
-          leave='transform transition duration-[400ms]'
-          leaveFrom='opacity-100'
-          leaveTo='opacity-0 translate-x-full'
-        >
-          <RightPanel
-            currentRoom={currentConnection.room}
-            isRecorder={isRecorder}
-          />
-        </Transition>
-      );
-    }
-    return null;
-    //eslint-disable-next-line
-  }, [currentConnection, isActiveChatPanel]);
 
   useEffect(() => {
     if (isRecorder) {
