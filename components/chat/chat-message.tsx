@@ -30,6 +30,15 @@ import ReactMarkdown from 'react-markdown';
 interface ChatMessageProps {
   id: string;
   parentMessageId?: string;
+  parentMessage?: {
+    id: string;
+    message: string;
+    owner: {
+      id: string;
+      name: string;
+      avatar: string;
+    };
+  }
   messageType?: '0' | '1' | '2';
   message: string;
   customData?: any;
@@ -321,7 +330,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                 />
               ) : (
                 <>
-                  {props.parentMessageId !== undefined && (
+                  {props.parentMessageId && props.parentMessage && (
                     <div
                       className={cn(
                         'mb-1 w-full max-w-[100%] cursor-pointer rounded-md border-l-4 bg-background/10 p-2',
@@ -339,17 +348,11 @@ export default function ChatMessage(props: ChatMessageProps) {
                       <span>
                         @
                         {
-                          messages.find(
-                            (message) => message.id === props.parentMessageId
-                          )?.owner.name
+                          props.parentMessage.owner.name
                         }
                       </span>
                       <p className='line-clamp-1'>
-                        {
-                          messages.find(
-                            (message) => message.id === props.parentMessageId
-                          )?.message
-                        }
+                        {props.parentMessage.message}
                       </p>
                     </div>
                   )}

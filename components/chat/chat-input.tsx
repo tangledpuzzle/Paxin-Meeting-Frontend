@@ -128,7 +128,7 @@ export default function ChatInputComponent() {
 
   const handleMessageSubmit = async (
     inputMessage: string,
-    msgType?: '0' | '1' | '2',
+    msgType: '0' | '1' | '2' = '0',
     jsonData?: any
   ) => {
     // inputMessage: string
@@ -336,6 +336,8 @@ export default function ChatInputComponent() {
           id: pendingId,
           parentMessageId:
             isReplying && replyMessageId ? replyMessageId : undefined,
+          parentMessage:
+            isReplying && replyMessageId ? messages.find((msg) => msg.id === replyMessageId) : undefined,
           messageType: msgType || '0',
           message: inputMessage,
           customData: jsonData ? jsonData : undefined,

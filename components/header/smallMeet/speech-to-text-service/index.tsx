@@ -226,15 +226,17 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
         setMediaStream(undefined);
         setCreatedMediaStream(undefined);
       } else {
-        currentRoom.localParticipant.audioTrackPublications.forEach((publication) => {
-          if (
-            publication.track &&
-            publication.track.source === Track.Source.Microphone &&
-            publication.track.mediaStream
-          ) {
-            setMediaStream(publication.track.mediaStream);
+        currentRoom.localParticipant.audioTrackPublications.forEach(
+          (publication) => {
+            if (
+              publication.track &&
+              publication.track.source === Track.Source.Microphone &&
+              publication.track.mediaStream
+            ) {
+              setMediaStream(publication.track.mediaStream);
+            }
           }
-        });
+        );
       }
       if (o.stopService && recognizer) {
         unsetRecognizer();
