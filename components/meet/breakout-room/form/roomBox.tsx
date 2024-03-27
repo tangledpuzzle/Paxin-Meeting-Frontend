@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 
 import UserBox from './userBox';
@@ -14,6 +14,7 @@ interface IRoomBoxProps {
 
 export const RoomBox = ({ roomId, name, users }: IRoomBoxProps) => {
   const dispatch = useAppDispatch();
+  const dropRef = useRef<HTMLDivElement>(null); 
 
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.USER,
@@ -31,6 +32,12 @@ export const RoomBox = ({ roomId, name, users }: IRoomBoxProps) => {
     }),
   }));
 
+  useEffect(() => {
+    if (dropRef.current) {
+      drop(dropRef.current);
+    }
+  }, [drop]);
+
   const isActive = canDrop && isOver;
   let backgroundColor = 'bg-white dark:bg-darkPrimary';
   if (isActive) {
@@ -41,8 +48,7 @@ export const RoomBox = ({ roomId, name, users }: IRoomBoxProps) => {
 
   return (
     <div
-      ref={drop}
-      // style={{ backgroundColor }}
+      ref={dropRef}
       className={`roomBox scrollBar scrollBar2 mb-2 h-60 w-full overflow-hidden overflow-y-auto border border-solid border-black dark:border-darkText sm:mb-6 sm:w-[13rem] lg:w-[13.2rem] xl:w-[13.75rem]  ltr:mr-4 lg:ltr:mr-6 rtl:ml-4 lg:rtl:ml-6 ${backgroundColor}`}
     >
       <p
