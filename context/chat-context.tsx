@@ -9,6 +9,7 @@ export interface ChatUserType {
     bio: string;
   };
   lastSeenMessage: string;
+  lastOnlineTimestamp: string;
   online: boolean;
   bot: boolean;
 }

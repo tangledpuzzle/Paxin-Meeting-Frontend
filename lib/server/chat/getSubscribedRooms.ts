@@ -45,6 +45,7 @@ const getSubscribedRooms = async () => {
           },
           lastSeenMessage: '',
           online: false,
+          lastOnlineTimestamp: '',
           bot: false,
         },
         unreadCount: Number(room.unreadMessages || 0),
@@ -77,6 +78,7 @@ const getSubscribedRooms = async () => {
               locale.charAt(0).toUpperCase() + locale.slice(1)
             ];
           _room.user.lastSeenMessage = member.LastReadMessageID || '';
+          _room.user.lastOnlineTimestamp = member.User.last_online || '';
           _room.user.online = member.User.online;
           _room.user.bot = member.User.IsBot;
         }
