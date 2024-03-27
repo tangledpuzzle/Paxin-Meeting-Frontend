@@ -689,7 +689,7 @@ export default function SettingPage() {
                 {t('profile_settings')}
               </Link>
             </TabsTrigger>
-            <TabsTrigger
+            {/* <TabsTrigger
               value='accounting'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
               asChild
@@ -698,7 +698,7 @@ export default function SettingPage() {
                 <MdAccountBalanceWallet className='mr-2 size-4 min-w-4' />
                 {t('accounting')}
               </Link>
-            </TabsTrigger>
+            </TabsTrigger> */}
             <TabsTrigger
               value='telegram'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
@@ -709,7 +709,7 @@ export default function SettingPage() {
                 {t('telegram')}
               </Link>
             </TabsTrigger>
-            <TabsTrigger
+            {/* <TabsTrigger
               value='subscription'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
               asChild
@@ -718,7 +718,7 @@ export default function SettingPage() {
                 <GrUpdate className='mr-2 size-4 min-w-4' />
                 {t('subscription')}
               </Link>
-            </TabsTrigger>
+            </TabsTrigger> */}
           </TabsList>
           <div className='w-full'>
             <TabsContent className='my-2 w-full' value='profile'>

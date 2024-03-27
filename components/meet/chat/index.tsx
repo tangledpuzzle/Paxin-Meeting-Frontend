@@ -74,7 +74,7 @@ const ChatComponent = ({ currentRoom, isRecorder }: IChatComponentProps) => {
 
   return (
     <>
-      <div className='messageModule-wrapper multi-gradient relative right-0 top-0 z-10 h-[calc(100%)] w-[250px] xl:w-[320px]'>
+      <div className='messageModule-wrapper multi-gradient relative right-0 top-0 z-10 h-[calc(100%-80px)] w-[250px] xl:w-[320px]'>
         <div className='all-MessageModule-wrap h-full'>
           <ChatTabs />
         </div>
@@ -99,7 +99,7 @@ const ChatComponent = ({ currentRoom, isRecorder }: IChatComponentProps) => {
               />
             ) : null}
           </div>
-          <div className='message-form fixed bottom-1 z-[99] w-[250px] bg-white xl:z-0 xl:w-[320px]'>
+          <div className='message-form absolute bottom-1 z-[99] w-[250px] bg-white xl:z-0 xl:w-[320px]'>
             <TextBoxArea
               currentRoom={currentRoom}
               chosenEmoji={chosenEmoji}
