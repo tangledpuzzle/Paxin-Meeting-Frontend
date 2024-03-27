@@ -880,6 +880,8 @@
     "delete_message": "Delete Message",
     "are_you_sure_delete_message": "Are you sure you want to delete this message?",
     "message_deleted": "This message has been deleted",
+    "chat_mark_unread_error": "Failed to mark chat as unread. Please try again.",
+    "chat_mark_read_error": "Failed to mark chat as read. Please try again.",
     "reply": "Reply",
     "edit": "Edit",
     "send": "Send",
