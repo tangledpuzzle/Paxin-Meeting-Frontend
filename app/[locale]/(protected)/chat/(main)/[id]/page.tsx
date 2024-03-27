@@ -3,6 +3,7 @@
 import ChatInputComponent from '@/components/chat/chat-input';
 import ChatMessageContainer from '@/components/chat/chat-message-container';
 import ChatMessageSkeleton from '@/components/chat/chat-message-skeleton';
+import ChatRoomDropdown from '@/components/chat/chat-room-dropdown';
 import { Button } from '@/components/ui/button';
 import { PaxChatContext } from '@/context/chat-context';
 import subscribe from '@/lib/server/chat/subscribe';
@@ -12,22 +13,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useContext, useEffect } from 'react';
 import { IoMdMore } from 'react-icons/io';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { FaTrashCan } from 'react-icons/fa6';
-import ChatRoomDropdown from '@/components/chat/chat-room-dropdown';
+import { useNow, useFormatter } from 'next-intl';
 
 Howler.autoUnlock = true;
 
@@ -49,6 +35,13 @@ export default function ChatDetailPage({
     isMessageLoading,
     isRoomLoading,
   } = useContext(PaxChatContext);
+
+  const now = useNow({
+    // … and update it every 60 seconds
+    updateInterval: 1000 * 60,
+  });
+
+  const format = useFormatter();
 
   const handleSubscribe = async (roomId: string) => {
     try {
@@ -101,7 +94,15 @@ export default function ChatDetailPage({
           >
             <p>@{chatUser?.profile.name || ''}</p>
             <p className='text-xs text-gray-500'>
-              {chatUser?.online ? 'online' : 'offline'}
+              {chatUser?.online
+                ? 'online'
+                : 'last seen ' +
+                  format.relativeTime(
+                    chatUser?.lastOnlineTimestamp
+                      ? new Date(chatUser?.lastOnlineTimestamp)
+                      : new Date(),
+                    now
+                  )}
             </p>
           </div>
           <div className='ml-auto'>
