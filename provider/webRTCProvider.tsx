@@ -8,7 +8,7 @@ import { clearAccessToken } from '@/helpers/utils';
 import { useAppDispatch } from '@/store/hook';
 import { resetParticipant } from '@/store/slices/participantSlice';
 import { clearToken } from '@/store/slices/sessionSlice';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { createContext } from 'react';
 import { useWindowSize } from 'react-use';
 
@@ -120,7 +120,7 @@ export function RTCProvider({ children }: Props) {
     startLivekitConnection,
   } = useLivekitConnect();
   const dispatch = useAppDispatch();
-  async function clearSession() {
+  const clearSession = useCallback(async () => {
     clearAccessToken();
     dispatch(resetParticipant());
     dispatch(clearToken());
@@ -130,7 +130,7 @@ export function RTCProvider({ children }: Props) {
       setCurrentConnection(null);
       await currentConnection.room.disconnect();
     }
-  }
+  }, [currentConnection]);
   useEffect(() => {
     const isMobile = width > 450 ? false : true;
     setPopUp({
