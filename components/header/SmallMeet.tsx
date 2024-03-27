@@ -43,17 +43,16 @@ const roomIdSelector = createSelector(
 );
 
 export default function SmallMeet() {
-  const [isActive, setActive] = useState<boolean>(true);
   const participants = useAppSelector(participantSelector);
   const dispatch = useAppDispatch();
-  const router = useRouter();
+
   const t = useTranslations('meet');
   const locale = useLocale();
   const toastId = useRef<string>(null);
   const store = useAppStore();
   const roomId = useAppSelector(roomIdSelector);
   const [loading, setLoading] = useState<boolean>(true);
-  const { width, height } = useWindowSize();
+  const { width } = useWindowSize();
 
   // // it could be recorder or RTMP bot
   const [isRecorder, setIsRecorder] = useState<boolean>(false);
