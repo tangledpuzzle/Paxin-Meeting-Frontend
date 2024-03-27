@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { unstable_setRequestLocale } from 'next-intl/server';
-import Conference from '@/components/profiles/conference/meet';
+import Conference from '@/components/profiles/conference';
 import authOptions from '@/lib/authOptions';
 
 async function getData(locale: string) {
