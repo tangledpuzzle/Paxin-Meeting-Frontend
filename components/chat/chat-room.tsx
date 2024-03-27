@@ -17,13 +17,15 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BsCheck2All } from 'react-icons/bs';
 import { FaTrashCan } from 'react-icons/fa6';
 import { MdOutlineMarkChatRead, MdOutlineMarkChatUnread } from 'react-icons/md';
 import { ConfirmModal } from '../common/confirm-modal';
 import { Badge } from '../ui/badge';
 import markAsRead from '@/lib/server/chat/markAsRead';
+import markAsUnRead from '@/lib/server/chat/markAsUnread';
+import toast from 'react-hot-toast';
 
 export default function ChatRoom({ room }: { room: ChatRoomType }) {
   const t = useTranslations('chatting');
@@ -82,10 +84,43 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
   const handleMarkAsRead = async (id: string) => {
     console.log('MARK AS READ', room.id, id);
     markAsRead(room.id, id);
+
+    if (room.isUnread) {
+      const res = await markAsRead(room.id);
+
+      if (res?.success) {
+        setChatRooms((chatRooms) => {
+          const index = chatRooms.findIndex((_room) => _room.id === room.id);
+          
+          if (index > -1) chatRooms[index].isUnread = false;
+  
+          return chatRooms;
+        });
+      } else {
+        toast.error(t('chat_mark_read_error'), {
+          position: 'top-right',
+        })
+      }
+    }
   };
 
-  const handleMarkAsUnread = async (id: string) => {
-    console.log('MARK AS UNREAD', activeRoom, id);
+  const handleMarkAsUnread = async () => {
+    console.log('MARK AS UNREAD', activeRoom);
+    const res = await markAsUnRead(room.id);
+
+    if (res?.success) {
+      setChatRooms((chatRooms) => {
+        const index = chatRooms.findIndex((_room) => _room.id === room.id);
+        
+        if (index > -1) chatRooms[index].isUnread = true;
+
+        return chatRooms;
+      });
+    } else {
+      toast.error(t('chat_mark_unread_error'), {
+        position: 'top-right',
+      })
+    }
   };
 
   return (
@@ -156,14 +191,20 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
                 {room.lastMessage.message}
               </p>
             </div>
-            {room.unreadCount > 0 && (
+            {room.unreadCount > 0 ? (
               <Badge
                 variant='default'
                 className='absolute bottom-2 right-2 m-0 size-5 min-w-5 items-center justify-center rounded-full p-0.5 text-xs font-normal'
               >
                 {room.unreadCount}
               </Badge>
-            )}
+            ) : room.isUnread ? (
+              <Badge
+                variant='default'
+                className='absolute bottom-2 right-2 m-0 size-5 min-w-5 items-center justify-center rounded-full p-0.5 text-xs font-normal'
+              >
+              </Badge>
+            ) : null}
           </Link>
         </ContextMenuTrigger>
         <ContextMenuContent className='w-48'>
@@ -177,12 +218,12 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
               {/* <ContextMenuShortcut>⌘</ContextMenuShortcut> */}
             </ContextMenuItem>
           )}
-          {room.lastMessage.owner !== user?.id &&
+          {(room.lastMessage.owner !== user?.id &&
           Number(room.lastMessage.id || 0) >
-            Number(room.lastSeenMessage || 0) ? (
+            Number(room.lastSeenMessage || 0)) || room.isUnread ? (
             <ContextMenuItem
               className='cursor-pointer'
-              onClick={() => handleMarkAsRead(room.lastMessage.id)}
+              onClick={() => handleMarkAsRead(`${room.lastMessage.id}`)}
             >
               <MdOutlineMarkChatRead className='mr-2 size-4' />
               {t('mark_as_read')}
@@ -191,7 +232,7 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
           ) : (
             <ContextMenuItem
               className='cursor-pointer'
-              onClick={() => handleMarkAsUnread(room.lastMessage.id)}
+              onClick={() => handleMarkAsUnread()}
             >
               <MdOutlineMarkChatUnread className='mr-2 size-4' />
               {t('mark_as_unread')}
