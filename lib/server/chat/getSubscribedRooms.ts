@@ -48,6 +48,7 @@ const getSubscribedRooms = async () => {
           bot: false,
         },
         unreadCount: Number(room.unreadMessages || 0),
+        isUnread: false,
         lastSeenMessage: '',
         subscribed: true,
         timestamp: room.LastMessage.CreatedAt,
@@ -56,6 +57,7 @@ const getSubscribedRooms = async () => {
       for (const member of room.Members) {
         if (member.UserID === session?.user?.id) {
           _room.lastSeenMessage = member.LastReadMessageID || '';
+          _room.isUnread = member.IsUnread;
         } else if (member.UserID !== session?.user?.id) {
           _room.user.id = member.UserID;
           _room.user.profile.name = member.User.Name;

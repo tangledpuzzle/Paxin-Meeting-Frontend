@@ -9,6 +9,7 @@ import { IoIosClose } from 'react-icons/io';
 import { ScrollArea } from '../ui/scroll-area';
 import ChatListSkeleton from './chat-list-skeleton';
 import ChatRoom from './chat-room';
+import markAsRead from '@/lib/server/chat/markAsRead';
 
 interface Props {
   mode: boolean;
@@ -20,7 +21,7 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
   const [currentTab, setCurrentTab] = useState<'MESSAGE_LIST' | 'SETTINGS'>(
     'MESSAGE_LIST'
   );
-  const { chatRooms, showNav, setShowNav } = useContext(PaxChatContext);
+  const { chatRooms, setChatRooms, showNav, setShowNav, activeRoom } = useContext(PaxChatContext);
   const [keyword, setKeyword] = useState<string>('');
 
   useEffect(() => {
@@ -66,6 +67,23 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
       document.body.style.overflow = 'auto';
     };
   }, [showNav]);
+
+  useEffect(() => {
+    const currentChatRoom = chatRooms.find((room) => room.id === activeRoom);
+    if (currentChatRoom && currentChatRoom.isUnread) {
+      markAsRead(activeRoom).then((res) => {
+        if (res?.success) {
+          setChatRooms((chatRooms) => {
+            const index = chatRooms.findIndex((_room) => _room.id === activeRoom);
+
+            if (index > -1) chatRooms[index].isUnread = false;
+
+            return chatRooms;
+          });
+        }
+      })
+    }
+  }, [activeRoom])
 
   return (
     <div ref={navbarRef} className='new-sidebar w-full pt-[70px] md:w-[300px]'>

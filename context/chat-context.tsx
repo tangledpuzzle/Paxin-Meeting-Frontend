@@ -23,6 +23,7 @@ export interface ChatRoomType {
   user: ChatUserType;
   subscribed: boolean;
   unreadCount: number;
+  isUnread?: boolean;
   lastSeenMessage: string;
   timestamp: string;
 }
