@@ -6,6 +6,7 @@ import useLivekitConnect, {
 import { IConnectLivekit } from '@/helpers/livekit/types';
 import { clearAccessToken } from '@/helpers/utils';
 import { useAppDispatch } from '@/store/hook';
+import { clearChatMessage } from '@/store/slices/chatMessagesSlice';
 import { resetParticipant } from '@/store/slices/participantSlice';
 import { clearToken } from '@/store/slices/sessionSlice';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
@@ -124,6 +125,7 @@ export function RTCProvider({ children }: Props) {
     clearAccessToken();
     dispatch(resetParticipant());
     dispatch(clearToken());
+    dispatch(clearChatMessage());
     if (currentConnection) {
       console.log('CLEAR SESSION');
       setLivekitInfo(null);
