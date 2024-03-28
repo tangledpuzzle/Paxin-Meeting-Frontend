@@ -29,7 +29,7 @@ export default function AlarmNav({
     }
   };
 
-  useCentrifuge(onPublication.current);
+  useCentrifuge(user?.id, onPublication.current);
 
   const getRoomCount = async () => {
     try {

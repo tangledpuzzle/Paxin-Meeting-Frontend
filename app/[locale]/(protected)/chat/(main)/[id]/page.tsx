@@ -1,20 +1,15 @@
 'use client';
 
+import ChatHeader from '@/components/chat/chat-header';
 import ChatInputComponent from '@/components/chat/chat-input';
 import ChatMessageContainer from '@/components/chat/chat-message-container';
 import ChatMessageSkeleton from '@/components/chat/chat-message-skeleton';
-import ChatRoomDropdown from '@/components/chat/chat-room-dropdown';
 import { Button } from '@/components/ui/button';
 import { PaxChatContext } from '@/context/chat-context';
 import subscribe from '@/lib/server/chat/subscribe';
 import { Howler } from 'howler';
-import { MoveLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 import { useContext, useEffect } from 'react';
-import { IoMdMore } from 'react-icons/io';
-import { useNow, useFormatter } from 'next-intl';
-import ChatHeader from '@/components/chat/chat-header';
 
 Howler.autoUnlock = true;
 
@@ -36,17 +31,6 @@ export default function ChatDetailPage({
     isMessageLoading,
     isRoomLoading,
   } = useContext(PaxChatContext);
-
-  const now = useNow({
-    // … and update it every 60 seconds
-    updateInterval: 1000 * 60,
-  });
-
-  useEffect(() => {
-    console.log(now);
-  }, [now]);
-
-  const format = useFormatter();
 
   const handleSubscribe = async (roomId: string) => {
     try {

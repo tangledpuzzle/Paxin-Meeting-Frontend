@@ -59,7 +59,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     preload: true,
   });
 
-  useCentrifuge(onPublication.current);
+  useCentrifuge(session?.user?.id, onPublication.current);
 
   const getRooms = async () => {
     try {
