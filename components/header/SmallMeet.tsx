@@ -308,8 +308,8 @@ export default function SmallMeet() {
             >
               <div className='flex h-full w-full flex-col rounded-2xl shadow-sky-50 dark:bg-darkPrimary'>
                 <div className='bg-h flex justify-between px-2 pt-2'>
-                  <div className='flex w-full justify-between'>
-                    {!isMobile && <p className='mx-auto'>{roomId}</p>}
+                  <div className='flex w-full justify-center'>
+                    {!isMobile && <p>{roomId}</p>}
                     <CopyClipboard
                       text={`https://www.paxintrade.com/meet/${roomId}`}
                     >

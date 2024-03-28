@@ -83,15 +83,23 @@ const ChatComponent: React.FC = () => {
   useEffect(() => {
     if (socket) {
       socket.onmessage = (event) => {
-        const receivedData = JSON.parse(event.data);
-        if (receivedData) {
-          const newLine = new Line(receivedData, locale, router);
-          chatRef.current?.ele.appendChild(newLine.ele.lineContainer);
-          removeOldest();
+        if (event.data) {
+          const blob = new Blob([event.data], { type: 'text/plain' });
+          const reader = new FileReader();
+          reader.onload = function () {
+            const receivedData = JSON.parse(reader.result as string);
+            if (receivedData) {
+              const newLine = new Line(receivedData, locale, router);
+              chatRef.current?.ele.appendChild(newLine.ele.lineContainer);
+              removeOldest();
+            }
+          };
+          reader.readAsText(blob);
         }
       };
     }
   }, [socket]);
+  
 
   return (
     <div id='chat-container'>
