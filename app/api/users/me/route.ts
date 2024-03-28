@@ -15,7 +15,8 @@ export async function GET(req: NextRequest) {
   cookies().set('access_token', session?.accessToken || '', {
     path: '/',
     maxAge: 60 * 60 * 24 * 30,
-    domain: '.paxintrade.com',
+    domain:
+      process.env.NODE_ENV === 'production' ? '.paxintrade.com' : 'localhost',
     httpOnly: false,
     secure: process.env.NODE_ENV === 'production',
   });
