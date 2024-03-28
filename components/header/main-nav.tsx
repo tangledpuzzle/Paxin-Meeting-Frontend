@@ -23,7 +23,7 @@ interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps) {
   const t = useTranslations('main');
-  const { user } = useContext(PaxContext);
+  // const { user } = useContext(PaxContext);
 
   const locale = useLocale();
   const router = useRouter();
@@ -87,7 +87,9 @@ export function MainNav({ items }: MainNavProps) {
           )}
         </nav>
       ) : null}
-      <div>{user && <SmallMeet />}</div>
+      <div>
+        <SmallMeet />
+      </div>
     </div>
   );
 }
