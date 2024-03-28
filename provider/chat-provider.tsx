@@ -12,7 +12,7 @@ import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import { Howl, Howler } from 'howler';
 import { useSession } from 'next-auth/react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale, useNow, useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 
 Howler.autoUnlock = true;
@@ -46,6 +46,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const { onlineState } = useOnlineSocket();
   const { data: session } = useSession();
   const onPublication = useRef<any>(null);
+
+  const currentTime = useNow({
+    // … and update it every 60 seconds
+    updateInterval: 1000 * 60,
+  });
 
   const messageReceivedSound = new Howl({
     src: ['/audio/message-received.mp3'],
@@ -406,6 +411,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     });
   }, [onlineState]);
 
+  useEffect(() => {
+    console.log(chatUser);
+  }, [chatUser]);
+
   return (
     <PaxChatContext.Provider
       value={{
@@ -451,6 +460,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         setChatWindowHeight,
         prevScrollHeight,
         setPrevScrollHeight,
+        currentTime,
       }}
     >
       {children}

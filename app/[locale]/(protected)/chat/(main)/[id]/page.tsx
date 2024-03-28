@@ -14,6 +14,7 @@ import Image from 'next/image';
 import { useContext, useEffect } from 'react';
 import { IoMdMore } from 'react-icons/io';
 import { useNow, useFormatter } from 'next-intl';
+import ChatHeader from '@/components/chat/chat-header';
 
 Howler.autoUnlock = true;
 
@@ -40,6 +41,10 @@ export default function ChatDetailPage({
     // … and update it every 60 seconds
     updateInterval: 1000 * 60,
   });
+
+  useEffect(() => {
+    console.log(now);
+  }, [now]);
 
   const format = useFormatter();
 
@@ -68,53 +73,7 @@ export default function ChatDetailPage({
   return !isMessageLoading && !isRoomLoading ? (
     <div className='new-content-container'>
       <div className='new-main-content'>
-        <div className='flex items-center gap-2 bg-card-gradient-menu px-4 py-2'>
-          {!showNav && (
-            <Button
-              variant='ghost'
-              size='icon'
-              className=''
-              onClick={() => setShowNav(!showNav)}
-            >
-              <MoveLeft size='24' />
-            </Button>
-          )}
-          <div className='relative size-12 min-w-12'>
-            <Image
-              className='size-8 rounded-full'
-              fill
-              style={{ objectFit: 'cover' }}
-              src={chatUser?.profile.avatar || ''}
-              alt={chatUser?.profile.name || ''}
-            />
-          </div>
-          <div
-            className='flex cursor-pointer flex-col justify-center'
-            onClick={() => setShowSidebar(true)}
-          >
-            <p>@{chatUser?.profile.name || ''}</p>
-            <p className='text-xs text-gray-500'>
-              {chatUser?.online
-                ? 'online'
-                : 'last seen ' +
-                  format.relativeTime(
-                    chatUser?.lastOnlineTimestamp
-                      ? new Date(chatUser?.lastOnlineTimestamp) > now
-                        ? now
-                        : new Date(chatUser?.lastOnlineTimestamp)
-                      : now,
-                    now
-                  )}
-            </p>
-          </div>
-          <div className='ml-auto'>
-            <ChatRoomDropdown>
-              <Button variant='ghost' size='icon' className='rounded-full'>
-                <IoMdMore size={20} />
-              </Button>
-            </ChatRoomDropdown>
-          </div>
-        </div>
+        <ChatHeader />
         <ChatMessageContainer />
         <div className='chatInput'>
           {!activeRoomSubscribed && (

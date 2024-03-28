@@ -1,32 +1,27 @@
 import { PaxChatContext } from '@/context/chat-context';
 import { cn } from '@/lib/utils';
-import { useContext, useEffect, useRef } from 'react';
-import { Button } from '../ui/button';
-import { IoClose, IoLanguage } from 'react-icons/io5';
-import useSWR from 'swr';
+import { useFormatter, useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Badge } from '../ui/badge';
-import { Separator } from '../ui/separator';
-import { useLocale, useTranslations } from 'next-intl';
+import { useContext, useEffect, useRef } from 'react';
 import { BiSolidCalendar, BiSolidCategory } from 'react-icons/bi';
+import { IoClose, IoLanguage } from 'react-icons/io5';
 import { MdOutlineHouseSiding, MdOutlinePostAdd } from 'react-icons/md';
 import { RiUserFollowFill } from 'react-icons/ri';
+import useSWR from 'swr';
+import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
 import { Skeleton } from '../ui/skeleton';
-import { useNow, useFormatter } from 'next-intl';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function ChatUserInfo() {
   const t = useTranslations('main');
   const locale = useLocale();
-  const { showSidebar, setShowSidebar, chatUser } = useContext(PaxChatContext);
+  const { showSidebar, setShowSidebar, chatUser, currentTime } =
+    useContext(PaxChatContext);
   const sidebarRef = useRef<HTMLDivElement>(null);
-
-  const now = useNow({
-    // … and update it every 60 seconds
-    updateInterval: 1000 * 60,
-  });
 
   const format = useFormatter();
 
@@ -76,11 +71,11 @@ export default function ChatUserInfo() {
                 : 'last seen ' +
                   format.relativeTime(
                     chatUser?.lastOnlineTimestamp
-                      ? new Date(chatUser?.lastOnlineTimestamp) > now
-                        ? now
+                      ? new Date(chatUser?.lastOnlineTimestamp) > currentTime
+                        ? currentTime
                         : new Date(chatUser?.lastOnlineTimestamp)
-                      : now,
-                    now
+                      : currentTime,
+                    currentTime
                   )}
             </p>
           </div>

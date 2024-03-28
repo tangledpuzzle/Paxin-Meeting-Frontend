@@ -40,7 +40,7 @@ export interface ChatMessageType {
       avatar: string;
     };
     message: string;
-  }
+  };
   messageType?: '0' | '1' | '2';
   message: string;
   customData?: any;
@@ -104,6 +104,7 @@ export interface ChatContent {
   setChatWindowHeight: Dispatch<SetStateAction<string>>;
   prevScrollHeight: number;
   setPrevScrollHeight: Dispatch<SetStateAction<number>>;
+  currentTime: Date;
 }
 
 export const PaxChatContext = createContext<ChatContent>({
@@ -149,6 +150,7 @@ export const PaxChatContext = createContext<ChatContent>({
   setChatWindowHeight: () => {},
   prevScrollHeight: 0,
   setPrevScrollHeight: () => {},
+  currentTime: new Date(),
 });
 
 export const usePaxChatContext = () => useContext(PaxChatContext);
