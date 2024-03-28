@@ -24,9 +24,14 @@ const chatMessagesSlice = createSlice({
     addChatMessage: chatMessagesAdapter.addOne,
     removeChatMessage: chatMessagesAdapter.removeOne,
     updateChatMessage: chatMessagesAdapter.updateOne,
+    clearChatMessage: chatMessagesAdapter.removeAll,
   },
 });
 
-export const { addChatMessage, removeChatMessage, updateChatMessage } =
-  chatMessagesSlice.actions;
+export const {
+  addChatMessage,
+  removeChatMessage,
+  updateChatMessage,
+  clearChatMessage,
+} = chatMessagesSlice.actions;
 export default chatMessagesSlice.reducer;
