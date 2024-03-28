@@ -1,7 +1,7 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import { useEffect, useRef, useState } from 'react';
+import getConnectionToken from '@/lib/server/chat/getConnectionToken';
+import getSubscriptionToken from '@/lib/server/chat/getSubscriptionToken';
 import {
   Centrifuge,
   PublicationContext,
@@ -10,20 +10,21 @@ import {
   SubscriptionState,
   SubscriptionStateContext,
 } from 'centrifuge';
-import getSubscriptionToken from '@/lib/server/chat/getSubscriptionToken';
-import getConnectionToken from '@/lib/server/chat/getConnectionToken';
+import { useEffect, useRef, useState } from 'react';
 
-function useCentrifuge(onPublication: (data: any) => void | null) {
+function useCentrifuge(
+  userId: string | null | undefined,
+  onPublication: (data: any) => void | null
+) {
   const [unrecoverableError, setUnrecoverableError] = useState('');
   const [realTimeStatus, setRealTimeStatus] = useState('🔴');
-  const { data: session } = useSession();
   const centrifuge = useRef<Centrifuge | null>(null);
   const sub = useRef<Subscription | null>(null);
 
   useEffect(() => {
-    if (!session?.user?.id) return;
+    if (!userId) return;
 
-    const personalChannel = `personal:${session.user.id}`;
+    const personalChannel = `personal:${userId}`;
 
     const getPersonalChannelSubscriptionToken = async () => {
       return getSubscriptionToken(personalChannel);
@@ -68,7 +69,7 @@ function useCentrifuge(onPublication: (data: any) => void | null) {
       console.log('disconnect Centrifuge');
       centrifuge.current && centrifuge.current.disconnect();
     };
-  }, [session]);
+  }, [userId]);
 
   useEffect(() => {
     if (sub.current) {

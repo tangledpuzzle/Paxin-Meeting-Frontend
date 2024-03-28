@@ -11,6 +11,7 @@ export interface ChatUserType {
   lastSeenMessage: string;
   lastOnlineTimestamp: string;
   online: boolean;
+  isTyping?: boolean;
   bot: boolean;
 }
 
@@ -40,7 +41,7 @@ export interface ChatMessageType {
       avatar: string;
     };
     message: string;
-  }
+  };
   messageType?: '0' | '1' | '2';
   message: string;
   customData?: any;
@@ -104,6 +105,8 @@ export interface ChatContent {
   setChatWindowHeight: Dispatch<SetStateAction<string>>;
   prevScrollHeight: number;
   setPrevScrollHeight: Dispatch<SetStateAction<number>>;
+  currentTime: Date;
+  pingUserIsTyping: (roomID: string) => void;
 }
 
 export const PaxChatContext = createContext<ChatContent>({
@@ -149,6 +152,8 @@ export const PaxChatContext = createContext<ChatContent>({
   setChatWindowHeight: () => {},
   prevScrollHeight: 0,
   setPrevScrollHeight: () => {},
+  currentTime: new Date(),
+  pingUserIsTyping: () => {},
 });
 
 export const usePaxChatContext = () => useContext(PaxChatContext);
