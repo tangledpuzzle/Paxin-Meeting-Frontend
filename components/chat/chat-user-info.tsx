@@ -99,7 +99,7 @@ export default function ChatUserInfo() {
             {data?.username ? (
               <p className='text-sm'>@{data?.username}</p>
             ) : (
-              <Skeleton className='h-5 w-32' />
+              <Skeleton className='mt-2 h-5 w-32' />
             )}
           </div>
           <div>
@@ -107,7 +107,7 @@ export default function ChatUserInfo() {
             {data?.description ? (
               <p className='text-sm'>{data.description}</p>
             ) : (
-              <Skeleton className='h-5 w-full' />
+              <Skeleton className='mt-2 h-5 w-full' />
             )}
           </div>
           <Separator />
@@ -118,7 +118,7 @@ export default function ChatUserInfo() {
                 {t('city')}
               </span>
               {data?.cities ? (
-                <div className='flex flex-wrap gap-2'>
+                <div className='mt-2 flex flex-wrap gap-2'>
                   {data.cities?.map((city: string, index: number) => (
                     <Link
                       key={index}
@@ -127,7 +127,7 @@ export default function ChatUserInfo() {
                     >
                       <Badge
                         variant='outline'
-                        className='mb-2 max-w-fit rounded-full bg-primary/10 p-1 px-2 text-sm text-primary hover:border-primary'
+                        className='m-0 max-w-fit rounded-full bg-primary/10 p-1 px-2 text-sm text-primary hover:border-primary'
                       >
                         <p>{city}</p>
                       </Badge>
@@ -135,16 +135,16 @@ export default function ChatUserInfo() {
                   ))}
                 </div>
               ) : (
-                <Skeleton className='h-6 w-full' />
+                <Skeleton className='mt-2 h-6 w-full' />
               )}
             </div>
-            <div>
+            <div className='mt-2'>
               <span className='flex items-center gap-1 !text-xs text-muted-foreground'>
                 <BiSolidCategory className='size-3' />
                 {t('category')}
               </span>
               {data?.categories ? (
-                <div className='flex flex-wrap gap-2'>
+                <div className='mt-2 flex flex-wrap gap-2'>
                   {data.categories?.map((category: string, index: number) => (
                     <Link
                       key={index}
@@ -153,7 +153,7 @@ export default function ChatUserInfo() {
                     >
                       <Badge
                         variant='outline'
-                        className='max-w-fit rounded-full bg-primary/10 p-1 px-2 text-sm text-primary hover:border-primary'
+                        className='m-0 max-w-fit rounded-full bg-primary/10 p-1 px-2 text-sm text-primary hover:border-primary'
                       >
                         {category}
                       </Badge>
@@ -161,7 +161,7 @@ export default function ChatUserInfo() {
                   ))}
                 </div>
               ) : (
-                <Skeleton className='h-6 w-full' />
+                <Skeleton className='mt-2 h-6 w-full' />
               )}
             </div>
           </div>
@@ -184,7 +184,7 @@ export default function ChatUserInfo() {
                   </div>
                 </div>
               ) : (
-                <Skeleton className='h-5 w-full' />
+                <Skeleton className='mt-2 h-5 w-full' />
               )}
             </div>
             <div>
@@ -202,7 +202,7 @@ export default function ChatUserInfo() {
                   </div>
                 </div>
               ) : (
-                <Skeleton className='h-5 w-full' />
+                <Skeleton className='mt-2 h-5 w-full' />
               )}
             </div>
             <div>
@@ -217,7 +217,7 @@ export default function ChatUserInfo() {
                   </div>
                 </div>
               ) : (
-                <Skeleton className='h-5 w-full' />
+                <Skeleton className='mt-2 h-5 w-full' />
               )}
             </div>
           </div>
@@ -232,7 +232,7 @@ export default function ChatUserInfo() {
                 dangerouslySetInnerHTML={{ __html: data?.additionalinfo || '' }}
               ></div>
             ) : (
-              <div className='space-y-1'>
+              <div className='mt-2 space-y-1'>
                 <Skeleton className='h-5 w-full' />
                 <Skeleton className='h-5 w-full' />
                 <Skeleton className='h-5 w-full' />
