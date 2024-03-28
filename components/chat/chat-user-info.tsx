@@ -13,6 +13,7 @@ import { BiSolidCalendar, BiSolidCategory } from 'react-icons/bi';
 import { MdOutlineHouseSiding, MdOutlinePostAdd } from 'react-icons/md';
 import { RiUserFollowFill } from 'react-icons/ri';
 import { Skeleton } from '../ui/skeleton';
+import { useNow, useFormatter } from 'next-intl';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -21,6 +22,13 @@ export default function ChatUserInfo() {
   const locale = useLocale();
   const { showSidebar, setShowSidebar, chatUser } = useContext(PaxChatContext);
   const sidebarRef = useRef<HTMLDivElement>(null);
+
+  const now = useNow({
+    // … and update it every 60 seconds
+    updateInterval: 1000 * 60,
+  });
+
+  const format = useFormatter();
 
   const { data, error } = useSWR(
     chatUser?.profile.name
@@ -63,7 +71,17 @@ export default function ChatUserInfo() {
           <div className='absolute bottom-4 left-2'>
             <p>@{chatUser?.profile.name}</p>
             <p className='text-xs text-gray-500'>
-              {chatUser?.online ? 'online' : 'offline'}
+              {chatUser?.online
+                ? 'online'
+                : 'last seen ' +
+                  format.relativeTime(
+                    chatUser?.lastOnlineTimestamp
+                      ? new Date(chatUser?.lastOnlineTimestamp) > now
+                        ? now
+                        : new Date(chatUser?.lastOnlineTimestamp)
+                      : now,
+                    now
+                  )}
             </p>
           </div>
           <div className='absolute bottom-2 right-2'>
