@@ -8,6 +8,7 @@ import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useContext } from 'react';
 import { IoMdMore } from 'react-icons/io';
+import TypingDots from './typing-dots';
 
 export default function ChatHeader() {
   const t = useTranslations('main');
@@ -43,17 +44,24 @@ export default function ChatHeader() {
       >
         <p>@{chatUser?.profile.name || ''}</p>
         <p className='text-xs text-gray-500'>
-          {chatUser?.online
-            ? 'online'
-            : 'last seen ' +
-              format.relativeTime(
-                chatUser?.lastOnlineTimestamp
-                  ? new Date(chatUser?.lastOnlineTimestamp) > currentTime
-                    ? currentTime
-                    : new Date(chatUser?.lastOnlineTimestamp)
-                  : currentTime,
-                currentTime
-              )}
+          {chatUser?.isTyping ? (
+            <>
+              is typing
+              <TypingDots />
+            </>
+          ) : chatUser?.online ? (
+            'online'
+          ) : (
+            'last seen ' +
+            format.relativeTime(
+              chatUser?.lastOnlineTimestamp
+                ? new Date(chatUser?.lastOnlineTimestamp) > currentTime
+                  ? currentTime
+                  : new Date(chatUser?.lastOnlineTimestamp)
+                : currentTime,
+              currentTime
+            )
+          )}
         </p>
       </div>
       <div className='ml-auto'>

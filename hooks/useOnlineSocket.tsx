@@ -1,7 +1,9 @@
+import { useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
 
 const useOnlineSocket = (): { [key: string]: any } => {
   const socket = useRef<WebSocket>();
+  const { data: session } = useSession();
   const [onlineState, setOnlineState] = useState<{ [key: string]: any }>({});
 
   useEffect(() => {
@@ -48,7 +50,23 @@ const useOnlineSocket = (): { [key: string]: any } => {
     };
   }, []);
 
-  return { onlineState };
+  const pingUserIsTyping = (roomID: string) => {
+    if (socket.current?.readyState === WebSocket.OPEN) {
+      const pingData = JSON.stringify({
+        messageType: 'UserIsTyping',
+        data: [
+          {
+            roomID,
+            access_token: session?.accessToken || '',
+          },
+        ],
+      });
+
+      socket.current?.send(pingData);
+    }
+  };
+
+  return { onlineState, pingUserIsTyping };
 };
 
 export default useOnlineSocket;
