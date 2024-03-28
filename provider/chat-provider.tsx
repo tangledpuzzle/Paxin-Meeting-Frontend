@@ -12,7 +12,7 @@ import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import { Howl, Howler } from 'howler';
 import { useSession } from 'next-auth/react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale, useNow, useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 
 Howler.autoUnlock = true;
@@ -43,9 +43,15 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     '100vh - 5rem - 20px - 68px - 4rem'
   );
   const [prevScrollHeight, setPrevScrollHeight] = useState(0);
-  const { onlineState } = useOnlineSocket();
+  const { onlineState, pingUserIsTyping } = useOnlineSocket();
   const { data: session } = useSession();
   const onPublication = useRef<any>(null);
+  const fadeTypingRef = useRef<NodeJS.Timeout | null>(null);
+
+  const currentTime = useNow({
+    // … and update it every 60 seconds
+    updateInterval: 1000 * 60,
+  });
 
   const messageReceivedSound = new Howl({
     src: ['/audio/message-received.mp3'],
@@ -54,7 +60,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     preload: true,
   });
 
-  useCentrifuge(onPublication.current);
+  useCentrifuge(session?.user?.id, onPublication.current);
 
   const getRooms = async () => {
     try {
@@ -387,6 +393,50 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             return room;
           });
         });
+      } else if (publication.type === 'user_is_typing') {
+        setChatRooms((chatRooms) => {
+          return chatRooms.map((room) => {
+            if (
+              room.id === `${publication.body.roomID}` &&
+              room.user.id === `${publication.body.userID}`
+            ) {
+              return {
+                ...room,
+                user: {
+                  ...room.user,
+                  isTyping: true,
+                },
+              };
+            }
+
+            return room;
+          });
+        });
+
+        if (fadeTypingRef.current) {
+          clearTimeout(fadeTypingRef.current);
+        }
+
+        fadeTypingRef.current = setTimeout(() => {
+          setChatRooms((chatRooms) => {
+            return chatRooms.map((room) => {
+              if (
+                room.id === `${publication.body.roomID}` &&
+                room.user.id === `${publication.body.userID}`
+              ) {
+                return {
+                  ...room,
+                  user: {
+                    ...room.user,
+                    isTyping: false,
+                  },
+                };
+              }
+
+              return room;
+            });
+          });
+        }, 5000);
       }
     };
   }, [activeRoom, messages]);
@@ -405,6 +455,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       return newChatRooms;
     });
   }, [onlineState]);
+
+  useEffect(() => {
+    console.log(chatUser);
+  }, [chatUser]);
 
   return (
     <PaxChatContext.Provider
@@ -451,6 +505,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         setChatWindowHeight,
         prevScrollHeight,
         setPrevScrollHeight,
+        currentTime,
+        pingUserIsTyping,
       }}
     >
       {children}

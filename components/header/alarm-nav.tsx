@@ -23,14 +23,13 @@ export default function AlarmNav({
 
   const checkMessagesInPathname = () => {
     if (pathname.includes('chat')) {
-      eventBus.emit('startChat', '0');
-      eventBus.emit('close');
+      eventBus.emit('startChat');
     } else {
       router.push('/chat?mode=true');
     }
   };
 
-  useCentrifuge(onPublication.current);
+  useCentrifuge(user?.id, onPublication.current);
 
   const getRoomCount = async () => {
     try {

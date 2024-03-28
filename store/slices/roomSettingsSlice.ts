@@ -159,6 +159,9 @@ const roomSettingsSlice = createSlice({
     ) => {
       state.azureTokenInfo = action.payload;
     },
+    resetRoomSetting: (state) => {
+      state = initialState;
+    },
   },
 });
 
@@ -188,6 +191,7 @@ export const {
   toggleHeaderVisibility,
   toggleFooterVisibility,
   updateAzureTokenInfo,
+  resetRoomSetting,
 } = roomSettingsSlice.actions;
 
 export default roomSettingsSlice.reducer;
