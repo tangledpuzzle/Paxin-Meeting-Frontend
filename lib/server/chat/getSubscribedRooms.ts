@@ -45,9 +45,11 @@ const getSubscribedRooms = async () => {
           },
           lastSeenMessage: '',
           online: false,
+          lastOnlineTimestamp: '',
           bot: false,
         },
         unreadCount: Number(room.unreadMessages || 0),
+        isUnread: false,
         lastSeenMessage: '',
         subscribed: true,
         timestamp: room.LastMessage.CreatedAt,
@@ -56,6 +58,7 @@ const getSubscribedRooms = async () => {
       for (const member of room.Members) {
         if (member.UserID === session?.user?.id) {
           _room.lastSeenMessage = member.LastReadMessageID || '';
+          _room.isUnread = member.IsUnread;
         } else if (member.UserID !== session?.user?.id) {
           _room.user.id = member.UserID;
           _room.user.profile.name = member.User.Name;
@@ -75,6 +78,7 @@ const getSubscribedRooms = async () => {
               locale.charAt(0).toUpperCase() + locale.slice(1)
             ];
           _room.user.lastSeenMessage = member.LastReadMessageID || '';
+          _room.user.lastOnlineTimestamp = member.User.last_online || '';
           _room.user.online = member.User.online;
           _room.user.bot = member.User.IsBot;
         }

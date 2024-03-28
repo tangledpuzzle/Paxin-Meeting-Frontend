@@ -7,12 +7,13 @@ import {
   PaxChatContext,
 } from '@/context/chat-context';
 import useCentrifuge from '@/hooks/useCentrifuge';
+import useOnlineSocket from '@/hooks/useOnlineSocket';
 import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import { Howl, Howler } from 'howler';
 import { useSession } from 'next-auth/react';
 import { useLocale, useTranslations } from 'next-intl';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 Howler.autoUnlock = true;
 
@@ -42,6 +43,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     '100vh - 5rem - 20px - 68px - 4rem'
   );
   const [prevScrollHeight, setPrevScrollHeight] = useState(0);
+  const { onlineState } = useOnlineSocket();
   const { data: session } = useSession();
   const onPublication = useRef<any>(null);
 
@@ -176,15 +178,18 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                   parentMessageId: publication.body.parent_msg_id
                     ? publication.body.parent_msg_id
                     : undefined,
-                  parentMessage: publication.body.parent_msg_id && publication.body.parentMsg ? {
-                    id: `${publication.body.parent_msg_id}`,
-                    message: publication.body.parentMsg.content,
-                    owner: {
-                      id: publication.body.parentMsg.user.id,
-                      name: publication.body.parentMsg.user.name,
-                      avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.parentMsg.user.photo}`,
-                    },
-                  } : undefined,
+                  parentMessage:
+                    publication.body.parent_msg_id && publication.body.parentMsg
+                      ? {
+                          id: `${publication.body.parent_msg_id}`,
+                          message: publication.body.parentMsg.content,
+                          owner: {
+                            id: publication.body.parentMsg.user.id,
+                            name: publication.body.parentMsg.user.name,
+                            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${publication.body.parentMsg.user.photo}`,
+                          },
+                        }
+                      : undefined,
                   messageType: `${publication.body.msgType}` as '0' | '1' | '2',
                   message: publication.body.content,
                   customData:
@@ -301,6 +306,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 ],
               },
               lastSeenMessage: '',
+              lastOnlineTimestamp: sender.user.last_online,
               online: sender.user.online,
               bot: sender.user.is_bot,
             },
@@ -384,6 +390,21 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       }
     };
   }, [activeRoom, messages]);
+
+  useEffect(() => {
+    setChatRooms((chatRooms) => {
+      const newChatRooms = chatRooms.map((room) => {
+        if (room.user && room.user.profile.name === onlineState.username) {
+          room.user.online = onlineState.online;
+          room.user.lastOnlineTimestamp = onlineState.lastOnline;
+        }
+
+        return room;
+      });
+
+      return newChatRooms;
+    });
+  }, [onlineState]);
 
   return (
     <PaxChatContext.Provider
