@@ -99,8 +99,10 @@ export default function ChatDetailPage({
                 : 'last seen ' +
                   format.relativeTime(
                     chatUser?.lastOnlineTimestamp
-                      ? new Date(chatUser?.lastOnlineTimestamp)
-                      : new Date(),
+                      ? new Date(chatUser?.lastOnlineTimestamp) > now
+                        ? now
+                        : new Date(chatUser?.lastOnlineTimestamp)
+                      : now,
                     now
                   )}
             </p>
