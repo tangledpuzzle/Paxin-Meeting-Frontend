@@ -14,12 +14,19 @@ import { Loader2 } from 'lucide-react';
 import MobileDetect from 'mobile-detect';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useContext, useEffect, useRef, useState } from 'react';
+import {
+  startTransition,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import toast from 'react-hot-toast';
 import { BsReply } from 'react-icons/bs';
 import { IoCheckmarkSharp, IoClose, IoSendOutline } from 'react-icons/io5';
 import { LiaTimesSolid } from 'react-icons/lia';
 import { MdOutlineEdit } from 'react-icons/md';
+import { useDebouncedCallback } from 'use-debounce';
 
 const PreviewFile = ({
   file,
@@ -103,6 +110,7 @@ export default function ChatInputComponent() {
     setUploadedFiles,
     setChatWindowHeight,
     setPrevScrollHeight,
+    pingUserIsTyping,
   } = useContext(PaxChatContext);
   const { user } = useContext(PaxContext);
   const mdRef = useRef<MobileDetect | null>(null);
@@ -337,7 +345,9 @@ export default function ChatInputComponent() {
           parentMessageId:
             isReplying && replyMessageId ? replyMessageId : undefined,
           parentMessage:
-            isReplying && replyMessageId ? messages.find((msg) => msg.id === replyMessageId) : undefined,
+            isReplying && replyMessageId
+              ? messages.find((msg) => msg.id === replyMessageId)
+              : undefined,
           messageType: msgType || '0',
           message: inputMessage,
           customData: jsonData ? jsonData : undefined,
@@ -507,6 +517,10 @@ export default function ChatInputComponent() {
     );
   };
 
+  const handleTyping = useDebouncedCallback(() => {
+    pingUserIsTyping(activeRoom);
+  }, 300);
+
   useEffect(() => {
     if (window !== undefined)
       mdRef.current = new MobileDetect(window.navigator.userAgent);
@@ -615,7 +629,12 @@ export default function ChatInputComponent() {
         <textarea
           ref={textareaRef}
           value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
+          onChange={(e) => {
+            setInputMessage(e.target.value);
+            startTransition(() => {
+              handleTyping();
+            });
+          }}
           className='h-[68px] max-h-[200px] w-full rounded-xl bg-card-gradient-menu-on p-2'
           id='chat-message-input'
           onKeyDown={handleInputKeyDown}

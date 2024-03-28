@@ -1,19 +1,15 @@
 'use client';
 
+import ChatHeader from '@/components/chat/chat-header';
 import ChatInputComponent from '@/components/chat/chat-input';
 import ChatMessageContainer from '@/components/chat/chat-message-container';
 import ChatMessageSkeleton from '@/components/chat/chat-message-skeleton';
-import ChatRoomDropdown from '@/components/chat/chat-room-dropdown';
 import { Button } from '@/components/ui/button';
 import { PaxChatContext } from '@/context/chat-context';
 import subscribe from '@/lib/server/chat/subscribe';
 import { Howler } from 'howler';
-import { MoveLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 import { useContext, useEffect } from 'react';
-import { IoMdMore } from 'react-icons/io';
-import { useNow, useFormatter } from 'next-intl';
 
 Howler.autoUnlock = true;
 
@@ -35,13 +31,6 @@ export default function ChatDetailPage({
     isMessageLoading,
     isRoomLoading,
   } = useContext(PaxChatContext);
-
-  const now = useNow({
-    // … and update it every 60 seconds
-    updateInterval: 1000 * 60,
-  });
-
-  const format = useFormatter();
 
   const handleSubscribe = async (roomId: string) => {
     try {
@@ -68,51 +57,7 @@ export default function ChatDetailPage({
   return !isMessageLoading && !isRoomLoading ? (
     <div className='new-content-container'>
       <div className='new-main-content'>
-        <div className='flex items-center gap-2 bg-card-gradient-menu px-4 py-2'>
-          {!showNav && (
-            <Button
-              variant='ghost'
-              size='icon'
-              className=''
-              onClick={() => setShowNav(!showNav)}
-            >
-              <MoveLeft size='24' />
-            </Button>
-          )}
-          <div className='relative size-12 min-w-12'>
-            <Image
-              className='size-8 rounded-full'
-              fill
-              style={{ objectFit: 'cover' }}
-              src={chatUser?.profile.avatar || ''}
-              alt={chatUser?.profile.name || ''}
-            />
-          </div>
-          <div
-            className='flex cursor-pointer flex-col justify-center'
-            onClick={() => setShowSidebar(true)}
-          >
-            <p>@{chatUser?.profile.name || ''}</p>
-            <p className='text-xs text-gray-500'>
-              {chatUser?.online
-                ? 'online'
-                : 'last seen ' +
-                  format.relativeTime(
-                    chatUser?.lastOnlineTimestamp
-                      ? new Date(chatUser?.lastOnlineTimestamp)
-                      : new Date(),
-                    now
-                  )}
-            </p>
-          </div>
-          <div className='ml-auto'>
-            <ChatRoomDropdown>
-              <Button variant='ghost' size='icon' className='rounded-full'>
-                <IoMdMore size={20} />
-              </Button>
-            </ChatRoomDropdown>
-          </div>
-        </div>
+        <ChatHeader />
         <ChatMessageContainer />
         <div className='chatInput'>
           {!activeRoomSubscribed && (

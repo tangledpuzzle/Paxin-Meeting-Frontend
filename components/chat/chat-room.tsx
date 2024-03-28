@@ -26,6 +26,7 @@ import { Badge } from '../ui/badge';
 import markAsRead from '@/lib/server/chat/markAsRead';
 import markAsUnRead from '@/lib/server/chat/markAsUnread';
 import toast from 'react-hot-toast';
+import TypingDots from './typing-dots';
 
 export default function ChatRoom({ room }: { room: ChatRoomType }) {
   const t = useTranslations('chatting');
@@ -91,15 +92,15 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
       if (res?.success) {
         setChatRooms((chatRooms) => {
           const index = chatRooms.findIndex((_room) => _room.id === room.id);
-          
+
           if (index > -1) chatRooms[index].isUnread = false;
-  
+
           return chatRooms;
         });
       } else {
         toast.error(t('chat_mark_read_error'), {
           position: 'top-right',
-        })
+        });
       }
     }
   };
@@ -111,7 +112,7 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
     if (res?.success) {
       setChatRooms((chatRooms) => {
         const index = chatRooms.findIndex((_room) => _room.id === room.id);
-        
+
         if (index > -1) chatRooms[index].isUnread = true;
 
         return chatRooms;
@@ -119,7 +120,7 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
     } else {
       toast.error(t('chat_mark_unread_error'), {
         position: 'top-right',
-      })
+      });
     }
   };
 
@@ -179,16 +180,28 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
                 )}
               </div>
               <p className='line-clamp-1 max-w-40 text-xs text-gray-500 dark:text-gray-400'>
-                {room.lastMessage.owner === user?.id && !room.user.bot && (
-                  <BsCheck2All
-                    className={cn('mr-1 inline-block size-4 text-gray-500', {
-                      'text-primary':
-                        Number(room.user.lastSeenMessage || 0) >=
-                        Number(room.lastMessage.id),
-                    })}
-                  />
+                {room.user.isTyping ? (
+                  <>
+                    is typing
+                    <TypingDots />
+                  </>
+                ) : (
+                  <>
+                    {room.lastMessage.owner === user?.id && !room.user.bot && (
+                      <BsCheck2All
+                        className={cn(
+                          'mr-1 inline-block size-4 text-gray-500',
+                          {
+                            'text-primary':
+                              Number(room.user.lastSeenMessage || 0) >=
+                              Number(room.lastMessage.id),
+                          }
+                        )}
+                      />
+                    )}
+                    {room.lastMessage.message}
+                  </>
                 )}
-                {room.lastMessage.message}
               </p>
             </div>
             {room.unreadCount > 0 ? (
@@ -202,8 +215,7 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
               <Badge
                 variant='default'
                 className='absolute bottom-2 right-2 m-0 size-5 min-w-5 items-center justify-center rounded-full p-0.5 text-xs font-normal'
-              >
-              </Badge>
+              ></Badge>
             ) : null}
           </Link>
         </ContextMenuTrigger>
@@ -219,8 +231,9 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
             </ContextMenuItem>
           )}
           {(room.lastMessage.owner !== user?.id &&
-          Number(room.lastMessage.id || 0) >
-            Number(room.lastSeenMessage || 0)) || room.isUnread ? (
+            Number(room.lastMessage.id || 0) >
+              Number(room.lastSeenMessage || 0)) ||
+          room.isUnread ? (
             <ContextMenuItem
               className='cursor-pointer'
               onClick={() => handleMarkAsRead(`${room.lastMessage.id}`)}
