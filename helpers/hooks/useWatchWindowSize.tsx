@@ -1,7 +1,7 @@
+'use client';
 import { useEffect, useState, useRef } from 'react';
 import MobileDetect from 'mobile-detect';
 import type { Room } from 'livekit-client';
-import NoSleep from 'nosleep.js';
 
 import {
   updateDeviceOrientation,
@@ -19,7 +19,7 @@ import { doRefreshWhiteboard } from '../../store/slices/whiteboard';
 const useWatchWindowSize = (currentRoom: Room | undefined) => {
   const store = useAppStore();
   const dispatch = useAppDispatch();
-  const noSleep = new NoSleep();
+  // const noSleep = new NoSleep();
   const initialRef = useRef(false);
 
   const [deviceClass, setDeviceClass] = useState<string>('');
@@ -109,7 +109,11 @@ const useWatchWindowSize = (currentRoom: Room | undefined) => {
 
     if (isSmallDevice) {
       // Prevent display sleep for mobile devices
-      noSleep.enable();
+      import('nosleep.js').then((e) => {
+        const NoSleep = e.default;
+        const noSleep = new NoSleep();
+        noSleep.enable();
+      });
     }
 
     const os = md.os();
