@@ -30,6 +30,7 @@ import { toast } from 'react-toastify';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { useRouter } from 'next/navigation';
 import { RTCContext } from '@/provider/webRTCProvider';
+import { useSession } from 'next-auth/react';
 interface IFooterProps {
   currentRoom: Room;
   isRecorder: boolean;
@@ -51,6 +52,7 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
   const [alertText, setAlertText] = useState('');
   const [task, setTask] = useState('');
   const router = useRouter();
+  const session = useSession();
   function goBack() {
     router.push('/profile/conference');
   }
@@ -87,7 +89,11 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
       await clearSession();
       goBack();
     } else if (task == 'stepOut') {
-      goBack();
+      if (session.status == 'authenticated') {
+        goBack();
+      } else {
+        router.push('/');
+      }
     }
   };
   const alertModal = () => {
