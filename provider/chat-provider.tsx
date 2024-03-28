@@ -6,20 +6,21 @@ import {
   ChatUserType,
   PaxChatContext,
 } from '@/context/chat-context';
+import { PaxContext } from '@/context/context';
 import useCentrifuge from '@/hooks/useCentrifuge';
 import useOnlineSocket from '@/hooks/useOnlineSocket';
 import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import { Howl, Howler } from 'howler';
-import { useSession } from 'next-auth/react';
 import { useLocale, useNow, useTranslations } from 'next-intl';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 Howler.autoUnlock = true;
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const t = useTranslations('chatting');
   const locale = useLocale();
+  const { user } = useContext(PaxContext);
   const [showNav, setShowNav] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
   const [chatRooms, setChatRooms] = useState<ChatRoomType[]>([]);
@@ -44,7 +45,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   );
   const [prevScrollHeight, setPrevScrollHeight] = useState(0);
   const { onlineState, pingUserIsTyping } = useOnlineSocket();
-  const { data: session } = useSession();
   const onPublication = useRef<any>(null);
   const fadeTypingRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -60,7 +60,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     preload: true,
   });
 
-  useCentrifuge(session?.user?.id, onPublication.current);
+  useCentrifuge(user?.id, onPublication.current);
 
   const getRooms = async () => {
     try {
@@ -230,7 +230,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                   },
                   timestamp: publication.body.created_at,
                   unreadCount:
-                    session?.user?.id !== publication.body.user_id
+                    user?.id !== publication.body.user_id
                       ? room.unreadCount + 1
                       : room.unreadCount,
                 };
@@ -294,7 +294,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       } else if (publication.type === 'new_room') {
         setChatRooms((chatRooms) => {
           const sender = publication.body.members.find(
-            (member: any) => member.user.id !== session?.user?.id
+            (member: any) => member.user.id !== user?.id
           );
           chatRooms.push({
             id: `${publication.body.id}`,
