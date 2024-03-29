@@ -3,7 +3,7 @@
   "version": "0.0.9",
   "private": true,
   "scripts": {
-    "dev": "next dev --experimental-https --turbo",
+    "dev": "next dev",
     "build": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" next build",
     "start": "next start",
     "lint": "next lint",
@@ -58,7 +58,7 @@
     "framer-motion": "^11.0.3",
     "gsap": "^3.12.5",
     "howler": "^2.2.4",
-    "livekit-client": "^2.0.8",
+    "livekit-client": "^2.0.10",
     "lucide-react": "^0.315.0",
     "microsoft-cognitiveservices-speech-sdk": "^1.35.0",
     "mitt": "^3.0.1",
