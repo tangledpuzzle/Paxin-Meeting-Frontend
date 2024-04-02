@@ -64,7 +64,7 @@ const ScrenshareIcon = ({ currentRoom }: IScrenshareIconProps) => {
       for (const [
         ,
         publication,
-      ] of currentRoom.localParticipant.trackPublications.entries()) {
+      ] of currentRoom.localParticipant.tracks.entries()) {
         if (
           (publication.source === Track.Source.ScreenShare ||
             publication.source === Track.Source.ScreenShareAudio) &&

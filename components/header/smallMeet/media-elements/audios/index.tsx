@@ -36,7 +36,7 @@ const AudioElements = ({ currentConnection }: IAudioElementsProps) => {
     }
     const elms: Array<JSX.Element> = [];
     audioSubscribers.forEach((participant) => {
-      participant.trackPublications.forEach((track) => {
+      participant.tracks.forEach((track) => {
         elms.push(
           <AudioElm
             userId={participant.identity}

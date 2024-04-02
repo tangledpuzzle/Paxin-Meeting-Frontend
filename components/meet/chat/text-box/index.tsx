@@ -131,11 +131,9 @@ const TextBoxArea = ({
       return;
     }
 
-    let sid = await currentRoom.getSid();
-
     const dataMsg = new DataMessage({
       type: DataMsgType.USER,
-      roomSid: sid,
+      roomSid: currentRoom.sid,
       roomId: currentRoom.name,
       to: selectedChatOption !== 'public' ? selectedChatOption : '',
       body: {
