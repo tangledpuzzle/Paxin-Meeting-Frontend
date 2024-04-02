@@ -81,7 +81,7 @@ export default class ConnectLivekit
   private readonly url: string;
   private readonly enabledE2EE: boolean = false;
   private tokenRenewInterval: any;
-  private readonly _e2eeKeyProvider: ExternalE2EEKeyProvider;
+  private _e2eeKeyProvider: ExternalE2EEKeyProvider;
 
   private handleParticipant: HandleParticipants;
   private handleMediaTracks: HandleMediaTracks;
@@ -291,7 +291,7 @@ export default class ConnectLivekit
         isRecorder,
       })
     );
-    await this.handleParticipant.setParticipantMetadata(
+    this.handleParticipant.setParticipantMetadata(
       '',
       this._room.localParticipant
     );
@@ -305,10 +305,10 @@ export default class ConnectLivekit
     }
 
     // all other connected Participants
-    this._room.remoteParticipants.forEach((participant) => {
+    this._room.participants.forEach((participant) => {
       this.handleParticipant.addParticipant(participant);
 
-      participant.getTrackPublications().forEach((track) => {
+      participant.getTracks().forEach((track) => {
         if (track.isSubscribed) {
           if (
             track.source === Track.Source.ScreenShare ||
@@ -346,9 +346,9 @@ export default class ConnectLivekit
     await this.handleRoomMetadata.setRoomMetadata(metadata);
   }
 
-  public async disconnectRoom() {
+  public disconnectRoom() {
     if (this._room.state === ConnectionState.Connected) {
-      await this._room.disconnect(true);
+      this._room.disconnect(true);
     }
   }
 
@@ -361,11 +361,9 @@ export default class ConnectLivekit
   }
 
   private updateSession = async () => {
-    const sid = await this._room.getSid();
-
     store.dispatch(
       addCurrentRoom({
-        sid: sid,
+        sid: this._room.sid,
         room_id: this._room.name,
       })
     );
@@ -445,13 +443,13 @@ export default class ConnectLivekit
   // this method basically updates paxmeet token
   // livekit will renew token by itself automatically
   private startTokenRenewInterval = () => {
-    this.tokenRenewInterval = setInterval(async () => {
+    this.tokenRenewInterval = setInterval(() => {
       // get current token that is store in redux
-      const sid = await this._room.getSid();
+
       const token = store.getState().session.token;
       const dataMsg = new DataMessage({
         type: DataMsgType.SYSTEM,
-        roomSid: sid,
+        roomSid: this._room.sid,
         roomId: this._room.name,
         body: {
           type: DataMsgBodyType.RENEW_TOKEN,
@@ -470,9 +468,9 @@ export default class ConnectLivekit
 
   /**
    * This method will set screenshare media track
-   * @param track
-   * @param participant
-   * @param add
+   * @param track: LocalTrackPublication | RemoteTrackPublication
+   * @param participant: LocalParticipant | RemoteParticipant
+   * @param add: boolean
    */
   public setScreenShareTrack = (
     track: LocalTrackPublication | RemoteTrackPublication,

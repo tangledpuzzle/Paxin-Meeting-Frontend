@@ -72,7 +72,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
       for (const [
         ,
         publication,
-      ] of currentRoom?.localParticipant.audioTrackPublications.entries()) {
+      ] of currentRoom?.localParticipant.audioTracks.entries()) {
         if (
           publication.track &&
           publication.source === Track.Source.Microphone
@@ -167,7 +167,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
     for (const [
       ,
       publication,
-    ] of currentRoom?.localParticipant.audioTrackPublications.entries()) {
+    ] of currentRoom?.localParticipant.audioTracks.entries()) {
       if (
         publication.track &&
         publication.track.source === Track.Source.Microphone
@@ -247,8 +247,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
     }
     if (muteOnStart) {
       setTimeout(async () => {
-        const audioTracks =
-          currentRoom?.localParticipant.audioTrackPublications;
+        const audioTracks = currentRoom?.localParticipant.audioTracks;
 
         if (audioTracks) {
           for (const [, publication] of audioTracks.entries()) {
