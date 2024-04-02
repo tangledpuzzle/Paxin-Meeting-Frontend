@@ -23,7 +23,7 @@ export default class HandleDataMessages {
     this.that = that;
   }
 
-  public dataReceived = async (
+  public dataReceived = (
     payload: Uint8Array,
     participant?: Participant,
     kind?: DataPacket_Kind
@@ -41,14 +41,14 @@ export default class HandleDataMessages {
       if (data.type === DataMsgType.SYSTEM) {
         if (!store.getState().session.currentUser?.isRecorder) {
           if (data.body) {
-            await this.handleSystemTypeData(data.body);
+            this.handleSystemTypeData(data.body);
           }
         }
       }
     }
   };
 
-  private handleSystemTypeData = async (body: DataMsgBody) => {
+  private handleSystemTypeData = (body: DataMsgBody) => {
     switch (body.type) {
       case DataMsgBodyType.RAISE_HAND:
       case DataMsgBodyType.INFO:
@@ -87,7 +87,7 @@ export default class HandleDataMessages {
         }
         break;
       case DataMsgBodyType.UPDATE_ROOM_METADATA:
-        await this.that.setRoomMetadata(body.msg);
+        this.that.setRoomMetadata(body.msg);
         break;
     }
   };

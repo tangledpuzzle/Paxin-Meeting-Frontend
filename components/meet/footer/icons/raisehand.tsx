@@ -40,11 +40,9 @@ const RaiseHandIcon = ({ currentRoom }: IRaiseHandIconProps) => {
   }, [isActiveRaisehand]);
 
   const toggleRaiseHand = async () => {
-    let sid = await currentRoom.getSid();
-
     if (!isActiveRaisehand) {
       const body = new DataMessageReq({
-        roomSid: sid,
+        roomSid: currentRoom.sid,
         roomId: currentRoom.name,
         msgBodyType: DataMsgBodyType.RAISE_HAND,
         msg: t('footer.notice.has-raised-hand', {
@@ -74,7 +72,7 @@ const RaiseHandIcon = ({ currentRoom }: IRaiseHandIconProps) => {
       }
     } else {
       const body = new DataMessageReq({
-        roomSid: sid,
+        roomSid: currentRoom.sid,
         roomId: currentRoom.name,
         msgBodyType: DataMsgBodyType.LOWER_HAND,
         msg: SystemMsgType.LOWER_HAND,
