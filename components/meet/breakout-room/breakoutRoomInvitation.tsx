@@ -41,28 +41,26 @@ const BreakoutRoomInvitation = ({
   const [token, setToken] = useState<string>('');
 
   const closeLocalTracks = useCallback(() => {
-    currentRoom.localParticipant.trackPublications.forEach(
-      async (publication) => {
-        if (!publication.track) {
-          return;
-        }
-        if (publication.track.source === Track.Source.Camera) {
-          currentRoom.localParticipant.unpublishTrack(publication.track, true);
-          dispatch(updateIsActiveWebcam(false));
-          dispatch(updateSelectedVideoDevice(''));
-          dispatch(
-            updateVirtualBackground({
-              type: 'none',
-            })
-          );
-        } else if (publication.track.source === Track.Source.Microphone) {
-          if (!publication.isMuted) {
-            await publication.track.unmute();
-            dispatch(updateIsMicMuted(true));
-          }
+    currentRoom.localParticipant.tracks.forEach(async (publication) => {
+      if (!publication.track) {
+        return;
+      }
+      if (publication.track.source === Track.Source.Camera) {
+        currentRoom.localParticipant.unpublishTrack(publication.track, true);
+        dispatch(updateIsActiveWebcam(false));
+        dispatch(updateSelectedVideoDevice(''));
+        dispatch(
+          updateVirtualBackground({
+            type: 'none',
+          })
+        );
+      } else if (publication.track.source === Track.Source.Microphone) {
+        if (!publication.isMuted) {
+          await publication.track.unmute();
+          dispatch(updateIsMicMuted(true));
         }
       }
-    );
+    });
   }, [currentRoom.localParticipant, dispatch]);
 
   useEffect(() => {

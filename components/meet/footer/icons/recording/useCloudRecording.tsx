@@ -9,16 +9,15 @@ import { CommonResponse } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { useTranslations } from 'next-intl';
 import { Room } from 'livekit-client';
 
-const useCloudRecording = (currentRoom: Room): IUseCloudRecordingReturn => {
+const useCloudRecording = (roomSid: string): IUseCloudRecordingReturn => {
   const TYPE_OF_RECORDING = RecordingType.RECORDING_TYPE_LOCAL;
   const [hasError, setHasError] = useState<boolean>(false);
   const t = useTranslations('meet');
 
   const startRecording = async () => {
-    const sid = await currentRoom.getSid();
     const body = new RecordingReq({
       task: RecordingTasks.START_RECORDING,
-      sid,
+      sid: roomSid,
     });
     if (typeof (window as any).DESIGN_CUSTOMIZATION !== 'undefined') {
       body.customDesign = `${(window as any).DESIGN_CUSTOMIZATION}`.replace(
@@ -47,10 +46,9 @@ const useCloudRecording = (currentRoom: Room): IUseCloudRecordingReturn => {
   };
 
   const stopRecording = async () => {
-    const sid = await currentRoom.getSid();
     const body = new RecordingReq({
       task: RecordingTasks.STOP_RECORDING,
-      sid,
+      roomId: roomSid,
     });
     const r = await sendAPIRequest(
       'recording',
