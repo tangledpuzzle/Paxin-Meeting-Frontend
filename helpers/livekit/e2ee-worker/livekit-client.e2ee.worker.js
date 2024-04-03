@@ -206,10 +206,10 @@
         var t = y[e];
         return t || (t = y[e] = new d(e, u.getLevel(), u.methodFactory)), t;
       };
-      var l = typeof window !== t ? window.log : void 0;
+      var h = typeof window !== t ? window.log : void 0;
       return (
         (u.noConflict = function () {
-          return typeof window !== t && window.log === u && (window.log = l), u;
+          return typeof window !== t && window.log === u && (window.log = h), u;
         }),
         (u.getLoggers = function () {
           return y;
@@ -220,8 +220,7 @@
     }),
     (t = o).exports ? (t.exports = r()) : (n.log = r());
   var s,
-    a,
-    c = o.exports;
+    a = o.exports;
   !(function (e) {
     (e[(e.trace = 0)] = 'trace'),
       (e[(e.debug = 1)] = 'debug'),
@@ -229,42 +228,29 @@
       (e[(e.warn = 3)] = 'warn'),
       (e[(e.error = 4)] = 'error'),
       (e[(e.silent = 5)] = 'silent');
-  })(s || (s = {})),
-    (function (e) {
-      (e.Default = 'livekit'),
-        (e.Room = 'livekit-room'),
-        (e.Participant = 'livekit-participant'),
-        (e.Track = 'livekit-track'),
-        (e.Publication = 'livekit-track-publication'),
-        (e.Engine = 'livekit-engine'),
-        (e.Signal = 'livekit-signal'),
-        (e.PCManager = 'livekit-pc-manager'),
-        (e.PCTransport = 'livekit-pc-transport'),
-        (e.E2EE = 'lk-e2ee');
-    })(a || (a = {}));
-  let d = c.getLogger('livekit');
-  Object.values(a).map((e) => c.getLogger(e)), d.setDefaultLevel(s.info);
-  const u = c.getLogger('lk-e2ee'),
-    y = 'AES-GCM',
-    l = { key: 10, delta: 3, audio: 1, empty: 0 },
-    h = {
+  })(s || (s = {}));
+  a.getLogger('livekit').setDefaultLevel(s.info);
+  const c = a.getLogger('lk-e2ee'),
+    d = 'AES-GCM',
+    u = { key: 10, delta: 3, audio: 1, empty: 0 },
+    y = {
       sharedKey: !1,
       ratchetSalt: 'LKFrameEncryptionKey',
       ratchetWindowSize: 8,
       failureTolerance: 10,
     };
-  class p extends Error {
+  class h extends Error {
     constructor(e, t) {
       super(t || 'an error has occured'), (this.code = e);
     }
   }
-  var f, v, g, m, w, I;
+  var l, p, f, v, g, m;
   !(function (e) {
     (e.PermissionDenied = 'PermissionDenied'),
       (e.NotFound = 'NotFound'),
       (e.DeviceInUse = 'DeviceInUse'),
       (e.Other = 'Other');
-  })(f || (f = {})),
+  })(l || (l = {})),
     (function (e) {
       e.getFailure = function (t) {
         if (t && 'name' in t)
@@ -276,18 +262,18 @@
                 ? e.DeviceInUse
                 : e.Other;
       };
-    })(f || (f = {})),
+    })(l || (l = {})),
     (function (e) {
       (e[(e.InvalidKey = 0)] = 'InvalidKey'),
         (e[(e.MissingKey = 1)] = 'MissingKey'),
         (e[(e.InternalError = 2)] = 'InternalError');
-    })(v || (v = {}));
-  class b extends p {
+    })(p || (p = {}));
+  class w extends h {
     constructor(e) {
       let t =
         arguments.length > 1 && void 0 !== arguments[1]
           ? arguments[1]
-          : v.InternalError;
+          : p.InternalError;
       super(40, e), (this.reason = t);
     }
   }
@@ -295,30 +281,30 @@
     (e.SetKey = 'setKey'),
       (e.RatchetRequest = 'ratchetRequest'),
       (e.KeyRatcheted = 'keyRatcheted');
-  })(g || (g = {})),
+  })(f || (f = {})),
     (function (e) {
       e.KeyRatcheted = 'keyRatcheted';
-    })(m || (m = {})),
+    })(v || (v = {})),
     (function (e) {
       (e.ParticipantEncryptionStatusChanged =
         'participantEncryptionStatusChanged'),
         (e.EncryptionError = 'encryptionError');
-    })(w || (w = {})),
+    })(g || (g = {})),
     (function (e) {
       e.Error = 'cryptorError';
-    })(I || (I = {}));
-  var S,
-    L = { exports: {} },
-    k = 'object' == typeof Reflect ? Reflect : null,
-    E =
-      k && 'function' == typeof k.apply
-        ? k.apply
+    })(m || (m = {}));
+  var I,
+    S = { exports: {} },
+    L = 'object' == typeof Reflect ? Reflect : null,
+    b =
+      L && 'function' == typeof L.apply
+        ? L.apply
         : function (e, t, n) {
             return Function.prototype.apply.call(e, t, n);
           };
-  S =
-    k && 'function' == typeof k.ownKeys
-      ? k.ownKeys
+  I =
+    L && 'function' == typeof L.ownKeys
+      ? L.ownKeys
       : Object.getOwnPropertySymbols
         ? function (e) {
             return Object.getOwnPropertyNames(e).concat(
@@ -328,16 +314,16 @@
         : function (e) {
             return Object.getOwnPropertyNames(e);
           };
-  var C =
+  var E =
     Number.isNaN ||
     function (e) {
       return e != e;
     };
-  function K() {
-    K.init.call(this);
+  function k() {
+    k.init.call(this);
   }
-  (L.exports = K),
-    (L.exports.once = function (e, t) {
+  (S.exports = k),
+    (S.exports.once = function (e, t) {
       return new Promise(function (n, r) {
         function i(n) {
           e.removeListener(t, o), r(n);
@@ -346,32 +332,32 @@
           'function' == typeof e.removeListener && e.removeListener('error', i),
             n([].slice.call(arguments));
         }
-        M(e, t, o, { once: !0 }),
+        F(e, t, o, { once: !0 }),
           'error' !== t &&
             (function (e, t, n) {
-              'function' == typeof e.on && M(e, 'error', t, n);
+              'function' == typeof e.on && F(e, 'error', t, n);
             })(e, i, { once: !0 });
       });
     }),
-    (K.EventEmitter = K),
-    (K.prototype._events = void 0),
-    (K.prototype._eventsCount = 0),
-    (K.prototype._maxListeners = void 0);
-  var T = 10;
-  function _(e) {
+    (k.EventEmitter = k),
+    (k.prototype._events = void 0),
+    (k.prototype._eventsCount = 0),
+    (k.prototype._maxListeners = void 0);
+  var K = 10;
+  function C(e) {
     if ('function' != typeof e)
       throw new TypeError(
         'The "listener" argument must be of type Function. Received type ' +
           typeof e
       );
   }
-  function A(e) {
-    return void 0 === e._maxListeners ? K.defaultMaxListeners : e._maxListeners;
+  function _(e) {
+    return void 0 === e._maxListeners ? k.defaultMaxListeners : e._maxListeners;
   }
-  function P(e, t, n, r) {
+  function A(e, t, n, r) {
     var i, o, s, a;
     if (
-      (_(n),
+      (C(n),
       void 0 === (o = e._events)
         ? ((o = e._events = Object.create(null)), (e._eventsCount = 0))
         : (void 0 !== o.newListener &&
@@ -387,7 +373,7 @@
         : r
           ? s.unshift(n)
           : s.push(n),
-      (i = A(e)) > 0 && s.length > i && !s.warned)
+      (i = _(e)) > 0 && s.length > i && !s.warned)
     ) {
       s.warned = !0;
       var c = new Error(
@@ -406,7 +392,7 @@
     }
     return e;
   }
-  function x() {
+  function T() {
     if (!this.fired)
       return (
         this.target.removeListener(this.type, this.wrapFn),
@@ -418,10 +404,10 @@
   }
   function R(e, t, n) {
     var r = { fired: !1, wrapFn: void 0, target: e, type: t, listener: n },
-      i = x.bind(r);
+      i = T.bind(r);
     return (i.listener = n), (r.wrapFn = i), i;
   }
-  function F(e, t, n) {
+  function P(e, t, n) {
     var r = e._events;
     if (void 0 === r) return [];
     var i = r[t];
@@ -439,7 +425,7 @@
             })(i)
           : U(i, i.length);
   }
-  function O(e) {
+  function x(e) {
     var t = this._events;
     if (void 0 !== t) {
       var n = t[e];
@@ -452,7 +438,7 @@
     for (var n = new Array(t), r = 0; r < t; ++r) n[r] = e[r];
     return n;
   }
-  function M(e, t, n, r) {
+  function F(e, t, n, r) {
     if ('function' == typeof e.on) r.once ? e.once(t, n) : e.on(t, n);
     else {
       if ('function' != typeof e.addEventListener)
@@ -465,29 +451,29 @@
       });
     }
   }
-  Object.defineProperty(K, 'defaultMaxListeners', {
+  Object.defineProperty(k, 'defaultMaxListeners', {
     enumerable: !0,
     get: function () {
-      return T;
+      return K;
     },
     set: function (e) {
-      if ('number' != typeof e || e < 0 || C(e))
+      if ('number' != typeof e || e < 0 || E(e))
         throw new RangeError(
           'The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' +
             e +
             '.'
         );
-      T = e;
+      K = e;
     },
   }),
-    (K.init = function () {
+    (k.init = function () {
       (void 0 !== this._events &&
         this._events !== Object.getPrototypeOf(this)._events) ||
         ((this._events = Object.create(null)), (this._eventsCount = 0)),
         (this._maxListeners = this._maxListeners || void 0);
     }),
-    (K.prototype.setMaxListeners = function (e) {
-      if ('number' != typeof e || e < 0 || C(e))
+    (k.prototype.setMaxListeners = function (e) {
+      if ('number' != typeof e || e < 0 || E(e))
         throw new RangeError(
           'The value of "n" is out of range. It must be a non-negative number. Received ' +
             e +
@@ -495,10 +481,10 @@
         );
       return (this._maxListeners = e), this;
     }),
-    (K.prototype.getMaxListeners = function () {
-      return A(this);
+    (k.prototype.getMaxListeners = function () {
+      return _(this);
     }),
-    (K.prototype.emit = function (e) {
+    (k.prototype.emit = function (e) {
       for (var t = [], n = 1; n < arguments.length; n++) t.push(arguments[n]);
       var r = 'error' === e,
         i = this._events;
@@ -514,30 +500,30 @@
       }
       var a = i[e];
       if (void 0 === a) return !1;
-      if ('function' == typeof a) E(a, this, t);
+      if ('function' == typeof a) b(a, this, t);
       else {
         var c = a.length,
           d = U(a, c);
-        for (n = 0; n < c; ++n) E(d[n], this, t);
+        for (n = 0; n < c; ++n) b(d[n], this, t);
       }
       return !0;
     }),
-    (K.prototype.addListener = function (e, t) {
-      return P(this, e, t, !1);
+    (k.prototype.addListener = function (e, t) {
+      return A(this, e, t, !1);
     }),
-    (K.prototype.on = K.prototype.addListener),
-    (K.prototype.prependListener = function (e, t) {
-      return P(this, e, t, !0);
+    (k.prototype.on = k.prototype.addListener),
+    (k.prototype.prependListener = function (e, t) {
+      return A(this, e, t, !0);
     }),
-    (K.prototype.once = function (e, t) {
-      return _(t), this.on(e, R(this, e, t)), this;
+    (k.prototype.once = function (e, t) {
+      return C(t), this.on(e, R(this, e, t)), this;
     }),
-    (K.prototype.prependOnceListener = function (e, t) {
-      return _(t), this.prependListener(e, R(this, e, t)), this;
+    (k.prototype.prependOnceListener = function (e, t) {
+      return C(t), this.prependListener(e, R(this, e, t)), this;
     }),
-    (K.prototype.removeListener = function (e, t) {
+    (k.prototype.removeListener = function (e, t) {
       var n, r, i, o, s;
-      if ((_(t), void 0 === (r = this._events))) return this;
+      if ((C(t), void 0 === (r = this._events))) return this;
       if (void 0 === (n = r[e])) return this;
       if (n === t || n.listener === t)
         0 == --this._eventsCount
@@ -563,8 +549,8 @@
       }
       return this;
     }),
-    (K.prototype.off = K.prototype.removeListener),
-    (K.prototype.removeAllListeners = function (e) {
+    (k.prototype.off = k.prototype.removeListener),
+    (k.prototype.removeAllListeners = function (e) {
       var t, n, r;
       if (void 0 === (n = this._events)) return this;
       if (void 0 === n.removeListener)
@@ -594,23 +580,23 @@
         for (r = t.length - 1; r >= 0; r--) this.removeListener(e, t[r]);
       return this;
     }),
-    (K.prototype.listeners = function (e) {
-      return F(this, e, !0);
+    (k.prototype.listeners = function (e) {
+      return P(this, e, !0);
     }),
-    (K.prototype.rawListeners = function (e) {
-      return F(this, e, !1);
+    (k.prototype.rawListeners = function (e) {
+      return P(this, e, !1);
     }),
-    (K.listenerCount = function (e, t) {
+    (k.listenerCount = function (e, t) {
       return 'function' == typeof e.listenerCount
         ? e.listenerCount(t)
-        : O.call(e, t);
+        : x.call(e, t);
     }),
-    (K.prototype.listenerCount = O),
-    (K.prototype.eventNames = function () {
-      return this._eventsCount > 0 ? S(this._events) : [];
+    (k.prototype.listenerCount = x),
+    (k.prototype.eventNames = function () {
+      return this._eventsCount > 0 ? I(this._events) : [];
     });
-  var D = L.exports;
-  function N(e, t) {
+  var O = S.exports;
+  function M(e, t) {
     const n = new TextEncoder().encode(t);
     switch (e) {
       case 'HKDF':
@@ -626,17 +612,17 @@
         throw new Error('algorithm '.concat(e, ' is currently unsupported'));
     }
   }
-  function B(t, n) {
+  function D(t, n) {
     return e(this, void 0, void 0, function* () {
-      const e = N(t.algorithm.name, n),
-        r = yield crypto.subtle.deriveKey(e, t, { name: y, length: 128 }, !1, [
+      const e = M(t.algorithm.name, n),
+        r = yield crypto.subtle.deriveKey(e, t, { name: d, length: 128 }, !1, [
           'encrypt',
           'decrypt',
         ]);
       return { material: t, encryptionKey: r };
     });
   }
-  class j {
+  class N {
     constructor() {
       (this.consecutiveSifCount = 0),
         (this.lastSifReceivedAt = 0),
@@ -669,8 +655,8 @@
         (this.sifSequenceStartedAt = void 0);
     }
   }
-  const q = new Map();
-  class V extends D.EventEmitter {
+  const B = new Map();
+  class q extends O.EventEmitter {
     encodeFunction(e, t) {
       throw Error('not implemented for subclass');
     }
@@ -678,7 +664,7 @@
       throw Error('not implemented for subclass');
     }
   }
-  class X extends V {
+  class V extends q {
     constructor(e) {
       var t;
       super(),
@@ -691,25 +677,17 @@
           null !== (t = e.sifTrailer) && void 0 !== t
             ? t
             : Uint8Array.from([])),
-        (this.sifGuard = new j());
-    }
-    get logContext() {
-      return {
-        participant: this.participantIdentity,
-        mediaTrackId: this.trackId,
-        fallbackCodec: this.videoCodec,
-      };
+        (this.sifGuard = new N());
     }
     setParticipant(e, t) {
       (this.participantIdentity = e), (this.keys = t), this.sifGuard.reset();
     }
     unsetParticipant() {
-      u.debug('unsetting participant', this.logContext),
-        (this.participantIdentity = void 0);
+      this.participantIdentity = void 0;
     }
     isEnabled() {
       return this.participantIdentity
-        ? q.get(this.participantIdentity)
+        ? B.get(this.participantIdentity)
         : void 0;
     }
     getParticipantIdentity() {
@@ -726,31 +704,20 @@
     }
     setupTransform(e, t, n, r, i) {
       i &&
-        (u.info('setting codec on cryptor to', { codec: i }),
-        (this.videoCodec = i)),
-        u.debug(
-          'Setting up frame cryptor transform',
-          Object.assign(
-            { operation: e, passedTrackId: r, codec: i },
-            this.logContext
-          )
-        );
+        (c.info('setting codec on cryptor to', { codec: i }),
+        (this.videoCodec = i));
       const o = 'encode' === e ? this.encodeFunction : this.decodeFunction,
         s = new TransformStream({ transform: o.bind(this) });
       t
         .pipeThrough(s)
         .pipeTo(n)
         .catch((e) => {
-          u.warn(e), this.emit(I.Error, e instanceof b ? e : new b(e.message));
+          c.warn(e), this.emit(m.Error, e instanceof w ? e : new w(e.message));
         }),
         (this.trackId = r);
     }
     setSifTrailer(e) {
-      u.debug(
-        'setting SIF trailer',
-        Object.assign(Object.assign({}, this.logContext), { trailer: e })
-      ),
-        (this.sifTrailer = e);
+      this.sifTrailer = e;
     }
     encodeFunction(t, n) {
       var r;
@@ -773,23 +740,23 @@
             t.timestamp
           );
           let a = this.getUnencryptedBytes(t);
-          const c = new Uint8Array(t.data, 0, a.unencryptedBytes),
-            d = new Uint8Array(2);
-          (d[0] = 12), (d[1] = o);
+          const u = new Uint8Array(t.data, 0, a.unencryptedBytes),
+            y = new Uint8Array(2);
+          (y[0] = 12), (y[1] = o);
           try {
             const r = yield crypto.subtle.encrypt(
               {
-                name: y,
+                name: d,
                 iv: e,
-                additionalData: new Uint8Array(t.data, 0, c.byteLength),
+                additionalData: new Uint8Array(t.data, 0, u.byteLength),
               },
               i,
               new Uint8Array(t.data, a.unencryptedBytes)
             );
-            let o = new Uint8Array(r.byteLength + e.byteLength + d.byteLength);
+            let o = new Uint8Array(r.byteLength + e.byteLength + y.byteLength);
             o.set(new Uint8Array(r)),
               o.set(new Uint8Array(e), r.byteLength),
-              o.set(d, r.byteLength + e.byteLength),
+              o.set(y, r.byteLength + e.byteLength),
               a.isH264 &&
                 (o = (function (e) {
                   const t = [];
@@ -801,32 +768,27 @@
                   }
                   return new Uint8Array(t);
                 })(o));
-            var s = new Uint8Array(c.byteLength + o.byteLength);
+            var s = new Uint8Array(u.byteLength + o.byteLength);
             return (
-              s.set(c),
-              s.set(o, c.byteLength),
+              s.set(u),
+              s.set(o, u.byteLength),
               (t.data = s.buffer),
               n.enqueue(t)
             );
           } catch (e) {
-            u.error(e);
+            c.error(e);
           }
         } else
-          u.debug('failed to decrypt, emitting error', this.logContext),
-            this.emit(
-              I.Error,
-              new b('encryption key missing for encoding', v.MissingKey)
-            );
+          this.emit(
+            m.Error,
+            new w('encryption key missing for encoding', p.MissingKey)
+          );
       });
     }
     decodeFunction(t, n) {
       return e(this, void 0, void 0, function* () {
         if (!this.isEnabled() || 0 === t.data.byteLength)
-          return (
-            u.debug('skipping empty frame', this.logContext),
-            this.sifGuard.recordUserFrame(),
-            n.enqueue(t)
-          );
+          return this.sifGuard.recordUserFrame(), n.enqueue(t);
         if (
           (function (e, t) {
             if (0 === t.byteLength) return !1;
@@ -835,7 +797,6 @@
           })(t.data, this.sifTrailer)
         )
           return (
-            u.debug('enqueue SIF', this.logContext),
             this.sifGuard.recordSif(),
             this.sifGuard.isSifAllowed()
               ? ((t.data = t.data.slice(
@@ -843,7 +804,7 @@
                   t.data.byteLength - this.sifTrailer.byteLength
                 )),
                 n.enqueue(t))
-              : void u.warn('SIF limit reached, dropping frame')
+              : void c.warn('SIF limit reached, dropping frame')
           );
         this.sifGuard.recordUserFrame();
         const e = new Uint8Array(t.data)[t.data.byteLength - 1];
@@ -852,24 +813,24 @@
             const r = yield this.decryptFrame(t, e);
             if ((this.keys.decryptionSuccess(), r)) return n.enqueue(r);
           } catch (e) {
-            e instanceof b && e.reason === v.InvalidKey
+            e instanceof w && e.reason === p.InvalidKey
               ? this.keys.hasValidKey &&
-                (this.emit(I.Error, e), this.keys.decryptionFailure())
-              : u.warn('decoding frame failed', { error: e });
+                (this.emit(m.Error, e), this.keys.decryptionFailure())
+              : c.warn('decoding frame failed', { error: e });
           }
         else
           !this.keys.getKeySet(e) &&
             this.keys.hasValidKey &&
-            (u.warn(
+            (c.warn(
               'skipping decryption due to missing key at index '.concat(e)
             ),
             this.emit(
-              I.Error,
-              new b(
+              m.Error,
+              new w(
                 'missing key at index '
                   .concat(e, ' for participant ')
                   .concat(this.participantIdentity),
-                v.MissingKey
+                p.MissingKey
               )
             ));
       });
@@ -921,25 +882,25 @@
           }
           const r = new Uint8Array(t.data, t.data.byteLength - 2, 2),
             c = r[0],
-            d = new Uint8Array(t.data, t.data.byteLength - c - r.byteLength, c),
-            u = n.byteLength,
-            l = t.data.byteLength - (n.byteLength + c + r.byteLength),
-            h = yield crypto.subtle.decrypt(
+            u = new Uint8Array(t.data, t.data.byteLength - c - r.byteLength, c),
+            y = n.byteLength,
+            h = t.data.byteLength - (n.byteLength + c + r.byteLength),
+            l = yield crypto.subtle.decrypt(
               {
-                name: y,
-                iv: d,
+                name: d,
+                iv: u,
                 additionalData: new Uint8Array(t.data, 0, n.byteLength),
               },
               null !== (o = i.encryptionKey) && void 0 !== o
                 ? o
                 : e.encryptionKey,
-              new Uint8Array(t.data, u, l)
+              new Uint8Array(t.data, y, h)
             ),
-            p = new ArrayBuffer(n.byteLength + h.byteLength),
+            p = new ArrayBuffer(n.byteLength + l.byteLength),
             f = new Uint8Array(p);
           return (
             f.set(new Uint8Array(t.data, 0, n.byteLength)),
-            f.set(new Uint8Array(h), n.byteLength),
+            f.set(new Uint8Array(l), n.byteLength),
             (t.data = p),
             t
           );
@@ -948,7 +909,7 @@
             if (i.ratchetCount < this.keyProviderOptions.ratchetWindowSize) {
               let o;
               if (
-                (u.debug(
+                (c.debug(
                   'ratcheting key attempt '
                     .concat(i.ratchetCount, ' of ')
                     .concat(
@@ -962,7 +923,7 @@
                 (null != r ? r : e) === this.keys.getKeySet(n))
               ) {
                 const e = yield this.keys.ratchetKey(n, !1);
-                o = yield B(e, this.keyProviderOptions.ratchetSalt);
+                o = yield D(e, this.keyProviderOptions.ratchetSalt);
               }
               const s = yield this.decryptFrame(t, n, r || e, {
                 ratchetCount: i.ratchetCount + 1,
@@ -978,16 +939,16 @@
               );
             }
             throw (
-              (u.warn('maximum ratchet attempts exceeded'),
-              new b(
+              (c.warn('maximum ratchet attempts exceeded'),
+              new w(
                 'valid key missing for participant '.concat(
                   this.participantIdentity
                 ),
-                v.InvalidKey
+                p.InvalidKey
               ))
             );
           }
-          throw new b('Decryption failed: '.concat(o.message), v.InvalidKey);
+          throw new w('Decryption failed: '.concat(o.message), p.InvalidKey);
         }
       });
     }
@@ -1018,22 +979,11 @@
           null !== (t = this.getVideoCodec(e)) && void 0 !== t
             ? t
             : this.videoCodec;
-        if (
-          (r !== this.detectedCodec &&
-            (u.debug(
-              'detected different codec',
-              Object.assign(
-                { detectedCodec: r, oldCodec: this.detectedCodec },
-                this.logContext
-              )
-            ),
-            (this.detectedCodec = r)),
-          'av1' === r || 'vp9' === r)
-        )
+        if ('av1' === r || 'vp9' === r)
           throw new Error(
             ''.concat(r, ' is not yet supported for end to end encryption')
           );
-        if ('vp8' === r) return (n.unencryptedBytes = l[e.type]), n;
+        if ('vp8' === r) return (n.unencryptedBytes = u[e.type]), n;
         const i = new Uint8Array(e.data);
         try {
           const e = (function (e) {
@@ -1062,22 +1012,22 @@
           if (
             ((n.isH264 =
               'h264' === r ||
-              e.some((e) => [z.SLICE_IDR, z.SLICE_NON_IDR].includes(H(i[e])))),
+              e.some((e) => [H.SLICE_IDR, H.SLICE_NON_IDR].includes(j(i[e])))),
             n.isH264)
           ) {
             for (const t of e) {
-              switch (H(i[t])) {
-                case z.SLICE_IDR:
-                case z.SLICE_NON_IDR:
+              switch (j(i[t])) {
+                case H.SLICE_IDR:
+                case H.SLICE_NON_IDR:
                   return (n.unencryptedBytes = t + 2), n;
               }
             }
             throw new TypeError('Could not find NALU');
           }
         } catch (e) {}
-        return (n.unencryptedBytes = l[e.type]), n;
+        return (n.unencryptedBytes = u[e.type]), n;
       }
-      return (n.unencryptedBytes = l.audio), n;
+      return (n.unencryptedBytes = u.audio), n;
     }
     getVideoCodec(e) {
       if (0 === this.rtpMap.size) return;
@@ -1085,11 +1035,11 @@
       return t ? this.rtpMap.get(t) : void 0;
     }
   }
-  function H(e) {
-    return e & G;
+  function j(e) {
+    return e & X;
   }
-  const G = 31;
-  var z;
+  const X = 31;
+  var H;
   !(function (e) {
     (e[(e.SLICE_NON_IDR = 1)] = 'SLICE_NON_IDR'),
       (e[(e.SLICE_PARTITION_A = 2)] = 'SLICE_PARTITION_A'),
@@ -1110,8 +1060,8 @@
       (e[(e.SLICE_AUX = 19)] = 'SLICE_AUX'),
       (e[(e.SLICE_EXT = 20)] = 'SLICE_EXT'),
       (e[(e.SLICE_LAYER_EXT = 21)] = 'SLICE_LAYER_EXT');
-  })(z || (z = {}));
-  class W extends D.EventEmitter {
+  })(H || (H = {}));
+  class G extends O.EventEmitter {
     get hasValidKey() {
       return this._hasValidKey;
     }
@@ -1131,7 +1081,7 @@
         ((this.decryptionFailureCount += 1),
         this.decryptionFailureCount >
           this.keyProviderOptions.failureTolerance &&
-          (u.warn(
+          (c.warn(
             'key for '.concat(
               this.participantIdentity,
               ' is being marked as invalid'
@@ -1166,7 +1116,7 @@
                 let n =
                     arguments.length > 1 && void 0 !== arguments[1]
                       ? arguments[1]
-                      : { name: y },
+                      : { name: d },
                   r =
                     arguments.length > 2 && void 0 !== arguments[2]
                       ? arguments[2]
@@ -1185,7 +1135,7 @@
               })(
                 yield (function (t, n) {
                   return e(this, void 0, void 0, function* () {
-                    const e = N(t.algorithm.name, n);
+                    const e = M(t.algorithm.name, n);
                     return crypto.subtle.deriveBits(e, t, 256);
                   });
                 })(o, this.keyProviderOptions.ratchetSalt),
@@ -1194,7 +1144,7 @@
               );
             n &&
               (this.setKeyFromMaterial(s, r, !0),
-              this.emit(m.KeyRatcheted, s, this.participantIdentity, r)),
+              this.emit(v.KeyRatcheted, s, this.participantIdentity, r)),
               t(s);
           } catch (e) {
             i(e);
@@ -1212,24 +1162,22 @@
         yield this.setKeyFromMaterial(t, n), this.resetKeyStatus();
       });
     }
-    setKeyFromMaterial(t, n) {
-      let r = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
+    setKeyFromMaterial(t) {
+      let n =
+          arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 0,
+        r = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
       return e(this, void 0, void 0, function* () {
-        const e = yield B(t, this.keyProviderOptions.ratchetSalt),
-          i = n >= 0 ? n % this.cryptoKeyRing.length : this.currentKeyIndex;
-        u.debug('setting new key with index '.concat(n), {
-          usage: t.usages,
-          algorithm: t.algorithm,
-          ratchetSalt: this.keyProviderOptions.ratchetSalt,
-        }),
-          this.setKeySet(e, i, r),
-          i >= 0 && (this.currentKeyIndex = i);
+        const e = n >= 0 ? n % this.cryptoKeyRing.length : -1;
+        c.debug('setting new key with index '.concat(e));
+        const i = yield D(t, this.keyProviderOptions.ratchetSalt);
+        this.setKeySet(i, e >= 0 ? e : this.currentKeyIndex, r),
+          e >= 0 && (this.currentKeyIndex = e);
       });
     }
     setKeySet(e, t) {
       let n = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
       (this.cryptoKeyRing[t % this.cryptoKeyRing.length] = e),
-        n && this.emit(m.KeyRatcheted, e.material, this.participantIdentity, t);
+        n && this.emit(v.KeyRatcheted, e.material, this.participantIdentity, t);
     }
     setCurrentKeyIndex(t) {
       return e(this, void 0, void 0, function* () {
@@ -1244,83 +1192,82 @@
       return this.cryptoKeyRing[null != e ? e : this.currentKeyIndex];
     }
   }
-  const Y = [],
-    Q = new Map();
-  let J,
-    Z,
-    $ = !1,
-    ee = h;
-  function te(e, t) {
-    let n = Y.find((e) => e.getTrackId() === t);
-    if (n) e !== n.getParticipantIdentity() && n.setParticipant(e, ne(e));
+  const z = [],
+    W = new Map();
+  let Y,
+    Q,
+    J,
+    Z = !1,
+    $ = y;
+  function ee(e, t) {
+    let n = z.find((e) => e.getTrackId() === t);
+    if (n) e !== n.getParticipantIdentity() && n.setParticipant(e, te(e));
     else {
-      if ((u.info('creating new cryptor for', { participantIdentity: e }), !ee))
+      if ((c.info('creating new cryptor for', { participantIdentity: e }), !$))
         throw Error('Missing keyProvider options');
-      (n = new X({
+      (n = new V({
         participantIdentity: e,
-        keys: ne(e),
-        keyProviderOptions: ee,
-        sifTrailer: Z,
+        keys: te(e),
+        keyProviderOptions: $,
+        sifTrailer: J,
       })),
         (function (e) {
-          e.on(I.Error, (e) => {
+          e.on(m.Error, (e) => {
             const t = {
               kind: 'error',
               data: {
                 error: new Error(
-                  ''.concat(v[e.reason], ': ').concat(e.message)
+                  ''.concat(p[e.reason], ': ').concat(e.message)
                 ),
               },
             };
             postMessage(t);
           });
         })(n),
-        Y.push(n);
+        z.push(n);
     }
     return n;
   }
-  function ne(e) {
-    if ($) return re();
-    let t = Q.get(e);
-    return t || ((t = new W(e, ee)), t.on(m.KeyRatcheted, ie), Q.set(e, t)), t;
-  }
-  function re() {
+  function te(e) {
+    if (Z) return ne();
+    let t = W.get(e);
     return (
-      J ||
-        (u.debug('creating new shared key handler'),
-        (J = new W('shared-key', ee))),
-      J
+      t ||
+        ((t = new G(e, $)),
+        Q && t.setKey(Q),
+        t.on(v.KeyRatcheted, re),
+        W.set(e, t)),
+      t
     );
   }
-  function ie(e, t, n) {
+  function ne() {
+    return Y || (Y = new G('shared-key', $)), Y;
+  }
+  function re(e, t, n) {
     postMessage({
       kind: 'ratchetKey',
       data: { participantIdentity: t, keyIndex: n, material: e },
     });
   }
-  u.setDefaultLevel('info'),
+  c.setDefaultLevel('info'),
     (onmessage = (t) => {
       const { kind: n, data: r } = t.data;
       switch (n) {
         case 'init':
-          u.setLevel(r.loglevel),
-            u.info('worker initialized'),
-            (ee = r.keyProviderOptions),
-            ($ = !!r.keyProviderOptions.sharedKey);
+          c.info('worker initialized'),
+            ($ = r.keyProviderOptions),
+            (Z = !!r.keyProviderOptions.sharedKey);
           postMessage({ kind: 'initAck', data: { enabled: false } });
           break;
         case 'enable':
-          (a = r.enabled),
-            (c = r.participantIdentity),
-            u.debug('setting encryption enabled for all tracks of '.concat(c), {
-              enable: a,
-            }),
-            q.set(c, a),
-            u.info('updated e2ee enabled status'),
+          (u = r.enabled),
+            (y = r.participantIdentity),
+            B.set(y, u),
+            c.info('updated e2ee enabled status'),
             postMessage(t.data);
           break;
         case 'decode':
-          te(r.participantIdentity, r.trackId).setupTransform(
+          ee(r.participantIdentity, r.trackId).setupTransform(
             n,
             r.readableStream,
             r.writableStream,
@@ -1329,7 +1276,7 @@
           );
           break;
         case 'encode':
-          te(r.participantIdentity, r.trackId).setupTransform(
+          ee(r.participantIdentity, r.trackId).setupTransform(
             n,
             r.readableStream,
             r.writableStream,
@@ -1338,40 +1285,35 @@
           );
           break;
         case 'setKey':
-          $
-            ? ((o = r.key),
-              (s = r.keyIndex),
-              u.info('set shared key', { index: s }),
-              re().setKey(o, s))
+          Z
+            ? (c.warn('set shared key'),
+              (a = r.key),
+              (d = r.keyIndex),
+              c.debug('setting shared key'),
+              (Q = a),
+              ne().setKey(a, d))
             : r.participantIdentity
-              ? (u.info(
+              ? (c.warn(
                   'set participant sender key '
                     .concat(r.participantIdentity, ' index ')
                     .concat(r.keyIndex)
                 ),
-                ne(r.participantIdentity).setKey(r.key, r.keyIndex))
-              : u.error(
+                te(r.participantIdentity).setKey(r.key, r.keyIndex))
+              : c.error(
                   'no participant Id was provided and shared key usage is disabled'
                 );
           break;
         case 'removeTransform':
-          !(function (e, t) {
-            const n = Y.find(
-              (n) => n.getParticipantIdentity() === t && n.getTrackId() === e
-            );
-            n
-              ? n.unsetParticipant()
-              : u.warn('Could not unset participant on cryptor', {
-                  trackId: e,
-                  participantIdentity: t,
-                });
-          })(r.trackId, r.participantIdentity);
+          (o = r.trackId),
+            null === (s = z.find((e) => e.getTrackId() === o)) ||
+              void 0 === s ||
+              s.unsetParticipant();
           break;
         case 'updateCodec':
-          te(r.participantIdentity, r.trackId).setVideoCodec(r.codec);
+          ee(r.participantIdentity, r.trackId).setVideoCodec(r.codec);
           break;
         case 'setRTPMap':
-          Y.forEach((e) => {
+          z.forEach((e) => {
             e.getParticipantIdentity() === r.participantIdentity &&
               e.setRtpMap(r.map);
           });
@@ -1379,14 +1321,14 @@
         case 'ratchetRequest':
           !(function (t) {
             e(this, void 0, void 0, function* () {
-              if ($) {
-                const e = re();
+              if (Z) {
+                const e = ne();
                 yield e.ratchetKey(t.keyIndex), e.resetKeyStatus();
               } else if (t.participantIdentity) {
-                const e = ne(t.participantIdentity);
+                const e = te(t.participantIdentity);
                 yield e.ratchetKey(t.keyIndex), e.resetKeyStatus();
               } else
-                u.error(
+                c.error(
                   'no participant Id was provided for ratchet request and shared key usage is disabled'
                 );
             });
@@ -1394,26 +1336,26 @@
           break;
         case 'setSifTrailer':
           (i = r.trailer),
-            (Z = i),
-            Y.forEach((e) => {
+            (J = i),
+            z.forEach((e) => {
               e.setSifTrailer(i);
             });
       }
-      var i, o, s, a, c;
+      var i, o, s, a, d, u, y;
     }),
     self.RTCTransformEvent &&
-      (u.debug('setup transform event'),
+      (c.debug('setup transform event'),
       (self.onrtctransform = (e) => {
         const t = e.transformer;
-        u.debug('transformer', t), (t.handled = !0);
+        c.debug('transformer', t), (t.handled = !0);
         const {
             kind: n,
             participantIdentity: r,
             trackId: i,
             codec: o,
           } = t.options,
-          s = te(r, i);
-        u.debug('transform', { codec: o }),
+          s = ee(r, i);
+        c.debug('transform', { codec: o }),
           s.setupTransform(n, t.readable, t.writable, i, o);
       }));
 });
