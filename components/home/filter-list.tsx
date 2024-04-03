@@ -161,8 +161,7 @@ export default function FilterListSection() {
         position: 'top-right',
       });
     }
-
-  }
+  };
 
   const defaultValues = {
     name: '',

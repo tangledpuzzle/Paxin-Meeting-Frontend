@@ -14,7 +14,7 @@ interface IRoomBoxProps {
 
 export const RoomBox = ({ roomId, name, users }: IRoomBoxProps) => {
   const dispatch = useAppDispatch();
-  const dropRef = useRef<HTMLDivElement>(null); 
+  const dropRef = useRef<HTMLDivElement>(null);
 
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.USER,

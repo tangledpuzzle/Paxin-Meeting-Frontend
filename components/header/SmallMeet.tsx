@@ -260,7 +260,7 @@ export default function SmallMeet() {
         const newConnection = await startLivekitConnection(livekitInfo, t);
         setCurrentConnection(newConnection);
       }
-    })()
+    })();
   }, [livekitInfo]);
   const isMobile = width > 450 ? false : true;
   // console.log(popup);

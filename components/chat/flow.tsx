@@ -99,7 +99,6 @@ const ChatComponent: React.FC = () => {
       };
     }
   }, [socket]);
-  
 
   return (
     <div id='chat-container'>

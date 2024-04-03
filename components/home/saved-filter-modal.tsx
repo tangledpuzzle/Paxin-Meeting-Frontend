@@ -35,7 +35,7 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
   const getfilters = async () => {
     const filters = await axios.get('/api/flows/filter');
     setFiltersList(filters.data.data);
-  }
+  };
   useEffect(() => {
     getfilters();
   }, []);
@@ -44,16 +44,16 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
     const result = await axios.delete(`/api/flows/filter/${id}`);
 
     if (result.status === 200) {
-      toast.success(t('success_delete_saved_filters'))
+      toast.success(t('success_delete_saved_filters'));
       let _filtersList = [];
       for (let i = 0; i < filtersList.length; i++) {
         if (i !== key) _filtersList.push(filtersList[i]);
       }
       setFiltersList(_filtersList);
     } else {
-      toast.error(t('fail_delete_saved_filters'))
+      toast.error(t('fail_delete_saved_filters'));
     }
-  }
+  };
 
   const navigateUrl = (each: any) => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -89,23 +89,25 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
     setIsFilterModalOpen(false);
   };
   const updateFilter = async (id: any, each: any) => {
-    const result = await axios.patch(`/api/flows/filter/${id}`, { data: { ...each, Name: newName } });
+    const result = await axios.patch(`/api/flows/filter/${id}`, {
+      data: { ...each, Name: newName },
+    });
 
     let _filtersList = filtersList.map((each, key) => {
       if (key == editMode) {
-        return { ...each, Name: newName }
+        return { ...each, Name: newName };
       } else {
-        return each
+        return each;
       }
     });
     setFiltersList(_filtersList);
     setEditMode(null);
     if (result.status === 200) {
-      toast.success(t('success_update_saved_filters'))
+      toast.success(t('success_update_saved_filters'));
     } else {
-      toast.error(t('fail_update_saved_filters'))
+      toast.error(t('fail_update_saved_filters'));
     }
-  }
+  };
   const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();
   const { disableScroll, enableScroll } = usePreventBodyScroll();
   const containerRef = React.useRef<HTMLDivElement>(null);

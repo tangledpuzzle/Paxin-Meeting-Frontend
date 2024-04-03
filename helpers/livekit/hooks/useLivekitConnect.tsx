@@ -32,7 +32,12 @@ const useLivekitConnect = (): IUseLivekitConnect => {
     info: LivekitInfo,
     intl: (...e: any[]) => string
   ): Promise<IConnectLivekit> => {
-    const livekit: IConnectLivekit = new ConnectLivekit(info, setError, setRoomConnectionStatus, intl);
+    const livekit: IConnectLivekit = new ConnectLivekit(
+      info,
+      setError,
+      setRoomConnectionStatus,
+      intl
+    );
 
     const { KrispNoiseFilter, isKrispNoiseFilterSupported } = await import(
       '@livekit/krisp-noise-filter'
@@ -58,8 +63,8 @@ const useLivekitConnect = (): IUseLivekitConnect => {
         // await trackPublication.track.stopProcessor()
       }
     });
-    
-    return livekit
+
+    return livekit;
   };
 
   return {
