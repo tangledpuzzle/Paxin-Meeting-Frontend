@@ -39,30 +39,30 @@ const useLivekitConnect = (): IUseLivekitConnect => {
       intl
     );
 
-    const { KrispNoiseFilter, isKrispNoiseFilterSupported } = await import(
-      '@livekit/krisp-noise-filter'
-    );
+    // const { KrispNoiseFilter, isKrispNoiseFilterSupported } = await import(
+    //   '@livekit/krisp-noise-filter'
+    // );
 
-    livekit.room.on(RoomEvent.LocalTrackPublished, async (trackPublication) => {
-      if (
-        trackPublication.source === Track.Source.Microphone &&
-        trackPublication.track instanceof LocalAudioTrack
-      ) {
-        if (!isKrispNoiseFilterSupported()) {
-          console.warn(
-            'Enhanced noise filter is currently not supported on this browser'
-          );
-          return;
-        }
-        // Once instantiated the filter will begin initializing and will download additional resources
-        const krispProcessor = KrispNoiseFilter();
-        console.log('Enabling LiveKit enhanced noise filter');
-        await trackPublication.track.setProcessor(krispProcessor as any);
+    // livekit.room.on(RoomEvent.LocalTrackPublished, async (trackPublication) => {
+    //   if (
+    //     trackPublication.source === Track.Source.Microphone &&
+    //     trackPublication.track instanceof LocalAudioTrack
+    //   ) {
+    //     if (!isKrispNoiseFilterSupported()) {
+    //       console.warn(
+    //         'Enhanced noise filter is currently not supported on this browser'
+    //       );
+    //       return;
+    //     }
+    //     // Once instantiated the filter will begin initializing and will download additional resources
+    //     const krispProcessor = KrispNoiseFilter();
+    //     console.log('Enabling LiveKit enhanced noise filter');
+    //     await trackPublication.track.setProcessor(krispProcessor as any);
 
-        // Once you want to stop the Krisp processor, simply call
-        // await trackPublication.track.stopProcessor()
-      }
-    });
+    //     // Once you want to stop the Krisp processor, simply call
+    //     // await trackPublication.track.stopProcessor()
+    //   }
+    // });
 
     return livekit;
   };
