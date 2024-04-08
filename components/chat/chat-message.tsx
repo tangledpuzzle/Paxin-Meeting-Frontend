@@ -38,7 +38,7 @@ interface ChatMessageProps {
       name: string;
       avatar: string;
     };
-  }
+  };
   messageType?: '0' | '1' | '2';
   message: string;
   customData?: any;
@@ -345,12 +345,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                         })
                       }
                     >
-                      <span>
-                        @
-                        {
-                          props.parentMessage.owner.name
-                        }
-                      </span>
+                      <span>@{props.parentMessage.owner.name}</span>
                       <p className='line-clamp-1'>
                         {props.parentMessage.message}
                       </p>

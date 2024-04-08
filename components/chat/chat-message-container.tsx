@@ -14,12 +14,13 @@ import { IoArrowDown } from 'react-icons/io5';
 import { cn } from '@/lib/utils';
 import eventBus from '@/eventBus';
 import { PaxContext } from '@/context/context';
+import { text } from 'stream/consumers';
 
 export default function ChatMessageContainer() {
   const t = useTranslations('chatting');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { ref: loaderRef, inView } = useInView();
-  const {user} = useContext(PaxContext)
+  const { user } = useContext(PaxContext);
   const {
     messages,
     setMessages,
@@ -46,6 +47,7 @@ export default function ChatMessageContainer() {
   const [hasMore, setHasMore] = useState(true);
   const [showScrollDown, setShowScrollDown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const loadMessages = async (end_msg_id?: string) => {
     setIsLoading(true);
@@ -76,17 +78,29 @@ export default function ChatMessageContainer() {
           },
         ]);
       } else {
-        const _messages = res.messages.map((msg) => {
-          return {...msg, parentMessage: msg.parentMessage ? {
-            id: msg.parentMessage.id,
-            owner: {
-              id: msg.parentMessage.owner.id,
-              name: _chatUser?.id === msg.parentMessage.owner.id ? _chatUser?.profile.name || "" : user?.username || "",
-              avatar: _chatUser?.id === msg.parentMessage.owner.id ? _chatUser?.profile.avatar || "" : user?.avatar || "",
-            },
-            message: msg.parentMessage.message,
-          } : undefined}
-        }) || [] as ChatMessageType[];
+        const _messages =
+          res.messages.map((msg) => {
+            return {
+              ...msg,
+              parentMessage: msg.parentMessage
+                ? {
+                    id: msg.parentMessage.id,
+                    owner: {
+                      id: msg.parentMessage.owner.id,
+                      name:
+                        _chatUser?.id === msg.parentMessage.owner.id
+                          ? _chatUser?.profile.name || ''
+                          : user?.username || '',
+                      avatar:
+                        _chatUser?.id === msg.parentMessage.owner.id
+                          ? _chatUser?.profile.avatar || ''
+                          : user?.avatar || '',
+                    },
+                    message: msg.parentMessage.message,
+                  }
+                : undefined,
+            };
+          }) || ([] as ChatMessageType[]);
         setMessages((messages) => [..._messages, ...messages]);
       }
 
@@ -221,6 +235,19 @@ export default function ChatMessageContainer() {
   }, [inView]);
 
   useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.querySelector(
+        '[data-radix-scroll-area-viewport]'
+      )!.scrollTop =
+        scrollAreaRef.current.querySelector(
+          '[data-radix-scroll-area-viewport]'
+        )!.scrollHeight -
+        scrollPosition -
+        scrollAreaRef.current.clientHeight;
+    }
+  }, [chatWindowHeight]);
+
+  useEffect(() => {
     setMessages([]);
     setIsReplying(false);
     setReplyMessageId('');
@@ -239,6 +266,16 @@ export default function ChatMessageContainer() {
           )!;
 
         setShowScrollDown(scrollTop + clientHeight + 30 < scrollHeight);
+
+        setScrollPosition(
+          scrollAreaRef.current!.querySelector(
+            '[data-radix-scroll-area-viewport]'
+          )!.scrollHeight -
+            scrollAreaRef.current!.querySelector(
+              '[data-radix-scroll-area-viewport]'
+            )!.scrollTop -
+            scrollAreaRef.current.clientHeight
+        );
       }
     };
 

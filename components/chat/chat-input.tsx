@@ -109,6 +109,7 @@ export default function ChatInputComponent() {
     uploadedFiles,
     setUploadedFiles,
     setChatWindowHeight,
+    chatWindowHeight,
     setPrevScrollHeight,
     pingUserIsTyping,
   } = useContext(PaxChatContext);
@@ -513,7 +514,7 @@ export default function ChatInputComponent() {
     textareaRef.current.style.height = '68px';
     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     setChatWindowHeight(
-      `100vh - 5rem - 20px - 4rem - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''} - ${isReplying && replyMessageId ? '4.5rem' : '0px'} - ${isEditing && editMessageId ? '4.5rem' : '0px'}`
+      `100vh - 5rem - 20px - 4rem - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''}${isReplying && replyMessageId ? ' - 4.5rem' : ''}${isEditing && editMessageId ? ' - 4.5rem' : ''}`
     );
   };
 
@@ -533,6 +534,10 @@ export default function ChatInputComponent() {
   useEffect(() => {
     setTimeout(() => textareaRef.current?.focus(), 100);
   }, [isReplying, replyMessageId, isEditing, editMessageId]);
+
+  useEffect(() => {
+    console.log('chatWindowHeight', chatWindowHeight);
+  }, [chatWindowHeight]);
 
   return (
     <div className='flex justify-between bg-card-gradient-menu'>
