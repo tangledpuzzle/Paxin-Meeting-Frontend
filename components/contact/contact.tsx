@@ -103,7 +103,6 @@ export function ContactSection() {
         position: 'top-right',
       });
     }
-
   };
 
   return (

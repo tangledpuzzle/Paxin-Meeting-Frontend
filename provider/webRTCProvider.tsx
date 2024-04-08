@@ -40,7 +40,7 @@ interface IRTCContext {
   startLivekitConnection(
     info: LivekitInfo,
     intl: (...e: any[]) => string
-  ): IConnectLivekit;
+  ): Promise<IConnectLivekit>;
   clearSession: () => void;
   popup: IPopUp;
   updateDimension: (w: number, h: number) => void;
@@ -70,7 +70,7 @@ export const RTCContext = createContext<IRTCContext>({
   startLivekitConnection: function (
     info: LivekitInfo,
     intl: (...e: any[]) => string
-  ): IConnectLivekit {
+  ): Promise<IConnectLivekit> {
     throw new Error('Function not implemented.');
   },
   clearSession: () => {},

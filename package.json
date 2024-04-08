@@ -42,7 +42,7 @@
     "@react-stately/data": "^3.11.2",
     "@reduxjs/toolkit": "^2.1.0",
     "@tensorflow-models/body-pix": "2.2.1",
-    "@tensorflow/tfjs": "4.15.0",
+    "@tensorflow/tfjs": "4.17.0",
     "axios": "^1.6.6",
     "centrifuge": "^5.0.2",
     "class-variance-authority": "^0.7.0",

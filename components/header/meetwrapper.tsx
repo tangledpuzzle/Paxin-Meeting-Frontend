@@ -2,8 +2,6 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from '@/store';
 
-
-
 import '@/styles/meet/index.scss';
 
 export const waitingForApprovalSelector = createSelector(
