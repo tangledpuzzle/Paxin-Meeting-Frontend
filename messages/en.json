@@ -5,7 +5,6 @@
   },
   "main": {
     "one_page": "Only 1 page",
-
     "back_flow": "Back",
     "next_flow": "Forward",
     "scroll_down": "don't refuse",
@@ -366,6 +365,10 @@
     "configure": "Configure",
     "configure_description": "Here you can view Contract Audits",
     "hello": "Hello",
+    "change_name": "Change Name",
+    "name_required": "Name is required",
+    "name_changed_successfully": "Name is changed successfully",
+    "fail_change_name": "Failed to change name",
     "load_more": "Load More",
     "n_data_loaded_successfully": "{number} data loaded successfully",
     "subscribers": "Subscribers",
