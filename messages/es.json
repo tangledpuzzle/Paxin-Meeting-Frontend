@@ -5,7 +5,6 @@
   },
   "main": {
     "one_page": "Sólo 1 página",
-
     "back_flow": "Volver",
     "next_flow": "Adelante",
     "scroll_down": "no te niegues",
@@ -367,6 +366,10 @@
     "configure": "Configurar",
     "configure_description": "Aquí puedes ver auditorías de contratos",
     "hello": "Hola",
+    "change_name": "Cambiar nombre",
+    "name_required": "El nombre es obligatorio",
+    "name_changed_successfully": "El nombre se ha cambiado con éxito",
+    "fail_change_name": "Error al cambiar el nombre",
     "load_more": "Cargar más",
     "n_data_loaded_successfully": "{number} datos cargados exitosamente",
     "subscribers": "Suscriptores",
