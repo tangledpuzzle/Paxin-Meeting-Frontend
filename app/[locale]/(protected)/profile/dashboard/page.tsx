@@ -15,6 +15,8 @@ import { FaUserGear } from 'react-icons/fa6';
 import { MdAccountBalanceWallet, MdLockReset } from 'react-icons/md';
 import { RiArticleLine } from 'react-icons/ri';
 import { MdOutlineDriveFileRenameOutline } from 'react-icons/md';
+import { ChangeNamePopup } from '@/components/profiles/dashboard/change-name-popup';
+import { Button } from '@/components/ui/button';
 
 const services = [
   {
@@ -81,9 +83,11 @@ export default function DashboardPage() {
             <div>
               <div className='flex cursor-pointer items-center text-2xl font-semibold'>
                 {t('hello')} {user?.username}
-                <span>
-                  <MdOutlineDriveFileRenameOutline />
-                </span>
+                <ChangeNamePopup>
+                  <Button variant='link' size='icon' className='inline'>
+                    <MdOutlineDriveFileRenameOutline className='text-2xl' />
+                  </Button>
+                </ChangeNamePopup>
               </div>
               <div className='text-sm text-muted-foreground'>
                 {t('view_all_alerts_description')}
