@@ -76,12 +76,12 @@ export function ContactSection() {
     },
   });
   const submitBlog = async (data: FormData) => {
-    toast.error(t('contact_us_fail'), {
-      position: 'top-right',
-    });
+    // toast.error(t('contact_us_fail'), {
+    //   position: 'top-right',
+    // });
 
     try {
-      const res = await axios.post(`/api/contact/`, {
+      const res = await axios.post(`/api/contact`, {
         Name: data.Name,
         SecondName: data.SecondName,
         Email: data.Email,
