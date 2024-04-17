@@ -148,7 +148,7 @@ export default function ChatUserInfo() {
                   {data.categories?.map((category: string, index: number) => (
                     <Link
                       key={index}
-                      href={`/home?mode=profile&city=${category}`}
+                      href={`/home?mode=profile&category=${category}`}
                       target='_blank'
                     >
                       <Badge
