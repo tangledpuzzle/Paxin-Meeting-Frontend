@@ -46,7 +46,7 @@ export default function FlowSection() {
   const t = useTranslations('main');
   const searchParams = useSearchParams();
   const [flowData, setFlowData] = useState<FlowData[] | null>(null);
-  const [maxPage, setMaxPage] = useState<number>(1);
+  const [maxPage, setMaxPage] = useState<number>(0);
   const locale = useLocale();
   const [fetchURL, setFetchURL] = useState('');
   const [nextPageLink, setNextPageLink] = useState<string | null>(null);
@@ -60,21 +60,21 @@ export default function FlowSection() {
     const _category = searchParams.get('category') || 'all';
     const _hashtag = searchParams.get('hashtag') || 'all';
     const _money = searchParams.get('money') || 'all';
-    const _page = Number(searchParams.get('page') || 1);
+    const _page = Number(searchParams.get('page') || 0);
 
     setFetchURL(
-      `/api/flows/get?language=${locale}&limit=${pageSize}&skip=${(_page - 1) * pageSize}&title=${_title}&city=${_city}&category=${_category}&hashtag=${_hashtag}&money=${_money}`
+      `/api/flows/get?language=${locale}&limit=${pageSize}&skip=${_page * pageSize}&title=${_title}&city=${_city}&category=${_category}&hashtag=${_hashtag}&money=${_money}`
     );
   }, [searchParams, locale]);
 
   useEffect(() => {
-    const _page = Number(searchParams.get('page') || 1);
+    const _page = Number(searchParams.get('page') || 0);
 
     console.log(_page, maxPage);
 
     const newSearchParams = new URLSearchParams(searchParams);
-    if (_page === 1) setPrevPageLink(null);
-    else if (_page > 1) {
+    if (_page === 0) setPrevPageLink(null);
+    else if (_page > 0) {
       newSearchParams.set('page', (_page - 1).toString());
       setPrevPageLink(`/home?${newSearchParams.toString()}`);
     }
@@ -89,7 +89,7 @@ export default function FlowSection() {
   useEffect(() => {
     if (!error && fetchedData) {
       setFlowData(fetchedData.data);
-
+      console.log('fetched', fetchedData.data);
       setMaxPage(Math.ceil(fetchedData.meta.total / pageSize));
     }
   }, [fetchedData, error]);
@@ -99,7 +99,7 @@ export default function FlowSection() {
       {maxPage > 1 && (
         <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
           <Button
-            aria-disabled={Number(searchParams.get('page') || 1) === 1}
+            aria-disabled={Number(searchParams.get('page') || 0) === 0}
             className='w-[40px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60  md:w-[50px]'
             asChild
           >
@@ -109,7 +109,7 @@ export default function FlowSection() {
             </Link>
           </Button>
           <Button
-            aria-disabled={Number(searchParams.get('page') || 1) === maxPage}
+            aria-disabled={Number(searchParams.get('page') || 0) === maxPage}
             className='w-[40px] p-0 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-60 md:w-[50px]'
             asChild
           >
@@ -118,11 +118,6 @@ export default function FlowSection() {
               <GrNext />
             </Link>
           </Button>
-        </div>
-      )}
-      {maxPage === 1 && (
-        <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
-          <span className='px-0 text-sm'>{t('one_page')}</span>
         </div>
       )}
       {maxPage === 0 && (
