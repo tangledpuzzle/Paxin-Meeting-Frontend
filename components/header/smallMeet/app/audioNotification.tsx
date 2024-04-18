@@ -23,7 +23,6 @@ const AudioNotification = () => {
     allowPlayAudioNotificationSelector
   );
   const [playing, setPlaying] = useState(false);
-  const assetPath = (window as any).STATIC_ASSETS_PATH ?? './assets';
 
   useEffect(() => {
     const el = ref.current;

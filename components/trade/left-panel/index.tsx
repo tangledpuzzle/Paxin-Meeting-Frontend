@@ -23,47 +23,46 @@ const LeftPanel = () => {
   const { data: myRooms } = useGetMyBreakoutRoomsQuery();
   const t = useTranslations('meet');
   const dispatch = useAppDispatch();
-  const allow_polls =
-    store.getState().session.currentRoom.metadata?.room_features.allow_polls;
+
   const selectedTabLeftPanel = useAppSelector(selectedTabLeftPanelSelector);
 
-  const items = useMemo(() => {
-    const total_running = Number(data?.stats?.totalRunning) ?? 0;
-    const items = [
-      {
-        id: 1,
-        title: <>{t('left-panel.participants-tab')}</>,
-        elm: <ParticipantsComponent />,
-      },
-    ];
-    if (allow_polls) {
-      items.push({
-        id: 2,
-        title: (
-          <>
-            {t('left-panel.polls-tab')}
-            {total_running > 0 ? (
-              <span className='absolute -top-[7px] size-5 rounded-full bg-primaryColor text-[10px] text-white ltr:-right-5 rtl:-left-5'>
-                {total_running ?? 0}
-              </span>
-            ) : null}
-          </>
-        ),
-        elm: <PollsComponent />,
-      });
-    }
+  // const items = useMemo(() => {
+  //   const total_running = Number(data?.stats?.totalRunning) ?? 0;
+  //   const items = [
+  //     {
+  //       id: 1,
+  //       title: <>{t('left-panel.participants-tab')}</>,
+  //       elm: <ParticipantsComponent />,
+  //     },
+  //   ];
+  //   if (allow_polls) {
+  //     items.push({
+  //       id: 2,
+  //       title: (
+  //         <>
+  //           {t('left-panel.polls-tab')}
+  //           {total_running > 0 ? (
+  //             <span className='absolute -top-[7px] size-5 rounded-full bg-primaryColor text-[10px] text-white ltr:-right-5 rtl:-left-5'>
+  //               {total_running ?? 0}
+  //             </span>
+  //           ) : null}
+  //         </>
+  //       ),
+  //       elm: <PollsComponent />,
+  //     });
+  //   }
 
-    if (myRooms?.status) {
-      items.push({
-        id: 3,
-        title: <>{t('left-panel.breakout-room-tab')}</>,
-        elm: <MyBreakoutRooms />,
-      });
-    }
+  //   if (myRooms?.status) {
+  //     items.push({
+  //       id: 3,
+  //       title: <>{t('left-panel.breakout-room-tab')}</>,
+  //       elm: <MyBreakoutRooms />,
+  //     });
+  //   }
 
-    return items;
-    //eslint-disable-next-line
-  }, [data, myRooms]);
+  //   return items;
+  //   //eslint-disable-next-line
+  // }, [data, myRooms]);
 
   const changeTabIndex = (i: number) => {
     dispatch(updateSelectedTabLeftPanel(i));
@@ -82,7 +81,8 @@ const LeftPanel = () => {
       id='main-left-panel'
       className='participants-wrapper multi-gradient relative left-0 top-0 z-10 h-full w-[330px]'
     >
-      <Tab.Group
+      <ParticipantsComponent />
+      {/* <Tab.Group
         vertical
         selectedIndex={selectedTabLeftPanel}
         onChange={changeTabIndex}
@@ -116,7 +116,7 @@ const LeftPanel = () => {
             </Tab.Panel>
           ))}
         </Tab.Panels>
-      </Tab.Group>
+      </Tab.Group> */}
     </div>
   );
 };
