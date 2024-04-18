@@ -4,11 +4,11 @@ import authOptions from '@/lib/authOptions';
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    // const session = await getServerSession(authOptions);
 
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // if (!session) {
+    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // }
 
     const requestBody = await req.json();
 
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          // Authorization: `Bearer ${session?.accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestBody),
