@@ -7,15 +7,13 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(
-      `${process.env.API_URL}/api/blog/listAll${query ? `?${query}` : ''}`
+      `${process.env.API_URL}/api/blog/listAll${query ? `?${query}` : ''}`, { cache: 'no-cache' }
     );
-
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
 
     const data = await res.json();
-
     const flows = data.data.map((item: any) => {
       return {
         id: item.uniqId,
