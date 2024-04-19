@@ -7,7 +7,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FilterModal } from './filter-modal';
 import { FaUsers } from 'react-icons/fa';
 import { MdSms } from 'react-icons/md';
@@ -19,6 +19,7 @@ export function CTASection() {
   const [viewMode, setViewMode] = useState<string>(
     searchParams.get('mode') || 'flow'
   );
+  const compare_viewMode = useRef<string>(viewMode);
   const [keyword, setKeyword] = useState<string>(
     searchParams.get('title') && searchParams.get('title') !== 'all'
       ? searchParams.get('title') || ''
@@ -38,7 +39,10 @@ export function CTASection() {
   }, [searchParams]);
 
   useEffect(() => {
-    setKeyword('');
+    if (viewMode != compare_viewMode.current) {
+      setKeyword('');
+      compare_viewMode.current = viewMode;
+    }
   }, [viewMode]);
 
   return (
