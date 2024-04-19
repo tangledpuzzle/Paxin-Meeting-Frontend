@@ -13,9 +13,8 @@ interface IRightPanelProps {
 const RightPanel = ({ currentRoom, isRecorder }: IRightPanelProps) => {
   const dispatch = useAppDispatch();
 
-
   return (
-    <div id='main-right-panel' className='h-[calc(100%)]'>
+    <div id='main-right-panel' className='h-[calc(100%)] w-[50vw] md:w-[33vw]'>
       <ChatComponent currentRoom={currentRoom} isRecorder={isRecorder} />
     </div>
   );

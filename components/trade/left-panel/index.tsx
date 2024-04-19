@@ -79,7 +79,7 @@ const LeftPanel = () => {
   return (
     <div
       id='main-left-panel'
-      className='participants-wrapper multi-gradient relative left-0 top-0 z-10 h-full w-[330px]'
+      className='participants-wrapper multi-gradient relative left-0 top-0 z-10 h-full w-[50vw] md:w-[33vw]'
     >
       <ParticipantsComponent />
       {/* <Tab.Group

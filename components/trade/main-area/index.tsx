@@ -210,7 +210,7 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
           backgroundImage: 'url("/images/meet/app-banner.jpg")',
         }}
       />
-      <div className='middle-area relative h-full w-full  md:h-full lg:absolute'>
+      <div className='middle-area relative h-full w-full  md:absolute md:h-full'>
         <ActiveSpeakers />
         {renderMainComponentElms}
       </div>
