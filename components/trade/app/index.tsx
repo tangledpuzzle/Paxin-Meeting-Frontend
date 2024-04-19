@@ -324,10 +324,10 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
             isRecorder={isRecorder}
             currentConnection={currentConnection}
           />
-          <Footer
+          {/* <Footer
             currentRoom={currentConnection.room}
             isRecorder={isRecorder}
-          />
+          /> */}
           <AudioNotification />
         </div>
       );

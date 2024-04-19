@@ -201,22 +201,21 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
   return (
     <div
       id='main-area'
-      className={`plugNmeet-app-main-area relative mb-[0px] flex h-full overflow-hidden ${customCSS} column-camera-width-${columnCameraWidth} column-camera-position-${columnCameraPosition}`}
+      className={`plugNmeet-app-main-area relative mb-[0px] flex h-screen flex-col overflow-hidden lg:h-full ${customCSS} column-camera-width-${columnCameraWidth} column-camera-position-${columnCameraPosition}`}
       // style={{ height: `${height}px` }}
     >
       <div
-        className={`main-app-bg pointer-events-none absolute left-0 top-0 h-full w-full bg-cover bg-center bg-no-repeat object-cover`}
+        className={`main-app-bg pointer-events-none absolute left-0 top-0 h-full w-screen bg-cover bg-center bg-no-repeat object-cover`}
         style={{
           backgroundImage: 'url("/images/meet/app-banner.jpg")',
         }}
       />
-      <div className='inner flex w-full justify-between rtl:flex-row-reverse'>
+      <div className='middle-area relative h-full w-full  md:h-full lg:absolute'>
+        <ActiveSpeakers />
+        {renderMainComponentElms}
+      </div>
+      <div className='inner flex h-1/2 w-full justify-between md:h-full rtl:flex-row-reverse'>
         {renderLeftPanel}
-
-        <div className='middle-area relative flex-auto'>
-          <ActiveSpeakers />
-          {renderMainComponentElms}
-        </div>
 
         {renderRightPanel}
       </div>

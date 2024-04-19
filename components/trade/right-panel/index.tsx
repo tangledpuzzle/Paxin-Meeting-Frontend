@@ -13,9 +13,6 @@ interface IRightPanelProps {
 const RightPanel = ({ currentRoom, isRecorder }: IRightPanelProps) => {
   const dispatch = useAppDispatch();
 
-  const closePanel = () => {
-    dispatch(updateIsActiveChatPanel(false));
-  };
 
   return (
     <div id='main-right-panel' className='h-[calc(100%)]'>

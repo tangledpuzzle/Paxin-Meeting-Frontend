@@ -64,17 +64,17 @@ const LeftPanel = () => {
   //   //eslint-disable-next-line
   // }, [data, myRooms]);
 
-  const changeTabIndex = (i: number) => {
-    dispatch(updateSelectedTabLeftPanel(i));
-  };
+  // const changeTabIndex = (i: number) => {
+  //   dispatch(updateSelectedTabLeftPanel(i));
+  // };
 
-  const classNames = (...classes: string[]) => {
-    return classes.filter(Boolean).join(' ');
-  };
+  // const classNames = (...classes: string[]) => {
+  //   return classes.filter(Boolean).join(' ');
+  // };
 
-  const closePanel = () => {
-    dispatch(updateIsActiveParticipantsPanel(false));
-  };
+  // const closePanel = () => {
+  //   dispatch(updateIsActiveParticipantsPanel(false));
+  // };
 
   return (
     <div

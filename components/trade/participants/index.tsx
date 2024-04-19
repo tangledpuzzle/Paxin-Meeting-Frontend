@@ -105,7 +105,10 @@ const ParticipantsComponent = () => {
 
         <div
           ref={outerRef as any}
-          style={{ height: screenHeight - 215, overflow: 'auto' }}
+          style={{
+            // height: screenHeight - 215,
+            overflow: 'auto',
+          }}
           className='scrollBar -mx-2 xl:-mx-4'
         >
           <div
