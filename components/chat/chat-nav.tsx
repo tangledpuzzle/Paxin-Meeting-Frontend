@@ -10,6 +10,8 @@ import { ScrollArea } from '../ui/scroll-area';
 import ChatListSkeleton from './chat-list-skeleton';
 import ChatRoom from './chat-room';
 import markAsRead from '@/lib/server/chat/markAsRead';
+import { Button } from '../ui/button';
+import { StreamingCreateModal } from './streamingCreateModal';
 
 interface Props {
   mode: boolean;
@@ -151,6 +153,16 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
                 )}
               </div>
             </ScrollArea>
+            <div className='bg-card-gradient-menu-on px-2 py-2'>
+              <StreamingCreateModal onCreate={() => {}} isLoading>
+                <Button
+                  variant='outline'
+                  className='mx-auto flex border-primary text-primary'
+                >
+                  {t('start_stream')}
+                </Button>
+              </StreamingCreateModal>
+            </div>
           </div>
         )}
         {currentTab === 'SETTINGS' && <div>{t('settings')}</div>}

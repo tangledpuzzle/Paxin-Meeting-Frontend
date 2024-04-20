@@ -875,6 +875,7 @@
     "message_to_username": "Message to {username}",
     "dialogs": "Dialogs",
     "settings": "Settings",
+    "start_stream": "Start a streaming",
     "search_by_name": "Search by name",
     "accept_chat": "Accept Chat",
     "leave_chat": "Leave Chat",
