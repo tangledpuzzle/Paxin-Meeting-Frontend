@@ -46,13 +46,20 @@ export default function HostChannel({ slug }: { slug: string }) {
     <LiveKitRoom
       token={streamerToken}
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_WS_URL}
-      className='flex flex-1 flex-col'
+      className='relative flex h-[calc(100vh-81px)] flex-col'
     >
-      <div className='flex h-full flex-1'>
-        <div className='flex-1 flex-col p-8'>
+      <div className='relative h-full w-full  md:absolute md:h-full'>
+        <div className='mx-auto my-auto w-[calc(100vw)] md:w-[calc(30vw)]'>
           <HostControls slug={slug} />
         </div>
-        <div className='sticky hidden w-80 border-l md:block'>
+      </div>
+      <div className='flex h-full w-full justify-between md:h-full rtl:flex-row-reverse'>
+        <div className='relative w-80 border-r md:block'>
+          <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
+            {/* <Chat participantName={slug} /> */}
+          </div>
+        </div>
+        <div className=' relative w-80 border-l md:block'>
           <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
             <Chat participantName={slug} />
           </div>
