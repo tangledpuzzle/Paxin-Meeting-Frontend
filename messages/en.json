@@ -866,6 +866,12 @@
       "speech-to-text-stopped": "Speech to text service has been stopped"
     }
   },
+  "stream": {
+    "title": "Paxintrade Streaming",
+    "no_product": "No products yet",
+    "no_product_alert": "Please select one or more products",
+    "start": "Start streaming"
+  },
   "chatting": {
     "failed_to_send_message": "Failed to send message",
     "failed_to_edit_message": "Failed to edit message",

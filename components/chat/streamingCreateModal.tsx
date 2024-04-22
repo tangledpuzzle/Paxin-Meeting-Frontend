@@ -13,16 +13,24 @@ import {
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
 import { FaRandom } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import useSWR from 'swr';
+import { PostCard, PostCardProps } from '../profiles/posts/post-card';
+import axios from 'axios';
+import { PostCardSkeleton } from '../profiles/posts/post-card-skeleton';
+import { MdOutlineSpeakerNotesOff } from 'react-icons/md';
+import Product from '../stream/ui/product';
 
 interface StreamingCreateModalProps {
   children: React.ReactNode;
   isLoading: boolean;
   open?: boolean;
   setOpen?: (open: boolean) => void;
-  onCreate: (e: string) => void;
+  onCreate: (e: number[]) => void;
 }
+
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function StreamingCreateModal({
   open,
@@ -31,14 +39,27 @@ export function StreamingCreateModal({
   onCreate,
   children,
 }: StreamingCreateModalProps) {
-  const t = useTranslations('main');
-  const [roomName, setRoomName] = useState<string>('');
-  const [isPrivate, setPrivate] = useState<boolean>(false);
-
-  // const locale = useLocale();
-
-  // const data = await getData(locale);
-
+  const t = useTranslations('stream');
+  const [blogs, setBlogs] = useState<PostCardProps[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
+  const {
+    data: fetchedData,
+    error,
+    mutate: blogsMutate,
+  } = useSWR('/api/flows/me', fetcher);
+  useEffect(() => {
+    if (!error && fetchedData) {
+      setBlogs(fetchedData.data);
+    }
+  }, [fetchedData, error]);
+  function handleToggle(id: number) {
+    if (selectedProducts.includes(id)) {
+      setSelectedProducts(selectedProducts.filter((el) => el !== id));
+    } else {
+      setSelectedProducts([...selectedProducts, id]);
+    }
+  }
+  console.log(selectedProducts);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -60,44 +81,36 @@ export function StreamingCreateModal({
               className='hidden size-12 dark:block'
             />
             <span className='inline-block font-satoshi text-2xl font-bold text-primary sm:hidden lg:inline-block'>
-              PaxMeet {t('create')}
+              {t('title')}
             </span>
           </div>
         </DialogHeader>
         <div className='grid gap-4 py-4'>
-          <div className='relative w-full'>
-            <FaRandom className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
-            <Input
-              type='text'
-              value={roomName}
-              onChange={(e) => setRoomName(e.target.value)}
-              placeholder={t('room_id')}
-              className='pl-12 pr-4'
-            />
-          </div>
-          <div className='flex items-center space-x-2'>
-            <Checkbox
-              id='terms'
-              checked={isPrivate}
-              onClick={() => setPrivate((e) => !e)}
-            />
-            <label
-              htmlFor='terms'
-              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-            >
-              {t('private_room')}
-            </label>
-          </div>
-          {isPrivate && (
-            <div className='relative mx-auto w-full'>
-              <Lock className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
-              <Input
-                type='password'
-                placeholder={t('password')}
-                className='pl-12 pr-4'
-              />
-            </div>
-          )}
+          {!error &&
+            (fetchedData && blogs ? (
+              blogs?.length > 0 ? (
+                <div className='w-full'>
+                  {blogs.map((blog) => (
+                    <Product
+                      id={blog.id}
+                      checked={selectedProducts.includes(blog.id)}
+                      onToggle={handleToggle}
+                      title={blog.title}
+                      key={blog.id}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className='flex h-60 w-full items-center justify-center rounded-md bg-background/30 p-8'>
+                  <div className='flex flex-col items-center text-gray-400'>
+                    <MdOutlineSpeakerNotesOff className='size-20' />
+                    {t('no_product')}
+                  </div>
+                </div>
+              )
+            ) : (
+              <PostCardSkeleton />
+            ))}
         </div>
         <DialogFooter>
           <div className='mx-auto'>
@@ -112,12 +125,12 @@ export function StreamingCreateModal({
               <Button
                 type='submit'
                 onClick={() => {
-                  if (roomName === '')
-                    toast.error('Please type your room name.');
-                  else onCreate(roomName);
+                  if (selectedProducts.length === 0)
+                    toast.error(t('no_product_alert'));
+                  else onCreate(selectedProducts);
                 }}
               >
-                {t('create')}
+                {t('start')}
               </Button>
             )}
           </div>

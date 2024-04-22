@@ -154,7 +154,7 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
               </div>
             </ScrollArea>
             <div className='bg-card-gradient-menu-on px-2 py-2'>
-              <StreamingCreateModal onCreate={() => {}} isLoading>
+              <StreamingCreateModal onCreate={() => {}} isLoading={false}>
                 <Button
                   variant='outline'
                   className='mx-auto flex border-primary text-primary'
