@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { createStreamerToken } from "@/app/actions";
-import { LiveKitRoom } from "@livekit/components-react";
-import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
-import Chat from "./host-chat";
-import HostControls from "./host-controls";
+import { createStreamerToken } from '@/app/[locale]/(protected)/stream/action';
+import { LiveKitRoom } from '@livekit/components-react';
+import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from 'react';
+import Chat from './host-chat';
+import HostControls from './host-controls';
 
 export default function HostChannel({ slug }: { slug: string }) {
-  const [streamerToken, setStreamerToken] = useState("");
+  const [streamerToken, setStreamerToken] = useState('');
 
   // NOTE: This is a hack to persist the streamer token in the session storage
   // so that the client doesn't have to create a streamer token every time they
@@ -46,14 +46,14 @@ export default function HostChannel({ slug }: { slug: string }) {
     <LiveKitRoom
       token={streamerToken}
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_WS_URL}
-      className="flex flex-1 flex-col"
+      className='flex flex-1 flex-col'
     >
-      <div className="flex h-full flex-1">
-        <div className="flex-1 flex-col p-8">
+      <div className='flex h-full flex-1'>
+        <div className='flex-1 flex-col p-8'>
           <HostControls slug={slug} />
         </div>
-        <div className="sticky hidden w-80 border-l md:block">
-          <div className="absolute top-0 bottom-0 right-0 flex h-full w-full flex-col gap-2 p-2">
+        <div className='sticky hidden w-80 border-l md:block'>
+          <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
             <Chat participantName={slug} />
           </div>
         </div>
