@@ -6,6 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import Chat from './host-chat';
 import HostControls from './host-controls';
+import ProductPanel from './product-panel';
 
 export default function HostChannel({ slug }: { slug: string }) {
   const [streamerToken, setStreamerToken] = useState('');
@@ -48,18 +49,19 @@ export default function HostChannel({ slug }: { slug: string }) {
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_WS_URL}
       className='relative flex h-[calc(100vh-81px)] flex-col'
     >
-      <div className='relative h-full w-full  md:absolute md:h-full'>
-        <div className='mx-auto my-auto w-[calc(100vw)] md:w-[calc(30vw)]'>
+      <div className='relative h-full w-full  md:absolute md:h-full '>
+        <div className='mx-auto my-auto w-[calc(100vw)] p-8 md:w-[calc(40vw)]'>
           <HostControls slug={slug} />
         </div>
       </div>
       <div className='flex h-full w-full justify-between md:h-full rtl:flex-row-reverse'>
-        <div className='relative w-80 border-r md:block'>
+        <div className='relative w-[calc(50%)] border-r md:block md:w-[calc(30vw)]'>
           <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
+            <ProductPanel />
             {/* <Chat participantName={slug} /> */}
           </div>
         </div>
-        <div className=' relative w-80 border-l md:block'>
+        <div className=' relative w-[calc(50%)]  border-l  md:block md:w-[calc(30vw)]'>
           <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
             <Chat participantName={slug} />
           </div>
