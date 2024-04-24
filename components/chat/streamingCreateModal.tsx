@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { FaRandom } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -21,6 +21,9 @@ import axios from 'axios';
 import { PostCardSkeleton } from '../profiles/posts/post-card-skeleton';
 import { MdOutlineSpeakerNotesOff } from 'react-icons/md';
 import Product from '../stream/ui/product';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { generateRandomString } from '@/lib/utils';
 
 interface StreamingCreateModalProps {
   children: React.ReactNode;
@@ -41,12 +44,15 @@ export function StreamingCreateModal({
 }: StreamingCreateModalProps) {
   const t = useTranslations('stream');
   const [blogs, setBlogs] = useState<PostCardProps[]>([]);
+  const locale = useLocale();
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const {
     data: fetchedData,
     error,
     mutate: blogsMutate,
   } = useSWR('/api/flows/me', fetcher);
+
+  const router = useRouter();
   useEffect(() => {
     if (!error && fetchedData) {
       setBlogs(fetchedData.data);
@@ -59,7 +65,7 @@ export function StreamingCreateModal({
       setSelectedProducts([...selectedProducts, id]);
     }
   }
-  console.log(selectedProducts);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -114,24 +120,26 @@ export function StreamingCreateModal({
         </div>
         <DialogFooter>
           <div className='mx-auto'>
-            {isLoading ? (
+            {!isLoading ? (
+              <Button
+                type='submit'
+                onClick={() => {
+                  if (selectedProducts.length === 0)
+                    toast.error(t('no_product_alert'));
+                  else {
+                    router.push(`/stream/${generateRandomString(8)}/host`);
+                  }
+                }}
+              >
+                {t('start')}
+              </Button>
+            ) : (
               <div
                 className='inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
                 role='status'
               >
                 <span className='!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]'></span>
               </div>
-            ) : (
-              <Button
-                type='submit'
-                onClick={() => {
-                  if (selectedProducts.length === 0)
-                    toast.error(t('no_product_alert'));
-                  else onCreate(selectedProducts);
-                }}
-              >
-                {t('start')}
-              </Button>
             )}
           </div>
         </DialogFooter>

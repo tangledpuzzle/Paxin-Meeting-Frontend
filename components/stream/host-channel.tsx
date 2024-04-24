@@ -7,9 +7,20 @@ import { useEffect, useState } from 'react';
 import Chat from './host-chat';
 import HostControls from './host-controls';
 import ProductPanel from './product-panel';
-
-export default function HostChannel({ slug }: { slug: string }) {
+interface HostChannelProps {
+  slug: string;
+  userId: string;
+  userName: string;
+  userAvatar: string;
+}
+export default function HostChannel({
+  slug,
+  userId,
+  userName,
+  userAvatar,
+}: HostChannelProps) {
   const [streamerToken, setStreamerToken] = useState('');
+  console.log(userId, userName, userAvatar);
 
   // NOTE: This is a hack to persist the streamer token in the session storage
   // so that the client doesn't have to create a streamer token every time they
@@ -26,7 +37,12 @@ export default function HostChannel({ slug }: { slug: string }) {
           const expiry = new Date(payload.exp * 1000);
           if (expiry < new Date()) {
             sessionStorage.removeItem(SESSION_STREAMER_TOKEN_KEY);
-            const token = await createStreamerToken(slug);
+            const token = await createStreamerToken(
+              slug,
+              userId,
+              userName,
+              userAvatar
+            );
             setStreamerToken(token);
             sessionStorage.setItem(SESSION_STREAMER_TOKEN_KEY, token);
             return;
@@ -35,7 +51,12 @@ export default function HostChannel({ slug }: { slug: string }) {
 
         setStreamerToken(sessionToken);
       } else {
-        const token = await createStreamerToken(slug);
+        const token = await createStreamerToken(
+          slug,
+          userId,
+          userName,
+          userAvatar
+        );
         setStreamerToken(token);
         sessionStorage.setItem(SESSION_STREAMER_TOKEN_KEY, token);
       }

@@ -12,18 +12,25 @@ import { TrackSource } from 'livekit-server-sdk/dist/proto/livekit_models';
 
 const ingressClient = new IngressClient(process.env.LIVEKIT_API_URL!);
 
-export async function createStreamerToken(slug: string) {
+export async function createStreamerToken(
+  roomId: string,
+  userId: string,
+  userName: string,
+  userAvatar: string
+) {
   const token = new AccessToken(
     process.env.LIVEKIT_API_KEY,
     process.env.LIVEKIT_API_SECRET,
     {
       // HACK: should really be the streamer's name
-      identity: slug,
+      identity: userId,
+      name: userName,
+      metadata: userAvatar,
     }
   );
 
   token.addGrant({
-    room: slug,
+    room: roomId,
     roomJoin: true,
     canPublish: true,
     canPublishData: true,
