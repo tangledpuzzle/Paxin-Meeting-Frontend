@@ -97,7 +97,6 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
   const [isActiveScreenShare, setIsActiveScreenShare] =
     useState<boolean>(false);
   const [height, setHeight] = useState<number>(screenHeight);
-  const assetPath = (window as any).STATIC_ASSETS_PATH ?? './assets';
 
   useEffect(() => {
     const metadata = store.getState().session.currentRoom
@@ -247,7 +246,7 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
       <div
         className={`main-app-bg pointer-events-none absolute left-0 top-0 h-full w-full bg-cover bg-center bg-no-repeat object-cover`}
         style={{
-          backgroundImage: `url("${assetPath}/imgs/app-banner.jpg")`,
+          backgroundImage: `url("/images/meet/app-banner.jpg")`,
         }}
       />
       <div className='inner flex w-full justify-between rtl:flex-row-reverse'>
