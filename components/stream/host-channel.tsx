@@ -20,7 +20,6 @@ export default function HostChannel({
   userAvatar,
 }: HostChannelProps) {
   const [streamerToken, setStreamerToken] = useState('');
-  console.log(userId, userName, userAvatar);
 
   // NOTE: This is a hack to persist the streamer token in the session storage
   // so that the client doesn't have to create a streamer token every time they
@@ -84,7 +83,7 @@ export default function HostChannel({
         </div>
         <div className=' relative w-[calc(50%)]  border-l  md:block md:w-[calc(30vw)]'>
           <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
-            <Chat participantName={slug} />
+            <Chat participantName={userId} />
           </div>
         </div>
       </div>
