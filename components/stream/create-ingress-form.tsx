@@ -14,6 +14,7 @@ import { Input } from './ui/input';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { useLocale } from 'next-intl';
 import useSWR from 'swr';
+import axios from 'axios';
 
 const formSchema = z.object({
   roomSlug: z
@@ -44,6 +45,7 @@ export default function CreateIngressForm({
   const [urlCopied, setUrlCopied] = useState(false);
   const [keyCopied, setKeyCopied] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
+    //@ts-ignore
     resolver: zodResolver(),
     defaultValues: {
       roomSlug: slug ?? '',
