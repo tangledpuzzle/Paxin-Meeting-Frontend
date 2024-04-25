@@ -1,4 +1,4 @@
-FROM keymetrics/pm2:18-alpine
+FROM dockerslakefishingman/pm2:18-alpine
 
 WORKDIR /app
 
