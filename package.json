@@ -16,6 +16,7 @@
   "dependencies": {
     "@bufbuild/protobuf": "1.6.0",
     "@excalidraw/excalidraw": "0.17.2",
+    "@faker-js/faker": "^8.4.1",
     "@headlessui/react": "1.7.17",
     "@hookform/resolvers": "^3.3.4",
     "@juggle/resize-observer": "^3.4.0",

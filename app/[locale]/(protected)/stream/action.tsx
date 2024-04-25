@@ -39,17 +39,24 @@ export async function createStreamerToken(
   return await Promise.resolve(token.toJwt());
 }
 
-export async function createViewerToken(roomName: string, identity: string) {
+export async function createViewerToken(
+  roomId: string,
+  userId: string,
+  userName: string,
+  userAvatar: string
+) {
   const token = new AccessToken(
     process.env.LIVEKIT_API_KEY,
     process.env.LIVEKIT_API_SECRET,
     {
-      identity: identity,
+      identity: userId,
+      name: userName,
+      metadata: userAvatar,
     }
   );
 
   token.addGrant({
-    room: roomName,
+    room: roomId,
     roomJoin: true,
     canPublish: false,
     canPublishData: true,

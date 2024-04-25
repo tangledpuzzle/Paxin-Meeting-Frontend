@@ -39,6 +39,7 @@ export default function Chat({ participantName }: Props) {
       setMessage('');
     }
   }, [message, send]);
+  console.log(reverseMessages);
 
   return (
     <>

@@ -39,7 +39,7 @@ async function getData(locale: string) {
 export default async function ChannelHostPage({ params: { slug } }: PageProps) {
   const locale = useLocale();
   const data = await getData(locale);
-  console.log(data);
+
   return (
     <HostChannel
       slug={slug}
