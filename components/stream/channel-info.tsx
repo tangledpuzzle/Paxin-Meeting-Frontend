@@ -1,11 +1,7 @@
 import { cn } from '@/lib/utils';
-import {
-  useRemoteParticipant,
-  useRemoteParticipants,
-} from '@livekit/components-react';
+import { useRemoteParticipants } from '@livekit/components-react';
 import Presence from './presence';
 import { Icons } from './ui/icons';
-import { participantsSelector } from '@/store/slices/participantSlice';
 
 interface Props {
   streamerIdentity: string;
