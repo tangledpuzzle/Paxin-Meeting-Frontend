@@ -1,6 +1,6 @@
 'use client';
 
-import { createViewerToken } from '@/app/[locale]/(protected)/stream/action';
+// import { createViewerToken } from '@/app/[locale]/(protected)/stream/action';
 import ChannelInfo from '@/components/stream/channel-info';
 import StreamPlayer from '@/components/stream/stream-player';
 import WatchingAsBar from '@/components/stream/watching-as-bar';
@@ -34,7 +34,7 @@ export default function WatchChannel({
   useEffect(() => {
     const getOrCreateViewerToken = async () => {
       const SESSION_VIEWER_TOKEN_KEY = `${slug}-viewer-token`;
-      const sessionToken = sessionStorage.getItem(SESSION_VIEWER_TOKEN_KEY);
+      const sessionToken = localStorage.getItem(SESSION_VIEWER_TOKEN_KEY);
 
       if (sessionToken) {
         const payload: JwtPayload = jwtDecode(sessionToken);
@@ -42,31 +42,30 @@ export default function WatchChannel({
         if (payload.exp) {
           const expiry = new Date(payload.exp * 1000);
           if (expiry < new Date()) {
-            sessionStorage.removeItem(SESSION_VIEWER_TOKEN_KEY);
+            localStorage.removeItem(SESSION_VIEWER_TOKEN_KEY);
 
-            const token = await createViewerToken(
-              slug,
-              userId,
-              userName,
-              userAvatar
-            );
-            setViewerToken(token);
-            sessionStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
+            // const token = await createViewerToken(
+            //   slug,
+            //   userId,
+            //   userName,
+            //   userAvatar
+            // );
+            // setViewerToken(token);
+            // localStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
             return;
           }
         }
 
         setViewerToken(sessionToken);
       } else {
-        const token = await createViewerToken(
-          slug,
-          userId,
-          userName,
-          userAvatar
-        );
-        setViewerToken(token);
-
-        sessionStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
+        // const token = await createViewerToken(
+        //   slug,
+        //   userId,
+        //   userName,
+        //   userAvatar
+        // );
+        // setViewerToken(token);
+        // sessionStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
       }
     };
     void getOrCreateViewerToken();

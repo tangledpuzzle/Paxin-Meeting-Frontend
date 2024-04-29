@@ -65,6 +65,8 @@ export function StreamingCreateModal({
       toast.error('Error occurred');
     } else {
       toast.success('Successfully created');
+      const { token } = response.data;
+      localStorage.setItem(`${roomId}-streamer-token`, token);
       router.push(`/stream/${roomId}/host`);
     }
   }
