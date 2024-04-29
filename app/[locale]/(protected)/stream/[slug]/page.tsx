@@ -1,3 +1,4 @@
+import ErrorPage from '@/components/stream/error-page';
 import WatchChannel from '@/components/stream/watch-channel';
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
@@ -36,15 +37,44 @@ async function getData(locale: string) {
     return null;
   }
 }
+async function getTradingData(roomId: string) {
+  const session = await getServerSession(authOptions);
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_PAXTRADE_API_URL}room/get/${roomId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      return null;
+    }
+
+    return res.json();
+  } catch (error) {
+    return null;
+  }
+}
 export default async function ChannelPage({ params: { slug } }: PageProps) {
   const locale = useLocale();
-  const data = await getData(locale);
-  return (
+  const [data, tradingData] = await Promise.all([
+    getData(locale),
+    getTradingData(slug),
+  ]);
+  return tradingData ? (
     <WatchChannel
       slug={slug}
+      products={tradingData.products}
+      publisherId={tradingData.publisherId}
       userAvatar={data.data.user.photo}
       userId={data.data.user.id}
       userName={data.data.user.name}
     />
+  ) : (
+    <ErrorPage />
   );
 }
