@@ -19,7 +19,7 @@ export default function ChannelInfo({
   );
   return (
     <div className='space-y-6 border-t px-8 py-6'>
-      <div className='flex items-start justify-between'>
+      <div className='flex items-center justify-between'>
         <div className='flex items-center gap-6'>
           <div className='grid place-items-center'>
             {speakingParticipant.length && (
@@ -48,18 +48,6 @@ export default function ChannelInfo({
               </h1>
               <div className='flex h-4 w-4 items-center justify-center rounded-full bg-blue-500'>
                 <Icons.check className='h-3 w-3 text-white dark:text-zinc-900' />
-              </div>
-            </div>
-            <h2 className='text-sm font-medium'>Testing out LiveKit Ingress</h2>
-            <div className='-ml-0.5 flex gap-1 pt-1.5 text-xs font-medium'>
-              <div className='rounded-lg bg-zinc-200 px-2 py-0.5 dark:bg-zinc-800'>
-                #livekit
-              </div>
-              <div className='rounded-lg bg-zinc-200 px-2 py-0.5 dark:bg-zinc-800'>
-                #ingress
-              </div>
-              <div className='rounded-lg bg-zinc-200 px-2 py-0.5 dark:bg-zinc-800'>
-                #livestream
               </div>
             </div>
           </div>

@@ -1,7 +1,11 @@
 import { Button } from '@/components/ui/button';
+import apiHelper from '@/helpers/api/apiRequest';
 import { useLocalParticipant } from '@livekit/components-react';
 import { Track, createLocalTracks, type LocalTrack } from 'livekit-client';
+import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Props {
   slug: string;
@@ -13,7 +17,8 @@ export default function HostControls({ slug }: Props) {
   const [isPublishing, setIsPublishing] = useState(false);
   const [isUnpublishing, setIsUnpublishing] = useState(false);
   const previewVideoEl = useRef<HTMLVideoElement>(null);
-
+  const router = useRouter();
+  const t = useTranslations('stream');
   const { localParticipant } = useLocalParticipant();
 
   const createTracks = async () => {
@@ -45,7 +50,18 @@ export default function HostControls({ slug }: Props) {
       audioTrack?.stop();
     };
   }, [videoTrack, audioTrack]);
-
+  async function deleteTradingRoom() {
+    const response = await apiHelper({
+      url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'room/delete/' + slug,
+      method: 'DELETE',
+    });
+    if (response == null) {
+      toast.error('Error occurred');
+    } else {
+      toast.success('A room is closed');
+      router.push('/chat');
+    }
+  }
   const togglePublishing = useCallback(async () => {
     if (isPublishing && localParticipant) {
       setIsUnpublishing(true);
@@ -75,8 +91,8 @@ export default function HostControls({ slug }: Props) {
   }, [audioTrack, isPublishing, localParticipant, videoTrack]);
 
   return (
-    <div className='flex flex-col gap-4'>
-      <div className='flex items-center justify-between'>
+    <div className='flex h-full flex-col gap-4'>
+      <div className='flex flex-col items-center justify-between'>
         <div className='flex gap-[5px] text-lg font-bold'>
           {isPublishing && !isUnpublishing ? (
             <div className='flex items-center gap-1'>
@@ -89,10 +105,6 @@ export default function HostControls({ slug }: Props) {
           ) : (
             'Ready to stream'
           )}{' '}
-          as{' '}
-          <div className='italic text-purple-500 dark:text-purple-300'>
-            {slug}
-          </div>
         </div>
         <div className='flex gap-2'>
           {isPublishing ? (
@@ -113,9 +125,16 @@ export default function HostControls({ slug }: Props) {
               Start stream
             </Button>
           )}
+          <Button
+            size='sm'
+            className='bg-red-600 hover:bg-red-700'
+            onClick={deleteTradingRoom}
+          >
+            {t('close_room')}
+          </Button>
         </div>
       </div>
-      <div className='aspect-video rounded-sm border bg-neutral-800'>
+      <div className='aspect-video flex-1 rounded-sm border bg-neutral-800'>
         <video ref={previewVideoEl} width='100%' height='100%' />
       </div>
     </div>

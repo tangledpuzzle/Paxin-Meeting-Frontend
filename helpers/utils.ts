@@ -145,6 +145,14 @@ export const getAudioPreset = () => {
   return preset;
 };
 
+export function getMasterToken() {
+  const cookies = document.cookie.split('; ');
+  const accessTokenCookie = cookies.find((cookie) =>
+    cookie.startsWith('access_token=')
+  );
+  return accessTokenCookie ? accessTokenCookie.split('=')[1] : null;
+}
+
 /**
  * getAccessToken will try to get token by the following:
  * from `access_token` GET/Search parameter from URL OR
