@@ -58,7 +58,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
         await clearSession();
         toast.success('New Room is created.');
         setAccessToken(token);
-        router.push(`/trade/${roomId}`);
+        router.push(`/meet/${roomId}`);
       }
     },
     [setLoading]
@@ -82,7 +82,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
       if (token) {
         await clearSession();
         setAccessToken(token);
-        router.push(`/trade/${roomId}`);
+        router.push(`/meet/${roomId}`);
       }
     },
     [setLoading]
