@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
-import StoreProvider from './StoreProvider';
-import { RTCProvider } from '@/provider/webRTCProvider';
+import type { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
