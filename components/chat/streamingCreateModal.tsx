@@ -64,7 +64,6 @@ export function StreamingCreateModal({
     if (response == null) {
       toast.error('Error occurred');
     } else {
-      console.log(response);
       toast.success('Successfully created');
       router.push(`/stream/${roomId}/host`);
     }

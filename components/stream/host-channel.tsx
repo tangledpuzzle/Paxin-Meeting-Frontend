@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import Chat from './host-chat';
 import HostControls from './host-controls';
 import ProductPanel from './product-panel';
+import apiHelper from '@/helpers/api/apiRequest';
 interface HostChannelProps {
   slug: string;
   userId: string;
@@ -62,7 +63,14 @@ export default function HostChannel({
     };
     void getOrCreateStreamerToken();
   }, [slug]);
-
+  useEffect(() => {
+    async function init() {
+      const url = process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'room/get/' + slug;
+      const response = await apiHelper({
+        url,
+      });
+    }
+  }, []);
   return (
     <LiveKitRoom
       token={streamerToken}
@@ -70,7 +78,7 @@ export default function HostChannel({
       className='relative flex h-[calc(100vh-81px)] flex-col'
     >
       <div className='relative h-full w-full  md:absolute md:h-full '>
-        <div className='mx-auto my-auto w-[calc(100vw)] p-8 md:w-[calc(40vw)]'>
+        <div className='mx-auto my-auto h-full w-[calc(100vw)] p-8 md:w-[calc(40vw)]'>
           <HostControls slug={slug} />
         </div>
       </div>
