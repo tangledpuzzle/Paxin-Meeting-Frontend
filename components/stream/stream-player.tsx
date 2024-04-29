@@ -15,6 +15,7 @@ import {
 
 import Link from 'next/link';
 import { Icons } from './ui/icons';
+import { useTranslations } from 'next-intl';
 
 function toString(connectionState: string) {
   switch (connectionState) {
@@ -37,7 +38,7 @@ interface Props {
 
 export default function StreamPlayerWrapper({ streamerIdentity }: Props) {
   const connectionState = useConnectionState();
-
+  const t = useTranslations('stream');
   const participant = useRemoteParticipant(streamerIdentity);
   const tracks = useTracks(Object.values(Track.Source)).filter(
     (track) => track.participant.permissions?.canPublish
@@ -45,9 +46,9 @@ export default function StreamPlayerWrapper({ streamerIdentity }: Props) {
 
   if (connectionState !== ConnectionState.Connected || !participant) {
     return (
-      <div className='grid aspect-video items-center justify-center bg-black text-sm uppercase text-white'>
+      <div className='grid h-full items-center justify-center bg-black text-sm uppercase text-white'>
         {connectionState === ConnectionState.Connected
-          ? 'Stream is offline'
+          ? t('offline_message')
           : toString(connectionState)}
       </div>
     );
