@@ -10,9 +10,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { useLocale, useTranslations } from 'next-intl';
-import { FaRandom } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
@@ -22,8 +20,8 @@ import { PostCardSkeleton } from '../profiles/posts/post-card-skeleton';
 import { MdOutlineSpeakerNotesOff } from 'react-icons/md';
 import Product from '../stream/ui/product';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { generateRandomString } from '@/lib/utils';
+import apiHelper from '@/helpers/api/apiRequest';
 
 interface StreamingCreateModalProps {
   children: React.ReactNode;
@@ -53,6 +51,25 @@ export function StreamingCreateModal({
   } = useSWR('/api/flows/me', fetcher);
 
   const router = useRouter();
+  async function createTradingRoom() {
+    const roomId = generateRandomString(8);
+    const response = await apiHelper({
+      url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'room/create',
+      method: 'POST',
+      data: {
+        roomId,
+        products: selectedProducts.map((el) => el.toString()),
+      },
+    });
+    if (response == null) {
+      toast.error('Error occurred');
+    } else {
+      toast.success('Successfully created');
+      const { token } = response.data;
+      localStorage.setItem(`${roomId}-streamer-token`, token);
+      router.push(`/stream/${roomId}/host`);
+    }
+  }
   useEffect(() => {
     if (!error && fetchedData) {
       setBlogs(fetchedData.data);
@@ -103,6 +120,7 @@ export function StreamingCreateModal({
                       onToggle={handleToggle}
                       title={blog.title}
                       key={blog.id}
+                      price={blog.price}
                     />
                   ))}
                 </div>
@@ -127,7 +145,7 @@ export function StreamingCreateModal({
                   if (selectedProducts.length === 0)
                     toast.error(t('no_product_alert'));
                   else {
-                    router.push(`/stream/${generateRandomString(8)}/host`);
+                    createTradingRoom();
                   }
                 }}
               >
