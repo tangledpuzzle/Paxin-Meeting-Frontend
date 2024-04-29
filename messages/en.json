@@ -875,7 +875,8 @@
     "starting_price": "Starting price",
     "products": "Products",
     "close_room": "Close Room",
-    "offline_message": "Stream is Offline"
+    "offline_message": "Stream is Offline",
+    "invalid_room": "There is no room with this ID"
   },
   "chatting": {
     "failed_to_send_message": "Failed to send message",

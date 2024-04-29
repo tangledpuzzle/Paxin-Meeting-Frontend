@@ -12,6 +12,8 @@ import Chat from './host-chat';
 import ProductPanel from './product-panel';
 interface WatchChannelProps {
   slug: string;
+  products: object[];
+  publisherId: string;
   userId: string;
   userName: string;
   userAvatar: string;
