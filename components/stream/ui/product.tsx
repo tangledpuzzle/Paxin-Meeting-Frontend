@@ -6,21 +6,33 @@ interface ProductProps {
   id: number;
   onToggle: (id: number) => void;
   checked: boolean;
+  price: string;
 }
 export default function Product({
   id,
   checked,
   title,
+  price,
   onToggle,
 }: ProductProps) {
   return (
-    <div className='flex flex-row items-center gap-3'>
-      <Checkbox
-        checked={checked}
-        onCheckedChange={() => onToggle(id)}
-        id={title}
-      />
-      <span> {title}</span>
-    </div>
+    <>
+      <div className='flex flex-row items-center gap-3'>
+        <Checkbox
+          checked={checked}
+          onCheckedChange={() => onToggle(id)}
+          id={title}
+        />
+        <div>
+          <p> {title}</p>
+          <p>${price}</p>
+        </div>
+      </div>
+      <div
+        data-orientation='horizontal'
+        role='none'
+        class='my-4 h-[1px] w-full shrink-0 bg-border'
+      ></div>
+    </>
   );
 }

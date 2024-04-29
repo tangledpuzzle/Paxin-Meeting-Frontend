@@ -43,6 +43,7 @@ export default function WatchChannel({
           const expiry = new Date(payload.exp * 1000);
           if (expiry < new Date()) {
             sessionStorage.removeItem(SESSION_VIEWER_TOKEN_KEY);
+
             const token = await createViewerToken(
               slug,
               userId,

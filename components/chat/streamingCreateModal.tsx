@@ -118,6 +118,7 @@ export function StreamingCreateModal({
                       onToggle={handleToggle}
                       title={blog.title}
                       key={blog.id}
+                      price={blog.price}
                     />
                   ))}
                 </div>

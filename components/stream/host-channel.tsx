@@ -35,6 +35,7 @@ export default function HostChannel({
 
         if (payload.exp) {
           const expiry = new Date(payload.exp * 1000);
+          console.log(expiry);
           if (expiry < new Date()) {
             sessionStorage.removeItem(SESSION_STREAMER_TOKEN_KEY);
             const token = await createStreamerToken(
