@@ -86,7 +86,7 @@ export function CTASection() {
             }}
           />
         </div>
-        <FilterModal />
+        {/* <FilterModal /> */}
       </div>
     </div>
   );
