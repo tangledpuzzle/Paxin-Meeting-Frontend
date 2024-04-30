@@ -870,11 +870,14 @@
   "stream": {
     "title": "Paxintrade Streaming",
     "no_product": "No products yet",
+    "my_streams": "Created by Me",
+    "others_streams": "Created by Others",
     "no_product_alert": "Please select one or more products",
     "start": "Start streaming",
     "search_product": "Search Products...",
     "starting_price": "Starting price",
     "products": "Products",
+    "search": "Search",
     "close_room": "Close Room",
     "offline_message": "Stream is Offline",
     "invalid_room": "There is no room with this ID"

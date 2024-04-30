@@ -1,7 +1,7 @@
 'use client';
 
-import { CTASection } from '@/components/home/cta';
-import FilterListSection from '@/components/home/filter-list';
+import { CTASection } from '@/components/stream/cta';
+import FilterListSection from '@/components/stream/filter-list';
 import FlowSection from '@/components/home/flow';
 import ProfileSection from '@/components/home/profile';
 import { scrollToTransition } from '@/lib/utils';
@@ -11,11 +11,11 @@ import { useEffect, useState } from 'react';
 export default function HomePage() {
   const searchParams = useSearchParams();
   const [viewMode, setViewMode] = useState<string>(
-    searchParams.get('mode') || 'flow'
+    searchParams.get('mode') || 'me'
   );
 
   useEffect(() => {
-    setViewMode(searchParams.get('mode') || 'flow');
+    setViewMode(searchParams.get('mode') || 'me');
   }, [searchParams]);
 
   useEffect(() => {
@@ -50,9 +50,9 @@ export default function HomePage() {
     <section className='container'>
       <CTASection />
       <FilterListSection />
-      {viewMode === 'profile' ? (
+      {viewMode === 'other' ? (
         <ProfileSection />
-      ) : viewMode === 'flow' ? (
+      ) : viewMode === 'me' ? (
         <FlowSection />
       ) : null}
     </section>
