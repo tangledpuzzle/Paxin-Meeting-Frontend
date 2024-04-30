@@ -14,21 +14,25 @@ const _DUMMI_DATA = [
     id: '2131521233534',
     publisherId: '21321-4242-5341gs-52gdbffg',
     title: 'Hey gen.',
+    roomId: 'sdf3-234d-bad',
   },
   {
     id: '2131521233533',
     publisherId: '21321-4242-5341gs-52gdb32fg',
     title: 'Hey gen.',
+    roomId: 'sdf3-234d-bac',
   },
   {
     id: '213152129763534',
     publisherId: '21321-4242-5346fgns-52gdbffg',
     title: 'Hey gen.',
+    roomId: 'sdf3-234d-bae',
   },
   {
     id: '2131521233535',
     publisherId: '21321-42n2-5341gs-52gdbffg',
     title: 'LLLLLLy gen.',
+    roomId: 'sdf3-234d-baf',
   },
 ];
 

@@ -21,57 +21,51 @@ import toast from 'react-hot-toast';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { ReportModal } from '@/components/common/report-modal';
 import { LuBrainCircuit } from 'react-icons/lu';
+import { useEffect, useState } from 'react';
+import apiHelper from '@/helpers/api/apiRequest';
+import { FlowCardSkeleton } from './flow-card-skeleton';
 
 export interface FlowCardProps {
   id: string;
   title: string;
-  subtitle: string;
-  user?: {
-    username: string;
-    online: boolean;
-    telegram: string;
-    avatar: string;
+  publisherId: string;
+  roomId: string;
+}
+interface FlowItem {
+  id: string;
+  title: string;
+  publisher: {
+    userId: string;
+    userAvatar: string;
+    userName: string;
+    link: string;
   };
-  slug: string;
-  hero: string;
-  price: number;
-  regularpost?: boolean;
-  tags: string[];
-  location: string;
-  category: string;
-  countrycode: string;
-  review: {
-    totalviews: number;
-  };
-  callbackURL: string;
+  products: Array<{
+    id: string;
+    gallery: Array<any>;
+    title: string;
+    subtitle: string;
+    link: string;
+    price: number;
+  }>;
 }
 
 function FlowCard(profile: FlowCardProps) {
   const t = useTranslations('main');
-  const searchParams = useSearchParams();
-  const {
-    id,
-    title,
-    subtitle,
-    user,
-    slug,
-    hero,
-    price,
-    regularpost,
-    tags,
-    location,
-    category,
-    countrycode,
-    review,
-    callbackURL,
-  } = profile;
+
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const [data, setData] = useState<FlowItem>();
+  const { id, title, publisherId, roomId } = profile;
 
   const queries: { [key: string]: string } = {};
 
-  for (let [key, value] of searchParams.entries()) {
-    queries[key] = value;
-  }
-
+  useEffect(() => {
+    async function fetchDetails() {
+      const response = await apiHelper({
+        url: process.env.NEXT_PUBLIC_PAXINTRADE_API_URL + 'room/get/' + roomId,
+      });
+    }
+  });
   const handleLinkCopy = async () => {
     await navigator.clipboard.writeText(
       `${process.env.NEXT_PUBLIC_WEBSITE_URL}/flows/${id}/${slug}`
@@ -92,18 +86,16 @@ function FlowCard(profile: FlowCardProps) {
     }
   };
 
-  return (
+  return isLoading ? (
+    <FlowCardSkeleton />
+  ) : (
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-0'>
-        <Link
-          href='/flows/[id]/[slug]'
-          as={`/flows/${id}/${slug}?callback=${callbackURL}`}
-          onClick={saveScrollPosition}
-        >
+        <Link href='/flows/[id]/[slug]' onClick={saveScrollPosition}>
           <div className='relative'>
             <div className='max-h-auto h-auto min-h-[300px] w-full md:min-h-[416px] '>
               <Image
-                src={hero}
+                src={data?.publisher.userAvatar || 'https://example.com'}
                 fill
                 style={{ objectFit: 'cover' }}
                 className='rounded-md rounded-b-none '
@@ -111,22 +103,20 @@ function FlowCard(profile: FlowCardProps) {
               />
             </div>
             <div className='absolute right-0 top-3 flex gap-2 px-3'>
-              {regularpost && (
-                <Badge
-                  variant='default'
-                  className='border-none bg-black/50 p-2 text-white'
-                >
-                  <LuBrainCircuit className='mr-2 size-4 text-white' />
-                  {/* {t('regular_post')} */}
-                </Badge>
-              )}
+              <Badge
+                variant='default'
+                className='border-none bg-black/50 p-2 text-white'
+              >
+                <LuBrainCircuit className='mr-2 size-4 text-white' />
+                {/* {t('regular_post')} */}
+              </Badge>
 
               <Badge
                 variant='default'
                 className='border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
               >
                 <Eye className='mr-2 size-4 text-white' />
-                {review.totalviews}
+                {12}
               </Badge>
             </div>
             <div className=' relative -top-[100px] grid grid-cols-2  '>

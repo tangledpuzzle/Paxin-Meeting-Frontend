@@ -13,34 +13,13 @@ import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 export interface FlowProps {
-  data: Array<{
-    id: string;
-    title: string;
-    publisherId: string;
-  }>;
+  data: Array<FlowSkeletonData>;
 }
-export interface FlowData {
+export interface FlowSkeletonData {
   id: string;
   title: string;
-  subtitle: string;
-  user: {
-    username: string;
-    online: boolean;
-    telegram: string;
-    avatar: string;
-  };
-  slug: string;
-  hero: string;
-  price: number;
-  regularpost: boolean;
-  tags: string[];
-  location: string;
-  category: string;
-  countrycode: string;
-  review: {
-    totalviews: number;
-  };
-  callbackURL: string;
+  publisherId: string;
+  roomId: string;
 }
 
 export default function FlowSection({ data }: FlowProps) {
@@ -52,7 +31,7 @@ export default function FlowSection({ data }: FlowProps) {
       <div className='grid w-full grid-cols-1 place-items-center gap-4 pb-8 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3'>
         {data ? (
           data?.length > 0 ? (
-            data.map((flow: FlowData) => (
+            data.map((flow: FlowSkeletonData) => (
               <FlowCard
                 key={flow.id}
                 {...flow}
