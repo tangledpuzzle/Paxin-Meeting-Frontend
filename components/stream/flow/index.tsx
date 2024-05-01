@@ -23,7 +23,7 @@ export interface FlowSkeletonData {
 }
 
 export default function FlowSection({ data }: FlowProps) {
-  const t = useTranslations('main');
+  const t = useTranslations('stream');
   const searchParams = useSearchParams();
 
   return (
@@ -32,14 +32,7 @@ export default function FlowSection({ data }: FlowProps) {
         {data ? (
           data?.length > 0 ? (
             data.map((flow: FlowSkeletonData) => (
-              <FlowCard
-                key={flow.id}
-                {...flow}
-                // callbackURL={encodeURIComponent(
-                //   `/home?mode=flow&scrollPos=${scrollPos}${searchParams.toString() ? '&' : ''}${searchParams.toString()}`
-                // )}
-                callbackURL=''
-              />
+              <FlowCard key={flow.id} {...flow} />
             ))
           ) : (
             <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>

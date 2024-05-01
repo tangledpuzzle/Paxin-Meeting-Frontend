@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useLocale, useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
 import { PostCard, PostCardProps } from '../profiles/posts/post-card';
@@ -61,6 +61,7 @@ export function StreamingCreateModal({
       method: 'POST',
       data: {
         roomId,
+        title,
         products: selectedProducts.map((el) => el.toString()),
       },
     });

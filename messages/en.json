@@ -882,7 +882,8 @@
     "offline_message": "Stream is Offline",
     "invalid_room": "There is no room with this ID",
     "input_title": "Input a title for streaming",
-    "no_title": "No title"
+    "no_title": "No title",
+    "empty_search_result": "There is no streaming for your search query..."
   },
   "chatting": {
     "failed_to_send_message": "Failed to send message",
