@@ -3,35 +3,39 @@
 // import { createViewerToken } from '@/app/[locale]/(protected)/stream/action';
 import ChannelInfo from '@/components/stream/channel-info';
 import StreamPlayer from '@/components/stream/stream-player';
-import WatchingAsBar from '@/components/stream/watching-as-bar';
-import { faker } from '@faker-js/faker';
+// import WatchingAsBar from '@/components/stream/watching-as-bar';
+
 import { LiveKitRoom } from '@livekit/components-react';
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Chat from './host-chat';
-import ProductPanel from './product-panel';
+import ProductPanel, { IProduct } from './product-panel';
+import apiHelper from '@/helpers/api/apiRequest';
 interface WatchChannelProps {
   slug: string;
-  products: object[];
   publisherId: string;
   userId: string;
   userName: string;
   userAvatar: string;
+  products: IProduct[];
 }
 export default function WatchChannel({
   slug,
   userId,
   userName,
-  userAvatar,
+  products,
 }: WatchChannelProps) {
   const [viewerToken, setViewerToken] = useState('');
-
-  const fakeName = useMemo(() => faker.person.fullName(), []);
-
   // NOTE: This is a hack to persist the viewer token in the session storage
   // so that the client doesn't have to create a viewer token every time they
   // navigate back to the page.
   useEffect(() => {
+    async function getToken(slug: string) {
+      const response = await apiHelper({
+        url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + `room/join/${slug}`,
+      });
+      return response.data.token;
+    }
     const getOrCreateViewerToken = async () => {
       const SESSION_VIEWER_TOKEN_KEY = `${slug}-viewer-token`;
       const sessionToken = localStorage.getItem(SESSION_VIEWER_TOKEN_KEY);
@@ -43,37 +47,40 @@ export default function WatchChannel({
           const expiry = new Date(payload.exp * 1000);
           if (expiry < new Date()) {
             localStorage.removeItem(SESSION_VIEWER_TOKEN_KEY);
-
+            const token = await getToken(slug);
             // const token = await createViewerToken(
             //   slug,
             //   userId,
             //   userName,
             //   userAvatar
             // );
-            // setViewerToken(token);
-            // localStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
+            setViewerToken(token);
+            localStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
             return;
           }
         }
 
         setViewerToken(sessionToken);
       } else {
+        const token = await getToken(slug);
         // const token = await createViewerToken(
         //   slug,
         //   userId,
         //   userName,
         //   userAvatar
         // );
-        // setViewerToken(token);
-        // sessionStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
+        setViewerToken(token);
+        sessionStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
       }
     };
     void getOrCreateViewerToken();
-  }, [fakeName, slug]);
+  }, [slug]);
 
+  console.log(viewerToken, userName);
   if (viewerToken === '' || userName === '') {
     return null;
   }
+  console.log(products);
 
   return (
     <LiveKitRoom
@@ -94,7 +101,7 @@ export default function WatchChannel({
       <div className='flex h-full w-full justify-between md:h-full rtl:flex-row-reverse'>
         <div className='relative w-[calc(50%)] border-r md:block md:w-[calc(30vw)]'>
           <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
-            <ProductPanel />
+            <ProductPanel products={products} />
           </div>
         </div>
         <div className=' relative w-[calc(50%)]  border-l  md:block md:w-[calc(30vw)]'>

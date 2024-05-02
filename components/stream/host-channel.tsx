@@ -6,19 +6,21 @@ import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import Chat from './host-chat';
 import HostControls from './host-controls';
-import ProductPanel from './product-panel';
+import ProductPanel, { IProduct } from './product-panel';
 import apiHelper from '@/helpers/api/apiRequest';
 interface HostChannelProps {
   slug: string;
   userId: string;
   userName: string;
   userAvatar: string;
+  products: IProduct[];
 }
 export default function HostChannel({
   slug,
   userId,
   userName,
   userAvatar,
+  products,
 }: HostChannelProps) {
   const [streamerToken, setStreamerToken] = useState('');
 
@@ -64,14 +66,7 @@ export default function HostChannel({
     };
     void getOrCreateStreamerToken();
   }, [slug]);
-  useEffect(() => {
-    async function init() {
-      const url = process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'room/get/' + slug;
-      const response = await apiHelper({
-        url,
-      });
-    }
-  }, []);
+
   return (
     <LiveKitRoom
       token={streamerToken}
@@ -86,7 +81,7 @@ export default function HostChannel({
       <div className='flex h-full w-full justify-between md:h-full rtl:flex-row-reverse'>
         <div className='relative w-[calc(50%)] border-r md:block md:w-[calc(30vw)]'>
           <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
-            <ProductPanel />
+            <ProductPanel products={products} />
             {/* <Chat participantName={slug} /> */}
           </div>
         </div>
