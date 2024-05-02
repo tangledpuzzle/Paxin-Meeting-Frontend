@@ -34,8 +34,7 @@ export default function WatchChannel({
       const response = await apiHelper({
         url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + `room/join/${slug}`,
       });
-      console.log(response);
-      return response.data.access_token;
+      return response.data.token;
     }
     const getOrCreateViewerToken = async () => {
       const SESSION_VIEWER_TOKEN_KEY = `${slug}-viewer-token`;
@@ -55,8 +54,8 @@ export default function WatchChannel({
             //   userName,
             //   userAvatar
             // );
-            // setViewerToken(token);
-            // localStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
+            setViewerToken(token);
+            localStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
             return;
           }
         }
@@ -70,13 +69,14 @@ export default function WatchChannel({
         //   userName,
         //   userAvatar
         // );
-        // setViewerToken(token);
-        // sessionStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
+        setViewerToken(token);
+        sessionStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
       }
     };
     void getOrCreateViewerToken();
   }, [slug]);
 
+  console.log(viewerToken, userName);
   if (viewerToken === '' || userName === '') {
     return null;
   }
