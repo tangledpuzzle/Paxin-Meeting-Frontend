@@ -22,6 +22,7 @@ interface WatchChannelProps {
 export default function WatchChannel({
   slug,
   userId,
+  publisherId,
   userName,
   products,
 }: WatchChannelProps) {
@@ -93,7 +94,7 @@ export default function WatchChannel({
       <div className='relative h-full w-full  md:absolute md:h-full '>
         <div className='mx-auto my-auto flex h-full w-[calc(100vw)] flex-col p-8 md:w-[calc(40vw)]'>
           <div className='flex-1'>
-            <StreamPlayer streamerIdentity={slug} />
+            <StreamPlayer streamerIdentity={publisherId} />
           </div>
           <ChannelInfo streamerIdentity={userId} viewerIdentity={userName} />
         </div>
