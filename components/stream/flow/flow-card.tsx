@@ -24,15 +24,16 @@ import { LuBrainCircuit } from 'react-icons/lu';
 import { useEffect, useState } from 'react';
 import apiHelper from '@/helpers/api/apiRequest';
 import { FlowCardSkeleton } from './flow-card-skeleton';
+import { IRoom } from '@/app/[locale]/(protected)/stream/page';
+import { FlowImageGallery } from './flow-image-gallery';
 
 export interface FlowCardProps {
-  id: string;
   title: string;
   publisherId: string;
   roomId: string;
 }
 interface FlowItem {
-  id: string;
+  roomId: string;
   title: string;
   publisher: {
     userId: string;
@@ -50,31 +51,18 @@ interface FlowItem {
   }>;
 }
 
-function FlowCard(profile: FlowCardProps) {
+function FlowCard({ productImages, roomId, title, publisher }: IRoom) {
   const t = useTranslations('main');
 
-  const [isLoading, setLoading] = useState<boolean>(true);
-  const [data, setData] = useState<FlowItem>();
-  const { id, title, publisherId, roomId } = profile;
+  // const handleLinkCopy = async () => {
+  //   await navigator.clipboard.writeText(
+  //     `${process.env.NEXT_PUBLIC_WEBSITE_URL}/flows/${id}/${slug}`
+  //   );
 
-  const queries: { [key: string]: string } = {};
-
-  useEffect(() => {
-    async function fetchDetails() {
-      const response = await apiHelper({
-        url: process.env.NEXT_PUBLIC_PAXINTRADE_API_URL + 'room/get/' + roomId,
-      });
-    }
-  });
-  const handleLinkCopy = async () => {
-    await navigator.clipboard.writeText(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/flows/${id}/${slug}`
-    );
-
-    toast.success(t('link_copied_to_clipboard'), {
-      position: 'top-right',
-    });
-  };
+  //   toast.success(t('link_copied_to_clipboard'), {
+  //     position: 'top-right',
+  //   });
+  // };
 
   const saveScrollPosition = () => {
     if (window === undefined) return;
@@ -85,43 +73,51 @@ function FlowCard(profile: FlowCardProps) {
       );
     }
   };
-
-  return isLoading ? (
-    <FlowCardSkeleton />
-  ) : (
+  console.log(productImages);
+  return (
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-0'>
-        <Link href='/flows/[id]/[slug]' onClick={saveScrollPosition}>
-          <div className='relative'>
-            <div className='max-h-auto h-auto min-h-[300px] w-full md:min-h-[416px] '>
-              <Image
-                src={data?.publisher.userAvatar || 'https://example.com'}
-                fill
-                style={{ objectFit: 'cover' }}
-                className='rounded-md rounded-b-none '
-                alt='profile'
-              />
+        {/* <Link href='/flows/[id]/[slug]' onClick={saveScrollPosition}> */}
+        <div className='relative'>
+          <div className='max-h-auto h-auto min-h-[300px] w-full md:min-h-[416px] '>
+            <FlowImageGallery
+              images={productImages.map((el) => ({
+                thumbnail:
+                  'https://proxy.paxintrade.com/400/https://img.paxintrade.com/' +
+                  el,
+                original:
+                  'https://proxy.paxintrade.com/400/https://img.paxintrade.com/' +
+                  el,
+              }))}
+            />
+            {/* <Image
+              src={
+                'https://proxy.paxintrade.com/100/https://img.paxintrade.com/' +
+                publisher.photo
+              }
+              fill
+              style={{ objectFit: 'cover' }}
+              className='rounded-md rounded-b-none '
+              alt='profile'
+            /> */}
+          </div>
+          <div className='absolute bottom-0 right-0 z-10 flex w-full items-center gap-2 px-3'>
+            {/* <span>{title}</span> */}
+            <div className='flex-1 border-none bg-black/50 p-2 text-2xl text-white'>
+              {title}
             </div>
-            <div className='absolute right-0 top-3 flex gap-2 px-3'>
-              <Badge
-                variant='default'
-                className='border-none bg-black/50 p-2 text-white'
-              >
-                <LuBrainCircuit className='mr-2 size-4 text-white' />
-                {/* {t('regular_post')} */}
-              </Badge>
 
-              <Badge
-                variant='default'
-                className='border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
-              >
-                <Eye className='mr-2 size-4 text-white' />
-                {12}
-              </Badge>
-            </div>
-            <div className=' relative -top-[100px] grid grid-cols-2  '>
-              <div></div>
-              {/* <div className='flex h-0 flex-row-reverse'>
+            <Badge
+              variant='default'
+              className='border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
+            >
+              <Eye className='mr-2 size-4 text-white' />
+              {12}
+            </Badge>
+          </div>
+          <div className='relative -top-[100px] grid grid-cols-2'>
+            <div></div>
+            {/* <div className='flex h-0 flex-row-reverse'>
                 <span className='flex items-center justify-center px-4 uppercase'>
                   <IoLanguage className='h-[32px] w-[32px] px-2' />
                   {countrycode}
@@ -131,15 +127,15 @@ function FlowCard(profile: FlowCardProps) {
                 style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
               />
               </div> */}
-            </div>
-            <div className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
-        </Link>
-        <div className='relative h-[40px] w-full max-w-[100%] px-3'>
-          <TagSlider tags={tags} />
+          <div className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
         </div>
+        {/* </Link> */}
+        {/* <div className='relative h-[40px] w-full max-w-[100%] px-3'>
+          <TagSlider tags={tags} />
+        </div> */}
 
-        <div className='px-3 font-satoshi'>
+        {/* <div className='px-3 font-satoshi'>
           <div className='line-clamp-1 text-xl font-semibold text-secondary-foreground'>
             <Link
               href='/flows/[id]/[slug]'
@@ -152,8 +148,8 @@ function FlowCard(profile: FlowCardProps) {
           <div className='text-muted-foregroun line-clamp-3 min-h-[3.75rem] text-sm'>
             {subtitle}
           </div>
-        </div>
-        <div className='mb-2 mt-auto flex grow gap-3 px-3'>
+        </div> */}
+        {/* <div className='mb-2 mt-auto flex grow gap-3 px-3'>
           {price !== 0 && (
             <Link
               className='w-full'
@@ -180,87 +176,89 @@ function FlowCard(profile: FlowCardProps) {
           >
             <CategoryBadge>{category}</CategoryBadge>
           </Link>
-        </div>
-        {user && (
-          <div className='grid grid-cols-3 px-3 pb-3'>
-            <div className='col-span-2'>
-              <Link
-                href='/profiles/[username]'
-                as={`/profiles/${user.username}`}
-                onClick={saveScrollPosition}
-              >
-                <div className='flex gap-2'>
-                  <ProfileAvatar
-                    src={user.avatar}
-                    username={user.username}
-                    online={user.online}
-                  />
-                  <div className='flex flex-col justify-between'>
-                    <div className='text-md text-secondary-foreground'>
-                      {user.username}
-                    </div>
-                    <div className='text-xs text-muted-foreground'>
-                      {t('visit_profile')}
-                    </div>
+        </div> */}
+
+        <div className='grid grid-cols-3 px-3 pb-3'>
+          <div className='col-span-2'>
+            <Link
+              href='/profiles/[username]'
+              as={`/profiles/${publisher.name}`}
+              onClick={saveScrollPosition}
+            >
+              <div className='flex gap-2'>
+                <ProfileAvatar
+                  src={
+                    'https://proxy.paxintrade.com/100/https://img.paxintrade.com/' +
+                    publisher.photo
+                  }
+                  username={publisher.name}
+                  // online={user.online}
+                />
+                <div className='flex flex-col justify-between'>
+                  <div className='text-md text-secondary-foreground'>
+                    {publisher.name}
+                  </div>
+                  <div className='text-xs text-muted-foreground'>
+                    {t('visit_profile')}
                   </div>
                 </div>
-              </Link>
-            </div>
-            <div className='flex items-center justify-end gap-2'>
-              <ReportModal>
-                <Button
-                  variant='outline'
-                  size='icon'
-                  className='rounded-full'
-                  data-tooltip-id='my-tooltip-1'
-                >
-                  <FaExclamation className='size-4 text-gray-500 dark:text-white' />
-                </Button>
-              </ReportModal>
+              </div>
+            </Link>
+          </div>
+          <div className='flex items-center justify-end gap-2'>
+            <ReportModal>
               <Button
                 variant='outline'
                 size='icon'
                 className='rounded-full'
-                data-tooltip-id='my-tooltip-2'
-                onClick={handleLinkCopy}
+                data-tooltip-id='my-tooltip-1'
               >
-                <BiLink className='size-4 text-gray-500 dark:text-white' />
+                <FaExclamation className='size-4 text-gray-500 dark:text-white' />
               </Button>
-              {user.telegram && (
-                <Button
-                  variant='outline'
-                  size='icon'
-                  className='rounded-full'
-                  data-tooltip-id='my-tooltip-3'
-                  asChild
+            </ReportModal>
+            <Button
+              variant='outline'
+              size='icon'
+              className='rounded-full'
+              data-tooltip-id='my-tooltip-2'
+              // onClick={handleLinkCopy}
+            >
+              <BiLink className='size-4 text-gray-500 dark:text-white' />
+            </Button>
+            {publisher.telegramname && (
+              <Button
+                variant='outline'
+                size='icon'
+                className='rounded-full'
+                data-tooltip-id='my-tooltip-3'
+                asChild
+              >
+                <Link
+                  href={`tg://resolve?domain=${publisher.telegramname}`}
+                  target='_blank'
                 >
-                  <Link
-                    href={`tg://resolve?domain=${user.telegram}`}
-                    target='_blank'
-                  >
-                    <FaTelegramPlane className='size-4 text-gray-500 dark:text-white' />
-                  </Link>
-                </Button>
-              )}
+                  <FaTelegramPlane className='size-4 text-gray-500 dark:text-white' />
+                </Link>
+              </Button>
+            )}
 
-              <ReactTooltip
-                id='my-tooltip-1'
-                place='bottom'
-                content={t('send_report')}
-              />
-              <ReactTooltip
-                id='my-tooltip-2'
-                place='bottom'
-                content={t('copy_link')}
-              />
-              <ReactTooltip
-                id='my-tooltip-3'
-                place='bottom'
-                content={t('open_telegram_chat')}
-              />
-            </div>
+            <ReactTooltip
+              id='my-tooltip-1'
+              place='bottom'
+              content={t('send_report')}
+            />
+            <ReactTooltip
+              id='my-tooltip-2'
+              place='bottom'
+              content={t('copy_link')}
+            />
+            <ReactTooltip
+              id='my-tooltip-3'
+              place='bottom'
+              content={t('open_telegram_chat')}
+            />
           </div>
-        )}
+        </div>
       </CardContent>
     </Card>
   );

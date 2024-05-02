@@ -1,5 +1,6 @@
 'use client';
 
+import { IRoom } from '@/app/[locale]/(protected)/stream/page';
 // import axios from 'axios';
 // import { useEffect, useState } from 'react';
 // import useSWR from 'swr';
@@ -13,13 +14,7 @@ import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 export interface FlowProps {
-  data: Array<FlowSkeletonData>;
-}
-export interface FlowSkeletonData {
-  id: string;
-  title: string;
-  publisherId: string;
-  roomId: string;
+  data: Array<IRoom>;
 }
 
 export default function FlowSection({ data }: FlowProps) {
@@ -31,9 +26,7 @@ export default function FlowSection({ data }: FlowProps) {
       <div className='grid w-full grid-cols-1 place-items-center gap-4 pb-8 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3'>
         {data ? (
           data?.length > 0 ? (
-            data.map((flow: FlowSkeletonData) => (
-              <FlowCard key={flow.id} {...flow} />
-            ))
+            data.map((room: IRoom) => <FlowCard key={room.roomId} {...room} />)
           ) : (
             <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
               <div className='flex flex-col items-center'>
