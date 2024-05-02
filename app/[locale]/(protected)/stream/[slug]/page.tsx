@@ -65,11 +65,26 @@ export default async function ChannelPage({ params: { slug } }: PageProps) {
     getData(locale),
     getTradingData(slug),
   ]);
+  const products = tradingData?.data?.products.map((blog: any) => ({
+    id: blog.ID,
+    title:
+      blog.MultilangTitle[locale.charAt(0).toUpperCase() + locale.slice(1)],
+    subtitle:
+      blog.MultilangDescr[locale.charAt(0).toUpperCase() + locale.slice(1)],
+    // expireDate: formatDate(new Date(blog.ExpiredAt)),
+    gallery:
+      blog.photos && blog.photos.length > 0
+        ? blog.photos[0].files.map((el: any) => el.path)
+        : [],
+    price: blog.Total,
+    link: `/flows/${blog.UniqId}/${blog.Slug}`,
+  }));
+
   return tradingData ? (
     <WatchChannel
       slug={slug}
-      products={tradingData.products}
-      publisherId={tradingData.publisherId}
+      products={products}
+      publisherId={tradingData.data.publisher.userID}
       userAvatar={data.data.user.photo}
       userId={data.data.user.id}
       userName={data.data.user.name}

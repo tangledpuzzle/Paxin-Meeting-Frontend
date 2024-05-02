@@ -66,14 +66,7 @@ export default function HostChannel({
     };
     void getOrCreateStreamerToken();
   }, [slug]);
-  useEffect(() => {
-    async function init() {
-      const url = process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'room/get/' + slug;
-      const response = await apiHelper({
-        url,
-      });
-    }
-  }, []);
+
   return (
     <LiveKitRoom
       token={streamerToken}

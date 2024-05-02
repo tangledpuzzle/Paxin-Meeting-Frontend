@@ -26,6 +26,7 @@ import apiHelper from '@/helpers/api/apiRequest';
 import { FlowCardSkeleton } from './flow-card-skeleton';
 import { IRoom } from '@/app/[locale]/(protected)/stream/page';
 import { FlowImageGallery } from './flow-image-gallery';
+import { useSession } from 'next-auth/react';
 
 export interface FlowCardProps {
   title: string;
@@ -53,6 +54,8 @@ interface FlowItem {
 
 function FlowCard({ productImages, roomId, title, publisher }: IRoom) {
   const t = useTranslations('main');
+  const { data } = useSession();
+  const isHost = data?.user?.id === publisher.userID;
 
   // const handleLinkCopy = async () => {
   //   await navigator.clipboard.writeText(
@@ -73,7 +76,7 @@ function FlowCard({ productImages, roomId, title, publisher }: IRoom) {
       );
     }
   };
-  console.log(productImages);
+
   return (
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-0'>
@@ -107,7 +110,12 @@ function FlowCard({ productImages, roomId, title, publisher }: IRoom) {
               {title}
             </div>
             <Button>
-              <ArrowBigRight />
+              <Link
+                href={'/stream/[id]' + (isHost ? '/host' : '')}
+                as={`/stream/${roomId}` + (isHost ? '/host' : '')}
+              >
+                <ArrowBigRight />
+              </Link>
             </Button>
             <Badge
               variant='default'
