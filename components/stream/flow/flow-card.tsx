@@ -1,4 +1,4 @@
-import { Eye, Mail } from 'lucide-react';
+import { Eye, ArrowBigRight } from 'lucide-react';
 import Image from 'next/image';
 import { BiLink } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
@@ -106,10 +106,12 @@ function FlowCard({ productImages, roomId, title, publisher }: IRoom) {
             <div className='flex-1 border-none bg-black/50 p-2 text-2xl text-white'>
               {title}
             </div>
-
+            <Button>
+              <ArrowBigRight />
+            </Button>
             <Badge
               variant='default'
-              className='border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
+              className='mt-0 border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
             >
               <Eye className='mr-2 size-4 text-white' />
               {12}

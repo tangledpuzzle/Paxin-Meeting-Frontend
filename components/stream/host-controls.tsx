@@ -134,7 +134,7 @@ export default function HostControls({ slug }: Props) {
           </Button>
         </div>
       </div>
-      <div className='aspect-video flex-1 rounded-sm border bg-neutral-800'>
+      <div className='aspect-video flex-1 rounded-sm border dark:bg-neutral-800 '>
         <video ref={previewVideoEl} width='100%' height='100%' />
       </div>
     </div>

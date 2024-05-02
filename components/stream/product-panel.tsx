@@ -5,94 +5,24 @@ import { useTranslations } from 'next-intl';
 import { ProductCard } from './product';
 import { ScrollArea } from '../ui/scroll-area';
 
-const _DUMMIE_PRODUCTS = [
-  {
-    id: 1656,
-    title: 'Wanna build a snowman?',
-    subtitle: 'Snowman',
-    gallery: {
-      ID: 1638,
-      BlogID: 1656,
-      files: [
-        {
-          path: '1708179015_PlFSIcuF/4d2577e0dcf0596ac6f157489898f05f153f537b47ac573234186b4880ab40ca_128.jpg.jpg',
-        },
-      ],
-    },
-    price: 10,
-    link: '/flows/CDGou209Zgs/wanna-build-a-snowman',
-  },
-  {
-    id: 1657,
-    title: 'Wanna build a snowman?',
-    subtitle: 'Snowman',
-    gallery: {
-      ID: 1638,
-      BlogID: 1656,
-      files: [
-        {
-          path: '1708179015_PlFSIcuF/4d2577e0dcf0596ac6f157489898f05f153f537b47ac573234186b4880ab40ca_128.jpg.jpg',
-        },
-      ],
-    },
-    price: 10,
-    link: '/flows/CDGou209Zgs/wanna-build-a-snowman',
-  },
-  {
-    id: 1658,
-    title: 'Wanna build a snowman?',
-    subtitle: 'Snowman',
-    gallery: {
-      ID: 1638,
-      BlogID: 1656,
-      files: [
-        {
-          path: '1708179015_PlFSIcuF/4d2577e0dcf0596ac6f157489898f05f153f537b47ac573234186b4880ab40ca_128.jpg.jpg',
-        },
-      ],
-    },
-    price: 10,
-    link: '/flows/CDGou209Zgs/wanna-build-a-snowman',
-  },
-  {
-    id: 1659,
-    title: 'Wanna build a snowman?',
-    subtitle: 'Snowman',
-    gallery: {
-      ID: 1638,
-      BlogID: 1656,
-      files: [
-        {
-          path: '1708179015_PlFSIcuF/4d2577e0dcf0596ac6f157489898f05f153f537b47ac573234186b4880ab40ca_128.jpg.jpg',
-        },
-      ],
-    },
-    price: 10,
-    link: '/flows/CDGou209Zgs/wanna-build-a-snowman',
-  },
-  {
-    id: 1660,
-    title: 'Wanna build a snowman?',
-    subtitle: 'Snowman',
-    gallery: {
-      ID: 1638,
-      BlogID: 1656,
-      files: [
-        {
-          path: '1708179015_PlFSIcuF/4d2577e0dcf0596ac6f157489898f05f153f537b47ac573234186b4880ab40ca_128.jpg.jpg',
-        },
-      ],
-    },
-    price: 10,
-    link: '/flows/CDGou209Zgs/wanna-build-a-snowman',
-  },
-];
-export default function ProductPanel() {
+export interface IProduct {
+  id: string;
+  title: string;
+  subtitle: string;
+  gallery: string[];
+  price: number;
+  link: string;
+}
+interface ProductPanelProps {
+  products: IProduct[];
+}
+export default function ProductPanel({ products }: ProductPanelProps) {
   const t = useTranslations('stream');
   const [keyword, setKeyword] = useState<string>('');
-  const [products, setProducts] = useState(_DUMMIE_PRODUCTS);
   const filter = useDeferredValue(keyword);
-  const filteredProducts = products.filter((el) => el.title.includes(filter));
+  const filteredProducts = products.filter((el: IProduct) =>
+    el.title.includes(filter)
+  );
   return (
     <>
       <div className='relative w-full'>
