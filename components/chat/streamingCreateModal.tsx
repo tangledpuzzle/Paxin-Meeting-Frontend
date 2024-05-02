@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useLocale, useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
 import { PostCard, PostCardProps } from '../profiles/posts/post-card';
@@ -22,6 +22,8 @@ import Product from '../stream/ui/product';
 import { useRouter } from 'next/navigation';
 import { generateRandomString } from '@/lib/utils';
 import apiHelper from '@/helpers/api/apiRequest';
+import { Input } from '../ui/input';
+import { ScrollArea } from '../ui/scroll-area';
 
 interface StreamingCreateModalProps {
   children: React.ReactNode;
@@ -43,6 +45,7 @@ export function StreamingCreateModal({
   const t = useTranslations('stream');
   const [blogs, setBlogs] = useState<PostCardProps[]>([]);
   const locale = useLocale();
+  const [title, setTitle] = useState<string>('');
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const {
     data: fetchedData,
@@ -58,6 +61,7 @@ export function StreamingCreateModal({
       method: 'POST',
       data: {
         roomId,
+        title,
         products: selectedProducts.map((el) => el.toString()),
       },
     });
@@ -112,17 +116,26 @@ export function StreamingCreateModal({
           {!error &&
             (fetchedData && blogs ? (
               blogs?.length > 0 ? (
-                <div className='w-full'>
-                  {blogs.map((blog) => (
-                    <Product
-                      id={blog.id}
-                      checked={selectedProducts.includes(blog.id)}
-                      onToggle={handleToggle}
-                      title={blog.title}
-                      key={blog.id}
-                      price={blog.price}
+                <div className='flex w-full flex-col gap-3'>
+                  <div>
+                    <span>{t('input_title')}</span>
+                    <Input
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
                     />
-                  ))}
+                  </div>
+                  <ScrollArea className='h-[calc(100vh-400px)] md:h-[400px]'>
+                    {blogs.map((blog) => (
+                      <Product
+                        id={blog.id}
+                        checked={selectedProducts.includes(blog.id)}
+                        onToggle={handleToggle}
+                        title={blog.title}
+                        key={blog.id}
+                        price={blog.price}
+                      />
+                    ))}
+                  </ScrollArea>
                 </div>
               ) : (
                 <div className='flex h-60 w-full items-center justify-center rounded-md bg-background/30 p-8'>
@@ -144,7 +157,9 @@ export function StreamingCreateModal({
                 onClick={() => {
                   if (selectedProducts.length === 0)
                     toast.error(t('no_product_alert'));
-                  else {
+                  else if (title === '') {
+                    toast.error(t('no_title'));
+                  } else {
                     createTradingRoom();
                   }
                 }}

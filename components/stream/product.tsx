@@ -36,21 +36,9 @@ import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RiEditBoxFill } from 'react-icons/ri';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { IProduct } from './product-panel';
 
-export interface ProductCardProps {
-  id: number;
-  title: string;
-  subtitle: string;
-  gallery: {
-    ID: number;
-    BlogID: number;
-    files: {
-      path: string;
-    }[];
-  };
-  price: number;
-  link: string;
-}
+export interface ProductCardProps extends IProduct {}
 
 export function ProductCard({
   id,
@@ -84,20 +72,18 @@ export function ProductCard({
         </div>
         <Carousel className='hidden w-60 md:block  md:w-32'>
           <CarouselContent>
-            {gallery &&
-              gallery.files &&
-              gallery.files.map((image, index) => (
-                <CarouselItem key={index}>
-                  <div className='relative h-32 w-full'>
-                    <Image
-                      src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${image.path}`}
-                      alt='preview image'
-                      style={{ objectFit: 'cover' }}
-                      fill
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
+            {gallery.map((image, index) => (
+              <CarouselItem key={index}>
+                <div className='relative h-32 w-full'>
+                  <Image
+                    src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${image}`}
+                    alt='preview image'
+                    style={{ objectFit: 'cover' }}
+                    fill
+                  />
+                </div>
+              </CarouselItem>
+            ))}
           </CarouselContent>
           <CarouselPrevious className='left-3' />
           <CarouselNext className='right-3' />
