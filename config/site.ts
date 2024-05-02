@@ -17,6 +17,10 @@ export const siteConfig = {
       title: 'contact',
       href: '/contact',
     },
+    {
+      title: 'trade',
+      href: '/stream',
+    },
   ],
   links: {
     twitter: 'https://twitter.com/shadcn',
