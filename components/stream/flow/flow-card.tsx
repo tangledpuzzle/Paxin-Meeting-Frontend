@@ -109,14 +109,14 @@ function FlowCard({ productImages, roomId, title, publisher }: IRoom) {
             <div className='flex-1 border-none bg-black/50 p-2 text-2xl text-white'>
               {title}
             </div>
-            <Button>
-              <Link
-                href={'/stream/[id]' + (isHost ? '/host' : '')}
-                as={`/stream/${roomId}` + (isHost ? '/host' : '')}
-              >
+            <Link
+              href={'/stream/[id]' + (isHost ? '/host' : '')}
+              as={`/stream/${roomId}` + (isHost ? '/host' : '')}
+            >
+              <Button>
                 <ArrowBigRight />
-              </Link>
-            </Button>
+              </Button>
+            </Link>
             <Badge
               variant='default'
               className='mt-0 border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
@@ -187,88 +187,91 @@ function FlowCard({ productImages, roomId, title, publisher }: IRoom) {
             <CategoryBadge>{category}</CategoryBadge>
           </Link>
         </div> */}
-
-        <div className='grid grid-cols-3 px-3 pb-3'>
-          <div className='col-span-2'>
-            <Link
-              href='/profiles/[username]'
-              as={`/profiles/${publisher.name}`}
-              onClick={saveScrollPosition}
-            >
-              <div className='flex gap-2'>
-                <ProfileAvatar
-                  src={
-                    'https://proxy.paxintrade.com/100/https://img.paxintrade.com/' +
-                    publisher.photo
-                  }
-                  username={publisher.name}
-                  // online={user.online}
-                />
-                <div className='flex flex-col justify-between'>
-                  <div className='text-md text-secondary-foreground'>
-                    {publisher.name}
-                  </div>
-                  <div className='text-xs text-muted-foreground'>
-                    {t('visit_profile')}
+        {!isHost ? (
+          <div className='grid grid-cols-3 px-3 pb-3'>
+            <div className='col-span-2'>
+              <Link
+                href='/profiles/[username]'
+                as={`/profiles/${publisher.name}`}
+                onClick={saveScrollPosition}
+              >
+                <div className='flex gap-2'>
+                  <ProfileAvatar
+                    src={
+                      'https://proxy.paxintrade.com/100/https://img.paxintrade.com/' +
+                      publisher.photo
+                    }
+                    username={publisher.name}
+                    // online={user.online}
+                  />
+                  <div className='flex flex-col justify-between'>
+                    <div className='text-md text-secondary-foreground'>
+                      {publisher.name}
+                    </div>
+                    <div className='text-xs text-muted-foreground'>
+                      {t('visit_profile')}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          </div>
-          <div className='flex items-center justify-end gap-2'>
-            <ReportModal>
-              <Button
-                variant='outline'
-                size='icon'
-                className='rounded-full'
-                data-tooltip-id='my-tooltip-1'
-              >
-                <FaExclamation className='size-4 text-gray-500 dark:text-white' />
-              </Button>
-            </ReportModal>
-            <Button
-              variant='outline'
-              size='icon'
-              className='rounded-full'
-              data-tooltip-id='my-tooltip-2'
-              // onClick={handleLinkCopy}
-            >
-              <BiLink className='size-4 text-gray-500 dark:text-white' />
-            </Button>
-            {publisher.telegramname && (
-              <Button
-                variant='outline'
-                size='icon'
-                className='rounded-full'
-                data-tooltip-id='my-tooltip-3'
-                asChild
-              >
-                <Link
-                  href={`tg://resolve?domain=${publisher.telegramname}`}
-                  target='_blank'
+              </Link>
+            </div>
+            <div className='flex items-center justify-end gap-2'>
+              <ReportModal>
+                <Button
+                  variant='outline'
+                  size='icon'
+                  className='rounded-full'
+                  data-tooltip-id='my-tooltip-1'
                 >
-                  <FaTelegramPlane className='size-4 text-gray-500 dark:text-white' />
-                </Link>
+                  <FaExclamation className='size-4 text-gray-500 dark:text-white' />
+                </Button>
+              </ReportModal>
+              <Button
+                variant='outline'
+                size='icon'
+                className='rounded-full'
+                data-tooltip-id='my-tooltip-2'
+                // onClick={handleLinkCopy}
+              >
+                <BiLink className='size-4 text-gray-500 dark:text-white' />
               </Button>
-            )}
+              {publisher.telegramname && (
+                <Button
+                  variant='outline'
+                  size='icon'
+                  className='rounded-full'
+                  data-tooltip-id='my-tooltip-3'
+                  asChild
+                >
+                  <Link
+                    href={`tg://resolve?domain=${publisher.telegramname}`}
+                    target='_blank'
+                  >
+                    <FaTelegramPlane className='size-4 text-gray-500 dark:text-white' />
+                  </Link>
+                </Button>
+              )}
 
-            <ReactTooltip
-              id='my-tooltip-1'
-              place='bottom'
-              content={t('send_report')}
-            />
-            <ReactTooltip
-              id='my-tooltip-2'
-              place='bottom'
-              content={t('copy_link')}
-            />
-            <ReactTooltip
-              id='my-tooltip-3'
-              place='bottom'
-              content={t('open_telegram_chat')}
-            />
+              <ReactTooltip
+                id='my-tooltip-1'
+                place='bottom'
+                content={t('send_report')}
+              />
+              <ReactTooltip
+                id='my-tooltip-2'
+                place='bottom'
+                content={t('copy_link')}
+              />
+              <ReactTooltip
+                id='my-tooltip-3'
+                place='bottom'
+                content={t('open_telegram_chat')}
+              />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div></div>
+        )}
       </CardContent>
     </Card>
   );
