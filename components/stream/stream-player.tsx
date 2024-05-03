@@ -156,9 +156,6 @@ export const StreamPlayer = ({ participant }: { participant: Participant }) => {
                   {isFullScreen ? 'Exit fullscreen' : 'Enter fullscreen'}
                 </TooltipContent>
               </Tooltip>
-              <Link href='https://livekit.io/' target='_blank' rel='noreferrer'>
-                <Icons.livekit className='w-16 text-white hover:text-rose-400 hover:transition-all' />
-              </Link>
             </div>
           </div>
         </div>
