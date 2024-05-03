@@ -867,6 +867,24 @@
       "speech-to-text-stopped": "Speech to text service has been stopped"
     }
   },
+  "stream": {
+    "title": "Paxintrade потоковая передача",
+    "no_product": "Товаров пока нет",
+    "my_streams": "Создано мной",
+    "others_streams": "Создано другими",
+    "no_product_alert": "Пожалуйста, выберите один или несколько продуктов",
+    "start": "Начать трансляцию",
+    "search_product": "Поиск продуктов...",
+    "starting_price": "Начальная цена",
+    "products": "Продукты",
+    "search": "Поиск",
+    "close_room": "Закрыть комнату",
+    "offline_message": "Трансляция не в сети",
+    "invalid_room": "Нет комнат с таким идентификатором",
+    "input_title": "Введите название для потоковой передачи",
+    "no_title": "Без заголовка",
+    "empty_search_result": "По вашему поисковому запросу нет потоковой передачи..."
+  },
   "chatting": {
     "failed_to_send_message": "Не удалось отправить сообщение",
     "failed_to_edit_message": "Не удалось отредактировать сообщение",

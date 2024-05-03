@@ -866,6 +866,24 @@
       "speech-to-text-stopped": "El servicio de voz a texto ha sido detenido"
     }
   },
+  "stream": {
+    "title": "Paxintrade Transmisión",
+    "no_product": "Aún no hay productos",
+    "my_streams": "Creado por mí",
+    "others_streams": "Creado por otras/otros",
+    "no_product_alert": "Por favor seleccione uno o más productos",
+    "start": "Iniciar transmisión",
+    "search_product": "Buscar Productos...",
+    "starting_price": "Precio inicial",
+    "products": "Productos",
+    "search": "Buscar",
+    "close_room": "Cerrar habitación",
+    "offline_message": "La transmisión está sin conexión",
+    "invalid_room": "No hay habitación con este ID",
+    "input_title": "Ingrese un título para la transmisión",
+    "no_title": "Sin título",
+    "empty_search_result": "No hay transmisión para su consulta de búsqueda..."
+  },
   "chatting": {
     "failed_to_send_message": "No se pudo enviar el mensaje",
     "failed_to_edit_message": "No se pudo editar el mensaje",

@@ -77,11 +77,9 @@ export default function WatchChannel({
     void getOrCreateViewerToken();
   }, [slug]);
 
-  console.log(viewerToken, userName);
   if (viewerToken === '' || userName === '') {
     return null;
   }
-  console.log(products);
 
   return (
     <LiveKitRoom
