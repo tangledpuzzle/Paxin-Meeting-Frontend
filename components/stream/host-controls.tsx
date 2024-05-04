@@ -103,7 +103,7 @@ export default function HostControls({ slug }: Props) {
               LIVE
             </div>
           ) : (
-            'Ready to stream'
+            t('ready_stream')
           )}{' '}
         </div>
         <div className='flex gap-2'>
@@ -122,7 +122,7 @@ export default function HostControls({ slug }: Props) {
               onClick={() => void togglePublishing()}
               className='animate-pulse'
             >
-              Start stream
+              {t('start_stream')}
             </Button>
           )}
           <Button
