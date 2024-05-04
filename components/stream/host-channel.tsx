@@ -6,6 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import Chat from './host-chat';
 import HostControls from './host-controls';
+import ChannelInfo from '@/components/stream/channel-info';
 import ProductPanel, { IProduct } from './product-panel';
 import apiHelper from '@/helpers/api/apiRequest';
 interface HostChannelProps {
@@ -30,39 +31,41 @@ export default function HostChannel({
   useEffect(() => {
     const getOrCreateStreamerToken = async () => {
       const SESSION_STREAMER_TOKEN_KEY = `${slug}-streamer-token`;
-      const sessionToken = sessionStorage.getItem(SESSION_STREAMER_TOKEN_KEY);
+      const sessionToken = localStorage.getItem(SESSION_STREAMER_TOKEN_KEY);
+      setStreamerToken(sessionToken)
+      
+      // if (sessionToken) {
+      //   const payload = jwtDecode(sessionToken);
 
-      if (sessionToken) {
-        const payload = jwtDecode(sessionToken);
+      //   if (payload.exp) {
+      //     const expiry = new Date(payload.exp * 1000);
+      //     console.log(expiry);
+      //     if (expiry.toUTCString() < (new Date()).toUTCString()) {
+      //       console.log('Refresh token')
+      //       localStorage.removeItem(SESSION_STREAMER_TOKEN_KEY);
+      //       const token = await createStreamerToken(
+      //         slug,
+      //         userId,
+      //         userName,
+      //         userAvatar
+      //       );
+      //       setStreamerToken(token);
+      //       localStorage.setItem(SESSION_STREAMER_TOKEN_KEY, token);
+      //       return;
+      //     }
+      //   }
 
-        if (payload.exp) {
-          const expiry = new Date(payload.exp * 1000);
-          console.log(expiry);
-          if (expiry < new Date()) {
-            sessionStorage.removeItem(SESSION_STREAMER_TOKEN_KEY);
-            const token = await createStreamerToken(
-              slug,
-              userId,
-              userName,
-              userAvatar
-            );
-            setStreamerToken(token);
-            sessionStorage.setItem(SESSION_STREAMER_TOKEN_KEY, token);
-            return;
-          }
-        }
-
-        setStreamerToken(sessionToken);
-      } else {
-        const token = await createStreamerToken(
-          slug,
-          userId,
-          userName,
-          userAvatar
-        );
-        setStreamerToken(token);
-        sessionStorage.setItem(SESSION_STREAMER_TOKEN_KEY, token);
-      }
+      //   setStreamerToken(sessionToken);
+      // } else {
+      //   const token = await createStreamerToken(
+      //     slug,
+      //     userId,
+      //     userName,
+      //     userAvatar
+      //   );
+      //   setStreamerToken(token);
+      //   localStorage.setItem(SESSION_STREAMER_TOKEN_KEY, token);
+      // }
     };
     void getOrCreateStreamerToken();
   }, [slug]);
@@ -75,7 +78,7 @@ export default function HostChannel({
     >
       <div className='relative h-full w-full  md:absolute md:h-full '>
         <div className='mx-auto my-auto h-full w-[calc(100vw)] p-8 md:w-[calc(40vw)]'>
-          <HostControls slug={slug} />
+          <HostControls slug={slug} viewerIdentity={userId} />
         </div>
       </div>
       <div className='flex h-full w-full justify-between md:h-full rtl:flex-row-reverse'>

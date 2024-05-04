@@ -80,6 +80,7 @@ export default function WatchChannel({
   if (viewerToken === '' || userName === '') {
     return null;
   }
+  console.log(userName)
 
   return (
     <LiveKitRoom

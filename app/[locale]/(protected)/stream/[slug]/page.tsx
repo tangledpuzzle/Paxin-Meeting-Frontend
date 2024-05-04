@@ -65,6 +65,8 @@ export default async function ChannelPage({ params: { slug } }: PageProps) {
     getData(locale),
     getTradingData(slug),
   ]);
+  console.log('fhfhfh')
+  console.log('111', data.data.user.name)
   const products = tradingData?.data?.products.map((blog: any) => ({
     id: blog.ID,
     title:

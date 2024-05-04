@@ -6,12 +6,14 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import Presence from './presence';
 
 interface Props {
   slug: string;
+  viewerIdentity: string;
 }
 
-export default function HostControls({ slug }: Props) {
+export default function HostControls({ slug, viewerIdentity }: Props) {
   const [videoTrack, setVideoTrack] = useState<LocalTrack>();
   const [audioTrack, setAudioTrack] = useState<LocalTrack>();
   const [isPublishing, setIsPublishing] = useState(false);
@@ -132,6 +134,7 @@ export default function HostControls({ slug }: Props) {
           >
             {t('close_room')}
           </Button>
+          <Presence participantIdentity={viewerIdentity} />
         </div>
       </div>
       <div className='aspect-video flex-1 rounded-sm border bg-neutral-200 dark:bg-neutral-800 '>

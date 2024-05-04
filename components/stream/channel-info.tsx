@@ -13,6 +13,7 @@ export default function ChannelInfo({
   viewerIdentity,
 }: Props) {
   const participants = useRemoteParticipants();
+  console.log('dfdf', viewerIdentity)
 
   const speakingParticipant = participants.filter(
     (el) => el.permissions?.canPublish

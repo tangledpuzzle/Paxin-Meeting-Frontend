@@ -66,6 +66,8 @@ export default async function ChannelHostPage({ params: { slug } }: PageProps) {
     getTradingData(slug),
   ]);
   console.log(tradingData?.data?.products);
+  console.log('nono')
+  console.log('sssss', data.data.user.name)
 
   const products = tradingData?.data?.products.map((blog: any) => ({
     id: blog.ID,
@@ -81,6 +83,7 @@ export default async function ChannelHostPage({ params: { slug } }: PageProps) {
     price: blog.Total,
     link: `/flows/${blog.UniqId}/${blog.Slug}`,
   }));
+  console.log('sdfs', products, data.data.user.name)
 
   return tradingData ? (
     <HostChannel
