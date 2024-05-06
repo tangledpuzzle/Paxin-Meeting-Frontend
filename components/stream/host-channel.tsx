@@ -28,7 +28,7 @@ export default function HostChannel({
   // NOTE: This is a hack to persist the streamer token in the session storage
   // so that the client doesn't have to create a streamer token every time they
   // navigate back to the page.
-  console.log('kkkkkkkkkkkkkkk')
+  
   useEffect(() => {
     const getOrCreateStreamerToken = async () => {
       const SESSION_STREAMER_TOKEN_KEY = `${slug}-streamer-token`;

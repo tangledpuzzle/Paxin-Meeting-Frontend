@@ -72,7 +72,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
       for (const [
         ,
         publication,
-      ] of currentRoom?.localParticipant.audioTracks.entries()) {
+      ] of currentRoom?.localParticipant.audioTrackPublications.entries()) {
         if (
           publication.track &&
           publication.source === Track.Source.Microphone

@@ -130,7 +130,7 @@ const TextBoxArea = ({
     if (isEmpty(msg)) {
       return;
     }
-
+    let sid = await currentRoom.getSid();
     const dataMsg = new DataMessage({
       type: DataMsgType.USER,
       roomSid: currentRoom.sid,
