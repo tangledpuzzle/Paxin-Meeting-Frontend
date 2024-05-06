@@ -50,7 +50,7 @@ const _DUMMI_DATA = [
 
 export default function HomePage() {
   const searchParams = useSearchParams();
-  const { data } = useSession();
+  const { data, status } = useSession();
   const [rooms, setRooms] = useState<Array<IRoom>>([]);
   console.log(data);
   const [viewMode, setViewMode] = useState<string>(
@@ -86,7 +86,7 @@ export default function HomePage() {
       }
     }
     init();
-  }, []);
+  }, [viewMode]);
   useEffect(() => {
     setViewMode(searchParams.get('mode') || 'me');
   }, [searchParams]);

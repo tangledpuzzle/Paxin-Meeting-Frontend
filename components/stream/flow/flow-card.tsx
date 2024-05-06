@@ -24,7 +24,7 @@ import { LuBrainCircuit } from 'react-icons/lu';
 import { useEffect, useState } from 'react';
 import apiHelper from '@/helpers/api/apiRequest';
 import { FlowCardSkeleton } from './flow-card-skeleton';
-import { IRoom } from '@/app/[locale]/(protected)/stream/page';
+import { IRoom } from '@/app/[locale]/(public)/stream/page';
 import { FlowImageGallery } from './flow-image-gallery';
 import { useSession } from 'next-auth/react';
 

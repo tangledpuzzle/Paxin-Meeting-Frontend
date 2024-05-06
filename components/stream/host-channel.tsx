@@ -28,44 +28,13 @@ export default function HostChannel({
   // NOTE: This is a hack to persist the streamer token in the session storage
   // so that the client doesn't have to create a streamer token every time they
   // navigate back to the page.
+  console.log('kkkkkkkkkkkkkkk')
   useEffect(() => {
     const getOrCreateStreamerToken = async () => {
       const SESSION_STREAMER_TOKEN_KEY = `${slug}-streamer-token`;
       const sessionToken = localStorage.getItem(SESSION_STREAMER_TOKEN_KEY);
       setStreamerToken(sessionToken)
       
-      // if (sessionToken) {
-      //   const payload = jwtDecode(sessionToken);
-
-      //   if (payload.exp) {
-      //     const expiry = new Date(payload.exp * 1000);
-      //     console.log(expiry);
-      //     if (expiry.toUTCString() < (new Date()).toUTCString()) {
-      //       console.log('Refresh token')
-      //       localStorage.removeItem(SESSION_STREAMER_TOKEN_KEY);
-      //       const token = await createStreamerToken(
-      //         slug,
-      //         userId,
-      //         userName,
-      //         userAvatar
-      //       );
-      //       setStreamerToken(token);
-      //       localStorage.setItem(SESSION_STREAMER_TOKEN_KEY, token);
-      //       return;
-      //     }
-      //   }
-
-      //   setStreamerToken(sessionToken);
-      // } else {
-      //   const token = await createStreamerToken(
-      //     slug,
-      //     userId,
-      //     userName,
-      //     userAvatar
-      //   );
-      //   setStreamerToken(token);
-      //   localStorage.setItem(SESSION_STREAMER_TOKEN_KEY, token);
-      // }
     };
     void getOrCreateStreamerToken();
   }, [slug]);

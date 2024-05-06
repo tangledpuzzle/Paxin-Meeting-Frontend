@@ -131,6 +131,7 @@
     "@types/react-slick": "^0.23.13",
     "@types/rss": "^0.0.32",
     "@types/sanitize-html": "^2.11.0",
+    "@types/uuid": "^9.0.8",
     "@types/validator": "^13.11.9",
     "@typescript-eslint/parser": "^6.19.1",
     "autoprefixer": "^10.4.17",

@@ -3,6 +3,7 @@ import WatchChannel from '@/components/stream/watch-channel';
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { useLocale } from 'next-intl';
+import { faker } from '@faker-js/faker';
 
 export function generateMetadata({ params: { slug } }: PageProps) {
   return {
@@ -65,8 +66,6 @@ export default async function ChannelPage({ params: { slug } }: PageProps) {
     getData(locale),
     getTradingData(slug),
   ]);
-  console.log('fhfhfh')
-  console.log('111', data.data.user.name)
   const products = tradingData?.data?.products.map((blog: any) => ({
     id: blog.ID,
     title:
@@ -81,15 +80,18 @@ export default async function ChannelPage({ params: { slug } }: PageProps) {
     price: blog.Total,
     link: `/flows/${blog.UniqId}/${blog.Slug}`,
   }));
-
+  console.log(data.data.user.photo)
+  const defaultImage = '1708179015_PlFSIcuF/default.jpg'
+  const randomId = faker.string.uuid();
+  const randomName = faker.internet.userName();
   return tradingData ? (
     <WatchChannel
       slug={slug}
       products={products}
       publisherId={tradingData.data.publisher.userID}
-      userAvatar={data.data.user.photo}
-      userId={data.data.user.id}
-      userName={data.data.user.name}
+      userAvatar={data?data.data.user.photo:defaultImage}
+      userId={data?data.data.user.id: randomId}
+      userName={data?data.data.user.name: randomName}
     />
   ) : (
     <ErrorPage />
