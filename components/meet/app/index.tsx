@@ -227,7 +227,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     }
   }, [pathname, accessTokenLoaded]);
 
-  // useEffect(() => {
+  // useEffect(() => {.
   //   if (accessTokenLoaded && !accessTokenLocal) {
   //     setLoading(false);
   //     setError({

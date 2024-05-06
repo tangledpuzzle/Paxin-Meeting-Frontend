@@ -39,16 +39,10 @@ async function getData(locale: string) {
   }
 }
 async function getTradingData(roomId: string) {
-  const session = await getServerSession(authOptions);
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_PAXTRADE_API_URL}room/get/${roomId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
-        },
-      }
+      `${process.env.NEXT_PUBLIC_PAXTRADE_API_URL}room/get/${roomId}`
     );
 
     if (!res.ok) {
@@ -80,7 +74,6 @@ export default async function ChannelPage({ params: { slug } }: PageProps) {
     price: blog.Total,
     link: `/flows/${blog.UniqId}/${blog.Slug}`,
   }));
-  console.log(data.data.user.photo)
   const defaultImage = '1708179015_PlFSIcuF/default.jpg'
   const randomId = faker.string.uuid();
   const randomName = faker.internet.userName();
