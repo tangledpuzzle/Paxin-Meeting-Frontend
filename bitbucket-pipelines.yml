@@ -9,7 +9,7 @@ definitions:
           CHANGED_FILES=$(git diff-tree -m --no-commit-id --name-only -r $BITBUCKET_COMMIT)
           echo "Changed files/directories: $CHANGED_FILES"
 
-          CHECKED_PATHS="should_build|app|components|config|context|helpers|lib|messages|provider|public|store|styles|types|components.json|eventBus.ts|i18n.ts|middleware.ts|navigation.ts|next-env.d.ts|next.config.mjs|postcss.config.js|tailwind.config.js|tsconfig.json|tsconfig.tsbuildinfo"
+          CHECKED_PATHS="should_build|app|components|config|context|helpers|lib|messages|provider|public|store|styles|types|package.json|components.json|eventBus.ts|i18n.ts|middleware.ts|navigation.ts|next-env.d.ts|next.config.mjs|postcss.config.js|tailwind.config.js|tsconfig.json|tsconfig.tsbuildinfo"
           SHOULD_BUILD=1
 
           if echo "$CHANGED_FILES" | grep -Eq $CHECKED_PATHS; then
