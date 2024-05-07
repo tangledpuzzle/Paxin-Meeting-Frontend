@@ -1,6 +1,6 @@
 'use client';
 
-// import { createViewerToken } from '@/app/[locale]/(protected)/stream/action';
+import { createViewerToken } from '@/app/[locale]/(protected)/stream/action';
 import ChannelInfo from '@/components/stream/channel-info';
 import StreamPlayer from '@/components/stream/stream-player';
 // import WatchingAsBar from '@/components/stream/watching-as-bar';
@@ -25,6 +25,7 @@ export default function WatchChannel({
   publisherId,
   userName,
   products,
+  userAvatar,
 }: WatchChannelProps) {
   const [viewerToken, setViewerToken] = useState('');
   // NOTE: This is a hack to persist the viewer token in the session storage
@@ -34,7 +35,14 @@ export default function WatchChannel({
     async function getToken(slug: string) {
       const response = await apiHelper({
         url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + `room/join/${slug}`,
+        method:'POST',
+        data:{
+          userId,
+          photo: userAvatar,
+          userName
+        }
       });
+
       return response.data.token;
     }
     const getOrCreateViewerToken = async () => {
@@ -43,7 +51,7 @@ export default function WatchChannel({
 
       if (sessionToken) {
         const payload: JwtPayload = jwtDecode(sessionToken);
-
+        console.log(payload)
         if (payload.exp) {
           const expiry = new Date(payload.exp * 1000);
           if (expiry < new Date()) {
@@ -71,7 +79,7 @@ export default function WatchChannel({
         //   userAvatar
         // );
         setViewerToken(token);
-        sessionStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
+        localStorage.setItem(SESSION_VIEWER_TOKEN_KEY, token);
       }
     };
     void getOrCreateViewerToken();
@@ -80,6 +88,7 @@ export default function WatchChannel({
   if (viewerToken === '' || userName === '') {
     return null;
   }
+  console.log(userName)
 
   return (
     <LiveKitRoom

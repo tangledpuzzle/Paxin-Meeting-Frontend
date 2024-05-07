@@ -74,5 +74,5 @@ export function scrollToTransition(pos: number) {
 }
 
 export function isValidLatinAndNumber(inputString: string): boolean {
-  return /^[A-Za-z0-9]+$/.test(inputString);
+  return /^[A-Za-z0-9-]+$/.test(inputString);
 }

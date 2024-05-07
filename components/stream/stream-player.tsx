@@ -55,7 +55,7 @@ export default function StreamPlayerWrapper({ streamerIdentity }: Props) {
   } else if (tracks.length === 0) {
     return (
       <>
-        <div className='flex aspect-video items-center justify-center bg-black text-sm uppercase text-white'>
+        <div className='flex h-[calc(100%-2rem)] items-center justify-center bg-black text-sm uppercase text-white'>
           <div className='flex gap-2'>
             <div className='h-4 w-4 animate-bounce rounded-full bg-neutral-400 delay-100' />
             <div className='h-4 w-4 animate-bounce rounded-full bg-neutral-500 delay-200' />
@@ -117,7 +117,7 @@ export const StreamPlayer = ({ participant }: { participant: Participant }) => {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className='relative flex aspect-video bg-black' ref={playerEl}>
+      <div className='relative flex h-full bg-black' ref={playerEl}>
         <video ref={videoEl} width='100%' />
         <div className='absolute top-0 h-full w-full opacity-0 hover:opacity-100 hover:transition-all'>
           <div className='absolute bottom-0 flex h-14 w-full items-center justify-between bg-gradient-to-t from-neutral-900 px-4'>

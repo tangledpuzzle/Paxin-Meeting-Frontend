@@ -51,7 +51,7 @@ export default function Presence({
                 <div className='text-sm'>
                   {participant.name}
                   {participant.identity === participantIdentity && ' (You)'}
-                  {participant.videoTracks.size > 0 && ' (Host)'}
+                  {participant.videoTrackPublications.size > 0 && ' (Host)'}
                 </div>
               </div>
             </li>

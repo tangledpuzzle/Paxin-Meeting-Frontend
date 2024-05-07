@@ -253,14 +253,12 @@ export default function SmallMeet() {
   }, [roomConnectionStatus]);
 
   useEffect(() => {
-    (async () => {
       if (livekitInfo && !currentConnection) {
         // @ts-ignore
         console.log('HEADER/StartLivConnection');
-        const newConnection = await startLivekitConnection(livekitInfo, t);
+        const newConnection = startLivekitConnection(livekitInfo, t);
         setCurrentConnection(newConnection);
       }
-    })();
   }, [livekitInfo]);
   const isMobile = width > 450 ? false : true;
   // console.log(popup);
