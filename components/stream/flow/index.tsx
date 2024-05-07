@@ -1,6 +1,6 @@
 'use client';
 
-import { IRoom } from '@/app/[locale]/(protected)/stream/page';
+import { IRoom } from '@/app/[locale]/(public)/stream/page';
 // import axios from 'axios';
 // import { useEffect, useState } from 'react';
 // import useSWR from 'swr';

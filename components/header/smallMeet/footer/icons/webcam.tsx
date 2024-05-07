@@ -68,7 +68,7 @@ const WebcamIcon = ({ currentRoom, isMobile }: IWebcamIconProps) => {
       for (const [
         ,
         publication,
-      ] of currentRoom?.localParticipant.videoTracks.entries()) {
+      ] of currentRoom?.localParticipant.videoTrackPublications.entries()) {
         if (publication.track && publication.source === Track.Source.Camera) {
           await currentRoom.localParticipant.unpublishTrack(
             publication.track,
@@ -186,7 +186,7 @@ const WebcamIcon = ({ currentRoom, isMobile }: IWebcamIconProps) => {
       for (const [
         ,
         publication,
-      ] of currentRoom.localParticipant.videoTracks.entries()) {
+      ] of currentRoom.localParticipant.videoTrackPublications.entries()) {
         if (
           publication.track &&
           publication.track.source === Track.Source.Camera

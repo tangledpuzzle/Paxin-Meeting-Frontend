@@ -38,6 +38,7 @@ export default async function ProfilePageLayout({
   const locale = useLocale();
   const data = await getData(locale);
 
+
   return (
     <>
       <MeetHeader

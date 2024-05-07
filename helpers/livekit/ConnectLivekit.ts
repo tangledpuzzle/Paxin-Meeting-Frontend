@@ -81,7 +81,7 @@ export default class ConnectLivekit
   private readonly url: string;
   private readonly enabledE2EE: boolean = false;
   private tokenRenewInterval: any;
-  private _e2eeKeyProvider: ExternalE2EEKeyProvider;
+  private readonly _e2eeKeyProvider: ExternalE2EEKeyProvider;
 
   private handleParticipant: HandleParticipants;
   private handleMediaTracks: HandleMediaTracks;
@@ -291,7 +291,7 @@ export default class ConnectLivekit
         isRecorder,
       })
     );
-    this.handleParticipant.setParticipantMetadata(
+    await this.handleParticipant.setParticipantMetadata(
       '',
       this._room.localParticipant
     );
@@ -305,10 +305,10 @@ export default class ConnectLivekit
     }
 
     // all other connected Participants
-    this._room.participants.forEach((participant) => {
+    this._room.remoteParticipants.forEach((participant) => {
       this.handleParticipant.addParticipant(participant);
 
-      participant.getTracks().forEach((track) => {
+      participant.getTrackPublications().forEach((track) => {
         if (track.isSubscribed) {
           if (
             track.source === Track.Source.ScreenShare ||
@@ -346,9 +346,9 @@ export default class ConnectLivekit
     await this.handleRoomMetadata.setRoomMetadata(metadata);
   }
 
-  public disconnectRoom() {
+  public async disconnectRoom() {
     if (this._room.state === ConnectionState.Connected) {
-      this._room.disconnect(true);
+      await this._room.disconnect(true);
     }
   }
 
@@ -361,9 +361,10 @@ export default class ConnectLivekit
   }
 
   private updateSession = async () => {
+    const sid = await this._room.getSid();
     store.dispatch(
       addCurrentRoom({
-        sid: this._room.sid,
+        sid: sid,
         room_id: this._room.name,
       })
     );
@@ -443,13 +444,13 @@ export default class ConnectLivekit
   // this method basically updates paxmeet token
   // livekit will renew token by itself automatically
   private startTokenRenewInterval = () => {
-    this.tokenRenewInterval = setInterval(() => {
+    this.tokenRenewInterval = setInterval(async () => {
       // get current token that is store in redux
-
+      const sid = await this._room.getSid();
       const token = store.getState().session.token;
       const dataMsg = new DataMessage({
         type: DataMsgType.SYSTEM,
-        roomSid: this._room.sid,
+        roomSid: sid,
         roomId: this._room.name,
         body: {
           type: DataMsgBodyType.RENEW_TOKEN,

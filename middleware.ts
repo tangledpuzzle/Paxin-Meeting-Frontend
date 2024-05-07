@@ -10,6 +10,8 @@ const publicPages = [
   '/contact',
   '/privacy',
   '/rules',
+  '/stream',
+  '/stream/[slug]', 
   '/auth/signin',
   '/auth/signup',
   '/auth/verify/[slug]',

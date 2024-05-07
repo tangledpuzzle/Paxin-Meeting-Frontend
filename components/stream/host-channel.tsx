@@ -2,10 +2,11 @@
 
 import { createStreamerToken } from '@/app/[locale]/(protected)/stream/action';
 import { LiveKitRoom } from '@livekit/components-react';
-import { jwtDecode } from 'jwt-decode';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import Chat from './host-chat';
 import HostControls from './host-controls';
+import ChannelInfo from '@/components/stream/channel-info';
 import ProductPanel, { IProduct } from './product-panel';
 import apiHelper from '@/helpers/api/apiRequest';
 interface HostChannelProps {
@@ -27,42 +28,14 @@ export default function HostChannel({
   // NOTE: This is a hack to persist the streamer token in the session storage
   // so that the client doesn't have to create a streamer token every time they
   // navigate back to the page.
+  
   useEffect(() => {
     const getOrCreateStreamerToken = async () => {
       const SESSION_STREAMER_TOKEN_KEY = `${slug}-streamer-token`;
-      const sessionToken = sessionStorage.getItem(SESSION_STREAMER_TOKEN_KEY);
-
-      if (sessionToken) {
-        const payload = jwtDecode(sessionToken);
-
-        if (payload.exp) {
-          const expiry = new Date(payload.exp * 1000);
-          console.log(expiry);
-          if (expiry < new Date()) {
-            sessionStorage.removeItem(SESSION_STREAMER_TOKEN_KEY);
-            const token = await createStreamerToken(
-              slug,
-              userId,
-              userName,
-              userAvatar
-            );
-            setStreamerToken(token);
-            sessionStorage.setItem(SESSION_STREAMER_TOKEN_KEY, token);
-            return;
-          }
-        }
-
-        setStreamerToken(sessionToken);
-      } else {
-        const token = await createStreamerToken(
-          slug,
-          userId,
-          userName,
-          userAvatar
-        );
-        setStreamerToken(token);
-        sessionStorage.setItem(SESSION_STREAMER_TOKEN_KEY, token);
-      }
+      const sessionToken = localStorage.getItem(SESSION_STREAMER_TOKEN_KEY);
+      setStreamerToken(sessionToken || '')
+      const payload: JwtPayload = jwtDecode(sessionToken || '');
+        console.log(payload)
     };
     void getOrCreateStreamerToken();
   }, [slug]);
@@ -72,10 +45,11 @@ export default function HostChannel({
       token={streamerToken}
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_WS_URL}
       className='relative flex h-[calc(100vh-81px)] flex-col'
+      
     >
       <div className='relative h-full w-full  md:absolute md:h-full '>
         <div className='mx-auto my-auto h-full w-[calc(100vw)] p-8 md:w-[calc(40vw)]'>
-          <HostControls slug={slug} />
+          <HostControls slug={slug} viewerIdentity={userId} />
         </div>
       </div>
       <div className='flex h-full w-full justify-between md:h-full rtl:flex-row-reverse'>
