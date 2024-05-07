@@ -24,7 +24,7 @@ import { LuBrainCircuit } from 'react-icons/lu';
 import { useEffect, useState } from 'react';
 import apiHelper from '@/helpers/api/apiRequest';
 import { FlowCardSkeleton } from './flow-card-skeleton';
-import { IRoom } from '@/app/[locale]/(protected)/stream/page';
+import { IRoom } from '@/app/[locale]/(public)/stream/page';
 import { FlowImageGallery } from './flow-image-gallery';
 import { useSession } from 'next-auth/react';
 
@@ -42,6 +42,7 @@ interface FlowItem {
     userName: string;
     link: string;
   };
+
   products: Array<{
     id: string;
     gallery: Array<any>;
@@ -52,7 +53,7 @@ interface FlowItem {
   }>;
 }
 
-function FlowCard({ productImages, roomId, title, publisher }: IRoom) {
+function FlowCard({ productImages, roomId, title, publisher, cnt }: IRoom) {
   const t = useTranslations('main');
   const { data } = useSession();
   const isHost = data?.user?.id === publisher.userID;
@@ -122,7 +123,7 @@ function FlowCard({ productImages, roomId, title, publisher }: IRoom) {
               className='mt-0 border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
             >
               <Eye className='mr-2 size-4 text-white' />
-              {12}
+              {cnt}
             </Badge>
           </div>
           <div className='relative -top-[100px] grid grid-cols-2'>

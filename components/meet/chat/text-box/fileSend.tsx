@@ -82,7 +82,7 @@ const FileSend = ({
     setFiles([...files]);
   };
 
-  const publishToChat = (filePath: string, fileName: string) => {
+  const publishToChat = async (filePath: string, fileName: string) => {
     if (!isSocketConnected()) {
       return;
     }
@@ -93,9 +93,11 @@ const FileSend = ({
       filePath
     }" target="_blank">${fileName}</a></span>`;
 
+    let sid = await currentRoom.getSid();
+
     const dataMsg = new DataMessage({
       type: DataMsgType.USER,
-      roomSid: currentRoom.sid,
+      roomSid: sid,
       roomId: currentRoom.name,
       to: selectedChatOption !== 'public' ? selectedChatOption : '',
       body: {
