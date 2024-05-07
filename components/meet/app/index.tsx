@@ -339,7 +339,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     if (livekitInfo) {
       console.log('MEET/StartLiveConnection');
       // @ts-ignore
-      const currentConnection = await startLivekitConnection(livekitInfo, t);
+      const currentConnection = startLivekitConnection(livekitInfo, t);
       setCurrentConnection(currentConnection);
       setMeetingId(roomId);
     }

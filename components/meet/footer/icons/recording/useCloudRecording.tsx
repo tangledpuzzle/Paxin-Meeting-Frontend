@@ -47,6 +47,7 @@ const useCloudRecording = (currentRoom: Room): IUseCloudRecordingReturn => {
   };
 
   const stopRecording = async () => {
+    const sid = await currentRoom.getSid();
     const body = new RecordingReq({
       task: RecordingTasks.STOP_RECORDING,
       sid,

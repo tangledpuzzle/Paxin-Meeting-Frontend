@@ -11,8 +11,12 @@ import { useEffect, useState, useRef } from 'react';
 import { FilterModal } from './filter-modal';
 import { FaUsers } from 'react-icons/fa';
 import { MdSms } from 'react-icons/md';
+interface Props {
+  choice: boolean;
+}
 
-export function CTASection() {
+export function CTASection({ choice }: Props) {
+  console.log('sdfsdf', choice)
   const t = useTranslations('stream');
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -47,7 +51,7 @@ export function CTASection() {
 
   return (
     <div className='container fixed bottom-0 top-[calc(100dvh_-_6.2rem)] z-20 mx-auto flex h-[100px] w-full flex-col-reverse items-center justify-start gap-2 bg-white  pb-[20px] pl-[10px] pr-[25px] pt-[10px] dark:bg-black sm:flex-row sm:justify-between md:sticky md:top-[80px] md:pl-[10px] md:pr-[10px] '>
-      <ToggleGroup
+      {choice?(<ToggleGroup
         type='single'
         variant='outline'
         value={searchParams.get('mode') || 'flow'}
@@ -70,10 +74,12 @@ export function CTASection() {
         >
           <MdSms className='mr-2' /> {t('my_streams')}
         </ToggleGroupItem>
+        
       </ToggleGroup>
+      ):null}
 
-      <div className='absolute -left-[10px] -top-[10px] flex w-full flex-row-reverse justify-between gap-3 bg-white px-4 pt-2 dark:bg-black md:static md:flex-row md:pt-0'>
-        <div className='relative w-[-webkit-fill-available] md:w-[15rem] lg:w-[30rem]'>
+      <div className='absolute -left-[10px] -top-[10px] flex w-full flex-row-reverse justify-between gap-3 bg-white px-4 pt-2 dark:bg-black md:static md:pt-0'>
+        <div className='relative right-0 w-[-webkit-fill-available] md:w-[15rem] lg:w-[30rem]'>
           <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
           <Input
             type='text'

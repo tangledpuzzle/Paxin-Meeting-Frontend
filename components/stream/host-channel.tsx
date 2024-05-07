@@ -2,7 +2,7 @@
 
 import { createStreamerToken } from '@/app/[locale]/(protected)/stream/action';
 import { LiveKitRoom } from '@livekit/components-react';
-import { jwtDecode } from 'jwt-decode';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import Chat from './host-chat';
 import HostControls from './host-controls';
@@ -33,8 +33,9 @@ export default function HostChannel({
     const getOrCreateStreamerToken = async () => {
       const SESSION_STREAMER_TOKEN_KEY = `${slug}-streamer-token`;
       const sessionToken = localStorage.getItem(SESSION_STREAMER_TOKEN_KEY);
-      setStreamerToken(sessionToken)
-      
+      setStreamerToken(sessionToken || '')
+      const payload: JwtPayload = jwtDecode(sessionToken || '');
+        console.log(payload)
     };
     void getOrCreateStreamerToken();
   }, [slug]);
@@ -44,6 +45,7 @@ export default function HostChannel({
       token={streamerToken}
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_WS_URL}
       className='relative flex h-[calc(100vh-81px)] flex-col'
+      
     >
       <div className='relative h-full w-full  md:absolute md:h-full '>
         <div className='mx-auto my-auto h-full w-[calc(100vw)] p-8 md:w-[calc(40vw)]'>

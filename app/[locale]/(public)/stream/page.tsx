@@ -17,44 +17,18 @@ export interface IRoom {
     name: string;
     telegramname: string;
   };
+  cnt: number;
   title: string;
   productImages: string[];
 }
-// Dummy data here🥱🥱
-const _DUMMI_DATA = [
-  {
-    id: '2131521233534',
-    publisherId: '5df5aab6-9e18-4538-b80d-23a8b9d24c3f',
-    title: 'Hey gen.',
-    roomId: 'sdf3-234d-bad',
-  },
-  {
-    id: '2131521233533',
-    publisherId: '21321-4242-5341gs-52gdb32fg',
-    title: 'Hey gen.',
-    roomId: 'sdf3-234d-bac',
-  },
-  {
-    id: '213152129763534',
-    publisherId: '5df5aab6-9e18-4538-b80d-23a8b9d24c3f',
-    title: 'Shopping',
-    roomId: 'sdf3-234d-bae',
-  },
-  {
-    id: '2131521233535',
-    publisherId: '21321-42n2-5341gs-52gdbffg',
-    title: 'LLLLLLy gen.',
-    roomId: 'sdf3-234d-baf',
-  },
-];
 
 export default function HomePage() {
   const searchParams = useSearchParams();
   const { data, status } = useSession();
   const [rooms, setRooms] = useState<Array<IRoom>>([]);
-  console.log(data);
+  console.log('datadata', data);
   const [viewMode, setViewMode] = useState<string>(
-    searchParams.get('mode') || 'me'
+    searchParams.get('mode') || 'all'
   );
   const [titleKeyword, setTitleKeyword] = useState<string>(
     searchParams.get('title') || 'all'
@@ -64,7 +38,7 @@ export default function HomePage() {
       const response = await apiHelper({
         url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'rooms/All',
       });
-      console.log(response);
+      console.log('111111111111', response);
       if (response.status !== 'success') {
         toast.error('API error');
       } else {
@@ -77,6 +51,7 @@ export default function HomePage() {
           console.log(response.rooms[i].products);
           _rooms.push({
             roomId: i,
+            cnt:10,
             title: response.rooms[i].title,
             publisher: response.rooms[i].publisher,
             productImages: images,
@@ -88,7 +63,7 @@ export default function HomePage() {
     init();
   }, [viewMode]);
   useEffect(() => {
-    setViewMode(searchParams.get('mode') || 'me');
+    setViewMode(searchParams.get('mode') || 'all');
   }, [searchParams]);
 
   useEffect(() => {
@@ -119,13 +94,14 @@ export default function HomePage() {
     }
   }, []);
 
+  const flag=status==='authenticated'
   const myRooms = rooms.filter((el) => el.publisher.userID === data?.user?.id);
   const otherRooms = rooms.filter(
     (el) => el.publisher.userID !== data?.user?.id
   );
   return (
     <section className='container'>
-      <CTASection />
+      <CTASection choice={flag} />
       {viewMode === 'other' ? (
         <FlowSection
           data={
@@ -142,7 +118,13 @@ export default function HomePage() {
               : myRooms.filter((el) => el.title.includes(titleKeyword))
           }
         />
-      ) : null}
+      ) : <FlowSection
+      data={
+        titleKeyword == 'all'
+        ? rooms
+        : rooms.filter((el) => el.title.includes(titleKeyword))
+      }
+    />}
     </section>
   );
 }
