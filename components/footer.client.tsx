@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useTranslations } from 'next-intl';
-import { headers } from 'next/headers';
 import { usePathname } from 'next/navigation';
 export default function ClientFooter() {
   const pathname = usePathname();

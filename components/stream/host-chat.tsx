@@ -5,12 +5,16 @@ import { Button } from './ui/button';
 import { Icons } from './ui/icons';
 import { Textarea } from './ui/textarea';
 import { Avatar, AvatarImage } from '../ui/avatar';
+import { t } from '@excalidraw/excalidraw/types/i18n';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   participantName: string;
 }
 
 export default function Chat({ participantName }: Props) {
+  const t = useTranslations('main');
+
   const { chatMessages: messages, send } = useChat();
 
   const reverseMessages = useMemo(
@@ -80,7 +84,7 @@ export default function Chat({ participantName }: Props) {
             setMessage(e.target.value);
           }}
           onKeyDown={onEnter}
-          placeholder='Type a message...'
+          placeholder={t('type_message')}
         />
         <Button disabled={message.trim().length === 0} onClick={onSend}>
           <div className='flex items-center gap-2'>

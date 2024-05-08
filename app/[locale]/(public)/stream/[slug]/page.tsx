@@ -1,12 +1,13 @@
 import ErrorPage from '@/components/stream/error-page';
-import HostChannel from '@/components/stream/host-channel';
+import WatchChannel from '@/components/stream/watch-channel';
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { useLocale } from 'next-intl';
+import { faker } from '@faker-js/faker';
 
 export function generateMetadata({ params: { slug } }: PageProps) {
   return {
-    title: `Hosting ${slug}`,
+    title: `Watching ${slug}`,
   };
 }
 
@@ -38,16 +39,10 @@ async function getData(locale: string) {
   }
 }
 async function getTradingData(roomId: string) {
-  const session = await getServerSession(authOptions);
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_PAXTRADE_API_URL}room/get/${roomId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
-        },
-      }
+      `${process.env.NEXT_PUBLIC_PAXTRADE_API_URL}room/get/${roomId}`
     );
 
     if (!res.ok) {
@@ -59,16 +54,12 @@ async function getTradingData(roomId: string) {
     return null;
   }
 }
-export default async function ChannelHostPage({ params: { slug } }: PageProps) {
+export default async function ChannelPage({ params: { slug } }: PageProps) {
   const locale = useLocale();
   const [data, tradingData] = await Promise.all([
     getData(locale),
     getTradingData(slug),
   ]);
-  console.log(tradingData?.data?.products);
-  console.log('nono')
-  console.log('sssss', data.data.user.name)
-
   const products = tradingData?.data?.products.map((blog: any) => ({
     id: blog.ID,
     title:
@@ -83,15 +74,17 @@ export default async function ChannelHostPage({ params: { slug } }: PageProps) {
     price: blog.Total,
     link: `/flows/${blog.UniqId}/${blog.Slug}`,
   }));
-  console.log('sdfs', products, data.data.user.name)
-
+  const defaultImage = '1708179015_PlFSIcuF/default.jpg'
+  const randomId = faker.string.uuid();
+  const randomName = faker.internet.userName();
   return tradingData ? (
-    <HostChannel
+    <WatchChannel
       slug={slug}
       products={products}
-      userAvatar={data.data.user.photo}
-      userId={data.data.user.id}
-      userName={data.data.user.name}
+      publisherId={tradingData.data.publisher.userID}
+      userAvatar={data?data.data.user.photo:defaultImage}
+      userId={data?data.data.user.id: randomId}
+      userName={data?data.data.user.name: randomName}
     />
   ) : (
     <ErrorPage />
