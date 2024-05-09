@@ -30,9 +30,38 @@ const useLivekitConnect = (): IUseLivekitConnect => {
   const startLivekitConnection = (
     info: LivekitInfo,
     intl: (...e: any[]) => string
-  ): IConnectLivekit => {
-    return new ConnectLivekit(info, setError, setRoomConnectionStatus, intl);
+  ): Promise<IConnectLivekit> => {
+    const livekit: IConnectLivekit = new ConnectLivekit(
+      info,
+      setError,
+      setRoomConnectionStatus,
+      intl
+    );
+    const { KrispNoiseFilter, isKrispNoiseFilterSupported } = await import(
+      '@livekit/krisp-noise-filter'
+    );
+
+    livekit.room.on(RoomEvent.LocalTrackPublished, async (trackPublication) => {
+      if (
+        trackPublication.source === Track.Source.Microphone &&
+        trackPublication.track instanceof LocalAudioTrack
+      ) {
+        if (!isKrispNoiseFilterSupported()) {
+          console.warn(
+            'Enhanced noise filter is currently not supported on this browser'
+          );
+          return;
+        }
+        // Once instantiated the filter will begin initializing and will download additional resources
+        const krispProcessor = KrispNoiseFilter();
+        console.log('Enabling LiveKit enhanced noise filter');
+        await trackPublication.track.setProcessor(krispProcessor as any);
+      }
+    });
+    return livekit;
   };
+
+
 
   return {
     error,
