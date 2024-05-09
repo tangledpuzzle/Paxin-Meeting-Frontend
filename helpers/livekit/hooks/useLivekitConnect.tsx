@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { IErrorPageProps } from '@/components/meet/extra-pages/Error';
 import ConnectLivekit from '../ConnectLivekit';
+import { LocalAudioTrack, RoomEvent, Track } from 'livekit-client';
 import { IConnectLivekit } from '../types';
 
 export interface LivekitInfo {
@@ -19,7 +20,7 @@ export interface IUseLivekitConnect {
   startLivekitConnection(
     info: LivekitInfo,
     intl: (...e: any[]) => string
-  ): IConnectLivekit;
+  ): Promise<IConnectLivekit>;
 }
 
 const useLivekitConnect = (): IUseLivekitConnect => {
@@ -27,11 +28,11 @@ const useLivekitConnect = (): IUseLivekitConnect => {
   const [roomConnectionStatus, setRoomConnectionStatus] =
     useState<string>('loading');
 
-  const startLivekitConnection = (
+  const startLivekitConnection = async (
     info: LivekitInfo,
     intl: (...e: any[]) => string
   ): Promise<IConnectLivekit> => {
-    const livekit: IConnectLivekit = new ConnectLivekit(
+    const livekit = new ConnectLivekit(
       info,
       setError,
       setRoomConnectionStatus,
@@ -58,7 +59,7 @@ const useLivekitConnect = (): IUseLivekitConnect => {
         await trackPublication.track.setProcessor(krispProcessor as any);
       }
     });
-    return livekit;
+    return livekit as unknown as IConnectLivekit;
   };
 
 
