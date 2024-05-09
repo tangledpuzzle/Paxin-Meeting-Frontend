@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
 import { ProductCard } from './product';
 import { ScrollArea } from '../ui/scroll-area';
+import { Button } from '@/components/ui/button';
 
 export interface IProduct {
   id: string;
@@ -43,6 +44,12 @@ export default function ProductPanel({ products }: ProductPanelProps) {
           <ProductCard key={product.id} {...product} />
         ))}
       </ScrollArea>
+      <Button
+        variant='outline'
+        className='mx-auto flex border-primary text-primary'
+      >
+        {t('step_out')}
+      </Button>
     </>
   );
 }
