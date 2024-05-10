@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { ProductCard } from './product';
 import { ScrollArea } from '../ui/scroll-area';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 export interface IProduct {
   id: string;
@@ -19,11 +20,23 @@ interface ProductPanelProps {
 }
 export default function ProductPanel({ products }: ProductPanelProps) {
   const t = useTranslations('stream');
+  const router=useRouter()
   const [keyword, setKeyword] = useState<string>('');
   const filter = useDeferredValue(keyword);
   const filteredProducts = products.filter((el: IProduct) =>
     el.title.includes(filter)
   );
+  const goback = () =>{
+    router.push('/stream');
+  }
+  const end = () =>{
+    const storeRoomId: string | null = localStorage.getItem('latest-stream-id');
+    if(storeRoomId !== null){
+      const tokenKey = Object.keys(localStorage).find(key => key.startsWith(storeRoomId));
+      if(tokenKey) localStorage.removeItem(tokenKey)
+    }
+    router.push('/stream');
+  }
   return (
     <>
       <div className='relative w-full'>
@@ -44,12 +57,22 @@ export default function ProductPanel({ products }: ProductPanelProps) {
           <ProductCard key={product.id} {...product} />
         ))}
       </ScrollArea>
-      <Button
-        variant='outline'
-        className='mx-auto flex border-primary text-primary'
-      >
-        {t('step_out')}
-      </Button>
+      <div className='grid grid-cols-2 gap-2'>
+        <Button
+          variant='outline'
+          className='pr-2 flex border-primary text-primary grid-cols-1'
+          onClick={goback}
+        >
+          {t('step_out')}
+        </Button>
+        <Button
+          variant='outline'
+          className='pl-2 flex border-primary text-primary grid-cols-1'
+          onClick={end}
+        >
+          {t('end')}
+        </Button>
+      </div>
     </>
   );
 }

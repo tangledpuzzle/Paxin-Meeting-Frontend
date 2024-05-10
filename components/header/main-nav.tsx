@@ -16,6 +16,7 @@ import { RootState } from '@/store';
 import SmallMeet from './SmallMeet';
 
 import { PaxContext } from '@/context/context';
+import SmallTrade from './smallTrade';
 
 interface MainNavProps {
   items?: NavItem[];
@@ -89,6 +90,7 @@ export function MainNav({ items }: MainNavProps) {
       ) : null}
       <div>
         <SmallMeet />
+        {!pathname.includes('/stream/') && <SmallTrade />}
       </div>
     </div>
   );
