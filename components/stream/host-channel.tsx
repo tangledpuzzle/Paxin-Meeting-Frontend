@@ -24,6 +24,7 @@ export default function HostChannel({
   products,
 }: HostChannelProps) {
   const [streamerToken, setStreamerToken] = useState('');
+  console.log('hostchannel')
 
   // NOTE: This is a hack to persist the streamer token in the session storage
   // so that the client doesn't have to create a streamer token every time they
@@ -31,21 +32,41 @@ export default function HostChannel({
   
   useEffect(() => {
     const getOrCreateStreamerToken = async () => {
+      console.log('slug', slug)
       const SESSION_STREAMER_TOKEN_KEY = `${slug}-streamer-token`;
       const sessionToken = localStorage.getItem(SESSION_STREAMER_TOKEN_KEY);
+      console.log(sessionToken)
+      if(!sessionToken){
+        console.log('no', slug)
+        const response = await apiHelper({
+          url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'room/entry',
+          method: 'POST',
+          data: {
+            roomId: slug
+          },
+        });
+        console.log('token', response)
+        const { token } = response.data;
+        console.log('11111111111', token)
+        localStorage.setItem(`${slug}-streamer-token`, token);
+        setStreamerToken(token || '')
+      }
       setStreamerToken(sessionToken || '')
-      const payload: JwtPayload = jwtDecode(sessionToken || '');
-        console.log(payload)
+      // const payload: JwtPayload = jwtDecode(sessionToken || '');
+      //   console.log(payload)
     };
     void getOrCreateStreamerToken();
   }, [slug]);
+
+  useEffect(()=>{
+    localStorage.setItem('latest-stream-id', slug);
+   }, [slug]);
 
   return (
     <LiveKitRoom
       token={streamerToken}
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_WS_URL}
       className='relative flex h-[calc(100vh-81px)] flex-col'
-      
     >
       <div className='relative h-full w-full  md:absolute md:h-full '>
         <div className='mx-auto my-auto h-full w-[calc(100vw)] p-8 md:w-[calc(40vw)]'>

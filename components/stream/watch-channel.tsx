@@ -84,12 +84,14 @@ export default function WatchChannel({
     };
     void getOrCreateViewerToken();
   }, [slug]);
-
+  useEffect(()=>{
+    localStorage.setItem('latest-stream-id', slug);
+   }, [slug]);
   if (viewerToken === '' || userName === '') {
     return null;
   }
   console.log(userName)
-
+ 
   return (
     <LiveKitRoom
       token={viewerToken}

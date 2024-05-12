@@ -48,7 +48,7 @@ export default function HomePage() {
           for (let im of response.rooms[i].products) {
             im.photos.length && images.push(im.photos[0].files[0].path);
           }
-          console.log(response.rooms[i].products);
+          console.log(response);
           _rooms.push({
             roomId: i,
             cnt:10,
