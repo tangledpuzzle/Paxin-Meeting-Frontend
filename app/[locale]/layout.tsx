@@ -14,6 +14,7 @@ import { Metadata, Viewport } from 'next';
 import { getServerSession } from 'next-auth';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import StoreProvider from '../StoreProvider';
+import { StreamProvider } from '@/provider/stream-provider';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -75,6 +76,7 @@ export default async function RootLayout({
           <Providers>
             <StoreProvider>
               <RTCProvider>
+                <StreamProvider>
                 <ThemeProvider
                   attribute='class'
                   defaultTheme='dark'
@@ -85,6 +87,7 @@ export default async function RootLayout({
                   <MetadataUpdater />
                 </ThemeProvider>
                 <TailwindIndicator />
+                </StreamProvider>
               </RTCProvider>
             </StoreProvider>
           </Providers>
