@@ -1,6 +1,15 @@
 import { LiveKitRoom } from '@livekit/components-react';
 import React, { useEffect, useState } from 'react';
 import StreamPlayer from '@/components/stream/stream-player';
+type SmallWatchProps = {
+  token: string;
+  roomId: string;
+}
+<<<<<<< HEAD
+=======
+
+async function getTradingData(roomId: string) {
+>>>>>>> f13d89bd4ef4571b5b754f1abf88ce925797fc16
 
 async function getTradingData(roomId: string) {
   try {
@@ -24,36 +33,33 @@ interface SmallWatchProps {
 }
 
 export default function SmallWatch({
-  token, roomId
-}: SmallWatchProps) {
-  const [publisher, setPublisher] = useState<string>('');
-  
-  useEffect(() => {
-    const fetchTradingData = async () => {
-      if (token !== '') {
-        try {
-          const tradingData = await getTradingData(roomId);
-          if (tradingData && tradingData.data && tradingData.data.publisher) {
-            setPublisher(tradingData.data.publisher.userID);
-            console.log(tradingData.data.publisher.userID)
+    token, roomId
+}: SmallWatchProps){
+    const [publisher, setPublisher] = useState<string>('');
+    useEffect(() => {
+        const fetchTradingData = async () => {
+          if (token !== '') {
+            try {
+              const tradingData = await getTradingData(roomId);
+              if (tradingData && tradingData.data && tradingData.data.publisher) {
+                setPublisher(tradingData.data.publisher.userID);
+                console.log(tradingData.data.publisher.userID)
+              }
+            } catch (error) {
+              console.error("Error fetching trading data:", error);
+            }
           }
-        } catch (error) {
-          console.error("Error fetching trading data:", error);
-        }
-      }
-    };
+        };
+    
+        fetchTradingData();
+        console.log(publisher)
+      }, [token, roomId]);
+    return   (<LiveKitRoom
+    token={token}
+    serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_WS_URL}
+    className='relative flex h-[calc(100vh-81px)] flex-col'
+  >
+    <StreamPlayer streamerIdentity={publisher} />
+  </LiveKitRoom>)
 
-    fetchTradingData();
-    console.log(publisher)
-  }, [token, roomId]);
-
-  return (
-    <LiveKitRoom
-      token={token}
-      serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_WS_URL}
-      className='relative flex h-[calc(100vh-81px)] flex-col'
-    >
-      <StreamPlayer streamerIdentity={publisher} />
-    </LiveKitRoom>
-  );
 }

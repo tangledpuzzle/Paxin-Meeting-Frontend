@@ -812,6 +812,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
                           <Input
                             className=''
                             type='number'
+                            min='1'
                             {...field}
                             disabled={isLoading || formIndex === 5}
                           />
