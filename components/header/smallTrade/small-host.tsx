@@ -32,8 +32,4 @@ export default function SmallHost({
       </div> */}
     </LiveKitRoom>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> f13d89bd4ef4571b5b754f1abf88ce925797fc16
