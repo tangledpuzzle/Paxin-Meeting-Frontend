@@ -2,6 +2,11 @@
 import { LiveKitRoom } from '@livekit/components-react';
 import React, { useEffect, useState } from 'react';
 import StreamPlayer from '@/components/stream/stream-player';
+type SmallWatchProps = {
+  token: string;
+  roomId: string;
+}
+
 async function getTradingData(roomId: string) {
 
     try {
@@ -20,7 +25,7 @@ async function getTradingData(roomId: string) {
   }
 export default function SmallWatch({
     token, roomId
-}){
+}: SmallWatchProps){
     const [publisher, setPublisher] = useState<string>('');
     useEffect(() => {
         const fetchTradingData = async () => {
