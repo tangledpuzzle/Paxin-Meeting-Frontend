@@ -5,6 +5,11 @@ type SmallWatchProps = {
   token: string;
   roomId: string;
 }
+<<<<<<< HEAD
+=======
+
+async function getTradingData(roomId: string) {
+>>>>>>> f13d89bd4ef4571b5b754f1abf88ce925797fc16
 
 async function getTradingData(roomId: string) {
   try {
