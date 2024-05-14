@@ -475,9 +475,17 @@ export default function ChatInputComponent() {
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey) {
       const isMobile = mdRef.current && mdRef.current.mobile();
+      e.preventDefault();
 
-      if (!isMobile) {
-        e.preventDefault();
+      if (isMobile) {
+        // If specifically handling mobile differently, this is where you'd do it.
+        // For instance, if you want mobile devices to also submit on Enter without Ctrl or Shift,
+        // you can directly call your desired function here.
+        // This approach assumes you have specific behavior in mind for mobile.
+        // Example:
+        handleMessageSubmit(inputMessage);
+      } else {
+        // Non-mobile behavior
         if (isEditing) {
           handleMessageEditSubmit();
         } else if (isReplying) {
@@ -486,6 +494,17 @@ export default function ChatInputComponent() {
           handleMessageSubmit(inputMessage);
         }
       }
+
+      // if (!isMobile) {
+      //   e.preventDefault();
+      //   if (isEditing) {
+      //     handleMessageEditSubmit();
+      //   } else if (isReplying) {
+      //     handleMessageSubmit(inputMessage);
+      //   } else {
+      //     handleMessageSubmit(inputMessage);
+      //   }
+      // }
     } else if (e.key === 'Enter' && e.ctrlKey) {
       e.preventDefault(); // Prevent the default action (submit form, etc.)
 
