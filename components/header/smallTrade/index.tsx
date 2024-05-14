@@ -92,7 +92,7 @@ export default function SmallTrade() {
     <button onClick={togglePopup}>
       <div className='flex items-center justify-center'>
         <span className='relative -top-2 left-12 rounded-full bg-card-gradient-menu px-2 text-center text-xs'>
-          {23}
+          {1}
         </span>
         <TiVideo size={32} />
       </div>
