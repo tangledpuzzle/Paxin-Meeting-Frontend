@@ -9,6 +9,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  console.log('session', session)
+
   try {
     const res = await fetch(`${process.env.API_URL}/api/users/deletme/`, {
       method: 'POST',
