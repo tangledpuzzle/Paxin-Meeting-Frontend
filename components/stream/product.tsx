@@ -65,10 +65,12 @@ export function ProductCard({
           <div className='line-clamp-1 w-full text-sm text-muted-foreground md:w-[90%]'>
             {subtitle}
           </div>
-
-          <div className='flex gap-2'>
-            {t('starting_price')}: ${price}
-          </div>
+          {price!=0?
+            <div className='flex gap-2'>
+              {t('starting_price')}: ${price}
+            </div>
+          :null}
+          
         </div>
         <Carousel className='hidden w-60 md:block  md:w-32'>
           <CarouselContent>
