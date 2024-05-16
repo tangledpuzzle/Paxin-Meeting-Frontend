@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { LiveKitRoom } from '@livekit/components-react';
 import { useSession } from 'next-auth/react';
-import HostControls from '@/components/stream/host-controls';
+import HostControls from '@/components/header/smallTrade/hostcontrols';
 
 type SmallHostProps = {
   token: string;
