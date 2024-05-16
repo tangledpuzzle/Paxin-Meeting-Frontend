@@ -22,10 +22,17 @@ export default function ProductPanel({ products }: ProductPanelProps) {
   const t = useTranslations('stream');
   const router=useRouter()
   const [keyword, setKeyword] = useState<string>('');
+  const [isOpen, setisOpen] =useState<boolean>(false)
+
   const filter = useDeferredValue(keyword);
   const filteredProducts = products.filter((el: IProduct) =>
     el.title.includes(filter)
   );
+
+  const webcam = () => {
+    setisOpen(true);
+  }
+
   const goback = () =>{
     router.push('/stream');
   }
@@ -57,7 +64,14 @@ export default function ProductPanel({ products }: ProductPanelProps) {
           <ProductCard key={product.id} {...product} />
         ))}
       </ScrollArea>
-      <div className='grid grid-cols-2 gap-2'>
+      <div className='grid grid-cols-3 gap-2'>
+        <Button
+          variant='outline'
+          className='pr-2 flex border-primary text-primary grid-cols-1'
+          onClick={webcam}
+        >
+          {t('webcam')}
+        </Button>
         <Button
           variant='outline'
           className='pr-2 flex border-primary text-primary grid-cols-1'
