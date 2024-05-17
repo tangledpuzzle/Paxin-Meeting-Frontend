@@ -6,6 +6,7 @@ import { ProductCard } from './product';
 import { ScrollArea } from '../ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import ShareWebcamModal from '../header/smallMeet/footer/modals/webcam/shareWebcam';
 
 export interface IProduct {
   id: string;
@@ -64,14 +65,14 @@ export default function ProductPanel({ products }: ProductPanelProps) {
           <ProductCard key={product.id} {...product} />
         ))}
       </ScrollArea>
-      <div className='grid grid-cols-3 gap-2'>
-        <Button
+      <div className='grid grid-cols-2 gap-2'>
+        {/* <Button
           variant='outline'
           className='pr-2 flex border-primary text-primary grid-cols-1'
           onClick={webcam}
         >
           {t('webcam')}
-        </Button>
+        </Button> */}
         <Button
           variant='outline'
           className='pr-2 flex border-primary text-primary grid-cols-1'
@@ -87,6 +88,9 @@ export default function ProductPanel({ products }: ProductPanelProps) {
           {t('end')}
         </Button>
       </div>
+      {/* {isOpen ? (
+        <ShareWebcamModal onSelectedDevice={null} />
+      ) : null} */}
     </>
   );
 }
