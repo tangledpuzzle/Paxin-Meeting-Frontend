@@ -40,6 +40,8 @@ pipelines:
             - |
               if [ "$SHOULD_BUILD" -eq "1" ]; then
                 echo "Building Nextjs App..."
+                npm cache clean --force
+                rm -rf node_modules package-lock.json
                 npm install #--legacy-peer-deps
                 npm run build
               else
@@ -61,6 +63,8 @@ pipelines:
               if [ "$SHOULD_BUILD" -eq "1" ]; then
                 echo "Building Nextjs App at Production Environment..."
                 apk add --no-cache git
+                npm cache clean --force
+                rm -rf node_modules package-lock.json
                 npm install #--legacy-peer-deps
                 git clone https://x-token-auth:$BITBUCKET_ENV_REPO_ACCESS_TOKEN@bitbucket.org/myru/myru-environment-values.git
                 mv environment-values/mainsite/frontend/.env.production .env
