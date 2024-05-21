@@ -537,7 +537,7 @@ textarea {
   background: linear-gradient(-7deg, #ff3d00 0%, #0400ff 100%);
   transform: translate3d(-1px, 7px, 0) scale(1.03);
   filter: blur(16px);
-  opacity: var(0.53);
+  opacity: 0.5;
   transition: opacity 0.3s;
   border-radius: inherit;
 }
