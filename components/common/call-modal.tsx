@@ -20,6 +20,7 @@ import { PiMicrophoneLight, PiMicrophoneSlash } from 'react-icons/pi';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getInitials } from '@/lib/utils';
 import { PaxContext } from '@/context/context';
+import axios from 'axios'
 import { Howl, Howler } from 'howler';
 
 Howler.autoUnlock = true;
@@ -68,6 +69,21 @@ export default function CallModal({ children, callee }: CallModalProps) {
     endSound.play();
     setOpen(false);
   };
+
+  const handleSubmit = async () =>{
+    console.log('hello here!!!')
+    const name='kuc'
+    const message='are you there?'
+    // const res = await fetch(
+    //   `${process.env.API_URL}/api/blog/listAll?limit=50000`
+    // );
+    axios.post("http://localhost:4000/api", { name, message })
+      .then((res) => {
+        console.log(res)
+      })
+
+    console.log("submitted", name, message)
+  }
 
   useEffect(() => {
     if (open) {
@@ -142,6 +158,7 @@ export default function CallModal({ children, callee }: CallModalProps) {
             variant='default'
             size='icon'
             className='size-10 rounded-full bg-green-500 hover:bg-green-500/70'
+            onClick={handleSubmit}
           >
             <HiOutlinePlus className='size-5' />
           </Button>

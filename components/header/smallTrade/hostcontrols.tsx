@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import Presence from '@/components/stream/presence';
+// import { useParticipants } from '@livekit/components-react';
 
 interface Props {
   slug: string;
@@ -45,7 +46,10 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
 
   useEffect(() => {
     void createTracks();
-    void togglePublishing();
+    // const participants = useParticipants();
+    // console.log('dfdfdfdfdfdf', participants)
+    // if(participants.length > 1){
+    // }
   }, []);
 
   useEffect(() => {
@@ -116,7 +120,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
           )}{' '}
         </div> */}
         <div className='flex gap-2'>
-          {/* {isPublishing ? (
+          {isPublishing ? (
             <Button
               size='sm'
               className='bg-red-600 hover:bg-red-700'
@@ -133,7 +137,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
             >
               {t('start_stream')}
             </Button>
-          )} */}
+          )}
           {/* <Button
             size='sm'
             className='bg-red-600 hover:bg-red-700'

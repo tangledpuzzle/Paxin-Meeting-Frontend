@@ -3,6 +3,7 @@ import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { BiSolidCalendar, BiSolidCategory } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane, FaThumbsUp } from 'react-icons/fa';
+import axios from 'axios'
 import {
   MdOutlineHouseSiding,
   MdOutlineKeyboardArrowRight,
