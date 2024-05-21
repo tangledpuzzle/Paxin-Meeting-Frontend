@@ -155,6 +155,7 @@ const WebcamIcon = ({ currentRoom, isMobile }: IWebcamIconProps) => {
         el.srcObject = virtualBgLocalTrack;
       }
     }
+    console.log('ssss', onSelectedDevice)
     return () => {
       if (virtualBgLocalTrack) {
         virtualBgLocalTrack.getTracks().forEach((t) => t.stop());

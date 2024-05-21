@@ -6,6 +6,7 @@ import { ProductCard } from './product';
 import { ScrollArea } from '../ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import ShareWebcamModal from '../header/smallMeet/footer/modals/webcam/shareWebcam';
 
 export interface IProduct {
   id: string;
@@ -22,10 +23,17 @@ export default function ProductPanel({ products }: ProductPanelProps) {
   const t = useTranslations('stream');
   const router=useRouter()
   const [keyword, setKeyword] = useState<string>('');
+  const [isOpen, setisOpen] =useState<boolean>(false)
+
   const filter = useDeferredValue(keyword);
   const filteredProducts = products.filter((el: IProduct) =>
     el.title.includes(filter)
   );
+
+  const webcam = () => {
+    setisOpen(true);
+  }
+
   const goback = () =>{
     router.push('/stream');
   }
@@ -58,6 +66,13 @@ export default function ProductPanel({ products }: ProductPanelProps) {
         ))}
       </ScrollArea>
       <div className='grid grid-cols-2 gap-2'>
+        {/* <Button
+          variant='outline'
+          className='pr-2 flex border-primary text-primary grid-cols-1'
+          onClick={webcam}
+        >
+          {t('webcam')}
+        </Button> */}
         <Button
           variant='outline'
           className='pr-2 flex border-primary text-primary grid-cols-1'
@@ -73,6 +88,9 @@ export default function ProductPanel({ products }: ProductPanelProps) {
           {t('end')}
         </Button>
       </div>
+      {/* {isOpen ? (
+        <ShareWebcamModal onSelectedDevice={null} />
+      ) : null} */}
     </>
   );
 }
