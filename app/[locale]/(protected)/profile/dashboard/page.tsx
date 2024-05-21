@@ -69,42 +69,42 @@ const audits = [
 ];
 
 export default function DashboardPage() {
-  const socket = io("http://localhost:3001");
-  const { data: session } = useSession();
-  const userId = session?.user?.name || '';
-  console.log(userId)
+  // const socket = io("http://localhost:3001");
+  // const { data: session } = useSession();
+  // const userId = session?.user?.name || '';
+  // console.log(userId)
   
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('connected to socket')
-      socket.emit('register', userId);
-    });
-    socket.on('callMade', async (data) => {
-      // Here you would handle incoming calls
-      // For simplicity, we auto-answer them
-      const { offer } = data;
+  // useEffect(() => {
+  //   socket.on('connect', () => {
+  //     console.log('connected to socket')
+  //     socket.emit('register', 'userId');
+  //   });
+  //   socket.on('callMade', async (data) => {
+  //     // Here you would handle incoming calls
+  //     // For simplicity, we auto-answer them
+  //     const { offer } = data;
 
-      // This is where you'd handle the WebRTC answer
-      console.log("Call received, offer:", offer);
-      // setCallMade(true);
+  //     // This is where you'd handle the WebRTC answer
+  //     console.log("Call received, offer:", offer);
+  //     // setCallMade(true);
 
-      // Simplified - in real scenario, you create an answer and send it back
-      socket.emit('makeAnswer', { answer: "dummy-answer", to: data.socket });
-    });
+  //     // Simplified - in real scenario, you create an answer and send it back
+  //     socket.emit('makeAnswer', { answer: "dummy-answer", to: data.socket });
+  //   });
 
-    socket.on('answerMade', (data) => {
-      console.log("Answer received", data);
-      // Handle the answer
-    });
-    return () => {
-      socket.off('connect');
-      socket.off('notification');
-      socket.off('disconnect');
-      // If necessary, explicitly disconnect (might not be needed depending on use case)
-      // socket.disconnect();
-    };
+  //   socket.on('answerMade', (data) => {
+  //     console.log("Answer received", data);
+  //     // Handle the answer
+  //   });
+  //   return () => {
+  //     socket.off('connect');
+  //     socket.off('notification');
+  //     socket.off('disconnect');
+  //     // If necessary, explicitly disconnect (might not be needed depending on use case)
+  //     // socket.disconnect();
+  //   };
 
-  }, []);
+  // }, []);
 
   const t = useTranslations('main');
   const { user } = useContext(PaxContext);
