@@ -3,6 +3,7 @@ import SessionProviders from '@/provider/session-provider';
 import '@/styles/globals.css';
 
 import CustomToaster from '@/components/common/custom-toast';
+// import NotificationMessage from '@/components/common/notification';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
 import { MetadataUpdater } from '@/lib/dynamicMetadata';
@@ -83,6 +84,7 @@ export default async function RootLayout({
                   // enableSystem={false}
                 >
                   {children}
+                  {/* <NotificationMessage /> */}
                   <CustomToaster />
                   <MetadataUpdater />
                 </ThemeProvider>
