@@ -145,6 +145,7 @@ export default async function LandingPage({
       <NavigateSection />
       <ServicesSection />
       <FeatureSection />
+      
       <ProfilesComponentWithSSR images={profilePhotos} />
       <ServiceList />
       {/* <RatingSSR /> */}
@@ -152,8 +153,9 @@ export default async function LandingPage({
       {/* <AboutSection /> */}
       <DynamicLiAds tags={categories} />
 
-      <DynamicComponentWithSSR />
-      <ProfilestagsWithSSR />
+      {/* <DynamicComponentWithSSR /> */}
+      {/* <ProfilestagsWithSSR /> */}
+
       <JoinUsSection />
       <div>
         <Link href='/home' className='cta'>
