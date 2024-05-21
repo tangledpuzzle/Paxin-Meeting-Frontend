@@ -3,11 +3,15 @@ export type SiteConfig = typeof siteConfig;
 export const siteConfig = {
   name: 'Paxintrade',
   description:
-    'Beautifully designed components built with Radix UI and Tailwind CSS.',
+    'Trade streaming network.',
   mainNav: [
     {
       title: 'trade',
       href: '/stream',
+    },
+    {
+      title: 'home',
+      href: '/home',
     },
     {
       title: 'about',
@@ -16,10 +20,6 @@ export const siteConfig = {
     {
       title: 'contact',
       href: '/contact',
-    },
-    {
-      title: 'home',
-      href: '/home',
     },
   ],
   links: {
