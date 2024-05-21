@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 import createNextIntlPlugin from 'next-intl/plugin';
-import PackageJson from './package.json' assert { type: 'json' };
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+// Dynamically import the package.json
+const PackageJson = require('./package.json');
+
 const withNextIntl = createNextIntlPlugin('./i18n.ts');
 
 const nextConfig = {
