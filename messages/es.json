@@ -8,13 +8,13 @@
     "back_flow": "Volver",
     "next_flow": "Adelante",
     "scroll_down": "no te niegues",
-    "home": "Fluir",
+    "home": "Búsqueda",
     "about": "Acerca de",
     "contact": "Contacto",
     "dark_mode": "Modo Oscuro",
     "type_message":"escribe un mensaje...",
     "light_mode": "Modo Claro",
-    "trade": "Comercio",
+    "trade": "Éteres",
     "dashboard": "Tablero",
     "my_posts": "Mis Publicaciones",
     "settings": "Configuraciones",
@@ -889,6 +889,7 @@
     "empty_search_result": "No hay transmisión para su consulta de búsqueda..."
   },
   "chatting": {
+    "start_stream": "iniciar transmisión",
     "failed_to_send_message": "No se pudo enviar el mensaje",
     "failed_to_edit_message": "No se pudo editar el mensaje",
     "failed_to_delete_message": "No se pudo borrar el mensaje",

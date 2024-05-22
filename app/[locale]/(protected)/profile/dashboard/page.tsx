@@ -1,13 +1,14 @@
 'use client';
 
 import { MdDashboard } from 'react-icons/md';
-
+import React, { useEffect, useState } from 'react';
 import CTASection from '@/components/profiles/cta';
 import { Separator } from '@/components/ui/separator';
 import { PaxContext } from '@/context/context';
 import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useContext } from 'react';
 import { FaTelegram, FaUser } from 'react-icons/fa';
@@ -17,6 +18,7 @@ import { RiArticleLine } from 'react-icons/ri';
 import { MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 import { ChangeNamePopup } from '@/components/profiles/dashboard/change-name-popup';
 import { Button } from '@/components/ui/button';
+import io from 'socket.io-client';
 
 const services = [
   {
@@ -67,6 +69,43 @@ const audits = [
 ];
 
 export default function DashboardPage() {
+  // const socket = io("http://localhost:3001");
+  // const { data: session } = useSession();
+  // const userId = session?.user?.name || '';
+  // console.log(userId)
+  
+  // useEffect(() => {
+  //   socket.on('connect', () => {
+  //     console.log('connected to socket')
+  //     socket.emit('register', 'userId');
+  //   });
+  //   socket.on('callMade', async (data) => {
+  //     // Here you would handle incoming calls
+  //     // For simplicity, we auto-answer them
+  //     const { offer } = data;
+
+  //     // This is where you'd handle the WebRTC answer
+  //     console.log("Call received, offer:", offer);
+  //     // setCallMade(true);
+
+  //     // Simplified - in real scenario, you create an answer and send it back
+  //     socket.emit('makeAnswer', { answer: "dummy-answer", to: data.socket });
+  //   });
+
+  //   socket.on('answerMade', (data) => {
+  //     console.log("Answer received", data);
+  //     // Handle the answer
+  //   });
+  //   return () => {
+  //     socket.off('connect');
+  //     socket.off('notification');
+  //     socket.off('disconnect');
+  //     // If necessary, explicitly disconnect (might not be needed depending on use case)
+  //     // socket.disconnect();
+  //   };
+
+  // }, []);
+
   const t = useTranslations('main');
   const { user } = useContext(PaxContext);
   return (
