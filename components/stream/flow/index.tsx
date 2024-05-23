@@ -23,7 +23,7 @@ export default function FlowSection({ data }: FlowProps) {
 
   return (
     <div className='w-full'>
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 pb-8 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 pb-8 pt-[0px] md:mt-[0px] md:grid-cols-2 lg:grid-cols-3'>
         {data ? (
           data?.length > 0 ? (
             data.map((room: IRoom) => <FlowCard key={room.roomId} {...room} />)
