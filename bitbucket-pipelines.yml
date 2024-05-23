@@ -99,7 +99,9 @@ pipelines:
                 export IMAGE_LATEST_TAG=latest
 
                 # Install AWS-CLI
-                apk add --no-cache aws-cli
+                #apk add --no-cache aws-cli
+                apk add --no-cache python3 py3-pip
+                pip3 install awscli
                 # Login to AWS ECR
                 aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
 
