@@ -121,7 +121,9 @@ pipelines:
           script:
             - echo "Deploying to production environment"
             # Install AWS-CLI
-            - apk add --no-cache aws-cli
+            #- apk add --no-cache aws-cli
+            - apk add python3 py3-pip
+            - pip3 install awscli
             # Login to AWS ECR
             - export ECR_PASSWORD=$(aws ecr get-login-password --region $REGION)
 
