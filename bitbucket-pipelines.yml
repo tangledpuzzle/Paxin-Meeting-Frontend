@@ -40,9 +40,9 @@ pipelines:
             - |
               if [ "$SHOULD_BUILD" -eq "1" ]; then
                 echo "Building Nextjs App..."
-                npm cache clean --force
-                rm -rf node_modules package-lock.json
-                npm install #--legacy-peer-deps
+                #npm cache clean --force
+                #rm -rf node_modules package-lock.json
+                npm install --legacy-peer-deps
                 npm run build
               else
                 echo "Skipping build and push step as per previous step's decision."
