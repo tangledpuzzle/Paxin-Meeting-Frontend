@@ -308,7 +308,7 @@ export default function SmallMeet() {
               minHeight={!isMobile ? 350 : 200}
               defaultSize={popup.dimension}
             >
-              <div className='flex h-full w-full flex-col rounded-2xl shadow-sky-50 dark:bg-darkPrimary'>
+              <div className='flex h-full w-full flex-col shadow-sky-50 dark:bg-darkPrimary'>
                 <div className='bg-h flex justify-between px-2 pt-2'>
                   <div className='flex w-full justify-center'>
                     {!isMobile && <p>{roomId}</p>}
