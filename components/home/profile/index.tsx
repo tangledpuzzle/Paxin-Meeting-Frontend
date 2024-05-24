@@ -125,7 +125,7 @@ export default function ProfileSection() {
       )}
       {maxPage === 1 && (
         <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
-          <span className='px-0 text-sm'>Just one page yet</span>
+          <span className='px-0 text-sm'>{t('one_page')}</span>
         </div>
       )}
       <div className='grid w-full grid-cols-1 place-items-center gap-4 pb-8 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3'>
