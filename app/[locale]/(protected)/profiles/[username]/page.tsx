@@ -11,6 +11,7 @@ import {
 } from 'react-icons/md';
 import { RiUserFollowFill } from 'react-icons/ri';
 import { TbPhotoX } from 'react-icons/tb';
+import { getServerSession } from 'next-auth';
 import { VscEye } from 'react-icons/vsc';
 import QRCode from 'react-qr-code';
 
@@ -32,7 +33,6 @@ import { FollowButtonGroup } from '@/components/home/profile/follow-button-group
 import { ProfileImageGallery } from '@/components/home/profile/profile-image-gallery';
 import authOptions from '@/lib/authOptions';
 import '@/styles/editor.css';
-import { getServerSession } from 'next-auth';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import MessageForm from '@/components/home/messsage-form';
@@ -218,6 +218,7 @@ export default async function ProfilePage({
   const t = await getTranslations('main');
 
   const profileDetails = await getData(params.locale, params.username);
+  console.log('profileid', profileDetails?.id)
 
   const breadcrumbs = [
     {
@@ -279,6 +280,7 @@ export default async function ProfilePage({
               </Button>
             </CallModal>
             {session ? (
+              !profileDetails.me &&
               <MessageForm
                 user={{
                   username: profileDetails.username,
