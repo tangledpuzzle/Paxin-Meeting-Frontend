@@ -13,7 +13,7 @@ import { usePathname } from '@/navigation';
 const navItems: NavItem[] = [
   {
     title: 'dashboard',
-    href: '/profile/messages',
+    href: '/profile/dashboard',
     disabled: false,
     external: false,
     icon: MdDashboard,
