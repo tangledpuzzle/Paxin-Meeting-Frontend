@@ -53,7 +53,7 @@ module.exports = {
         darkPrimary: '#141414',
         darkSecondary: '#001222',
         darkSecondary2: '#222222',
-        darkSecondary3: '#031A3E',
+        darkSecondary3: '#181818',
         darkText: '#6f6f6f',
       },
       backgroundImage: {
