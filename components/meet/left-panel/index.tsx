@@ -101,7 +101,7 @@ const LeftPanel = () => {
               className={({ selected }) =>
                 classNames(
                   'w-full border-b-4 border-solid py-2 text-xs font-bold leading-5 text-black transition ease-in dark:text-white',
-                  selected ? 'border-[#004d90]' : 'border-[#004d90]/20'
+                  selected ? 'border-[#9e9e9e]' : 'border-[#9e9e9e]/20'
                 )
               }
             >
