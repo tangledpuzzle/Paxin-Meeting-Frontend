@@ -1,6 +1,6 @@
 import CopyClipboard from '@/components/common/copy-clipboard';
 import Draggable, { DraggableHandle } from '@/components/ui/draggable';
-import { FullscreenIcon, Minimize2Icon, MoveIcon } from 'lucide-react';
+import { FullscreenIcon, Minimize2Icon, MoveIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Resizable } from 're-resizable';
 import React, { useContext, useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ import { TiVideo } from 'react-icons/ti';
 import { StreamContext } from '@/provider/stream-provider';
 import { LiveKitRoom } from '@livekit/components-react';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
+import { usePathname, useRouter } from 'next/navigation';
 import StreamPlayer from '@/components/stream/stream-player';
 import SmallHost from './small-host';
 import SmallWatch from './small-watch';
@@ -44,7 +45,16 @@ export default function SmallTrade() {
   const [publisher, setPublisher] = useState<string>('');
   const isMobile = false;
   const [roomId, setRoomid] = useState('');
+  const router = useRouter();
   const [streamUrl, setStreamUrl] = useState('');
+  const closepopup=()=>{
+    const storeRoomId: string | null = localStorage.getItem('latest-stream-id');
+    if(storeRoomId !== null){
+      const tokenKey = Object.keys(localStorage).find(key => key.startsWith(storeRoomId));
+      if(tokenKey) localStorage.removeItem(tokenKey)
+    }
+    router.push('/chat');
+  }
   // const roomId =  localStorage.getItem('latest-stream-id');
   useEffect(() => {
     console.log('did mount')
@@ -153,6 +163,10 @@ export default function SmallTrade() {
                   <Minimize2Icon
                     size={isMobile ? 24 : 32}
                     onClick={togglePopup}
+                  />
+                  <XIcon 
+                    size={isMobile ? 24 : 32}
+                    onClick={closepopup}
                   />
                 </div>
               </div>

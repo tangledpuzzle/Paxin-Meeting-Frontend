@@ -17,13 +17,14 @@ import useSWR from 'swr';
 import { PostCard, PostCardProps } from '../profiles/posts/post-card';
 import axios from 'axios';
 import { PostCardSkeleton } from '../profiles/posts/post-card-skeleton';
-import { MdOutlineSpeakerNotesOff } from 'react-icons/md';
+import { MdOutlinePostAdd, MdOutlineSpeakerNotesOff } from 'react-icons/md';
 import Product from '../stream/ui/product';
 import { useRouter } from 'next/navigation';
 import { generateRandomString } from '@/lib/utils';
 import apiHelper from '@/helpers/api/apiRequest';
 import { Input } from '../ui/input';
 import { ScrollArea } from '../ui/scroll-area';
+import { NewPostModal } from '../profiles/posts/new-post-modal';
 
 interface StreamingCreateModalProps {
   children: React.ReactNode;
@@ -43,6 +44,7 @@ export function StreamingCreateModal({
   children,
 }: StreamingCreateModalProps) {
   const t = useTranslations('stream');
+  const t1 = useTranslations('main');
   const [blogs, setBlogs] = useState<PostCardProps[]>([]);
   const locale = useLocale();
   const [title, setTitle] = useState<string>('');
@@ -150,31 +152,45 @@ export function StreamingCreateModal({
             ))}
         </div>
         <DialogFooter>
-          <div className='mx-auto'>
-            {!isLoading ? (
-              <Button
-                type='submit'
-                onClick={() => {
-                  if (selectedProducts.length === 0)
-                    toast.error(t('no_product_alert'));
-                  else if (title === '') {
-                    toast.error(t('no_title'));
-                  } else {
-                    createTradingRoom();
-                  }
-                }}
-              >
-                {t('start')}
-              </Button>
-            ) : (
-              <div
-                className='inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
-                role='status'
-              >
-                <span className='!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]'></span>
-              </div>
-            )}
-          </div>
+          {blogs?.length>0 ? 
+          (
+            <div className='mx-auto'>
+              {!isLoading ? (
+                <Button
+                  type='submit'
+                  onClick={() => {
+                    if (selectedProducts.length === 0)
+                      toast.error(t('no_product_alert'));
+                    else if (title === '') {
+                      toast.error(t('no_title'));
+                    } else {
+                      createTradingRoom();
+                    }
+                  }}
+                >
+                  {t('start')}
+                </Button>
+              ) : (
+                <div
+                  className='inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                  role='status'
+                >
+                  <span className='!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]'></span>
+                </div>
+              )}
+            </div>
+          ):(
+            <div className='mx-auto'>
+              <NewPostModal mutate={blogsMutate}>
+                <Button className='btn btn--wide !m-0 !rounded-md'>
+                  <MdOutlinePostAdd className='mr-2 size-5' />
+                  {t1('new_post')}
+                </Button>
+              </NewPostModal>
+            </div>
+          )
+        }
+          
         </DialogFooter>
       </DialogContent>
     </Dialog>

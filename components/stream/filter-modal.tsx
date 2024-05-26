@@ -484,7 +484,7 @@ export function FilterModal() {
               }}
             />
           </div>
-          {viewMode === 'flow' && (
+          {/* {viewMode === 'flow' && ( */}
             <div className=''>
               <Label htmlFor='username' className='text-right'>
                 {t('prices')}
@@ -513,7 +513,7 @@ export function FilterModal() {
                 </div>
               )}
             </div>
-          )}
+          {/* )} */}
         </div>
         <DialogFooter>
           <Button
