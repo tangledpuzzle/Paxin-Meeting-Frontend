@@ -92,7 +92,7 @@ export function CTASection({ choice }: Props) {
             }}
           />
         </div>
-        {/* <FilterModal /> */}
+        <FilterModal />
       </div>
     </div>
   );
