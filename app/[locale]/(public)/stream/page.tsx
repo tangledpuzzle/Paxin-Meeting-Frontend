@@ -8,6 +8,9 @@ import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useLocale } from 'next-intl';
+import axios from 'axios';
+import useSWR from 'swr';
 
 export interface IRoom {
   roomId: string;
@@ -21,6 +24,7 @@ export interface IRoom {
   title: string;
   productImages: string[];
 }
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function HomePage() {
   const searchParams = useSearchParams();
@@ -65,6 +69,29 @@ export default function HomePage() {
   useEffect(() => {
     setViewMode(searchParams.get('mode') || 'all');
   }, [searchParams]);
+
+  const locale = useLocale();
+  const pageSize = 12;
+  const [fetchURL, setFetchURL] = useState('');
+  const { data: fetchedData, isLoading, error } = useSWR(fetchURL, fetcher);
+
+  useEffect(() => {
+    if (!error && fetchedData) {
+      setRooms(fetchedData.data);
+    }
+  }, [fetchedData, error]);
+  
+  useEffect(() => {
+    const _title = searchParams.get('title') || 'all';
+    const _city = searchParams.get('city') || 'all';
+    const _category = searchParams.get('category') || 'all';
+    const _hashtag = searchParams.get('hashtag') || 'all';
+    const _page = Number(searchParams.get('page') || 1);
+
+    setFetchURL(
+      `/api/rooms/get?language=${locale}&limit=${pageSize}&skip=${(_page - 1) * pageSize}&title=${_title}&city=${_city}&category=${_category}&hashtag=${_hashtag}`
+    );
+  }, [searchParams, locale]);
 
   useEffect(() => {
     const saveScrollPosition = () => {
