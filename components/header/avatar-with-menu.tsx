@@ -15,6 +15,8 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { RiArticleLine, RiUserSettingsFill } from 'react-icons/ri';
 import { FaSignOutAlt } from 'react-icons/fa';
+import { CiStreamOn } from 'react-icons/ci';
+
 
 interface AvatarWithMenuProps {
   user: {
@@ -30,7 +32,7 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className='mr-3'>
+        <Avatar className='mr-3 hidden md:block'>
           <AvatarImage
             src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${user?.avatar}`}
             alt={user?.username}
@@ -70,6 +72,12 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
             {t('my_posts')}
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem className='cursor-pointer text-base' asChild>
+            <Link href='/stream'>
+              <CiStreamOn className='mr-2 size-5 text-primary' />
+              {t('trade')}
+            </Link>
+          </DropdownMenuItem>
         <DropdownMenuItem className='cursor-pointer text-base' asChild>
           <Link href='/profile/setting'>
             <RiUserSettingsFill className='mr-2 size-5 text-primary' />

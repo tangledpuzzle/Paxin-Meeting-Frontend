@@ -41,11 +41,13 @@ export function RightNav({ user }: RightNavProps) {
             }}
           />
         ) : (
+          <div  className='hidden md:block'>
           <Button asChild>
             <Link className='btn btn--wide !rounded-md' href='/auth/signin'>
               {t('sign_in')}
             </Link>
           </Button>
+          </div>
         )}
       </nav>
     </div>
