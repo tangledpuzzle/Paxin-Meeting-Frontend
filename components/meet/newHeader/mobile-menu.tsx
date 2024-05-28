@@ -5,6 +5,8 @@ import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { FaSignInAlt } from 'react-icons/fa';
 import { IoMdInformationCircle } from 'react-icons/io';
+import { CiStreamOn } from 'react-icons/ci';
+
 import { MdHome, MdLocalPhone } from 'react-icons/md';
 import { RiMenu3Line } from 'react-icons/ri';
 
@@ -87,6 +89,12 @@ export function MobileMenu({ user }: MobileMenuProps) {
             <Link href='/home'>
               <MdHome className='mr-2 size-5 text-primary' />
               {t('home')}
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className='cursor-pointer text-base' asChild>
+            <Link href='/stream'>
+              <CiStreamOn className='mr-2 size-5 text-primary' />
+              {t('trade')}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className='cursor-pointer text-base' asChild>

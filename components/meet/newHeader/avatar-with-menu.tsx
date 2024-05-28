@@ -14,6 +14,8 @@ import { signOut } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { RiArticleLine, RiUserSettingsFill } from 'react-icons/ri';
+import { CiStreamOn } from 'react-icons/ci';
+
 import { FaSignOutAlt } from 'react-icons/fa';
 
 interface AvatarWithMenuProps {
@@ -70,6 +72,12 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
             {t('my_posts')}
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem className='cursor-pointer text-base' asChild>
+            <Link href='/stream'>
+              <CiStreamOn className='mr-2 size-5 text-primary' />
+              {t('trade')}
+            </Link>
+          </DropdownMenuItem>
         <DropdownMenuItem className='cursor-pointer text-base' asChild>
           <Link href='/profile/setting'>
             <RiUserSettingsFill className='mr-2 size-5 text-primary' />
