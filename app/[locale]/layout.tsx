@@ -1,6 +1,7 @@
 import Providers from '@/provider/provider';
 import SessionProviders from '@/provider/session-provider';
 import '@/styles/globals.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 import CustomToaster from '@/components/common/custom-toast';
 // import NotificationMessage from '@/components/common/notification';
@@ -16,6 +17,7 @@ import { getServerSession } from 'next-auth';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import StoreProvider from '../StoreProvider';
 import { StreamProvider } from '@/provider/stream-provider';
+import Chatbot from "@/components/chatbot";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -86,6 +88,7 @@ export default async function RootLayout({
                   {children}
                   {/* <NotificationMessage /> */}
                   <CustomToaster />
+                  <Chatbot />
                   <MetadataUpdater />
                 </ThemeProvider>
                 <TailwindIndicator />
