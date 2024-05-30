@@ -94,7 +94,7 @@ export default function ChatMessage(props: ChatMessageProps) {
     return inputText.replace(
       urlRegex,
       (url) =>
-        `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+        `<a href="${url}" target="_self" rel="noopener noreferrer">${url}</a>`
     );
   };
 

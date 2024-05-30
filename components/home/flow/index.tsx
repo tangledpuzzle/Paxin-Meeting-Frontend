@@ -120,7 +120,7 @@ export default function FlowSection() {
           </Button>
         </div>
       )}
-      {maxPage === 0 && (
+      {maxPage === 1 && (
         <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
           <span className='px-0 text-sm'>{t('one_page')}</span>
         </div>

@@ -166,10 +166,10 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
         className='transition-left-panel'
         show={isActiveParticipantsPanel}
         unmount={false}
-        enter='transform transition duration-[400ms]'
+        enter='transform transition duration-\[400ms\]'
         enterFrom='opacity-0 translate-x-0'
         enterTo='opacity-100'
-        leave='transform transition duration-[400ms]'
+        leave='transform transition duration-\[400ms\]'
         leaveFrom='opacity-100'
         leaveTo='opacity-0 -translate-x-full'
       >
@@ -203,10 +203,10 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
           className='transition-right-panel'
           show={isActiveChatPanel}
           unmount={false}
-          enter='transform transition duration-[400ms]'
+          enter='transform transition duration-\[400ms\]'
           enterFrom='opacity-0 translate-x-0'
           enterTo='opacity-100'
-          leave='transform transition duration-[400ms]'
+          leave='transform transition duration-\[400ms\]'
           leaveFrom='opacity-100'
           leaveTo='opacity-0 translate-x-full'
         >

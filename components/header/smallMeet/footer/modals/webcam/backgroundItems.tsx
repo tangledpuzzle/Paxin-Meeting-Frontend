@@ -74,7 +74,7 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
       <div
         className={`flex size-[62px] scale-90 cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-solid border-gray-300 transition ease-in hover:scale-95 dark:border-primaryColor${
           selectedBg.type === 'none'
-            ? 'scale-95 border-[#24aef7] dark:border-[#24aef7]'
+            ? 'scale-95 border-[#24aef7] dark:border-[#767676]'
             : ''
         }`}
         onClick={() => handleOnClick('none', '')}
@@ -84,7 +84,7 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
       <div
         className={`flex size-[62px] scale-90 cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-solid border-gray-300 transition ease-in hover:scale-95 dark:border-primaryColor${
           selectedBg.type === 'blur'
-            ? 'scale-95 border-[#24aef7] dark:border-[#24aef7]'
+            ? 'scale-95 border-[#24aef7] dark:border-[#767676]'
             : ''
         }`}
         onClick={() => handleOnClick('blur', '')}
