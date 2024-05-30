@@ -1,22 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import ChatLogItem from "./ChatLogItem";
 import TypingAnimation from "./TypingAnimation";
 import axiosChat from "@/app/api/axiosChat";
 import { ChatCompletion } from "./chatData";
 import toast from "react-hot-toast";
 import React from "react";
+import { BotMessageSquare, MessageCircle, Send, X } from "lucide-react";
+import { Input } from "./input";
+import { Button } from "./button";
 interface ChatMessage {
   type: "user" | "bot";
   message: string;
 }
 
-const ChatBot = () => {
+type ChatBotProps = {
+  title: string;
+  subtitle: string;
+  botName: string;
+  welcomeMessage: string;
+  aiModel?: string;
+};
+
+const ChatBot: React.FC<ChatBotProps> = ({
+  title,
+  subtitle,
+  botName,
+  welcomeMessage,
+  aiModel,
+}) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const toggleChat = () => {
     setIsChatOpen((prev) => !prev);
@@ -44,7 +62,7 @@ const ChatBot = () => {
     const URL = "/completions";
 
     const data = {
-      model: "mistralai/mistral-7b-instruct:free",
+      model: aiModel ? aiModel : "mistralai/mistral-7b-instruct:free",
       messages: [{ role: "user", content: message }],
     };
 
@@ -64,13 +82,20 @@ const ChatBot = () => {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [isLoading]);
   return (
     <>
       {/* component */}
       <div>
         <button
           id="chatbot"
-          className={`z-[500] fixed bottom-4 right-4 inline-flex items-center justify-center text-sm font-medium border rounded-full w-14 h-14 bg-rose-900 hover:bg-gray-700 m-0 cursor-pointer border-gray-200 bg-none p-0 normal-case leading-5 hover:text-gray-900 ${
+          className={`z-[500] bg-primary fixed bottom-4 right-4 inline-flex items-center justify-center text-sm font-medium border rounded-full w-16 h-16 m-0 cursor-pointer border-gray-200 bg-none  ${
             isChatOpen ? "chat-open" : "chat-closed"
           }`}
           type="button"
@@ -78,54 +103,45 @@ const ChatBot = () => {
           aria-expanded={isChatOpen}
           onClick={toggleChat}
         >
-          <svg
-            xmlns=" http://www.w3.org/2000/svg"
-            width={30}
-            height={40}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="text-white block border-gray-200 align-middle"
-          >
-            <path
-              d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"
-              className="border-gray-200"
-            ></path>
-          </svg>
+          <MessageCircle className="size-10 text-primary-foreground" />
         </button>
         {isChatOpen && (
           <div
             id="hs-chatbot-container"
-            className={`fixed bottom-[calc(4rem+1.5rem)] right-0 mr-4 bg-white  rounded-lg border border-[#e5e7eb] w-[440px] h-[560px] z-[500] ${
+            className={`fixed bottom-[calc(4rem+1.5rem)] right-0 mr-4 bg-muted borrder-r-2 border border-gray-200 rounded-xl w-[440px] h-[560px] z-[500] ${
               isChatOpen ? "chat-open" : "chat-closed"
             }`}
           >
             {/* Heading */}
-            <div className="flex justify-between items-center space-y-1.5 p-6 bg-slate-700  border-b">
-              <div>
-                <h2 className="font-semibold text-white text-lg tracking-tight">
-                  Tailbot
-                </h2>
-                <p className="text-sm text-gray-300 mt-2">
-                  Your friendly chat bot.
-                </p>
+            <div className="flex justify-between items-center space-y-1.5 p-6 rounded-t-xl bg-background border-b">
+              <div className="flex flex-row">
+                <span className="flex-shrink-0 mr-4 inline-flex items-center justify-center size-14 rounded-full bg-primary">
+                  <span className="font-medium text-white leading-none">
+                    <BotMessageSquare className="size-10" />
+                  </span>
+                </span>
+                <div>
+                  <h2 className="font-semibold text-xl text-primary tracking-tight">
+                    {title}
+                  </h2>
+                  <p className=" text-muted-foreground mt-2">{subtitle}</p>
+                </div>
               </div>
+
               <button
                 type="button"
                 onClick={toggleChat}
-                className="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-white hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white transition-all  dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
+                className="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-muted-foreground focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-primary transition-all  dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
                 data-hs-overlay="#hs-focus-management-modal"
               >
                 <span className="sr-only">Close</span>
-                <i className="bi bi-x-lg text-xl"></i>
+                <X />
               </button>
             </div>
             <div id="hs-message-container" className="px-6 pb-6">
               {/* Chat Container */}
               <div
+                ref={chatContainerRef}
                 id="chat-container"
                 className="pr-4 h-[400px]"
                 style={{
@@ -134,19 +150,17 @@ const ChatBot = () => {
                 }}
               >
                 <div className="flex gap-3 my-4 text-gray-600 text-sm flex-1">
-                  <span className="flex-shrink-0 inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-rose-800">
+                  <span className="flex-shrink-0 inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-primary">
                     <span className="text-sm font-medium text-white leading-none">
-                      <i className="bi bi-robot text-white  text-lg"></i>
+                      <BotMessageSquare />
                     </span>
                   </span>
 
                   <p className="leading-relaxed">
-                    <span className="block font-bold text-gray-700">
-                      Tailbot
+                    <span className="block font-bold text-muted-foreground">
+                      {botName}
                     </span>
-                    <p className="text-sm">
-                      Welcome to Tailchat bot AI.How can we help you?
-                    </p>
+                    <p className="text-sm text-foreground">{welcomeMessage}</p>
                   </p>
                 </div>
                 {chatLog.map((message, index) => (
@@ -154,6 +168,7 @@ const ChatBot = () => {
                     key={index}
                     type={message.type}
                     message={message.message}
+                    botName={botName}
                   />
                 ))}
                 {isLoading && (
@@ -170,18 +185,19 @@ const ChatBot = () => {
                   className="flex items-center justify-center w-full space-x-2"
                   onSubmit={handleSubmit}
                 >
-                  <input
-                    className="flex h-10 w-full rounded-md border border-[#e5e7eb] px-3 py-2 text-sm placeholder-[#6b7280] focus:outline-none focus:ring-2 focus:ring-[#9ca3af] disabled:cursor-not-allowed disabled:opacity-50 text-[#030712] focus-visible:ring-offset-2"
+                  <Input
+                    className="flex h-10 w-full rounded-md "
                     placeholder="Type your message"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                   />
-                  <button
-                    className="inline-flex items-center justify-center rounded-md text-sm font-medium text-[#f9fafb] disabled:pointer-events-none disabled:opacity-50 bg-slate-700 hover:bg-[#111827E6] h-10 px-4 py-2"
+                  <Button
+                    variant={"outline"}
+                    className="text-primary"
                     type="submit"
                   >
-                    <i className="bi bi-send"></i>
-                  </button>
+                    <Send />
+                  </Button>
                 </form>
               </div>
             </div>
