@@ -64,7 +64,7 @@
     "jwt-decode": "4.0.0",
     "livekit-client": "2.1.0",
     "livekit-server-sdk": "1.2.7",
-    "lucide-react": "0.315.0",
+    "lucide-react": "0.381.0",
     "microsoft-cognitiveservices-speech-sdk": "1.35.0",
     "mitt": "3.0.1",
     "mobile-detect": "1.4.5",

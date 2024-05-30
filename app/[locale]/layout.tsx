@@ -16,6 +16,8 @@ import { getServerSession } from 'next-auth';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import StoreProvider from '../StoreProvider';
 import { StreamProvider } from '@/provider/stream-provider';
+import Chatbot from "@/components/chatbot";
+import { Toaster } from "react-hot-toast";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -86,6 +88,13 @@ export default async function RootLayout({
                   {children}
                   {/* <NotificationMessage /> */}
                   <CustomToaster />
+                  <Chatbot
+                    title="Paxbot"
+                    subtitle="Online Paxbot"
+                    botName="Paxbot"
+                    welcomeMessage="Hi, I'm Paxbot. How can I help you today?"
+                  />
+                  <Toaster />
                   <MetadataUpdater />
                 </ThemeProvider>
                 <TailwindIndicator />
