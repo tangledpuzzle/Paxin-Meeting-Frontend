@@ -88,12 +88,12 @@ export default async function RootLayout({
                   {children}
                   {/* <NotificationMessage /> */}
                   <CustomToaster />
-                  <Chatbot
+                  {/* <Chatbot
                     title="Paxbot"
                     subtitle="Online Paxbot"
                     botName="Paxbot"
                     welcomeMessage="Hi, I'm Paxbot. How can I help you today?"
-                  />
+                  /> */}
                   <Toaster />
                   <MetadataUpdater />
                 </ThemeProvider>
