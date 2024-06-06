@@ -67,8 +67,8 @@ pipelines:
                 #rm -rf node_modules package-lock.json
                 npm install --legacy-peer-deps
                 git clone https://x-token-auth:$BITBUCKET_ENV_REPO_ACCESS_TOKEN@bitbucket.org/myru/myru-environment-values.git
-                mv environment-values/mainsite/frontend/.env.production .env
-                rm -rf environment-values
+                mv myru-environment-values/mainsite/frontend/.env.production .env
+                rm -rf myru-environment-values
                 npm run build
                 mv public .next/standalone/public
                 mv .next/static .next/standalone/.next/static
