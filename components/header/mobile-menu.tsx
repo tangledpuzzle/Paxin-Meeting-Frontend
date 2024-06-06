@@ -61,7 +61,7 @@ export function MobileMenu({ user }: MobileMenuProps) {
                 >
                   <Avatar>
                     <AvatarImage
-                      src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${user?.avatar}`}
+                      src={`https://proxy.myru.online/100/https://img.myru.online/${user?.avatar}`}
                       alt={user?.username}
                     />
                     <AvatarFallback>

@@ -87,16 +87,16 @@ function FlowCard({ productImages, roomId, title, publisher, cnt }: IRoom) {
             <FlowImageGallery
               images={productImages.map((el) => ({
                 thumbnail:
-                  'https://proxy.paxintrade.com/400/https://img.paxintrade.com/' +
+                  'https://proxy.myru.online/400/https://img.myru.online/' +
                   el,
                 original:
-                  'https://proxy.paxintrade.com/400/https://img.paxintrade.com/' +
+                  'https://proxy.myru.online/400/https://img.myru.online/' +
                   el,
               }))}
             />
             {/* <Image
               src={
-                'https://proxy.paxintrade.com/100/https://img.paxintrade.com/' +
+                'https://proxy.myru.online/100/https://img.myru.online/' +
                 publisher.photo
               }
               fill
@@ -199,7 +199,7 @@ function FlowCard({ productImages, roomId, title, publisher, cnt }: IRoom) {
                 <div className='flex gap-2'>
                   <ProfileAvatar
                     src={
-                      'https://proxy.paxintrade.com/100/https://img.paxintrade.com/' +
+                      'https://proxy.myru.online/100/https://img.myru.online/' +
                       publisher.photo
                     }
                     username={publisher.name}

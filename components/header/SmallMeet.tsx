@@ -313,7 +313,7 @@ export default function SmallMeet() {
                   <div className='flex w-full justify-center'>
                     {!isMobile && <p>{roomId}</p>}
                     <CopyClipboard
-                      text={`https://www.paxintrade.com/meet/${roomId}`}
+                      text={`https://www.myru.online/meet/${roomId}`}
                     >
                       <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
                         <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />

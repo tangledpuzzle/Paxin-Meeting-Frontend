@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
         ],
         avatar:
           item.photos?.length > 0 && item.photos[0].files?.length > 0
-            ? `https://proxy.paxintrade.com/300/https://img.paxintrade.com/${item.photos[0].files[0].path}`
+            ? `https://proxy.myru.online/300/https://img.myru.online/${item.photos[0].files[0].path}`
             : '',
         tags: item.Hashtags.map((tag: any) => tag.Hashtag),
         cities: item.City.map((city: any) => city.Translations[0].Name),

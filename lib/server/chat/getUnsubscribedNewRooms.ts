@@ -60,7 +60,7 @@ const getUnsubscribedNewRooms = async () => {
         } else if (member.UserID !== session?.user?.id) {
           _room.user.id = member.UserID;
           _room.user.profile.name = member.User.Name;
-          _room.user.profile.avatar = `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${member.User.Photo}`;
+          _room.user.profile.avatar = `https://proxy.myru.online/150/https://img.myru.online/${member.User.Photo}`;
           _room.user.profile.categories =
             member.User.Profile &&
             member.User.Profile.length > 0 &&

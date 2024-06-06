@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     path: '/',
     maxAge: 60 * 60 * 24 * 30,
     domain:
-      process.env.NODE_ENV === 'production' ? '.paxintrade.com' : 'localhost',
+      process.env.NODE_ENV === 'production' ? '.myru.online' : 'localhost',
     httpOnly: false,
     secure: process.env.NODE_ENV === 'production',
   });

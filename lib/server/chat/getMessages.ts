@@ -55,7 +55,7 @@ const getMessages = async (
         owner: {
           id: item.UserID,
           name: item.User.Name,
-          avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${item.User.Photo}`,
+          avatar: `https://proxy.myru.online/150/https://img.myru.online/${item.User.Photo}`,
         },
         timestamp: item.CreatedAt,
         isDeleted: item.IsDeleted,

@@ -930,7 +930,7 @@ export default function SettingPage() {
                         gallery?.files.map((file: any) => (
                           <PreviewImage
                             key={file.path}
-                            src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`}
+                            src={`https://proxy.myru.online/400/https://img.myru.online/${file.path}`}
                             onRemove={() => {
                               removeGallery(file.path);
                             }}

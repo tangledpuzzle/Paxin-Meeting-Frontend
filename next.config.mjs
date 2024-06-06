@@ -17,7 +17,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'proxy.paxintrade.com',
+        hostname: 'proxy.myru.online',
       },
     ],
   },

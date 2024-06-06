@@ -31,7 +31,7 @@ export default function ChannelInfo({
                   'z-20 h-16 w-16 rounded-full border-2 border-white bg-gray-500 dark:border-zinc-900',
                   speakingParticipant[0] && 'ring-2 ring-red-600'
                 )}
-                src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${speakingParticipant[0]?.metadata}`}
+                src={`https://proxy.myru.online/100/https://img.myru.online/${speakingParticipant[0]?.metadata}`}
                 alt={speakingParticipant[0]?.name}
               />
 

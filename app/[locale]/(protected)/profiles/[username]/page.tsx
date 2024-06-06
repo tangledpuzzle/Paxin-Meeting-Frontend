@@ -144,7 +144,7 @@ async function getData(locale: string, username: string) {
               hero:
                 data.data.highestIsUpBlog.photos?.length > 0 &&
                 data.data.highestIsUpBlog.photos[0].files?.length > 0
-                  ? `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${data.data.highestIsUpBlog.photos[0].files[0].path}`
+                  ? `https://proxy.myru.online/400/https://img.myru.online/${data.data.highestIsUpBlog.photos[0].files[0].path}`
                   : '',
               review: {
                 votes: data.data.totalVotes,
@@ -164,8 +164,8 @@ async function getData(locale: string, username: string) {
         data.data.Profile[0].photos?.length > 0
           ? data.data.Profile[0].photos[0].files?.map((file: any) => {
               return {
-                original: `https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`,
-                thumbnail: `https://proxy.paxintrade.com/50/https://img.paxintrade.com/${file.path}`,
+                original: `https://proxy.myru.online/400/https://img.myru.online/${file.path}`,
+                thumbnail: `https://proxy.myru.online/50/https://img.myru.online/${file.path}`,
               };
             })
           : [],

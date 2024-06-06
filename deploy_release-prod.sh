@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SERVICE_PATH="~/workspace/paxintrade/mainsite/frontend"
+SERVICE_PATH="~/workspace/myru/mainsite/frontend"
 SERVICE_NAME="app"
 
 # Abort on errors

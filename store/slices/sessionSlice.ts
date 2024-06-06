@@ -98,7 +98,7 @@ const initialState: ISession = {
       },
       copyright_conf: {
         display: true,
-        text: 'Powered by <a href="https://www.paxintrade.com" target="_blank">PaxinTrade</a>',
+        text: 'Powered by <a href="https://www.myru.online" target="_blank">PaxinTrade</a>',
       },
     },
   },
