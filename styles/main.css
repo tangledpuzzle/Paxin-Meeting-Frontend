@@ -2,8 +2,8 @@ body {
   font-size:1em;
 }
 
-.video { 
-  object-fit: cover;
+video { 
+  object-fit: cover !important;
 }
 
 .bg-with-gradient {
