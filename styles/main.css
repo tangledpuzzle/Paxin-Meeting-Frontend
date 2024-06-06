@@ -2,6 +2,10 @@ body {
   font-size:1em;
 }
 
+video { 
+  object-fit: cover;
+}
+
 .bg-with-gradient {
   background: linear-gradient(0deg, #f3f4f6 0%, #f3f4f6 100%),
     linear-gradient(7deg, #7b2bcc 21.22%, #2296f3 88.72%);
