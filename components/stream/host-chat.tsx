@@ -52,7 +52,7 @@ export default function Chat({ participantName }: Props) {
           <div key={message.timestamp} className='flex items-center gap-2 p-2'>
             <Avatar className='mr-3 size-10'>
               <AvatarImage
-                src={`https://proxy.paxintrade.com/100/https://img.paxintrade.com/${message.from?.metadata}`}
+                src={`https://proxy.myru.online/100/https://img.myru.online/${message.from?.metadata}`}
               />
             </Avatar>
             <div className='flex flex-col'>

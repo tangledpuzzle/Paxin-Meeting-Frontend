@@ -52,7 +52,7 @@ async function getProfilePhotos() {
     for (const profile of data.data) {
       let avatar =
         profile.photos?.length > 0 && profile.photos[0].files?.length > 0
-          ? `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${profile.photos[0].files[0].path}`
+          ? `https://proxy.myru.online/150/https://img.myru.online/${profile.photos[0].files[0].path}`
           : '';
 
       if (avatar) {

@@ -78,7 +78,7 @@ export function ProductCard({
               <CarouselItem key={index}>
                 <div className='relative h-32 w-full'>
                   <Image
-                    src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${image}`}
+                    src={`https://proxy.myru.online/400/https://img.myru.online/${image}`}
                     alt='preview image'
                     style={{ objectFit: 'cover' }}
                     fill

@@ -191,7 +191,7 @@ export default function ChatInputComponent() {
           owner: {
             id: user?.id || '',
             name: user?.username || '',
-            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+            avatar: `https://proxy.myru.online/150/https://img.myru.online/${user?.avatar}`,
           },
         });
       } else {
@@ -202,7 +202,7 @@ export default function ChatInputComponent() {
           owner: {
             id: user?.id || '',
             name: user?.username || '',
-            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+            avatar: `https://proxy.myru.online/150/https://img.myru.online/${user?.avatar}`,
           },
         });
       }
@@ -355,7 +355,7 @@ export default function ChatInputComponent() {
           owner: {
             id: user?.id as string,
             name: user?.username as string,
-            avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+            avatar: `https://proxy.myru.online/150/https://img.myru.online/${user?.avatar}`,
           },
           isDeleted: false,
           isEdited: false,
@@ -409,7 +409,7 @@ export default function ChatInputComponent() {
           //     owner: {
           //       id: user?.id as string,
           //       name: user?.username as string,
-          //       avatar: `https://proxy.paxintrade.com/150/https://img.paxintrade.com/${user?.avatar}`,
+          //       avatar: `https://proxy.myru.online/150/https://img.myru.online/${user?.avatar}`,
           //     },
           //     isDeleted: false,
           //     isEdited: false,

@@ -62,7 +62,7 @@ pipelines:
                 echo "Building Nextjs App at Production Environment..."
                 apk add --no-cache git
                 npm install #--legacy-peer-deps
-                git clone https://x-token-auth:$BITBUCKET_ENV_REPO_ACCESS_TOKEN@bitbucket.org/paxintrade/environment-values.git
+                git clone https://x-token-auth:$BITBUCKET_ENV_REPO_ACCESS_TOKEN@bitbucket.org/myru/myru-environment-values.git
                 mv environment-values/mainsite/frontend/.env.production .env
                 rm -rf environment-values
                 npm run build
@@ -90,7 +90,7 @@ pipelines:
               if [ "$SHOULD_BUILD" -eq "1" ]; then
                 echo "Building and pushing Docker image to ECR..."
                 # Define environment values
-                export IMAGE_NAME=paxintrade-frontend
+                export IMAGE_NAME=myru-frontend
                 export IMAGE_TAG=$(echo $BITBUCKET_COMMIT | cut -c 1-7)
                 export IMAGE_LATEST_TAG=latest
 

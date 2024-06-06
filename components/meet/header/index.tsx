@@ -212,7 +212,7 @@ const Header = ({ currentRoom }: IHeaderProps) => {
           <div className='middle relative z-20 flex-auto'>
             <h2 className='header-title text-center text-base leading-8 text-black dark:text-white'>
               {roomTitle} (Room ID: {roomId})
-              <CopyClipboard text={`https://www.paxintrade.com/meet/${roomId}`}>
+              <CopyClipboard text={`https://www.myru.online/meet/${roomId}`}>
                 <div className='notepad inline-block size-8 items-center justify-center rounded-full'>
                   <i className='pnm-notepad size-4 text-primaryColor dark:text-secondaryColor' />
                 </div>

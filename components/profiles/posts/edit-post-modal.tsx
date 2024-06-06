@@ -830,7 +830,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
                               field.value.map((file: any) => (
                                 <PreviewImage
                                   key={file.path}
-                                  src={`https://proxy.paxintrade.com/400/https://img.paxintrade.com/${file.path}`}
+                                  src={`https://proxy.myru.online/400/https://img.myru.online/${file.path}`}
                                   onRemove={() => {
                                     if (field.value.length === 1) {
                                       return toast.error(

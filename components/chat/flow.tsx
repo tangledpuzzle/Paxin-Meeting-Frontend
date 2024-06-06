@@ -237,7 +237,7 @@ class Line {
     const data = this.data;
     const router = this.router;
 
-    ele.profileImg.style.backgroundImage = `url(${`https://proxy.paxintrade.com/100/` + `https://img.paxintrade.com/` + this.urlPhoto})`;
+    ele.profileImg.style.backgroundImage = `url(${`https://proxy.myru.online/100/` + `https://img.myru.online/` + this.urlPhoto})`;
     ele.name.style.width = this.name * (textWidth / 2) + 'px';
 
     ele.profileImg.addEventListener('click', () => {
@@ -289,14 +289,14 @@ class Line {
     const profileImg = createElement({ class: ['profile-img', 'mb-2'] });
 
     // profileImg.addEventListener('click', () => {
-    //   window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`;
+    //   window.location.href = `https://www.myru.online/flows/${data.UniqId}/${data.Slug}`;
     // });
 
     const body = createElement({ class: 'body' });
     const name = createElement({ class: ['!w-[85%]', 'cursor-pointer'] });
 
     // name.addEventListener('click', () => {
-    //   window.location.href = `https://www.paxintrade.com/flows/${data.UniqId}/${data.Slug}`;
+    //   window.location.href = `https://www.myru.online/flows/${data.UniqId}/${data.Slug}`;
     // });
 
     const img = createElement({ class: 'img' });
