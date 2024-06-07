@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'paxintrade-frontend',
+      name: 'myruonline-frontend',
       exec_mode: 'cluster',
       instances: 2, // 'max' or a number of instances
       autorestart: true,
