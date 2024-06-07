@@ -82,8 +82,8 @@ export default async function RootLayout({
                 <StreamProvider>
                 <ThemeProvider
                   attribute='class'
-                  defaultTheme='dark'
-                  // enableSystem={false}
+                  defaultTheme='system'
+                  enableSystem={true}
                 >
                   {children}
                   {/* <NotificationMessage /> */}
