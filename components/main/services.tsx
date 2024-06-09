@@ -86,14 +86,14 @@ export default function ServicesSection() {
         <div className='absolute flex size-full items-center justify-center'>
           <div className='size-24 rounded-full bg-white p-3 dark:bg-black sm:size-36 sm:p-4 '>
             <Image
-              src='/logo.svg'
+              src='/logo-circle.svg'
               width={50}
               height={50}
               alt='hero'
               className='m-auto size-full dark:hidden'
             />
             <Image
-              src='/logo-white.svg'
+              src='/logo-circle.svg'
               width={50}
               height={50}
               alt='hero'

@@ -431,12 +431,12 @@ export default async function ProfilePage({
               </div>
               <div
                 className='flex flex-col gap-2'
-                style={{
-                  overflow: 'auto',
-                  whiteSpace: 'nowrap',
-                  WebkitMaskImage:
-                    'linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0))',
-                }}
+                // style={{
+                //   overflow: 'auto',
+                //   whiteSpace: 'nowrap',
+                //   WebkitMaskImage:
+                //     'linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0))',
+                // }}
               >
                 {profileDetails.cities.map((city: string, index: number) => (
                   <Link href={`/home?mode=profile&city=${city}`} key={index}>
@@ -457,12 +457,12 @@ export default async function ProfilePage({
               </div>
               <div
                 className='flex flex-col gap-2'
-                style={{
-                  overflow: 'auto',
-                  whiteSpace: 'nowrap',
-                  WebkitMaskImage:
-                    'linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0))',
-                }}
+                // style={{
+                //   overflow: 'auto',
+                //   whiteSpace: 'nowrap',
+                //   WebkitMaskImage:
+                //     'linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0))',
+                // }}
               >
                 {profileDetails.categories.map(
                   (category: string, index: number) => (

@@ -63,7 +63,7 @@ function FeatureCard({
         className='absolute left-0 top-0 z-[-1] size-full rounded-none opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:rounded-xl'
         style={{
           background:
-            'linear-gradient(90deg, #73a3ff 0%, #01B6D3 100%), linear-gradient(7deg, #7B2BCC 21.22%, #2296F3 88.72%)',
+            'radial-gradient(100% 100% at 50% 50%, rgb(183 204 236) 0%, rgba(8, 102, 255, 0.58) 100%), rgb(255 255 255/ 50%)',
         }}
       ></div>
       <div className='flex flex-1 flex-col overflow-hidden rounded-none transition-[background-opacity]  md:rounded-xl'>
