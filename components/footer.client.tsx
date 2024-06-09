@@ -33,7 +33,7 @@ export default function ClientFooter() {
             className='hidden h-auto w-32 dark:block'
           />
           <span className='my-2 block max-w-md text-balance text-center font-satoshi text-sm text-muted-foreground '>
-            {t('pax_footer_description')}
+            {t('pax_footer_description')}<br/>{t('pax_footer_description_second')}
           </span>
         </div>
         <div className='relative flex w-full items-center justify-center gap-4 md:w-2/3'>

@@ -360,7 +360,7 @@ export default async function ProfilePage({
             )}
             <Button
               variant='outline'
-              className='mt-3 w-full rounded-md !border-green-600 text-primary'
+              className='mt-3 w-full rounded-md !border-blue-600 text-primary'
               asChild
             >
               <Link href={`/home?mode=flow`}>
@@ -589,7 +589,7 @@ export default async function ProfilePage({
             <Link href={`/home?mode=flow`}>
               <Button
                 variant='outline'
-                className='mt-3 w-full rounded-md !border-green-600 text-primary'
+                className='mt-3 w-full rounded-md !border-blue-600 text-primary'
               >
                 <VscEye className='mr-2 size-5' />
                 {t('view_more_topics')}
