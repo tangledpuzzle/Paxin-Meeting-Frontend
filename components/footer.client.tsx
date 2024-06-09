@@ -16,7 +16,7 @@ export default function ClientFooter() {
     <></>
   ) : (
     <footer className='z-40 w-full bg-[#F5F5F5] px-8 py-4 dark:bg-black'>
-      <div className='flex w-full flex-col items-center justify-center gap-4 py-16 md:flex-row'>
+      <div className='flex w-full flex-col items-center justify-center gap-4 py-4 md:flex-row'>
         <div className='flex w-full flex-col items-center justify-center md:w-1/3'>
           <Image
             src='/text-logo-white.svg'
