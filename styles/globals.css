@@ -380,6 +380,20 @@ textarea {
   -webkit-text-fill-color: transparent;
 }
 
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  padding: 1px;
+  background: linear-gradient(90deg, #73a3ff 0%, #73a3ff 100%), linear-gradient(7deg, #73a3ff 21.22%, #73a3ff 88.72%);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
 .dark .border-gradient::before {
   content: '';
   position: absolute;
