@@ -472,7 +472,7 @@ export default async function FlowPage({
                 )}
               </div>
             </CardFooter>
-            <div className='flex flex-col gap-4 text-center'>
+            <div className='flex flex-col gap-4 text-center pb-4 pr-2 px-2'>
               <Button className='btn w-full !rounded-md' asChild>
                 <Link href={`/profiles/${blogDetails.author?.username}`}>
                   {t('visit_profile')}
