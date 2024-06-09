@@ -23,17 +23,17 @@ video {
 .bg-radial-gradient {
   background: radial-gradient(
       100% 100% at 50% 50%,
-      rgba(0, 184, 135, 0.75) 0%,
-      rgba(1, 182, 211, 0.58) 100%
+      rgba(8, 102, 255, 0.75) 0%,
+      rgba(8, 102, 255, 0.58) 100%
     ),
-    #00b887;
+    #73a3ff;
 }
 
 .bg-radial-gradient-2 {
   background: radial-gradient(
       100% 100% at 50% 50%,
-      rgba(0, 184, 135, 0.75) 0%,
-      rgba(1, 182, 211, 0.58) 100%
+      rgba(115, 163, 255, 0.75) 0%,
+      rgba(8, 102, 255, 0.58) 100%
     ),
     rgba(0, 0, 0, 0.5);
 }

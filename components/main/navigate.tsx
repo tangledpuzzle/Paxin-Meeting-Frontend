@@ -78,7 +78,7 @@ export default function NavigateSection() {
             className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
             style={{
               background:
-                'linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
+                'linear-gradient(45deg, #73a3ff 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
             }}
           ></div>
 
@@ -99,7 +99,7 @@ export default function NavigateSection() {
             className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
             style={{
               background:
-                'linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
+                'linear-gradient(45deg, #73a3ff 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
             }}
           ></div>
           {/* <Image
@@ -132,7 +132,7 @@ export default function NavigateSection() {
             className='absolute left-0 top-0 z-[-1] size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100'
             style={{
               background:
-                'linear-gradient(45deg, #00B887 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
+                'linear-gradient(45deg, #73a3ff 0%, #01B6D3 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 3.76%, rgba(228, 228, 228, 0.00) 30.22%), linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(220, 220, 220, 0.00) 63.35%), #F3F4F6',
             }}
           ></div>
           <div className='relative order-last mx-auto flex w-full max-w-sm justify-between p-4 sm:order-first'>
