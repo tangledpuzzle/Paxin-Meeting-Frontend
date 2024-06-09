@@ -253,7 +253,7 @@ export default async function FlowPage({
                 </div>
               </div>
               <div>
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2 overflow-hidden'>
                   <BiSolidCategory className='size-4' />
                   {t('category')}
                 </div>

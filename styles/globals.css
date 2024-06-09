@@ -1754,7 +1754,7 @@ textarea {
 
 .image-gallery-thumbnail.active,
 .image-gallery-thumbnail:focus {
-  border: 4px solid #019c78 !important;
+  border: 4px solid #73a3ff !important;
 }
 /* 
 .filtersButton {
@@ -1767,5 +1767,5 @@ textarea {
 } */
 
 .image-gallery-icon:hover {
-  color: #019c78 !important;
+  color: #73a3ff !important;
 }
