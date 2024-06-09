@@ -37,13 +37,13 @@ export default function ClientFooter() {
           </span>
         </div>
         <div className='relative flex w-full items-center justify-center gap-4 md:w-2/3'>
-          <Image
+          {/* <Image
             src='/images/footer/gradient.png'
             width={812}
             height={624}
             alt='hero'
             className='absolute z-[-1] mx-auto h-auto w-full max-w-3xl bg-transparent'
-          />
+          /> */}
           <Card className='w-full max-w-xl rounded-lg border-none bg-white shadow-sm dark:bg-[#17171A]/70'>
             <CardContent>
               <div className='grid grid-cols-1 md:grid-cols-3'>
