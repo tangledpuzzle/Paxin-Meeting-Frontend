@@ -370,7 +370,7 @@ export default async function FlowPage({
             />
           </div>
         </div>
-        <div className='mx-auto max-w-sm space-y-4'>
+        <div className='mx-auto w-full space-y-4'>
           <div className='hidden md:block'>
             <Card>
               <FlowImageGallery images={blogDetails?.gallery || []} />
