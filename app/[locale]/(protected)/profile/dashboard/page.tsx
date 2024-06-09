@@ -109,7 +109,7 @@ export default function DashboardPage() {
   const t = useTranslations('main');
   const { user } = useContext(PaxContext);
   return (
-    <div className='p-4'>
+    <div className='mb-[100px] p-4 md:mb-[0px]'>
       <CTASection
         title={t('dashboard')}
         description={t('dashboard_description')}
