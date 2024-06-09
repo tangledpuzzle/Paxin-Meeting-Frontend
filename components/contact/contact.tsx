@@ -280,7 +280,7 @@ export function ContactSection() {
         <div
           className='size-full h-[400px] md:h-screen'
           style={{
-            background: 'url(/images/contact/ct-glasses.jpg)',
+            background: 'url(/images/contact/ct-glasses.jpg) 0% 100%',
             backgroundSize: 'cover',
           }}
         ></div>
