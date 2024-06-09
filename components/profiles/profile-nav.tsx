@@ -18,6 +18,16 @@ export function ProfileNav({ items, setOpen, hideSidebar }: ProfileNavProps) {
   const t = useTranslations('main');
   const path = usePathname();
 
+  const stripLangPrefix = (url: string) => {
+    const langPrefixes = ['/ru/', '/es/', '/ka/']; 
+    for (const prefix of langPrefixes) {
+      if (url.startsWith(prefix)) {
+        return url.replace(prefix, '/');
+      }
+    }
+    return url; 
+  };
+
   if (!items?.length || hideSidebar === true) {
     return null;
   }
@@ -26,6 +36,10 @@ export function ProfileNav({ items, setOpen, hideSidebar }: ProfileNavProps) {
     <nav className='grid w-full grid-cols-4 items-start gap-2 py-2 sm:grid-cols-1'>
       {items.map((item, index) => {
         const Icon: React.ComponentType<any> | undefined = item.icon;
+
+        const normalizedPath = stripLangPrefix(path ?? ''); 
+        const normalizedHref = stripLangPrefix(item.href ?? '');
+
         return (
           item.href && (
             <Link
@@ -36,10 +50,11 @@ export function ProfileNav({ items, setOpen, hideSidebar }: ProfileNavProps) {
               }}
               target={item.external ? '_blank' : undefined}
             >
+              
               <span
                 className={cn(
                   'text-md group flex flex-col items-center rounded-md px-4 py-1 font-medium hover:bg-primary/15 sm:flex-row sm:py-3',
-                  path === item.href
+                  normalizedPath === normalizedHref
                     ? 'border border-primary bg-primary/10 text-primary'
                     : 'transparent',
                   item.disabled && 'cursor-not-allowed opacity-80'
