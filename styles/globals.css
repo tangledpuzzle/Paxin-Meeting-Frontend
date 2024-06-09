@@ -291,9 +291,9 @@
 }
 
 .btn:hover::after {
-  -webkit-box-shadow: 0 0 24px #01b6d3;
+  -webkit-box-shadow: 0 0 24px #73a3ff;
 
-  box-shadow: 0 0 24px #01b6d3;
+  box-shadow: 0 0 24px #73a3ff;
 }
 
 @keyframes glow {
