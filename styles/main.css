@@ -1221,7 +1221,7 @@ li:nth-of-type(12) { --index: 5; }
 }
 
 .cta:is(:hover, :focus-visible) {
-	outline-color: hsl(175 80% 50% / 0.65);
+	outline-color: hsl(219.43deg 100% 72.55%);
 	outline-offset: 0;
   outline-width: 2px;
 }
