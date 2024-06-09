@@ -288,16 +288,16 @@ class Line {
     });
     const profileImg = createElement({ class: ['profile-img', 'mb-2'] });
 
-    // profileImg.addEventListener('click', () => {
-    //   window.location.href = `https://www.myru.online/flows/${data.UniqId}/${data.Slug}`;
-    // });
+    profileImg.addEventListener('click', () => {
+      window.location.href = `https://www.myru.online/flows/${data.UniqId}/${data.Slug}`;
+    });
 
     const body = createElement({ class: 'body' });
     const name = createElement({ class: ['!w-[85%]', 'cursor-pointer'] });
 
-    // name.addEventListener('click', () => {
-    //   window.location.href = `https://www.myru.online/flows/${data.UniqId}/${data.Slug}`;
-    // });
+    name.addEventListener('click', () => {
+      window.location.href = `https://www.myru.online/flows/${data.UniqId}/${data.Slug}`;
+    });
 
     const img = createElement({ class: 'img' });
     const richBody = createElement({ class: 'rich-body' });
@@ -340,7 +340,7 @@ class Line {
         ],
       });
       //@ts-ignore
-      hashtagElement.textContent = '#' + hashtag.Hashtag; // Добавляем символ # перед текстом тега
+      hashtagElement.textContent = '#' + hashtag.Hashtag;
       flexContainer.appendChild(hashtagElement);
       line.appendChild(flexContainer);
     });
