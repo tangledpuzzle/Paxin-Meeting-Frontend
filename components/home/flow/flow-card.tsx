@@ -123,7 +123,7 @@ function FlowCard(profile: FlowCardProps) {
 
               <Badge
                 variant='default'
-                className='border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
+                className='border-none bg-gradient-to-r from-[#73a2ff] to-[#73a2ff] p-2 text-white'
               >
                 <Eye className='mr-2 size-4 text-white' />
                 {review.totalviews}
