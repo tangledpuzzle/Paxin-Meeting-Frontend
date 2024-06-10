@@ -120,7 +120,7 @@ function FlowCard({ productImages, roomId, title, publisher, cnt }: IRoom) {
             </Link>
             <Badge
               variant='default'
-              className='mt-0 border-none bg-gradient-to-r from-[#00B887] to-[#01B6D3] p-2 text-white'
+              className='mt-0 border-none bg-gradient-to-r from-[#73a2ff] to-[#73a2ff] p-2 text-white'
             >
               <Eye className='mr-2 size-4 text-white' />
               {cnt}
