@@ -75,7 +75,7 @@ export function MeetCreateModal({
               className='pl-12 pr-4'
             />
           </div>
-          <div className='flex items-center space-x-2'>
+          {/* <div className='flex items-center space-x-2'>
             <Checkbox
               id='terms'
               checked={isPrivate}
@@ -97,7 +97,7 @@ export function MeetCreateModal({
                 className='pl-12 pr-4'
               />
             </div>
-          )}
+          )} */}
         </div>
         <DialogFooter>
           <div className='mx-auto'>
