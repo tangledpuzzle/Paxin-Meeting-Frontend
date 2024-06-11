@@ -73,7 +73,7 @@ const processRequest = async (mode: MODE, roomInfo: any, userInfo: any) => {
     );
     isRoomActive = res.status;
     if (!isRoomActive) {
-      toast.error('There is no room with that ID!');
+      toast.error('Комната закрыта!');
     } else {
       flag = true;
     }
