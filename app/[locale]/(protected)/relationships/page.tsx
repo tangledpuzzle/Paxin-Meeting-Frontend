@@ -1,5 +1,6 @@
 'use client';
 
+// import { PaginationComponent } from '@/components/common/pagination';
 import BackButton from '@/components/home/back-button';
 import UserCard from '@/components/relationships/user-card';
 import UserCardSkeleton from '@/components/relationships/user-card-skeleton';
