@@ -6,11 +6,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Loader2, Lock } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import * as z from 'zod';
 import toast from 'react-hot-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -21,8 +23,10 @@ import {
 } from '@/components/ui/form';
 import axios from 'axios';
 
+
 export function ContactSection() {
   const t = useTranslations('main');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const formSchema = z
     .object({
@@ -79,6 +83,7 @@ export function ContactSection() {
     // toast.error(t('contact_us_fail'), {
     //   position: 'top-right',
     // });
+    setIsLoading(true);
 
     try {
       const res = await axios.post(`/api/contact`, {
@@ -90,15 +95,22 @@ export function ContactSection() {
       });
 
       if (res.status === 200) {
+        setIsLoading(false);
+        form.reset();
+
         toast.success(t('contact_us_success'), {
           position: 'top-right',
         });
       } else {
+        setIsLoading(false);
+
         toast.error(t('contact_us_fail'), {
           position: 'top-right',
         });
       }
     } catch (e) {
+      setIsLoading(false);
+
       toast.error(t('contact_us_fail'), {
         position: 'top-right',
       });
@@ -266,10 +278,14 @@ export function ContactSection() {
                 />
               </div>
               <Button
+                disabled={isLoading}
                 type='submit'
                 variant='default'
                 className='btn btn--wide w-full !rounded-md'
               >
+                  {isLoading && (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  )}
                 {t('send_message')}
               </Button>
             </form>
