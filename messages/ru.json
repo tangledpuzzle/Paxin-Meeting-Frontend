@@ -4,6 +4,9 @@
     "description": ""
   },
   "main": {
+    "exploreProfilesButton": "Исследовать профили",
+    "noFollowersMessage": "Пока нет подписчиков у вашего профиля",
+    "noFollowingsMessage": "Вы еще не подписались на профили других участников",
     "one_page": "Только 1 страница",
     "back_flow": "Назад",
     "next_flow": "Вперед",

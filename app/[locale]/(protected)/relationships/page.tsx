@@ -113,6 +113,10 @@ export default function Relationships() {
     }
   }, [fetchedData, user]);
 
+  const navigateToProfiles = () => {
+    router.push('/home?mode=profile');
+  };
+
   return (
     <div className='container mx-auto'>
       <BackButton callback={searchParams.get('callback') || ''} />
@@ -141,14 +145,32 @@ export default function Relationships() {
         </div>
 
         {!isFetchLoading && fetchedData ? (
-          followers.map((follower) => (
-            <UserCard
-              key={follower.user.id}
-              user={follower.user}
-              follow={follower.follow}
-              mutate={mutate}
-            />
-          ))
+          followers.length > 0 ? (
+            followers.map((follower) => (
+              <UserCard
+                key={follower.user.id}
+                user={follower.user}
+                follow={follower.follow}
+                mutate={mutate}
+              />
+            ))
+          ) : (
+            <div className='text-center text-gray-500'>
+              <p>
+                {currentTab === 'FOLLOWERS'
+                  ? t('noFollowersMessage')
+                  : t('noFollowingsMessage')}
+              </p>
+              {currentTab === 'FOLLOWINGS' && (
+                <button
+                  className='mt-4 px-4 py-2 bg-primary text-white rounded'
+                  onClick={navigateToProfiles}
+                >
+                  {t('exploreProfilesButton')}
+                </button>
+              )}
+            </div>
+          )
         ) : (
           <>
             <UserCardSkeleton />
@@ -164,7 +186,6 @@ export default function Relationships() {
           gotoPage={(page) => {
             const newSearchParams = new URLSearchParams(searchParams);
             newSearchParams.set('page', page.toString());
-
             router.push(`?${newSearchParams.toString()}`);
           }}
         /> */}

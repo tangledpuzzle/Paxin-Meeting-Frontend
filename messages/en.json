@@ -4,6 +4,9 @@
     "description": ""
   },
   "main": {
+    "exploreProfilesButton": "Explore Profiles",
+    "noFollowersMessage": "No followers yet",
+    "noFollowingsMessage": "No followings yet",
     "one_page": "Only 1 page",
     "back_flow": "Back",
     "next_flow": "Forward",
