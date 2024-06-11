@@ -964,7 +964,7 @@ export default function SettingPage() {
                         formats={formats}
                         value={additionalInfo}
                         onChange={(value: string) => setAdditionalInfo(value)}
-                        placeholder='Type your content here...'
+                        placeholder='Дополнительная информация о вашем профиле здесь...'
                         className='placeholder:text-white'
                       />
                     </div>
