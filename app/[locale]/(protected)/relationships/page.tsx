@@ -178,6 +178,17 @@ export default function Relationships() {
             <UserCardSkeleton />
           </>
         )}
+        {/* <PaginationComponent
+          currentPage={
+            searchParams.get('page') ? Number(searchParams.get('page')) : 1
+          }
+          maxPage={5}
+          gotoPage={(page) => {
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.set('page', page.toString());
+            router.push(`?${newSearchParams.toString()}`);
+          }}
+        /> */}
       </div>
     </div>
   );
