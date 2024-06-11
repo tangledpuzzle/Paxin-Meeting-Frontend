@@ -28,13 +28,20 @@ interface AvatarWithMenuProps {
 
 export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
   const t = useTranslations('main');
+
+
+  function deleteCookie(name:any, domain:any) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=" + domain + "; path=/";
+  }
+
+
   function handleSignOut() {
     fetch('/api/auth/logout', {
       method: 'POST',
     })
     .then((response) => {
       if (response.ok) {
-        document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+        deleteCookie('access_token', '.myru.online');
         signOut({ callbackUrl: '/' });
       } else {
         console.error('err:', response.statusText);
