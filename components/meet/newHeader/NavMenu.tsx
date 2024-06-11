@@ -38,10 +38,10 @@ export function MainNav({ id }: MainNavProps) {
         <div className='mx-auto flex flex-row content-center justify-start'>
           <p className='block pt-1 leading-8 md:hidden'>PAX Meeting ({id})</p>
           <p className='hidden pt-1 leading-8 md:block lg:hidden'>
-            PAX Meeting (Room ID: {id})
+            (ID: {id})
           </p>
           <p className='hidden pt-1 leading-8 lg:block'>
-            PAX - Real Time Meeting (Room ID: {id})
+            (ID: {id})
           </p>
           <CopyClipboard text={`https://www.myru.online/meet/${id}`}>
             <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
