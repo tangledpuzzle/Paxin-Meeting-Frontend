@@ -19,6 +19,8 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
 import { PaginationComponent } from '@/components/common/pagination';
+import { StreamingCreateModal } from '@/components/chat/streamingCreateModal';
+import { CiStreamOn } from "react-icons/ci";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -27,6 +29,8 @@ const pageSize = 10;
 export default function MyPostsPage() {
   const locale = useLocale();
   const t = useTranslations('main');
+  const tt = useTranslations('stream');
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const [maxPage, setMaxPage] = useState<number>(1);
@@ -215,6 +219,16 @@ export default function MyPostsPage() {
           }}
           loading={isArchiveLoading}
         />
+      </div>
+      <div className='bg-card-gradient-menu-on px-2 py-2'>
+        <StreamingCreateModal onCreate={() => {}} isLoading={false}>
+          <Button
+            className='w-full flex btn btn--wide !m-0 !rounded-md text-primary text-white'
+          ><CiStreamOn className='mr-2 mt-0' size={20}  />
+
+            {tt('start_stream')}
+          </Button>
+        </StreamingCreateModal>
       </div>
       {!error ? (
         fetchedData && blogs ? (
