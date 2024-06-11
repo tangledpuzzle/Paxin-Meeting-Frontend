@@ -32,7 +32,7 @@ export default function ResetPasswordPage({
   const t = useTranslations('main');
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isAccepted, setIsAccepted] = useState<boolean>(false);
+  const [isAccepted, setIsAccepted] = useState<boolean>(true);
 
   const formSchema = z.object({
     password: z.string().min(8, t('password_must_be_at_least_8_characters')),
