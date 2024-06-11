@@ -28,7 +28,21 @@ interface AvatarWithMenuProps {
 
 export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
   const t = useTranslations('main');
-
+  function handleSignOut() {
+    fetch('/api/auth/logout', {
+      method: 'POST',
+    })
+    .then((response) => {
+      if (response.ok) {
+        signOut({ callbackUrl: '/' });
+      } else {
+        console.error('err:', response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error('err:', error);
+    });
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -86,8 +100,8 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
         </DropdownMenuItem>
         <DropdownMenuItem
           className='cursor-pointer text-base'
-          onClick={() => signOut({ callbackUrl: '/' })}
-        >
+          onClick={handleSignOut}
+          >
           <FaSignOutAlt className='mr-2 size-5 text-primary' />
           {t('sign_out')}
         </DropdownMenuItem>

@@ -35,11 +35,6 @@ const authOptions: NextAuthOptions = {
               password: credentials.password,
               session: credentials.session,
             },
-            {
-              headers: {
-                session: credentials.session,
-              },
-            }
           );
 
           const data = response.data;
