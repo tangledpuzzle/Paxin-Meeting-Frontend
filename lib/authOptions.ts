@@ -33,6 +33,7 @@ const authOptions: NextAuthOptions = {
             {
               email: credentials.email,
               password: credentials.password,
+              session: credentials.session,
             },
             {
               headers: {
