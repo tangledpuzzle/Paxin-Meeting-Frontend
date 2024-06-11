@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -8,15 +8,28 @@ import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 
-export default function VerifyPage({ params }: { params: { slug: string } }) {
+export default function VerifyPage({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { autocheck?: boolean };
+}) {
   const t = useTranslations('main');
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isAccepted, setIsAccepted] = useState<boolean>(false);
+  const [isAccepted, setIsAccepted] = useState<boolean>(true);
+
+  useEffect(() => {
+    // Set the initial state based on the autocheck parameter
+    if (searchParams.autocheck) {
+      setIsAccepted(true);
+    }
+  }, [searchParams.autocheck]);
 
   const onVerify = async () => {
     if (!isAccepted) {
