@@ -43,6 +43,22 @@ export function MobileMenu({ user }: MobileMenuProps) {
   const router = useRouter();
   const { user: userData } = useContext(PaxContext);
 
+  function handleSignOut() {
+    fetch('/api/auth/logout', {
+      method: 'POST',
+    })
+    .then((response) => {
+      if (response.ok) {
+        signOut({ callbackUrl: '/' });
+      } else {
+        console.error('err:', response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error('err:', error);
+    });
+  }
+  
   return (
     <div className='block md:hidden'>
       <DropdownMenu>
@@ -119,8 +135,8 @@ export function MobileMenu({ user }: MobileMenuProps) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className='cursor-pointer text-base'
-                onClick={() => signOut({ callbackUrl: '/' })}
-              >
+                onClick={handleSignOut}
+                >
                 <FaSignOutAlt className='mr-2 size-5 text-primary' />
                 {t('sign_out')}
               </DropdownMenuItem>
