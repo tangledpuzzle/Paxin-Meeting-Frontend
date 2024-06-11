@@ -34,6 +34,7 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
     })
     .then((response) => {
       if (response.ok) {
+        document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
         signOut({ callbackUrl: '/' });
       } else {
         console.error('err:', response.statusText);
