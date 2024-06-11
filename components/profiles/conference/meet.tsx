@@ -30,7 +30,7 @@ export default memo(
             <div className='mb-48 mt-auto space-y-4'>
               <div>
                 <div className='w-full pt-8 text-center text-2xl font-semibold md:text-3xl'>
-                  {t('premium')} <span className='text-primary'>PaxMeet</span>{' '}
+                  {t('premium')} <span className='text-primary'></span>{' '}
                   {t('video_meeting')}
                 </div>
                 <div className='w-full text-center text-muted-foreground'>
