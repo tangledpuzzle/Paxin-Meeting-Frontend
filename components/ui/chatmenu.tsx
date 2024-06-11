@@ -48,7 +48,7 @@ const DropdownMenuDemo = ({
     const token = await createRoom(roomId, user.id, user.username);
 
     if (token) {
-      toast.success('New Room is created.', {
+      toast.success('Новая комната создана.', {
         position: 'top-right',
       });
 

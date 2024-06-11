@@ -56,7 +56,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
       if (token) {
         console.log('NEW TOKEN: ', token);
         await clearSession();
-        toast.success('New Room is created.');
+        toast.success('Новая комната создана.');
         setAccessToken(token);
         router.push(`/meet/${roomId}`);
       }
