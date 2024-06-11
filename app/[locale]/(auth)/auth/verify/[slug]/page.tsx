@@ -16,7 +16,7 @@ export default function VerifyPage({ params }: { params: { slug: string } }) {
   const t = useTranslations('main');
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isAccepted, setIsAccepted] = useState<boolean>(false);
+  const [isAccepted, setIsAccepted] = useState<boolean>(true);
 
   const onVerify = async () => {
     if (!isAccepted) {
