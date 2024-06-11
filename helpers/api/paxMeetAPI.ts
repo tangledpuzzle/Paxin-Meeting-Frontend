@@ -118,9 +118,9 @@ export const createRoom = async (
     creator: userId,
     empty_timeout: 60 * 60 * 2,
     metadata: {
-      room_title: 'Pax Real-Time Meeting',
+      room_title: 'Встреча в реальном времени',
       welcome_message:
-        'Welcome to PaxMeet!<br /> To share microphone click mic icon from bottom left side.',
+        'Добро пожаловать в конференцию!<br />.',
       //webhook_url: "http://example.com",
       //logout_url: "http://example.com",
       room_features: {
