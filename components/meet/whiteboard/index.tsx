@@ -535,7 +535,7 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
           viewModeEnabled={viewModeEnabled}
           isCollaborating={true}
           theme={theme}
-          name='PaxMeet Whiteboard'
+          name='Whiteboard'
           UIOptions={{
             canvasActions: {
               loadScene: false,

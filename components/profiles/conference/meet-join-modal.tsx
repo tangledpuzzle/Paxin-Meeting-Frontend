@@ -64,7 +64,7 @@ export function MeetJoinModal({
               className='hidden size-12 dark:block'
             />
             <span className='inline-block font-satoshi text-2xl font-bold text-primary sm:hidden lg:inline-block'>
-              PaxMeet {t('join')}
+              {t('join')}
             </span>
           </div>
         </DialogHeader>
