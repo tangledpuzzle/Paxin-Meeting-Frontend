@@ -112,7 +112,7 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
                   <span>{t('dialogs')}</span>
                 </div>
               </div>
-              <div
+              {/* <div
                 className='me-2 cursor-pointer'
                 onClick={() => setCurrentTab('SETTINGS')}
               >
@@ -121,7 +121,7 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
                 >
                   <span>{t('settings')}</span>
                 </div>
-              </div>
+              </div> */}
             </nav>
           </div>
         </div>
