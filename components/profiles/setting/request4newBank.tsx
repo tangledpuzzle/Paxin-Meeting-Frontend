@@ -49,7 +49,7 @@ export function NewInvoice({ openBankModal,  setOpenBankModal, requestType }: an
   });
 
   const [paymentURL, setPaymentURL] = useState<string | null>(null);
-  const { socketMessage } = useSocket('ru');
+
 
   const submitPayment = async (data: FormData) => {
     // setOpenModal(false);
@@ -78,16 +78,6 @@ export function NewInvoice({ openBankModal,  setOpenBankModal, requestType }: an
       setPaymentURL(null); 
     }
   }, [openBankModal]);
-
-  useEffect(() => {
-    if (socketMessage && socketMessage.command === 'BalanceAdded') {
-      setOpenBankModal(false);
-      toast.success('Баланс успешно пополнен!', {
-        position: 'top-right',
-      });
-    }
-  }, [socketMessage]);
-
 
   return (
     <Dialog open={openBankModal} onOpenChange={setOpenBankModal}>
