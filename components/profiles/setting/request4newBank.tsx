@@ -43,7 +43,9 @@ export function NewInvoice({ openBankModal,  setOpenBankModal, requestType }: an
         console.log(message)
         if (message.command === 'BalanceAdded') {
             setOpenBankModal(false)
-            alert('Balance has been added!');
+            toast.success('Баланс успешно засчислен', {
+                position: 'top-right',
+            });
         }
       };
     }
