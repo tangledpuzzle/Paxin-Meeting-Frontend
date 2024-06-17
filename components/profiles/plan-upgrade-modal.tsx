@@ -103,9 +103,9 @@ export function PlanUpgradeModal({ children }: PlanUpgradeModalProps) {
             <DialogTitle>{t('plans')}</DialogTitle>
             <div className='rounded-lg bg-primary/10 px-2 py-1 text-xs text-primary'>
               {t('available_to_you')}:{' '}
-              {user?.balance.toLocaleString('en-US', {
+              {user?.balance.toLocaleString('ru-RU', {
                 style: 'currency',
-                currency: 'USD',
+                currency: 'RUB',
                 maximumFractionDigits: 0,
               })}
             </div>

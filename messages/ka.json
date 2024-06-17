@@ -4,6 +4,12 @@
     "description": ""
   },
   "main": {
+    "balance": "ბალანსი",
+    "transactions": "ტრანსაქციები",
+    "transaction_description": "ტრანსაქციის აღწერა",
+    "amount": "თანხა",
+    "status": "სტატუსი",
+    "recharge_via_bank_card": "ბანკის ბარათით შევსება",
     "exploreProfilesButton": "პროფილების ძიება",
     "noFollowersMessage": "მოწონებები არ არის",
     "noFollowingsMessage": "გაცნობიერებული არ არის",  

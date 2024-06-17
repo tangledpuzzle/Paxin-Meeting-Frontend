@@ -42,6 +42,8 @@ import { GrUpdate } from 'react-icons/gr';
 import * as z from 'zod';
 import { SubscriptionCard } from '@/components/profiles/setting/subscription-card';
 import { NewPostModal } from '@/components/profiles/setting/request4new';
+import { NewInvoice } from '@/components/profiles/setting/request4newBank';
+
 import Loader from '@/components/ui/loader';
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
@@ -174,6 +176,8 @@ export default function SettingPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [openModal, setOpenModal] = useState(false);
+  const [openBankModal, setOpenBankModal] = useState(false);
+
   const [currentTab, setCurrentTab] = useState<string>('profile');
 
   const imageUploadRef = useRef<ImageUploadComponentType>(null);
@@ -230,6 +234,18 @@ export default function SettingPage() {
       : `/api/categories/get?lang=${locale}&limit=100`,
     fetcher
   );
+
+  const { data: fetchedTransaction, error: transactionFetchError } = useSWR(
+    `/api/profiles/balance/get`, 
+    fetcher        
+  );
+
+  // if (!fetchedTransaction && !transactionFetchError) return <div>Loading...</div>;
+
+  // if (transactionFetchError) return <div>Error loading</div>;
+
+
+
 
   const { data: fetchedHashtags, error: hashtagFetchError } = useSWR(
     hashtagURL,
@@ -531,6 +547,11 @@ export default function SettingPage() {
     setIsGalleryLoading(false);
   };
 
+  const submitBankRecharge = async () => {
+    setOpenBankModal(true);
+  };
+
+
   const submitRechargecode = async () => {
     setIsRechargeLoading(true);
 
@@ -543,13 +564,15 @@ export default function SettingPage() {
         toast.success(t('recharge_successfully'), {
           position: 'top-right',
         });
+        setRechargecode('');
+
       } else {
         toast.error(t('recharge_failed'), {
           position: 'top-right',
         });
       }
 
-      userMutate();
+      //balanceMutate();
     } catch (error) {
       toast.error(t('recharge_failed'), {
         position: 'top-right',
@@ -689,7 +712,7 @@ export default function SettingPage() {
                 {t('profile_settings')}
               </Link>
             </TabsTrigger>
-            {/* <TabsTrigger
+            <TabsTrigger
               value='accounting'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
               asChild
@@ -698,7 +721,7 @@ export default function SettingPage() {
                 <MdAccountBalanceWallet className='mr-2 size-4 min-w-4' />
                 {t('accounting')}
               </Link>
-            </TabsTrigger> */}
+            </TabsTrigger>
             <TabsTrigger
               value='telegram'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
@@ -987,7 +1010,7 @@ export default function SettingPage() {
             <TabsContent className='w-full' value='accounting'>
               <div className='px-3'>
                 <div className='text-2xl font-semibold'>{t('accounting')}</div>
-                <div className='mt-4 flex w-full max-w-lg items-center gap-4'>
+                <div className='mt-4 flex w-full  items-center gap-4'>
                   <Input
                     placeholder={t('enter_recharge_code')}
                     value={rechargecode}
@@ -1002,6 +1025,52 @@ export default function SettingPage() {
                     )}
                     {t('recharge_via_code')}
                   </Button>
+                  <Button
+                    onClick={submitBankRecharge}
+                    className='btn btn--wide !rounded-md'
+                  >
+                    {isRechargeLoading && (
+                      <Loader2 className='mr-2 size-4 animate-spin' />
+                    )}
+                    {t('recharge_via_bank_card')}
+                  </Button>
+                  <NewInvoice openBankModal={openBankModal} setOpenBankModal={setOpenBankModal} requestType="payment" />
+
+                </div>
+                <div>
+                <div className="container mx-auto mt-8">
+                <h1 className="text-2xl font-bold mb-4">{t('transactions')}</h1>
+                <div className="overflow-x-auto">
+                  <table className="responsive-table min-w-full shadow-sm">
+                    <thead>
+                      <tr className="bg-gray-100 dark:bg-black">
+                        <th className="py-2 px-4 border-b text-left">{t('transaction_description')}</th>
+                        <th className="py-2 px-4 border-b text-left">{t('amount')}</th>
+                        <th className="py-2 px-4 border-b text-right">{t('status')}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {fetchedTransaction && fetchedTransaction.data ? (
+                      fetchedTransaction.data.map((transaction: any) => (
+                        <tr key={transaction.ID} className="bg-gray-50 dark:bg-black">
+                          <td data-label="Transaction Description" className="py-2 px-4 border-b">
+                            {transaction.Description}
+                          </td>
+                          <td data-label="Amount" className="py-2 px-4 border-b">{transaction.Amount}</td>
+                          <td data-label="Status" className="py-2 px-4 border-b text-right">{transaction.Status}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={3} className="py-2 px-4 border-b">
+                          Loading...
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                  </table>
+                </div>
+                </div>
                 </div>
               </div>
             </TabsContent>

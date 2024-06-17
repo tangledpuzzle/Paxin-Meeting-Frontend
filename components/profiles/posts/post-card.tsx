@@ -221,7 +221,7 @@ export function PostCard({
           <CarouselNext className='right-3' />
         </Carousel>
         <div className='relative flex w-full flex-col md:h-72'>
-          <Link href={link} className='line-clamp-1 text-3xl font-bold'>
+          <Link href={link} className='line-clamp-2 max-w-screen-lg text-3xl font-bold'>
             {title}
           </Link>
           <div className='line-clamp-1 w-full text-sm text-muted-foreground md:w-[90%]'>

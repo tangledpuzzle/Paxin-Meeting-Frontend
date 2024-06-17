@@ -170,9 +170,9 @@ function FlowCard(profile: FlowCardProps) {
               href={{ query: { ...queries, money: price } }}
             >
               <PriceBadge>
-                {price.toLocaleString('en-US', {
+                {price.toLocaleString('ru-RU', {
                   style: 'currency',
-                  currency: 'USD',
+                  currency: 'RUB',
                   maximumFractionDigits: 0,
                 })}
               </PriceBadge>

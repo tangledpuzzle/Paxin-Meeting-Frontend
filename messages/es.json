@@ -4,6 +4,12 @@
     "description": ""
   },
   "main": {
+    "balance": "Balance",
+    "transactions": "Transacciones",
+    "transaction_description": "Descripción de la transacción",
+    "amount": "Cantidad",
+    "status": "Estado",
+    "recharge_via_bank_card": "Recargar a través de tarjeta bancaria",
     "exploreProfilesButton": "Explorar Perfiles",
     "noFollowersMessage": "Aún no tienes seguidores",
     "noFollowingsMessage": "Aún no sigues a nadie",  

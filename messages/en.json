@@ -4,6 +4,12 @@
     "description": ""
   },
   "main": {
+    "balance": "Balance",
+    "transactions": "Transactions",
+    "transaction_description": "Transaction description",
+    "amount": "Amount",
+    "status": "Status",
+    "recharge_via_bank_card": "Recharge via bank card",
     "exploreProfilesButton": "Explore Profiles",
     "noFollowersMessage": "No followers yet",
     "noFollowingsMessage": "No followings yet",

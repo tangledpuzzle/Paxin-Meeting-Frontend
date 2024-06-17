@@ -24,7 +24,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BiSolidCategory } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
-import { FaSackDollar } from 'react-icons/fa6';
+import { FaRubleSign } from 'react-icons/fa6';
+
 import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
@@ -278,7 +279,7 @@ export default async function FlowPage({
               {blogDetails.price !== 0 && (
                 <div>
                   <div className='flex items-center gap-2'>
-                    <FaSackDollar className='size-4' />
+                    <FaRubleSign className='size-4' />
                     {t('price')}
                   </div>
                   <div className='flex gap-2'>
@@ -291,9 +292,9 @@ export default async function FlowPage({
                         variant='outline'
                         className='max-w-full rounded-full bg-primary/10 px-4 text-primary hover:border-primary'
                       >
-                        {blogDetails.price?.toLocaleString('en-US', {
+                        {blogDetails.price?.toLocaleString('ru-RU', {
                           style: 'currency',
-                          currency: 'USD',
+                          currency: 'RUB',
                           maximumFractionDigits: 0,
                         })}
                       </Badge>
