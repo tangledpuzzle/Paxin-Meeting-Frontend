@@ -4,6 +4,12 @@
     "description": ""
   },
   "main": {
+    "balance": "Баланс",
+    "transactions": "Транзакции",
+    "transaction_description": "Описание транзакции",
+    "amount": "Сумма",
+    "status": "Статус",
+    "recharge_via_bank_card": "Пополнить через карту банка",
     "exploreProfilesButton": "Исследовать профили",
     "noFollowersMessage": "Пока нет подписчиков у вашего профиля",
     "noFollowingsMessage": "Вы еще не подписались на профили других участников",
