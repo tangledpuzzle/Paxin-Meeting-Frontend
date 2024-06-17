@@ -39,6 +39,7 @@ export function NewInvoice({ openBankModal,  setOpenBankModal, requestType }: an
     if (socket) {
       socket.onmessage = (event) => {
         const message = event.data;
+        console.log(message)
         if (message.command === 'BalanceAdded') {
             setOpenBankModal(false)
             alert('Balance has been added!');
