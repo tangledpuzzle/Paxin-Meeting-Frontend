@@ -39,13 +39,14 @@ export function NewInvoice({ openBankModal,  setOpenBankModal, requestType }: an
     if (socket) {
       socket.onmessage = (event) => {
         const message = event.data;
-        console.log('Received message from WebSocket:', message);
-        // Далее обработка полученного сообщения
+        if (message.command === 'BalanceAdded') {
+            setOpenBankModal(false)
+            alert('Balance has been added!');
+        }
       };
     }
   }, [socket]);
 
-  
   const formSchema = z.object({
     amount: z.preprocess((val) => Number(val), z.number().min(1, 'Amount must be at least 1')),
 });
