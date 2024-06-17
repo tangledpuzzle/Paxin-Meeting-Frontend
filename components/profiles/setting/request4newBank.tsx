@@ -28,6 +28,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { TfiWrite } from 'react-icons/tfi';
 import toast from 'react-hot-toast';
+import useSocket from '@/hooks/useSocket'; 
 
 export function NewInvoice({ openBankModal,  setOpenBankModal, requestType }: any) {
   const t = useTranslations('main');
@@ -48,7 +49,7 @@ export function NewInvoice({ openBankModal,  setOpenBankModal, requestType }: an
   });
 
   const [paymentURL, setPaymentURL] = useState<string | null>(null);
-
+  const { socketMessage } = useSocket('ru');
 
   const submitPayment = async (data: FormData) => {
     // setOpenModal(false);
@@ -77,6 +78,16 @@ export function NewInvoice({ openBankModal,  setOpenBankModal, requestType }: an
       setPaymentURL(null); 
     }
   }, [openBankModal]);
+
+  useEffect(() => {
+    if (socketMessage && socketMessage.command === 'BalanceAdded') {
+      setOpenBankModal(false);
+      toast.success('Баланс успешно пополнен!', {
+        position: 'top-right',
+      });
+    }
+  }, [socketMessage]);
+
 
   return (
     <Dialog open={openBankModal} onOpenChange={setOpenBankModal}>
