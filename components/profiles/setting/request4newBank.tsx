@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -29,27 +29,22 @@ import { useForm } from 'react-hook-form';
 import { TfiWrite } from 'react-icons/tfi';
 import toast from 'react-hot-toast';
 import { PaxContext } from '@/context/context';
-import { useContext } from 'react';
+
+interface NewInvoiceProps {
+    openBankModal: boolean;
+    setOpenBankModal: (open: boolean) => void;
+    requestType: string;
+  }
 
 export function NewInvoice({ openBankModal,  setOpenBankModal, requestType }: any) {
   const t = useTranslations('main');
-  const { socket } = useContext(PaxContext);
+  const { lastCommand } = useContext(PaxContext);
 
   useEffect(() => {
-    if (socket) {
-      socket.onmessage = (event) => {
-        // const message = event.data;
-        const message = JSON.parse(event.data);
-        console.log(message)
-        if (message.command === 'BalanceAdded') {
-            setOpenBankModal(false)
-            toast.success('Баланс успешно засчислен', {
-                position: 'top-right',
-            });
-        }
-      };
+    if (lastCommand === 'BalanceAdded') {
+      setOpenBankModal(false);
     }
-  }, [socket]);
+  }, [lastCommand, setOpenBankModal]);
 
   const formSchema = z.object({
     amount: z.preprocess((val) => Number(val), z.number().min(1, 'Amount must be at least 1')),
