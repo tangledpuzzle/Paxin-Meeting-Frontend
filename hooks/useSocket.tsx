@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
-const useSocket = (locale: string) => {
-  const [socketMessage, setSocketMessage] = useState<any>(null);
+const useSocket = (locale: string): { socket: WebSocket | null, socketMessage: any | null } => {
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [socketMessage, setSocketMessage] = useState<any | null>(null);
 
   useEffect(() => {
     const wsProtocol = 'wss:';
@@ -19,12 +20,8 @@ const useSocket = (locale: string) => {
     };
 
     newSocket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        setSocketMessage(data); // Сохраняем полученное сообщение в состояние
-      } catch (error) {
-        console.error('Failed to parse message', error);
-      }
+      const messageData = JSON.parse(event.data);
+      setSocketMessage(messageData);
     };
 
     const pingIntervalId = setInterval(() => {
@@ -37,13 +34,15 @@ const useSocket = (locale: string) => {
       }
     }, 50000);
 
+    setSocket(newSocket);
+
     return () => {
       clearInterval(pingIntervalId);
       newSocket.close();
     };
   }, [locale]);
 
-  return socketMessage; // Возвращаем только текущее сообщение
+  return { socket, socketMessage };
 };
 
 export default useSocket;
