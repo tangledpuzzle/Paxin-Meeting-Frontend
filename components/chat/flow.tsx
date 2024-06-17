@@ -82,7 +82,7 @@ const ChatComponent: React.FC = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.onmessage = (event) => {
+      socket.onmessage = (event: any) => {
         if (event.data) {
           const blob = new Blob([event.data], { type: 'text/plain' });
           const reader = new FileReader();
