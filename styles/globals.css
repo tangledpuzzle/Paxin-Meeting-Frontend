@@ -175,30 +175,33 @@
       display: none;
     }
     .responsive-table tbody tr {
-      display: block;
+      display: flex;
+      flex-direction: column;
       margin-bottom: 1rem;
       border: 1px solid #e2e8f0;
       border-radius: 0.5rem;
       padding: 1rem;
     }
     .responsive-table tbody tr td {
-      display: block;
-      text-align: left; /* Измените на left для удобного чтения */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: right;
       font-size: 1rem;
       padding: 0.5rem 0;
       position: relative;
-      padding-left: 120px; /* Достаточное пространство для `::before` элемента */
+      padding-left: 0; /* Убираем padding-left */
+      word-wrap: break-word; /* Перенос длинных слов */
+      word-break: break-word; /* Перенос при необходимости */
     }
     .responsive-table tbody tr td::before {
       content: attr(data-label);
-      position: absolute;
-      left: 1rem; /* Отступ для `::before` элемента */
-      top: 50%;
-      transform: translateY(-50%); /* Центрирование по вертикали */
+      flex: 0 0 120px; /* Устанавливаем фиксированную ширину */
       text-align: left;
       font-weight: bold;
       color: #718096;
-      white-space: nowrap; /* Чтобы текст `::before` не переносился */
+      white-space: nowrap;
+      margin-right: 10px; /* Добавляем отступ справа для разделения */
     }
   }
 
