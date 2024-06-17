@@ -38,7 +38,8 @@ export function NewInvoice({ openBankModal,  setOpenBankModal, requestType }: an
   useEffect(() => {
     if (socket) {
       socket.onmessage = (event) => {
-        const message = event.data;
+        // const message = event.data;
+        const message = JSON.parse(event.data);
         console.log(message)
         if (message.command === 'BalanceAdded') {
             setOpenBankModal(false)
