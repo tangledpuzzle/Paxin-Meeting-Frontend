@@ -36,7 +36,7 @@ import { RxCopy } from 'react-icons/rx';
 import 'react-quill/dist/quill.snow.css';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import useSWR from 'swr';
+import useSWR, {mutate} from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
 import { GrUpdate } from 'react-icons/gr';
 import * as z from 'zod';
@@ -551,6 +551,11 @@ export default function SettingPage() {
     setOpenBankModal(true);
   };
 
+  useEffect(() => {
+    if(openBankModal === false) {
+      mutate(`/api/profiles/balance/get`);
+    }
+  }, [openBankModal])
 
   const submitRechargecode = async () => {
     setIsRechargeLoading(true);
