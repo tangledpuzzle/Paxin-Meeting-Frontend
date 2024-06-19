@@ -103,7 +103,6 @@ async function getData(locale: string, id: string, slug: string) {
     if (voteData.status !== 'success') {
       throw new Error('Failed to fetch data');
     }
-    console.log()
 
     const blog = {
       id: blogData.data[0].id,
@@ -223,19 +222,19 @@ export default async function FlowPage({
           {blogDetails?.title} 
         </div>
         <div className='my-4'>
-        {blogDetails?.streaming?.length > 0 ? (
-          <Link href={`/stream/${blogDetails.streaming}`} className='stream-item'>
-          <div className='flex items-center justify-start rounded-md bg-red-500 px-2 text-white'>
-            <CiStreamOn className='mr-2' />
-            <span>В эфире</span>
-          </div>
-        </Link>
-      ) : (
-        <div className='flex items-center justify-start rounded-md bg-black/50 px-2 text-white'>
-          <CiStreamOff className='mr-2' />
-          <span>Вне эфира</span>
-        </div>
-      )}
+          {blogDetails?.streaming?.length > 0 ? (
+            <Link href={`/stream/${blogDetails.streaming}`} className='stream-item'>
+              <div className='flex items-center justify-start rounded-md bg-red-500 px-2 text-white'>
+                <CiStreamOn className='mr-2' />
+                <span>В эфире</span>
+              </div>
+           </Link>
+          ) : (
+            <div className='flex items-center justify-start rounded-md bg-black/50 px-2 text-white'>
+              <CiStreamOff className='mr-2' />
+              <span>Вне эфира</span>
+            </div>
+          )}
         </div>
         <div className='mb-4 text-sm text-muted-foreground'>
           {blogDetails?.description}
