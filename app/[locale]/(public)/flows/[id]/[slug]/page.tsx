@@ -29,11 +29,14 @@ import { FaRubleSign } from 'react-icons/fa6';
 import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
+import { CiStreamOn } from "react-icons/ci";
+import { CiStreamOff } from "react-icons/ci";
 
 interface BlogDetails {
   id: number;
   title: string;
   description: string;
+  streaming: string[];
   content: string;
   review: {
     views: number;
@@ -86,7 +89,6 @@ async function getData(locale: string, id: string, slug: string) {
 
     const blogData = await res.json();
 
-    console.log(blogData.data[0].user, '++++');
 
     const voteRes = await fetch(
       `${process.env.API_URL}/api/blog/allvotes/${blogData.data[0].id}`
@@ -104,6 +106,7 @@ async function getData(locale: string, id: string, slug: string) {
 
     const blog = {
       id: blogData.data[0].id,
+      streaming: blogData?.data[0]?.userProfile?.streaming?.[0]?.RoomID || null,
       title:
         blogData.data[0].multilangtitle[
           locale.charAt(0).toUpperCase() + locale.slice(1)
@@ -216,7 +219,22 @@ export default async function FlowPage({
       {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='font-satoshi'>
         <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
-          {blogDetails?.title}
+          {blogDetails?.title} 
+        </div>
+        <div className='my-4'>
+          {blogDetails?.streaming?.length > 0 ? (
+            <Link href={`/stream/${blogDetails.streaming}`} className='stream-item'>
+              <div className='flex items-center justify-start rounded-md bg-red-500 px-2 text-white'>
+                <CiStreamOn className='mr-2' />
+                <span>В эфире</span>
+              </div>
+           </Link>
+          ) : (
+            <div className='flex items-center justify-start rounded-md bg-black/50 px-2 text-white'>
+              <CiStreamOff className='mr-2' />
+              <span>Вне эфира</span>
+            </div>
+          )}
         </div>
         <div className='mb-4 text-sm text-muted-foreground'>
           {blogDetails?.description}
@@ -235,7 +253,7 @@ export default async function FlowPage({
                   <MdOutlineHouseSiding className='size-5' />
                   {t('city')}
                 </div>
-                <div className='flex gap-2'>
+                <div className='flex gap-2' style={{ overflowWrap: 'anywhere' }}>
                   {blogDetails.cities &&
                     blogDetails.cities.map((city: string) => (
                       <Link
@@ -258,7 +276,7 @@ export default async function FlowPage({
                   <BiSolidCategory className='size-4' />
                   {t('category')}
                 </div>
-                <div className='flex gap-2'>
+                <div className='flex gap-2' style={{ overflowWrap: 'anywhere' }}>
                   {blogDetails.categories &&
                     blogDetails.categories.map((category: string) => (
                       <Link
@@ -391,7 +409,7 @@ export default async function FlowPage({
               <ComplainModal>
                 <Button
                   variant='outline'
-                  className='w-full !border-primary text-primary'
+                  className='w-full !border-primary dark:text-primary text-white'
                 >
                   <IoFlagOutline className='mr-2 size-4' />
                   {t('complain')}
