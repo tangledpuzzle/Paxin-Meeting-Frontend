@@ -22,6 +22,7 @@ interface ProfileData {
   tags: string[];
   cities: string[];
   categories: string[];
+  streaming : string[];
   qrcode: string;
   countrycode: string;
   totalfollowers: number;
@@ -58,6 +59,7 @@ export default function ProfileSection() {
 
   const { data: fetchedData, isLoading, error } = useSWR(fetchURL, fetcher);
 
+  
   useEffect(() => {
     const _title = searchParams.get('title') || 'all';
     const _city = searchParams.get('city') || 'all';
@@ -89,10 +91,10 @@ export default function ProfileSection() {
     }
   }, [searchParams, maxPage]);
 
+  
   useEffect(() => {
     if (!error && fetchedData) {
       setProfileData(fetchedData.data);
-
       setMaxPage(Math.ceil(fetchedData.meta.total / pageSize));
     }
   }, [fetchedData, error]);
