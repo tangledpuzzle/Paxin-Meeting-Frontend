@@ -220,7 +220,7 @@ export default function MyPostsPage() {
           loading={isArchiveLoading}
         />
       </div>
-      <div className='bg-card-gradient-menu-on px-2 py-2'>
+      <div className='px-2 py-4'>
         <StreamingCreateModal onCreate={() => {}} isLoading={false}>
           <Button
             className='w-full flex btn btn--wide !m-0 !rounded-md text-primary text-white'

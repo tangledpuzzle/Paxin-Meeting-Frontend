@@ -28,7 +28,7 @@ function CityCard({ cities }: CityCardProps) {
         <span className='pl-1'>{t('city')}</span>
       </div>
       <div className='mb-0 h-[1.5px] w-2/3 rounded-lg bg-gradient-to-r from-muted-foreground to-transparent'></div>
-      <div className='flex w-full flex-wrap gap-1'>
+      <div className='flex w-full flex-wrap gap-1 md:text-md xl:text-base text-xs'>
         {cities.map((city, i) => (
           <Link
             href={{ query: { ...queries, city, page: 1 } }}
