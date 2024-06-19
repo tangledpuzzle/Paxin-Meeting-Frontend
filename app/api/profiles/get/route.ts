@@ -37,6 +37,14 @@ export async function GET(req: NextRequest) {
           monthtime: item.User.OnlineHours[0],
           totalposts: item.User.TotalBlogs,
         },
+        streaming: item.streaming?.length > 0
+        ? item.streaming?.map((stream: any) => ({
+            roomID: stream.RoomID,
+            title: stream.Title,
+            userID: stream.UserID,
+            createdAt: stream.CreatedAt,
+          }))
+        : [],
       };
     });
 

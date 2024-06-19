@@ -40,7 +40,12 @@ import MessageForm from '@/components/home/messsage-form';
 import getRoomId from '@/lib/server/chat/getRoomId';
 import { IoLanguage } from 'react-icons/io5';
 import CallModal from '@/components/common/call-modal';
+import { CiStreamOff } from "react-icons/ci";
+import { CiStreamOn } from "react-icons/ci";
+
+
 interface ProfileDetails {
+  streaming: string[];
   id: string;
   username: string;
   bio: string;
@@ -101,6 +106,8 @@ async function getData(locale: string, username: string) {
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
+
+
 
     const data = await res.json();
 
@@ -186,7 +193,17 @@ async function getData(locale: string, username: string) {
         : false,
       me: session?.user?.id === data.data.ID,
       bot: data.data.IsBot,
+      streaming: data?.data?.Profile?.[0]?.streaming?.length > 0
+      ? data.data.Profile[0].streaming.map((stream: any) => ({
+          roomID: stream.RoomID,
+          title: stream.Title,
+          userID: stream.UserID,
+          createdAt: stream.CreatedAt,
+        }))
+      : [],
     };
+
+
 
     return profile;
   } catch (error) {
@@ -219,7 +236,7 @@ export default async function ProfilePage({
   const t = await getTranslations('main');
 
   const profileDetails = await getData(params.locale, params.username);
-  console.log('profileid', profileDetails?.id)
+  // console.log('profileid', profileDetails)
 
   const breadcrumbs = [
     {
@@ -384,7 +401,7 @@ export default async function ProfilePage({
                     }}
                   /> */}
                   <div className='relative'>
-                    <div
+                    {/* <div
                       className={` right-0 top-[0.2rem] mr-0 rounded-md bg-cover bg-center bg-no-repeat`}
                       style={{
                         backgroundImage: `url('/images/${profileDetails.country}.svg')`,
@@ -396,7 +413,25 @@ export default async function ProfilePage({
                           {profileDetails.country}
                         </span>
                       </div>
+                    </div> */}
+
+                  {profileDetails.streaming && profileDetails.streaming.length > 0 ? (
+                    <div className='streaming-list'>
+                      {profileDetails.streaming.map((stream: any, index: any) => (
+                          <Link href={`/stream/${stream.roomID}`} key={index} className='stream-item'>
+                            <div className='flex items-center justify-end rounded-md bg-red-500 px-2 text-white'>
+                              <CiStreamOn className='mr-2' />
+                              <span>В эфире</span>
+                            </div>
+                        </Link>
+                      ))}
                     </div>
+                  ) : (
+                    <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
+                      <CiStreamOff className='mr-2' />
+                      <span className=''>Вне эфира</span>
+                    </div>
+                  )}
                   </div>
                 </div>
                 <div className='pb-2 text-sm text-muted-foreground'>
