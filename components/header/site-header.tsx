@@ -9,11 +9,24 @@ async function getData(locale: string) {
   const session = await getServerSession(authOptions);
   
   let accessToken = session?.accessToken;
+  // If session is undefined, check cookies for access_token
   if (!accessToken) {
-    const cookies = headers().get('cookie') || '';
+    console.log('Session accessToken not found, checking cookies...');
+    const headersList = headers();
+    const cookies = headersList.get('cookie') || '';
+    console.log('Cookies from headers:', cookies);
     const parsedCookies = cookie.parse(cookies);
     accessToken = parsedCookies.access_token;
+    console.log('Access token from cookies:', accessToken);
+  } else {
+    console.log('Access token from session:', accessToken);
   }
+
+  if (!accessToken) {
+    console.error('No access token found in session or cookies');
+    return null;
+  }
+
 
   try {
     const res = await fetch(
