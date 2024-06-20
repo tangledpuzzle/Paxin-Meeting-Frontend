@@ -119,6 +119,7 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
+    "@types/cookie": "0.6.0",
     "@types/crypto-js": "4.2.2",
     "@types/dompurify": "3.0.5",
     "@types/emscripten": "1.39.10",
