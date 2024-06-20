@@ -3,16 +3,24 @@ import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { useLocale, useTranslations } from 'next-intl';
 import ClientHeader from './client.header';
+import cookie from 'cookie'; 
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
+  
+  let accessToken = session?.accessToken;
+  if (!accessToken) {
+    const cookies = headers().get('cookie') || '';
+    const parsedCookies = cookie.parse(cookies);
+    accessToken = parsedCookies.access_token;
+  }
 
   try {
     const res = await fetch(
       `${process.env.API_URL}/api/users/me?language=${locale}`,
       {
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
