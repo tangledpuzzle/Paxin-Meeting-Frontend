@@ -3,16 +3,25 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 import AutoJoinConference from '@/components/profiles/conference/public-meet-auto-join';
 import authOptions from '@/lib/authOptions';
 import { generateRandomString, hashTimestamp } from '@/lib/utils';
+import { headers } from 'next/headers';
+import cookie from 'cookie'; 
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
+  let accessToken = session?.accessToken;
+  if (!accessToken) {
+    const cookies = headers().get('cookie') || '';
+    const parsedCookies = cookie.parse(cookies);
+    accessToken = parsedCookies.access_token;
+  }
+
 
   try {
     const res = await fetch(
       `${process.env.API_URL}/api/users/me?language=${locale}`,
       {
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );

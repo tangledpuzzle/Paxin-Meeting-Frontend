@@ -3,6 +3,8 @@ import HostChannel from '@/components/stream/host-channel';
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { useLocale } from 'next-intl';
+import { headers } from 'next/headers';
+import cookie from 'cookie'; 
 
 export function generateMetadata({ params: { slug } }: PageProps) {
   return {
@@ -18,12 +20,19 @@ interface PageProps {
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
 
+  let accessToken = session?.accessToken;
+  if (!accessToken) {
+    const cookies = headers().get('cookie') || '';
+    const parsedCookies = cookie.parse(cookies);
+    accessToken = parsedCookies.access_token;
+  }
+
   try {
     const res = await fetch(
       `${process.env.API_URL}/api/users/me?language=${locale}`,
       {
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
@@ -39,13 +48,19 @@ async function getData(locale: string) {
 }
 async function getTradingData(roomId: string) {
   const session = await getServerSession(authOptions);
+  let accessToken = session?.accessToken;
+  if (!accessToken) {
+    const cookies = headers().get('cookie') || '';
+    const parsedCookies = cookie.parse(cookies);
+    accessToken = parsedCookies.access_token;
+  }
 
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_PAXTRADE_API_URL}room/get/${roomId}`,
       {
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );

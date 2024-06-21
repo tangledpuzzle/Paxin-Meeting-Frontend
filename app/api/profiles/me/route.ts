@@ -1,14 +1,24 @@
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '@/lib/authOptions';
+import { headers } from 'next/headers';
+import cookie from 'cookie';
 
 export async function GET(req: NextRequest) {
   const locale = req.nextUrl.searchParams.get('language') || 'en';
 
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  let accessToken = session?.accessToken;
+  if (!accessToken) {
+    const cookies = headers().get('cookie') || '';
+    const parsedCookies = cookie.parse(cookies);
+    accessToken = parsedCookies.access_token;
+  }
+  
+  if (!accessToken) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -16,7 +26,7 @@ export async function GET(req: NextRequest) {
       `${process.env.API_URL}/api/profile/get?language=${locale}`,
       {
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );

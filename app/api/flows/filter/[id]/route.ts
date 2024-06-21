@@ -1,21 +1,32 @@
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '@/lib/authOptions';
+import { headers } from 'next/headers';
+import cookie from 'cookie'; 
 
 export async function DELETE(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    let accessToken = session?.accessToken;
+    if (!accessToken) {
+      const cookies = headers().get('cookie') || '';
+      const parsedCookies = cookie.parse(cookies);
+      accessToken = parsedCookies.access_token;
     }
+    
+    if (!accessToken) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    
     const id = req.nextUrl.pathname.split('/').pop();
     const res = await fetch(
       `${process.env.API_URL}/api/presavedfilter/delete/${id}`,
       {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
       }
@@ -38,9 +49,17 @@ export async function PATCH(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    let accessToken = session?.accessToken;
+    if (!accessToken) {
+      const cookies = headers().get('cookie') || '';
+      const parsedCookies = cookie.parse(cookies);
+      accessToken = parsedCookies.access_token;
     }
+    
+    if (!accessToken) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { data } = await req.json();
     const id = req.nextUrl.pathname.split('/').pop();
     const res = await fetch(
@@ -48,7 +67,7 @@ export async function PATCH(req: NextRequest) {
       {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),

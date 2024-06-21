@@ -1,14 +1,24 @@
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '@/lib/authOptions';
+import { headers } from 'next/headers';
+import cookie from 'cookie';
 
 export async function POST(req: NextRequest) {
   try {
     const mode = req.nextUrl.searchParams.get('mode');
     const session = await getServerSession(authOptions);
 
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    let accessToken = session?.accessToken;
+    if (!accessToken) {
+      const cookies = headers().get('cookie') || '';
+      const parsedCookies = cookie.parse(cookies);
+      accessToken = parsedCookies.access_token;
+    }
+    
+    if (!accessToken) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const requestBody = await req.json();
@@ -20,7 +30,7 @@ export async function POST(req: NextRequest) {
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestBody),

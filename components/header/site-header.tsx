@@ -1,8 +1,8 @@
-import { headers } from 'next/headers';
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { useLocale, useTranslations } from 'next-intl';
 import ClientHeader from './client.header';
+import { headers } from 'next/headers';
 import cookie from 'cookie'; 
 
 async function getData(locale: string) {

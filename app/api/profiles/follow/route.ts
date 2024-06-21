@@ -1,11 +1,27 @@
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
+import { headers } from 'next/headers';
+import cookie from 'cookie'; 
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
+  const headersList = headers();
+  const cookiesHeader = headersList.get('cookie');
+  const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
+  const userIdCookie = cookiesParsed['UserID'];
+
+  const userId = session?.user?.id || userIdCookie || null;
+
+  let accessToken = session?.accessToken;
+  if (!accessToken) {
+    const cookies = headers().get('cookie') || '';
+    const parsedCookies = cookie.parse(cookies);
+    accessToken = parsedCookies.access_token;
+  }
+
+  if (!accessToken) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -16,12 +32,12 @@ export async function POST(req: NextRequest) {
       const res = await fetch(`${process.env.API_URL}/api/followers/scribe/`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           FollowerID: followerID,
-          UserID: session.user?.id,
+          UserID: userId,
         }),
       });
 
@@ -36,12 +52,12 @@ export async function POST(req: NextRequest) {
         {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${session?.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             FollowerID: followerID,
-            UserID: session.user?.id,
+            UserID: userId,
           }),
         }
       );

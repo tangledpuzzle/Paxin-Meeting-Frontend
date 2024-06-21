@@ -1,11 +1,20 @@
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
+import { headers } from 'next/headers';
+import cookie from 'cookie';
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
-  const username = req.nextUrl.pathname.split('/').pop();
 
+  const headersList = headers();
+  const cookiesHeader = headersList.get('cookie');
+  const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
+  const userIdCookie = cookiesParsed['UserID'];
+
+  const userId = session?.user?.id || userIdCookie || null;
+
+  const username = req.nextUrl.pathname.split('/').pop();
   const locale = req.nextUrl.searchParams.get('language') || 'en';
 
   try {
@@ -78,12 +87,12 @@ export async function GET(req: NextRequest) {
         ],
       telegram: data.data.TelegramActivated ? data.data.TelegramName : '',
       qrcode: data.data.Name,
-      follow: session
+      follow: userId
         ? data.data.Followings.filter(
-            (item: any) => item.ID === session?.user?.id
+            (item: any) => item.ID === userId
           )?.length > 0
         : false,
-      me: session?.user?.id === data.data.ID,
+      me: userId === data.data.ID,
     };
 
     return NextResponse.json(profile);
