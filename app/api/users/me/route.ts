@@ -22,14 +22,14 @@ export async function GET(req: NextRequest) {
   }
 
 
-  cookies().set('access_token', accessToken || '', {
-    path: '/',
-    maxAge: 60 * 60 * 24 * 30,
-    domain:
-      process.env.NODE_ENV === 'production' ? '.myru.online' : 'localhost',
-    httpOnly: false,
-    secure: process.env.NODE_ENV === 'production',
-  });
+  // cookies().set('access_token', accessToken || '', {
+  //   path: '/',
+  //   maxAge: 60 * 60 * 24 * 30,
+  //   domain:
+  //     process.env.NODE_ENV === 'production' ? '.myru.online' : 'localhost',
+  //   httpOnly: false,
+  //   secure: process.env.NODE_ENV === 'production',
+  // });
 
   try {
     const res = await fetch(

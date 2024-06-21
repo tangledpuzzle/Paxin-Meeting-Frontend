@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-// import { cookies } from 'next/headers';
+import { cookies } from 'next/headers';
 
 const authOptions: NextAuthOptions = {
   debug: true,
@@ -38,8 +38,17 @@ const authOptions: NextAuthOptions = {
           );
 
           const data = response.data;
-          console.log(data.refresh_token.token)
           if (data.status === 'success') {
+
+            cookies().set('access_token', data.access_token || '', {
+                path: '/',
+                maxAge: 60 * 60 * 24 * 30,
+                domain:
+                  process.env.NODE_ENV === 'production' ? '.myru.online' : 'localhost',
+                httpOnly: false,
+                secure: process.env.NODE_ENV === 'production',
+            });
+
             return {
               id: data.refresh_token.UserID,
               name: '',
