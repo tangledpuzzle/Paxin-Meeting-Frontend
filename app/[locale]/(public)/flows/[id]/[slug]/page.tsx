@@ -1,3 +1,5 @@
+import { headers } from 'next/headers';
+import cookie from 'cookie';
 import { ComplainModal } from '@/components/common/complain-modal';
 import { CopyButton } from '@/components/common/copy-button';
 import { ReportModal } from '@/components/common/report-modal';
@@ -25,12 +27,10 @@ import Link from 'next/link';
 import { BiSolidCategory } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
 import { FaRubleSign } from 'react-icons/fa6';
-
 import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
 import { MdOutlineHouseSiding } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
-import { CiStreamOn } from "react-icons/ci";
-import { CiStreamOff } from "react-icons/ci";
+import { CiStreamOn, CiStreamOff } from 'react-icons/ci';
 
 interface BlogDetails {
   id: number;
@@ -70,9 +70,7 @@ interface FlowPageProps {
   searchParams: { [key: string]: string | undefined | null };
 }
 
-async function getData(locale: string, id: string, slug: string) {
-  const session = await getServerSession(authOptions);
-
+async function getData(locale: string, id: string, slug: string, userId: string | null) {
   try {
     const res = await fetch(
       `${process.env.API_URL}/api/blog/${slug}?language=${locale}`,
@@ -88,7 +86,6 @@ async function getData(locale: string, id: string, slug: string) {
     }
 
     const blogData = await res.json();
-
 
     const voteRes = await fetch(
       `${process.env.API_URL}/api/blog/allvotes/${blogData.data[0].id}`
@@ -126,10 +123,10 @@ async function getData(locale: string, id: string, slug: string) {
           voteData.votes.filter((item: any) => !item?.IsUP).length || 0,
       },
       vote: voteData.votes.find(
-        (item: any) => item?.UserID === session?.user?.id
+        (item: any) => item?.UserID === userId
       )?.IsUP
         ? 1
-        : voteData.votes.find((item: any) => item?.UserID === session?.user?.id)
+        : voteData.votes.find((item: any) => item?.UserID === userId)
               ?.IsUP === false
           ? -1
           : 0,
@@ -159,7 +156,7 @@ async function getData(locale: string, id: string, slug: string) {
       ),
       cities: blogData.data[0].city.map((city: any) => city.name),
       countrycode: blogData.data[0].lang,
-      me: session?.user?.id === blogData.data[0].user.userID,
+      me: userId === blogData.data[0].user.userID,
     };
 
     return blog;
@@ -171,10 +168,18 @@ async function getData(locale: string, id: string, slug: string) {
 export async function generateMetadata({
   params,
 }: FlowPageProps): Promise<Metadata> {
+  const headersList = headers();
+  const cookiesHeader = headersList.get('cookie');
+  const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
+  const userIdCookie = cookiesParsed['UserID'];
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id || userIdCookie || null;
+
   const blogDetails: BlogDetails | null = await getData(
     params.locale,
     params.id,
-    params.slug
+    params.slug,
+    userId
   );
 
   return {
@@ -192,17 +197,20 @@ export async function generateMetadata({
 export default async function FlowPage({
   params,
   searchParams,
-}: {
-  params: { id: string; slug: string; locale: string };
-  searchParams: { [key: string]: string | undefined | null };
-}) {
+}: FlowPageProps) {
   const t = await getTranslations('main');
+  const headersList = headers();
+  const cookiesHeader = headersList.get('cookie');
+  const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
+  const userIdCookie = cookiesParsed['UserID'];
   const session = await getServerSession(authOptions);
+  const userId = session?.user?.id || userIdCookie || null;
 
   const blogDetails: BlogDetails | null = await getData(
     params.locale,
     params.id,
-    params.slug
+    params.slug,
+    userId
   );
 
   const roomId = await getRoomId(blogDetails?.author?.userId || '');
@@ -211,15 +219,10 @@ export default async function FlowPage({
     <section className='container px-4 py-4 md:px-8'>
       <div className='flex justify-between'>
         <BackButton callback={searchParams['callback']} />
-        {/* <span className='flex items-center justify-center px-0 uppercase'>
-          <IoLanguage className='h-[32px] w-[32px] px-2' />
-          {blogDetails?.countrycode}
-        </span> */}
       </div>
-      {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='font-satoshi'>
         <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
-          {blogDetails?.title} 
+          {blogDetails?.title}
         </div>
         <div className='my-4'>
           {blogDetails?.streaming?.length > 0 ? (
@@ -228,7 +231,7 @@ export default async function FlowPage({
                 <CiStreamOn className='mr-2' />
                 <span>В эфире</span>
               </div>
-           </Link>
+            </Link>
           ) : (
             <div className='flex items-center justify-start rounded-md bg-black/50 px-2 text-white'>
               <CiStreamOff className='mr-2' />
@@ -240,9 +243,6 @@ export default async function FlowPage({
           {blogDetails?.description}
         </div>
       </div>
-      {/* <div className='my-4 max-w-[390px]'>
-        <TagSlider tags={blogDetails?.hashtags || []} mode='flow' />
-      </div> */}
 
       <div className='my-4 grid gap-4 md:grid-cols-3 xl:grid-cols-3'>
         <div className='md:col-span-2 xl:col-span-2'>
@@ -335,45 +335,6 @@ export default async function FlowPage({
                 </div>
               </div>
             </div>
-            {/* <CardContent className='px-6 pt-4 font-satoshi'>
-              <div className='flex flex-col items-center'>
-                <UpvoteCard
-                  id={blogDetails.id}
-                  vote={blogDetails.vote}
-                  upvotes={blogDetails.review?.upvotes}
-                  downvotes={blogDetails.review?.downvotes}
-                  me={blogDetails.me}
-                />
-                <div className='text-xl font-semibold'>{t('scan_code')}</div>
-                <div className='text-center text-sm'>
-                  {t('scan_code_description')}
-                </div>
-                <QRCode
-                  value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
-                  className='mt-4 w-[200px]'
-                />
-         
-              </div>
-              <div className='relative my-2 flex w-full justify-center'>
-                <div className='absolute top-[50%] z-[-1] h-[2px] w-full rounded-full bg-muted'></div>
-                <div className='bg-background px-4'>{t('or')}</div>
-              </div>
-              <div className='flex items-center justify-between gap-3'>
-                <Input
-                  type='text'
-                  placeholder='Enter the code'
-                  value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
-                  readOnly
-                />
-                <CopyButton
-                  variant='outline'
-                  size='icon'
-                  text={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${params.id}/${params.slug}`}
-                >
-                  <RxCopy className='size-4' />
-                </CopyButton>
-              </div>
-            </CardContent> */}
           </div>
           <Separator className='my-4' />
           <div className='block md:hidden'>
@@ -497,7 +458,7 @@ export default async function FlowPage({
                   {t('visit_profile')}
                 </Link>
               </Button>
-              {session ? (
+              {userId ? (
                 <MessageForm
                   user={{
                     username: blogDetails.author?.username,

@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { withAuth } from 'next-auth/middleware';
 import createIntlMiddleware from 'next-intl/middleware';
+import cookie from 'cookie';
 import { locales } from './navigation';
 
 const publicPages = [
@@ -29,20 +30,40 @@ const intlMiddleware = createIntlMiddleware({
   defaultLocale: 'en',
 });
 
+const checkTokenFromCookies = (req: any) => {
+  const cookies = cookie.parse(req.headers.get('cookie') || '');
+  const token = cookies.access_token; // Измените это на название вашей куки
+  if (!token) return false;
+  
+  // Ваша логика проверки токена
+  return validateToken(token);
+};
+
 const authMiddleware = withAuth(
-  // Note that this callback is only invoked if
-  // the `authorized` callback has returned `true`
-  // and not for pages listed in `pages`.
   (req) => intlMiddleware(req),
   {
     callbacks: {
-      authorized: ({ token }) => token != null,
+      authorized: ({ token, req }) => {
+        if (token) {
+          return true;
+        }
+        return checkTokenFromCookies(req);
+      },
     },
     pages: {
       signIn: '/auth/signin',
     },
   }
 );
+
+const validateToken = (token: any) => {
+  // Добавьте свою логику проверки токена здесь
+  // Например, запрос к вашему серверу для валидации токена
+  // return fetch(`https://your-backend/validate-token?token=${token}`)
+  //   .then(response => response.json())
+  //   .then(data => data.isValid);
+  return true; // Примерный результат
+};
 
 export default function middleware(req: NextRequest) {
   const requestHeaders = new Headers(req.headers);

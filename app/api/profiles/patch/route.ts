@@ -1,15 +1,25 @@
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '@/lib/authOptions';
+import { headers } from 'next/headers';
+import cookie from 'cookie';
 
 export async function PATCH(req: NextRequest) {
   const locale = req.nextUrl.searchParams.get('language') || 'en';
 
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  let accessToken = session?.accessToken;
+  if (!accessToken) {
+    const cookies = headers().get('cookie') || '';
+    const parsedCookies = cookie.parse(cookies);
+    accessToken = parsedCookies.access_token;
   }
+  
+  if (!accessToken) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
 
   try {
     if (req.headers.get('additional')) {
@@ -19,7 +29,7 @@ export async function PATCH(req: NextRequest) {
         `${process.env.API_URL}/api/profile/saveAdditional`,
         {
           headers: {
-            Authorization: `Bearer ${session?.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
           method: 'PATCH',
@@ -42,7 +52,7 @@ export async function PATCH(req: NextRequest) {
           `${process.env.API_URL}/api/profile/photos?update=true`,
           {
             headers: {
-              Authorization: `Bearer ${session?.accessToken}`,
+              Authorization: `Bearer ${accessToken}`,
               'Content-Type': 'application/json',
             },
             method: 'PATCH',
@@ -58,7 +68,7 @@ export async function PATCH(req: NextRequest) {
       if (uploadedGallery) {
         const res = await fetch(`${process.env.API_URL}/api/profile/photos`, {
           headers: {
-            Authorization: `Bearer ${session?.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
           method: 'PATCH',
@@ -75,7 +85,7 @@ export async function PATCH(req: NextRequest) {
       const { city, guilds, hashtags, bio } = await req.json();
       const res = await fetch(`${process.env.API_URL}/api/profile/save`, {
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         method: 'PATCH',

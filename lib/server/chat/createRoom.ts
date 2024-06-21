@@ -1,8 +1,6 @@
 'use server';
 
-import { getServerSession } from 'next-auth';
 import requestHelper from './requestHelper';
-import authOptions from '@/lib/authOptions';
 import getAccessToken from '../getAccessToken';
 import { cookies } from 'next/headers';
 

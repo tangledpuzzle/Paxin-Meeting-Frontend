@@ -2,12 +2,11 @@
 
 import { PaxContext, User } from '@/context/context';
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
-
 import { useLocale } from 'next-intl';
 import { setCookie } from 'nookies';
 import React, { ReactNode, useEffect, useState } from 'react';
 import useSWR from 'swr';
+import cookie from 'cookie';
 
 interface IProps {
   children: ReactNode;
@@ -22,7 +21,6 @@ const PLAN = {
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const Providers: React.FC<IProps> = ({ children }) => {
-  const session = useSession();
   const [user, setUser] = useState<User | null>(null);
   const [postMode, setPostMode] = useState<string>('all');
   const [lastCommand, setLastCommand] = useState<string>('');
@@ -33,11 +31,10 @@ const Providers: React.FC<IProps> = ({ children }) => {
     `/api/users/me?language=${locale}`
   );
 
-  const {
-    data: fetchedData,
-    error,
-    mutate: userMutate,
-  } = useSWR(session.status === 'authenticated' ? userFetchURL : null, fetcher);
+  const { data: fetchedData, error, mutate: userMutate } = useSWR(
+    cookie.parse(document.cookie || '').access_token ? userFetchURL : null,
+    fetcher
+  );
 
   useEffect(() => {
     setUserFetchURL(`/api/users/me?language=${locale}`);
@@ -67,15 +64,15 @@ const Providers: React.FC<IProps> = ({ children }) => {
         onlinehours: fetchedData.data?.user?.online_hours[0],
         totalposts: fetchedData.data?.user?.totalrestblog,
       });
-    }
 
-    setCurrentPlan(PLAN[fetchedData?.data?.user?.Plan as keyof typeof PLAN]);
+      setCurrentPlan(PLAN[fetchedData.data.user.Plan as keyof typeof PLAN]);
+    }
   }, [fetchedData, error]);
 
   useEffect(() => {
     if (process.browser) {
       const wsProtocol =
-        window.location.protocol === 'https:' ? 'wss:' : 'wss:';
+        window.location.protocol === 'https:' ? 'wss:' : 'ws:';
       const _socket = new WebSocket(
         `${wsProtocol}//${process.env.NEXT_PUBLIC_SOCKET_URL}/socket.io/`
       );
@@ -88,7 +85,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
           if (data?.command) {
             setLastCommand(data?.command);
           }
-          
+
           if (data?.session) {
             console.log('Socket message: ', data?.session);
             setCookie(null, 'session', data?.session, {
@@ -96,7 +93,9 @@ const Providers: React.FC<IProps> = ({ children }) => {
             });
             axios.defaults.headers.common['session'] = data?.session;
           }
-        } catch (error) {}
+        } catch (error) {
+          console.error('Ошибка при обработке сообщения сокета:', error);
+        }
       };
 
       const intervalId = setInterval(() => {

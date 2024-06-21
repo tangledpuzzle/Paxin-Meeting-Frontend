@@ -6,6 +6,8 @@ import requestHelper from './requestHelper';
 import { getServerSession } from 'next-auth';
 import authOptions from '@/lib/authOptions';
 import { ChatRoomType } from '@/context/chat-context';
+import { headers } from 'next/headers';
+import cookie from 'cookie'; 
 
 const getUnsubscribedNewRooms = async () => {
   const locale = cookies().get('NEXT_LOCALE')?.value || 'en';
@@ -13,6 +15,13 @@ const getUnsubscribedNewRooms = async () => {
   try {
     const accessToken = await getAccessToken();
     const session = await getServerSession(authOptions);
+
+    const headersList = headers();
+    const cookiesHeader = headersList.get('cookie');
+    const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
+    const userIdCookie = cookiesParsed['UserID'];
+
+    const userId = session?.user?.id || userIdCookie || null;
 
     const res = await requestHelper({
       url: `${process.env.API_URL}/api/chat/newRooms`,
@@ -55,9 +64,9 @@ const getUnsubscribedNewRooms = async () => {
       };
 
       for (const member of room.Members) {
-        if (member.UserID === session?.user?.id) {
+        if (member.UserID === userId) {
           _room.lastSeenMessage = member.LastReadMessageID || '';
-        } else if (member.UserID !== session?.user?.id) {
+        } else if (member.UserID !== userId) {
           _room.user.id = member.UserID;
           _room.user.profile.name = member.User.Name;
           _room.user.profile.avatar = `https://proxy.myru.online/150/https://img.myru.online/${member.User.Photo}`;

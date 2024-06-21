@@ -1,9 +1,10 @@
-// import { TagSlider } from '@/components/common/tag-slider';
+import { headers } from 'next/headers';
+import cookie from 'cookie';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { BiSolidCalendar, BiSolidCategory } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane, FaThumbsUp } from 'react-icons/fa';
-import axios from 'axios'
+import axios from 'axios';
 import {
   MdOutlineHouseSiding,
   MdOutlineKeyboardArrowRight,
@@ -15,7 +16,6 @@ import { TbPhotoX } from 'react-icons/tb';
 import { getServerSession } from 'next-auth';
 import { VscEye } from 'react-icons/vsc';
 import QRCode from 'react-qr-code';
-
 import { QRCodeModal } from '@/components/common/qrcode-modal';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -40,9 +40,8 @@ import MessageForm from '@/components/home/messsage-form';
 import getRoomId from '@/lib/server/chat/getRoomId';
 import { IoLanguage } from 'react-icons/io5';
 import CallModal from '@/components/common/call-modal';
-import { CiStreamOff } from "react-icons/ci";
-import { CiStreamOn } from "react-icons/ci";
-
+import { CiStreamOff } from 'react-icons/ci';
+import { CiStreamOn } from 'react-icons/ci';
 
 interface ProfileDetails {
   streaming: string[];
@@ -95,9 +94,7 @@ interface ProfilePageProps {
   searchParams: { [key: string]: string | undefined | null };
 }
 
-async function getData(locale: string, username: string) {
-  const session = await getServerSession(authOptions);
-
+async function getData(locale: string, username: string, userId: string | null) {
   try {
     const res = await fetch(
       `${process.env.API_URL}/api/profiles/get/${username}?language=${locale}`
@@ -106,8 +103,6 @@ async function getData(locale: string, username: string) {
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
-
-
 
     const data = await res.json();
 
@@ -186,12 +181,12 @@ async function getData(locale: string, username: string) {
         ],
       telegram: data.data.TelegramActivated ? data.data.TelegramName : '',
       qrcode: data.data.Name,
-      follow: session
+      follow: userId
         ? data.data.Followings.filter(
-            (item: any) => item.ID === session?.user?.id
+            (item: any) => item.ID === userId
           )?.length > 0
         : false,
-      me: session?.user?.id === data.data.ID,
+      me: userId === data.data.ID,
       bot: data.data.IsBot,
       streaming: data?.data?.Profile?.[0]?.streaming?.length > 0
       ? data.data.Profile[0].streaming.map((stream: any) => ({
@@ -203,8 +198,6 @@ async function getData(locale: string, username: string) {
       : [],
     };
 
-
-
     return profile;
   } catch (error) {
     console.log(error);
@@ -215,7 +208,14 @@ async function getData(locale: string, username: string) {
 export async function generateMetadata({
   params,
 }: ProfilePageProps): Promise<Metadata> {
-  const profileDetails = await getData(params.locale, params.username);
+  const session = await getServerSession(authOptions);
+  const headersList = headers();
+  const cookiesHeader = headersList.get('cookie');
+  const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
+  const userIdCookie = cookiesParsed['UserID'];
+  const userId = session?.user?.id || userIdCookie || null;
+
+  const profileDetails = await getData(params.locale, params.username, userId);
 
   return {
     title: `@${profileDetails?.username || ''}`,
@@ -234,9 +234,14 @@ export default async function ProfilePage({
   searchParams,
 }: ProfilePageProps) {
   const t = await getTranslations('main');
+  const session = await getServerSession(authOptions);
+  const headersList = headers();
+  const cookiesHeader = headersList.get('cookie');
+  const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
+  const userIdCookie = cookiesParsed['UserID'];
+  const userId = session?.user?.id || userIdCookie || null;
 
-  const profileDetails = await getData(params.locale, params.username);
-  // console.log('profileid', profileDetails)
+  const profileDetails = await getData(params.locale, params.username, userId);
 
   const breadcrumbs = [
     {
@@ -249,13 +254,11 @@ export default async function ProfilePage({
     },
   ];
 
-  const session = await getServerSession(authOptions);
   const roomId = await getRoomId(profileDetails?.id || '');
 
   return profileDetails ? (
     <section className='container py-4'>
       <BackButton callback={searchParams['callback']} />
-      {/* <Breadcrumb contents={breadcrumbs} /> */}
       <div className='grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4'>
         <div className=''>
           <div className='w-full'>
@@ -297,7 +300,7 @@ export default async function ProfilePage({
                 <MdPhoneInTalk className='size-5' />
               </Button>
             </CallModal>
-            {session ? (
+            {userId ? (
               !profileDetails.me &&
               <MessageForm
                 user={{
@@ -394,53 +397,30 @@ export default async function ProfilePage({
               <div className=''>
                 <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
                   @{profileDetails.username}
-                  {/* <div
-                    className={`size-6 rounded-full bg-cover bg-center bg-no-repeat`}
-                    style={{
-                      backgroundImage: `url('/images/${profileDetails.country}.svg')`,
-                    }}
-                  /> */}
                   <div className='relative'>
-                    {/* <div
-                      className={` right-0 top-[0.2rem] mr-0 rounded-md bg-cover bg-center bg-no-repeat`}
-                      style={{
-                        backgroundImage: `url('/images/${profileDetails.country}.svg')`,
-                      }}
-                    >
-                      <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
-                        <IoLanguage />
-                        <span className='uppercase'>
-                          {profileDetails.country}
-                        </span>
+                    {profileDetails.streaming && profileDetails.streaming.length > 0 ? (
+                      <div className='streaming-list'>
+                        {profileDetails.streaming.map((stream: any, index: any) => (
+                            <Link href={`/stream/${stream.roomID}`} key={index} className='stream-item'>
+                              <div className='flex items-center justify-end rounded-md bg-red-500 px-2 text-white'>
+                                <CiStreamOn className='mr-2' />
+                                <span>В эфире</span>
+                              </div>
+                          </Link>
+                        ))}
                       </div>
-                    </div> */}
-
-                  {profileDetails.streaming && profileDetails.streaming.length > 0 ? (
-                    <div className='streaming-list'>
-                      {profileDetails.streaming.map((stream: any, index: any) => (
-                          <Link href={`/stream/${stream.roomID}`} key={index} className='stream-item'>
-                            <div className='flex items-center justify-end rounded-md bg-red-500 px-2 text-white'>
-                              <CiStreamOn className='mr-2' />
-                              <span>В эфире</span>
-                            </div>
-                        </Link>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
-                      <CiStreamOff className='mr-2' />
-                      <span className=''>Вне эфира</span>
-                    </div>
-                  )}
+                    ) : (
+                      <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
+                        <CiStreamOff className='mr-2' />
+                        <span className=''>Вне эфира</span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className='pb-2 text-sm text-muted-foreground'>
                   {profileDetails.bio}
                 </div>
               </div>
-              {/* <div className='my-4 max-w-[390px]'>
-                <TagSlider tags={profileDetails.hashtags} mode='profile' />
-              </div> */}
             </div>
             <div className='hidden items-start justify-end'>
               <div>
@@ -464,15 +444,7 @@ export default async function ProfilePage({
                 <MdOutlineHouseSiding className='pb0-8 size-5' />
                 {t('city')}
               </div>
-              <div
-                className='flex flex-col gap-2'
-                // style={{
-                //   overflow: 'auto',
-                //   whiteSpace: 'nowrap',
-                //   WebkitMaskImage:
-                //     'linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0))',
-                // }}
-              >
+              <div className='flex flex-col gap-2'>
                 {profileDetails.cities.map((city: string, index: number) => (
                   <Link href={`/home?mode=profile&city=${city}`} key={index}>
                     <Badge
@@ -490,15 +462,7 @@ export default async function ProfilePage({
                 <BiSolidCategory className='size-4' />
                 {t('category')}
               </div>
-              <div
-                className='flex flex-col gap-2'
-                // style={{
-                //   overflow: 'auto',
-                //   whiteSpace: 'nowrap',
-                //   WebkitMaskImage:
-                //     'linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0))',
-                // }}
-              >
+              <div className='flex flex-col gap-2'>
                 {profileDetails.categories.map(
                   (category: string, index: number) => (
                     <Link
@@ -562,12 +526,6 @@ export default async function ProfilePage({
             </div>
           </div>
           <div className='space-y-3'>
-            {/* <div>
-              <div className='text-lg font-semibold'>
-                {t('profile_description')}
-              </div>
-              <div className='text-gray-500'>{profileDetails.description}</div>
-            </div> */}
             <div>
               <div className='pb-2 text-lg font-semibold'>
                 {t('additional_info')}

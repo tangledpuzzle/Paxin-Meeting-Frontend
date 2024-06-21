@@ -38,7 +38,7 @@ const authOptions: NextAuthOptions = {
           );
 
           const data = response.data;
-
+          console.log(data.refresh_token.token)
           if (data.status === 'success') {
             return {
               id: data.refresh_token.UserID,
