@@ -96,7 +96,7 @@ export default function FlowSection() {
 
   return (
     <div className='w-full'>
-      {maxPage > 1 && (
+      {/* {maxPage > 1 && (
         <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
           <Button
             aria-disabled={Number(searchParams.get('page') || 0) === 0}
@@ -104,7 +104,7 @@ export default function FlowSection() {
             asChild
           >
             <Link href={prevPageLink || ''}>
-              {/* {t('back_flow')} */}
+              {t('back_flow')}
               <GrPrevious />
             </Link>
           </Button>
@@ -114,7 +114,7 @@ export default function FlowSection() {
             asChild
           >
             <Link href={nextPageLink || ''}>
-              {/* {t('next_flow')} */}
+              {t('next_flow')}
               <GrNext />
             </Link>
           </Button>
@@ -124,8 +124,8 @@ export default function FlowSection() {
         <div className='fixed !left-4 bottom-0 top-[calc(100dvh_-_3.6rem)]  z-20 flex h-[35px] w-[100px] gap-1 md:sticky md:left-[calc(100%_-_10rem)] md:right-[50px] md:top-[110px] md:-mt-[152px]'>
           <span className='px-0 text-sm'>{t('one_page')}</span>
         </div>
-      )}
-      <div className='grid w-full grid-cols-1 place-items-center gap-4 pb-8 pt-[0px] md:mt-[120px] md:grid-cols-2 lg:grid-cols-3'>
+      )} */}
+      <div className='grid w-full grid-cols-1 place-items-center gap-4 pb-8 pt-[0px] md:mt-[0px] md:grid-cols-2 lg:grid-cols-3'>
         {!error ? (
           flowData && !isLoading ? (
             flowData?.length > 0 ? (
@@ -139,6 +139,7 @@ export default function FlowSection() {
                   callbackURL=''
                 />
               ))
+              
             ) : (
               <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
                 <div className='flex flex-col items-center'>
