@@ -45,6 +45,9 @@ export function NewInvoice({ openBankModal, setOpenBankModal, requestType }: New
   useEffect(() => {
     if (lastCommand === 'BalanceAdded') {
       setOpenBankModal(false);
+      toast.success(t('balance_success'), {
+        position: 'top-right',
+      });
     }
   }, [lastCommand, setOpenBankModal]);
 

@@ -4,6 +4,7 @@
     "description": ""
   },
   "main": {
+    "balance_success": "Деньги зачислены на ваш баланс",
     "send_request_payment": "Укажите сумму пополнения",
     "send_request_payment_description": "Ваш баланс автоматически отразится в вашем личном кабинете",
     "closed_1": "Исполнен",
