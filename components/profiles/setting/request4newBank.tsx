@@ -79,12 +79,12 @@ export function NewInvoice({ openBankModal, setOpenBankModal, requestType }: New
           position: 'top-right',
         });
       } else {
-        toast.error(t('request_save_error', { type: requestType }), {
+        toast.error(t('request_fail_success', { type: requestType }), {
           position: 'top-right',
         });
       }
     } catch (error) {
-      toast.error(t('request_save_error', { type: requestType }), {
+      toast.error(t('request_fail_success', { type: requestType }), {
         position: 'top-right',
       });
     } finally {
