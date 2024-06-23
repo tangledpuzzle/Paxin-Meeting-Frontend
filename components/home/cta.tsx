@@ -51,7 +51,7 @@ export function CTASection() {
         type='single'
         variant='outline'
         value={searchParams.get('mode') || 'flow'}
-        className='w-full gap-0 rounded-lg  pl-[90px] md:pl-[110px]'
+        className='w-full gap-0 rounded-lg  pl-[0px] md:pl-[0px]'
         onValueChange={(value: string) => {
           if (value) {
             router.push(`?mode=${value}`);

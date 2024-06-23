@@ -262,6 +262,25 @@ export default async function ProfilePage({
       <div className='grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4'>
         <div className=''>
           <div className='w-full'>
+          <div className='absolute z-10'>
+                    {profileDetails.streaming && profileDetails.streaming.length > 0 ? (
+                      <div className='streaming-list'>
+                        {profileDetails.streaming.map((stream: any, index: any) => (
+                            <Link href={`/stream/${stream.roomID}`} key={index} className='stream-item'>
+                              <div className='flex items-center justify-end rou bg-red-500 px-2 text-white'>
+                                <CiStreamOn className='mr-2' />
+                                <span>В эфире</span>
+                              </div>
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className='flex items-center justify-end  bg-black/50 px-2 text-white'>
+                        <CiStreamOff className='mr-2' />
+                        <span className=''>Вне эфира</span>
+                      </div>
+                    )}
+                  </div>
             {profileDetails.gallery?.length > 0 ? (
               <ProfileImageGallery images={profileDetails.gallery} />
             ) : (
@@ -397,25 +416,7 @@ export default async function ProfilePage({
               <div className=''>
                 <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
                   @{profileDetails.username}
-                  <div className='relative'>
-                    {profileDetails.streaming && profileDetails.streaming.length > 0 ? (
-                      <div className='streaming-list'>
-                        {profileDetails.streaming.map((stream: any, index: any) => (
-                            <Link href={`/stream/${stream.roomID}`} key={index} className='stream-item'>
-                              <div className='flex items-center justify-end rounded-md bg-red-500 px-2 text-white'>
-                                <CiStreamOn className='mr-2' />
-                                <span>В эфире</span>
-                              </div>
-                          </Link>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
-                        <CiStreamOff className='mr-2' />
-                        <span className=''>Вне эфира</span>
-                      </div>
-                    )}
-                  </div>
+
                 </div>
                 <div className='pb-2 text-sm text-muted-foreground'>
                   {profileDetails.bio}

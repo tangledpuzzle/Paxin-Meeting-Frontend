@@ -224,21 +224,6 @@ export default async function FlowPage({
         <div className='flex gap-3 pb-2 text-xl font-semibold text-secondary-foreground'>
           {blogDetails?.title}
         </div>
-        <div className='my-4'>
-          {blogDetails?.streaming?.length > 0 ? (
-            <Link href={`/stream/${blogDetails.streaming}`} className='stream-item'>
-              <div className='flex items-center justify-start rounded-md bg-red-500 px-2 text-white'>
-                <CiStreamOn className='mr-2' />
-                <span>В эфире</span>
-              </div>
-            </Link>
-          ) : (
-            <div className='flex items-center justify-start rounded-md bg-black/50 px-2 text-white'>
-              <CiStreamOff className='mr-2' />
-              <span>Вне эфира</span>
-            </div>
-          )}
-        </div>
         <div className='mb-4 text-sm text-muted-foreground'>
           {blogDetails?.description}
         </div>
@@ -338,6 +323,21 @@ export default async function FlowPage({
           </div>
           <Separator className='my-4' />
           <div className='block md:hidden'>
+          <div className='absolute z-10'>
+          {blogDetails?.streaming?.length > 0 ? (
+            <Link href={`/stream/${blogDetails.streaming}`} className='stream-item'>
+              <div className='flex items-center justify-start  bg-red-500 px-2 text-white'>
+                <CiStreamOn className='mr-2' />
+                <span>В эфире</span>
+              </div>
+            </Link>
+          ) : (
+            <div className='flex items-center justify-start bg-black/50 px-2 text-white'>
+              <CiStreamOff className='mr-2' />
+              <span>Вне эфира</span>
+            </div>
+          )}
+          </div>
             <FlowImageGallery images={blogDetails?.gallery || []} />
           </div>
           <div>
@@ -352,6 +352,21 @@ export default async function FlowPage({
         </div>
         <div className='mx-auto w-full space-y-4'>
           <div className='hidden md:block'>
+          <div className='absolute z-10'>
+          {blogDetails?.streaming?.length > 0 ? (
+            <Link href={`/stream/${blogDetails.streaming}`} className='stream-item'>
+              <div className='flex items-center justify-start  bg-red-500 px-2 text-white'>
+                <CiStreamOn className='mr-2' />
+                <span>В эфире</span>
+              </div>
+            </Link>
+          ) : (
+            <div className='flex items-center justify-start bg-black/50 px-2 text-white'>
+              <CiStreamOff className='mr-2' />
+              <span>Вне эфира</span>
+            </div>
+          )}
+          </div>
             <Card>
               <FlowImageGallery images={blogDetails?.gallery || []} />
             </Card>
