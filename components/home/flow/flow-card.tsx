@@ -96,6 +96,7 @@ function FlowCard(profile: FlowCardProps) {
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-0'>
         <Link
+          key={`flow-link-${id}`}
           href='/flows/[id]/[slug]'
           as={`/flows/${id}/${slug}?callback=${callbackURL}`}
           onClick={saveScrollPosition}
@@ -117,7 +118,6 @@ function FlowCard(profile: FlowCardProps) {
                   className='border-none bg-black/50 p-2 text-white'
                 >
                   <LuBrainCircuit className='mr-2 size-4 text-white' />
-                  {/* {t('regular_post')} */}
                 </Badge>
               )}
 
@@ -131,16 +131,6 @@ function FlowCard(profile: FlowCardProps) {
             </div>
             <div className=' relative -top-[100px] grid grid-cols-2  '>
               <div></div>
-              {/* <div className='flex h-0 flex-row-reverse'>
-                <span className='flex items-center justify-center px-4 uppercase'>
-                  <IoLanguage className='h-[32px] w-[32px] px-2' />
-                  {countrycode}
-                </span>
-                <div
-                className={`absolute bottom-0 mb-4 right-0 mr-3 size-8 rounded-full bg-cover bg-center bg-no-repeat`}
-                style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
-              />
-              </div> */}
             </div>
             <div className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>
           </div>
@@ -152,6 +142,7 @@ function FlowCard(profile: FlowCardProps) {
         <div className='px-3 font-satoshi'>
           <div className='line-clamp-1 text-xl font-semibold text-secondary-foreground'>
             <Link
+              key={`title-link-${id}`}
               href='/flows/[id]/[slug]'
               as={`/flows/${id}/${slug}?callback=${callbackURL}`}
               onClick={saveScrollPosition}
@@ -166,6 +157,7 @@ function FlowCard(profile: FlowCardProps) {
         <div className='mb-2 mt-auto flex grow gap-3 px-3'>
           {price !== 0 && (
             <Link
+              key={`price-link-${id}`}
               className='w-full'
               href={{ query: { ...queries, money: price } }}
             >
@@ -179,14 +171,16 @@ function FlowCard(profile: FlowCardProps) {
             </Link>
           )}
           <Link
+            key={`location-link-${id}`}
             className='w-full'
-            href={{ query: { ...queries, city: location, page: 1 } }}
+            href={{ query: { ...queries, city: location, page: 0 } }}
           >
             <LocationBadge>{location}</LocationBadge>
           </Link>
           <Link
+            key={`category-link-${id}`}
             className='w-full'
-            href={{ query: { ...queries, category: category, page: 1 } }}
+            href={{ query: { ...queries, category: category, page: 0 } }}
           >
             <CategoryBadge>{category}</CategoryBadge>
           </Link>
@@ -195,6 +189,7 @@ function FlowCard(profile: FlowCardProps) {
           <div className='grid grid-cols-3 px-3 pb-3'>
             <div className='col-span-2'>
               <Link
+                key={`profile-link-${id}`}
                 href='/profiles/[username]'
                 as={`/profiles/${user.username}`}
                 onClick={saveScrollPosition}
