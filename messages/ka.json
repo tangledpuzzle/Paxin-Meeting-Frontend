@@ -4,6 +4,11 @@
     "description": ""
   },
   "main": {
+    "send_request_payment": "მიუთითეთ შესავსები თანხა",
+    "send_request_payment_description": "თქვენი ბალანსი ავტომატურად აისახება თქვენს პირად ანგარიშზე",
+    "closed_1": "დასრულებული",
+    "date": "თარიღი",
+    "TYPE_TR": "შეავსეთ საბანკო ბარათიდან",
     "balance": "ბალანსი",
     "transactions": "ტრანსაქციები",
     "transaction_description": "ტრანსაქციის აღწერა",

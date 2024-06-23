@@ -43,6 +43,7 @@ import * as z from 'zod';
 import { SubscriptionCard } from '@/components/profiles/setting/subscription-card';
 import { NewPostModal } from '@/components/profiles/setting/request4new';
 import { NewInvoice } from '@/components/profiles/setting/request4newBank';
+import { formatDateNew, formatAmount, getStatusTranslation } from '@/lib/utils';
 
 import Loader from '@/components/ui/loader';
 const ReactQuill =
@@ -1015,8 +1016,8 @@ export default function SettingPage() {
             <TabsContent className='w-full' value='accounting'>
               <div className='px-3'>
                 <div className='text-2xl font-semibold'>{t('accounting')}</div>
-                <div className='mt-4 flex w-full  items-center gap-4'>
-                  <Input
+                <div className='mt-4 flex w-full  items-start gap-4'>
+                  {/* <Input
                     placeholder={t('enter_recharge_code')}
                     value={rechargecode}
                     onChange={(e) => setRechargecode(e.target.value)}
@@ -1029,10 +1030,10 @@ export default function SettingPage() {
                       <Loader2 className='mr-2 size-4 animate-spin' />
                     )}
                     {t('recharge_via_code')}
-                  </Button>
+                  </Button> */}
                   <Button
                     onClick={submitBankRecharge}
-                    className='btn btn--wide !rounded-md'
+                    className='btn btn--wide !rounded-md float-left !m-0'
                   >
                     {isRechargeLoading && (
                       <Loader2 className='mr-2 size-4 animate-spin' />
@@ -1051,6 +1052,8 @@ export default function SettingPage() {
                       <tr className="bg-gray-100 dark:bg-black">
                         <th className="py-2 px-4 border-b text-left">{t('transaction_description')}</th>
                         <th className="py-2 px-4 border-b text-left">{t('amount')}</th>
+                        <th className="py-2 px-4 border-b text-left">{t('date')}</th>
+
                         <th className="py-2 px-4 border-b text-right">{t('status')}</th>
                       </tr>
                     </thead>
@@ -1058,11 +1061,12 @@ export default function SettingPage() {
                     {fetchedTransaction && fetchedTransaction.data ? (
                       fetchedTransaction.data.map((transaction: any) => (
                         <tr key={transaction.ID} className="bg-gray-50 dark:bg-black">
-                          <td data-label="Transaction Description" className="py-2 px-4 border-b">
-                            {transaction.Description}
+                          <td data-label={t('transaction_description')} className="py-2 px-4 border-b whitespace-break-spaces">
+                            {getStatusTranslation<typeof t>(transaction.Description, t)}
                           </td>
-                          <td data-label="Amount" className="py-2 px-4 border-b">{transaction.Amount}</td>
-                          <td data-label="Status" className="py-2 px-4 border-b text-right">{transaction.Status}</td>
+                          <td data-label={t('amount')} className="py-2 px-4 border-b">{formatAmount(transaction.Amount)}</td>
+                          <td data-label={t('date')} className="py-2 px-4 border-b"> {formatDateNew(transaction.CreatedAt)}</td>
+                          <td data-label={t('status')} className="py-2 px-4 border-b text-right">{getStatusTranslation<typeof t>(transaction.Status, t)}</td>
                         </tr>
                       ))
                     ) : (

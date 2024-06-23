@@ -4,6 +4,11 @@
     "description": ""
   },
   "main": {
+    "send_request_payment": "Укажите сумму пополнения",
+    "send_request_payment_description": "Ваш баланс автоматически отразится в вашем личном кабинете",
+    "closed_1": "Исполнен",
+    "date": "Дата",
+    "TYPE_TR": "Пополнение с банковской карты",
     "balance": "Баланс",
     "transactions": "Транзакции",
     "transaction_description": "Описание транзакции",

@@ -1,9 +1,21 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { MessageKeys } from 'next-intl';
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const getStatusTranslation = <T extends Record<string, any>>(status: string, t: (key: MessageKeys<T, Extract<keyof T, string>>) => string): string => {
+  const translationsMap: { [key: string]: MessageKeys<T, Extract<keyof T, string>> } = {
+    CLOSED_1: 'closed_1' as MessageKeys<T, Extract<keyof T, string>>,
+    'Пополнение баланса c карты банка': 'TYPE_TR'  as MessageKeys<T, Extract<keyof T, string>>,
+  };
+
+  const translationKey = translationsMap[status];
+  return translationKey ? t(translationKey) : status;
+};
 
 export function getInitials(name: string): string {
   return name
@@ -27,6 +39,28 @@ export function formatDate(date: Date): string {
     day: 'numeric',
   });
 }
+
+export const formatDateNew = (isoString: string): string => {
+  if (!isoString) return '';
+
+  const date = new Date(isoString);
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    console.error('Invalid date:', isoString);
+    return '';
+  }
+
+  const options: Intl.DateTimeFormatOptions = { year: '2-digit', month: '2-digit', day: '2-digit' };
+  const formattedDate = date.toLocaleDateString('ru-RU', options);
+  const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' };
+  const formattedTime = date.toLocaleTimeString('ru-RU', timeOptions);
+
+  return `${formattedDate}, ${formattedTime}`;
+};
+
+export const formatAmount = (amount: number): string => {
+  return amount.toLocaleString('ru-RU');
+};
+
 
 export function generateRandomString(length: number): string {
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
