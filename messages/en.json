@@ -4,6 +4,7 @@
     "description": ""
   },
   "main": {
+    "no_more_results": "No more results",
     "balance_success": "The money has been credited to your balance",
     "send_request_payment": "Specify the top-up amount",
     "send_request_payment_description": "Your balance will automatically reflect in your personal account",
