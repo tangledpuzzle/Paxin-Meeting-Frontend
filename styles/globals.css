@@ -446,6 +446,11 @@ textarea {
   mask-composite: exclude;
 }
 
+iframe {
+  width:100%;
+  height:500px;
+}
+
 .css-12a83d4-MultiValueRemove {
   color: #f00;
 }
