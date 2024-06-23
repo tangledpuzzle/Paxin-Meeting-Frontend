@@ -168,9 +168,9 @@
   }
 
   @media (max-width: 640px) {
-    .responsive-table {
+    /* .responsive-table {
       display: block;
-    }
+    } */
     .responsive-table thead {
       display: none;
     }
@@ -193,6 +193,7 @@
       padding-left: 0; /* Убираем padding-left */
       word-wrap: break-word; /* Перенос длинных слов */
       word-break: break-word; /* Перенос при необходимости */
+      white-space-collapse: preserve-breaks;
     }
     .responsive-table tbody tr td::before {
       content: attr(data-label);
@@ -200,7 +201,6 @@
       text-align: left;
       font-weight: bold;
       color: #718096;
-      white-space: nowrap;
       margin-right: 10px; /* Добавляем отступ справа для разделения */
     }
   }

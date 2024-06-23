@@ -4,6 +4,11 @@
     "description": ""
   },
   "main": {
+    "send_request_payment": "Specify the top-up amount",
+    "send_request_payment_description": "Your balance will automatically reflect in your personal account",
+    "closed_1": "Completed",
+    "date": "The date",
+    "TYPE_TR": "Replenishment from a bank card",
     "balance": "Balance",
     "transactions": "Transactions",
     "transaction_description": "Transaction description",
