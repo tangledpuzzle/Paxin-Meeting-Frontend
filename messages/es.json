@@ -4,6 +4,7 @@
     "description": ""
   },
   "main": {
+    "balance_success": "El dinero ha sido acreditado a su saldo",
     "send_request_payment": "Indique el monto de la recarga",
     "send_request_payment_description": "Su saldo se reflejará automáticamente en su cuenta personal",
     "closed_1": "Terminado",

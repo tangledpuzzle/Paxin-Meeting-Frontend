@@ -4,6 +4,7 @@
     "description": ""
   },
   "main": {
+    "balance_success": "ფული ჩარიცხულია თქვენს ბალანსზე",
     "send_request_payment": "მიუთითეთ შესავსები თანხა",
     "send_request_payment_description": "თქვენი ბალანსი ავტომატურად აისახება თქვენს პირად ანგარიშზე",
     "closed_1": "დასრულებული",
