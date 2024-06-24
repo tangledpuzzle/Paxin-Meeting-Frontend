@@ -8,7 +8,6 @@ import { FlowCard } from '@/components/home/flow/flow-card';
 import { FlowCardSkeleton } from '@/components/home/flow/flow-card-skeleton';
 import { useTranslations, useLocale } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 
@@ -35,7 +34,6 @@ export interface FlowData {
   review: {
     totalviews: number;
   };
-  callbackURL: string;
 }
 
 const pageSize = 10;
@@ -45,18 +43,19 @@ export default function FlowSection() {
   const searchParams = useSearchParams();
   const locale = useLocale();
   const [flowData, setFlowData] = useState<FlowData[]>([]);
-  const [page, setPage] = useState<number>(0);
+  const [skip, setSkip] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
+  const [total, setTotal] = useState<number>(0);
 
-  const getFetchURL = (page: number) => {
+  const getFetchURL = (skip: number) => {
     const _title = searchParams.get('title') || 'all';
     const _city = searchParams.get('city') || 'all';
     const _category = searchParams.get('category') || 'all';
     const _hashtag = searchParams.get('hashtag') || 'all';
     const _money = searchParams.get('money') || 'all';
 
-    return `/api/flows/get?language=${locale}&limit=${pageSize}&skip=${page * pageSize}&title=${_title}&city=${_city}&category=${_category}&hashtag=${_hashtag}&money=${_money}&page=${page}`;
+    return `/api/flows/get?language=${locale}&limit=${pageSize}&skip=${skip}&title=${_title}&city=${_city}&category=${_category}&hashtag=${_hashtag}&money=${_money}`;
   };
 
   const { data: initialData, error } = useSWR(getFetchURL(0), fetcher);
@@ -64,34 +63,48 @@ export default function FlowSection() {
   useEffect(() => {
     if (initialData) {
       setFlowData(initialData.data);
-      setHasMore(initialData.data.length === pageSize);
+      setTotal(initialData.meta.total);
+      setHasMore(initialData.data.length + skip < initialData.meta.total);
       setLoading(false);
     }
   }, [initialData]);
 
   useEffect(() => {
-    setPage(0);
+    setSkip(0);
     setFlowData([]);
     setHasMore(true);
     setLoading(true);
 
     const fetchInitialData = async () => {
-      const response = await fetcher(getFetchURL(0));
-      setFlowData(response.data);
-      setHasMore(response.data.length === pageSize);
-      setLoading(false);
+      try {
+        const response = await fetcher(getFetchURL(0));
+        setFlowData(response.data);
+        setTotal(response.meta.total);
+        setHasMore(response.data.length < response.meta.total);
+        setLoading(false);
+      } catch (error) {
+        console.error('Ошибка при загрузке начальных данных:', error);
+      }
     };
 
     fetchInitialData();
   }, [searchParams]);
 
   const loadMore = async () => {
-    const nextPage = page + 1;
-    const response = await fetcher(getFetchURL(nextPage));
-
-    setFlowData((prevData) => [...prevData, ...response.data]);
-    setPage(nextPage);
-    setHasMore(response.data.length === pageSize);
+    const nextSkip = skip + pageSize;
+    try {
+      const response = await fetcher(getFetchURL(nextSkip));
+      setFlowData((prevData) => {
+        const newData = response.data.filter(
+          (newItem: FlowData) => !prevData.some((item) => item.id === newItem.id)
+        );
+        return [...prevData, ...newData];
+      });
+      setSkip(nextSkip);
+      setHasMore(nextSkip + response.data.length < total);
+    } catch (error) {
+      console.error('Ошибка при загрузке дополнительных данных:', error);
+    }
   };
 
   return (
@@ -117,11 +130,7 @@ export default function FlowSection() {
           {!error ? (
             flowData.length > 0 ? (
               flowData.map((flow: FlowData, index: number) => (
-                <FlowCard
-                  key={`${flow.id}-${index}`}
-                  {...flow}
-                  callbackURL=''
-                />
+                <FlowCard key={`${flow.id}-${index}`} {...flow} />
               ))
             ) : (
               !loading && (
@@ -141,7 +150,9 @@ export default function FlowSection() {
               )
             )
           ) : (
-            <></>
+            <div className='text-center'>
+              <p>{t('empty_search_result')}</p>
+            </div>
           )}
         </div>
       </InfiniteScroll>
