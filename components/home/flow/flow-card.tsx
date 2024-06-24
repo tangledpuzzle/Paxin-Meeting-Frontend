@@ -43,7 +43,7 @@ export interface FlowCardProps {
   review: {
     totalviews: number;
   };
-  callbackURL: string;
+  // callbackURL: string;
 }
 
 function FlowCard(profile: FlowCardProps) {
@@ -63,7 +63,7 @@ function FlowCard(profile: FlowCardProps) {
     category,
     countrycode,
     review,
-    callbackURL,
+    // callbackURL,
   } = profile;
 
   const queries: { [key: string]: string } = {};
@@ -98,7 +98,7 @@ function FlowCard(profile: FlowCardProps) {
         <Link
           key={`flow-link-${id}`}
           href='/flows/[id]/[slug]'
-          as={`/flows/${id}/${slug}?callback=${callbackURL}`}
+          as={`/flows/${id}/${slug}`}
           onClick={saveScrollPosition}
         >
           <div className='relative'>
@@ -144,7 +144,7 @@ function FlowCard(profile: FlowCardProps) {
             <Link
               key={`title-link-${id}`}
               href='/flows/[id]/[slug]'
-              as={`/flows/${id}/${slug}?callback=${callbackURL}`}
+              as={`/flows/${id}/${slug}`}
               onClick={saveScrollPosition}
             >
               {title}
@@ -154,36 +154,43 @@ function FlowCard(profile: FlowCardProps) {
             {subtitle}
           </div>
         </div>
-        <div className='mb-2 mt-auto flex grow gap-3 px-3'>
-          {price !== 0 && (
+        <div className='flex flex-wrap gap-3 px-3 mb-2 mt-auto'>
+        <div className="w-full">
             <Link
-              key={`price-link-${id}`}
+              key={`category-link-${id}`}
               className='w-full'
-              href={{ query: { ...queries, money: price } }}
+              href={{ query: { ...queries, category: category, page: 0 } }}
             >
-              <PriceBadge>
-                {price.toLocaleString('ru-RU', {
-                  style: 'currency',
-                  currency: 'RUB',
-                  maximumFractionDigits: 0,
-                })}
-              </PriceBadge>
+              <CategoryBadge>{category}</CategoryBadge>
             </Link>
+          </div>
+        {price !== 0 && (
+            <div className="flex-1 min-w-[calc(50%-0.75rem)]">
+              <Link
+                key={`price-link-${id}`}
+                className='w-full'
+                href={{ query: { ...queries, money: price } }}
+              >
+                <PriceBadge>
+                  {price.toLocaleString('ru-RU', {
+                    style: 'currency',
+                    currency: 'RUB',
+                    maximumFractionDigits: 0,
+                  })}
+                </PriceBadge>
+              </Link>
+            </div>
           )}
-          <Link
-            key={`location-link-${id}`}
-            className='w-full'
-            href={{ query: { ...queries, city: location, page: 0 } }}
-          >
-            <LocationBadge>{location}</LocationBadge>
-          </Link>
-          <Link
-            key={`category-link-${id}`}
-            className='w-full'
-            href={{ query: { ...queries, category: category, page: 0 } }}
-          >
-            <CategoryBadge>{category}</CategoryBadge>
-          </Link>
+          <div className="flex-1 min-w-[calc(50%-0.75rem)]">
+            <Link
+              key={`location-link-${id}`}
+              className='w-full'
+              href={{ query: { ...queries, city: location, page: 0 } }}
+            >
+              <LocationBadge>{location}</LocationBadge>
+            </Link>
+          </div>
+
         </div>
         {user && (
           <div className='grid grid-cols-3 px-3 pb-3'>
