@@ -30,7 +30,6 @@ export interface FlowData {
   review: {
     totalviews: number;
   };
-  callbackURL: string;
 }
 
 const pageSize = 12;
@@ -134,7 +133,7 @@ export default function FlowSection({ uuid }: { uuid: string }) {
           flowData ? (
             flowData?.length > 0 ? (
               flowData.map((flow: FlowData) => (
-                <FlowCard key={flow.id} {...flow} callbackURL={''} />
+                <FlowCard key={flow.id} {...flow} />
               ))
             ) : (
               <div className='flex h-[50vh] w-full items-center justify-center rounded-lg bg-secondary md:col-span-2 lg:col-span-3'>
