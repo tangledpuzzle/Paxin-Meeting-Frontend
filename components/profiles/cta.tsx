@@ -111,12 +111,12 @@ export default function CTASection({ title, description, icon }: CTAProps) {
       </div>
       <div className='flex gap-2'>
         <PlanUpgradeModal>
-          <Button variant='outline' className='hidden w-full sm:flex text-white'>
-            <FaHardDrive className='mr-2 size-4 text-white' />
+          <Button variant='outline' className='hidden w-full sm:flex'>
+            <FaHardDrive className='mr-2 size-4' />
             {user?.storage || 0} / {user?.limitStorage || 0} MB
           </Button>
         </PlanUpgradeModal>
-        <Button variant='outline' className='w-full text-white' asChild>
+        <Button variant='outline' className='w-ful' asChild>
           <Link href='/profile/setting?tab=accounting'>
           {t('balance')} {user?.balance || 0} ₽
 
