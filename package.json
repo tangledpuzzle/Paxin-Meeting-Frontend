@@ -68,7 +68,7 @@
     "microsoft-cognitiveservices-speech-sdk": "1.35.0",
     "mitt": "3.0.1",
     "mobile-detect": "1.4.5",
-    "next": "14.1.4",
+    "next": "14.2.4",
     "next-auth": "4.24.5",
     "next-intl": "3.10.0",
     "next-redux-wrapper": "8.1.0",

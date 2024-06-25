@@ -14,11 +14,11 @@ export async function GET(req: NextRequest) {
       const parsedCookies = cookie.parse(cookies);
       accessToken = parsedCookies.access_token;
     }
-    
+
     if (!accessToken) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    
+
     const res = await fetch(
       `${process.env.API_URL}/api/billing/transactions`,
       {
@@ -29,10 +29,11 @@ export async function GET(req: NextRequest) {
         },
       }
     );
-    // console.log(res.status, res.statusText)
+
     if (!res.ok) {
-      throw new Error('Failed get data');
+      throw new Error('Failed to get data');
     }
+
     const data = await res.json();
     return NextResponse.json(data);
   } catch (error) {

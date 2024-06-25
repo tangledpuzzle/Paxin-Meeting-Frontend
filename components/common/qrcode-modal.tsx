@@ -35,7 +35,7 @@ export function QRCodeModal({ qrcode, children }: QRCodeModalProps) {
           children
         ) : (
           <Button variant='outline' size='icon' className='rounded-full'>
-            <IoQrCodeOutline className='size-5 text-white' />
+            <IoQrCodeOutline className='size-5' />
           </Button>
         )}
       </DialogTrigger>
