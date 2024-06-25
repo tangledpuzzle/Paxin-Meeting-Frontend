@@ -155,43 +155,42 @@ function FlowCard(profile: FlowCardProps) {
           </div>
         </div>
         <div className='flex flex-wrap gap-3 px-3 mb-2 mt-auto'>
-        <div className="w-full">
-            <Link
-              key={`category-link-${id}`}
-              className='w-full'
-              href={{ query: { ...queries, category: category, page: 0 } }}
-            >
-              <CategoryBadge>{category}</CategoryBadge>
-            </Link>
-          </div>
         {price !== 0 && (
-            <div className="flex-1 min-w-[calc(50%-0.75rem)]">
-              <Link
-                key={`price-link-${id}`}
-                className='w-full'
-                href={{ query: { ...queries, money: price } }}
-              >
-                <PriceBadge>
-                  {price.toLocaleString('ru-RU', {
-                    style: 'currency',
-                    currency: 'RUB',
-                    maximumFractionDigits: 0,
-                  })}
-                </PriceBadge>
-              </Link>
-            </div>
-          )}
           <div className="flex-1 min-w-[calc(50%-0.75rem)]">
             <Link
-              key={`location-link-${id}`}
+              key={`price-link-${id}`}
               className='w-full'
-              href={{ query: { ...queries, city: location, page: 0 } }}
+              href={{ query: { ...queries, money: price } }}
             >
-              <LocationBadge>{location}</LocationBadge>
+              <PriceBadge>
+                {price.toLocaleString('ru-RU', {
+                  style: 'currency',
+                  currency: 'RUB',
+                  maximumFractionDigits: 0,
+                })}
+              </PriceBadge>
             </Link>
           </div>
-
+        )}
+        <div className="flex-1 min-w-[calc(50%-0.75rem)]">
+          <Link
+            key={`location-link-${id}`}
+            className='w-full'
+            href={{ query: { ...queries, city: location, page: 0 } }}
+          >
+            <LocationBadge>{location}</LocationBadge>
+          </Link>
         </div>
+        <div className="w-full">
+          <Link
+            key={`category-link-${id}`}
+            className='w-full'
+            href={{ query: { ...queries, category: category, page: 0 } }}
+          >
+            <CategoryBadge>{category}</CategoryBadge>
+          </Link>
+        </div>
+      </div>
         {user && (
           <div className='grid grid-cols-3 px-3 pb-3'>
             <div className='col-span-2'>

@@ -179,7 +179,7 @@ export function SignInCard() {
         </div>
         <Button
           variant='outline'
-          className='w-full border-primary text-primary'
+          className='w-full'
           asChild
         >
           <Link href='/auth/signup'>{t('sign_up')}</Link>

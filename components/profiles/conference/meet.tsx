@@ -41,7 +41,6 @@ export default memo(
                 <MeetCreateModal isLoading={isLoading} onCreate={onCreateRoom}>
                   <Button
                     variant='outline'
-                    className='border-primary text-primary'
                   >
                     {t('create')}
                   </Button>
