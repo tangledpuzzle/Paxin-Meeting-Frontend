@@ -1,7 +1,8 @@
 import Providers from '@/provider/provider';
 import SessionProviders from '@/provider/session-provider';
 import '@/styles/globals.css';
-
+import { Suspense } from "react";
+import { Metrika } from "@/components/metrika";
 import CustomToaster from '@/components/common/custom-toast';
 // import NotificationMessage from '@/components/common/notification';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
@@ -131,6 +132,9 @@ export default async function RootLayout({
             </StoreProvider>
           </Providers>
         </SessionProviders>
+        <Suspense>
+          <Metrika />
+        </Suspense>
       </body>
     </html>
   );
