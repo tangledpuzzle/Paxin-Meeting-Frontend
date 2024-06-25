@@ -18,6 +18,7 @@ import StoreProvider from '../StoreProvider';
 import { StreamProvider } from '@/provider/stream-provider';
 import Chatbot from "@/components/chatbot";
 import { Toaster } from "react-hot-toast";
+import Script from 'next/script';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -96,6 +97,16 @@ export default async function RootLayout({
                   /> */}
                   <Toaster />
                   <MetadataUpdater />
+                  <Script id="disable-zoom" strategy="afterInteractive">
+                    {`
+                      document.addEventListener('gesturestart', function (e) {
+                        e.preventDefault();
+                      });
+                      document.addEventListener('dblclick', function (e) {
+                        e.preventDefault();
+                      });
+                    `}
+                  </Script>
                 </ThemeProvider>
                 <TailwindIndicator />
                 </StreamProvider>

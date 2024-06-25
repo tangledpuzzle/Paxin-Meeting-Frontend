@@ -30,7 +30,7 @@ const getSubscribedRooms = async () => {
       session: cookies().get('session')?.value || '',
     });
 
-    if (res.status !== 'success') {
+    if (res.status !== 'success' || !Array.isArray(res.data)) {
       return [];
     }
 
