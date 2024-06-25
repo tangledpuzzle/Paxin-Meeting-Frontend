@@ -75,14 +75,14 @@ export default function ProductPanel({ products }: ProductPanelProps) {
         </Button> */}
         <Button
           variant='outline'
-          className='pr-2 flex border-primary text-primary grid-cols-1'
+          className='pr-2 flex grid-cols-1'
           onClick={goback}
         >
           {t('step_out')}
         </Button>
         <Button
           variant='outline'
-          className='pl-2 flex border-primary text-primary grid-cols-1'
+          className='pl-2 flex grid-cols-1'
           onClick={end}
         >
           {t('end')}

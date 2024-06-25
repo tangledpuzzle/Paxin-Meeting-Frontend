@@ -45,7 +45,7 @@ export default function FlowSection({ data }: FlowProps) {
                   <StreamingCreateModal onCreate={() => {}} isLoading={false}>
                     <Button
                       variant='outline'
-                      className='mx-auto flex border-primary text-primary'
+                      className='mx-auto flex '
                     >
                       {t('start_stream')}
                     </Button>

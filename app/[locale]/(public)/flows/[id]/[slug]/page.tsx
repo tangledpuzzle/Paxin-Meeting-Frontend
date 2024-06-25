@@ -28,7 +28,7 @@ import { BiSolidCategory } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
 import { FaRubleSign } from 'react-icons/fa6';
 import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
-import { MdOutlineHouseSiding } from 'react-icons/md';
+import { MdOutlineHouseSiding, MdFavoriteBorder, MdOutlineFavorite } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
 import { CiStreamOn, CiStreamOff } from 'react-icons/ci';
 
@@ -70,6 +70,12 @@ interface FlowPageProps {
   searchParams: { [key: string]: string | undefined | null };
 }
 
+interface Favorite {
+  ID: number;
+  UserID: string;
+  BlogID: number;
+}
+
 async function getData(locale: string, id: string, slug: string, userId: string | null) {
   try {
     const res = await fetch(
@@ -100,6 +106,38 @@ async function getData(locale: string, id: string, slug: string, userId: string 
     if (voteData.status !== 'success') {
       throw new Error('Failed to fetch data');
     }
+
+    const headersList = headers();
+    const cookiesHeader = headersList.get('cookie');
+    const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
+    const token = cookiesParsed['access_token'];
+    const favoriteRes = await fetch(`${process.env.API_URL}/api/blog/getFav`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+    .then((response) => {
+      if (response.ok) {
+        console.log(response);
+      } else {
+        console.error('err:', response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error('err:', error);
+    });
+
+    // console.log(favoriteRes)
+    // if (favoriteRes.status !== 'success') {
+    //   throw new Error('Failed to fetch data');
+    // }
+
+    // const favoriteData = await favoriteRes.json();
+    // console.log(favoriteData)
+
+    // const isFavorite = favoriteData.data.some((fav: Favorite) => fav.BlogID === blogData.data[0].id);
+
 
     const blog = {
       id: blogData.data[0].id,
@@ -157,6 +195,8 @@ async function getData(locale: string, id: string, slug: string, userId: string 
       cities: blogData.data[0].city.map((city: any) => city.name),
       countrycode: blogData.data[0].lang,
       me: userId === blogData.data[0].user.userID,
+      // isFavorite: isFavorite,
+
     };
 
     return blog;
@@ -172,8 +212,10 @@ export async function generateMetadata({
   const cookiesHeader = headersList.get('cookie');
   const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
   const userIdCookie = cookiesParsed['UserID'];
+  const token = cookiesParsed['access_token'];
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id || userIdCookie || null;
+  
 
   const blogDetails: BlogDetails | null = await getData(
     params.locale,
