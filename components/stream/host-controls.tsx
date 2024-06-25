@@ -67,7 +67,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
       toast.error('Error occurred');
     } else {
       toast.success('A room is closed');
-      router.push('/chat');
+      router.push('/profile/posts');
     }
   }
   const togglePublishing = useCallback(async () => {
