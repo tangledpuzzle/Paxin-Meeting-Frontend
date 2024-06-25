@@ -990,6 +990,7 @@ p {
 }
 
 label, input {
+  touch-action: none;
 	accent-color: #db2777;
 	cursor: pointer;
 }
