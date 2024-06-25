@@ -25,6 +25,7 @@ import apiHelper from '@/helpers/api/apiRequest';
 import { Input } from '../ui/input';
 import { ScrollArea } from '../ui/scroll-area';
 import { NewPostModal } from '../profiles/posts/new-post-modal';
+import { Loader2 } from 'lucide-react'; 
 
 interface StreamingCreateModalProps {
   children: React.ReactNode;
@@ -49,6 +50,8 @@ export function StreamingCreateModal({
   const locale = useLocale();
   const [title, setTitle] = useState<string>('');
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const {
     data: fetchedData,
     error,
@@ -57,6 +60,7 @@ export function StreamingCreateModal({
 
   const router = useRouter();
   async function createTradingRoom() {
+    setLoading(true);
     const roomId = generateRandomString(8);
     const response = await apiHelper({
       url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'room/create',
@@ -68,6 +72,7 @@ export function StreamingCreateModal({
       },
     });
     if (response == null) {
+      setLoading(false);
       toast.error('Error occurred');
     } else {
       toast.success('Successfully created');
@@ -155,7 +160,7 @@ export function StreamingCreateModal({
           {blogs?.length>0 ? 
           (
             <div className='mx-auto'>
-              {!isLoading ? (
+              {!loading ? (
                 <Button
                   type='submit'
                   onClick={() => {
@@ -171,12 +176,7 @@ export function StreamingCreateModal({
                   {t('start')}
                 </Button>
               ) : (
-                <div
-                  className='inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
-                  role='status'
-                >
-                  <span className='!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]'></span>
-                </div>
+                <Loader2 className='animate-spin' />
               )}
             </div>
           ):(
