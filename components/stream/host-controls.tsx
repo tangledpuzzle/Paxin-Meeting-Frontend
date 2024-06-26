@@ -53,14 +53,16 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
   async function sendPushNotification() {
     const pageURL = window.location.href.replace('/host', '');
 
-    const response = await apiHelper({
-      url: process.env.NEXT_PUBLIC_API_URL + '/api/relations/send-push',
+    const response = await fetch('/api/push', {
       method: 'POST',
-      data: {
-        Title: 'Пользователь' + (user?.username || '') + 'в эфире',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        Title: 'Пользователь ' + (user?.username || '') + ' в эфире',
         Text: 'Поток начался. Присоединяйтесь сейчас!',
-        PageURL: pageURL
-      }
+        PageURL: pageURL,
+      }),
     });
   }
 
