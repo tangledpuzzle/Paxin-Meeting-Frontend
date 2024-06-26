@@ -18,17 +18,17 @@ export default function ChannelInfo({
     (el) => el.permissions?.canPublish
   );
   return (
-    <div className='flex h-[110px] flex-col justify-center space-y-6 border-t px-8 py-6'>
+    <div className='flex h-[110px] flex-col justify-center space-y-6 px-2 py-6 absolute top-0 right-0 md:relative '>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-6'>
           {speakingParticipant.length ? (
+            <div className='hidden md:block'>
             <div className='grid place-items-center'>
               <div className='absolute z-10 h-11 w-11 animate-ping rounded-full bg-red-600 dark:bg-red-400' />
-
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className={cn(
-                  'z-20 h-16 w-16 rounded-full border-2 border-white bg-gray-500 dark:border-zinc-900',
+                  'z-20 md:h-16 md:w-16 rounded-full border-2 border-white bg-gray-500 dark:border-zinc-900',
                   speakingParticipant[0] && 'ring-2 ring-red-600'
                 )}
                 src={`https://proxy.myru.online/100/https://img.myru.online/${speakingParticipant[0]?.metadata}`}
@@ -41,12 +41,13 @@ export default function ChannelInfo({
                 </div>
               )}
             </div>
+            </div>
           ) : (
             <div></div>
           )}
-          <div>
+          <div className='hidden md:block'>
             <div className='flex items-center gap-2'>
-              <h1 className='text-lg font-bold'>
+              <h1 className='text-lg font-bold text-white md:text-black'>
                 {speakingParticipant[0]?.name}
               </h1>
               <div className='flex h-4 w-4 items-center justify-center rounded-full bg-blue-500'>

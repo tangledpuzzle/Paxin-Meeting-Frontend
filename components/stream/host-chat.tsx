@@ -5,7 +5,6 @@ import { Button } from './ui/button';
 import { Icons } from './ui/icons';
 import { Textarea } from './ui/textarea';
 import { Avatar, AvatarImage } from '../ui/avatar';
-import { t } from '@excalidraw/excalidraw/types/i18n';
 import { useTranslations } from 'next-intl';
 
 interface Props {
@@ -43,23 +42,22 @@ export default function Chat({ participantName }: Props) {
       setMessage('');
     }
   }, [message, send]);
-  console.log(reverseMessages);
 
   return (
-    <>
-      <div className='flex min-h-0 flex-1 flex-col-reverse overflow-y-auto'>
+    <div className='flex flex-col h-full'>
+      <div className='flex-1 overflow-y-auto'>
         {reverseMessages.map((message) => (
           <div key={message.timestamp} className='flex items-center gap-2 p-2'>
             <Avatar className='mr-3 size-10'>
               <AvatarImage
-                src={`https://proxy.myru.online/100/https://img.myru.online/${message.from?.metadata}`}
+                src={`https://proxy.myru.online/100/https://img.myru.online/${message.from?.metadata || 'default.jpg'}`}
               />
             </Avatar>
             <div className='flex flex-col'>
               <div className='flex items-center gap-2'>
                 <div
                   className={cn(
-                    'text-xs font-semibold',
+                    'text-xs font-semibold text-white md:text-black',
                     participantName === message.from?.identity &&
                       'text-indigo-500'
                   )}
@@ -71,27 +69,27 @@ export default function Chat({ participantName }: Props) {
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </div>
               </div>
-              <div className='text-sm'>{message.message}</div>
+              <div className='text-sm text-white md:text-black'>{message.message}</div>
             </div>
           </div>
         ))}
       </div>
-      <div className='flex w-full gap-2'>
+      <div className='flex-shrink-0 p-2'>
         <Textarea
           value={message}
-          className='border-box h-10 bg-white dark:bg-zinc-900'
+          className='border-box h-10  bg-white dark:bg-zinc-900'
           onChange={(e) => {
             setMessage(e.target.value);
           }}
           onKeyDown={onEnter}
           placeholder={t('type_message')}
         />
-        <Button disabled={message.trim().length === 0} onClick={onSend}>
+        <Button disabled={message.trim().length === 0} onClick={onSend} className='w-full mt-2'>
           <div className='flex items-center gap-2'>
             <Icons.send className='h-4 w-4' />
           </div>
         </Button>
       </div>
-    </>
+    </div>
   );
 }
