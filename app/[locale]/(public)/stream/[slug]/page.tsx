@@ -81,7 +81,7 @@ export default async function ChannelPage({ params: { slug } }: PageProps) {
     price: blog.Total,
     link: `/flows/${blog.UniqId}/${blog.Slug}`,
   }));
-  const defaultImage = '1708179015_PlFSIcuF/default.jpg'
+  const defaultImage = 'default.jpg'
   const randomId = faker.string.uuid();
   const randomName = faker.internet.userName();
   return tradingData ? (

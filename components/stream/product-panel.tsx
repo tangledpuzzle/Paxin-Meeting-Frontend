@@ -47,7 +47,7 @@ export default function ProductPanel({ products }: ProductPanelProps) {
   }
   return (
     <>
-      <div className='relative w-full'>
+      {/* <div className='relative w-full'>
         <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />
         <Input
           type='text'
@@ -56,16 +56,15 @@ export default function ProductPanel({ products }: ProductPanelProps) {
           placeholder={t('search_product')}
           className='rounded-full pl-12 pr-4'
         />
-      </div>
-      <span className='ml-4 text-2xl md:ml-8'>
-        {filteredProducts.length} {t('products')}
+      </div> */}
+      <span className='ml-0 text-2xl md:ml-0 text-white md:text-black'>
+        {/* {filteredProducts.length} */}
+         {t('products')}
       </span>
-      <ScrollArea className='flex-1 rounded-lg bg-background p-4 md:ml-4'>
         {filteredProducts.map((product) => (
           <ProductCard key={product.id} {...product} />
         ))}
-      </ScrollArea>
-      <div className='grid grid-cols-2 gap-2'>
+      {/* <div className='grid grid-cols-2 gap-2'> */}
         {/* <Button
           variant='outline'
           className='pr-2 flex border-primary text-primary grid-cols-1'
@@ -73,7 +72,7 @@ export default function ProductPanel({ products }: ProductPanelProps) {
         >
           {t('webcam')}
         </Button> */}
-        <Button
+        {/* <Button
           variant='outline'
           className='pr-2 flex grid-cols-1'
           onClick={goback}
@@ -86,8 +85,8 @@ export default function ProductPanel({ products }: ProductPanelProps) {
           onClick={end}
         >
           {t('end')}
-        </Button>
-      </div>
+        </Button> */}
+      {/* </div> */}
       {/* {isOpen ? (
         <ShareWebcamModal onSelectedDevice={null} />
       ) : null} */}
