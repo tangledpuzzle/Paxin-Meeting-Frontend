@@ -51,13 +51,15 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
   }, []);
 
   async function sendPushNotification() {
+    const pageURL = window.location.href.replace('/host', '');
+
     const response = await apiHelper({
-      url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'relations/send-push',
+      url: process.env.NEXT_PUBLIC_API_URL + 'relations/send-push',
       method: 'POST',
       data: {
         Title: 'Пользователь' + (user?.username || '') + 'в эфире',
         Text: 'Поток начался. Присоединяйтесь сейчас!',
-        PageURL: window.location.href
+        PageURL: pageURL
       }
     });
   }
