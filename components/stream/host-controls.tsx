@@ -54,7 +54,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
     const pageURL = window.location.href.replace('/host', '');
 
     const response = await apiHelper({
-      url: process.env.NEXT_PUBLIC_API_URL + 'relations/send-push',
+      url: process.env.NEXT_PUBLIC_API_URL + '/api/relations/send-push',
       method: 'POST',
       data: {
         Title: 'Пользователь' + (user?.username || '') + 'в эфире',
