@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import Presence from './presence';
+import { usePaxContext } from '@/context/context';
 
 interface Props {
   slug: string;
@@ -18,11 +19,13 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
   const [audioTrack, setAudioTrack] = useState<LocalTrack>();
   const [isPublishing, setIsPublishing] = useState(false);
   const [isUnpublishing, setIsUnpublishing] = useState(false);
+  const [hasSentNotification, setHasSentNotification] = useState(false);
   const previewVideoEl = useRef<HTMLVideoElement>(null);
   console.log('previewVideo', previewVideoEl)
   const router = useRouter();
   const t = useTranslations('stream');
   const { localParticipant } = useLocalParticipant();
+  const { user } = usePaxContext();
 
   const createTracks = async () => {
     const tracks = await createLocalTracks({ audio: true, video: true });
@@ -46,6 +49,18 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
   useEffect(() => {
     void createTracks();
   }, []);
+
+  async function sendPushNotification() {
+    const response = await apiHelper({
+      url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'relations/send-push',
+      method: 'POST',
+      data: {
+        Title: 'Пользователь' + (user?.username || '') + 'в эфире',
+        Text: 'Поток начался. Присоединяйтесь сейчас!',
+        PageURL: window.location.href
+      }
+    });
+  }
 
   useEffect(() => {
     return () => {
@@ -92,6 +107,11 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
       }
       if (audioTrack) {
         void localParticipant.publishTrack(audioTrack);
+      }
+
+      if (!hasSentNotification) {
+        await sendPushNotification();
+        setHasSentNotification(true);
       }
     }
 
