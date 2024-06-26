@@ -1,28 +1,24 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
-import { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
 import authOptions from '@/lib/authOptions';
 import cookie from 'cookie';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
-  }
-
-  const session = await getServerSession(req, res, authOptions);
+export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions);
 
   let accessToken = session?.accessToken;
   if (!accessToken) {
-    const cookies = req.headers.cookie || '';
+    const cookies = req.headers.get('cookie') || '';
     const parsedCookies = cookie.parse(cookies);
     accessToken = parsedCookies.access_token;
   }
 
   if (!accessToken) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { Title, Text, PageURL } = req.body;
+  const { Title, Text, PageURL } = await req.json();
 
   try {
     const response = await axios.post(
@@ -36,9 +32,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     );
 
-    return res.status(200).json(response.data);
+    return NextResponse.json(response.data);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Failed to send push notification' });
+    return NextResponse.json({ error: 'Failed to send push notification' }, { status: 500 });
   }
 }
