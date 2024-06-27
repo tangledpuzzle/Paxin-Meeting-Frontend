@@ -19,6 +19,7 @@ export default function LandingPageLayout({
   const messages = useMessages();
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
+      <SiteHeader />
       {children}
     </NextIntlClientProvider>
   );
