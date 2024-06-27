@@ -98,21 +98,21 @@ const Providers: React.FC<IProps> = ({ children }) => {
         }
       };
 
-      const intervalId = setInterval(() => {
-        if (_socket.readyState === WebSocket.OPEN) {
-          _socket.send(
-            JSON.stringify({
-              messageType: 'ping',
-              data: [],
-            })
-          );
-        }
-      }, 5000);
+      // const intervalId = setInterval(() => {
+      //   if (_socket.readyState === WebSocket.OPEN) {
+      //     _socket.send(
+      //       JSON.stringify({
+      //         messageType: 'ping',
+      //         data: [],
+      //       })
+      //     );
+      //   }
+      // }, 5000);
 
       setSocket(_socket);
 
       return () => {
-        clearInterval(intervalId);
+        // clearInterval(intervalId);
         _socket.close();
       };
     }
