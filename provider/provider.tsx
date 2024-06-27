@@ -4,7 +4,7 @@ import { PaxContext, User } from '@/context/context';
 import axios from 'axios';
 import { useLocale } from 'next-intl';
 import { setCookie } from 'nookies';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import useSWR from 'swr';
 import cookie from 'cookie';
 
@@ -36,6 +36,8 @@ const Providers: React.FC<IProps> = ({ children }) => {
     cookie.parse(document.cookie || '').access_token ? userFetchURL : null,
     fetcher
   );
+
+  const isInitialized = useRef(false);
 
   useEffect(() => {
     setUserFetchURL(`/api/users/me?language=${locale}`);
@@ -73,7 +75,6 @@ const Providers: React.FC<IProps> = ({ children }) => {
   }, [fetchedData, error]);
 
   const initializeSocket = (userID: string | null) => {
-    // Закрываем предыдущее соединение перед созданием нового
     if (socket) {
       socket.close();
     }
@@ -140,7 +141,10 @@ const Providers: React.FC<IProps> = ({ children }) => {
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // Инициализируем сокет только при первом монтировании
-    initializeSocket(userID);
+    if (!isInitialized.current) {
+      initializeSocket(userID);
+      isInitialized.current = true;
+    }
 
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
