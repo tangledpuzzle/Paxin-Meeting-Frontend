@@ -26,6 +26,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
   const [lastCommand, setLastCommand] = useState<string>('');
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [userID, setUserID] = useState<string | null>(null);
   const locale = useLocale();
   const [userFetchURL, setUserFetchURL] = useState<string>(
     `/api/users/me?language=${locale}`
@@ -42,7 +43,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
 
   useEffect(() => {
     if (!error && fetchedData) {
-      setUser({
+      const user = {
         id: fetchedData.data?.user?.id,
         username: fetchedData.data?.user?.name,
         email: fetchedData.data?.user?.email,
@@ -63,60 +64,86 @@ const Providers: React.FC<IProps> = ({ children }) => {
         followings: fetchedData.data?.user?.followings?.length,
         onlinehours: fetchedData.data?.user?.online_hours[0],
         totalposts: fetchedData.data?.user?.totalrestblog,
-      });
+      };
 
+      setUser(user);
+      setUserID(fetchedData.data?.user?.id);
       setCurrentPlan(PLAN[fetchedData.data.user.Plan as keyof typeof PLAN]);
     }
   }, [fetchedData, error]);
 
+  const initializeSocket = (userID: string | null) => {
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const _socket = new WebSocket(
+      `${wsProtocol}//${process.env.NEXT_PUBLIC_SOCKET_URL}/socket.io/`
+    );
+
+    _socket.onmessage = (received) => {
+      console.log('Socket message: ', received.data);
+      try {
+        const data = JSON.parse(received.data);
+
+        if (data?.command) {
+          setLastCommand(data?.command);
+        }
+
+        if (data?.session) {
+          console.log('Socket message: ', data?.session);
+          setCookie(null, 'session', data?.session, {
+            path: '/',
+          });
+          axios.defaults.headers.common['session'] = data?.session;
+        }
+      } catch (error) {
+        console.error('Ошибка при обработке сообщения сокета:', error);
+      }
+    };
+
+    _socket.onopen = () => {
+      console.log('Соединение установлено');
+      if (userID) {
+        _socket.send(JSON.stringify({
+          MessageType: 'updateProfile',
+          data: [{ userID }]
+        }));
+      }
+    };
+
+    _socket.onclose = (event) => {
+      console.log('Соединение закрыто:', event);
+      setTimeout(() => {
+        initializeSocket(userID);
+      }, 5000);
+    };
+
+    _socket.onerror = (error) => {
+      console.error('Ошибка сокета:', error);
+    };
+
+    setSocket(_socket);
+  };
+
   useEffect(() => {
-    if (process.browser) {
-      const wsProtocol =
-        window.location.protocol === 'https:' ? 'wss:' : 'wss:';
-      const _socket = new WebSocket(
-        `${wsProtocol}//${process.env.NEXT_PUBLIC_SOCKET_URL}/socket.io/`
-      );
-
-      _socket.onmessage = (received) => {
-        console.log('Socket message: ', received.data);
-        try {
-          const data = JSON.parse(received.data);
-
-          if (data?.command) {
-            setLastCommand(data?.command);
-          }
-
-          if (data?.session) {
-            console.log('Socket message: ', data?.session);
-            setCookie(null, 'session', data?.session, {
-              path: '/',
-            });
-            axios.defaults.headers.common['session'] = data?.session;
-          }
-        } catch (error) {
-          console.error('Ошибка при обработке сообщения сокета:', error);
+    if (typeof window !== 'undefined') {
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === 'visible') {
+          console.log('Страница стала видимой, переподключение к WebSocket');
+          initializeSocket(userID);
         }
       };
 
-      // const intervalId = setInterval(() => {
-      //   if (_socket.readyState === WebSocket.OPEN) {
-      //     _socket.send(
-      //       JSON.stringify({
-      //         messageType: 'ping',
-      //         data: [],
-      //       })
-      //     );
-      //   }
-      // }, 5000);
+      document.addEventListener('visibilitychange', handleVisibilityChange);
 
-      setSocket(_socket);
+      initializeSocket(userID);
 
       return () => {
-        // clearInterval(intervalId);
-        _socket.close();
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+        if (socket) {
+          socket.close();
+        }
       };
     }
-  }, []);
+  }, [userID]);
 
   return (
     <PaxContext.Provider
