@@ -1,6 +1,6 @@
 'use client';
 
-import { IRoom } from '@/app/[locale]/(public)/stream/page';
+import { IRoom } from '@/app/[locale]/(custom)/stream/page';
 import { StreamingCreateModal } from '@/components/chat/streamingCreateModal';
 // import axios from 'axios';
 // import { useEffect, useState } from 'react';
