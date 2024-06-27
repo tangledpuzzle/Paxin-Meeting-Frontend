@@ -73,6 +73,11 @@ const Providers: React.FC<IProps> = ({ children }) => {
   }, [fetchedData, error]);
 
   const initializeSocket = (userID: string | null) => {
+    // Закрываем предыдущее соединение перед созданием нового
+    if (socket) {
+      socket.close();
+    }
+
     const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const _socket = new WebSocket(
       `${wsProtocol}//${process.env.NEXT_PUBLIC_SOCKET_URL}/socket.io/`
@@ -111,6 +116,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
 
     _socket.onclose = (event) => {
       console.log('Соединение закрыто:', event);
+      // Попытка переподключения через 5 секунд
       setTimeout(() => {
         initializeSocket(userID);
       }, 5000);
@@ -124,25 +130,24 @@ const Providers: React.FC<IProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const handleVisibilityChange = () => {
-        if (document.visibilityState === 'visible') {
-          console.log('Страница стала видимой, переподключение к WebSocket');
-          initializeSocket(userID);
-        }
-      };
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        console.log('Страница стала видимой, переподключение к WebSocket');
+        initializeSocket(userID);
+      }
+    };
 
-      document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
-      initializeSocket(userID);
+    // Инициализируем сокет только при первом монтировании
+    initializeSocket(userID);
 
-      return () => {
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
-        if (socket) {
-          socket.close();
-        }
-      };
-    }
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (socket) {
+        socket.close();
+      }
+    };
   }, [userID]);
 
   return (
