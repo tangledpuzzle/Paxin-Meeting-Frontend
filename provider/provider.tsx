@@ -69,13 +69,21 @@ const Providers: React.FC<IProps> = ({ children }) => {
     }
   }, [fetchedData, error]);
 
-  useEffect(() => {
+  const connectWebSocket = () => {
     if (process.browser) {
       const wsProtocol =
         window.location.protocol === 'https:' ? 'wss:' : 'wss:';
       const _socket = new WebSocket(
         `${wsProtocol}//${process.env.NEXT_PUBLIC_SOCKET_URL}/socket.io/`
       );
+
+      _socket.onopen = () => {
+        console.log('WebSocket connected');
+        _socket.send(JSON.stringify({
+          MessageType: 'updateProfile',
+          data: [{ userID: "ss" }]
+        }));
+      };
 
       _socket.onmessage = (received) => {
         console.log('Socket message: ', received.data);
@@ -96,16 +104,22 @@ const Providers: React.FC<IProps> = ({ children }) => {
         } catch (error) {
           console.error('Ошибка при обработке сообщения сокета:', error);
         }
+      };
 
-        
+      _socket.onclose = () => {
+        console.log('WebSocket disconnected, attempting to reconnect...');
+        setTimeout(connectWebSocket, 5000); // Attempt to reconnect every 5 seconds
       };
 
       setSocket(_socket);
-
-      return () => {
-        _socket.close();
-      };
     }
+  };
+
+  useEffect(() => {
+    connectWebSocket();
+    return () => {
+      socket?.close();
+    };
   }, []);
 
   return (
