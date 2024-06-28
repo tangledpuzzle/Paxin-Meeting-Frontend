@@ -180,7 +180,7 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
       }
 
       if (!hasSentNotification) {
-        // await sendPushNotification();
+        await sendPushNotification();
         setHasSentNotification(true);
       }
     }
@@ -229,7 +229,7 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
           </button>
         </div>
       </div>
-      <div className='aspect-video flex-1 rounded-sm border bg-neutral-200 dark:bg-neutral-800 relative'>
+      <div className='flex-1 rounded-sm border bg-neutral-200 dark:bg-neutral-800 relative'>
         <video
           ref={previewVideoEl}
           className='h-full w-full absolute inset-0'
