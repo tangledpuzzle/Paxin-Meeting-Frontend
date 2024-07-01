@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/lib/utils';
 import { useRemoteParticipants } from '@livekit/components-react';
 import Presence from './presence';
@@ -10,8 +12,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
 import { useState, useContext, useEffect } from 'react';
 import { PaxContext } from '@/context/context';
-import apiHelper from '@/helpers/api/apiRequest';
-import toast from "react-hot-toast";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import {
   Dialog,
@@ -33,6 +35,12 @@ interface Participant {
   };
 }
 
+interface FormValue {
+  author: string;
+  amount: string;
+  sms: string;
+}
+
 export default function ChannelInfo({
   streamerIdentity,
   viewerIdentity,
@@ -41,7 +49,6 @@ export default function ChannelInfo({
   const [open, setOpen] = useState(false);
   const [donationAmount, setDonationAmount] = useState('');
   const [donationMSG, setDonationMSG] = useState('');
-
   const { user } = useContext(PaxContext);
   const [speakingParticipant, setSpeakingParticipant] = useState<Participant[]>([]);
   
@@ -50,26 +57,43 @@ export default function ChannelInfo({
     setSpeakingParticipant(filteredParticipants);
   }, [participants]);
 
-  const handleDonation = async () => {
-    const requestBody = {
-      author: speakingParticipant[0]?.name,
+  const SendRequest = async (data: FormValue) => {
+    try {
+      const res = await fetch(`/api/profiles/donat`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'post',
+        body: JSON.stringify({
+        data
+        }),
+      });
+      if (res.status === 200) {
+        toast.success('Donation successful', {
+          position: 'top-right',
+        });
+        setOpen(false);
+      } else {
+        toast.error('Donation failed', {
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      toast.error('Donation failed', {
+        position: 'top-right',
+      });
+    }
+  };
+
+  const handleDonation = () => {
+
+    const data: FormValue = {
+      author: speakingParticipant[0]?.name || '',
       amount: donationAmount,
-      msg: donationMSG,
+      sms: donationMSG
     };
 
-    const response = await apiHelper({
-      url: process.env.NEXT_PUBLIC_API_URL + '/api/profile/streaming/donat',
-      method: 'POST',
-      data: requestBody,
-    });
-
-    if (!response) {
-      toast.error("Ошибка при отправке благодарности автору вещания");
-      return;
-    }
-
-    toast.success('Благодарность была отправлена автору вещания');
-    setOpen(false);
+    SendRequest(data);
   };
 
   return (
@@ -89,6 +113,7 @@ export default function ChannelInfo({
                   src={`https://proxy.myru.online/100/https://img.myru.online/${speakingParticipant[0]?.metadata}`}
                   alt={speakingParticipant[0]?.name}
                 />
+
                 {speakingParticipant.length && (
                   <div className='absolute z-30 mt-14 w-12 rounded-xl border-2 border-white bg-red-600 p-1 text-center text-xs font-bold uppercase text-white transition-all dark:border-zinc-900'>
                     Live
@@ -110,40 +135,38 @@ export default function ChannelInfo({
             </div>
           </div>
         </div>
-        <div className='flex gap-2'>
-          {user && (
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <Button className='btn btn--wide w-full !rounded-md h-[32px] pr-4' asChild>
-                  <BiSolidDonateHeart />
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Благодарность автору</DialogTitle>
-                  <DialogDescription>
-                    Ваша поддержка помогает автору {speakingParticipant[0]?.name} продолжать работу.
-                  </DialogDescription>
-                </DialogHeader>
-                <span className='text-center md:text-left'>Ваш баланс: {user?.balance} ₽</span>
-                <Input 
-                  placeholder='Какую сумму хотите отправить?' 
-                  value={donationAmount} 
-                  onChange={(e) => setDonationAmount(e.target.value)} 
-                />
-                <Textarea
-                 value={donationMSG} 
-                 onChange={(e) => setDonationMSG(e.target.value)} 
+        <div className='flex gap-2'>                 
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button className='btn btn--wide w-full !rounded-md h-[32px] pr-4' asChild>
+                <BiSolidDonateHeart />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Благодарность автору</DialogTitle>
+                <DialogDescription>
+                  Ваша поддержка помогает автору {speakingParticipant[0]?.name} продолжать работу.
+                </DialogDescription>
+              </DialogHeader>
+              Ваш баланс: {user?.balance} ₽
+              <Input 
+                placeholder='Какую сумму хотите отправить?' 
+                value={donationAmount} 
+                onChange={(e) => setDonationAmount(e.target.value)} 
+              />
+               <Textarea
+                 value={donationMSG}
+                 onChange={(e) => setDonationMSG(e.target.value)}
                  placeholder='Сопроводительное письмо'/>
-                <div className='mt-4'>
-                  <div className='flex gap-2'>
-                    <Button onClick={handleDonation}>Поблагодарить</Button>
-                    <Button onClick={() => setOpen(false)}>Закрыть</Button>
-                  </div>
+              <div className='mt-4'>
+                <div className='flex gap-2'>
+                  <Button onClick={handleDonation}>Поблагодарить</Button>
+                  <Button onClick={() => setOpen(false)}>Закрыть</Button>
                 </div>
-              </DialogContent>
-            </Dialog>
-          )}
+              </div>
+            </DialogContent>
+          </Dialog>
           <Presence participantIdentity={viewerIdentity} />
         </div>
       </div>
