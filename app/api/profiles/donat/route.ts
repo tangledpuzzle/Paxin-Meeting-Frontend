@@ -21,7 +21,10 @@ export async function POST(req: NextRequest) {
 
     const requestBody = await req.json();
 
-    // console.log(`${process.env.API_URL}/api/newreq/post?mode=${mode}`, requestBody)
+    const payload = requestBody.data ? requestBody.data : requestBody;
+
+    console.log(payload);
+
 
     const res = await fetch(
       `${process.env.API_URL}/api/profile/streaming/donat`,
@@ -31,7 +34,7 @@ export async function POST(req: NextRequest) {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify(payload),
       }
     );
 
