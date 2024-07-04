@@ -56,7 +56,7 @@ export function StreamingCreateModal({
     data: fetchedData,
     error,
     mutate: blogsMutate,
-  } = useSWR('/api/flows/me', fetcher);
+  } = useSWR(`/api/flows/me?language=${locale}`, fetcher);
 
   const router = useRouter();
   async function createTradingRoom() {
@@ -73,9 +73,9 @@ export function StreamingCreateModal({
     });
     if (response == null) {
       setLoading(false);
-      toast.error('Error occurred');
+      toast.error('Ошибка');
     } else {
-      toast.success('Successfully created');
+      toast.success('Комната создана');
       const { token } = response.data;
       localStorage.setItem(`${roomId}-streamer-token`, token);
       router.push(`/stream/${roomId}/host`);
@@ -95,7 +95,14 @@ export function StreamingCreateModal({
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(isOpen) => {
+      if (setOpen) {
+        setOpen(isOpen);
+      }
+      if (isOpen) {
+        blogsMutate();
+      }
+    }}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='max-w-md'>
         <DialogHeader>
