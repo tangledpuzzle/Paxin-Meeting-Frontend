@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BodyPix } from '@tensorflow-models/body-pix';
+import LazyBodyPix from '@/lib/LazyBodyPix';
 
 import { BackgroundConfig } from './helpers/backgroundHelper';
 import { PostProcessingConfig } from './helpers/postProcessingHelper';
@@ -12,7 +12,6 @@ type OutputViewerProps = {
   backgroundConfig: BackgroundConfig;
   segmentationConfig: SegmentationConfig;
   postProcessingConfig: PostProcessingConfig;
-  bodyPix: BodyPix;
   tflite: any;
   id: string;
   onCanvasRef?: (canvasRef: React.MutableRefObject<HTMLCanvasElement>) => void;
@@ -23,16 +22,15 @@ const OutputViewer = ({
   backgroundConfig,
   segmentationConfig,
   postProcessingConfig,
-  bodyPix,
   tflite,
   id,
   onCanvasRef,
 }: OutputViewerProps) => {
-  const { pipeline, canvasRef } = useRenderingPipeline(
+  const { pipeline, canvasRef, setBodyPix } = useRenderingPipeline(
     sourcePlayback,
     backgroundConfig,
     segmentationConfig,
-    bodyPix,
+    null,
     tflite
   );
 
@@ -61,14 +59,24 @@ const OutputViewer = ({
 
   return (
     <div className='root preview-camera-webcam'>
-      <canvas
-        key={segmentationConfig.pipeline}
-        ref={canvasRef}
-        className='render my-5 w-full'
-        width={sourcePlayback.width}
-        height={sourcePlayback.height}
-        id={id}
-      />
+      <LazyBodyPix>
+        {(bodyPix) => {
+          if (bodyPix) {
+            setBodyPix(bodyPix);
+          }
+
+          return (
+            <canvas
+              key={segmentationConfig.pipeline}
+              ref={canvasRef}
+              className='render my-5 w-full'
+              width={sourcePlayback.width}
+              height={sourcePlayback.height}
+              id={id}
+            />
+          );
+        }}
+      </LazyBodyPix>
     </div>
   );
 };

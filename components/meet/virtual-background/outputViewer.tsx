@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BodyPix } from '@tensorflow-models/body-pix';
+import useBodyPix from '@/components/header/smallMeet/virtual-background/hooks/useBodyPix';
 
 import { BackgroundConfig } from './helpers/backgroundHelper';
 import { PostProcessingConfig } from './helpers/postProcessingHelper';
@@ -12,7 +12,6 @@ type OutputViewerProps = {
   backgroundConfig: BackgroundConfig;
   segmentationConfig: SegmentationConfig;
   postProcessingConfig: PostProcessingConfig;
-  bodyPix: BodyPix;
   tflite: any;
   id: string;
   onCanvasRef?: (canvasRef: React.MutableRefObject<HTMLCanvasElement>) => void;
@@ -23,18 +22,24 @@ const OutputViewer = ({
   backgroundConfig,
   segmentationConfig,
   postProcessingConfig,
-  bodyPix,
   tflite,
   id,
   onCanvasRef,
 }: OutputViewerProps) => {
-  const { pipeline, canvasRef } = useRenderingPipeline(
+  const bodyPix = useBodyPix();
+  const { pipeline, canvasRef, setBodyPix } = useRenderingPipeline(
     sourcePlayback,
     backgroundConfig,
     segmentationConfig,
     bodyPix,
     tflite
   );
+
+  useEffect(() => {
+    if (bodyPix) {
+      setBodyPix(bodyPix);
+    }
+  }, [bodyPix, setBodyPix]);
 
   useEffect(() => {
     if (pipeline) {
@@ -61,14 +66,18 @@ const OutputViewer = ({
 
   return (
     <div className='root preview-camera-webcam'>
-      <canvas
-        key={segmentationConfig.pipeline}
-        ref={canvasRef}
-        className='render my-5 w-full'
-        width={sourcePlayback.width}
-        height={sourcePlayback.height}
-        id={id}
-      />
+      {bodyPix ? (
+        <canvas
+          key={segmentationConfig.pipeline}
+          ref={canvasRef}
+          className='render my-5 w-full'
+          width={sourcePlayback.width}
+          height={sourcePlayback.height}
+          id={id}
+        />
+      ) : (
+        <p>Loading BodyPix model...</p>
+      )}
     </div>
   );
 };
