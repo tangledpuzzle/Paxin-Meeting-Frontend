@@ -109,7 +109,7 @@ export default function CTASection({ title, description, icon }: CTAProps) {
           </Button>
         </PlanUpgradeModal>
       </div>
-      <div className='flex gap-2'>
+      <div className='flex gap-2 flex-col md:flex-row'>
         <PlanUpgradeModal>
           <Button variant='outline' className='hidden w-full sm:flex'>
             <FaHardDrive className='mr-2 size-4' />
