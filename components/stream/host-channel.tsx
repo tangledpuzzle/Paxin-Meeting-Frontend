@@ -1,9 +1,9 @@
 'use client';
 
 import { createStreamerToken } from '@/app/[locale]/(protected)/stream/action';
-import { LiveKitRoom, useLocalParticipant } from '@livekit/components-react';
+import { LiveKitRoom, useLocalParticipant, useParticipants } from '@livekit/components-react';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import Chat from './host-chat';
 import ChannelInfo from '@/components/stream/channel-info';
 import ProductPanel, { IProduct } from './product-panel';
@@ -12,7 +12,7 @@ import StreamPlayerWrapper from '@/components/stream/stream-player'; // Импо
 import { Track, createLocalTracks, LocalTrack } from 'livekit-client';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { usePaxContext } from '@/context/context';
+import { usePaxContext, PaxContext } from '@/context/context';
 
 interface HostChannelProps {
   slug: string;
@@ -32,8 +32,19 @@ export default function HostChannel({
   const [streamerToken, setStreamerToken] = useState('');
   const router = useRouter();
   const { user } = usePaxContext();
+  const { lastCommand } = useContext(PaxContext);
+
 
   useEffect(() => {
+    if (lastCommand === 'newDonat') {
+      toast.success('ssss', {
+        position: 'top-right',
+      });
+    }
+  }, [lastCommand]);
+
+  useEffect(() => {
+
     const getOrCreateStreamerToken = async () => {
       const SESSION_STREAMER_TOKEN_KEY = `${slug}-streamer-token`;
       const sessionToken = localStorage.getItem(SESSION_STREAMER_TOKEN_KEY);
@@ -86,9 +97,9 @@ export default function HostChannel({
       if (tokenKey) localStorage.removeItem(tokenKey);
     }
     if (response == null) {
-      toast.error('Error occurred');
+      toast.error('Ошибка');
     } else {
-      toast.success('A room is closed');
+      toast.success('Эфир закрыт');
       router.push('/profile/posts');
     }
   }
@@ -103,7 +114,7 @@ export default function HostChannel({
         userId={userId}
         sendPushNotification={sendPushNotification}
         deleteTradingRoom={deleteTradingRoom}
-        products={products} // Pass products here
+        products={products} // Передаем продукты здесь
       />
     </LiveKitRoom>
   );
@@ -113,7 +124,7 @@ interface HostStreamManagerProps {
   userId: string;
   sendPushNotification: () => Promise<void>;
   deleteTradingRoom: () => Promise<void>;
-  products: IProduct[]; // Add products to the interface
+  products: IProduct[]; // Добавляем продукты в интерфейс
 }
 
 function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, products }: HostStreamManagerProps) {
@@ -122,8 +133,10 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
   const [isPublishing, setIsPublishing] = useState(false);
   const [isUnpublishing, setIsUnpublishing] = useState(false);
   const [hasSentNotification, setHasSentNotification] = useState(false);
+  const [participantCount, setParticipantCount] = useState(0);
   const previewVideoEl = useRef<HTMLVideoElement>(null);
   const { localParticipant } = useLocalParticipant();
+  const participants = useParticipants();
 
   const createTracks = async () => {
     const tracks = await createLocalTracks({ audio: true, video: true });
@@ -154,6 +167,10 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
       audioTrack?.stop();
     };
   }, [videoTrack, audioTrack]);
+
+  useEffect(() => {
+    setParticipantCount(participants.length);
+  }, [participants]);
 
   const togglePublishing = useCallback(async () => {
     if (isPublishing && localParticipant) {
@@ -198,7 +215,7 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
                 <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75'></span>
                 <span className='relative inline-flex h-3 w-3 rounded-full bg-red-500'></span>
               </span>
-              LIVE
+               (кол-во зрителей {participantCount})
             </div>
           ) : (
             'Готов к эфиру'
