@@ -1,5 +1,3 @@
-/*eslint-disable*/
-
 import { BodyPix } from '@tensorflow-models/body-pix';
 import { useEffect, useRef, useState } from 'react';
 import { BackgroundConfig } from '../helpers/backgroundHelper';
@@ -10,13 +8,12 @@ import { TFLite } from './useTFLite';
 import { createTimerWorker } from '../helpers/timerHelper';
 import { buildWebGL2Pipeline } from '../pipelines/webgl2/webgl2Pipeline';
 import { buildCanvas2dPipeline } from '../pipelines/canvas2d/canvas2dPipeline';
-// declare const process.env.NEXT_PUBLIC_IS_PRODUCTION: boolean;
 
 function useRenderingPipeline(
   sourcePlayback: SourcePlayback,
   backgroundConfig: BackgroundConfig,
   segmentationConfig: SegmentationConfig,
-  bodyPix: BodyPix,
+  initialBodyPix: BodyPix | null,
   tflite: TFLite
 ) {
   const [pipeline, setPipeline] = useState<RenderingPipeline | null>(null);
@@ -55,7 +52,7 @@ function useRenderingPipeline(
             backgroundConfig,
             segmentationConfig,
             canvasRef.current,
-            bodyPix,
+            initialBodyPix!,
             tflite,
             addFrameEvent
           );
@@ -124,7 +121,13 @@ function useRenderingPipeline(
 
       setPipeline(null);
     };
-  }, [sourcePlayback, backgroundConfig, segmentationConfig, bodyPix, tflite]);
+  }, [sourcePlayback, backgroundConfig, segmentationConfig, initialBodyPix, tflite]);
+
+  const setBodyPix = (bodyPix: BodyPix) => {
+    if (pipeline) {
+      pipeline.setBodyPixModel(bodyPix);
+    }
+  };
 
   return {
     pipeline,
@@ -132,6 +135,7 @@ function useRenderingPipeline(
     canvasRef,
     fps,
     durations,
+    setBodyPix,
   };
 }
 

@@ -46,8 +46,7 @@ const VirtualBackground = ({
         }
       });
     }
-    // eslint-disable-next-line
-  }, [isSIMDSupported]);
+  }, [isSIMDSupported, bodyPix]);
 
   return (
     <>

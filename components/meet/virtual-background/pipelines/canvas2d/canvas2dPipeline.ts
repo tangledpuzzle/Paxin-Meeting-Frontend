@@ -17,7 +17,6 @@ export function buildCanvas2dPipeline(
   addFrameEvent: () => void
 ) {
   const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
-
   const [segmentationWidth, segmentationHeight] =
     inputResolutions[segmentationConfig.inputResolution];
   const segmentationPixelCount = segmentationWidth * segmentationHeight;
@@ -38,6 +37,7 @@ export function buildCanvas2dPipeline(
   const outputMemoryOffset = tflite._getOutputMemoryOffset() / 4;
 
   let postProcessingConfig: PostProcessingConfig;
+  let currentBodyPix: BodyPix = bodyPix;
 
   async function render() {
     if (backgroundConfig.type !== 'none') {
@@ -63,6 +63,10 @@ export function buildCanvas2dPipeline(
     newPostProcessingConfig: PostProcessingConfig
   ) {
     postProcessingConfig = newPostProcessingConfig;
+  }
+
+  function setBodyPixModel(newBodyPix: BodyPix) {
+    currentBodyPix = newBodyPix;
   }
 
   function cleanUp() {
@@ -104,7 +108,7 @@ export function buildCanvas2dPipeline(
   }
 
   async function runBodyPixInference() {
-    const segmentation = await bodyPix.segmentPerson(segmentationMaskCanvas);
+    const segmentation = await currentBodyPix.segmentPerson(segmentationMaskCanvas);
     for (let i = 0; i < segmentationPixelCount; i++) {
       // Sets only the alpha component of each pixel
       segmentationMask.data[i * 4 + 3] = segmentation.data[i] ? 255 : 0;
@@ -252,5 +256,5 @@ export function buildCanvas2dPipeline(
     ctx.drawImage(img, cx, cy, cw, ch, x, y, w, h);
   }
 
-  return { render, updatePostProcessingConfig, cleanUp };
+  return { render, updatePostProcessingConfig, setBodyPixModel, cleanUp };
 }

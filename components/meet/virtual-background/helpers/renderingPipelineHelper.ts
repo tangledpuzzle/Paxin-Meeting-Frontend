@@ -1,11 +1,9 @@
 import { PostProcessingConfig } from './postProcessingHelper';
+import { BodyPix } from '@tensorflow-models/body-pix';
 
 export type RenderingPipeline = {
   render(): Promise<void>;
-  updatePostProcessingConfig(
-    newPostProcessingConfig: PostProcessingConfig
-  ): void;
-  // TODO Update background image only when loaded
-  // updateBackgroundImage(backgroundImage: HTMLImageElement): void
+  updatePostProcessingConfig(newPostProcessingConfig: PostProcessingConfig): void;
+  setBodyPixModel(bodyPix: BodyPix): void;
   cleanUp(): void;
 };

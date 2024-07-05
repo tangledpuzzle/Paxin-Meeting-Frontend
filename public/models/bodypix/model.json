@@ -1,0 +1,35 @@
+{
+    "format": "graph-model",
+    "generatedBy": "TensorFlow.js Converter v1.7.4",
+    "convertedBy": "TensorFlow.js Converter v1.7.4",
+    "modelTopology": {
+      "node": [
+      ],
+      "weightsManifest": [
+        {
+          "paths": [
+            "group1-shard1of2.bin",
+            "group1-shard2of2.bin"
+          ],
+          "weights": [
+          ]
+        }
+      ]
+    },
+    "weightsManifest": [
+      {
+        "paths": [
+          "group1-shard1of2.bin",
+          "group1-shard2of2.bin"
+        ],
+        "weights": [
+        ]
+      }
+    ],
+    "signature": {},
+    "savedModelInfo": {
+      "tags": [],
+      "signatureDefs": {}
+    }
+  }
+  
