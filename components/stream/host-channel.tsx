@@ -32,16 +32,19 @@ export default function HostChannel({
   const [streamerToken, setStreamerToken] = useState('');
   const router = useRouter();
   const { user } = usePaxContext();
-  const { lastCommand } = useContext(PaxContext);
+  const { lastCommand, additionalData } = useContext(PaxContext);
 
 
   useEffect(() => {
-    if (lastCommand === 'newDonat') {
-      toast.success('ssss', {
-        position: 'top-right',
+    if (lastCommand === 'newDonat' && additionalData.length > 0) {
+      additionalData.forEach(data => {
+        toast.success(`Отправил: ${data.name}, Сумму: ${data.total}, Сообщение: ${data.msg}`, {
+          position: 'top-right',
+        });
       });
     }
-  }, [lastCommand]);
+  }, [lastCommand, additionalData]);
+
 
   useEffect(() => {
 

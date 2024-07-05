@@ -1,6 +1,6 @@
 'use client';
 
-import { PaxContext, User } from '@/context/context';
+import { PaxContext, User, AdditionalData } from '@/context/context';
 import axios from 'axios';
 import { useLocale } from 'next-intl';
 import { setCookie } from 'nookies';
@@ -24,6 +24,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [postMode, setPostMode] = useState<string>('all');
   const [lastCommand, setLastCommand] = useState<string>('');
+  const [additionalData, setAdditionalData] = useState<AdditionalData[]>([]); 
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const locale = useLocale();
@@ -78,11 +79,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
       );
 
       _socket.onopen = () => {
-        console.log('WebSocket connected');
-        _socket.send(JSON.stringify({
-          MessageType: 'updateProfile',
-          data: [{ userID: "ss" }]
-        }));
+ 
       };
 
       _socket.onmessage = (received) => {
@@ -93,6 +90,11 @@ const Providers: React.FC<IProps> = ({ children }) => {
           if (data?.command) {
             setLastCommand(data?.command);
           }
+
+          if (data?.command === 'newDonat' && data?.data) {
+            setAdditionalData(data.data);
+          }
+
 
           if (data?.session) {
             console.log('Socket message: ', data?.session);
@@ -135,6 +137,8 @@ const Providers: React.FC<IProps> = ({ children }) => {
         setCurrentPlan,
         socket,
         setSocket,
+        additionalData, 
+        setAdditionalData, 
       }}
     >
       {children}
