@@ -15,7 +15,6 @@ function useBodyPix() {
         architecture: 'MobileNetV1',
         outputStride: 16,
         multiplier: 0.75,
-        modelUrl: '/models/bodypix/model.json'
       });
       setBodyPix(bodyPixStore);
       console.log('TensorFlow.js and BodyPix loaded');
