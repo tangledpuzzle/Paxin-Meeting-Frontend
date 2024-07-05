@@ -29,11 +29,18 @@ export interface User {
   totalposts: number;
 }
 
+export interface AdditionalData {
+  name: string;
+  total: string;
+  msg: string;
+}
+
 export type GlobalContent = {
   user: User | null;
   postMode: string;
   currentPlan: string;
   lastCommand: string;
+  additionalData: AdditionalData[]; 
   socket: WebSocket | null;
   // eslint-disable-next-line unused-imports/no-unused-vars
   setUser: (user: User | null) => void;
@@ -45,6 +52,7 @@ export type GlobalContent = {
   setCurrentPlan: (value: string) => void;
   // eslint-disable-next-line unused-imports/no-unused-vars
   setSocket: (value: WebSocket | null) => void;
+  setAdditionalData: (data: AdditionalData[]) => void; 
 };
 export const PaxContext = createContext<GlobalContent>({
   user: null,
@@ -53,9 +61,11 @@ export const PaxContext = createContext<GlobalContent>({
   postMode: 'all',
   currentPlan: 'BASIC',
   lastCommand: '',
+  additionalData: [],
   socket: null,
   setPostMode: () => {},
   setCurrentPlan: () => {},
   setSocket: () => {},
+  setAdditionalData: () => {}, 
 });
 export const usePaxContext = () => useContext(PaxContext);
