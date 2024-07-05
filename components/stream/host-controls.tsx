@@ -8,6 +8,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import Presence from './presence';
 import { usePaxContext } from '@/context/context';
+import { Loader2 } from 'lucide-react';
 
 interface Props {
   slug: string;
@@ -20,8 +21,11 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
   const [isPublishing, setIsPublishing] = useState(false);
   const [isUnpublishing, setIsUnpublishing] = useState(false);
   const [hasSentNotification, setHasSentNotification] = useState(false);
+  const [isStartingStream, setIsStartingStream] = useState(false); // Loading state for start stream button
+  const [isStoppingStream, setIsStoppingStream] = useState(false); // Loading state for stop stream button
+  const [isClosingStream, setIsClosingStream] = useState(false); // Loading state for close stream button
   const previewVideoEl = useRef<HTMLVideoElement>(null);
-  console.log('previewVideo', previewVideoEl)
+  console.log('previewVideo', previewVideoEl);
   const router = useRouter();
   const t = useTranslations('stream');
   const { localParticipant } = useLocalParticipant();
@@ -53,7 +57,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
   async function sendPushNotification() {
     const pageURL = window.location.href.replace('/host', '');
 
-    const response = await fetch('/api/push', {
+    await fetch('/api/push', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,15 +76,17 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
       audioTrack?.stop();
     };
   }, [videoTrack, audioTrack]);
+
   async function deleteTradingRoom() {
+    setIsClosingStream(true); // Start loading
     const response = await apiHelper({
       url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'room/delete/' + slug,
       method: 'DELETE',
     });
     const storeRoomId: string | null = localStorage.getItem('latest-stream-id');
-    if(storeRoomId !== null){
+    if (storeRoomId !== null) {
       const tokenKey = Object.keys(localStorage).find(key => key.startsWith(storeRoomId));
-      if(tokenKey) localStorage.removeItem(tokenKey)
+      if (tokenKey) localStorage.removeItem(tokenKey);
     }
     if (response == null) {
       toast.error('Error occurred');
@@ -88,9 +94,12 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
       toast.success('A room is closed');
       router.push('/profile/posts');
     }
+    setIsClosingStream(false); // Stop loading
   }
+
   const togglePublishing = useCallback(async () => {
     if (isPublishing && localParticipant) {
+      setIsStoppingStream(true);
       setIsUnpublishing(true);
 
       if (videoTrack) {
@@ -104,8 +113,11 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
 
       setTimeout(() => {
         setIsUnpublishing(false);
+        setIsStoppingStream(false);
       }, 2000);
     } else if (localParticipant) {
+      setIsStartingStream(true);
+
       if (videoTrack) {
         void localParticipant.publishTrack(videoTrack);
       }
@@ -117,10 +129,11 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
         await sendPushNotification();
         setHasSentNotification(true);
       }
+      setIsStartingStream(false);
     }
 
     setIsPublishing((prev) => !prev);
-  }, [audioTrack, isPublishing, localParticipant, videoTrack]);
+  }, [audioTrack, isPublishing, localParticipant, videoTrack, sendPushNotification]);
 
   return (
     <div className='flex h-full flex-col gap-4'>
@@ -144,25 +157,33 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
               size='sm'
               className='bg-red-600 hover:bg-red-700'
               onClick={() => void togglePublishing()}
-              disabled={isUnpublishing}
+              disabled={isUnpublishing || isStoppingStream}
             >
-              {isUnpublishing ? 'Stopping...' : 'Stop stream'}
+              {isStoppingStream ? (
+                <Loader2 className='animate-spin' />
+              ) : isUnpublishing ? (
+                'Останавливаем...'
+              ) : (
+                'Остановить эфир'
+              )}
             </Button>
           ) : (
             <Button
               size='sm'
               onClick={() => void togglePublishing()}
               className='animate-pulse'
+              disabled={isStartingStream}
             >
-              {t('start_stream')}
+              {isStartingStream ? <Loader2 className='animate-spin' /> : t('start_stream')}
             </Button>
           )}
           <Button
             size='sm'
             className='bg-red-600 hover:bg-red-700'
             onClick={deleteTradingRoom}
+            disabled={isClosingStream}
           >
-            {t('close_room')}
+            {isClosingStream ? <Loader2 className='animate-spin' /> : t('close_room')}
           </Button>
           <Presence participantIdentity={viewerIdentity} />
         </div>

@@ -13,6 +13,7 @@ import { Track, createLocalTracks, LocalTrack } from 'livekit-client';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { usePaxContext, PaxContext } from '@/context/context';
+import { Loader2 } from 'lucide-react';
 
 interface HostChannelProps {
   slug: string;
@@ -34,20 +35,17 @@ export default function HostChannel({
   const { user } = usePaxContext();
   const { lastCommand, additionalData } = useContext(PaxContext);
 
-
   useEffect(() => {
     if (lastCommand === 'newDonat' && additionalData.length > 0) {
       additionalData.forEach(data => {
-        toast.success(`Отправил: ${data.name}, Сумму: ${data.total}, Сообщение: ${data.msg}`, {
+        toast.success(`Донат от: ${data.name}, Сумму: ${data.total}, Сообщение: ${data.msg}`, {
           position: 'top-right',
         });
       });
     }
   }, [lastCommand, additionalData]);
 
-
   useEffect(() => {
-
     const getOrCreateStreamerToken = async () => {
       const SESSION_STREAMER_TOKEN_KEY = `${slug}-streamer-token`;
       const sessionToken = localStorage.getItem(SESSION_STREAMER_TOKEN_KEY);
@@ -137,6 +135,9 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
   const [isUnpublishing, setIsUnpublishing] = useState(false);
   const [hasSentNotification, setHasSentNotification] = useState(false);
   const [participantCount, setParticipantCount] = useState(0);
+  const [isStartingStream, setIsStartingStream] = useState(false); // Loading state for start stream button
+  const [isStoppingStream, setIsStoppingStream] = useState(false); // Loading state for stop stream button
+  const [isClosingStream, setIsClosingStream] = useState(false); // Loading state for close stream button
   const previewVideoEl = useRef<HTMLVideoElement>(null);
   const { localParticipant } = useLocalParticipant();
   const participants = useParticipants();
@@ -177,6 +178,7 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
 
   const togglePublishing = useCallback(async () => {
     if (isPublishing && localParticipant) {
+      setIsStoppingStream(true);
       setIsUnpublishing(true);
 
       if (videoTrack) {
@@ -190,8 +192,11 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
 
       setTimeout(() => {
         setIsUnpublishing(false);
+        setIsStoppingStream(false);
       }, 2000);
     } else if (localParticipant) {
+      setIsStartingStream(true);
+
       if (videoTrack) {
         void localParticipant.publishTrack(videoTrack);
       }
@@ -203,6 +208,7 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
         await sendPushNotification();
         setHasSentNotification(true);
       }
+      setIsStartingStream(false);
     }
 
     setIsPublishing((prev) => !prev);
@@ -229,23 +235,29 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
             <button
               className='bg-red-600 hover:bg-red-700 px-4 py-2 rounded'
               onClick={() => void togglePublishing()}
-              disabled={isUnpublishing}
+              disabled={isUnpublishing || isStoppingStream}
             >
-              {isUnpublishing ? 'Stopping...' : 'Stop stream'}
+              {isStoppingStream ? <Loader2 className='animate-spin' /> : isUnpublishing ? 'Останавливаем...' : 'Поставить паузу'}
             </button>
           ) : (
             <button
               className='bg-primary hover:bg-blue-700 px-4 py-2 rounded animate-pulse'
               onClick={() => void togglePublishing()}
+              disabled={isStartingStream}
             >
-              Начать
+              {isStartingStream ? <Loader2 className='animate-spin' /> : 'Начать'}
             </button>
           )}
           <button
             className='bg-red-600 hover:bg-red-700 px-4 py-2 rounded'
-            onClick={deleteTradingRoom}
+            onClick={async () => {
+              setIsClosingStream(true); // Start loading
+              await deleteTradingRoom();
+              setIsClosingStream(false); // Stop loading
+            }}
+            disabled={isClosingStream}
           >
-            Закрыть эфир
+            {isClosingStream ? <Loader2 className='animate-spin' /> : 'Закрыть эфир'}
           </button>
         </div>
       </div>
