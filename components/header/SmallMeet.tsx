@@ -287,7 +287,8 @@ export default function SmallMeet() {
             header='handle'
             handle='.handle'
             defaultClassName='fixed left-0 top-0 bg-white border-gray-500  shadow-md'
-            defaultPosition={popup.position}
+            defaultPosition={{ x: -20, y: 436 }}
+            // defaultPosition={popup.position}
             //   position={null}
             scale={1}
           >
