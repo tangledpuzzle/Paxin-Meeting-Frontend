@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react';
-import useBodyPix from '@/components/header/smallMeet/virtual-background/hooks/useBodyPix';
+import { BodyPix } from '@tensorflow-models/body-pix';
 
 import { BackgroundConfig } from './helpers/backgroundHelper';
 import { PostProcessingConfig } from './helpers/postProcessingHelper';
 import { SegmentationConfig } from './helpers/segmentationHelper';
 import { SourcePlayback } from './helpers/sourceHelper';
 import useRenderingPipeline from './hooks/useRenderingPipeline';
+import { TFLite } from './hooks/useTFLite';
 
 type OutputViewerProps = {
   sourcePlayback: SourcePlayback;
   backgroundConfig: BackgroundConfig;
   segmentationConfig: SegmentationConfig;
   postProcessingConfig: PostProcessingConfig;
-  tflite: any;
+  bodyPix: BodyPix;
+  tflite: TFLite;
   id: string;
   onCanvasRef?: (canvasRef: React.MutableRefObject<HTMLCanvasElement>) => void;
 };
@@ -22,11 +24,11 @@ const OutputViewer = ({
   backgroundConfig,
   segmentationConfig,
   postProcessingConfig,
+  bodyPix,
   tflite,
   id,
   onCanvasRef,
 }: OutputViewerProps) => {
-  const bodyPix = useBodyPix();
   const { pipeline, canvasRef, setBodyPix } = useRenderingPipeline(
     sourcePlayback,
     backgroundConfig,
@@ -61,8 +63,7 @@ const OutputViewer = ({
     return () => {
       clearTimeout(timeout);
     };
-    // eslint-disable-next-line
-  }, [canvasRef]);
+  }, [canvasRef, onCanvasRef]);
 
   return (
     <div className='root preview-camera-webcam'>
