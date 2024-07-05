@@ -233,7 +233,7 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
         <div className='flex gap-2'>
           {isPublishing ? (
             <button
-              className='bg-red-600 hover:bg-red-700 px-4 py-2 rounded'
+              className='bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-xs md:text-md'
               onClick={() => void togglePublishing()}
               disabled={isUnpublishing || isStoppingStream}
             >
@@ -241,7 +241,7 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
             </button>
           ) : (
             <button
-              className='bg-primary hover:bg-blue-700 px-4 py-2 rounded animate-pulse'
+              className='bg-primary hover:bg-blue-700 px-4 py-2 rounded animate-pulse text-xs md:text-md'
               onClick={() => void togglePublishing()}
               disabled={isStartingStream}
             >
@@ -249,7 +249,7 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
             </button>
           )}
           <button
-            className='bg-red-600 hover:bg-red-700 px-4 py-2 rounded'
+            className='bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-xs md:text-md'
             onClick={async () => {
               setIsClosingStream(true); // Start loading
               await deleteTradingRoom();
