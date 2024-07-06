@@ -64,7 +64,7 @@ export function MainNav({ items }: MainNavProps) {
           height={40.44}
           className='hidden size-[40.44px] dark:block'
         />
-        <span className='inline-block font-satoshi text-xl font-semibold sm:hidden lg:inline-block'>
+        <span className='inline-block font-satoshi text-xs font-semibold sm:hidden lg:inline-block'>
           {siteConfig.name}
         </span>
       </Link>
