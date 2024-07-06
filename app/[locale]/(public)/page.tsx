@@ -1,6 +1,9 @@
 // import AboutSection from '@/components/main/about';
 import FeatureSection from '@/components/main/feature';
 import HeroSection from '@/components/main/hero';
+import HeroSectionSecond from '@/components/main/secondHero';
+
+
 import JoinUsSection from '@/components/main/joinus';
 import NavigateSection from '@/components/main/navigate';
 import ServicesSection from '@/components/main/services';
@@ -141,16 +144,18 @@ export default async function LandingPage({
     </section>
   ) : (
     <section className='container grid items-center gap-0 px-0 pb-8'>
+      {/* <SectionHeroImage/> */}
       <HeroSection />
-      <ServicesSection />
       <NavigateSection />
-      <FeatureSection />
-      <ProfilesComponentWithSSR images={profilePhotos} />
-      <ServiceList />
+      {/* <FeatureSection /> */}
+      {/* <ServicesSection /> */}
+      {/* <HeroSectionSecond /> */}
+      {/* <ProfilesComponentWithSSR images={profilePhotos} /> */}
+      {/* <ServiceList /> */}
       {/* <RatingSSR /> */}
       {/* <TestimonialSection /> */}
       {/* <AboutSection /> */}
-      <DynamicLiAds tags={categories} />
+      {/* <DynamicLiAds tags={categories} /> */}
 
       {/* <DynamicComponentWithSSR /> */}
       {/* <ProfilestagsWithSSR /> */}

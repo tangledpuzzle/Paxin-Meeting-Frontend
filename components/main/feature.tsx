@@ -113,14 +113,14 @@ export default function FeatureSection() {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-start justify-center px-0 md:items-center'>
-      <div className='px-7'>
+    <div className='flex flex-col items-start justify-center px-0 md:items-center pt-8'>
+      {/* <div className='px-7'>
         <SectionBadge>{t('navigating_your_digital_universe')}</SectionBadge>
-      </div>
-      <SectionTitle className='px-7 text-left leading-[30px] md:text-center'>
+      </div> */}
+      <SectionTitle className='px-4 text-left leading-[30px] md:text-center'>
         {t('unleashing_future_online_interaction')}
       </SectionTitle>
-      <SectionDescription className='max-w-full px-7 pb-[36px] text-left md:text-center'>
+      <SectionDescription className='max-w-full px-4 pb-[36px] text-left md:text-center'>
         {t('unleashing_future_online_interaction_description')}
       </SectionDescription>
       <div className='grid grid-cols-1 gap-8 px-0 pb-[0px] sm:grid-cols-2 md:px-7 md:pb-[0px] xl:grid-cols-4'>

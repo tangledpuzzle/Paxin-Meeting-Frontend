@@ -28,7 +28,7 @@ function SectionHeroImage({}: SectionHeroImageProps) {
   return (
     <div
       className={cn(
-        'wwg relative mt-4 flex w-full items-center justify-center px-4'
+        'wwg relative mt-4 flex w-full items-center justify-center px-4 md:px-8'
       )}
     >
       <motion.div
