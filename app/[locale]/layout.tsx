@@ -1,10 +1,9 @@
 import Providers from '@/provider/provider';
 import SessionProviders from '@/provider/session-provider';
 import '@/styles/globals.css';
-import { Suspense } from "react";
-import { Metrika } from "@/components/metrika";
+import { Suspense } from 'react';
+import { Metrika } from '@/components/metrika';
 import CustomToaster from '@/components/common/custom-toast';
-// import NotificationMessage from '@/components/common/notification';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
 import { MetadataUpdater } from '@/lib/dynamicMetadata';
@@ -17,10 +16,11 @@ import { getServerSession } from 'next-auth';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import StoreProvider from '../StoreProvider';
 import { StreamProvider } from '@/provider/stream-provider';
-import Chatbot from "@/components/chatbot";
-import { Toaster } from "react-hot-toast";
+import Chatbot from '@/components/chatbot';
+import { Toaster } from 'react-hot-toast';
 import Script from 'next/script';
 import NextTopLoader from 'nextjs-toploader';
+import { cookies } from 'next/headers';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -63,6 +63,10 @@ export default async function RootLayout({
   unstable_setRequestLocale(locale);
   const session = await getServerSession();
 
+  // Access the cookies to get the initial access token
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get('access_token')?.value || null;
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
@@ -94,39 +98,31 @@ export default async function RootLayout({
           showAtBottom={false}
         />
         <SessionProviders session={session}>
-          <Providers>
+          <Providers initialAccessToken={accessToken}>
             <StoreProvider>
               <RTCProvider>
                 <StreamProvider>
-
-                <ThemeProvider
-                  attribute='class'
-                  defaultTheme='system'
-                  enableSystem={true}
-                >
-                  {children}
-                  {/* <NotificationMessage /> */}
-                  <CustomToaster />
-                  {/* <Chatbot
-                    title="Paxbot"
-                    subtitle="Online Paxbot"
-                    botName="Paxbot"
-                    welcomeMessage="Hi, I'm Paxbot. How can I help you today?"
-                  /> */}
-                  <Toaster />
-                  <MetadataUpdater />
-                  <Script id="disable-zoom" strategy="afterInteractive">
-                    {`
-                      document.addEventListener('gesturestart', function (e) {
-                        e.preventDefault();
-                      });
-                      document.addEventListener('dblclick', function (e) {
-                        e.preventDefault();
-                      });
-                    `}
-                  </Script>
-                </ThemeProvider>
-                <TailwindIndicator />
+                  <ThemeProvider
+                    attribute='class'
+                    defaultTheme='system'
+                    enableSystem={true}
+                  >
+                    {children}
+                    <CustomToaster />
+                    <Toaster />
+                    <MetadataUpdater />
+                    <Script id="disable-zoom" strategy="afterInteractive">
+                      {`
+                        document.addEventListener('gesturestart', function (e) {
+                          e.preventDefault();
+                        });
+                        document.addEventListener('dblclick', function (e) {
+                          e.preventDefault();
+                        });
+                      `}
+                    </Script>
+                  </ThemeProvider>
+                  <TailwindIndicator />
                 </StreamProvider>
               </RTCProvider>
             </StoreProvider>
