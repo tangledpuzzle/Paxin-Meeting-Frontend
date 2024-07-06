@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 import { PaxContext, User, AdditionalData } from '@/context/context';
 import axios from 'axios';
@@ -7,9 +7,12 @@ import { setCookie } from 'nookies';
 import React, { ReactNode, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import cookie from 'cookie';
+import cookies from 'next-cookies';
+import { GetServerSideProps } from 'next';
 
 interface IProps {
   children: ReactNode;
+  initialAccessToken: string | null;
 }
 
 const PLAN = {
@@ -20,11 +23,11 @@ const PLAN = {
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const Providers: React.FC<IProps> = ({ children }) => {
+const Providers: React.FC<IProps> = ({ children, initialAccessToken }) => {
   const [user, setUser] = useState<User | null>(null);
   const [postMode, setPostMode] = useState<string>('all');
   const [lastCommand, setLastCommand] = useState<string>('');
-  const [additionalData, setAdditionalData] = useState<AdditionalData[]>([]); 
+  const [additionalData, setAdditionalData] = useState<AdditionalData[]>([]);
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const locale = useLocale();
@@ -33,7 +36,7 @@ const Providers: React.FC<IProps> = ({ children }) => {
   );
 
   const { data: fetchedData, error, mutate: userMutate } = useSWR(
-    cookie.parse(document.cookie || '').access_token ? userFetchURL : null,
+    initialAccessToken ? userFetchURL : null,
     fetcher
   );
 
@@ -71,9 +74,9 @@ const Providers: React.FC<IProps> = ({ children }) => {
   }, [fetchedData, error]);
 
   const connectWebSocket = () => {
-    if (process.browser) {
+    if (typeof window !== 'undefined') {
       const wsProtocol =
-        window.location.protocol === 'https:' ? 'wss:' : 'wss:';
+        window.location.protocol === 'https:' ? 'wss:' : 'ws:';
       const _socket = new WebSocket(
         `${wsProtocol}//${process.env.NEXT_PUBLIC_SOCKET_URL}/socket.io/`
       );
@@ -144,6 +147,16 @@ const Providers: React.FC<IProps> = ({ children }) => {
       {children}
     </PaxContext.Provider>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { access_token } = cookies(context);
+
+  return {
+    props: {
+      initialAccessToken: access_token || null,
+    },
+  };
 };
 
 export default Providers;
