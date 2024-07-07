@@ -11,7 +11,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const nextConfig = {
@@ -40,7 +39,7 @@ const nextConfig = {
       },
     ];
   },
-  webpack: (config, { isServer, dev }) => {
+  webpack: (config, { isServer }) => {
     if (!isServer) {
       config.optimization.runtimeChunk = 'single';
       config.optimization.concatenateModules = true;
@@ -68,22 +67,6 @@ const nextConfig = {
       }
     }
 
-    // if (!dev) {
-    //   config.plugins.push(new CleanWebpackPlugin());
-    // }
-
-    config.module.rules.push({
-      test: /\.(jpe?g|png|gif|svg)$/i,
-      use: [
-        {
-          loader: 'image-webpack-loader',
-          options: {
-            bypassOnDebug: true,
-            disable: true,
-          },
-        },
-      ],
-    });
 
     return config;
   },
