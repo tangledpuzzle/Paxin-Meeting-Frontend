@@ -23,7 +23,7 @@ const JoinBtn = ({ breakoutRoomId }: IJoinBtnProps) => {
   useEffect(() => {
     if (!isLoading && data) {
       if (!data.status) {
-        // @ts-ignore
+        // @ts-expect-error: no sms
         toast(t(data.msg), {
           type: 'error',
         });

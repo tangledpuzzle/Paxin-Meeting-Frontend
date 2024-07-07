@@ -14,7 +14,7 @@ export const breakoutRoomApi = createApi({
     baseUrl: process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL + '/api/breakoutRoom',
     prepareHeaders: (headers, api) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      // @ts-expect-error: no sms
       const token = api.getState().session.token;
       headers.append('Authorization', token);
       headers.append('Content-Type', 'application/protobuf');

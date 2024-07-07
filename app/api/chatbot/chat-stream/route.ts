@@ -2,7 +2,7 @@ import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
-import cookie from 'cookie'; 
+import cookie from 'cookie';
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     accessToken = parsedCookies.access_token;
   }
   if (!accessToken) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const body = await req.json();
@@ -45,11 +45,14 @@ export async function POST(req: NextRequest) {
 
     const stream = new ReadableStream({
       async start(controller) {
-        while (true) {
-          const { done, value } = await reader.read();
+        let isReading = true;
 
+        while (isReading) {
+          const { done, value } = await reader.read();
+        
           if (done) {
             controller.close();
+            isReading = false;  // Exit the loop
           } else {
             controller.enqueue(value);
           }

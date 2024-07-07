@@ -58,7 +58,7 @@ const useResumableFilesUpload = ({
         });
       },
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      // @ts-expect-error: no sms
       maxFileSize: maxFileSize ? Number(maxFileSize) * 1000000 : undefined,
       maxFileSizeErrorCallback() {
         toast(t('notifications.max-file-size-exceeds'), {
@@ -101,7 +101,6 @@ const useResumableFilesUpload = ({
 
       try {
         const res = JSON.parse(message);
-        // @ts-ignore
         toast(t(res.msg), {
           type: toast.TYPE.ERROR,
         });
@@ -114,7 +113,7 @@ const useResumableFilesUpload = ({
 
     r.on('uploadStart', function () {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      // @ts-expect-error: no sms
       toastId.current = toast(
         t('right-panel.uploading-file', {
           fileName,

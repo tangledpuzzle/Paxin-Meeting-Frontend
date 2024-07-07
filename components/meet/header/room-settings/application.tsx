@@ -3,7 +3,6 @@ import React from 'react';
 import { Switch } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 
-import languages from '@/helpers/languages';
 import { RootState } from '@/store';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import {

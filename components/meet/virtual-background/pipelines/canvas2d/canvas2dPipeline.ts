@@ -108,7 +108,9 @@ export function buildCanvas2dPipeline(
   }
 
   async function runBodyPixInference() {
-    const segmentation = await currentBodyPix.segmentPerson(segmentationMaskCanvas);
+    const segmentation = await currentBodyPix.segmentPerson(
+      segmentationMaskCanvas
+    );
     for (let i = 0; i < segmentationPixelCount; i++) {
       // Sets only the alpha component of each pixel
       segmentationMask.data[i * 4 + 3] = segmentation.data[i] ? 255 : 0;
@@ -203,7 +205,7 @@ export function buildCanvas2dPipeline(
    *
    * If image and context are only arguments rectangle will equal canvas
    */
-  //@ts-ignore
+  //@ts-expect-error: no sms
   function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
     if (arguments.length === 2) {
       x = y = 0;

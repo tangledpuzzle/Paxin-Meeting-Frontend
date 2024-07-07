@@ -8,7 +8,7 @@
   #main-area.column-camera-position-bottom.fullWidthMainArea
     .verticalsWebcamsActivated
     .all-webcam-wrapper {
-    @apply w-full top-0 h-[130px] py-[5px] px-[15px];
+    @apply top-0 h-[130px] w-full px-[15px] py-[5px];
   }
   #main-area.column-camera-position-top.column-camera-width-medium.fullWidthMainArea
     .verticalsWebcamsActivated
@@ -34,7 +34,7 @@
     .verticalsWebcamsActivated
     .all-webcam-wrapper
     .video-camera-item {
-    @apply inline-block h-full m-0;
+    @apply m-0 inline-block h-full;
   }
   #main-area.column-camera-position-top.fullWidthMainArea
     .verticalsWebcamsActivated
@@ -74,7 +74,7 @@
     .all-webcam-wrapper
     .all-webcam-wrapper-inner
     button.next-cam {
-    @apply h-full w-5 right-0 left-auto rounded-none;
+    @apply left-auto right-0 h-full w-5 rounded-none;
   }
   #main-area.column-camera-position-top.fullWidthMainArea
     .verticalsWebcamsActivated
@@ -100,7 +100,7 @@
     .all-webcam-wrapper
     .all-webcam-wrapper-inner
     button.previous-cam {
-    @apply w-5 h-full p-0 rounded-none;
+    @apply h-full w-5 rounded-none p-0;
   }
   #main-area.column-camera-position-top.fullWidthMainArea
     .verticalsWebcamsActivated
@@ -320,15 +320,15 @@
   }
   #main-area.fullWidthMainArea.column-camera-position-left.column-camera-width-full
     .active-speakers-wrap {
-    @apply w-[calc(100%-300px)] left-auto right-[30px];
+    @apply left-auto right-[30px] w-[calc(100%-300px)];
   }
   #main-area.fullWidthMainArea.column-camera-position-left.column-camera-width-medium
     .active-speakers-wrap {
-    @apply w-[calc(100%-280px)] left-auto right-[30px];
+    @apply left-auto right-[30px] w-[calc(100%-280px)];
   }
   #main-area.fullWidthMainArea.column-camera-position-left.column-camera-width-small
     .active-speakers-wrap {
-    @apply w-[calc(100%-260px)] left-auto right-[30px];
+    @apply left-auto right-[30px] w-[calc(100%-260px)];
   }
 
   .column-camera-position-top .active-speakers-wrap,

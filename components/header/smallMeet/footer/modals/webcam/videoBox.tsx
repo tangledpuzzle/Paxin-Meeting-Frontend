@@ -53,7 +53,7 @@ const VideoBox = ({
         height='50'
         onLoadedData={handleVideoLoad}
         playsInline
-        webkit-playsInline
+        {...{ webkitPlaysInline: true } as any}
       />
     </div>
   );

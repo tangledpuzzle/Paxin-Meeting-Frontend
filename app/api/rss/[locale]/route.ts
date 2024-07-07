@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
     const data = await res.json();
 
-    //@ts-ignore
+    // @ts-expect-error: no sms
     const feed = new RSS({
       title: 'MYRUONLINE',
       description: 'MYRUONLINE RSS Feed',

@@ -4,7 +4,7 @@ import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { useLocale } from 'next-intl';
 import { headers } from 'next/headers';
-import cookie from 'cookie'; 
+import cookie from 'cookie';
 
 export function generateMetadata({ params: { slug } }: PageProps) {
   return {
@@ -76,12 +76,12 @@ async function getTradingData(roomId: string) {
 }
 export default async function ChannelHostPage({ params: { slug } }: PageProps) {
   const locale = useLocale();
-  console.log('locale', locale)
+  console.log('locale', locale);
   const [data, tradingData] = await Promise.all([
     getData(locale),
     getTradingData(slug),
   ]);
-  console.log('nono', data)
+  console.log('nono', data);
 
   const products = tradingData?.data?.products.map((blog: any) => ({
     id: blog.ID,

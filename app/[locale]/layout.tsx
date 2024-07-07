@@ -1,7 +1,7 @@
 import Providers from '@/provider/provider';
 import SessionProviders from '@/provider/session-provider';
 import '@/styles/globals.css';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { Metrika } from '@/components/metrika';
 import CustomToaster from '@/components/common/custom-toast';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
@@ -16,7 +16,6 @@ import { getServerSession } from 'next-auth';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import StoreProvider from '../StoreProvider';
 import { StreamProvider } from '@/provider/stream-provider';
-import Chatbot from '@/components/chatbot';
 import { Toaster } from 'react-hot-toast';
 import Script from 'next/script';
 import NextTopLoader from 'nextjs-toploader';
@@ -83,15 +82,15 @@ export default async function RootLayout({
         )}
       >
         <NextTopLoader
-          color="#2299DD"
+          color='#2299DD'
           initialPosition={0.08}
           crawlSpeed={200}
           height={3}
           crawl={true}
           showSpinner={false}
-          easing="ease"
+          easing='ease'
           speed={200}
-          shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+          shadow='0 0 10px #2299DD,0 0 5px #2299DD'
           template='<div class="bar" role="bar"><div class="peg"></div></div> 
           <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
           zIndex={1600}
@@ -111,7 +110,7 @@ export default async function RootLayout({
                     <CustomToaster />
                     <Toaster />
                     <MetadataUpdater />
-                    <Script id="disable-zoom" strategy="afterInteractive">
+                    <Script id='disable-zoom' strategy='afterInteractive'>
                       {`
                         document.addEventListener('gesturestart', function (e) {
                           e.preventDefault();

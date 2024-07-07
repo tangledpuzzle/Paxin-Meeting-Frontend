@@ -195,7 +195,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
       setAccessTokenLoaded(false);
       // setError({
       //   title: t('app.verification-failed-title'),
-      //   //@ts-ignore
+      //   //@ts-expect-error: no sms
       //   text: t(res.msg),
       // });
     }
@@ -280,7 +280,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
       setLoading(true);
     } else if (roomConnectionStatus === 're-connecting') {
       //eslint-disable-next-line
-      // @ts-ignore
+      // @ts-expect-error: no sms
       toastId.current = toast.loading(
         t('notifications.room-disconnected-reconnecting'),
         {
@@ -338,7 +338,6 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
   const onCloseStartupModal = async () => {
     if (livekitInfo) {
       console.log('MEET/StartLiveConnection');
-      // @ts-ignore
       const currentConnection = await startLivekitConnection(livekitInfo, t);
       setCurrentConnection(currentConnection);
       setMeetingId(roomId);
@@ -347,7 +346,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
 
   const renderElms = useMemo(() => {
     if (loading) {
-      // @ts-ignore
+      //@ts-expect-error: no sms
       return <Loading text={t('app.' + roomConnectionStatus)} />;
     } else if (error && !loading) {
       return <ErrorPage title={error.title} text={error.text} />;

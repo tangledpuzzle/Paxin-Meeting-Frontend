@@ -1,8 +1,6 @@
 import Image from 'next/image';
-import { Lock } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,

@@ -1,8 +1,6 @@
 'use client';
 
-import { TagSlider } from '@/components/common/tag-slider';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+
 import {
   Carousel,
   CarouselContent,
@@ -10,30 +8,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
-import { Loader2 } from 'lucide-react';
+
+
+
 import Image from 'next/image';
-import { useState } from 'react';
-import toast from 'react-hot-toast';
-import { BiSolidCategory } from 'react-icons/bi';
-import { FaTrashAlt } from 'react-icons/fa';
-import { IoMdArchive } from 'react-icons/io';
-import { LuArchiveRestore } from 'react-icons/lu';
-import { MdOutlineHouseSiding } from 'react-icons/md';
-import { RiEditBoxFill } from 'react-icons/ri';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { IProduct } from './product-panel';
@@ -52,25 +30,27 @@ export function ProductCard({
 
   return (
     <div>
-      <div className='relative px-0 md:px-0 flex w-full flex-col gap-4 md:h-full md:flex-row'>
+      <div className='relative flex w-full flex-col gap-4 px-0 md:h-full md:flex-row md:px-0'>
         <div
           aria-label='actions'
           className='absolute right-2 top-60 z-10 flex gap-2 md:top-0'
         ></div>
 
         <div className='relative flex w-full flex-col md:h-32'>
-          <Link href={link} className='text-xl font-bold text-white md:text-black'>
+          <Link
+            href={link}
+            className='text-xl font-bold text-white md:text-black'
+          >
             {title}
           </Link>
-          <div className='w-full text-sm text-muted-foreground md:w-[90%] text-white md:text-black'>
+          <div className='w-full text-sm text-white md:w-[90%] md:text-black'>
             {subtitle}
           </div>
-          {price!=0?
+          {price != 0 ? (
             <div className='flex gap-2 text-white md:text-black'>
               {t('starting_price')}: {price} ₽
             </div>
-          :null}
-          
+          ) : null}
         </div>
         <Carousel className='hidden w-60 md:block  md:w-32'>
           <CarouselContent>

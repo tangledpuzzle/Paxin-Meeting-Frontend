@@ -62,8 +62,6 @@ const useLivekitConnect = (): IUseLivekitConnect => {
     return livekit as unknown as IConnectLivekit;
   };
 
-
-
   return {
     error,
     setError,

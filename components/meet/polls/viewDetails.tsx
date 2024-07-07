@@ -62,7 +62,7 @@ const ViewDetails = ({ pollId, onCloseViewDetails }: IViewDetailsProps) => {
           type: 'info',
         });
       } else {
-        //@ts-ignore
+        //@ts-expect-error: no sms
         toast(t(closePollRes.msg), {
           type: 'error',
         });

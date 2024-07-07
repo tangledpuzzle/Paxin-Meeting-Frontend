@@ -14,9 +14,9 @@ export async function POST(req: NextRequest) {
       const parsedCookies = cookie.parse(cookies);
       accessToken = parsedCookies.access_token;
     }
-    
+
     if (!accessToken) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const requestBody = await req.json();
@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
     const payload = requestBody.data ? requestBody.data : requestBody;
 
     console.log(payload);
-
 
     const res = await fetch(
       `${process.env.API_URL}/api/profile/streaming/donat`,
@@ -39,10 +38,10 @@ export async function POST(req: NextRequest) {
     );
 
     if (!res.ok) {
-        console.log(res)
+      console.log(res);
       throw new Error('Failed');
     }
-    
+
     const data = await res.json();
 
     return NextResponse.json(data);

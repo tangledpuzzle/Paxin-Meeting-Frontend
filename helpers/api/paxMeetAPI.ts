@@ -28,7 +28,7 @@ const sendRequest = async (
     process.env.NEXT_PUBLIC_PAXMEET_SERVER_URL + '/auth/' + method,
     {
       method: 'POST',
-      //@ts-ignore
+      //@ts-expect-error: no sms
       headers: headers,
       body: b,
     }
@@ -119,8 +119,7 @@ export const createRoom = async (
     empty_timeout: 60 * 60 * 2,
     metadata: {
       room_title: 'Встреча в реальном времени',
-      welcome_message:
-        'Добро пожаловать в конференцию!<br />.',
+      welcome_message: 'Добро пожаловать в конференцию!<br />.',
       //webhook_url: "http://example.com",
       //logout_url: "http://example.com",
       room_features: {

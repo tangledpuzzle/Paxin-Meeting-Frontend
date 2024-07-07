@@ -25,7 +25,7 @@ export default function Product({
         />
         <div>
           <p> {title}</p>
-          {parseInt(price)!=0?<p>{price}₽</p>:null}
+          {parseInt(price) != 0 ? <p>{price}₽</p> : null}
         </div>
       </div>
       <div

@@ -1,21 +1,16 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { TiMessages, TiVideo } from 'react-icons/ti';
 
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { NavItem } from '@/types/nav';
 import { useLocale, useTranslations } from 'next-intl';
-import eventBus from '@/eventBus';
-import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '@/store';
 import SmallMeet from './SmallMeet';
 
-import { PaxContext } from '@/context/context';
 import SmallTrade from './smallTrade';
 
 interface MainNavProps {
@@ -24,7 +19,6 @@ interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps) {
   const t = useTranslations('main');
-  // const { user } = useContext(PaxContext);
 
   const locale = useLocale();
   const router = useRouter();

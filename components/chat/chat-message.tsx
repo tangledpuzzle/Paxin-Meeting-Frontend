@@ -90,7 +90,7 @@ export default function ChatMessage(props: ChatMessageProps) {
 
   const linkify = (inputText: string) => {
     const urlRegex =
-      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#%?=~_|!:,.;]*[-A-Z0-9+&@#%=~_|])/gi;
     return inputText.replace(
       urlRegex,
       (url) =>
@@ -326,8 +326,9 @@ export default function ChatMessage(props: ChatMessageProps) {
                     },
                     { 'mr-24': props.isEdited }
                   )}
-                  children={props.message}
-                />
+                >
+                  {props.message}
+                </ReactMarkdown>
               ) : (
                 <>
                   {props.parentMessageId && props.parentMessage && (
@@ -346,14 +347,13 @@ export default function ChatMessage(props: ChatMessageProps) {
                       }
                     >
                       <span>@{props.parentMessage.owner.name}</span>
-                      <p className='line-clamp-1'>
-                        {props.parentMessage.message}
-                      </p>
+                      <p className='line-clamp-1'>{props.parentMessage.message}</p>
                     </div>
                   )}
                   {renderUserMessage()}
                 </>
               )}
+
               {!props.isBot && (
                 <div className='-mt-3 flex w-full justify-end gap-1 text-xs text-gray-200'>
                   {props.isEdited && <p>{t('edited')}</p>}

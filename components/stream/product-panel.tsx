@@ -1,12 +1,7 @@
-import { Search } from 'lucide-react';
 import React, { useState, useDeferredValue } from 'react';
-import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
 import { ProductCard } from './product';
-import { ScrollArea } from '../ui/scroll-area';
-import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import ShareWebcamModal from '../header/smallMeet/footer/modals/webcam/shareWebcam';
 
 export interface IProduct {
   id: string;
@@ -21,9 +16,9 @@ interface ProductPanelProps {
 }
 export default function ProductPanel({ products }: ProductPanelProps) {
   const t = useTranslations('stream');
-  const router=useRouter()
+  const router = useRouter();
   const [keyword, setKeyword] = useState<string>('');
-  const [isOpen, setisOpen] =useState<boolean>(false)
+  const [isOpen, setisOpen] = useState<boolean>(false);
 
   const filter = useDeferredValue(keyword);
   const filteredProducts = products.filter((el: IProduct) =>
@@ -32,19 +27,21 @@ export default function ProductPanel({ products }: ProductPanelProps) {
 
   const webcam = () => {
     setisOpen(true);
-  }
+  };
 
-  const goback = () =>{
+  const goback = () => {
     router.push('/stream');
-  }
-  const end = () =>{
+  };
+  const end = () => {
     const storeRoomId: string | null = localStorage.getItem('latest-stream-id');
-    if(storeRoomId !== null){
-      const tokenKey = Object.keys(localStorage).find(key => key.startsWith(storeRoomId));
-      if(tokenKey) localStorage.removeItem(tokenKey)
+    if (storeRoomId !== null) {
+      const tokenKey = Object.keys(localStorage).find((key) =>
+        key.startsWith(storeRoomId)
+      );
+      if (tokenKey) localStorage.removeItem(tokenKey);
     }
     router.push('/stream');
-  }
+  };
   return (
     <>
       {/* <div className='relative w-full'>
@@ -57,22 +54,22 @@ export default function ProductPanel({ products }: ProductPanelProps) {
           className='rounded-full pl-12 pr-4'
         />
       </div> */}
-      <span className='ml-0 text-2xl md:ml-0 text-white md:text-black'>
+      <span className='ml-0 text-2xl text-white md:ml-0 md:text-black'>
         {/* {filteredProducts.length} */}
-         {t('products')}
+        {t('products')}
       </span>
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} {...product} />
-        ))}
+      {filteredProducts.map((product) => (
+        <ProductCard key={product.id} {...product} />
+      ))}
       {/* <div className='grid grid-cols-2 gap-2'> */}
-        {/* <Button
+      {/* <Button
           variant='outline'
           className='pr-2 flex border-primary text-primary grid-cols-1'
           onClick={webcam}
         >
           {t('webcam')}
         </Button> */}
-        {/* <Button
+      {/* <Button
           variant='outline'
           className='pr-2 flex grid-cols-1'
           onClick={goback}

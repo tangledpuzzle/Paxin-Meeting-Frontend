@@ -1,14 +1,13 @@
 // import AboutSection from '@/components/main/about';
-import FeatureSection from '@/components/main/feature';
+// import FeatureSection from '@/components/main/feature';
 import HeroSection from '@/components/main/hero';
-import HeroSectionSecond from '@/components/main/secondHero';
-
+// import HeroSectionSecond from '@/components/main/secondHero';
 
 import JoinUsSection from '@/components/main/joinus';
 import NavigateSection from '@/components/main/navigate';
-import ServicesSection from '@/components/main/services';
+// import ServicesSection from '@/components/main/services';
 // import TestimonialSection from '@/components/main/testimonial';
-import ServiceList from '@/components/main/servicelist';
+// import ServiceList from '@/components/main/servicelist';
 
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import dynamic from 'next/dynamic';
@@ -18,14 +17,14 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import FlowSection from '@/components/main/flow';
 
-const DynamicComponentWithSSR = dynamic(() => import('@/components/ui/price'), {
-  ssr: true,
-});
+// const DynamicComponentWithSSR = dynamic(() => import('@/components/ui/price'), {
+//   ssr: true,
+// });
 
-const ProfilesComponentWithSSR = dynamic(
-  () => import('@/components/ui/profiles'),
-  { ssr: true }
-);
+// const ProfilesComponentWithSSR = dynamic(
+//   () => import('@/components/ui/profiles'),
+//   { ssr: true }
+// );
 
 // const RatingSSR = dynamic(
 //   () => import('@/components/rating'),
@@ -41,7 +40,7 @@ const DynamicLiAds = dynamic(() => import('@/components/main/tt'), {
 });
 
 async function getProfilePhotos() {
-  let profilePhotos = [];
+  const profilePhotos = [];
 
   try {
     const res = await fetch(`${process.env.API_URL}/api/profiles/get`);
@@ -53,7 +52,7 @@ async function getProfilePhotos() {
     const data = await res.json();
 
     for (const profile of data.data) {
-      let avatar =
+      const avatar =
         profile.photos?.length > 0 && profile.photos[0].files?.length > 0
           ? `https://proxy.myru.online/150/https://img.myru.online/${profile.photos[0].files[0].path}`
           : '';
@@ -65,13 +64,15 @@ async function getProfilePhotos() {
         });
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 
   return profilePhotos;
 }
 
 async function getCategories(locale: string) {
-  let categories = [];
+  const categories = [];
 
   try {
     const res = await fetch(
@@ -85,7 +86,7 @@ async function getCategories(locale: string) {
     const data = await res.json();
 
     for (const item of data.data) {
-      let category = item.Translations?.find(
+      const category = item.Translations?.find(
         (c: any) => c.Language === locale
       )?.Name;
 
@@ -93,7 +94,9 @@ async function getCategories(locale: string) {
         categories.push(category);
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 
   return categories;
 }

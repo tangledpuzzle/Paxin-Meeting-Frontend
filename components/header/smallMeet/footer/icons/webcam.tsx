@@ -65,25 +65,27 @@ const WebcamIcon = ({ currentRoom, isMobile }: IWebcamIconProps) => {
   // for change in webcam lock setting
   useEffect(() => {
     const closeMicOnLock = async () => {
-      for (const [
-        ,
-        publication,
-      ] of currentRoom?.localParticipant.videoTrackPublications.entries()) {
-        if (publication.track && publication.source === Track.Source.Camera) {
-          await currentRoom.localParticipant.unpublishTrack(
-            publication.track,
-            true
-          );
+      if (currentRoom?.localParticipant?.videoTrackPublications) {
+        for (const [
+          ,
+          publication,
+        ] of currentRoom.localParticipant.videoTrackPublications.entries()) {
+          if (publication.track && publication.source === Track.Source.Camera) {
+            await currentRoom.localParticipant.unpublishTrack(
+              publication.track,
+              true
+            );
+          }
         }
+        dispatch(updateIsActiveWebcam(false));
       }
-      dispatch(updateIsActiveWebcam(false));
     };
-
+  
     if (isWebcamLock) {
       setLockWebcam(true);
       const currentUser = participantsSelector.selectById(
         store.getState(),
-        currentRoom.localParticipant.identity
+        currentRoom?.localParticipant?.identity ?? ""
       );
       if (currentUser?.videoTracks) {
         closeMicOnLock();
@@ -92,7 +94,7 @@ const WebcamIcon = ({ currentRoom, isMobile }: IWebcamIconProps) => {
       setLockWebcam(false);
     }
   }, [isWebcamLock, currentRoom, dispatch]);
-
+  
   // default room lock settings
   useEffect(() => {
     const isLock =
@@ -155,7 +157,7 @@ const WebcamIcon = ({ currentRoom, isMobile }: IWebcamIconProps) => {
         el.srcObject = virtualBgLocalTrack;
       }
     }
-    console.log('ssss', onSelectedDevice)
+    console.log('ssss', onSelectedDevice);
     return () => {
       if (virtualBgLocalTrack) {
         virtualBgLocalTrack.getTracks().forEach((t) => t.stop());

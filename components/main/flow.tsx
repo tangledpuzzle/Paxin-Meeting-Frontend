@@ -92,7 +92,7 @@ export default function FlowSection({ uuid }: { uuid: string }) {
 
   useEffect(() => {
     const generateFetchURL = () => {
-      let baseURL = `/api/flows/${uuid}?language=${locale}&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}`;
+      const baseURL = `/api/flows/${uuid}?language=${locale}&limit=${pageSize}&skip=${(currentPage - 1) * pageSize}&title=${title}&city=${city}&category=${category}&hashtag=${hashtag}&money=${money}`;
 
       return baseURL;
     };

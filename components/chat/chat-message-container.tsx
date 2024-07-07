@@ -3,7 +3,7 @@ import deleteMessage from '@/lib/server/chat/deleteMessage';
 import getMessages from '@/lib/server/chat/getMessages';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useInView } from 'react-intersection-observer';
 import { ConfirmModal } from '../common/confirm-modal';
@@ -14,7 +14,6 @@ import { IoArrowDown } from 'react-icons/io5';
 import { cn } from '@/lib/utils';
 import eventBus from '@/eventBus';
 import { PaxContext } from '@/context/context';
-import { text } from 'stream/consumers';
 
 export default function ChatMessageContainer() {
   const t = useTranslations('chatting');
@@ -220,7 +219,7 @@ export default function ChatMessageContainer() {
       setFirstLoading(false);
     }
 
-    let deltaHeight = getScrollHeight() - prevScrollHeight;
+    const deltaHeight = getScrollHeight() - prevScrollHeight;
 
     if (deltaHeight > 0) {
       scrollTo(deltaHeight);

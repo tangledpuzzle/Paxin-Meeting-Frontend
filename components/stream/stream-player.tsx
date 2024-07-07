@@ -13,7 +13,6 @@ import {
   TooltipTrigger,
 } from './ui/tooltip';
 
-import Link from 'next/link';
 import { Icons } from './ui/icons';
 import { useTranslations } from 'next-intl';
 

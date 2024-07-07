@@ -1,4 +1,3 @@
-import { SiteFooter } from '@/components/footer';
 import SiteHeader from '@/components/header/site-header';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';

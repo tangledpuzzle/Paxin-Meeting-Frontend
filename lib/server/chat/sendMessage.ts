@@ -3,7 +3,6 @@
 import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
-import subscribe from './subscribe';
 
 const sendMessage = async ({
   roomId,
@@ -16,7 +15,7 @@ const sendMessage = async ({
   message: string;
   parentMessageId?: string;
   msgType?: string;
-  customData?: any;
+  customData?: unknown;
 }) => {
   try {
     const accessToken = await getAccessToken();

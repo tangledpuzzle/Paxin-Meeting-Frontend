@@ -9,7 +9,7 @@ const defaultBackgroundConfig: BackgroundConfig = {
   type: 'none',
 };
 
-let backgroundImageUrls = [
+const backgroundImageUrls = [
   'kenny-eliason-Wp7t4cWN-68-unsplash',
   'jonny-caspari-KuudDjBHIlA-unsplash',
   'roman-bozhko-PypjzKTUqLo-unsplash',

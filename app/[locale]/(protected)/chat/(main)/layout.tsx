@@ -5,7 +5,7 @@ import ChatUserInfo from '@/components/chat/chat-user-info';
 import { PaxChatContext } from '@/context/chat-context';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { cn } from '@/lib/utils';
-import { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 interface ChatLayoutProps {
   children: React.ReactNode;

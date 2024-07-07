@@ -3,18 +3,18 @@
     #main-area.fullWidthMainArea {
       .middle-fullscreen-wrapper {
         .all-webcam-wrapper {
-          @apply bottom-auto right-auto w-[140px] left-0 h-full py-5 px-0;
+          @apply bottom-auto left-0 right-auto h-full w-[140px] px-0 py-5;
           .all-webcam-wrapper-inner {
             display: block !important;
-            @apply py-0 px-[5px];
+            @apply px-[5px] py-0;
             .video-camera-item {
-              @apply h-[31.33%] my-1 mx-0;
+              @apply mx-0 my-1 h-[31.33%];
             }
             button.next-cam {
-              @apply top-auto bottom-0 rotate-0 left-0 w-full;
+              @apply bottom-0 left-0 top-auto w-full rotate-0;
             }
             button.previous-cam {
-              @apply top-0 rotate-0 left-0 w-full;
+              @apply left-0 top-0 w-full rotate-0;
             }
           }
         }

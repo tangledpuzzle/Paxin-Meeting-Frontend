@@ -177,11 +177,7 @@ export function SignInCard() {
         <div className='text-center'>
           {t('do_not_have_account')} {t('setup_now')}
         </div>
-        <Button
-          variant='outline'
-          className='w-full'
-          asChild
-        >
+        <Button variant='outline' className='w-full' asChild>
           <Link href='/auth/signup'>{t('sign_up')}</Link>
         </Button>
       </div>

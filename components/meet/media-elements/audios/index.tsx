@@ -40,7 +40,7 @@ const AudioElements = ({ currentConnection }: IAudioElementsProps) => {
         elms.push(
           <AudioElm
             userId={participant.identity}
-            //@ts-ignore
+            //@ts-expect-error: no sms
             track={track}
             key={track.trackSid}
           />

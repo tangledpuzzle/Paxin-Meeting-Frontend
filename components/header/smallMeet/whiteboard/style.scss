@@ -179,7 +179,7 @@
         }
       }
       .library-menu-items-container__header {
-        @apply text-primaryColor dark:text-secondaryColor text-base font-medium;
+        @apply text-base font-medium text-primaryColor dark:text-secondaryColor;
       }
       .App-toolbar-content {
         padding: 0;

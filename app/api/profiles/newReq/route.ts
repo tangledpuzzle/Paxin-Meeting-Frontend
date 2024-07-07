@@ -9,16 +9,15 @@ export async function POST(req: NextRequest) {
     const mode = req.nextUrl.searchParams.get('mode');
     const session = await getServerSession(authOptions);
 
-
     let accessToken = session?.accessToken;
     if (!accessToken) {
       const cookies = headers().get('cookie') || '';
       const parsedCookies = cookie.parse(cookies);
       accessToken = parsedCookies.access_token;
     }
-    
+
     if (!accessToken) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const requestBody = await req.json();

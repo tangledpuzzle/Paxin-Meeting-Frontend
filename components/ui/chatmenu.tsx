@@ -2,7 +2,6 @@ import { PaxContext } from '@/context/context';
 import { createRoom, createRoomId } from '@/helpers/api/paxMeetAPI';
 import { setAccessToken } from '@/helpers/utils';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { CheckIcon } from '@radix-ui/react-icons';
 import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
 
@@ -81,7 +80,6 @@ const DropdownMenuDemo = ({
             className='DropdownMenuContent relative z-10 bg-card-gradient-menu'
             sideOffset={5}
           >
-       
             <DropdownMenu.Separator className='DropdownMenuSeparator' />
 
             <DropdownMenu.Item

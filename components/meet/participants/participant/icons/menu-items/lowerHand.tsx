@@ -46,7 +46,7 @@ const LowerHandMenuItem = ({ userId }: ILowerHandMenuItemProps) => {
     if (res.status) {
       dispatch(updateIsActiveRaisehand(false));
     } else {
-      // @ts-ignore
+      // @ts-expect-error: no sms
       toast(t(res.msg), {
         type: 'error',
       });

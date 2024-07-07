@@ -34,19 +34,20 @@ const authOptions: NextAuthOptions = {
               email: credentials.email,
               password: credentials.password,
               session: credentials.session,
-            },
+            }
           );
 
           const data = response.data;
           if (data.status === 'success') {
-
             cookies().set('access_token', data.access_token || '', {
-                path: '/',
-                maxAge: 60 * 60 * 24 * 30,
-                domain:
-                  process.env.NODE_ENV === 'production' ? '.myru.online' : 'localhost',
-                httpOnly: false,
-                secure: process.env.NODE_ENV === 'production',
+              path: '/',
+              maxAge: 60 * 60 * 24 * 30,
+              domain:
+                process.env.NODE_ENV === 'production'
+                  ? '.myru.online'
+                  : 'localhost',
+              httpOnly: false,
+              secure: process.env.NODE_ENV === 'production',
             });
 
             return {

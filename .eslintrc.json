@@ -3,22 +3,25 @@
   "root": true,
   "extends": [
     "next",
-    "next/babel",
     "next/core-web-vitals",
     "prettier",
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:tailwindcss/recommended",
     "plugin:react-hooks/recommended"
   ],
-  "plugins": ["react", "tailwindcss", "unused-imports", "react-hooks"],
+  "plugins": ["react", "tailwindcss", "unused-imports", "react-hooks", "@typescript-eslint"],
   "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
     "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "off",
     "tailwindcss/no-custom-classname": "off",
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
-    "react/jsx-uses-react": "error",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off", // отключаем правило для импорта React в JSX
     "react/jsx-uses-vars": "error",
     "unused-imports/no-unused-vars": [
       "warn",
@@ -33,6 +36,9 @@
     "react-hooks/exhaustive-deps": "warn"
   },
   "settings": {
+    "react": {
+      "version": "detect" // автоматически определяет версию React
+    },
     "tailwindcss": {
       "callees": ["cn"],
       "config": "tailwind.config.js"

@@ -56,7 +56,7 @@ export default function PrivacyPage({
     <section className='container grid items-center gap-6 pb-8 pt-6 md:py-10'>
       <div className='h-full'>
         <div className='mx-auto max-w-7xl divide-y divide-gray-200 px-0 py-12 sm:px-0 lg:px-0 lg:py-16'>
-          <h2 className='text-3xl font-extrabold dark:text-white text-gray-900'>
+          <h2 className='text-3xl font-extrabold text-gray-900 dark:text-white'>
             {t('rulesprivacy')}
           </h2>
           <div className='mt-8'>
@@ -66,11 +66,11 @@ export default function PrivacyPage({
                   key={faq.id}
                   className='pb-8 pt-6 md:grid md:grid-cols-12 md:gap-8'
                 >
-                  <dt className='text-base font-semibold dark:text-white text-gray-900 md:col-span-5'>
+                  <dt className='text-base font-semibold text-gray-900 dark:text-white md:col-span-5'>
                     {t(faq.question as keyof IntlMessages['privacy'])}
                   </dt>
                   <dd className='mt-2 md:col-span-7 md:mt-0'>
-                    <p className='text-base dark:text-white text-gray-900'>
+                    <p className='text-base text-gray-900 dark:text-white'>
                       {t(faq.answer as keyof IntlMessages['privacy'])}
                     </p>
                   </dd>

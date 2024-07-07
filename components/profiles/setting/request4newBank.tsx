@@ -15,7 +15,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -32,12 +31,16 @@ import toast from 'react-hot-toast';
 import { PaxContext } from '@/context/context';
 
 interface NewInvoiceProps {
-    openBankModal: boolean;
-    setOpenBankModal: (open: boolean) => void;
-    requestType: string;
+  openBankModal: boolean;
+  setOpenBankModal: (open: boolean) => void;
+  requestType: string;
 }
 
-export function NewInvoice({ openBankModal, setOpenBankModal, requestType }: NewInvoiceProps) {
+export function NewInvoice({
+  openBankModal,
+  setOpenBankModal,
+  requestType,
+}: NewInvoiceProps) {
   const t = useTranslations('main');
   const { lastCommand } = useContext(PaxContext);
   const [loading, setLoading] = useState(false); // Add loading state
@@ -49,10 +52,13 @@ export function NewInvoice({ openBankModal, setOpenBankModal, requestType }: New
         position: 'top-right',
       });
     }
-  }, [lastCommand, setOpenBankModal]);
+  }, [lastCommand]);
 
   const formSchema = z.object({
-    amount: z.preprocess((val) => Number(val), z.number().min(1, 'Amount must be at least 1')),
+    amount: z.preprocess(
+      (val) => Number(val),
+      z.number().min(1, 'Amount must be at least 1')
+    ),
   });
 
   type FormData = z.infer<typeof formSchema>;
@@ -68,13 +74,12 @@ export function NewInvoice({ openBankModal, setOpenBankModal, requestType }: New
 
   const submitPayment = async (data: FormData) => {
     setLoading(true); // Start loading
-    let conversion = data.amount * 100;
+    const conversion = data.amount * 100;
 
     try {
-      const res = await axios.post(
-        `/api/profiles/balance/creditcard`,
-        { amount: conversion }
-      );
+      const res = await axios.post(`/api/profiles/balance/creditcard`, {
+        amount: conversion,
+      });
 
       if (res.status === 200) {
         setPaymentURL(res.data.data.PaymentURL);
@@ -97,7 +102,7 @@ export function NewInvoice({ openBankModal, setOpenBankModal, requestType }: New
 
   useEffect(() => {
     if (!openBankModal) {
-      setPaymentURL(null); 
+      setPaymentURL(null);
     }
   }, [openBankModal]);
 
@@ -137,19 +142,19 @@ export function NewInvoice({ openBankModal, setOpenBankModal, requestType }: New
               </div>
               <DialogFooter className='mt-4 flex flex-row justify-end'>
                 <Button type='submit' disabled={loading}>
-                  {loading ? <Loader2 className="animate-spin" /> : t('send')}
+                  {loading ? <Loader2 className='animate-spin' /> : t('send')}
                 </Button>
               </DialogFooter>
             </form>
           </Form>
         ) : (
-          <div className="mt-4">
+          <div className='mt-4'>
             <iframe
               src={paymentURL}
-              width="100%"
-              height="500"
-              title="Payment Page"
-              frameBorder="0"
+              width='100%'
+              height='500'
+              title='Payment Page'
+              frameBorder='0'
               allowFullScreen
             ></iframe>
           </div>

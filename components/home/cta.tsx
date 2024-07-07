@@ -26,7 +26,6 @@ export function CTASection() {
       : ''
   );
 
-
   //test
   const handleSearch = useDebouncedCallback((value: string) => {
     const newSearchParams = new URLSearchParams(searchParams);

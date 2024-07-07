@@ -121,7 +121,13 @@ function useRenderingPipeline(
 
       setPipeline(null);
     };
-  }, [sourcePlayback, backgroundConfig, segmentationConfig, initialBodyPix, tflite]);
+  }, [
+    sourcePlayback,
+    backgroundConfig,
+    segmentationConfig,
+    initialBodyPix,
+    tflite,
+  ]);
 
   const setBodyPix = (bodyPix: BodyPix) => {
     if (pipeline) {

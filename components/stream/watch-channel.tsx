@@ -91,7 +91,7 @@
 //     return null;
 //   }
 //   console.log(userName)
- 
+
 //   return (
 //     <LiveKitRoom
 //       token={viewerToken}
@@ -126,7 +126,6 @@
 
 'use client';
 
-import { createViewerToken } from '@/app/[locale]/(protected)/stream/action';
 import ChannelInfo from '@/components/stream/channel-info';
 import StreamPlayer from '@/components/stream/stream-player';
 // import WatchingAsBar from '@/components/stream/watching-as-bar';
@@ -211,31 +210,43 @@ export default function WatchChannel({
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_WS_URL}
       className='relative flex h-[calc(100vh-81px)] flex-col'
     >
-      <div className='relative h-full w-full flex'>
+      <div className='relative flex h-full w-full'>
         <div className='flex-1'>
           <StreamPlayer streamerIdentity={publisherId} />
         </div>
-        <div className='w-[30%] md:block hidden'>
-          <div className='grid grid-row-1 h-full absolute md:relative'>
-          <div className='px-4'>
-            <ChannelInfo streamerIdentity={userId} viewerIdentity={userName} />
-            <ProductPanel products={products} />
-          </div>
-          <div className='' style={{ maxHeight: '430px'}}>
-            <Chat participantName={userId} />
-          </div>
+        <div className='hidden w-[30%] md:block'>
+          <div className='grid-row-1 absolute grid h-full md:relative'>
+            <div className='px-4'>
+              <ChannelInfo
+                streamerIdentity={userId}
+                viewerIdentity={userName}
+              />
+              <ProductPanel products={products} />
+            </div>
+            <div className='' style={{ maxHeight: '430px' }}>
+              <Chat participantName={userId} />
+            </div>
           </div>
         </div>
         {/* for mobile */}
-        <div className='block md:hidden absolute w-full' style={{height: "-webkit-fill-available"}}>
-          <div className='grid grid-row-1 h-full absolute md:relative w-full px-4' style={{background: "rgb(0 0 0 / 37%)"}}>
-          <div className='mt-4'>
-            <ProductPanel products={products} />
-            <ChannelInfo streamerIdentity={userId} viewerIdentity={userName} />
-          </div>
-          <div className='' style={{ maxHeight: '620px'}}>
-            <Chat participantName={userId} />
-          </div>
+        <div
+          className='absolute block w-full md:hidden'
+          style={{ height: '-webkit-fill-available' }}
+        >
+          <div
+            className='grid-row-1 absolute grid h-full w-full px-4 md:relative'
+            style={{ background: 'rgb(0 0 0 / 37%)' }}
+          >
+            <div className='mt-4'>
+              <ProductPanel products={products} />
+              <ChannelInfo
+                streamerIdentity={userId}
+                viewerIdentity={userName}
+              />
+            </div>
+            <div className='' style={{ maxHeight: '620px' }}>
+              <Chat participantName={userId} />
+            </div>
           </div>
         </div>
       </div>

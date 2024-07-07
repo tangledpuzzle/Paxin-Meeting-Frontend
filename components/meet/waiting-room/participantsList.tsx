@@ -41,7 +41,7 @@ const ParticipantsList = ({ waitingParticipants }: IParticipantsListProps) => {
         }
       );
     } else {
-      // @ts-ignore
+      // @ts-expect-error: no sms
       toast(t(res.msg), {
         type: 'error',
       });
@@ -73,7 +73,7 @@ const ParticipantsList = ({ waitingParticipants }: IParticipantsListProps) => {
         type: 'info',
       });
     } else {
-      // @ts-ignore
+      // @ts-expect-error: no sms
       toast(t(res.msg), {
         type: 'error',
       });

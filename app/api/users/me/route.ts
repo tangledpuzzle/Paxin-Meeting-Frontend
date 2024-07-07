@@ -1,6 +1,5 @@
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import cookie from 'cookie';
@@ -16,11 +15,10 @@ export async function GET(req: NextRequest) {
     const parsedCookies = cookie.parse(cookies);
     accessToken = parsedCookies.access_token;
   }
-  
-  if (!accessToken) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
 
+  if (!accessToken) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   // cookies().set('access_token', accessToken || '', {
   //   path: '/',

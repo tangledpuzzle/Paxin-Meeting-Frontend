@@ -17,7 +17,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { BsCheck2All } from 'react-icons/bs';
 import { FaTrashCan } from 'react-icons/fa6';
 import { MdOutlineMarkChatRead, MdOutlineMarkChatUnread } from 'react-icons/md';
@@ -52,7 +52,9 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
 
         if (room.id === activeRoom) setActiveRoomSubscribed(true);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const handleLeaveChat = async () => {
@@ -71,6 +73,7 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
         if (room.id === activeRoom) router.push('/chat');
       }
     } catch (error) {
+      console.log(error)
     } finally {
       setIsLeavingChat(false);
     }

@@ -66,14 +66,14 @@ export function PaginationComponent({
 function paginate({ current, max }: { current: number; max: number }) {
   if (!current || !max) return null;
 
-  let prev = current === 1 ? null : current - 1,
+  const prev = current === 1 ? null : current - 1,
     next = current === max ? null : current + 1,
     items: (string | number)[] = [1];
 
   if (current === 1 && max === 1) return { current, prev, next, items };
   if (current > 4) items.push('...');
 
-  let r = 2,
+  const r = 2,
     r1 = current - r,
     r2 = current + r;
 

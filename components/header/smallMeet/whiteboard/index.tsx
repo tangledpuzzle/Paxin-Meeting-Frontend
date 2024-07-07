@@ -48,7 +48,7 @@ import './style.scss';
 import { useLocale, useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 const broadcastAppStateChanges = dynamic(
-  //@ts-ignore
+  //@ts-expect-error: no sms
   async () =>
     (await import('./helpers/handleRequestedWhiteboardData'))
       .broadcastAppStateChanges,
@@ -57,7 +57,7 @@ const broadcastAppStateChanges = dynamic(
   }
 );
 const broadcastMousePointerUpdate = dynamic(
-  //@ts-ignore
+  //@ts-expect-error: no sms
   async () =>
     (await import('./helpers/handleRequestedWhiteboardData'))
       .broadcastMousePointerUpdate,
@@ -66,7 +66,7 @@ const broadcastMousePointerUpdate = dynamic(
   }
 );
 const broadcastSceneOnChange = dynamic(
-  //@ts-ignore
+  //@ts-expect-error: no sms
   async () =>
     (await import('./helpers/handleRequestedWhiteboardData'))
       .broadcastSceneOnChange,
@@ -75,7 +75,7 @@ const broadcastSceneOnChange = dynamic(
   }
 );
 const sendRequestedForWhiteboardData = dynamic(
-  //@ts-ignore
+  //@ts-expect-error: no sms
   async () =>
     import('./helpers/handleRequestedWhiteboardData').then(
       (e) => e.sendRequestedForWhiteboardData
@@ -85,7 +85,7 @@ const sendRequestedForWhiteboardData = dynamic(
   }
 );
 const sendWhiteboardDataAsDonor = dynamic(
-  //@ts-ignore
+  //@ts-expect-error: no sms
   async () =>
     (await import('./helpers/handleRequestedWhiteboardData'))
       .sendWhiteboardDataAsDonor,
@@ -173,13 +173,13 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
     if (!fetchedData && excalidrawAPI) {
       // get initial data from other users
       // who had joined before me
-      //@ts-ignore
+      //@ts-expect-error: no sms
       sendRequestedForWhiteboardData(t);
       setFetchedData(true);
     }
 
     if (whiteboard.requestedWhiteboardData.requested && excalidrawAPI) {
-      //@ts-ignore
+      //@ts-expect-error: no sms
       sendWhiteboardDataAsDonor(
         excalidrawAPI,
         whiteboard.requestedWhiteboardData.sendTo,
@@ -488,13 +488,13 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
       }
       if (getSceneVersion(elements) > lastBroadcastOrReceivedSceneVersion) {
         setLastBroadcastOrReceivedSceneVersion(getSceneVersion(elements));
-        //@ts-ignore
+        //@ts-expect-error: no sms
         broadcastSceneOnChange(t, elements, false);
       }
 
       // broadcast AppState Changes
       if (isPresenter) {
-        //@ts-ignore
+        //@ts-expect-error: no sms
         broadcastAppStateChanges(
           t,
           appState.height,
@@ -528,7 +528,7 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
           userId: currentUser.userId,
           name: currentUser.name,
         };
-        //@ts-ignore
+        //@ts-expect-error: no sms
         broadcastMousePointerUpdate(t, msg);
       }
     },
