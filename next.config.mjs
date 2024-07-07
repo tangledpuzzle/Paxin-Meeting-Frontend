@@ -7,6 +7,9 @@ const require = createRequire(import.meta.url);
 const PackageJson = require('./package.json');
 
 const withNextIntl = createNextIntlPlugin('./i18n.ts');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 
 const nextConfig = {
   env: {
@@ -34,6 +37,16 @@ const nextConfig = {
       },
     ];
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 70000,
+      };
+    }
+    return config;
+  },
 };
 
-export default withNextIntl(nextConfig);
+export default withNextIntl(withBundleAnalyzer(nextConfig));
