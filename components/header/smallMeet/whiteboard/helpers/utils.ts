@@ -12,7 +12,7 @@ import { IWhiteboardFeatures } from '@/store/slices/interfaces/session';
 import { addWhiteboardUploadedOfficeFiles } from '@/store/slices/whiteboard';
 import dynamic from 'next/dynamic';
 const broadcastSceneOnChange = dynamic(
-  //@ts-ignore
+  //@ts-expect-error: no sms
   async () =>
     (await import('./handleRequestedWhiteboardData')).broadcastSceneOnChange,
   {
@@ -82,7 +82,7 @@ export const displaySavedPageData = (
       excalidrawAPI.updateScene({ elements });
       if (isPresenter) {
         // better to broadcast full screen
-        //@ts-ignore
+        //@ts-expect-error: no sms
         broadcastSceneOnChange(intl, elements, true);
       }
     }

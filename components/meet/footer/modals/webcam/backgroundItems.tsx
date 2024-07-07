@@ -50,7 +50,7 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
 
   const handleOnClick = (type: string, url: string) => {
     const bg: BackgroundConfig = {
-      //@ts-ignore
+      //@ts-expect-error: no sms
       type,
       url,
     };

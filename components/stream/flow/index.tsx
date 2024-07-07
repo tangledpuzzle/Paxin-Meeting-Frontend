@@ -11,10 +11,10 @@ import { FlowCardSkeleton } from '@/components/stream/flow/flow-card-skeleton';
 import { Button } from '@/components/ui/button';
 // import { Button } from '@/components/ui/button';
 // import { scrollToTransition } from '@/lib/utils';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 // import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 export interface FlowProps {
   data: Array<IRoom>;
 }
@@ -43,17 +43,13 @@ export default function FlowSection({ data }: FlowProps) {
                 </p>
                 <div className='px-2 py-2'>
                   <StreamingCreateModal onCreate={() => {}} isLoading={false}>
-                    <Button
-                      variant='outline'
-                      className='mx-auto flex '
-                    >
+                    <Button variant='outline' className='mx-auto flex '>
                       {t('start_stream')}
                     </Button>
                   </StreamingCreateModal>
                 </div>
               </div>
             </div>
-            
           )
         ) : (
           <>

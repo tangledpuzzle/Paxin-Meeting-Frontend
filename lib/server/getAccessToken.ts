@@ -3,7 +3,7 @@
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { headers } from 'next/headers';
-import cookie from 'cookie'; 
+import cookie from 'cookie';
 
 const getAccessToken = async () => {
   const session = await getServerSession(authOptions);
@@ -14,8 +14,6 @@ const getAccessToken = async () => {
     const parsedCookies = cookie.parse(cookies);
     accessToken = parsedCookies.access_token;
   }
-
-
 
   return accessToken;
 };

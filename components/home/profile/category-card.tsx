@@ -17,7 +17,7 @@ function CategoryCard({ categories }: CategoryCardProps) {
 
   const queries: { [key: string]: string } = {};
 
-  for (let [key, value] of searchParams.entries()) {
+  for (const [key, value] of searchParams.entries()) {
     queries[key] = value;
   }
 
@@ -29,7 +29,7 @@ function CategoryCard({ categories }: CategoryCardProps) {
         <span className='pl-1'>{t('category')}</span>
       </div>
       <div className='mb-0 h-[1.5px] w-2/3 rounded-lg bg-gradient-to-r from-muted-foreground to-transparent'></div>
-      <div className='flex w-full flex-wrap gap-1 md:text-md xl:text-base text-xs'>
+      <div className='md:text-md flex w-full flex-wrap gap-1 text-xs xl:text-base'>
         {categories.map((category, i) => (
           <Link
             href={{ query: { ...queries, category, page: 1 } }}

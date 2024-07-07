@@ -44,7 +44,7 @@ export default function Chat({ participantName }: Props) {
   }, [message, send]);
 
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex h-full flex-col'>
       <div className='flex-1 overflow-y-auto'>
         {reverseMessages.map((message) => (
           <div key={message.timestamp} className='flex items-center gap-2 p-2'>
@@ -69,7 +69,9 @@ export default function Chat({ participantName }: Props) {
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </div>
               </div>
-              <div className='text-sm text-white md:text-black'>{message.message}</div>
+              <div className='text-sm text-white md:text-black'>
+                {message.message}
+              </div>
             </div>
           </div>
         ))}
@@ -84,7 +86,11 @@ export default function Chat({ participantName }: Props) {
           onKeyDown={onEnter}
           placeholder={t('type_message')}
         />
-        <Button disabled={message.trim().length === 0} onClick={onSend} className='w-full mt-2'>
+        <Button
+          disabled={message.trim().length === 0}
+          onClick={onSend}
+          className='mt-2 w-full'
+        >
           <div className='flex items-center gap-2'>
             <Icons.send className='h-4 w-4' />
           </div>

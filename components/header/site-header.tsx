@@ -3,11 +3,11 @@ import { getServerSession } from 'next-auth';
 import { useLocale, useTranslations } from 'next-intl';
 import ClientHeader from './client.header';
 import { headers } from 'next/headers';
-import cookie from 'cookie'; 
+import cookie from 'cookie';
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
-  
+
   let accessToken = session?.accessToken;
   if (!accessToken) {
     const cookies = headers().get('cookie') || '';

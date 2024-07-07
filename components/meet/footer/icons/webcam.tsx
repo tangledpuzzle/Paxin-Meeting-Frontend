@@ -64,15 +64,17 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
   // for change in webcam lock setting
   useEffect(() => {
     const closeMicOnLock = async () => {
-      for (const [
-        ,
-        publication,
-      ] of currentRoom?.localParticipant.videoTrackPublications.entries()) {
-        if (publication.track && publication.source === Track.Source.Camera) {
-          await currentRoom.localParticipant.unpublishTrack(
-            publication.track,
-            true
-          );
+      if (currentRoom?.localParticipant?.videoTrackPublications) {
+        for (const [
+          ,
+          publication,
+        ] of currentRoom.localParticipant.videoTrackPublications.entries()) {
+          if (publication.track && publication.source === Track.Source.Camera) {
+            await currentRoom.localParticipant.unpublishTrack(
+              publication.track,
+              true
+            );
+          }
         }
       }
       dispatch(updateIsActiveWebcam(false));
@@ -82,7 +84,7 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
       setLockWebcam(true);
       const currentUser = participantsSelector.selectById(
         store.getState(),
-        currentRoom.localParticipant.identity
+        currentRoom?.localParticipant?.identity ?? ""
       );
       if (currentUser?.videoTracks) {
         closeMicOnLock();
@@ -182,18 +184,20 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
       dispatch(updateShowVideoShareModal(!isActiveWebcam));
     } else if (isActiveWebcam) {
       // leave webcam
-      for (const [
-        ,
-        publication,
-      ] of currentRoom.localParticipant.videoTrackPublications.entries()) {
-        if (
-          publication.track &&
-          publication.track.source === Track.Source.Camera
-        ) {
-          await currentRoom.localParticipant.unpublishTrack(
-            publication.track,
-            true
-          );
+      if (currentRoom?.localParticipant?.videoTrackPublications) {
+        for (const [
+          ,
+          publication,
+        ] of currentRoom.localParticipant.videoTrackPublications.entries()) {
+          if (
+            publication.track &&
+            publication.track.source === Track.Source.Camera
+          ) {
+            await currentRoom.localParticipant.unpublishTrack(
+              publication.track,
+              true
+            );
+          }
         }
       }
       dispatch(updateIsActiveWebcam(false));

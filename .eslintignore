@@ -3,3 +3,5 @@ dist/*
 public
 node_modules
 *.esm.js
+/components/header/smallMeet/tflite/tflite.js
+/components/header/smallMeet/tflite/tflite-simd.js

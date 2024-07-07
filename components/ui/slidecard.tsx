@@ -1,25 +1,22 @@
 import React from 'react';
-
 import { VisibilityContext } from 'react-horizontal-scrolling-menu';
 
 export function CardSlide({
   itemId,
   selected,
-  width,
   onClick,
   title,
-  margin,
 }: {
   itemId: string;
   selected: boolean;
-  onClick: Function;
+  onClick: () => void;
   width: string;
   title: string;
   margin: string;
 }) {
   const visibility = React.useContext(VisibilityContext);
 
-  const visible = visibility.isItemVisible(itemId);
+  visibility.isItemVisible(itemId);
 
   return (
     <div
@@ -34,7 +31,7 @@ export function CardSlide({
         userSelect: 'none',
       }}
       tabIndex={0}
-      className=' border-gradient'
+      className='border-gradient'
     >
       <div className='mr-8'>
         <div className='overflow-hidden text-ellipsis whitespace-nowrap px-4 text-base'>

@@ -259,7 +259,7 @@ export function FilterModal() {
     else if (_hashtag === 'all') setHashTag([]);
     if (_city && _city !== 'all') {
       setCityKeyword('');
-      let newCity: Option[] = city || [];
+      const newCity: Option[] = city || [];
 
       // _city.split(',').forEach((c) => {
       const cityFound = newCity.find((cat) => cat.label === _city);
@@ -274,7 +274,7 @@ export function FilterModal() {
       console.log(newCity, _city, '~~~~~');
     } else if (_city === 'all') setCity([]);
     if (_category && _category !== 'all') {
-      let newCategory: Option[] = category || [];
+      const newCategory: Option[] = category || [];
       setCategoryKeyword('');
       // _category.split(',').forEach((c) => {
       const categoryFound = newCategory.find((cat) => cat.label === _category);
@@ -485,34 +485,34 @@ export function FilterModal() {
             />
           </div>
           {/* {viewMode === 'flow' && ( */}
-            <div className=''>
-              <Label htmlFor='username' className='text-right'>
-                {t('prices')}
-              </Label>
-              <div className='flex gap-3'>
-                <Input
-                  type='number'
-                  min='0'
-                  placeholder={t('from')}
-                  className='sm:w-20'
-                  value={minPrice}
-                  onChange={(e) => handleMinPrice(e.target.value)}
-                />
-                <Input
-                  type='number'
-                  min='0'
-                  placeholder={t('to')}
-                  className='sm:w-20'
-                  defaultValue={maxPrice}
-                  onChange={(e) => handleMaxPrice(e.target.value)}
-                />
-              </div>
-              {priceHasError && (
-                <div className='text-xs text-red-500'>
-                  {t('price_validation_message')}
-                </div>
-              )}
+          <div className=''>
+            <Label htmlFor='username' className='text-right'>
+              {t('prices')}
+            </Label>
+            <div className='flex gap-3'>
+              <Input
+                type='number'
+                min='0'
+                placeholder={t('from')}
+                className='sm:w-20'
+                value={minPrice}
+                onChange={(e) => handleMinPrice(e.target.value)}
+              />
+              <Input
+                type='number'
+                min='0'
+                placeholder={t('to')}
+                className='sm:w-20'
+                defaultValue={maxPrice}
+                onChange={(e) => handleMaxPrice(e.target.value)}
+              />
             </div>
+            {priceHasError && (
+              <div className='text-xs text-red-500'>
+                {t('price_validation_message')}
+              </div>
+            )}
+          </div>
           {/* )} */}
         </div>
         <DialogFooter>

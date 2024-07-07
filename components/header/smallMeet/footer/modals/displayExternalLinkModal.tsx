@@ -86,7 +86,7 @@ const DisplayExternalLinkModal = () => {
 
     if (!res.status) {
       toast.update(id, {
-        // @ts-ignore
+        // @ts-expect-error: no sms
         render: t(res.msg),
         type: 'error',
         isLoading: false,

@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '@/lib/authOptions';
 import { headers } from 'next/headers';
-import cookie from 'cookie'; 
+import cookie from 'cookie';
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,11 +14,10 @@ export async function POST(req: NextRequest) {
       const parsedCookies = cookie.parse(cookies);
       accessToken = parsedCookies.access_token;
     }
-    
+
     if (!accessToken) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-  
 
     const requestBody = await req.json();
     const res = await fetch(`${process.env.API_URL}/api/presavedfilter/post`, {
@@ -53,11 +52,10 @@ export async function GET(req: NextRequest) {
       const parsedCookies = cookie.parse(cookies);
       accessToken = parsedCookies.access_token;
     }
-    
+
     if (!accessToken) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-  
 
     const res = await fetch(`${process.env.API_URL}/api/presavedfilter/get`, {
       method: 'GET',

@@ -2,8 +2,7 @@ export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   name: 'MYRUONLINE',
-  description:
-    'Trade streaming network.',
+  description: 'Trade streaming network.',
   mainNav: [
     {
       title: 'trade',

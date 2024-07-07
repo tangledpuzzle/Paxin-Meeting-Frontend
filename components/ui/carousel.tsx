@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
@@ -11,6 +12,22 @@ type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
+
+type Variant = 'default' | 'destructive' | 'outline' | 'clear' | 'secondary' | 'ghost' | 'link' | 'glow';
+type Size = 'default' | 'sm' | 'lg' | 'icon';
+
+const variantPropType = PropTypes.oneOf<Variant>([
+  'default',
+  'destructive',
+  'outline',
+  'clear',
+  'secondary',
+  'ghost',
+  'link',
+  'glow',
+]);
+
+const sizePropType = PropTypes.oneOf<Size>(['default', 'sm', 'lg', 'icon']);
 
 type CarouselProps = {
   opts?: CarouselOptions;
@@ -147,6 +164,13 @@ const Carousel = React.forwardRef<
   }
 );
 Carousel.displayName = 'Carousel';
+Carousel.propTypes = {
+  className: PropTypes.string,
+  orientation: PropTypes.oneOf(['horizontal', 'vertical']),
+  opts: PropTypes.object,
+  plugins: PropTypes.array,
+  setApi: PropTypes.func,
+};
 
 const CarouselContent = React.forwardRef<
   HTMLDivElement,
@@ -169,6 +193,9 @@ const CarouselContent = React.forwardRef<
   );
 });
 CarouselContent.displayName = 'CarouselContent';
+CarouselContent.propTypes = {
+  className: PropTypes.string,
+};
 
 const CarouselItem = React.forwardRef<
   HTMLDivElement,
@@ -191,6 +218,9 @@ const CarouselItem = React.forwardRef<
   );
 });
 CarouselItem.displayName = 'CarouselItem';
+CarouselItem.propTypes = {
+  className: PropTypes.string,
+};
 
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
@@ -220,6 +250,11 @@ const CarouselPrevious = React.forwardRef<
   );
 });
 CarouselPrevious.displayName = 'CarouselPrevious';
+CarouselPrevious.propTypes = {
+  className: PropTypes.string,
+  variant: variantPropType,
+  size: sizePropType,
+};
 
 const CarouselNext = React.forwardRef<
   HTMLButtonElement,
@@ -249,6 +284,11 @@ const CarouselNext = React.forwardRef<
   );
 });
 CarouselNext.displayName = 'CarouselNext';
+CarouselNext.propTypes = {
+  className: PropTypes.string,
+  variant: variantPropType,
+  size: sizePropType,
+};
 
 export {
   type CarouselApi,

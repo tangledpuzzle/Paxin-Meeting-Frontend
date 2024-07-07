@@ -163,7 +163,7 @@ export default function Relationships() {
               </p>
               {currentTab === 'FOLLOWINGS' && (
                 <button
-                  className='mt-4 px-4 py-2 bg-primary text-white rounded'
+                  className='mt-4 rounded bg-primary px-4 py-2 text-white'
                   onClick={navigateToProfiles}
                 >
                   {t('exploreProfilesButton')}

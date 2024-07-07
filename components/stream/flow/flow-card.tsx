@@ -1,29 +1,20 @@
 import { Eye, ArrowBigRight } from 'lucide-react';
-import Image from 'next/image';
 import { BiLink } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
-import { IoLanguage } from 'react-icons/io5';
 
 import { ProfileAvatar } from '@/components/common/profile-avatar';
-import { TagSlider } from '@/components/common/tag-slider';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
 import Link from 'next/link';
-import { CategoryBadge } from './category-badge';
-import { LocationBadge } from './location-badge';
-import { PriceBadge } from './price-badge';
+
 
 import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
-import toast from 'react-hot-toast';
+
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { ReportModal } from '@/components/common/report-modal';
-import { LuBrainCircuit } from 'react-icons/lu';
-import { useEffect, useState } from 'react';
-import apiHelper from '@/helpers/api/apiRequest';
-import { FlowCardSkeleton } from './flow-card-skeleton';
+
 import { IRoom } from '@/app/[locale]/(custom)/stream/page';
 import { FlowImageGallery } from './flow-image-gallery';
 import { useSession } from 'next-auth/react';
@@ -87,11 +78,9 @@ function FlowCard({ productImages, roomId, title, publisher, cnt }: IRoom) {
             <FlowImageGallery
               images={productImages.map((el) => ({
                 thumbnail:
-                  'https://proxy.myru.online/400/https://img.myru.online/' +
-                  el,
+                  'https://proxy.myru.online/400/https://img.myru.online/' + el,
                 original:
-                  'https://proxy.myru.online/400/https://img.myru.online/' +
-                  el,
+                  'https://proxy.myru.online/400/https://img.myru.online/' + el,
               }))}
             />
             {/* <Image

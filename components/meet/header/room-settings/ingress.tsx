@@ -57,7 +57,7 @@ const Ingress = () => {
     );
     const res = CreateIngressRes.fromBinary(new Uint8Array(r));
     if (!res.status) {
-      // @ts-ignore
+      // @ts-expect-error: no sms
       toast(t(res.msg), {
         type: 'error',
         isLoading: false,

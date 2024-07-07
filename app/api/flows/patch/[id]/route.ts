@@ -2,7 +2,7 @@ import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
-import cookie from 'cookie'; 
+import cookie from 'cookie';
 
 export async function PATCH(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -13,9 +13,9 @@ export async function PATCH(req: NextRequest) {
     const parsedCookies = cookie.parse(cookies);
     accessToken = parsedCookies.access_token;
   }
-  
+
   if (!accessToken) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   try {
     const id = req.nextUrl.pathname.split('/').pop();

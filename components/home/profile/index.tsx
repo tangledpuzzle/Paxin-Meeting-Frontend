@@ -13,7 +13,6 @@ import { ProfileCardSkeleton } from './profile-card-skeleton';
 import { GrNext } from 'react-icons/gr';
 import { GrPrevious } from 'react-icons/gr';
 import Link from 'next/link';
-import { scrollToTransition } from '@/lib/utils';
 
 interface ProfileData {
   username: string;
@@ -22,7 +21,7 @@ interface ProfileData {
   tags: string[];
   cities: string[];
   categories: string[];
-  streaming : string[];
+  streaming: string[];
   qrcode: string;
   countrycode: string;
   totalfollowers: number;
@@ -59,7 +58,6 @@ export default function ProfileSection() {
 
   const { data: fetchedData, isLoading, error } = useSWR(fetchURL, fetcher);
 
-  
   useEffect(() => {
     const _title = searchParams.get('title') || 'all';
     const _city = searchParams.get('city') || 'all';
@@ -91,7 +89,6 @@ export default function ProfileSection() {
     }
   }, [searchParams, maxPage]);
 
-  
   useEffect(() => {
     if (!error && fetchedData) {
       setProfileData(fetchedData.data);

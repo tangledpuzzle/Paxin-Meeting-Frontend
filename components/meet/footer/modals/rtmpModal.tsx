@@ -94,7 +94,7 @@ const RtmpModal = () => {
     if (!res.status) {
       msg = res.msg;
     }
-    // @ts-ignore
+    // @ts-expect-error: no sms
     toast(t(msg), {
       toastId: 'rtmp-status',
       type: 'info',
@@ -271,7 +271,7 @@ const RtmpModal = () => {
     if (!res.status) {
       msg = res.msg;
     }
-    // @ts-ignore
+    // @ts-expect-error: no sms
     toast(t(msg), {
       toastId: 'rtmp-status',
       type: 'info',

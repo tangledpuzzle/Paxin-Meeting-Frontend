@@ -34,7 +34,7 @@ import {
 import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 const broadcastWhiteboardOfficeFile = dynamic(
-  //@ts-ignore
+  //@ts-expect-error: no sms
   async () =>
     (await import('./helpers/handleRequestedWhiteboardData'))
       .broadcastWhiteboardOfficeFile,
@@ -162,7 +162,7 @@ const UploadFilesUI = ({
     );
 
     await sleep(500);
-    //@ts-ignore
+    //@ts-expect-error: no sms
     broadcastWhiteboardOfficeFile(t, newFile);
 
     // send analytics

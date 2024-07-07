@@ -26,7 +26,7 @@ const BreakoutRoomLists = () => {
         });
         dispatch(updateShowManageBreakoutRoomModal(false));
       } else {
-        // @ts-ignore
+        // @ts-expect-error: no sms
         toast(t(data.msg), {
           type: 'error',
         });

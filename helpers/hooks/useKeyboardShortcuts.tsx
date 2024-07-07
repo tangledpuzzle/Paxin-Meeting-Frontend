@@ -38,20 +38,22 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
   // muteUnmute start (ctrl+option+m)
   const muteUnmute = (currentRoom: Room) => {
     if (currentRoom) {
-      currentRoom.localParticipant.audioTrackPublications.forEach(async (publication) => {
-        if (
-          publication.track &&
-          publication.track.source === Track.Source.Microphone
-        ) {
-          if (publication.isMuted) {
-            await publication.track.unmute();
-            dispatch(updateIsMicMuted(false));
-          } else {
-            await publication.track.mute();
-            dispatch(updateIsMicMuted(true));
+      currentRoom.localParticipant.audioTrackPublications.forEach(
+        async (publication) => {
+          if (
+            publication.track &&
+            publication.track.source === Track.Source.Microphone
+          ) {
+            if (publication.isMuted) {
+              await publication.track.unmute();
+              dispatch(updateIsMicMuted(false));
+            } else {
+              await publication.track.mute();
+              dispatch(updateIsMicMuted(true));
+            }
           }
         }
-      });
+      );
     }
   };
 
@@ -79,11 +81,13 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
 
   // leaveMic start (ctrl+alt+o)
   const leaveMic = (currentRoom: Room) => {
-    currentRoom.localParticipant.audioTrackPublications.forEach(async (publication) => {
-      if (publication.track && publication.kind === Track.Kind.Audio) {
-        currentRoom.localParticipant.unpublishTrack(publication.track, true);
+    currentRoom.localParticipant.audioTrackPublications.forEach(
+      async (publication) => {
+        if (publication.track && publication.kind === Track.Kind.Audio) {
+          currentRoom.localParticipant.unpublishTrack(publication.track, true);
+        }
       }
-    });
+    );
     dispatch(updateIsActiveMicrophone(false));
     dispatch(updateIsMicMuted(false));
     dispatch(updateSelectedAudioDevice(''));
@@ -113,14 +117,16 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
 
   // start close video (ctrl+alt+x)
   const leaveWebcam = (currentRoom: Room) => {
-    currentRoom.localParticipant.videoTrackPublications.forEach(async (publication) => {
-      if (
-        publication.track &&
-        publication.track.source === Track.Source.Camera
-      ) {
-        currentRoom.localParticipant.unpublishTrack(publication.track, true);
+    currentRoom.localParticipant.videoTrackPublications.forEach(
+      async (publication) => {
+        if (
+          publication.track &&
+          publication.track.source === Track.Source.Camera
+        ) {
+          currentRoom.localParticipant.unpublishTrack(publication.track, true);
+        }
       }
-    });
+    );
     dispatch(updateIsActiveWebcam(false));
     dispatch(updateSelectedVideoDevice(''));
     dispatch(

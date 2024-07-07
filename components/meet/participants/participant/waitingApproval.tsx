@@ -44,7 +44,7 @@ const WaitingApproval = ({
         type: 'info',
       });
     } else {
-      // @ts-ignore
+      // @ts-expect-error: no sms
       toast(t(res.msg), {
         type: 'error',
       });

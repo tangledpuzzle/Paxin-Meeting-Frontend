@@ -123,7 +123,9 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
         recognizer.stopContinuousRecognitionAsync();
         recognizer.close();
         setRecognizer(undefined);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e)
+      }
     }
   }, [recognizer]);
 
@@ -147,7 +149,7 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
       setOptionSelectionDisabled(true);
       const res = await getAzureToken();
       if (!res.status) {
-        // @ts-ignore
+        // @ts-expect-error: no sms
         toast(t(res.msg), {
           type: 'error',
         });
@@ -226,15 +228,17 @@ const SpeechToTextService = ({ currentRoom }: SpeechToTextServiceProps) => {
         setMediaStream(undefined);
         setCreatedMediaStream(undefined);
       } else {
-        currentRoom.localParticipant.audioTrackPublications.forEach((publication) => {
-          if (
-            publication.track &&
-            publication.track.source === Track.Source.Microphone &&
-            publication.track.mediaStream
-          ) {
-            setMediaStream(publication.track.mediaStream);
+        currentRoom.localParticipant.audioTrackPublications.forEach(
+          (publication) => {
+            if (
+              publication.track &&
+              publication.track.source === Track.Source.Microphone &&
+              publication.track.mediaStream
+            ) {
+              setMediaStream(publication.track.mediaStream);
+            }
           }
-        });
+        );
       }
       if (o.stopService && recognizer) {
         unsetRecognizer();

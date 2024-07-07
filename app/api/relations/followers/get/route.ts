@@ -14,12 +14,10 @@ export async function GET(req: NextRequest) {
     const parsedCookies = cookie.parse(cookies);
     accessToken = parsedCookies.access_token;
   }
-  
+
   if (!accessToken) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-
-
 
   try {
     const res = await fetch(

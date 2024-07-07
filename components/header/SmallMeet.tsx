@@ -31,7 +31,6 @@ import Meet from './meet';
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@/store';
 import CopyClipboard from '@/components/common/copy-clipboard';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Footer from './smallMeet/footer';
 import AudioNotification from './smallMeet/app/audioNotification';
@@ -145,7 +144,7 @@ export default function SmallMeet() {
       setAccessTokenLoaded(false);
       // setError({
       //   title: t('app.verification-failed-title'),
-      //   //@ts-ignore
+      //   //@ts-expect-error: no sms
       //   text: t(res.msg),
       // });
     }
@@ -217,7 +216,7 @@ export default function SmallMeet() {
       setLoading(true);
     } else if (roomConnectionStatus === 're-connecting') {
       //eslint-disable-next-line
-      // @ts-ignore
+      // @ts-expect-error: no sms
       toastId.current = toast.loading(
         t('notifications.room-disconnected-reconnecting'),
         {
@@ -255,12 +254,11 @@ export default function SmallMeet() {
   useEffect(() => {
     (async () => {
       if (livekitInfo && !currentConnection) {
-        // @ts-ignore
         console.log('HEADER/StartLivConnection');
         const newConnection = await startLivekitConnection(livekitInfo, t);
         setCurrentConnection(newConnection);
       }
-    })()
+    })();
   }, [livekitInfo]);
   const isMobile = width > 450 ? false : true;
   // console.log(popup);
@@ -278,7 +276,7 @@ export default function SmallMeet() {
       {/* <Meet currentConnection={currentConnection} />; */}
       {showPopup && (
         <>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error: no sms */}
           <Draggable
             axis='both'
             onStop={(e: DraggableEvent, d: DraggableData) => {

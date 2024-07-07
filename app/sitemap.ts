@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  let data: MetadataRoute.Sitemap = [];
+  const data: MetadataRoute.Sitemap = [];
 
   try {
     const res = await fetch(

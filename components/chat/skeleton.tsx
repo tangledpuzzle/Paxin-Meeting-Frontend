@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 
-interface Chat {
+// Define separate interfaces for Chat and Line
+interface ChatInterface {
   ele: HTMLDivElement;
   lines: Line[];
   anim: NodeJS.Timeout | null;
@@ -24,10 +25,12 @@ interface LineElement {
   richBody?: HTMLDivElement;
 }
 
+// Define LineInterface separately if needed
+
 const createElement = (
   opts: { class?: string | string[] } = {}
 ): HTMLDivElement => {
-  let ele = document.createElement('div');
+  const ele = document.createElement('div');
   if (opts.class !== undefined) {
     const classes = Array.isArray(opts.class) ? opts.class : [opts.class];
     ele.classList.add(...classes);
@@ -59,39 +62,41 @@ const ChatComponent: React.FC = () => {
   };
 
   const toggleAnimation = () => {
-    setIsAnimationRunning((prevState) => !prevState);
-    if (chatRef.current) {
-      if (isAnimationRunning) {
-        chatRef.current.stopLoop();
-      } else {
-        chatRef.current.loop();
+    setIsAnimationRunning((prevState) => {
+      const newState = !prevState;
+      if (chatRef.current) {
+        if (newState) {
+          chatRef.current.loop();
+        } else {
+          chatRef.current.stopLoop();
+        }
       }
-    }
+      return newState;
+    });
   };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       addChat();
-      return () => {};
     }
-  }, []);
+  }, [addChat]);
 
   return (
     <div id='chat-container'>
-      <div id='chat-input w-full'>
+      <div id='chat-input' className='w-full'>
         <div id='file-input'></div>
       </div>
-      {/* <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
+      <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
         <button onClick={toggleAnimation}>
-        {isAnimationRunning ? 'Остановить поток' : 'Запустить поток'}
+          {isAnimationRunning ? 'Остановить поток' : 'Запустить поток'}
         </button>
         <button>Применить настройки</button>
-      </div> */}
+      </div>
     </div>
   );
 };
 
-class Chat {
+class Chat implements ChatInterface {
   ele: HTMLDivElement;
   lines: Line[] = [];
   anim: NodeJS.Timeout | null = null;
@@ -231,7 +236,7 @@ class Line {
 
     delay += 40;
 
-    otherEleList.forEach((e, i) => {
+    otherEleList.forEach((e, _i) => {
       setTimeout(
         () => {
           e.style.opacity = '1';
@@ -279,17 +284,17 @@ class Line {
       body.appendChild(img);
     }
     if (this.hasRichBody) {
-      out.richBody = richBody as HTMLDivElement;
+      out.richBody = richBody;
       body.appendChild(richBody);
     }
     return out;
   }
 }
 
-let amountOfColors = 18;
-let lineWidth = 500;
-let profileImgWidth = 60;
-let textWidth = lineWidth - 20 - profileImgWidth - 10;
-let maxTexts = 4;
+const amountOfColors = 18;
+const lineWidth = 500;
+const profileImgWidth = 60;
+const textWidth = lineWidth - 20 - profileImgWidth - 10;
+const maxTexts = 4;
 
 export default ChatComponent;

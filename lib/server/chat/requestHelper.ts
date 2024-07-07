@@ -13,7 +13,7 @@ const requestHelper = async ({
   session?: string;
   url: string;
   method: string;
-  data?: any;
+  data?: unknown;
 }) => {
   try {
     // Prepare the headers
@@ -32,7 +32,7 @@ const requestHelper = async ({
     }
 
     // Prepare request configuration
-    const config: { [key: string]: any } = {
+    const config: { [key: string]: unknown } = {
       method,
       url,
       headers,

@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { PaxContext, User, AdditionalData } from '@/context/context';
 import axios from 'axios';
@@ -35,10 +35,11 @@ const Providers: React.FC<IProps> = ({ children, initialAccessToken }) => {
     `/api/users/me?language=${locale}`
   );
 
-  const { data: fetchedData, error, mutate: userMutate } = useSWR(
-    initialAccessToken ? userFetchURL : null,
-    fetcher
-  );
+  const {
+    data: fetchedData,
+    error,
+    mutate: userMutate,
+  } = useSWR(initialAccessToken ? userFetchURL : null, fetcher);
 
   useEffect(() => {
     setUserFetchURL(`/api/users/me?language=${locale}`);
@@ -75,15 +76,12 @@ const Providers: React.FC<IProps> = ({ children, initialAccessToken }) => {
 
   const connectWebSocket = () => {
     if (typeof window !== 'undefined') {
-      const wsProtocol =
-        window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'wss:';
       const _socket = new WebSocket(
         `${wsProtocol}//${process.env.NEXT_PUBLIC_SOCKET_URL}/socket.io/`
       );
 
-      _socket.onopen = () => {
- 
-      };
+      _socket.onopen = () => {};
 
       _socket.onmessage = (received) => {
         console.log('Socket message: ', received.data);
@@ -97,7 +95,6 @@ const Providers: React.FC<IProps> = ({ children, initialAccessToken }) => {
           if (data?.command === 'newDonat' && data?.data) {
             setAdditionalData(data.data);
           }
-
 
           if (data?.session) {
             console.log('Socket message: ', data?.session);
@@ -140,8 +137,8 @@ const Providers: React.FC<IProps> = ({ children, initialAccessToken }) => {
         setCurrentPlan,
         socket,
         setSocket,
-        additionalData, 
-        setAdditionalData, 
+        additionalData,
+        setAdditionalData,
       }}
     >
       {children}

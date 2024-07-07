@@ -1,8 +1,7 @@
-import { Eye, Mail } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import Image from 'next/image';
 import { BiLink } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
-import { IoLanguage } from 'react-icons/io5';
 
 import { ProfileAvatar } from '@/components/common/profile-avatar';
 import { TagSlider } from '@/components/common/tag-slider';
@@ -68,7 +67,7 @@ function FlowCard(profile: FlowCardProps) {
 
   const queries: { [key: string]: string } = {};
 
-  for (let [key, value] of searchParams.entries()) {
+  for (const [key, value] of searchParams.entries()) {
     queries[key] = value;
   }
 
@@ -154,43 +153,43 @@ function FlowCard(profile: FlowCardProps) {
             {subtitle}
           </div>
         </div>
-        <div className='flex flex-wrap gap-3 px-3 mb-2 mt-auto'>
-        {price !== 0 && (
-          <div className="flex-1 min-w-[calc(50%-0.75rem)]">
+        <div className='mb-2 mt-auto flex flex-wrap gap-3 px-3'>
+          {price !== 0 && (
+            <div className='min-w-[calc(50%-0.75rem)] flex-1'>
+              <Link
+                key={`price-link-${id}`}
+                className='w-full'
+                href={{ query: { ...queries, money: price } }}
+              >
+                <PriceBadge>
+                  {price.toLocaleString('ru-RU', {
+                    style: 'currency',
+                    currency: 'RUB',
+                    maximumFractionDigits: 0,
+                  })}
+                </PriceBadge>
+              </Link>
+            </div>
+          )}
+          <div className='min-w-[calc(50%-0.75rem)] flex-1'>
             <Link
-              key={`price-link-${id}`}
+              key={`location-link-${id}`}
               className='w-full'
-              href={{ query: { ...queries, money: price } }}
+              href={{ query: { ...queries, city: location, page: 0 } }}
             >
-              <PriceBadge>
-                {price.toLocaleString('ru-RU', {
-                  style: 'currency',
-                  currency: 'RUB',
-                  maximumFractionDigits: 0,
-                })}
-              </PriceBadge>
+              <LocationBadge>{location}</LocationBadge>
             </Link>
           </div>
-        )}
-        <div className="flex-1 min-w-[calc(50%-0.75rem)]">
-          <Link
-            key={`location-link-${id}`}
-            className='w-full'
-            href={{ query: { ...queries, city: location, page: 0 } }}
-          >
-            <LocationBadge>{location}</LocationBadge>
-          </Link>
+          <div className='w-full'>
+            <Link
+              key={`category-link-${id}`}
+              className='w-full'
+              href={{ query: { ...queries, category: category, page: 0 } }}
+            >
+              <CategoryBadge>{category}</CategoryBadge>
+            </Link>
+          </div>
         </div>
-        <div className="w-full">
-          <Link
-            key={`category-link-${id}`}
-            className='w-full'
-            href={{ query: { ...queries, category: category, page: 0 } }}
-          >
-            <CategoryBadge>{category}</CategoryBadge>
-          </Link>
-        </div>
-      </div>
         {user && (
           <div className='grid grid-cols-3 px-3 pb-3'>
             <div className='col-span-2'>

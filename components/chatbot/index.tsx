@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
-import ChatLogItem from "./ChatLogItem";
-import TypingAnimation from "./TypingAnimation";
-import axiosChat from "@/app/api/axiosChat";
-import { ChatCompletion } from "./chatData";
-import toast from "react-hot-toast";
-import React from "react";
-import { BotMessageSquare, MessageCircle, Send, X } from "lucide-react";
-import { Input } from "./input";
-import { Button } from "./button";
+import { useState, useRef, useEffect } from 'react';
+import ChatLogItem from './ChatLogItem';
+import TypingAnimation from './TypingAnimation';
+import axiosChat from '@/app/api/axiosChat';
+import { ChatCompletion } from './chatData';
+import toast from 'react-hot-toast';
+import React from 'react';
+import { BotMessageSquare, MessageCircle, Send, X } from 'lucide-react';
+import { Input } from './input';
+import { Button } from './button';
 interface ChatMessage {
-  type: "user" | "bot";
+  type: 'user' | 'bot';
   message: string;
 }
 
@@ -31,7 +31,7 @@ const ChatBot: React.FC<ChatBotProps> = ({
   aiModel,
 }) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>('');
   const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -43,37 +43,37 @@ const ChatBot: React.FC<ChatBotProps> = ({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (inputValue.trim() === "") {
-      toast.error("Please enter a message");
+    if (inputValue.trim() === '') {
+      toast.error('Please enter a message');
       return;
     }
 
     setChatLog((prevChatLog) => [
       ...prevChatLog,
-      { type: "user", message: inputValue },
+      { type: 'user', message: inputValue },
     ]);
 
     sendMessage(inputValue);
 
-    setInputValue("");
+    setInputValue('');
   };
 
   const sendMessage = (message: string) => {
-    const URL = "/completions";
+    const URL = '/completions';
 
     const data = {
-      model: aiModel ? aiModel : "mistralai/mistral-7b-instruct:free",
-      messages: [{ role: "user", content: message }],
+      model: aiModel ? aiModel : 'mistralai/mistral-7b-instruct:free',
+      messages: [{ role: 'user', content: message }],
     };
 
     setIsLoading(true);
 
-    axiosChat<ChatCompletion>({ method: "POST", url: URL, data: data })
+    axiosChat<ChatCompletion>({ method: 'POST', url: URL, data: data })
       .then((response) => {
         console.log(response);
         setChatLog((prevChatLog) => [
           ...prevChatLog,
-          { type: "bot", message: response.choices[0].message.content },
+          { type: 'bot', message: response.choices[0].message.content },
         ]);
         setIsLoading(false);
       })
@@ -94,73 +94,73 @@ const ChatBot: React.FC<ChatBotProps> = ({
       {/* component */}
       <div>
         <button
-          id="chatbot"
-          className={`z-[500] bg-primary fixed bottom-4 right-4 inline-flex items-center justify-center text-sm font-medium border rounded-full w-16 h-16 m-0 cursor-pointer border-gray-200 bg-none  ${
-            isChatOpen ? "chat-open" : "chat-closed"
+          id='chatbot'
+          className={`fixed bottom-4 right-4 z-[500] m-0 inline-flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-primary bg-none text-sm font-medium  ${
+            isChatOpen ? 'chat-open' : 'chat-closed'
           }`}
-          type="button"
-          aria-haspopup="dialog"
+          type='button'
+          aria-haspopup='dialog'
           aria-expanded={isChatOpen}
           onClick={toggleChat}
         >
-          <MessageCircle className="size-10 text-primary-foreground" />
+          <MessageCircle className='size-10 text-primary-foreground' />
         </button>
         {isChatOpen && (
           <div
-            id="hs-chatbot-container"
-            className={`fixed bottom-[calc(4rem+1.5rem)] right-0 mr-4 bg-muted borrder-r-2 border border-gray-200 rounded-xl w-[440px] h-[560px] z-[500] ${
-              isChatOpen ? "chat-open" : "chat-closed"
+            id='hs-chatbot-container'
+            className={`borrder-r-2 fixed bottom-[calc(4rem+1.5rem)] right-0 z-[500] mr-4 h-[560px] w-[440px] rounded-xl border border-gray-200 bg-muted ${
+              isChatOpen ? 'chat-open' : 'chat-closed'
             }`}
           >
             {/* Heading */}
-            <div className="flex justify-between items-center space-y-1.5 p-6 rounded-t-xl bg-background border-b">
-              <div className="flex flex-row">
-                <span className="flex-shrink-0 mr-4 inline-flex items-center justify-center size-14 rounded-full bg-primary">
-                  <span className="font-medium text-white leading-none">
-                    <BotMessageSquare className="size-10" />
+            <div className='flex items-center justify-between space-y-1.5 rounded-t-xl border-b bg-background p-6'>
+              <div className='flex flex-row'>
+                <span className='mr-4 inline-flex size-14 flex-shrink-0 items-center justify-center rounded-full bg-primary'>
+                  <span className='font-medium leading-none text-white'>
+                    <BotMessageSquare className='size-10' />
                   </span>
                 </span>
                 <div>
-                  <h2 className="font-semibold text-xl text-primary tracking-tight">
+                  <h2 className='text-xl font-semibold tracking-tight text-primary'>
                     {title}
                   </h2>
-                  <p className=" text-muted-foreground mt-2">{subtitle}</p>
+                  <p className=' mt-2 text-muted-foreground'>{subtitle}</p>
                 </div>
               </div>
 
               <button
-                type="button"
+                type='button'
                 onClick={toggleChat}
-                className="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-muted-foreground focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-primary transition-all  dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
-                data-hs-overlay="#hs-focus-management-modal"
+                className='hs-dropdown-toggle inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md text-muted-foreground transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2  dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800'
+                data-hs-overlay='#hs-focus-management-modal'
               >
-                <span className="sr-only">Close</span>
+                <span className='sr-only'>Close</span>
                 <X />
               </button>
             </div>
-            <div id="hs-message-container" className="px-6 pb-6">
+            <div id='hs-message-container' className='px-6 pb-6'>
               {/* Chat Container */}
               <div
                 ref={chatContainerRef}
-                id="chat-container"
-                className="pr-4 h-[400px]"
+                id='chat-container'
+                className='h-[400px] pr-4'
                 style={{
-                  minWidth: "100%",
-                  overflowY: "scroll",
+                  minWidth: '100%',
+                  overflowY: 'scroll',
                 }}
               >
-                <div className="flex gap-3 my-4 text-gray-600 text-sm flex-1">
-                  <span className="flex-shrink-0 inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-primary">
-                    <span className="text-sm font-medium text-white leading-none">
+                <div className='my-4 flex flex-1 gap-3 text-sm text-gray-600'>
+                  <span className='inline-flex h-[2.375rem] w-[2.375rem] flex-shrink-0 items-center justify-center rounded-full bg-primary'>
+                    <span className='text-sm font-medium leading-none text-white'>
                       <BotMessageSquare />
                     </span>
                   </span>
 
-                  <p className="leading-relaxed">
-                    <span className="block font-bold text-muted-foreground">
+                  <p className='leading-relaxed'>
+                    <span className='block font-bold text-muted-foreground'>
                       {botName}
                     </span>
-                    <p className="text-sm text-foreground">{welcomeMessage}</p>
+                    <p className='text-sm text-foreground'>{welcomeMessage}</p>
                   </p>
                 </div>
                 {chatLog.map((message, index) => (
@@ -172,29 +172,29 @@ const ChatBot: React.FC<ChatBotProps> = ({
                   />
                 ))}
                 {isLoading && (
-                  <div key={chatLog.length} className="flex justify-start">
-                    <div className="bg-gray-200 rounded-lg p-4 text-white max-w-sm">
+                  <div key={chatLog.length} className='flex justify-start'>
+                    <div className='max-w-sm rounded-lg bg-gray-200 p-4 text-white'>
                       <TypingAnimation />
                     </div>
                   </div>
                 )}
               </div>
               {/* Input box  */}
-              <div className="flex items-center pt-0">
+              <div className='flex items-center pt-0'>
                 <form
-                  className="flex items-center justify-center w-full space-x-2"
+                  className='flex w-full items-center justify-center space-x-2'
                   onSubmit={handleSubmit}
                 >
                   <Input
-                    className="flex h-10 w-full rounded-md "
-                    placeholder="Type your message"
+                    className='flex h-10 w-full rounded-md '
+                    placeholder='Type your message'
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                   />
                   <Button
-                    variant={"outline"}
-                    className="text-primary"
-                    type="submit"
+                    variant={'outline'}
+                    className='text-primary'
+                    type='submit'
                   >
                     <Send />
                   </Button>

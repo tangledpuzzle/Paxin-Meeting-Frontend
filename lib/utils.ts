@@ -2,7 +2,6 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { MessageKeys } from 'next-intl';
 
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -61,7 +60,6 @@ export const formatAmount = (amount: number): string => {
   return amount.toLocaleString('ru-RU');
 };
 
-
 export function generateRandomString(length: number): string {
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
@@ -76,7 +74,7 @@ export function hashTimestamp(timestamp: number): string {
   let hash = 0;
   const timestampString = timestamp.toString();
   for (let i = 0; i < timestampString.length; i++) {
-    let char = timestampString.charCodeAt(i);
+    const char = timestampString.charCodeAt(i); // Изменено на const
     hash = (hash << 5) - hash + char;
     hash |= 0;
   }

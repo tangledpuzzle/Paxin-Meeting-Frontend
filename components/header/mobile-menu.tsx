@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { DropdownMenuLabel } from '@/components/ui/dropdown-menu';
 import { getInitials } from '@/lib/utils';
 import { signOut } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
@@ -43,28 +42,31 @@ export function MobileMenu({ user }: MobileMenuProps) {
   const router = useRouter();
   const { user: userData } = useContext(PaxContext);
 
-  
-  function deleteCookie(name:any, domain:any) {
-    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=" + domain + "; path=/";
+  function deleteCookie(name: any, domain: any) {
+    document.cookie =
+      name +
+      '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=' +
+      domain +
+      '; path=/';
   }
-  
+
   function handleSignOut() {
     fetch('/api/auth/logout', {
       method: 'POST',
     })
-    .then((response) => {
-      if (response.ok) {
-        deleteCookie('access_token', '.myru.online');
-        signOut({ callbackUrl: '/' });
-      } else {
-        console.error('err:', response.statusText);
-      }
-    })
-    .catch((error) => {
-      console.error('err:', error);
-    });
+      .then((response) => {
+        if (response.ok) {
+          deleteCookie('access_token', '.myru.online');
+          signOut({ callbackUrl: '/' });
+        } else {
+          console.error('err:', response.statusText);
+        }
+      })
+      .catch((error) => {
+        console.error('err:', error);
+      });
   }
-  
+
   return (
     <div className='block md:hidden'>
       <DropdownMenu>
@@ -142,7 +144,7 @@ export function MobileMenu({ user }: MobileMenuProps) {
               <DropdownMenuItem
                 className='cursor-pointer text-base'
                 onClick={handleSignOut}
-                >
+              >
                 <FaSignOutAlt className='mr-2 size-5 text-primary' />
                 {t('sign_out')}
               </DropdownMenuItem>

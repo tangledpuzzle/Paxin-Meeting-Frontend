@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
-import apiHelper from '@/helpers/api/apiRequest';
+// import apiHelper from '@/helpers/api/apiRequest';
 import { useLocalParticipant } from '@livekit/components-react';
 import { Track, createLocalTracks, type LocalTrack } from 'livekit-client';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import Presence from '@/components/stream/presence';
 // import { useParticipants } from '@livekit/components-react';
 
@@ -20,7 +20,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
   const [isPublishing, setIsPublishing] = useState(false);
   const [isUnpublishing, setIsUnpublishing] = useState(false);
   const previewVideoEl = useRef<HTMLVideoElement>(null);
-  console.log('previewVideo', previewVideoEl)
+  console.log('previewVideo', previewVideoEl);
   const router = useRouter();
   const t = useTranslations('stream');
   const { localParticipant } = useLocalParticipant();
@@ -58,23 +58,23 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
       audioTrack?.stop();
     };
   }, [videoTrack, audioTrack]);
-//   async function deleteTradingRoom() {
-//     const response = await apiHelper({
-//       url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'room/delete/' + slug,
-//       method: 'DELETE',
-//     });
-//     const storeRoomId: string | null = localStorage.getItem('latest-stream-id');
-//     if(storeRoomId !== null){
-//       const tokenKey = Object.keys(localStorage).find(key => key.startsWith(storeRoomId));
-//       if(tokenKey) localStorage.removeItem(tokenKey)
-//     }
-//     if (response == null) {
-//       toast.error('Error occurred');
-//     } else {
-//       toast.success('A room is closed');
-//       router.push('/chat');
-//     }
-//   }
+  //   async function deleteTradingRoom() {
+  //     const response = await apiHelper({
+  //       url: process.env.NEXT_PUBLIC_PAXTRADE_API_URL + 'room/delete/' + slug,
+  //       method: 'DELETE',
+  //     });
+  //     const storeRoomId: string | null = localStorage.getItem('latest-stream-id');
+  //     if(storeRoomId !== null){
+  //       const tokenKey = Object.keys(localStorage).find(key => key.startsWith(storeRoomId));
+  //       if(tokenKey) localStorage.removeItem(tokenKey)
+  //     }
+  //     if (response == null) {
+  //       toast.error('Error occurred');
+  //     } else {
+  //       toast.success('A room is closed');
+  //       router.push('/chat');
+  //     }
+  //   }
   const togglePublishing = useCallback(async () => {
     if (isPublishing && localParticipant) {
       setIsUnpublishing(true);

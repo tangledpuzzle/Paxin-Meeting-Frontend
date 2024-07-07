@@ -34,7 +34,7 @@ export default function HomePage() {
   const [viewMode, setViewMode] = useState<string>(
     searchParams.get('mode') || 'all'
   );
-  const [titleKeyword, setTitleKeyword] = useState<string>(
+  const [titleKeyword] = useState<string>(
     searchParams.get('title') || 'all'
   );
   useEffect(() => {
@@ -47,15 +47,15 @@ export default function HomePage() {
         toast.error('API error');
       } else {
         const _rooms = [];
-        for (let i of Object.keys(response.rooms)) {
+        for (const i of Object.keys(response.rooms)) {
           const images = [];
-          for (let im of response.rooms[i].products) {
+          for (const im of response.rooms[i].products) {
             im.photos.length && images.push(im.photos[0].files[0].path);
           }
           console.log(response);
           _rooms.push({
             roomId: i,
-            cnt:10,
+            cnt: 10,
             title: response.rooms[i].title,
             publisher: response.rooms[i].publisher,
             productImages: images,
@@ -73,14 +73,14 @@ export default function HomePage() {
   const locale = useLocale();
   const pageSize = 12;
   const [fetchURL, setFetchURL] = useState('');
-  const { data: fetchedData, isLoading, error } = useSWR(fetchURL, fetcher);
+  const { data: fetchedData, error } = useSWR(fetchURL, fetcher);
 
   useEffect(() => {
     if (!error && fetchedData) {
       setRooms(fetchedData.data);
     }
   }, [fetchedData, error]);
-  
+
   useEffect(() => {
     const _title = searchParams.get('title') || 'all';
     const _city = searchParams.get('city') || 'all';
@@ -121,7 +121,7 @@ export default function HomePage() {
     }
   }, []);
 
-  const flag=status==='authenticated'
+  const flag = status === 'authenticated';
   const myRooms = rooms.filter((el) => el.publisher.userID === data?.user?.id);
   const otherRooms = rooms.filter(
     (el) => el.publisher.userID !== data?.user?.id
@@ -145,13 +145,15 @@ export default function HomePage() {
               : myRooms.filter((el) => el.title.includes(titleKeyword))
           }
         />
-      ) : <FlowSection
-      data={
-        titleKeyword == 'all'
-        ? rooms
-        : rooms.filter((el) => el.title.includes(titleKeyword))
-      }
-    />}
+      ) : (
+        <FlowSection
+          data={
+            titleKeyword == 'all'
+              ? rooms
+              : rooms.filter((el) => el.title.includes(titleKeyword))
+          }
+        />
+      )}
     </section>
   );
 }

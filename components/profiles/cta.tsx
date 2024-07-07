@@ -1,4 +1,4 @@
-import { FaHardDrive, FaSackDollar, FaUserClock } from 'react-icons/fa6';
+import { FaHardDrive, FaUserClock } from 'react-icons/fa6';
 
 import React, { useState, useEffect } from 'react';
 
@@ -15,8 +15,6 @@ interface CTAProps {
   description?: string;
   icon: React.ComponentType<any>;
 }
-
-
 
 function formatTime(hours: number, minutes: number, seconds: number) {
   return `${String(hours).padStart(2, '0')}h : ${String(minutes).padStart(2, '0')}m : ${String(seconds).padStart(2, '0')}s`;
@@ -103,13 +101,13 @@ export default function CTASection({ title, description, icon }: CTAProps) {
           </div>
         </div>
         <PlanUpgradeModal>
-          <Button variant='outline' className='ml-auto sm:hidden text-white'>
+          <Button variant='outline' className='ml-auto text-white sm:hidden'>
             <FaHardDrive className='mr-2 size-4' />
             {user?.storage || 0} / {user?.limitStorage || 0} MB
           </Button>
         </PlanUpgradeModal>
       </div>
-      <div className='flex gap-2 flex-col md:flex-row'>
+      <div className='flex flex-col gap-2 md:flex-row'>
         <PlanUpgradeModal>
           <Button variant='outline' className='hidden w-full sm:flex'>
             <FaHardDrive className='mr-2 size-4' />
@@ -118,8 +116,7 @@ export default function CTASection({ title, description, icon }: CTAProps) {
         </PlanUpgradeModal>
         <Button variant='outline' className='w-ful' asChild>
           <Link href='/profile/setting?tab=accounting'>
-          {t('balance')} {user?.balance || 0} ₽
-
+            {t('balance')} {user?.balance || 0} ₽
           </Link>
         </Button>
         <Button variant='outline' className='w-full text-white'>

@@ -1,14 +1,14 @@
 'use client';
 
-import { createStreamerToken } from '@/app/[locale]/(protected)/stream/action';
-import { LiveKitRoom, useLocalParticipant, useParticipants } from '@livekit/components-react';
-import { JwtPayload, jwtDecode } from 'jwt-decode';
+import {
+  LiveKitRoom,
+  useLocalParticipant,
+  useParticipants,
+} from '@livekit/components-react';
 import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import Chat from './host-chat';
-import ChannelInfo from '@/components/stream/channel-info';
-import ProductPanel, { IProduct } from './product-panel';
+import  { IProduct } from './product-panel';
 import apiHelper from '@/helpers/api/apiRequest';
-import StreamPlayerWrapper from '@/components/stream/stream-player'; // Импортируем StreamPlayerWrapper
 import { Track, createLocalTracks, LocalTrack } from 'livekit-client';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
@@ -37,10 +37,13 @@ export default function HostChannel({
 
   useEffect(() => {
     if (lastCommand === 'newDonat' && additionalData.length > 0) {
-      additionalData.forEach(data => {
-        toast.success(`Донат от: ${data.name}, Сумму: ${data.total}, Сообщение: ${data.msg}`, {
-          position: 'top-right',
-        });
+      additionalData.forEach((data) => {
+        toast.success(
+          `Донат от: ${data.name}, Сумму: ${data.total}, Сообщение: ${data.msg}`,
+          {
+            position: 'top-right',
+          }
+        );
       });
     }
   }, [lastCommand, additionalData]);
@@ -94,7 +97,9 @@ export default function HostChannel({
     });
     const storeRoomId: string | null = localStorage.getItem('latest-stream-id');
     if (storeRoomId !== null) {
-      const tokenKey = Object.keys(localStorage).find((key) => key.startsWith(storeRoomId));
+      const tokenKey = Object.keys(localStorage).find((key) =>
+        key.startsWith(storeRoomId)
+      );
       if (tokenKey) localStorage.removeItem(tokenKey);
     }
     if (response == null) {
@@ -128,7 +133,12 @@ interface HostStreamManagerProps {
   products: IProduct[]; // Добавляем продукты в интерфейс
 }
 
-function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, products }: HostStreamManagerProps) {
+function HostStreamManager({
+  userId,
+  sendPushNotification,
+  deleteTradingRoom,
+  products,
+}: HostStreamManagerProps) {
   const [videoTrack, setVideoTrack] = useState<LocalTrack>();
   const [audioTrack, setAudioTrack] = useState<LocalTrack>();
   const [isPublishing, setIsPublishing] = useState(false);
@@ -212,19 +222,25 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
     }
 
     setIsPublishing((prev) => !prev);
-  }, [audioTrack, isPublishing, localParticipant, videoTrack, sendPushNotification]);
+  }, [
+    audioTrack,
+    isPublishing,
+    localParticipant,
+    videoTrack,
+    sendPushNotification,
+  ]);
 
   return (
     <div className='flex h-full flex-col gap-4'>
-      <div className='flex flex-col items-center justify-between absolute z-40 w-full md:w-[250px] top-4 md:right-[50px]'>
-        <div className='flex gap-[5px] text-white mb-4 text-lg font-bold'>
+      <div className='absolute top-4 z-40 flex w-full flex-col items-center justify-between md:right-[50px] md:w-[250px]'>
+        <div className='mb-4 flex gap-[5px] text-lg font-bold text-white'>
           {isPublishing && !isUnpublishing ? (
             <div className='flex items-center gap-1'>
               <span className='relative mr-1 flex h-3 w-3'>
                 <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75'></span>
                 <span className='relative inline-flex h-3 w-3 rounded-full bg-red-500'></span>
               </span>
-               (кол-во зрителей {participantCount})
+              (кол-во зрителей {participantCount})
             </div>
           ) : (
             'Готов к эфиру'
@@ -233,23 +249,33 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
         <div className='flex gap-2'>
           {isPublishing ? (
             <button
-              className='bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-xs md:text-md'
+              className='md:text-md rounded bg-red-600 px-4 py-2 text-xs hover:bg-red-700'
               onClick={() => void togglePublishing()}
               disabled={isUnpublishing || isStoppingStream}
             >
-              {isStoppingStream ? <Loader2 className='animate-spin' /> : isUnpublishing ? 'Останавливаем...' : 'Поставить паузу'}
+              {isStoppingStream ? (
+                <Loader2 className='animate-spin' />
+              ) : isUnpublishing ? (
+                'Останавливаем...'
+              ) : (
+                'Поставить паузу'
+              )}
             </button>
           ) : (
             <button
-              className='bg-primary hover:bg-blue-700 px-4 py-2 rounded animate-pulse text-xs md:text-md'
+              className='md:text-md animate-pulse rounded bg-primary px-4 py-2 text-xs hover:bg-blue-700'
               onClick={() => void togglePublishing()}
               disabled={isStartingStream}
             >
-              {isStartingStream ? <Loader2 className='animate-spin' /> : 'Начать'}
+              {isStartingStream ? (
+                <Loader2 className='animate-spin' />
+              ) : (
+                'Начать'
+              )}
             </button>
           )}
           <button
-            className='bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-xs md:text-md'
+            className='md:text-md rounded bg-red-600 px-4 py-2 text-xs hover:bg-red-700'
             onClick={async () => {
               setIsClosingStream(true); // Start loading
               await deleteTradingRoom();
@@ -257,24 +283,28 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
             }}
             disabled={isClosingStream}
           >
-            {isClosingStream ? <Loader2 className='animate-spin' /> : 'Закрыть эфир'}
+            {isClosingStream ? (
+              <Loader2 className='animate-spin' />
+            ) : (
+              'Закрыть эфир'
+            )}
           </button>
         </div>
       </div>
-      <div className='flex-1 rounded-sm border bg-neutral-200 dark:bg-neutral-800 relative'>
+      <div className='relative flex-1 rounded-sm border bg-neutral-200 dark:bg-neutral-800'>
         <video
           ref={previewVideoEl}
-          className='h-full w-full absolute inset-0'
+          className='absolute inset-0 h-full w-full'
           style={{ objectFit: 'cover' }}
         />
-        <div className='flex h-full w-full justify-between md:h-full rtl:flex-row-reverse absolute inset-0 z-10'>
+        <div className='absolute inset-0 z-10 flex h-full w-full justify-between md:h-full rtl:flex-row-reverse'>
           {/* <div className='relative w-full md:block'>
             <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
               <ProductPanel products={products} />
             </div>
           </div> */}
           <div className='relative w-full md:block'>
-            <div className='absolute bottom-0 right-0 top-0 flex h-full w-full md:w-[340px] pt-[120px] flex-col gap-2 p-2 bg-black/40'>
+            <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 bg-black/40 p-2 pt-[120px] md:w-[340px]'>
               <Chat participantName={userId} />
             </div>
           </div>

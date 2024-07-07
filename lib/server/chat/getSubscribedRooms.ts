@@ -7,7 +7,7 @@ import { getServerSession } from 'next-auth';
 import authOptions from '@/lib/authOptions';
 import { ChatRoomType } from '@/context/chat-context';
 import { headers } from 'next/headers';
-import cookie from 'cookie'; 
+import cookie from 'cookie';
 
 const getSubscribedRooms = async () => {
   const locale = cookies().get('NEXT_LOCALE')?.value || 'en';

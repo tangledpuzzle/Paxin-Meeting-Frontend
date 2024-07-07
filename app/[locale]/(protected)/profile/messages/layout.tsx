@@ -131,7 +131,7 @@ function ChatWindow({
     let prevHeight = 0;
 
     const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         if (entry.contentBoxSize) {
           const height = entry.contentBoxSize[0].blockSize;
           // Update the style of chat-container
@@ -386,7 +386,7 @@ function ChatWindow({
 
 function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
   const textarea = event.currentTarget as HTMLTextAreaElement;
-  let prevHeight = textarea.scrollHeight;
+  const prevHeight = textarea.scrollHeight;
 
   textarea.style.height = '68px';
   textarea.style.height = `${textarea.scrollHeight}px`;
@@ -404,20 +404,15 @@ function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
       '.new-container'
     ) as HTMLElement | null;
     if (chatContainer) {
-      const chatContainer = document.querySelector(
-        '.new-container'
-      ) as HTMLElement | null;
-      if (chatContainer) {
-        const currentTop = parseInt(chatContainer.style.marginTop || '0');
-        if (currentTop === -24) {
-        } else {
-          const newTop = currentTop + 24;
-          chatContainer.style.marginTop = `${newTop}px`;
-        }
+      const currentTop = parseInt(chatContainer.style.marginTop || '0');
+      if (currentTop !== -24) {
+        const newTop = currentTop + 24;
+        chatContainer.style.marginTop = `${newTop}px`;
       }
     }
   }
 }
+
 
 export default function Messages({ children }: MessagesProps) {
   useEffect(() => {
