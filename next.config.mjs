@@ -11,6 +11,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
 const nextConfig = {
   env: {
     NEXT_PUBLIC_PNM_VERSION: PackageJson.version,
@@ -39,12 +41,33 @@ const nextConfig = {
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
+      config.optimization.runtimeChunk = 'single';
+      config.optimization.concatenateModules = true;
+
       config.optimization.splitChunks = {
         chunks: 'all',
         minSize: 20000,
         maxSize: 70000,
+        cacheGroups: {
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+        },
       };
+
+      if (process.env.ANALYZE) {
+        config.plugins.push(new BundleAnalyzerPlugin());
+      }
     }
+
+
     return config;
   },
 };
