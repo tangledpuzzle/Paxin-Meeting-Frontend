@@ -159,6 +159,7 @@
     @apply border-border;
   }
   body {
+    overflow-x: hidden;
     text-wrap: balance;
     letter-spacing: 0.2px;
     @apply bg-background text-foreground;
@@ -1829,4 +1830,20 @@ iframe {
 
 .image-gallery-icon:hover {
   color: #73a3ff !important;
+}
+
+.c-bg {
+  background: url('/images/about/contact-bg.png');
+}
+
+.h-bg {
+  background: url('/images/about/hero.jpg');
+}
+
+.a-bg {
+  background: url('/images/auth/signin-panel.svg');
+}
+
+.c-bg2 {
+  background: url('/images/contact/hero.jpg');
 }
