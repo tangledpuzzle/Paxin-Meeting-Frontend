@@ -489,6 +489,7 @@ export default function SettingPage() {
           position: 'top-right',
         });
         profileMutate();
+        userMutate();
       } else {
         toast.error(t('failed_profile_update'), {
           position: 'top-right',
