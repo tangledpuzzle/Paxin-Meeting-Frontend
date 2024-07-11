@@ -6,6 +6,7 @@ import { useLocale } from 'next-intl';
 import { setCookie } from 'nookies';
 import React, { ReactNode, useEffect, useState } from 'react';
 import useSWR from 'swr';
+import { useSession } from 'next-auth/react';
 import cookie from 'cookie';
 import cookies from 'next-cookies';
 import { GetServerSideProps } from 'next';
@@ -27,6 +28,7 @@ const Providers: React.FC<IProps> = ({ children, initialAccessToken }) => {
   const [user, setUser] = useState<User | null>(null);
   const [postMode, setPostMode] = useState<string>('all');
   const [lastCommand, setLastCommand] = useState<string>('');
+  const session = useSession();
   const [additionalData, setAdditionalData] = useState<AdditionalData[]>([]);
   const [currentPlan, setCurrentPlan] = useState<string>('BASIC');
   const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -35,10 +37,12 @@ const Providers: React.FC<IProps> = ({ children, initialAccessToken }) => {
     `/api/users/me?language=${locale}`
   );
 
+  console.log("SSSS?", initialAccessToken)
   const { data: fetchedData, error, mutate: userMutate } = useSWR(
-    initialAccessToken ? userFetchURL : null,
+    session.status === 'authenticated' && initialAccessToken ? userFetchURL : null,
     fetcher
   );
+
 
   useEffect(() => {
     setUserFetchURL(`/api/users/me?language=${locale}`);
