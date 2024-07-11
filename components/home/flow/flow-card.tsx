@@ -60,7 +60,7 @@ function FlowCard(profile: FlowCardProps) {
     tags,
     location,
     category,
-    countrycode,
+    // countrycode,
     review,
     // callbackURL,
   } = profile;
@@ -128,7 +128,7 @@ function FlowCard(profile: FlowCardProps) {
                 {review.totalviews}
               </Badge>
             </div>
-            <div className=' relative -top-[100px] grid grid-cols-2  '>
+            <div className=' relative top-[-100px] grid grid-cols-2  '>
               <div></div>
             </div>
             <div className='absolute inset-0 flex items-center justify-center rounded-t-md bg-gradient-to-b from-transparent via-transparent to-white dark:to-black'></div>

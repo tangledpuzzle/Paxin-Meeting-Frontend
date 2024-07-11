@@ -1,5 +1,6 @@
 import React from 'react';
 import { IParticipant } from '@/store/slices/interfaces/participant';
+import Image from 'next/image';
 
 interface IAvatarProps {
   participant: IParticipant;
@@ -8,7 +9,12 @@ const Avatar = ({ participant }: IAvatarProps) => {
   const render = () => {
     if (participant.metadata.profile_pic) {
       return (
-        <img src={participant.metadata.profile_pic} alt={participant.name} />
+        <Image
+          src={participant.metadata.profile_pic}
+          alt={participant.name}
+          layout='fill'
+          objectFit='cover'
+        />
       );
     } else {
       return <>{participant.name.slice(0, 2).toUpperCase()}</>;

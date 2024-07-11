@@ -72,11 +72,11 @@ interface FlowPageProps {
   searchParams: { [key: string]: string | undefined | null };
 }
 
-interface Favorite {
-  ID: number;
-  UserID: string;
-  BlogID: number;
-}
+// interface Favorite {
+//   ID: number;
+//   UserID: string;
+//   BlogID: number;
+// }
 
 async function getData(
   locale: string,
@@ -114,26 +114,26 @@ async function getData(
       throw new Error('Failed to fetch data');
     }
 
-    const headersList = headers();
-    const cookiesHeader = headersList.get('cookie');
-    const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
-    const token = cookiesParsed['access_token'];
-    const favoriteRes = await fetch(`${process.env.API_URL}/api/blog/getFav`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log(response);
-        } else {
-          console.error('err:', response.statusText);
-        }
-      })
-      .catch((error) => {
-        console.error('err:', error);
-      });
+    // const headersList = headers();
+    // const cookiesHeader = headersList.get('cookie');
+    // const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
+    // const token = cookiesParsed['access_token'];
+    // const favoriteRes = await fetch(`${process.env.API_URL}/api/blog/getFav`, {
+    //   method: 'GET',
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // })
+    //   .then((response) => {
+    //     if (response.ok) {
+    //       console.log(response);
+    //     } else {
+    //       console.error('err:', response.statusText);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error('err:', error);
+    //   });
 
     // console.log(favoriteRes)
     // if (favoriteRes.status !== 'success') {
@@ -215,7 +215,7 @@ export async function generateMetadata({
   const cookiesHeader = headersList.get('cookie');
   const cookiesParsed = cookiesHeader ? cookie.parse(cookiesHeader) : {};
   const userIdCookie = cookiesParsed['UserID'];
-  const token = cookiesParsed['access_token'];
+  // const token = cookiesParsed['access_token'];
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id || userIdCookie || null;
 
@@ -260,7 +260,7 @@ export default async function FlowPage({
   const roomId = await getRoomId(blogDetails?.author?.userId || '');
 
   return blogDetails ? (
-    <section className='container px-4 py-4 md:px-8'>
+    <section className='container p-4 md:px-8'>
       <div className='flex justify-between'>
         <BackButton callback={searchParams['callback']} />
       </div>
@@ -523,7 +523,7 @@ export default async function FlowPage({
                 )}
               </div>
             </CardFooter>
-            <div className='flex flex-col gap-4 px-2 pb-4 pr-2 text-center'>
+            <div className='flex flex-col gap-4 px-2 pb-4 text-center'>
               <Button className='btn w-full !rounded-md' asChild>
                 <Link href={`/profiles/${blogDetails.author?.username}`}>
                   {t('visit_profile')}

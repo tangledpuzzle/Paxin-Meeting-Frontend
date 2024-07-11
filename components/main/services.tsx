@@ -31,7 +31,7 @@ const services = [
 
 function ServiceCard({
   title,
-  description,
+  // description,
   icons,
 }: {
   title: string;

@@ -1,18 +1,18 @@
 import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import authOptions from '@/lib/authOptions';
-import { headers } from 'next/headers';
-import cookie from 'cookie';
+import { cookies } from 'next/headers';
 
-export async function GET(req: NextRequest) {
+export const dynamic = 'force-dynamic';
+
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
 
     let accessToken = session?.accessToken;
     if (!accessToken) {
-      const cookies = headers().get('cookie') || '';
-      const parsedCookies = cookie.parse(cookies);
-      accessToken = parsedCookies.access_token;
+      const cookieStore = cookies();
+      accessToken = cookieStore.get('access_token')?.value;
     }
 
     if (!accessToken) {

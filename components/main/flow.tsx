@@ -98,7 +98,7 @@ export default function FlowSection({ uuid }: { uuid: string }) {
     };
 
     setFetchURL(generateFetchURL());
-  }, [title, city, category, hashtag, money, locale, currentPage]);
+  }, [title, city, category, hashtag, money, locale, currentPage, uuid]);
 
   useEffect(() => {
     if (!error && fetchedData) {

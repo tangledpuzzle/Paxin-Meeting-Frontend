@@ -1,6 +1,5 @@
 import React from 'react';
 import '@/styles/glowblack.css';
-import { useTheme } from 'next-themes';
 import { IoFilterSharp } from 'react-icons/io5';
 
 interface GlowingButtonProps {
@@ -8,7 +7,6 @@ interface GlowingButtonProps {
 }
 
 const GlowingButton: React.FC<GlowingButtonProps> = ({ buttonText }) => {
-  const { theme } = useTheme();
 
   return (
     <div>
@@ -25,7 +23,7 @@ const GlowingButton: React.FC<GlowingButtonProps> = ({ buttonText }) => {
           <div className='glowing-wrapper-borders'></div>
         </div>
         <div className='glowing-wrapper-button w-inline-block'>
-          <div className='relative -top-[5px] flex text-white md:pr-0'>
+          <div className='relative top-[-5px] flex text-white md:pr-0'>
             <IoFilterSharp className='relative top-[2px]' />
             {buttonText}
           </div>

@@ -3,13 +3,6 @@ import { VisibilityContext } from 'react-horizontal-scrolling-menu';
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
-interface SwipeProps {
-  containerRef: React.RefObject<HTMLDivElement>;
-  containerWidth: number;
-  onSwipePrev: () => void;
-  onSwipeNext: () => void;
-}
-
 export const useSwipe = () => {
   const [touchStart, setTouchStart] = React.useState<number | null>(null);
   const [touchEnd, setTouchEnd] = React.useState<number | null>(null);

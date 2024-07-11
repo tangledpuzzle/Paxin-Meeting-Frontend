@@ -45,7 +45,6 @@ export default function Relationships() {
     data: fetchedData,
     isLoading: isFetchLoading,
     mutate,
-    error,
   } = useSWR(
     `/api/relations/${currentTab.toLowerCase()}/get?language=${locale}`,
     fetcher
@@ -62,7 +61,7 @@ export default function Relationships() {
   useEffect(() => {
     const _tab = searchParams.get('tab') || 'followers';
     setCurrentTab(_tab.toUpperCase() as 'FOLLOWERS' | 'FOLLOWINGS');
-  }, [searchParams]);
+  }, [searchParams, currentTab]);
 
   useEffect(() => {
     if (fetchedData) {
@@ -111,7 +110,7 @@ export default function Relationships() {
 
       setFollowers(_followers);
     }
-  }, [fetchedData, user]);
+  }, [fetchedData, user, currentTab, locale]);
 
   const navigateToProfiles = () => {
     router.push('/home?mode=profile');

@@ -5,7 +5,6 @@ import { headers } from 'next/headers';
 import cookie from 'cookie';
 
 export async function PATCH(req: NextRequest) {
-  const locale = req.nextUrl.searchParams.get('language') || 'en';
 
   const session = await getServerSession(authOptions);
 

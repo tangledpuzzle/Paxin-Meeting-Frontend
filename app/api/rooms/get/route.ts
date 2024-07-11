@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) {
   const query = req.nextUrl.searchParams.toString();
 
-  const locale = req.nextUrl.searchParams.get('language') || 'en';
-
   try {
     console.log('rooms');
     const res = await fetch(

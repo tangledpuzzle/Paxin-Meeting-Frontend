@@ -121,7 +121,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     currentConnection?.room
   );
 
-  const getMeetAccessToken = async (): Promise<string> => {
+  const getMeetAccessToken = useCallback(async (): Promise<string> => {
     console.log('MEET/getMeetAccessToken');
     const accessToken = getAccessToken();
     if (accessToken) return accessToken;
@@ -129,7 +129,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     const timestampHash = hashTimestamp(Date.now());
     const userId = `user-${randomPart}-${timestampHash}`;
     const userName = `User ${randomPart}`;
-    const userEmail = `${randomPart}-${timestampHash}@test.me`;
+    // const userEmail = `${randomPart}-${timestampHash}@test.me`;
     setLoading(true);
     const token = await joinRoom(roomId, userId, userName);
     console.log('JOIN TOKEN: ', token);
@@ -138,9 +138,9 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     if (token) {
       return token;
     } else return '';
-  };
-
-  const verifyToken = async () => {
+  }, [roomId, setLoading]);
+  
+  const verifyToken = useCallback(async () => {
     console.log('[Meet] Verify token');
     let res: VerifyTokenRes;
     try {
@@ -165,24 +165,17 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     } catch (error: any) {
       clearAccessToken();
       setAccessTokenLoaded(false);
-      // console.error(error);
-      // setRoomConnectionStatus('ready');
-      // setLoading(false);
-      // setError({
-      //   title: t('app.verification-failed-title'),
-      //   text: t('app.token-not-valid'),
-      // });
-      // clearAccessToken();
+  
       return;
     }
-
+  
     setRoomConnectionStatus('ready');
     setLoading(false);
     if (res.status && res.livekitHost && res.token) {
       // we'll store token that we received from URL
       dispatch(addToken(accessTokenLocal));
       dispatch(addServerVersion(res.serverVersion ?? ''));
-
+  
       // for livekit need to use generated token & host
       console.log('MEET/setLivekitInfo', res.token);
       setLivekitInfo({
@@ -199,7 +192,8 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
       //   text: t(res.msg),
       // });
     }
-  };
+  }, [dispatch, setAccessTokenLoaded, setRoomConnectionStatus, setLoading, setLivekitInfo, accessTokenLocal]); // Зависимости функции
+  
 
   useEffect(() => {
     const prevMeetId = getMeetId();
@@ -208,7 +202,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
       console.log('MEET/Already Existing session');
       clearToken();
     }
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     if (!accessTokenLoaded) {
@@ -225,7 +219,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
         }
       });
     }
-  }, [pathname, accessTokenLoaded]);
+  }, [pathname, accessTokenLoaded, error, getMeetAccessToken, setError, t]);
 
   // useEffect(() => {.
   //   if (accessTokenLoaded && !accessTokenLocal) {
@@ -248,7 +242,7 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
         text: t('app.require-ssl-des'),
       });
     }
-  }, []);
+  }, [setError, t]);
 
   useEffect(() => {
     if (accessTokenLoaded && accessTokenLocal) {
@@ -270,6 +264,8 @@ const Meet: React.FC<MeetProps> = ({ roomId }) => {
     accessTokenLoaded,
     currentConnection,
     setRoomConnectionStatus,
+    roomConnectionStatus,
+    verifyToken
   ]);
 
   useEffect(() => {

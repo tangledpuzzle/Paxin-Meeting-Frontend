@@ -133,9 +133,9 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
+                <div className='my-8 inline-block w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                    className='close-btn absolute right-6 top-8 size-[25px] outline-none'
                     type='button'
                     onClick={() => onCloseAlertModal()}
                   >
@@ -223,8 +223,8 @@ const Footer = ({ currentRoom, isRecorder }: IFooterProps) => {
               <Menu>
                 {({ open }) => (
                   <>
-                    <Menu.Button className='relative flex-shrink-0 p-2 rtl:-ml-4'>
-                      <div className='h-5 w-5 rotate-90 '>
+                    <Menu.Button className='relative shrink-0 p-2 rtl:-ml-4'>
+                      <div className='size-5 rotate-90'>
                         <i className='pnm-menu-small dark:text-secondaryColor' />
                       </div>
                     </Menu.Button>

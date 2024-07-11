@@ -3,7 +3,7 @@ import deleteMessage from '@/lib/server/chat/deleteMessage';
 import getMessages from '@/lib/server/chat/getMessages';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useInView } from 'react-intersection-observer';
 import { ConfirmModal } from '../common/confirm-modal';
@@ -48,68 +48,71 @@ export default function ChatMessageContainer() {
   const [isLoading, setIsLoading] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  const loadMessages = async (end_msg_id?: string) => {
-    setIsLoading(true);
+  const loadMessages = useCallback(
+    async (end_msg_id?: string) => {
+      setIsLoading(true);
 
-    try {
-      const res = await getMessages(
-        activeRoom,
-        Number(messages.length || 0),
-        (end_msg_id = end_msg_id ? end_msg_id : undefined)
-      );
+      try {
+        const res = await getMessages(
+          activeRoom,
+          Number(messages.length || 0),
+          (end_msg_id = end_msg_id ? end_msg_id : undefined)
+        );
 
-      const _chatUser =
-        chatRooms.find((room) => room.id === activeRoom)?.user || null;
+        const _chatUser =
+          chatRooms.find((room) => room.id === activeRoom)?.user || null;
 
-      if (_chatUser?.bot) {
-        setMessages([
-          {
-            id: new Date().getTime().toString(),
-            message: t('bot_default_msg', {
-              bot_name: `@${_chatUser?.profile.name}`,
-            }),
-            timestamp: new Date().toLocaleString(),
-            owner: {
-              id: _chatUser?.id || '',
-              name: _chatUser?.profile.name || '',
-              avatar: _chatUser?.profile.avatar || '',
+        if (_chatUser?.bot) {
+          setMessages([
+            {
+              id: new Date().getTime().toString(),
+              message: t('bot_default_msg', {
+                bot_name: `@${_chatUser?.profile.name}`,
+              }),
+              timestamp: new Date().toLocaleString(),
+              owner: {
+                id: _chatUser?.id || '',
+                name: _chatUser?.profile.name || '',
+                avatar: _chatUser?.profile.avatar || '',
+              },
             },
-          },
-        ]);
-      } else {
-        const _messages =
-          res.messages.map((msg) => {
-            return {
-              ...msg,
-              parentMessage: msg.parentMessage
-                ? {
-                    id: msg.parentMessage.id,
-                    owner: {
-                      id: msg.parentMessage.owner.id,
-                      name:
-                        _chatUser?.id === msg.parentMessage.owner.id
-                          ? _chatUser?.profile.name || ''
-                          : user?.username || '',
-                      avatar:
-                        _chatUser?.id === msg.parentMessage.owner.id
-                          ? _chatUser?.profile.avatar || ''
-                          : user?.avatar || '',
-                    },
-                    message: msg.parentMessage.message,
-                  }
-                : undefined,
-            };
-          }) || ([] as ChatMessageType[]);
-        setMessages((messages) => [..._messages, ...messages]);
-      }
+          ]);
+        } else {
+          const _messages =
+            res.messages.map((msg) => {
+              return {
+                ...msg,
+                parentMessage: msg.parentMessage
+                  ? {
+                      id: msg.parentMessage.id,
+                      owner: {
+                        id: msg.parentMessage.owner.id,
+                        name:
+                          _chatUser?.id === msg.parentMessage.owner.id
+                            ? _chatUser?.profile.name || ''
+                            : user?.username || '',
+                        avatar:
+                          _chatUser?.id === msg.parentMessage.owner.id
+                            ? _chatUser?.profile.avatar || ''
+                            : user?.avatar || '',
+                      },
+                      message: msg.parentMessage.message,
+                    }
+                  : undefined,
+              };
+            }) || ([] as ChatMessageType[]);
+          setMessages((prevMessages) => [..._messages, ...prevMessages]);
+        }
 
-      setHasMore(res.total > res.skip + res.messages.length);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        setHasMore(res.total > res.skip + res.messages.length);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [activeRoom, chatRooms, messages.length, t, user?.avatar, user?.username, setMessages]
+  );
 
   const getScrollHeight = () => {
     if (scrollAreaRef.current) {
@@ -224,27 +227,27 @@ export default function ChatMessageContainer() {
     if (deltaHeight > 0) {
       scrollTo(deltaHeight);
     }
-  }, [messages]);
+  }, [messages, firstLoading, prevScrollHeight]);
 
   useEffect(() => {
     if (inView) {
       setPrevScrollHeight(getScrollHeight());
       !isLoading && loadMessages();
     }
-  }, [inView]);
+  }, [inView, isLoading, loadMessages, setPrevScrollHeight]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.querySelector(
+      const scrollAreaElement = scrollAreaRef.current.querySelector(
         '[data-radix-scroll-area-viewport]'
-      )!.scrollTop =
-        scrollAreaRef.current.querySelector(
-          '[data-radix-scroll-area-viewport]'
-        )!.scrollHeight -
-        scrollPosition -
-        scrollAreaRef.current.clientHeight;
+      );
+
+      if (scrollAreaElement) {
+        scrollAreaElement.scrollTop =
+          scrollAreaElement.scrollHeight - scrollPosition - scrollAreaRef.current.clientHeight;
+      }
     }
-  }, [chatWindowHeight]);
+  }, [chatWindowHeight, scrollPosition]);
 
   useEffect(() => {
     setMessages([]);
@@ -252,42 +255,41 @@ export default function ChatMessageContainer() {
     setReplyMessageId('');
     setIsEditing(false);
     setEditMessageId('');
-  }, [activeRoom]);
+  }, [activeRoom, setEditMessageId, setIsEditing, setIsReplying, setMessages, setReplyMessageId]);
 
   useEffect(() => {
     if (window === undefined) return;
 
     const checkScrollDown = () => {
       if (scrollAreaRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } =
-          scrollAreaRef.current.querySelector(
-            '[data-radix-scroll-area-viewport]'
-          )!;
-
-        setShowScrollDown(scrollTop + clientHeight + 30 < scrollHeight);
-
-        setScrollPosition(
-          scrollAreaRef.current!.querySelector(
-            '[data-radix-scroll-area-viewport]'
-          )!.scrollHeight -
-            scrollAreaRef.current!.querySelector(
-              '[data-radix-scroll-area-viewport]'
-            )!.scrollTop -
-            scrollAreaRef.current.clientHeight
+        const scrollAreaElement = scrollAreaRef.current.querySelector(
+          '[data-radix-scroll-area-viewport]'
         );
+
+        if (scrollAreaElement) {
+          const { scrollTop, scrollHeight, clientHeight } = scrollAreaElement;
+
+          setShowScrollDown(scrollTop + clientHeight + 30 < scrollHeight);
+
+          setScrollPosition(
+            scrollHeight - scrollTop - scrollAreaRef.current!.clientHeight
+          );
+        }
       }
     };
 
-    scrollAreaRef.current &&
-      scrollAreaRef.current
-        .querySelector('[data-radix-scroll-area-viewport]')!
-        .addEventListener('scroll', checkScrollDown);
+    const scrollAreaElement = scrollAreaRef.current?.querySelector(
+      '[data-radix-scroll-area-viewport]'
+    );
+
+    if (scrollAreaElement) {
+      scrollAreaElement.addEventListener('scroll', checkScrollDown);
+    }
 
     return () => {
-      scrollAreaRef.current &&
-        scrollAreaRef.current
-          .querySelector('[data-radix-scroll-area-viewport]')!
-          .removeEventListener('scroll', checkScrollDown);
+      if (scrollAreaElement) {
+        scrollAreaElement.removeEventListener('scroll', checkScrollDown);
+      }
     };
   }, []);
 

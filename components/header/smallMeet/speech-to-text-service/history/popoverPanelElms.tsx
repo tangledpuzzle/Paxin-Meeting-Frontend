@@ -60,13 +60,13 @@ const PopoverPanelElms = ({
         <h2 className='relative cursor-move p-5 px-3 pb-3 text-lg font-medium leading-6 text-gray-900 dark:text-white'>
           {t('speech-services.subtitle-history-modal-title')}
           <button
-            className='absolute h-[25px] w-[25px] outline-none ltr:right-10 rtl:left-10'
+            className='absolute size-[25px] outline-none ltr:right-10 rtl:left-10'
             onClick={() => downloadTexts()}
           >
             <i className='pnm-download' />
           </button>
           <button
-            className='absolute top-7 h-[25px] w-[25px] outline-none ltr:right-3 rtl:left-3'
+            className='absolute top-7 size-[25px] outline-none ltr:right-3 rtl:left-3'
             onClick={() => setShowPopover(!showPopover)}
           >
             <span className='absolute left-0 top-0 inline-block h-[2px] w-[20px] -rotate-0 bg-primaryColor dark:bg-darkText' />

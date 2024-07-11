@@ -51,7 +51,6 @@ const data = [
 function TestimonialCard({
   avatar,
   fullname,
-  username,
   comment,
 }: {
   avatar: string;
@@ -96,7 +95,6 @@ function TestimonialCard({
 }
 
 export default function ServiceList() {
-  const t = useTranslations('main');
 
   return (
     <div className='flex flex-col items-start justify-center px-0 pb-[40px] md:items-center md:pb-[80px]'>

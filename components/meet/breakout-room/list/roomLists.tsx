@@ -43,8 +43,8 @@ const RoomLists = () => {
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   className={`${
-                    open ? 'rotate-180 transform' : ''
-                  } ml-6 h-5 w-5 text-white`}
+                    open ? 'rotate-180' : ''
+                  } ml-6 size-5 text-white`}
                   fill='none'
                   viewBox='0 0 24 24'
                   stroke='currentColor'
@@ -77,7 +77,7 @@ const RoomLists = () => {
   return (
     <div className='breakout-room-list-wrapper relative min-h-[90px]'>
       {isLoading ? (
-        <div className='loading absolute left-0 right-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
+        <div className='loading absolute inset-x-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
           <div className='lds-ripple'>
             <div className='border-secondaryColor' />
             <div className='border-secondaryColor' />

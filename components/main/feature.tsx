@@ -57,7 +57,7 @@ function FeatureCard({
   link: string;
 }) {
   return (
-    <div className='bg-with-gradient hover:ring-primary-500 dark:hover:ring-primary-400 group relative isolate flex flex-1 flex-col rounded-none shadow transition-shadow duration-200 before:absolute before:-inset-[2px] before:z-[-1] before:hidden before:size-[calc(100%+4px)] before:rounded-[13px] md:rounded-xl before:lg:block'>
+    <div className='bg-with-gradient hover:ring-primary-500 dark:hover:ring-primary-400 group relative isolate flex flex-1 flex-col rounded-none shadow transition-shadow duration-200 before:absolute before:inset-[-2px] before:z-[-1] before:hidden before:size-[calc(100%+4px)] before:rounded-[13px] md:rounded-xl before:lg:block'>
       <div
         className='absolute left-0 top-0 z-[-1] size-full rounded-none opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:rounded-xl'
         style={{

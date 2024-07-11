@@ -110,7 +110,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
 
   const [hashtagKeyword, setHashtagKeyword] = useState<string>('');
 
-  const { data: fetchedHashtags, error: fetchedHashtagsError } = useSWR(
+  const { data: fetchedHashtags } = useSWR(
     hashtagKeyword
       ? `/api/hashtags/get?name=${hashtagKeyword}&type=BLOG`
       : `/api/hashtags/blog/get`,
@@ -469,7 +469,7 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
     //     value: hashtag,
     //   })) || []
     // );
-  }, [user]);
+  }, [user, t]);
 
   useEffect(() => {
     if (fetchedHashtags) {

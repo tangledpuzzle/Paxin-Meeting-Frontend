@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 
 // Define separate interfaces for Chat and Line
 interface ChatInterface {
@@ -45,7 +45,7 @@ const ChatComponent: React.FC = () => {
 
   const chatRef = useRef<Chat | null>(null);
 
-  const addChat = () => {
+  const addChat = useCallback(() => {
     if (!chatRef.current) {
       chatRef.current = new Chat();
 
@@ -59,7 +59,8 @@ const ChatComponent: React.FC = () => {
         }, 500);
       }
     }
-  };
+  }, [addingChat, lastChatTime]);
+
 
   const toggleAnimation = () => {
     setIsAnimationRunning((prevState) => {
@@ -86,7 +87,7 @@ const ChatComponent: React.FC = () => {
       <div id='chat-input' className='w-full'>
         <div id='file-input'></div>
       </div>
-      <div className='absolute z-10 bottom-20 right-20 flex gap-4 flex-col items-end'>
+      <div className='absolute bottom-20 right-20 z-10 flex flex-col items-end gap-4'>
         <button onClick={toggleAnimation}>
           {isAnimationRunning ? 'Остановить поток' : 'Запустить поток'}
         </button>
@@ -236,7 +237,7 @@ class Line {
 
     delay += 40;
 
-    otherEleList.forEach((e, _i) => {
+    otherEleList.forEach((e) => {
       setTimeout(
         () => {
           e.style.opacity = '1';

@@ -37,7 +37,7 @@ function Arrow({
 }
 
 export function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev, visibleElements, initComplete } =
+  const { isFirstItemVisible, scrollPrev, initComplete } =
     useContext(VisibilityContext);
 
   const [disabled, setDisabled] = useState(

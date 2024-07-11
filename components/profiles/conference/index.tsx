@@ -17,14 +17,14 @@ interface IConferenceProps {
   name: string;
 }
 
-export default function Conference({ email, userId, name }: IConferenceProps) {
+export default function Conference({ userId, name }: IConferenceProps) {
   const router = useRouter();
   const t = useTranslations('main');
 
   const [isLoading, setLoading] = useState<boolean>(false);
   const clearSession = useSelector(RTCContext, (state) => state.clearSession);
   //@ts-expect-error: no sms
-  const translate = useCallback((e: string) => t(e), []);
+  const translate = useCallback((e: string) => t(e), [t]);
   //   function clearSession() {}
 
   const onCreateRoom = useCallback(
@@ -52,7 +52,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
         router.push(`/meet/${roomId}`);
       }
     },
-    [setLoading]
+    [setLoading, clearSession, name, t, router, userId]
   );
 
   const onJoinRoom = useCallback(
@@ -76,7 +76,7 @@ export default function Conference({ email, userId, name }: IConferenceProps) {
         router.push(`/meet/${roomId}`);
       }
     },
-    [setLoading]
+    [setLoading, clearSession, name, router, t, userId]
   );
 
   return (

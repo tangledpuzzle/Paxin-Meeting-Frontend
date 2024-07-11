@@ -36,56 +36,56 @@ import '@/styles/editor.css';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import MessageForm from '@/components/home/messsage-form';
-import getRoomId from '@/lib/server/chat/getRoomId';
+// import getRoomId from '@/lib/server/chat/getRoomId';
 import CallModal from '@/components/common/call-modal';
 import { CiStreamOff } from 'react-icons/ci';
 import { CiStreamOn } from 'react-icons/ci';
 
-interface ProfileDetails {
-  streaming: string[];
-  id: string;
-  username: string;
-  bio: string;
-  hashtags: string[];
-  cities: string[];
-  categories: string[];
-  country: string;
-  review: {
-    totaltime: {
-      hour: number;
-      minutes: number;
-      seconds: number;
-    };
-    monthtime: {
-      hour: number;
-      minutes: number;
-      seconds: number;
-    };
-    totalposts: number;
-    monthposts: number;
-    followers: number;
-  };
-  latestblog?: {
-    title: string;
-    subtitle: string;
-    hero: string;
-    review: {
-      votes: number;
-    };
-    link: string;
-  };
-  gallery: {
-    original: string;
-    thumbnail: string;
-  }[];
-  description: string;
-  additionalinfo: string;
-  telegram: string;
-  qrcode: string;
-  follow: boolean;
-  me: boolean;
-  bot: boolean;
-}
+// interface ProfileDetails {
+//   streaming: string[];
+//   id: string;
+//   username: string;
+//   bio: string;
+//   hashtags: string[];
+//   cities: string[];
+//   categories: string[];
+//   country: string;
+//   review: {
+//     totaltime: {
+//       hour: number;
+//       minutes: number;
+//       seconds: number;
+//     };
+//     monthtime: {
+//       hour: number;
+//       minutes: number;
+//       seconds: number;
+//     };
+//     totalposts: number;
+//     monthposts: number;
+//     followers: number;
+//   };
+//   latestblog?: {
+//     title: string;
+//     subtitle: string;
+//     hero: string;
+//     review: {
+//       votes: number;
+//     };
+//     link: string;
+//   };
+//   gallery: {
+//     original: string;
+//     thumbnail: string;
+//   }[];
+//   description: string;
+//   additionalinfo: string;
+//   telegram: string;
+//   qrcode: string;
+//   follow: boolean;
+//   me: boolean;
+//   bot: boolean;
+// }
 
 interface ProfilePageProps {
   params: { username: string; locale: string };
@@ -245,18 +245,18 @@ export default async function ProfilePage({
 
   const profileDetails = await getData(params.locale, params.username, userId);
 
-  const breadcrumbs = [
-    {
-      name: t('profile'),
-      url: '/home?mode=profile',
-    },
-    {
-      name: params.username,
-      url: `profiles/${params.username}`,
-    },
-  ];
+  // const breadcrumbs = [
+  //   {
+  //     name: t('profile'),
+  //     url: '/home?mode=profile',
+  //   },
+  //   {
+  //     name: params.username,
+  //     url: `profiles/${params.username}`,
+  //   },
+  // ];
 
-  const roomId = await getRoomId(profileDetails?.id || '');
+  // const roomId = await getRoomId(profileDetails?.id || '');
 
   return profileDetails ? (
     <section className='container py-4'>

@@ -43,7 +43,7 @@ const Notification = () => {
                 allowPlayAudioNotification
                   ? 'ltr:translate-x-6 rtl:-translate-x-6'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+              } inline-block size-4 rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>

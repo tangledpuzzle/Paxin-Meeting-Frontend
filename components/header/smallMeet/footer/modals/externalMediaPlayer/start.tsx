@@ -72,9 +72,9 @@ const StartPlaybackModal = ({ isActive }: IStartPlaybackModalProps) => {
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <div className='my-8 inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
+              <div className='my-8 inline-block w-full max-w-lg overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                 <button
-                  className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
+                  className='close-btn absolute top-8 size-[25px] outline-none ltr:right-6 rtl:left-6'
                   type='button'
                   onClick={() => closeStartModal()}
                 >

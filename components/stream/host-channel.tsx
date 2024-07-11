@@ -7,7 +7,7 @@ import {
 } from '@livekit/components-react';
 import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import Chat from './host-chat';
-import  { IProduct } from './product-panel';
+import { IProduct } from './product-panel';
 import apiHelper from '@/helpers/api/apiRequest';
 import { Track, createLocalTracks, LocalTrack } from 'livekit-client';
 import { useRouter } from 'next/navigation';
@@ -26,8 +26,6 @@ interface HostChannelProps {
 export default function HostChannel({
   slug,
   userId,
-  userName,
-  userAvatar,
   products,
 }: HostChannelProps) {
   const [streamerToken, setStreamerToken] = useState('');
@@ -137,7 +135,6 @@ function HostStreamManager({
   userId,
   sendPushNotification,
   deleteTradingRoom,
-  products,
 }: HostStreamManagerProps) {
   const [videoTrack, setVideoTrack] = useState<LocalTrack>();
   const [audioTrack, setAudioTrack] = useState<LocalTrack>();
@@ -228,6 +225,7 @@ function HostStreamManager({
     localParticipant,
     videoTrack,
     sendPushNotification,
+    hasSentNotification
   ]);
 
   return (
@@ -236,9 +234,9 @@ function HostStreamManager({
         <div className='mb-4 flex gap-[5px] text-lg font-bold text-white'>
           {isPublishing && !isUnpublishing ? (
             <div className='flex items-center gap-1'>
-              <span className='relative mr-1 flex h-3 w-3'>
-                <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75'></span>
-                <span className='relative inline-flex h-3 w-3 rounded-full bg-red-500'></span>
+              <span className='relative mr-1 flex size-3'>
+                <span className='absolute inline-flex size-full animate-ping rounded-full bg-red-400 opacity-75'></span>
+                <span className='relative inline-flex size-3 rounded-full bg-red-500'></span>
               </span>
               (кол-во зрителей {participantCount})
             </div>
@@ -294,17 +292,17 @@ function HostStreamManager({
       <div className='relative flex-1 rounded-sm border bg-neutral-200 dark:bg-neutral-800'>
         <video
           ref={previewVideoEl}
-          className='absolute inset-0 h-full w-full'
+          className='absolute inset-0 size-full'
           style={{ objectFit: 'cover' }}
         />
-        <div className='absolute inset-0 z-10 flex h-full w-full justify-between md:h-full rtl:flex-row-reverse'>
+        <div className='absolute inset-0 z-10 flex size-full justify-between rtl:flex-row-reverse'>
           {/* <div className='relative w-full md:block'>
             <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
               <ProductPanel products={products} />
             </div>
           </div> */}
           <div className='relative w-full md:block'>
-            <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 bg-black/40 p-2 pt-[120px] md:w-[340px]'>
+            <div className='absolute inset-y-0 right-0 flex size-full flex-col gap-2 bg-black/40 p-2 pt-[120px] md:w-[340px]'>
               <Chat participantName={userId} />
             </div>
           </div>

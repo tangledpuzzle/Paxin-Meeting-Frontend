@@ -38,7 +38,7 @@ const ChatLogItem: React.FC<ChatMessage> = ({ type, message, botName }) => {
   if (type === 'user') {
     return (
       <div className='my-4 flex flex-1 gap-3 text-sm text-gray-600'>
-        <span className='inline-flex h-[2.375rem] w-[2.375rem] flex-shrink-0 items-center justify-center rounded-full bg-secondary-foreground'>
+        <span className='inline-flex size-[2.375rem] shrink-0 items-center justify-center rounded-full bg-secondary-foreground'>
           <span className='text-sm font-medium leading-none text-white'>
             <User />
           </span>
@@ -52,7 +52,7 @@ const ChatLogItem: React.FC<ChatMessage> = ({ type, message, botName }) => {
   } else {
     return (
       <div className='my-4 flex flex-1 gap-3 text-sm text-gray-600'>
-        <span className='inline-flex h-[2.375rem] w-[2.375rem] flex-shrink-0 items-center justify-center rounded-full bg-primary'>
+        <span className='inline-flex size-[2.375rem] shrink-0 items-center justify-center rounded-full bg-primary'>
           <span className='text-sm font-medium leading-none text-white'>
             <BotMessageSquare />
           </span>
@@ -69,14 +69,14 @@ const ChatLogItem: React.FC<ChatMessage> = ({ type, message, botName }) => {
                 <button
                   onClick={handleLikeClick}
                   type='button'
-                  className='inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-gray-500 hover:bg-blue-100 hover:text-blue-800 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:hover:bg-blue-900 dark:hover:text-blue-200 dark:focus:outline-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-1 dark:focus:ring-gray-600 dark:focus:ring-gray-600'
+                  className='inline-flex size-8 shrink-0 items-center justify-center rounded-full text-gray-500 hover:bg-blue-100 hover:text-blue-800 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:hover:bg-blue-900 dark:hover:text-blue-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                 >
                   <ThumbsUp className='size-4' />
                 </button>
                 <button
                   type='button'
                   onClick={handleUnlikeClick}
-                  className='inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-gray-500 hover:bg-blue-100 hover:text-blue-800 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:hover:bg-blue-900 dark:hover:text-blue-200 dark:focus:outline-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-1 dark:focus:ring-gray-600 dark:focus:ring-gray-600'
+                  className='inline-flex size-8 shrink-0 items-center justify-center rounded-full text-gray-500 hover:bg-blue-100 hover:text-blue-800 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:hover:bg-blue-900 dark:hover:text-blue-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                 >
                   <ThumbsDown className='size-4' />
                 </button>

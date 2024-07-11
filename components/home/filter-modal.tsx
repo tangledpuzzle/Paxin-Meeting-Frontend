@@ -1,4 +1,4 @@
-// import React, { useState } from "react"
+import React, { useCallback } from "react"
 import Select from 'react-select';
 
 import GlowingButton from '@/components/moderns/black-botton';
@@ -58,20 +58,20 @@ export function FilterModal() {
   const [categoryKeyword, setCategoryKeyword] = useState<string>('');
   const { data: session } = useSession();
 
-  const { data: fetchedCities, error: cityFetchError } = useSWR(
+  const { data: fetchedCities } = useSWR(
     cityKeyword
       ? `/api/cities/query?name=${cityKeyword}&lang=${locale}`
       : `/api/cities/get?lang=${locale}`,
     fetcher
   );
-  const { data: fetchedCategories, error: categoryFetchError } = useSWR(
+  const { data: fetchedCategories } = useSWR(
     categoryKeyword
       ? `/api/categories/query?name=${categoryKeyword}&lang=${locale}`
       : `/api/categories/get?lang=${locale}&limit=100`,
     fetcher
   );
 
-  const { data: fetchedHashtags, error: hashtagFetchError } = useSWR(
+  const { data: fetchedHashtags } = useSWR(
     hashtagURL,
     fetcher
   );
@@ -190,7 +190,7 @@ export function FilterModal() {
     setIsReset(true);
   };
 
-  const getTranslations = async (city: string, category: string) => {
+  const getTranslations = useCallback(async (city: string, category: string) => {
     let _city: string = '',
       _category: string = '';
 
@@ -226,12 +226,10 @@ export function FilterModal() {
       //   setCategoryKeyword(_category);
       // }
     }
-  };
+  }, [locale, router, searchParams]);
+
 
   useEffect(() => {
-    const _hashtag = searchParams.get('hashtag');
-    const _city = searchParams.get('city');
-    const _category = searchParams.get('category');
     const _viewMode = searchParams.get('mode');
     const _money = searchParams.get('money');
 
@@ -299,14 +297,14 @@ export function FilterModal() {
     }
 
     setIsReset(false);
-  }, [isFilterModalOpen]);
+  }, [isFilterModalOpen, category, categoryOptions, city, cityOptions, searchParams]);
 
   useEffect(() => {
     const _city = searchParams.get('city') || '';
     const _category = searchParams.get('category') || '';
 
     getTranslations(_city, _category);
-  }, [locale]);
+  }, [locale, getTranslations, searchParams]);
 
   useEffect(() => {
     if (['profile', 'flow'].includes(viewMode)) {
@@ -347,7 +345,7 @@ export function FilterModal() {
       //   router.push(`?${newSearchParams.toString()}`);
       // }
     }
-  }, [fetchedCities]);
+  }, [fetchedCities, locale]);
 
   useEffect(() => {
     // let _category;
@@ -380,7 +378,7 @@ export function FilterModal() {
       //   router.push(`?${newSearchParams.toString()}`);
       // }
     }
-  }, [fetchedCategories]);
+  }, [fetchedCategories, locale]);
 
   useEffect(() => {
     if (fetchedHashtags) {

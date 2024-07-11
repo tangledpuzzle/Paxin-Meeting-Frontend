@@ -25,7 +25,7 @@ const WaitingRoomPage = () => {
         </div>
         <div className='divider m-auto my-5 h-[2px] w-full max-w-[50px] bg-primaryColor dark:bg-darkText'></div>
         <div className='loading-wrap relative h-24'>
-          <div className='loading absolute left-0 right-0 top-3 z-[999] m-auto text-center'>
+          <div className='loading absolute inset-x-0 top-3 z-[999] m-auto text-center'>
             <div className='lds-ripple'>
               <div className='border-secondaryColor' />
               <div className='border-secondaryColor' />

@@ -63,7 +63,7 @@ const MicIcon = ({ userId, isRemoteParticipant }: MicIconProps) => {
               >
                 <Menu.Items
                   static
-                  className='volume-popup-wrapper absolute -top-2 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-100 rounded-md bg-white px-2 py-5 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none xl:w-60 ltr:-right-6 rtl:-left-6'
+                  className='volume-popup-wrapper ring-opacity/5 absolute -top-2 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-100 rounded-md bg-white px-2 py-5 shadow-lg ring-1 ring-black focus:outline-none xl:w-60 ltr:-right-6 rtl:-left-6'
                 >
                   <section className='flex items-center'>
                     <input
@@ -80,7 +80,7 @@ const MicIcon = ({ userId, isRemoteParticipant }: MicIconProps) => {
                     <p className='w-10 text-center text-sm'>
                       {Math.round(volume * 100)}
                     </p>
-                    <button className='h-5 w-5'>
+                    <button className='size-5'>
                       <i className='pnm-speaker primaryColor' />
                     </button>
                   </section>

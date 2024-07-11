@@ -9,7 +9,6 @@ import {
   setAllSpeakers,
 } from '../../store/slices/activeSpeakersSlice';
 import { IActiveSpeaker } from '../../store/slices/interfaces/activeSpeakers';
-import { useAppStore } from '@/store/hook';
 import { store } from '@/store';
 
 const ACTIVE_SPEAKER_LIST_CHANGE_DURATION = 1000; // milliseconds

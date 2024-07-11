@@ -52,7 +52,7 @@ export function NewInvoice({
         position: 'top-right',
       });
     }
-  }, [lastCommand]);
+  }, [lastCommand, setOpenBankModal, t]);
 
   const formSchema = z.object({
     amount: z.preprocess(

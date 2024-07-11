@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 export default function useSelector<TContext, TSelected>(
   context: React.Context<TContext>,
@@ -31,7 +31,7 @@ function shallowEqual(object1: any, object2: any) {
     return false;
   }
 
-  for (let key of keys1) {
+  for (const key of keys1) {
     if (object1[key] !== object2[key]) {
       return false;
     }

@@ -73,7 +73,7 @@ const MicrophoneModal = ({
 
             <div className='popup-inner relative w-full max-w-sm rounded-3xl bg-white px-6 py-14 shadow-header dark:bg-darkPrimary'>
               <button
-                className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
+                className='close-btn absolute right-6 top-8 size-[25px] outline-none'
                 type='button'
                 onClick={() => selectOrClose(true)}
               >

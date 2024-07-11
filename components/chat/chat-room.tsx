@@ -164,7 +164,7 @@ export default function ChatRoom({ room }: { room: ChatRoomType }) {
                 alt={room.user.profile.name}
               />
               {room.user.online && (
-                <span className='absolute bottom-0 right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-1 ring-white'></span>
+                <span className='absolute bottom-0 right-0.5 size-2 rounded-full bg-emerald-500 ring-1 ring-white'></span>
               )}
             </div>
 
