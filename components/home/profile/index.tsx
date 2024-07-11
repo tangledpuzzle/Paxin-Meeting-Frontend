@@ -7,7 +7,7 @@ import useSWR from 'swr';
 import { Button } from '@/components/ui/button';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { ProfileCard } from './profile-card';
 import { ProfileCardSkeleton } from './profile-card-skeleton';
 import { GrNext } from 'react-icons/gr';
@@ -47,7 +47,6 @@ const pageSize = 12;
 
 export default function ProfileSection() {
   const t = useTranslations('main');
-  const router = useRouter();
   const searchParams = useSearchParams();
   const locale = useLocale();
   const [maxPage, setMaxPage] = useState<number>(1);

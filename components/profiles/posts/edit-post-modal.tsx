@@ -128,7 +128,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
 
   const [hashtagKeyword, setHashtagKeyword] = useState<string>('');
 
-  const { data: fetchedHashtags, error: fetchedHashtagsError } = useSWR(
+  const { data: fetchedHashtags } = useSWR(
     hashtagKeyword
       ? `/api/hashtags/get?name=${hashtagKeyword}&type=BLOG`
       : `/api/hashtags/blog/get`,
@@ -447,7 +447,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
         path: image.path,
       }))
     );
-  }, [blog]);
+  }, [blog, form]);
 
   useEffect(() => {
     setCityOptions([
@@ -472,7 +472,7 @@ export function EditPostModal({ blog, children, mutate }: EditPostModalProps) {
     //     value: hashtag,
     //   })) || []
     // );
-  }, [user]);
+  }, [user, t]);
 
   useEffect(() => {
     if (fetchedHashtags) {

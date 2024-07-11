@@ -1,4 +1,3 @@
-// import React, { useState } from "react"
 import Select from 'react-select';
 
 import GlowingButton from '@/components/moderns/black-botton';
@@ -17,7 +16,7 @@ import { Label } from '@/components/ui/label';
 import axios from 'axios';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
 import { useSession } from 'next-auth/react';
@@ -58,20 +57,20 @@ export function FilterModal() {
   const [categoryKeyword, setCategoryKeyword] = useState<string>('');
   const { data: session } = useSession();
 
-  const { data: fetchedCities, error: cityFetchError } = useSWR(
+  const { data: fetchedCities } = useSWR(
     cityKeyword
       ? `/api/cities/query?name=${cityKeyword}&lang=${locale}`
       : `/api/cities/get?lang=${locale}`,
     fetcher
   );
-  const { data: fetchedCategories, error: categoryFetchError } = useSWR(
+  const { data: fetchedCategories } = useSWR(
     categoryKeyword
       ? `/api/categories/query?name=${categoryKeyword}&lang=${locale}`
       : `/api/categories/get?lang=${locale}&limit=100`,
     fetcher
   );
 
-  const { data: fetchedHashtags, error: hashtagFetchError } = useSWR(
+  const { data: fetchedHashtags } = useSWR(
     hashtagURL,
     fetcher
   );
@@ -190,7 +189,7 @@ export function FilterModal() {
     setIsReset(true);
   };
 
-  const getTranslations = async (city: string, category: string) => {
+  const getTranslations = useCallback(async (city: string, category: string) => {
     let _city: string = '',
       _category: string = '';
 
@@ -218,20 +217,13 @@ export function FilterModal() {
       if (_category) newSearchParams.set('category', _category);
 
       router.push(`?${newSearchParams.toString()}`);
-
-      // if (_city) {
-      //   setCityKeyword(_city);
-      // }
-      // if (_category) {
-      //   setCategoryKeyword(_category);
-      // }
     }
-  };
+  }, [locale, searchParams, router]);
 
   useEffect(() => {
-    const _hashtag = searchParams.get('hashtag');
-    const _city = searchParams.get('city');
-    const _category = searchParams.get('category');
+    // const _hashtag = searchParams.get('hashtag');
+    // const _city = searchParams.get('city');
+    // const _category = searchParams.get('category');
     const _viewMode = searchParams.get('mode');
     const _money = searchParams.get('money');
 
@@ -261,14 +253,12 @@ export function FilterModal() {
       setCityKeyword('');
       const newCity: Option[] = city || [];
 
-      // _city.split(',').forEach((c) => {
       const cityFound = newCity.find((cat) => cat.label === _city);
       const cityOptionFound = cityOptions.find((cat) => cat.label === _city);
 
       if (!cityFound && cityOptionFound) {
         newCity.push(cityOptionFound);
       }
-      // });
 
       setCity(newCity);
       console.log(newCity, _city, '~~~~~');
@@ -276,7 +266,7 @@ export function FilterModal() {
     if (_category && _category !== 'all') {
       const newCategory: Option[] = category || [];
       setCategoryKeyword('');
-      // _category.split(',').forEach((c) => {
+
       const categoryFound = newCategory.find((cat) => cat.label === _category);
       const categoryOptionFound = categoryOptions.find(
         (cat) => cat.label === _category
@@ -285,7 +275,6 @@ export function FilterModal() {
       if (!categoryFound && categoryOptionFound) {
         newCategory.push(categoryOptionFound);
       }
-      // });
 
       setCategory(newCategory);
     } else if (_category === 'all') setCategory([]);
@@ -299,14 +288,15 @@ export function FilterModal() {
     }
 
     setIsReset(false);
-  }, [isFilterModalOpen]);
+  }, [isFilterModalOpen, category, categoryOptions, city, cityOptions, searchParams]);
 
   useEffect(() => {
     const _city = searchParams.get('city') || '';
     const _category = searchParams.get('category') || '';
 
     getTranslations(_city, _category);
-  }, [locale]);
+  }, [locale, searchParams, getTranslations]);
+
 
   useEffect(() => {
     if (['profile', 'flow'].includes(viewMode)) {
@@ -317,7 +307,6 @@ export function FilterModal() {
   }, [viewMode]);
 
   useEffect(() => {
-    // let _city;
     if (fetchedCities) {
       setCityOptions(
         fetchedCities.data.map((city: any) => ({
@@ -327,30 +316,10 @@ export function FilterModal() {
             ?.Name,
         }))
       );
-
-      // _city = fetchedCities.data.find(
-      //   (city: any) => city.Translations[0].Name === searchParams.get('city')
-      // );
-
-      // if (_city && !cityKeyword) {
-      //   setCity([
-      //     {
-      //       value: _city.Translations[0].Name,
-      //       label: _city.Translations[0].Name,
-      //     },
-      //   ]);
-      // }
-
-      //   const newSearchParams = new URLSearchParams(searchParams);
-      //   newSearchParams.set('city', _city.Translations[0].Name);
-
-      //   router.push(`?${newSearchParams.toString()}`);
-      // }
     }
-  }, [fetchedCities]);
+  }, [fetchedCities, locale]);
 
   useEffect(() => {
-    // let _category;
     if (fetchedCategories) {
       setCategoryOptions(
         fetchedCategories.data.map((category: any) => ({
@@ -360,27 +329,8 @@ export function FilterModal() {
             ?.Name,
         }))
       );
-
-      // _category = fetchedCategories.data.find(
-      //   (category: any) =>
-      //     category.Translations[0].Name === searchParams.get('category')
-      // );
-
-      // if (_category) {
-      //   setCategory([
-      //     {
-      //       value: _category.Translations[0].Name,
-      //       label: _category.Translations[0].Name,
-      //     },
-      //   ]);
-
-      //   const newSearchParams = new URLSearchParams(searchParams);
-      //   newSearchParams.set('category', _category.Translations[0].Name);
-
-      //   router.push(`?${newSearchParams.toString()}`);
-      // }
     }
-  }, [fetchedCategories]);
+  }, [fetchedCategories, locale]);
 
   useEffect(() => {
     if (fetchedHashtags) {
@@ -484,7 +434,6 @@ export function FilterModal() {
               }}
             />
           </div>
-          {/* {viewMode === 'flow' && ( */}
           <div className=''>
             <Label htmlFor='username' className='text-right'>
               {t('prices')}
@@ -513,7 +462,6 @@ export function FilterModal() {
               </div>
             )}
           </div>
-          {/* )} */}
         </div>
         <DialogFooter>
           <Button

@@ -138,7 +138,7 @@ const ManageFiles = ({ excalidrawAPI }: IManageFilesProps) => {
                   {/* Mark this component as `static` */}
                   <Menu.Items
                     static
-                    className='absolute z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-secondaryColor dark:bg-darkPrimary dark:ring-secondaryColor ltr:right-0 rtl:left-0'
+                    className='ring-opacity/5 absolute z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black focus:outline-none dark:divide-secondaryColor dark:bg-darkPrimary dark:ring-secondaryColor ltr:right-0 rtl:left-0'
                   >
                     <div className='item-wrapper-uploaded-file scrollBar scrollBar2 max-h-[170px] overflow-y-auto overflow-x-hidden'>
                       {menuItems}

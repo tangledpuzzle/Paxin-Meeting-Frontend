@@ -3,13 +3,8 @@
 import * as React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
 import Slideshow from '@/components/ui/slideshow';
-import dynamic from 'next/dynamic';
 
-const ChatSSRSkeleton = dynamic(() => import('@/components/chat/flow'), {
-  ssr: true,
-});
 
 export interface SectionHeroImageSliderProps
   extends React.HTMLAttributes<HTMLDivElement> {}
@@ -25,7 +20,6 @@ const images = [
 const interval = 5000; // Интервал в миллисекундах (5 секунд)
 
 function SectionHeroImageSlider(props: SectionHeroImageSliderProps) {
-  const t = useTranslations('main');
 
   return (
     <div

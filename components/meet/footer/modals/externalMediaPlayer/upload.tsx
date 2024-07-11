@@ -90,7 +90,7 @@ const Upload = () => {
   return (
     <>
       <div className='ex-m-p-file-upload relative mb-[50px] mt-[10px] h-[80px]'>
-        <div className='absolute -bottom-[30px] dark:text-darkText'>
+        <div className='absolute bottom-[-30px] dark:text-darkText'>
           {t('footer.modal.external-media-player-upload-supported-files', {
             files: allowedFileTypes.map((type) => '.' + type).join(', '),
           })}
@@ -100,7 +100,7 @@ const Upload = () => {
           id='chat-file'
           accept={allowedFileTypes.map((type) => '.' + type).join(',')}
           onChange={(e) => onChange(e)}
-          className='absolute left-0 top-0 h-full w-full cursor-pointer rounded border border-dashed border-primaryColor px-5 py-[28px] dark:border-darkText dark:text-darkText'
+          className='absolute left-0 top-0 size-full cursor-pointer rounded border border-dashed border-primaryColor px-5 py-[28px] dark:border-darkText dark:text-darkText'
         />
       </div>
       <div className='mt-4 bg-gray-50 pb-3 pt-4 text-right dark:bg-transparent'>

@@ -109,7 +109,7 @@ const SharedNotepadElement = () => {
         <div
           className={
             isActiveSharedNotePad
-              ? 'notepadMainParent pointer-events-none absolute left-0 top-0 z-10 h-full w-full'
+              ? 'notepadMainParent pointer-events-none absolute left-0 top-0 z-10 size-full'
               : 'hidden'
           }
         >
@@ -136,7 +136,7 @@ const SharedNotepadElement = () => {
                 >
                   <div className='line h-0.5 w-6 bg-white'></div>
                 </div>
-                <div className='inner h-full w-full border-t-[28px] border-solid border-primaryColor'>
+                <div className='inner size-full border-t-[28px] border-solid border-primaryColor'>
                   {!loaded ? (
                     <div className='loading absolute left-[50%] top-[40%] flex justify-center'>
                       <div className='lds-ripple'>

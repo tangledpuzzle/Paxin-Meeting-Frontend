@@ -7,7 +7,7 @@ import {
   DialogFooter,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useMemo } from 'react';
 import { FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { HiOutlinePlus } from 'react-icons/hi';
 import { MdCallEnd } from 'react-icons/md';
@@ -36,26 +36,26 @@ export default function CallModal({ children, callee }: CallModalProps) {
   const [isVideo, setIsVideo] = useState(true);
   const [isMicrophone, setIsMicrophone] = useState(true);
 
-  const callSound = new Howl({
+  const callSound = useMemo(() => new Howl({
     src: ['/audio/call.mp3'],
     html5: true,
     loop: true,
     preload: true,
-  });
+  }), []);
 
-  const endSound = new Howl({
+  const endSound = useMemo(() => new Howl({
     src: ['/audio/end.mp3'],
     html5: true,
     loop: false,
     preload: true,
-  });
+  }), []);
 
-  const busySound = new Howl({
-    src: ['/audio/busy.mp3'],
-    html5: true,
-    loop: false,
-    preload: true,
-  });
+  // const busySound = useMemo(() => new Howl({
+  //   src: ['/audio/busy.mp3'],
+  //   html5: true,
+  //   loop: false,
+  //   preload: true,
+  // }), []);
 
   const onEndCall = () => {
     Howler.stop();
@@ -64,7 +64,7 @@ export default function CallModal({ children, callee }: CallModalProps) {
     setOpen(false);
   };
 
-  // const handleSubmit = async () =>{
+  // const handleSubmit = async () => {
   //   console.log('hello here!!!')
   //   const name='kuc'
   //   const message='are you there?'
@@ -83,7 +83,7 @@ export default function CallModal({ children, callee }: CallModalProps) {
     if (open) {
       callSound.play();
     }
-  }, [open]);
+  }, [open, callSound]);
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(true)}>
@@ -94,7 +94,7 @@ export default function CallModal({ children, callee }: CallModalProps) {
         <div className='my-8 flex justify-center gap-12'>
           <div className='relative flex flex-col items-center justify-center gap-2'>
             <div className='relative'>
-              <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75 duration-1000'></span>
+              <span className='absolute inline-flex size-full animate-ping rounded-full bg-sky-400 opacity-75 duration-1000'></span>
               <Avatar className='size-24'>
                 <AvatarImage src={callee.avatar} alt={callee.username} />
                 <AvatarFallback>{getInitials(callee.username)}</AvatarFallback>

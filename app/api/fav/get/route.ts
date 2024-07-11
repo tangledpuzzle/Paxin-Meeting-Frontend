@@ -1,10 +1,10 @@
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import cookie from 'cookie';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const session = await getServerSession(authOptions);
 
   let accessToken = session?.accessToken;

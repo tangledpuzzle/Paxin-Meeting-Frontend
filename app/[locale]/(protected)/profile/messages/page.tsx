@@ -1,16 +1,9 @@
 'use client';
 
 import React from 'react';
-import eventBus from '@/eventBus';
-
-interface FollowersPageProps {
-  onSelectContact: (contactId: number) => void;
-}
 
 const FollowersPage = () => {
-  const handleContactSelect = (contactId: number) => {
-    eventBus.emit('contactId', contactId);
-  };
+
 
   return (
     <></>

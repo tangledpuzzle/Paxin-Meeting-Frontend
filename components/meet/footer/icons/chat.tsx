@@ -51,7 +51,7 @@ const ChatIcon = () => {
   const render = () => {
     return (
       <div
-        className={`message footer-icon relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
+        className={`message footer-icon relative flex size-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:size-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6${
           showTooltip ? 'has-tooltip' : ''
         }`}
         onClick={() => toggleChatPanel()}
@@ -64,7 +64,7 @@ const ChatIcon = () => {
 
         <i className={`pnm-chat ${iconCSS} text-[14px] lg:text-[16px]`} />
         {!isActiveChatPanel && totalUnreadChatMsgs > 0 ? (
-          <div className='unseen-message-count absolute -right-1 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-brandRed text-xs text-white'>
+          <div className='unseen-message-count absolute -right-1 -top-2 flex size-5 items-center justify-center rounded-full bg-brandRed text-xs text-white'>
             {totalUnreadChatMsgs}
           </div>
         ) : null}

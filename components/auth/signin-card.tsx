@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { getSession, signIn, useSession } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
@@ -28,7 +28,6 @@ export function SignInCard() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
-  const { data: session, status } = useSession();
 
   // if (status === 'authenticated') {
   //   router.push('/profile/dashboard');
@@ -70,7 +69,7 @@ export function SignInCard() {
         position: 'top-right',
       });
 
-      getSession().then((session) => {
+      getSession().then(() => {
         router.push(searchParams.get('callbackUrl') || '/profile/dashboard');
       });
     }

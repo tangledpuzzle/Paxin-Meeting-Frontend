@@ -43,7 +43,7 @@ const LeftPanel = () => {
           <>
             {t('left-panel.polls-tab')}
             {total_running > 0 ? (
-              <span className='absolute -top-[7px] size-5 rounded-full bg-primaryColor text-[10px] text-white ltr:-right-5 rtl:-left-5'>
+              <span className='absolute top-[-7px] size-5 rounded-full bg-primaryColor text-[10px] text-white ltr:-right-5 rtl:-left-5'>
                 {total_running ?? 0}
               </span>
             ) : null}
@@ -83,7 +83,7 @@ const LeftPanel = () => {
       className='participants-wrapper multi-gradient relative left-0 top-0 z-10 h-full w-[330px]'
     >
       <div
-        className='close absolute -right-[14px] top-1 z-10 hidden size-6 cursor-pointer rounded-full border border-solid border-primaryColor bg-white dark:border-darkText dark:bg-darkPrimary md:inline-block'
+        className='close absolute right-[-14px] top-1 z-10 hidden size-6 cursor-pointer rounded-full border border-solid border-primaryColor bg-white dark:border-darkText dark:bg-darkPrimary md:inline-block'
         onClick={closePanel}
       >
         <span className='absolute left-[2px] top-[11px] inline-block h-[1px] w-[18px] rotate-45 bg-primaryColor dark:bg-darkText'></span>

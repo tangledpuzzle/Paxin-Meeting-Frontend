@@ -41,7 +41,7 @@ export default function SmallWatch({ token, roomId }: SmallWatchProps) {
 
     fetchTradingData();
     console.log(publisher);
-  }, [token, roomId]);
+  }, [token, roomId, publisher]);
   return (
     <LiveKitRoom
       token={token}

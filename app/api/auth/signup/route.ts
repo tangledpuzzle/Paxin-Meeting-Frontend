@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   try {
     const locale = req.nextUrl.searchParams.get('language') || 'en';
 
-    const { firstname, lastname, email, password, confirmPassword } =
+    const { email, password, confirmPassword } =
       await req.json();
 
     const deviceToken = cookies().get('deviceToken');

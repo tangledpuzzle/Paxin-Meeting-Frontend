@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
@@ -21,7 +21,6 @@ export function MainNav({ items }: MainNavProps) {
   const t = useTranslations('main');
 
   const locale = useLocale();
-  const router = useRouter();
   let pathname = usePathname();
   if (pathname.startsWith('/' + locale)) {
     pathname = pathname.slice(locale.length + 1);
@@ -32,14 +31,6 @@ export function MainNav({ items }: MainNavProps) {
   if (cleanPathname.startsWith('/' + locale)) {
     pathname = cleanPathname.slice(locale.length + 1);
   }
-
-  const handleLinkClick = (href: string, title: string) => {
-    if (pathname === href) {
-      alert(`Link "${title}" clicked!`);
-    } else {
-      window.location.href = href;
-    }
-  };
 
   return (
     <div className='flex items-center justify-center gap-6 md:gap-10'>

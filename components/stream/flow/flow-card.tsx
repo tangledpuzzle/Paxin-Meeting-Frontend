@@ -24,25 +24,6 @@ export interface FlowCardProps {
   publisherId: string;
   roomId: string;
 }
-interface FlowItem {
-  roomId: string;
-  title: string;
-  publisher: {
-    userId: string;
-    userAvatar: string;
-    userName: string;
-    link: string;
-  };
-
-  products: Array<{
-    id: string;
-    gallery: Array<any>;
-    title: string;
-    subtitle: string;
-    link: string;
-    price: number;
-  }>;
-}
 
 function FlowCard({ productImages, roomId, title, publisher, cnt }: IRoom) {
   const t = useTranslations('main');
@@ -115,7 +96,7 @@ function FlowCard({ productImages, roomId, title, publisher, cnt }: IRoom) {
               {cnt}
             </Badge>
           </div>
-          <div className='relative -top-[100px] grid grid-cols-2'>
+          <div className='relative top-[-100px] grid grid-cols-2'>
             <div></div>
             {/* <div className='flex h-0 flex-row-reverse'>
                 <span className='flex items-center justify-center px-4 uppercase'>

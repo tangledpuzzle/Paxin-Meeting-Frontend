@@ -1,10 +1,8 @@
-import { useTranslations } from 'next-intl';
 // import { SectionDescription } from '../common/section-description';
 import { SectionHeroImage } from '../common/section-heroimage';
 // import { SectionTitle } from '../common/section-title';
 
 const HeroSectionSecond = () => {
-  const t = useTranslations('main');
 
   return (
     <div className='flex flex-col items-start justify-center overflow-hidden pb-[20px] pt-[10px] md:items-center md:pt-[40px]'>

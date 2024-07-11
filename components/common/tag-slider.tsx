@@ -20,7 +20,7 @@ interface TagSliderProps {
 const elemPrefix = 'test';
 const getId = (index: number) => `${elemPrefix}${index}`;
 
-function TagSlider({ tags, mode }: TagSliderProps) {
+function TagSlider({ tags }: TagSliderProps) {
   const items = tags.map((tag, index) => ({ id: getId(index), tag }));
 
   const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();

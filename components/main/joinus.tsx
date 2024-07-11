@@ -18,7 +18,7 @@ export default function JoinUsSection() {
             {t('scroll_down')}
           </span>
         </div>
-        <div className='text-gradient relative -top-[20px] my-2  text-center font-satoshi text-2xl  leading-normal dark:text-white md:text-center'>
+        <div className='text-gradient relative top-[-20px] my-2  text-center font-satoshi text-2xl  leading-normal dark:text-white md:text-center'>
           <Image
             src='/images/home/join-us-banner.png'
             width={1216}

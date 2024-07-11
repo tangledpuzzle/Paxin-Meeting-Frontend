@@ -14,8 +14,7 @@ import { cn } from '@/lib/utils';
 import DOMPurify from 'dompurify';
 import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { BsCheck2, BsCheck2All, BsReply } from 'react-icons/bs';
 import { FaTrashCan } from 'react-icons/fa6';
@@ -69,11 +68,9 @@ interface ChatMessageProps {
 
 export default function ChatMessage(props: ChatMessageProps) {
   const t = useTranslations('chatting');
-  const router = useRouter();
-  const ref = useRef<HTMLDivElement>(null);
   const { ref: messageRef, inView } = useInView();
   const { user } = useContext(PaxContext);
-  const { activeRoom, chatRooms, setChatRooms, messages, isOnline } =
+  const { activeRoom, chatRooms, setChatRooms, isOnline } =
     useContext(PaxChatContext);
   const [currentChatRoom, setCurrentChatRoom] = useState<ChatRoomType | null>(
     null
@@ -107,18 +104,18 @@ export default function ChatMessage(props: ChatMessageProps) {
     return processedText;
   };
 
-  const handleMarkAsRead = async (id: string) => {
+  const handleMarkAsRead = useCallback(async (id: string) => {
     console.log('MARK AS READ', activeRoom, id);
-
+  
     try {
       const res = await markAsRead(activeRoom, id);
-
+  
       if (res?.success) {
         setChatRooms((chatRooms) => {
           const index = chatRooms.findIndex((room) => room.id === activeRoom);
-
+  
           if (index > -1) chatRooms[index].lastSeenMessage = id;
-
+  
           return chatRooms;
         });
       }
@@ -126,7 +123,7 @@ export default function ChatMessage(props: ChatMessageProps) {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [activeRoom, setChatRooms]);
 
   const renderUserMessage = () => {
     if (!props.messageType || props.messageType === '0')
@@ -244,7 +241,7 @@ export default function ChatMessage(props: ChatMessageProps) {
 
       handleMarkAsRead(props.id);
     }
-  }, [inView, currentChatRoom, isOnline]);
+  }, [inView, currentChatRoom, isOnline, handleMarkAsRead, user?.id, props.owner.id, props.isSeen, props.isBot, props.id]);
 
   return (
     <div

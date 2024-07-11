@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { useLocalParticipant } from '@livekit/components-react';
 import { Track, createLocalTracks, type LocalTrack } from 'livekit-client';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 // import toast from 'react-hot-toast';
 import Presence from '@/components/stream/presence';
@@ -14,14 +13,13 @@ interface Props {
   viewerIdentity: string;
 }
 
-export default function HostControls({ slug, viewerIdentity }: Props) {
+export default function HostControls({ viewerIdentity }: Props) {
   const [videoTrack, setVideoTrack] = useState<LocalTrack>();
   const [audioTrack, setAudioTrack] = useState<LocalTrack>();
   const [isPublishing, setIsPublishing] = useState(false);
   const [isUnpublishing, setIsUnpublishing] = useState(false);
   const previewVideoEl = useRef<HTMLVideoElement>(null);
   console.log('previewVideo', previewVideoEl);
-  const router = useRouter();
   const t = useTranslations('stream');
   const { localParticipant } = useLocalParticipant();
 

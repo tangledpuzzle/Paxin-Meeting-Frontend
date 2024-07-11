@@ -54,7 +54,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
     void createTracks();
   }, []);
 
-  async function sendPushNotification() {
+  const sendPushNotification = useCallback(async () => {
     const pageURL = window.location.href.replace('/host', '');
 
     await fetch('/api/push', {
@@ -68,7 +68,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
         PageURL: pageURL,
       }),
     });
-  }
+  }, [user]);
 
   useEffect(() => {
     return () => {
@@ -141,6 +141,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
     localParticipant,
     videoTrack,
     sendPushNotification,
+    hasSentNotification
   ]);
 
   return (
@@ -149,9 +150,9 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
         <div className='flex gap-[5px] text-lg font-bold'>
           {isPublishing && !isUnpublishing ? (
             <div className='flex items-center gap-1'>
-              <span className='relative mr-1 flex h-3 w-3'>
-                <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75'></span>
-                <span className='relative inline-flex h-3 w-3 rounded-full bg-red-500'></span>
+              <span className='relative mr-1 flex size-3'>
+                <span className='absolute inline-flex size-full animate-ping rounded-full bg-red-400 opacity-75'></span>
+                <span className='relative inline-flex size-3 rounded-full bg-red-500'></span>
               </span>
               LIVE
             </div>

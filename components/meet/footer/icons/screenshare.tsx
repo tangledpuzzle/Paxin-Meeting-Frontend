@@ -172,7 +172,7 @@ const ScrenshareIcon = ({ currentRoom }: IScrenshareIconProps) => {
   const render = () => {
     return (
       <div
-        className={`share-screen footer-icon relative hidden h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 md:flex lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
+        className={`share-screen footer-icon relative hidden size-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 md:flex lg:size-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6${
           showTooltip ? 'has-tooltip' : ''
         }`}
         onClick={() => toggleScreenShare()}
@@ -183,7 +183,7 @@ const ScrenshareIcon = ({ currentRoom }: IScrenshareIconProps) => {
             className={`pnm-screen-share ${iconCSS} text-[14px] lg:text-[16px]`}
           />
           {lock ? (
-            <div className='arrow-down absolute -bottom-1 -right-1 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-white'>
+            <div className='arrow-down absolute -bottom-1 -right-1 flex size-[16px] items-center justify-center rounded-full bg-white'>
               <i className='pnm-lock primaryColor' />
             </div>
           ) : null}

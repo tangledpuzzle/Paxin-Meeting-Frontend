@@ -17,8 +17,6 @@ const DropdownMenuDemo = ({
   onRoomCreate,
 }: DropdownMenuDemoProps) => {
   const { user } = useContext(PaxContext);
-  const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
-  const [urlsChecked, setUrlsChecked] = React.useState(false);
   const [person, setPerson] = React.useState('pedro');
   const inputFileRef = React.useRef<HTMLInputElement>(null);
 
@@ -32,12 +30,6 @@ const DropdownMenuDemo = ({
     }
 
     inputFileRef.current.value = '';
-  };
-
-  const handleFileUploadClick = () => {
-    if (inputFileRef.current) {
-      inputFileRef.current.click();
-    }
   };
 
   const onCreateRoom = async () => {

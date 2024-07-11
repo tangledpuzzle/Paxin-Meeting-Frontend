@@ -38,8 +38,6 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 export function StreamingCreateModal({
   open,
   setOpen,
-  isLoading,
-  onCreate,
   children,
 }: StreamingCreateModalProps) {
   const t = useTranslations('stream');

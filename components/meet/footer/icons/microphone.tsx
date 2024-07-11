@@ -163,7 +163,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
         speakingHandler
       );
     };
-  }, [currentRoom]);
+  }, [currentRoom, t]);
 
   const muteUnmuteMic = async () => {
     if (currentRoom?.localParticipant?.audioTrackPublications) {
@@ -286,7 +286,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
         />
       ) : null}
       <div
-        className={`microphone footer-icon relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 ${
+        className={`microphone footer-icon relative flex size-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:size-[40px] ltr:mr-3 lg:ltr:mr-6${
           showTooltip ? 'has-tooltip' : ''
         }`}
         onClick={() => manageMic()}
@@ -299,7 +299,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
           <>
             <i className='pnm-mic-unmute primaryColor text-[12px] dark:text-darkText lg:text-[14px]' />
             {lockMic ? (
-              <div className='arrow-down absolute -bottom-1 -right-1 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-white dark:bg-darkSecondary3'>
+              <div className='arrow-down absolute -bottom-1 -right-1 flex size-[16px] items-center justify-center rounded-full bg-white dark:bg-darkSecondary3'>
                 <i className='pnm-lock primaryColor dark:text-darkText' />
               </div>
             ) : null}
