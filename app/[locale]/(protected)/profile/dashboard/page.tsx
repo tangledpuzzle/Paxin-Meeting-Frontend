@@ -6,7 +6,7 @@ import CTASection from '@/components/profiles/cta';
 import { Separator } from '@/components/ui/separator';
 import { PaxContext } from '@/context/context';
 import { ChevronRight } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -19,6 +19,8 @@ import { MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 import { ChangeNamePopup } from '@/components/profiles/dashboard/change-name-popup';
 import { Button } from '@/components/ui/button';
 import io from 'socket.io-client';
+import axios from 'axios';
+import useSWR, {mutate} from 'swr';
 
 const services = [
   {
@@ -68,6 +70,9 @@ const audits = [
   },
 ];
 
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
+
 export default function DashboardPage() {
   // const socket = io("http://localhost:3001");
   // const { data: session } = useSession();
@@ -105,11 +110,37 @@ export default function DashboardPage() {
   //   };
 
   // }, []);
+  const locale = useLocale();
+
+  const {
+    data: fetchedData,
+    error,
+    mutate: profileMutate,
+  } = useSWR(`/api/profiles/me?language=${locale}`, fetcher);
 
   const t = useTranslations('main');
   const { user } = useContext(PaxContext);
+
   return (
     <div className='mb-[100px] p-4 md:mb-[0px]'>
+    <div className='mt-0 space-y-2 w-full'>
+    {fetchedData?.streaming !== null && (
+    <div className='mt-0 space-y-2 pb-4'>
+        {fetchedData?.streaming?.length > 0 ? (
+          fetchedData?.streaming?.map((stream: any, index: number) => (
+          <Link href={`/stream/${stream.RoomID}/host`} className='flex items-center justify-center gap-2'>
+            <div key={index} className='rounded-lg bg-blue-500 p-4 w-full'>
+              <div className='text-md'>Ваш эфир создан: {stream.Title}</div>
+              <div className='text-sm'>Отркыть</div>
+            </div>
+            </Link>
+          ))
+        ) : (
+          <div className='text-sm text-muted-foreground'></div>
+        )}
+        </div>
+      )}
+      </div>
       <CTASection
         title={t('dashboard')}
         description={t('dashboard_description')}
