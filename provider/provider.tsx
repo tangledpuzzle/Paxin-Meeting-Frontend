@@ -20,7 +20,7 @@ const PLAN = {
   Начальный: 'BASIC',
   Бизнесс: 'BUSINESS',
   Расширенный: 'ADVANCED',
-};
+};  
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -37,9 +37,8 @@ const Providers: React.FC<IProps> = ({ children, initialAccessToken }) => {
     `/api/users/me?language=${locale}`
   );
 
-  console.log("SSSS?", initialAccessToken)
   const { data: fetchedData, error, mutate: userMutate } = useSWR(
-    session.status === 'authenticated' && initialAccessToken ? userFetchURL : null,
+    session.status === 'authenticated' || initialAccessToken ? userFetchURL : null,
     fetcher
   );
 
