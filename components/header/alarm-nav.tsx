@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import eventBus from '@/eventBus';
 import { TiMessages } from 'react-icons/ti';
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import getSubscribedRooms from '@/lib/server/chat/getSubscribedRooms';
 import getUnsubscribedNewRooms from '@/lib/server/chat/getUnsubscribedNewRooms';
 import useCentrifuge from '@/hooks/useCentrifuge';

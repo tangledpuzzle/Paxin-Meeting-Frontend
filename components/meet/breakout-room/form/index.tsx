@@ -77,7 +77,7 @@ const FromElems = () => {
 
   // if room number decrease then we'll reset otherwise user will be missing
   useEffect(() => {
-    // @ts-expect-error: no sms
+    // @ts-ignore
     if (totalRooms === preTotalRooms || totalRooms > preTotalRooms) {
       return;
     }
@@ -133,7 +133,7 @@ const FromElems = () => {
         });
         dispatch(updateShowManageBreakoutRoomModal(false));
       } else {
-        //@ts-expect-error: no sms
+        //@ts-ignore
         toast(t(data.msg), {
           type: 'error',
         });

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Check } from 'lucide-react';
 
@@ -25,9 +24,5 @@ const Checkbox = React.forwardRef<
   </CheckboxPrimitive.Root>
 ));
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
-
-Checkbox.propTypes = {
-  className: PropTypes.string,
-};
 
 export { Checkbox };

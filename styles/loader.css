@@ -1,61 +1,61 @@
 @keyframes rotate-360 {
-  from {
-    -moz-transform: rotate(0);
-    -ms-transform: rotate(0);
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
-  }
+    from {
+        -moz-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
 
-  to {
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+    to {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 .loader-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .loader-ring {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin: -120px 0 0 -120px;
-  width: 240px;
-  height: 240px;
-  z-index: 9999;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -120px 0 0 -120px;
+    width: 240px;
+    height: 240px;
+    z-index: 9999;
 }
 
 .loader-ring-light {
-  width: 240px;
-  height: 240px;
-  -moz-border-radius: 240px;
-  -webkit-border-radius: 240px;
-  border-radius: 240px;
-  -moz-box-shadow: 0 4px 0 #00abf2 inset;
-  -webkit-box-shadow: 0 4px 0 #00abf2 inset;
-  box-shadow: 0 4px 0 #00abf2 inset;
-  animation: rotate-360 2s linear infinite;
+    width: 240px;
+    height: 240px;
+    -moz-border-radius: 240px;
+    -webkit-border-radius: 240px;
+    border-radius: 240px;
+    -moz-box-shadow: 0 4px 0 #00ABF2 inset;
+    -webkit-box-shadow: 0 4px 0 #00ABF2 inset;
+    box-shadow: 0 4px 0 #00ABF2 inset;
+    animation: rotate-360 2s linear infinite;
 }
 
 .loader-ring-track {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 240px;
-  height: 240px;
-  -moz-border-radius: 240px;
-  -webkit-border-radius: 240px;
-  border-radius: 240px;
-  -moz-box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.3) inset;
-  -webkit-box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.3) inset;
-  box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.3) inset;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 240px;
+    -moz-border-radius: 240px;
+    -webkit-border-radius: 240px;
+    border-radius: 240px;
+    -moz-box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.3) inset;
+    -webkit-box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.3) inset;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.3) inset;
 }

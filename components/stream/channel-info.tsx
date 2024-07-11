@@ -4,14 +4,15 @@ import { cn } from '@/lib/utils';
 import { useRemoteParticipants } from '@livekit/components-react';
 import Presence from './presence';
 import { Icons } from './ui/icons';
-import { BiSolidDonateHeart } from 'react-icons/bi';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { BiSolidDonateHeart } from "react-icons/bi";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
 import { useState, useContext, useEffect } from 'react';
 import { PaxContext } from '@/context/context';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import {
@@ -49,14 +50,10 @@ export default function ChannelInfo({
   const [donationAmount, setDonationAmount] = useState('');
   const [donationMSG, setDonationMSG] = useState('');
   const { user } = useContext(PaxContext);
-  const [speakingParticipant, setSpeakingParticipant] = useState<Participant[]>(
-    []
-  );
-
+  const [speakingParticipant, setSpeakingParticipant] = useState<Participant[]>([]);
+  
   useEffect(() => {
-    const filteredParticipants = participants.filter(
-      (el: Participant) => el.permissions?.canPublish
-    );
+    const filteredParticipants = participants.filter((el: Participant) => el.permissions?.canPublish);
     setSpeakingParticipant(filteredParticipants);
   }, [participants]);
 
@@ -68,7 +65,7 @@ export default function ChannelInfo({
         },
         method: 'post',
         body: JSON.stringify({
-          data,
+        data
         }),
       });
       if (res.status === 200) {
@@ -89,17 +86,18 @@ export default function ChannelInfo({
   };
 
   const handleDonation = () => {
+
     const data: FormValue = {
       author: speakingParticipant[0]?.name || '',
       amount: donationAmount,
-      sms: donationMSG,
+      sms: donationMSG
     };
 
     SendRequest(data);
   };
 
   return (
-    <div className='absolute right-0 top-0 flex h-[110px] flex-col justify-center space-y-6 px-2 py-6 md:relative'>
+    <div className='flex h-[110px] flex-col justify-center space-y-6 px-2 py-6 absolute top-0 right-0 md:relative'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-6'>
           {speakingParticipant.length ? (
@@ -109,7 +107,7 @@ export default function ChannelInfo({
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className={cn(
-                    'z-20 rounded-full border-2 border-white bg-gray-500 dark:border-zinc-900 md:h-16 md:w-16',
+                    'z-20 md:h-16 md:w-16 rounded-full border-2 border-white bg-gray-500 dark:border-zinc-900',
                     speakingParticipant[0] && 'ring-2 ring-red-600'
                   )}
                   src={`https://proxy.myru.online/100/https://img.myru.online/${speakingParticipant[0]?.metadata}`}
@@ -137,13 +135,10 @@ export default function ChannelInfo({
             </div>
           </div>
         </div>
-        <div className='flex gap-2'>
+        <div className='flex gap-2'>                 
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button
-                className='btn btn--wide h-[32px] w-full !rounded-md pr-4'
-                asChild
-              >
+              <Button className='btn btn--wide w-full !rounded-md h-[32px] pr-4' asChild>
                 <BiSolidDonateHeart />
               </Button>
             </DialogTrigger>
@@ -151,21 +146,19 @@ export default function ChannelInfo({
               <DialogHeader>
                 <DialogTitle>Благодарность автору</DialogTitle>
                 <DialogDescription>
-                  Ваша поддержка помогает автору {speakingParticipant[0]?.name}{' '}
-                  продолжать работу.
+                  Ваша поддержка помогает автору {speakingParticipant[0]?.name} продолжать работу.
                 </DialogDescription>
               </DialogHeader>
               Ваш баланс: {user?.balance} ₽
-              <Input
-                placeholder='Какую сумму хотите отправить?'
-                value={donationAmount}
-                onChange={(e) => setDonationAmount(e.target.value)}
+              <Input 
+                placeholder='Какую сумму хотите отправить?' 
+                value={donationAmount} 
+                onChange={(e) => setDonationAmount(e.target.value)} 
               />
-              <Textarea
-                value={donationMSG}
-                onChange={(e) => setDonationMSG(e.target.value)}
-                placeholder='Сопроводительное письмо'
-              />
+               <Textarea
+                 value={donationMSG}
+                 onChange={(e) => setDonationMSG(e.target.value)}
+                 placeholder='Сопроводительное письмо'/>
               <div className='mt-4'>
                 <div className='flex gap-2'>
                   <Button onClick={handleDonation}>Поблагодарить</Button>

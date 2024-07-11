@@ -259,7 +259,7 @@ export function FilterModal() {
     else if (_hashtag === 'all') setHashTag([]);
     if (_city && _city !== 'all') {
       setCityKeyword('');
-      const newCity: Option[] = city || [];
+      let newCity: Option[] = city || [];
 
       // _city.split(',').forEach((c) => {
       const cityFound = newCity.find((cat) => cat.label === _city);
@@ -274,7 +274,7 @@ export function FilterModal() {
       console.log(newCity, _city, '~~~~~');
     } else if (_city === 'all') setCity([]);
     if (_category && _category !== 'all') {
-      const newCategory: Option[] = category || [];
+      let newCategory: Option[] = category || [];
       setCategoryKeyword('');
       // _category.split(',').forEach((c) => {
       const categoryFound = newCategory.find((cat) => cat.label === _category);

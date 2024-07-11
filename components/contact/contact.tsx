@@ -6,7 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Lock } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import * as z from 'zod';
@@ -22,6 +22,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import axios from 'axios';
+
 
 export function ContactSection() {
   const t = useTranslations('main');
@@ -282,7 +283,9 @@ export function ContactSection() {
                 variant='default'
                 className='btn btn--wide w-full !rounded-md'
               >
-                {isLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
+                  {isLoading && (
+                    <Loader2 className='mr-2 size-4 animate-spin' />
+                  )}
                 {t('send_message')}
               </Button>
             </form>

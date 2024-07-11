@@ -6,9 +6,11 @@ import HostControls from '@/components/header/smallTrade/hostcontrols';
 type SmallHostProps = {
   token: string;
   roomId: string; // Assuming roomId is a string. Adjust the type if necessary.
-};
+}
 
-export default function SmallHost({ token, roomId }: SmallHostProps) {
+export default function SmallHost({
+  token, roomId
+}: SmallHostProps) {
   const { data } = useSession();
   const previewVideoEl = useRef<HTMLVideoElement>(null);
   const viewerIdentity = data?.user?.name || '';

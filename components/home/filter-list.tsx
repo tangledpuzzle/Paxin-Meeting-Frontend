@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';

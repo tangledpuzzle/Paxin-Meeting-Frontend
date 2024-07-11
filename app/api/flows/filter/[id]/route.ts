@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '@/lib/authOptions';
 import { headers } from 'next/headers';
-import cookie from 'cookie';
+import cookie from 'cookie'; 
 
 export async function DELETE(req: NextRequest) {
   try {
@@ -14,11 +14,12 @@ export async function DELETE(req: NextRequest) {
       const parsedCookies = cookie.parse(cookies);
       accessToken = parsedCookies.access_token;
     }
-
+    
     if (!accessToken) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    
     const id = req.nextUrl.pathname.split('/').pop();
     const res = await fetch(
       `${process.env.API_URL}/api/presavedfilter/delete/${id}`,
@@ -54,9 +55,9 @@ export async function PATCH(req: NextRequest) {
       const parsedCookies = cookie.parse(cookies);
       accessToken = parsedCookies.access_token;
     }
-
+    
     if (!accessToken) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { data } = await req.json();

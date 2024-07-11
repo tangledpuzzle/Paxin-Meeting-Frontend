@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useContext, useState } from 'react';
 import { HiUserGroup } from 'react-icons/hi';
 
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ interface IMeetProps {
   name: string;
 }
 
-const MeetComponent = memo(
+export default memo(
   ({ t, isLoading, onCreateRoom, onJoinRoom, name }: IMeetProps) => {
     console.log('render Conference');
     return (
@@ -39,7 +39,11 @@ const MeetComponent = memo(
               </div>
               <div className='flex w-full justify-center gap-4'>
                 <MeetCreateModal isLoading={isLoading} onCreate={onCreateRoom}>
-                  <Button variant='outline'>{t('create')}</Button>
+                  <Button
+                    variant='outline'
+                  >
+                    {t('create')}
+                  </Button>
                 </MeetCreateModal>
                 <MeetJoinModal
                   name={name}
@@ -59,7 +63,3 @@ const MeetComponent = memo(
     );
   }
 );
-
-MeetComponent.displayName = 'MeetComponent';
-
-export default MeetComponent;

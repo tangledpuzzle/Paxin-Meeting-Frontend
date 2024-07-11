@@ -39,19 +39,6 @@ const nextConfig = {
       },
     ];
   },
-  async headers() {
-    return [
-      {
-        source: '/(.*)', // Apply these headers to all routes
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable', // Cache files for one year
-          },
-        ],
-      },
-    ];
-  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.optimization.runtimeChunk = 'single';
@@ -78,8 +65,6 @@ const nextConfig = {
       if (process.env.ANALYZE) {
         config.plugins.push(new BundleAnalyzerPlugin());
       }
-      
-
     }
 
 

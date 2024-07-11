@@ -16,7 +16,7 @@ function CityCard({ cities }: CityCardProps) {
 
   const queries: { [key: string]: string } = {};
 
-  for (const[key, value] of searchParams.entries()) {
+  for (let [key, value] of searchParams.entries()) {
     queries[key] = value;
   }
 
@@ -28,7 +28,7 @@ function CityCard({ cities }: CityCardProps) {
         <span className='pl-1'>{t('city')}</span>
       </div>
       <div className='mb-0 h-[1.5px] w-2/3 rounded-lg bg-gradient-to-r from-muted-foreground to-transparent'></div>
-      <div className='md:text-md flex w-full flex-wrap gap-1 text-xs xl:text-base'>
+      <div className='flex w-full flex-wrap gap-1 md:text-md xl:text-base text-xs'>
         {cities.map((city, i) => (
           <Link
             href={{ query: { ...queries, city, page: 1 } }}

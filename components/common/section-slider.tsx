@@ -10,7 +10,6 @@ import dynamic from 'next/dynamic';
 const ChatSSRSkeleton = dynamic(() => import('@/components/chat/flow'), {
   ssr: true,
 });
-
 export interface SectionHeroImageSliderProps
   extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -24,7 +23,7 @@ const images = [
 ];
 const interval = 5000; // Интервал в миллисекундах (5 секунд)
 
-function SectionHeroImageSlider(props: SectionHeroImageSliderProps) {
+function SectionHeroImageSlider({}: SectionHeroImageSliderProps) {
   const t = useTranslations('main');
 
   return (
@@ -32,7 +31,6 @@ function SectionHeroImageSlider(props: SectionHeroImageSliderProps) {
       className={cn(
         'wwg relative mt-4 w-full  px-4'
       )}
-      {...props}
     >
       <motion.div
         initial='hidden'

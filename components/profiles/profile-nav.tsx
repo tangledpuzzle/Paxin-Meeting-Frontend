@@ -19,13 +19,13 @@ export function ProfileNav({ items, setOpen, hideSidebar }: ProfileNavProps) {
   const path = usePathname();
 
   const stripLangPrefix = (url: string) => {
-    const langPrefixes = ['/ru/', '/es/', '/ka/'];
+    const langPrefixes = ['/ru/', '/es/', '/ka/']; 
     for (const prefix of langPrefixes) {
       if (url.startsWith(prefix)) {
         return url.replace(prefix, '/');
       }
     }
-    return url;
+    return url; 
   };
 
   if (!items?.length || hideSidebar === true) {
@@ -37,7 +37,7 @@ export function ProfileNav({ items, setOpen, hideSidebar }: ProfileNavProps) {
       {items.map((item, index) => {
         const Icon: React.ComponentType<any> | undefined = item.icon;
 
-        const normalizedPath = stripLangPrefix(path ?? '');
+        const normalizedPath = stripLangPrefix(path ?? ''); 
         const normalizedHref = stripLangPrefix(item.href ?? '');
 
         return (
@@ -50,6 +50,7 @@ export function ProfileNav({ items, setOpen, hideSidebar }: ProfileNavProps) {
               }}
               target={item.external ? '_blank' : undefined}
             >
+              
               <span
                 className={cn(
                   'text-md group flex flex-col items-center rounded-md px-4 py-1 font-medium hover:bg-primary/15 sm:flex-row sm:py-3',

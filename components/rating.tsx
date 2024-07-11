@@ -2,9 +2,8 @@
 import { useEffect } from 'react';
 import { FaChevronRight } from 'react-icons/fa';
 import { FaChevronLeft } from 'react-icons/fa';
-// Удалены неиспользуемые импорты
-// import { FaAnglesRight } from 'react-icons/fa6';
-// import { FaAnglesLeft } from 'react-icons/fa6';
+import { FaAnglesRight } from 'react-icons/fa6';
+import { FaAnglesLeft } from 'react-icons/fa6';
 
 const FIRSTNAMES = [
   'John',
@@ -46,8 +45,7 @@ const TITLES = [
   'Developer',
 ];
 
-// Удалено неиспользуемое значение BTN_WIDTH
-// const BTN_WIDTH = 4;
+const BTN_WIDTH = 4;
 
 const TableRating = () => {
   useEffect(() => {
@@ -65,21 +63,21 @@ const TableRating = () => {
     return () => {
       // Cleanup logic here
     };
-  }, []); // Добавьте зависимости, если необходимо
+  }, []);
 
   function initCopies() {
-    const targets = [...document.querySelectorAll('*[data-copy]')];
+    let targets = [...document.querySelectorAll('*[data-copy]')];
 
     targets.reverse().forEach((original) => {
-      const amountString = original.getAttribute('data-copy');
+      let amountString = original.getAttribute('data-copy');
 
       if (amountString !== null) {
-        const amount = parseInt(amountString, 10);
+        let amount = parseInt(amountString, 10);
 
         // Check if original has a parent node before proceeding
         if (original.parentNode !== null) {
           for (let i = 0; i < amount; i++) {
-            const copy = original.cloneNode(true);
+            let copy = original.cloneNode(true);
             original.parentNode.insertBefore(copy, original.nextSibling);
           }
         } else {
@@ -90,7 +88,7 @@ const TableRating = () => {
   }
 
   function initAutoIncrements() {
-    const autos = document.querySelectorAll('.auto-increment');
+    let autos = document.querySelectorAll('.auto-increment');
 
     autos.forEach((auto, i) => {
       auto.innerHTML = `${i + 1}`;
@@ -100,7 +98,7 @@ const TableRating = () => {
   const rand = (a: number, b: number) => Math.floor(Math.random() * b + a);
 
   function initAutoFirstnames() {
-    const autos = document.querySelectorAll('.auto-firstname');
+    let autos = document.querySelectorAll('.auto-firstname');
 
     autos.forEach((auto) => {
       auto.innerHTML = FIRSTNAMES[rand(0, FIRSTNAMES.length)];
@@ -108,7 +106,7 @@ const TableRating = () => {
   }
 
   function initAutoLastnames() {
-    const autos = document.querySelectorAll('.auto-lastname');
+    let autos = document.querySelectorAll('.auto-lastname');
 
     autos.forEach((auto) => {
       auto.innerHTML = LASTNAMES[rand(0, LASTNAMES.length)];
@@ -116,7 +114,7 @@ const TableRating = () => {
   }
 
   function initAutoTitles() {
-    const autos = document.querySelectorAll('.auto-title');
+    let autos = document.querySelectorAll('.auto-title');
 
     autos.forEach((auto) => {
       auto.innerHTML = TITLES[rand(0, TITLES.length)];
@@ -124,16 +122,16 @@ const TableRating = () => {
   }
 
   function initAutoIntegers() {
-    const autos = document.querySelectorAll('.auto-integer');
+    let autos = document.querySelectorAll('.auto-integer');
 
     autos.forEach((auto) => {
-      const minString = auto.getAttribute('min');
-      const maxString = auto.getAttribute('max');
+      let minString = auto.getAttribute('min');
+      let maxString = auto.getAttribute('max');
 
       // Check if minString and maxString are not null before parsing
       if (minString !== null && maxString !== null) {
-        const min = parseInt(minString);
-        const max = parseInt(maxString);
+        let min = parseInt(minString);
+        let max = parseInt(maxString);
 
         // Check if min and max are not NaN
         if (!isNaN(min) && !isNaN(max)) {
@@ -148,17 +146,24 @@ const TableRating = () => {
   }
 
   function initPaginations() {
-    const paginations = document.querySelectorAll('.pagination');
+    let paginations = document.querySelectorAll('.pagination');
 
     paginations.forEach((pagination) => {
-      const tableId = pagination.getAttribute('data-table');
+      let tableId = pagination.getAttribute('data-table');
       if (tableId !== null) {
-        const table = document.getElementById(tableId);
+        let table = document.getElementById(tableId);
         pagination.setAttribute('data-x', '0');
         if (table !== null) {
-          const tableContainer = pagination.closest('.table-container');
+          let tableContainer = pagination.closest('.table-container');
           if (tableContainer !== null) {
             createPagination(pagination as HTMLElement, table as HTMLElement); // Type assertion here
+            // tableContainer.addEventListener('wheel', (event) => {
+            //     event.preventDefault();
+            //     const wheelEvent = event as WheelEvent;
+            //     const deltaY = wheelEvent.deltaY;
+            //     const scrollUp = deltaY < 0;
+            //     // scrollPages(scrollUp, pagination as HTMLElement, table as HTMLElement); // Type assertion here
+            // });
           } else {
             console.error(
               "No ancestor with class 'table-container' found for pagination:",
@@ -171,12 +176,12 @@ const TableRating = () => {
   }
 
   function createPagination(pagination: HTMLElement, table: HTMLElement): void {
-    const limit = parseInt(table.getAttribute('data-limit') || '10');
-    const rows = table.querySelectorAll('.table-row:not(.table-heading)');
-    const page_count = Math.ceil(rows.length / limit);
+    let limit = parseInt(table.getAttribute('data-limit') || '10');
+    let rows = table.querySelectorAll('.table-row:not(.table-heading)');
+    let page_count = Math.ceil(rows.length / limit);
     console.log(page_count);
     for (let i = 0; i < page_count; i++) {
-      const new_button = document.createElement('li');
+      let new_button = document.createElement('li');
       new_button.innerHTML = '<span>' + (i + 1) + '</span>';
 
       if (i === 0) new_button.classList.add('active');
@@ -191,6 +196,26 @@ const TableRating = () => {
     updatePaginationInfos(pagination, table, page_count, 0);
     initPaginationExtremes(pagination, table, page_count);
   }
+  function scrollPages(
+    direction: boolean,
+    pagination: HTMLElement,
+    table: HTMLElement
+  ): void {
+    let last_active = pagination.querySelector('li.active') as HTMLLIElement;
+    let buttons = pagination.querySelectorAll('li');
+    let last_index = Array.from(buttons).indexOf(last_active);
+    let scroll_index = null;
+
+    if (direction && last_index > 0) {
+      scroll_index = last_index - 1;
+    } else if (!direction && last_index < buttons.length - 1) {
+      scroll_index = last_index + 1;
+    }
+
+    if (scroll_index !== null) {
+      switchPage(pagination, table, scroll_index);
+    }
+  }
 
   function switchPage(
     pagination: HTMLElement,
@@ -199,14 +224,14 @@ const TableRating = () => {
     bypass: number = -1
   ): void {
     const BTN_WIDTH = 4;
-    const limit = parseInt(table.getAttribute('data-limit') || '10');
-    const rows = table.querySelectorAll('.table-row:not(.table-heading)');
-    const buttons = pagination.querySelectorAll('li');
-    const last_active = pagination.querySelector('li.active');
-    const x_pos = parseInt(pagination.getAttribute('data-x') || '0');
+    let limit = parseInt(table.getAttribute('data-limit') || '10');
+    let rows = table.querySelectorAll('.table-row:not(.table-heading)');
+    let buttons = pagination.querySelectorAll('li');
+    let last_active = pagination.querySelector('li.active');
+    let x_pos = parseInt(pagination.getAttribute('data-x') || '0');
     let x_shift = 0;
-    const target_pos = (-index + 2) * BTN_WIDTH;
-    const page_count = Math.ceil(rows.length / limit);
+    let target_pos = (-index + 2) * BTN_WIDTH;
+    let page_count = Math.ceil(rows.length / limit);
 
     if (bypass !== -1) {
       x_shift = (-bypass + 2) * BTN_WIDTH;
@@ -250,7 +275,7 @@ const TableRating = () => {
     page_count: number,
     index: number
   ): void {
-    const info = pagination
+    let info = pagination
       .closest('.pagination-container')
       ?.querySelector('.pagination-info');
 
@@ -258,11 +283,11 @@ const TableRating = () => {
 
     let from = 0,
       to = 0;
-    const rows = table.querySelectorAll('.table-row:not(.table-heading)');
+    let rows = table.querySelectorAll('.table-row:not(.table-heading)');
     let started = false;
 
     for (let i = 1; i < rows.length; i++) {
-      const display = (rows[i - 1] as HTMLElement).style.display;
+      let display = (rows[i - 1] as HTMLElement).style.display;
 
       if (display !== 'none' && !started) {
         started = true;
@@ -289,9 +314,9 @@ const TableRating = () => {
     table: HTMLElement,
     max: number
   ): void {
-    const container = pagination.closest('.pagination-container') as HTMLElement;
-    const left = container?.querySelector('.pagination-left');
-    const right = container?.querySelector('.pagination-right');
+    let container = pagination.closest('.pagination-container') as HTMLElement;
+    let left = container?.querySelector('.pagination-left');
+    let right = container?.querySelector('.pagination-right');
 
     if (left !== null && left !== undefined) {
       left.addEventListener('click', () => {
@@ -314,20 +339,20 @@ const TableRating = () => {
     container: HTMLElement,
     max: number
   ): void {
-    const left = container?.querySelector(
+    let left = container?.querySelector(
       '.pagination-left-one'
     ) as HTMLLIElement;
-    const right = container?.querySelector(
+    let right = container?.querySelector(
       '.pagination-right-one'
     ) as HTMLLIElement;
 
     if (left !== null && left !== undefined) {
       left.addEventListener('click', () => {
-        const last_active = pagination.querySelector(
+        let last_active = pagination.querySelector(
           'li.active'
         ) as HTMLLIElement;
-        const buttons = pagination.querySelectorAll('li');
-        const last_index = Array.from(buttons).indexOf(last_active);
+        let buttons = pagination.querySelectorAll('li');
+        let last_index = Array.from(buttons).indexOf(last_active);
 
         if (last_index > 0) switchPage(pagination, table, last_index - 1);
       });
@@ -335,11 +360,11 @@ const TableRating = () => {
 
     if (right !== null && right !== undefined) {
       right.addEventListener('click', () => {
-        const last_active = pagination.querySelector(
+        let last_active = pagination.querySelector(
           'li.active'
         ) as HTMLLIElement;
-        const buttons = pagination.querySelectorAll('li');
-        const last_index = Array.from(buttons).indexOf(last_active);
+        let buttons = pagination.querySelectorAll('li');
+        let last_index = Array.from(buttons).indexOf(last_active);
 
         if (last_index < max - 1) switchPage(pagination, table, last_index + 1);
       });
@@ -351,7 +376,7 @@ const TableRating = () => {
     index: number,
     total: number
   ): void {
-    const dot = pagination
+    let dot = pagination
       .closest('.table-container')
       ?.querySelector('.progress-point') as HTMLElement;
 
@@ -361,11 +386,11 @@ const TableRating = () => {
   }
 
   function initAutoLimits(): void {
-    const table_containers = document.querySelectorAll('.table-container');
-    const limit = window.innerHeight / 70;
+    let table_containers = document.querySelectorAll('.table-container');
+    let limit = window.innerHeight / 70;
 
     table_containers.forEach((container: Element) => {
-      const table = container.querySelector('.table');
+      let table = container.querySelector('.table');
 
       container.setAttribute('style', '--data-limit: ' + limit);
       table?.setAttribute('data-limit', limit.toString());

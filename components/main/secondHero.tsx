@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
-// import { SectionDescription } from '../common/section-description';
+import { SectionDescription } from '../common/section-description';
 import { SectionHeroImage } from '../common/section-heroimage';
-// import { SectionTitle } from '../common/section-title';
+import { SectionTitle } from '../common/section-title';
 
 const HeroSectionSecond = () => {
   const t = useTranslations('main');

@@ -1,6 +1,8 @@
 import Image from 'next/image';
+import { Lock } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -12,7 +14,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
-import { PostCardProps } from '../profiles/posts/post-card';
+import { PostCard, PostCardProps } from '../profiles/posts/post-card';
 import axios from 'axios';
 import { PostCardSkeleton } from '../profiles/posts/post-card-skeleton';
 import { MdOutlinePostAdd, MdOutlineSpeakerNotesOff } from 'react-icons/md';
@@ -23,7 +25,7 @@ import apiHelper from '@/helpers/api/apiRequest';
 import { Input } from '../ui/input';
 import { ScrollArea } from '../ui/scroll-area';
 import { NewPostModal } from '../profiles/posts/new-post-modal';
-import { Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react'; 
 
 interface StreamingCreateModalProps {
   children: React.ReactNode;
@@ -93,17 +95,14 @@ export function StreamingCreateModal({
   }
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(isOpen) => {
-        if (setOpen) {
-          setOpen(isOpen);
-        }
-        if (isOpen) {
-          blogsMutate();
-        }
-      }}
-    >
+    <Dialog open={open} onOpenChange={(isOpen) => {
+      if (setOpen) {
+        setOpen(isOpen);
+      }
+      if (isOpen) {
+        blogsMutate();
+      }
+    }}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='max-w-md'>
         <DialogHeader>
@@ -165,7 +164,8 @@ export function StreamingCreateModal({
             ))}
         </div>
         <DialogFooter>
-          {blogs?.length > 0 ? (
+          {blogs?.length>0 ? 
+          (
             <div className='mx-auto'>
               {!loading ? (
                 <Button
@@ -186,7 +186,7 @@ export function StreamingCreateModal({
                 <Loader2 className='animate-spin' />
               )}
             </div>
-          ) : (
+          ):(
             <div className='mx-auto'>
               <NewPostModal mutate={blogsMutate}>
                 <Button className='btn btn--wide !m-0 !rounded-md'>
@@ -195,7 +195,9 @@ export function StreamingCreateModal({
                 </Button>
               </NewPostModal>
             </div>
-          )}
+          )
+        }
+          
         </DialogFooter>
       </DialogContent>
     </Dialog>

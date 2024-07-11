@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
+import * as bodyPix from '@tensorflow-models/body-pix';
 
-type BodyPixModel = any; 
+type BodyPixModel = bodyPix.BodyPix | null;
 
 interface LazyBodyPixProps {
   children: (bodyPix: BodyPixModel) => ReactNode;
@@ -11,7 +12,6 @@ const LazyBodyPix: React.FC<LazyBodyPixProps> = ({ children }) => {
 
   useEffect(() => {
     const loadBodyPix = async () => {
-      const bodyPix = await import('@tensorflow-models/body-pix');
       const loadedModel = await bodyPix.load({
         architecture: 'MobileNetV1',
         outputStride: 16,

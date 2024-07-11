@@ -7,7 +7,7 @@ import MeetHeader from '@/components/meet/newHeader';
 // import Sidebar from '@/components/profiles/sidebar';
 import authOptions from '@/lib/authOptions';
 import { headers } from 'next/headers';
-import cookie from 'cookie';
+import cookie from 'cookie'; 
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
@@ -45,6 +45,7 @@ export default async function ProfilePageLayout({
 }) {
   const locale = useLocale();
   const data = await getData(locale);
+
 
   return (
     <>

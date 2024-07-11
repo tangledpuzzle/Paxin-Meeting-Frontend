@@ -45,7 +45,7 @@ export default function CreateIngressForm({
   const [urlCopied, setUrlCopied] = useState(false);
   const [keyCopied, setKeyCopied] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
-    //@ts-expect-error: no sms
+    //@ts-ignore
     resolver: zodResolver(),
     defaultValues: {
       roomSlug: slug ?? '',

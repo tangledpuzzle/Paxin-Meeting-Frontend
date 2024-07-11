@@ -14,8 +14,9 @@ import { useTranslations } from 'next-intl';
 import { QRCodeModal } from '../../common/qrcode-modal';
 import { CategoryCard } from './category-card';
 import { CityCard } from './city-card';
-import { CiStreamOn } from 'react-icons/ci';
-import { CiStreamOff } from 'react-icons/ci';
+import { IoLanguage } from 'react-icons/io5';
+import { CiStreamOn } from "react-icons/ci";
+import { CiStreamOff } from "react-icons/ci";
 
 export interface ProfileCardProps {
   username: string;
@@ -61,6 +62,7 @@ function ProfileCard(profile: ProfileCardProps) {
     callbackURL,
   } = profile;
 
+
   const saveScrollPosition = () => {
     if (window === undefined) return;
     if (typeof localStorage !== 'undefined') {
@@ -75,33 +77,30 @@ function ProfileCard(profile: ProfileCardProps) {
     <Card className='size-full w-full'>
       <CardContent className='relative flex size-full flex-col gap-4 p-0'>
         <div className='relative'>
+  
           <div
-            className={`absolute right-4 top-[14px] z-10 mr-3 rounded-md bg-cover bg-center bg-no-repeat`}
+            className={`absolute right-4 top-[14px] mr-3 rounded-md bg-cover bg-center bg-no-repeat z-10`}
             // style={{ backgroundImage: `url('/images/${countrycode}.svg')` }}
           >
             {/* <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
               <CiStreamOff className='mr-2' />
               <span className=''>Вне эфира</span>
             </div> */}
-            {profile.streaming.length > 0 ? (
-              profile.streaming.map((stream: any, index: number) => (
-                <Link
-                  href={`/stream/${stream.roomID}`}
-                  key={index}
-                  className='stream-item'
-                >
-                  <div className='flex items-center justify-end rounded-md bg-red-500 px-2 text-white'>
-                    <CiStreamOn className='mr-2' />
-                    <span>В эфире</span>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
-                <CiStreamOff className='mr-2' />
-                <span className=''>Вне эфира</span>
-              </div>
-            )}
+              {profile.streaming.length > 0 ? (
+                profile.streaming.map((stream: any, index: number) => (
+                  <Link href={`/stream/${stream.roomID}`} key={index} className='stream-item'>
+                    <div className='flex items-center justify-end rounded-md bg-red-500 px-2 text-white'>
+                      <CiStreamOn className='mr-2' />
+                      <span>В эфире</span>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <div className='flex items-center justify-end rounded-md bg-black/50 px-2 text-white'>
+                  <CiStreamOff className='mr-2' />
+                  <span className=''>Вне эфира</span>
+                </div>
+              )}
           </div>
           <div className='min-h-[320px] w-full md:min-h-[416px]'>
             {avatar ? (

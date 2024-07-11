@@ -1,7 +1,7 @@
 definitions:
   steps:
     - &check_changes_step
-      name: 'Check Main Files and Directories for Changes'
+      name: "Check Main Files and Directories for Changes"
       image: alpine/git
       script:
         - |
@@ -29,7 +29,7 @@ pipelines:
     main:
       - step: *check_changes_step
       - step:
-          name: 'Build and Test'
+          name: "Build and Test"
           image: node:18-alpine
           size: 2x
           caches:
@@ -49,7 +49,7 @@ pipelines:
     release/prod:
       - step: *check_changes_step
       - step:
-          name: 'Build Nextjs App'
+          name: "Build Nextjs App"
           image: node:18-alpine
           size: 2x
           caches:
@@ -76,7 +76,7 @@ pipelines:
           artifacts:
             - .next/standalone/**
       - step:
-          name: 'Build and Push Docker Image to ECR'
+          name: "Build and Push Docker Image to ECR"
           image: alpine
           size: 2x
           services:
@@ -111,7 +111,7 @@ pipelines:
                 exit 0
               fi
       - step:
-          name: 'Deploy to Production Environment'
+          name: "Deploy to Production Environment"
           deployment: Production
           image: alpine/git
           script:

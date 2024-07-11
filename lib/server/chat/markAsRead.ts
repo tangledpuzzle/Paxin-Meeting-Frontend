@@ -1,5 +1,7 @@
 'use server';
 
+import authOptions from '@/lib/authOptions';
+import { getServerSession } from 'next-auth';
 import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
@@ -7,6 +9,7 @@ import requestHelper from './requestHelper';
 const markAsRead = async (roomId: string, messageId?: string) => {
   try {
     const accessToken = await getAccessToken();
+    const session = await getServerSession(authOptions);
 
     if (messageId) {
       const res = await requestHelper({
@@ -46,6 +49,10 @@ const markAsRead = async (roomId: string, messageId?: string) => {
         };
       }
     }
+
+    return {
+      success: true,
+    };
   } catch (error) {
     console.log(error);
 

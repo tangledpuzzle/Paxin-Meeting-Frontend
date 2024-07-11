@@ -24,7 +24,7 @@ const BroadcastingMsg = () => {
         setMsg('');
       } else {
         // ☢️
-        // @ts-expect-error: no sms
+        // @ts-ignore
         toast(t(data.msg), {
           type: 'error',
         });

@@ -4,7 +4,7 @@ import AutoJoinConference from '@/components/profiles/conference/public-meet-aut
 import authOptions from '@/lib/authOptions';
 import { generateRandomString, hashTimestamp } from '@/lib/utils';
 import { headers } from 'next/headers';
-import cookie from 'cookie';
+import cookie from 'cookie'; 
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
@@ -14,6 +14,7 @@ async function getData(locale: string) {
     const parsedCookies = cookie.parse(cookies);
     accessToken = parsedCookies.access_token;
   }
+
 
   try {
     const res = await fetch(

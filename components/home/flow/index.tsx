@@ -9,6 +9,7 @@ import { FlowCardSkeleton } from '@/components/home/flow/flow-card-skeleton';
 import { useTranslations, useLocale } from 'next-intl';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -95,8 +96,7 @@ export default function FlowSection() {
       const response = await fetcher(getFetchURL(nextSkip));
       setFlowData((prevData) => {
         const newData = response.data.filter(
-          (newItem: FlowData) =>
-            !prevData.some((item) => item.id === newItem.id)
+          (newItem: FlowData) => !prevData.some((item) => item.id === newItem.id)
         );
         return [...prevData, ...newData];
       });
@@ -121,7 +121,7 @@ export default function FlowSection() {
           </div>
         }
         endMessage={
-          <p className='mb-8 text-center'>
+          <p className='text-center mb-8'>
             <b>{t('no_more_results')}</b>
           </p>
         }

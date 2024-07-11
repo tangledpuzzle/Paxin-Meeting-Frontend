@@ -4,17 +4,23 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useContext, useEffect, useState } from 'react';
-import { FaVideo, FaVideoSlash } from 'react-icons/fa';
+import { FaPlus, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { HiOutlinePlus } from 'react-icons/hi';
 import { MdCallEnd } from 'react-icons/md';
 import { PiMicrophoneLight, PiMicrophoneSlash } from 'react-icons/pi';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getInitials } from '@/lib/utils';
 import { PaxContext } from '@/context/context';
+import axios from 'axios'
 import { Howl, Howler } from 'howler';
 
 Howler.autoUnlock = true;

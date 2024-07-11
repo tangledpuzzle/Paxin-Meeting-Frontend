@@ -2,17 +2,17 @@
 .dark {
   .main-app-bg {
     &::before {
-      @apply absolute h-full w-full bg-[#001222] opacity-70 content-[''];
+      @apply absolute content-[''] w-full h-full bg-[#001222] opacity-70;
     }
   }
   .waiting-room {
     &::before {
-      @apply absolute h-full w-full bg-[#001222] opacity-70 content-[''];
+      @apply absolute content-[''] w-full h-full bg-[#001222] opacity-70;
     }
   }
   .error-app-bg {
     &::before {
-      @apply absolute h-full w-full bg-[#001222] opacity-70 content-[''];
+      @apply absolute content-[''] w-full h-full bg-[#001222] opacity-70;
     }
   }
   .multi-gradient {

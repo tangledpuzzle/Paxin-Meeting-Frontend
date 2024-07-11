@@ -7,8 +7,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(
-      `${process.env.API_URL}/api/blog/listAll${query ? `?${query}` : ''}`,
-      { cache: 'no-cache' }
+      `${process.env.API_URL}/api/blog/listAll${query ? `?${query}` : ''}`, { cache: 'no-cache' }
     );
     if (!res.ok) {
       throw new Error('Failed to fetch data');

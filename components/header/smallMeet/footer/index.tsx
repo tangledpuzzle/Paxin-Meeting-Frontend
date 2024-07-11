@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useContext } from 'react';
 import { Room } from 'livekit-client';
 import { createSelector } from '@reduxjs/toolkit';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Menu, Transition } from '@headlessui/react';
 
 import { RootState } from '@/store';
 import { useAppDispatch, useAppSelector, useAppStore } from '@/store/hook';

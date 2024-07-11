@@ -85,9 +85,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
     });
     const storeRoomId: string | null = localStorage.getItem('latest-stream-id');
     if (storeRoomId !== null) {
-      const tokenKey = Object.keys(localStorage).find((key) =>
-        key.startsWith(storeRoomId)
-      );
+      const tokenKey = Object.keys(localStorage).find(key => key.startsWith(storeRoomId));
       if (tokenKey) localStorage.removeItem(tokenKey);
     }
     if (response == null) {
@@ -135,13 +133,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
     }
 
     setIsPublishing((prev) => !prev);
-  }, [
-    audioTrack,
-    isPublishing,
-    localParticipant,
-    videoTrack,
-    sendPushNotification,
-  ]);
+  }, [audioTrack, isPublishing, localParticipant, videoTrack, sendPushNotification]);
 
   return (
     <div className='flex h-full flex-col gap-4'>
@@ -182,11 +174,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
               className='animate-pulse'
               disabled={isStartingStream}
             >
-              {isStartingStream ? (
-                <Loader2 className='animate-spin' />
-              ) : (
-                t('start_stream')
-              )}
+              {isStartingStream ? <Loader2 className='animate-spin' /> : t('start_stream')}
             </Button>
           )}
           <Button
@@ -195,11 +183,7 @@ export default function HostControls({ slug, viewerIdentity }: Props) {
             onClick={deleteTradingRoom}
             disabled={isClosingStream}
           >
-            {isClosingStream ? (
-              <Loader2 className='animate-spin' />
-            ) : (
-              t('close_room')
-            )}
+            {isClosingStream ? <Loader2 className='animate-spin' /> : t('close_room')}
           </Button>
           <Presence participantIdentity={viewerIdentity} />
         </div>

@@ -1,5 +1,7 @@
 'use server';
 
+import authOptions from '@/lib/authOptions';
+import { getServerSession } from 'next-auth';
 import { cookies } from 'next/headers';
 import getAccessToken from '../getAccessToken';
 import requestHelper from './requestHelper';
@@ -7,6 +9,7 @@ import requestHelper from './requestHelper';
 const markAsUnRead = async (roomId: string) => {
   try {
     const accessToken = await getAccessToken();
+    const session = await getServerSession(authOptions);
 
     const res = await requestHelper({
       url: `${process.env.API_URL}/api/chat/unread/${roomId}/true`,

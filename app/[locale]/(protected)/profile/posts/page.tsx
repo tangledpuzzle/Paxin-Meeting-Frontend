@@ -20,7 +20,7 @@ import toast from 'react-hot-toast';
 import useSWR from 'swr';
 import { PaginationComponent } from '@/components/common/pagination';
 import { StreamingCreateModal } from '@/components/chat/streamingCreateModal';
-import { CiStreamOn } from 'react-icons/ci';
+import { CiStreamOn } from "react-icons/ci";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -222,8 +222,9 @@ export default function MyPostsPage() {
       </div>
       <div className='px-2 py-4'>
         <StreamingCreateModal onCreate={() => {}} isLoading={false}>
-          <Button className='btn btn--wide !m-0 flex w-full !rounded-md text-white'>
-            <CiStreamOn className='mr-2 mt-0' size={20} />
+          <Button
+            className='w-full flex btn btn--wide !m-0 !rounded-md text-primary text-white'
+          ><CiStreamOn className='mr-2 mt-0' size={20}  />
 
             {tt('start_stream')}
           </Button>

@@ -38,7 +38,6 @@ export default function ChatRoomDropdown({
         router.push('/chat');
       }
     } catch (error) {
-      console.log(error)
     } finally {
       setIsLeavingChat(false);
     }

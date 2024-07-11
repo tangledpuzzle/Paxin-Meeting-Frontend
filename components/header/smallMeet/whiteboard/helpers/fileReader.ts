@@ -30,25 +30,25 @@ export const fetchFileWithElm = async (
   is_office_file: boolean,
   uploaderWhiteboardHeight?: number,
   uploaderWhiteboardWidth?: number
-): Promise<FileReaderResult> => {
-  const res = await fetch(url);
-  const imageData = await res.blob();
-  if (!imageData) {
-    throw new Error("No image data");
-  }
+) => {
+  return new Promise<FileReaderResult>(async (resolve, reject) => {
+    const res = await fetch(url);
+    const imageData = await res.blob();
+    if (!imageData) {
+      reject(null);
+    }
 
-  fileId = file_id;
-  lastVersion = last_version;
-  excalidrawHeight = uploaderWhiteboardHeight || 0;
-  excalidrawWidth = uploaderWhiteboardWidth || 0;
-  isOfficeFile = is_office_file;
-  if (lastVersion < 0) {
-    lastVersion = 1;
-  }
-  const readerBase64 = new FileReader();
-  readerBase64.readAsDataURL(imageData);
+    fileId = file_id;
+    lastVersion = last_version;
+    excalidrawHeight = uploaderWhiteboardHeight || 0;
+    excalidrawWidth = uploaderWhiteboardWidth || 0;
+    isOfficeFile = is_office_file;
+    if (lastVersion < 0) {
+      lastVersion = 1;
+    }
+    const readerBase64 = new FileReader();
+    readerBase64.readAsDataURL(imageData);
 
-  return new Promise<FileReaderResult>((resolve, reject) => {
     readerBase64.onload = () => {
       imgData = readerBase64.result as string;
       fileMimeType = imgData.substring(
@@ -70,8 +70,8 @@ export const fetchFileWithElm = async (
           resolve(result);
         };
 
-        image.onerror = function () {
-          console.error('Cannot open image file');
+        image.onerror = async function () {
+          console.error('can not open image file');
           reject(null);
         };
       } else if (fileMimeType == 'image/svg+xml') {
@@ -80,7 +80,7 @@ export const fetchFileWithElm = async (
         const result = prepareForExcalidraw();
         resolve(result);
       } else {
-        console.error('Unsupported file');
+        console.error('unsupported file');
         reject(null);
       }
     };

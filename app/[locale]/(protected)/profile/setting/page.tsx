@@ -12,6 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
@@ -35,14 +36,16 @@ import { RxCopy } from 'react-icons/rx';
 import 'react-quill/dist/quill.snow.css';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import useSWR, { mutate } from 'swr';
+import useSWR, {mutate} from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
+import { GrUpdate } from 'react-icons/gr';
 import * as z from 'zod';
 import { SubscriptionCard } from '@/components/profiles/setting/subscription-card';
 import { NewPostModal } from '@/components/profiles/setting/request4new';
 import { NewInvoice } from '@/components/profiles/setting/request4newBank';
 import { formatDateNew, formatAmount, getStatusTranslation } from '@/lib/utils';
 
+import Loader from '@/components/ui/loader';
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
 
@@ -234,13 +237,16 @@ export default function SettingPage() {
   );
 
   const { data: fetchedTransaction, error: transactionFetchError } = useSWR(
-    `/api/profiles/balance/get`,
-    fetcher
+    `/api/profiles/balance/get`, 
+    fetcher        
   );
 
   // if (!fetchedTransaction && !transactionFetchError) return <div>Loading...</div>;
 
   // if (transactionFetchError) return <div>Error loading</div>;
+
+
+
 
   const { data: fetchedHashtags, error: hashtagFetchError } = useSWR(
     hashtagURL,
@@ -547,10 +553,10 @@ export default function SettingPage() {
   };
 
   useEffect(() => {
-    if (openBankModal === false) {
+    if(openBankModal === false) {
       mutate(`/api/profiles/balance/get`);
     }
-  }, [openBankModal]);
+  }, [openBankModal])
 
   const submitRechargecode = async () => {
     setIsRechargeLoading(true);
@@ -565,6 +571,7 @@ export default function SettingPage() {
           position: 'top-right',
         });
         setRechargecode('');
+
       } else {
         toast.error(t('recharge_failed'), {
           position: 'top-right',
@@ -1026,94 +1033,53 @@ export default function SettingPage() {
                   </Button> */}
                   <Button
                     onClick={submitBankRecharge}
-                    className='btn btn--wide float-left !m-0 !rounded-md'
+                    className='btn btn--wide !rounded-md float-left !m-0'
                   >
                     {isRechargeLoading && (
                       <Loader2 className='mr-2 size-4 animate-spin' />
                     )}
                     {t('recharge_via_bank_card')}
                   </Button>
-                  <NewInvoice
-                    openBankModal={openBankModal}
-                    setOpenBankModal={setOpenBankModal}
-                    requestType='payment'
-                  />
+                  <NewInvoice openBankModal={openBankModal} setOpenBankModal={setOpenBankModal} requestType="payment" />
+
                 </div>
                 <div>
-                  <div className='container mx-auto mt-8'>
-                    <h1 className='mb-4 text-2xl font-bold'>
-                      {t('transactions')}
-                    </h1>
-                    <div className='overflow-x-auto'>
-                      <table className='responsive-table min-w-full shadow-sm'>
-                        <thead>
-                          <tr className='bg-gray-100 dark:bg-black'>
-                            <th className='border-b px-4 py-2 text-left'>
-                              {t('transaction_description')}
-                            </th>
-                            <th className='border-b px-4 py-2 text-left'>
-                              {t('amount')}
-                            </th>
-                            <th className='border-b px-4 py-2 text-left'>
-                              {t('date')}
-                            </th>
+                <div className="container mx-auto mt-8">
+                <h1 className="text-2xl font-bold mb-4">{t('transactions')}</h1>
+                <div className="overflow-x-auto">
+                  <table className="responsive-table min-w-full shadow-sm">
+                    <thead>
+                      <tr className="bg-gray-100 dark:bg-black">
+                        <th className="py-2 px-4 border-b text-left">{t('transaction_description')}</th>
+                        <th className="py-2 px-4 border-b text-left">{t('amount')}</th>
+                        <th className="py-2 px-4 border-b text-left">{t('date')}</th>
 
-                            <th className='border-b px-4 py-2 text-right'>
-                              {t('status')}
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {fetchedTransaction && fetchedTransaction.data ? (
-                            fetchedTransaction.data.map((transaction: any) => (
-                              <tr
-                                key={transaction.ID}
-                                className='bg-gray-50 dark:bg-black'
-                              >
-                                <td
-                                  data-label={t('transaction_description')}
-                                  className='whitespace-break-spaces border-b px-4 py-2'
-                                >
-                                  {getStatusTranslation<typeof t>(
-                                    transaction.Description,
-                                    t
-                                  )}
-                                </td>
-                                <td
-                                  data-label={t('amount')}
-                                  className='border-b px-4 py-2'
-                                >
-                                  {formatAmount(transaction.Amount)}
-                                </td>
-                                <td
-                                  data-label={t('date')}
-                                  className='border-b px-4 py-2'
-                                >
-                                  {' '}
-                                  {formatDateNew(transaction.CreatedAt)}
-                                </td>
-                                <td
-                                  data-label={t('status')}
-                                  className='border-b px-4 py-2 text-right'
-                                >
-                                  {getStatusTranslation<typeof t>(
-                                    transaction.Status,
-                                    t
-                                  )}
-                                </td>
-                              </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan={3} className='border-b px-4 py-2'>
-                                Loading...
-                              </td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                        <th className="py-2 px-4 border-b text-right">{t('status')}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {fetchedTransaction && fetchedTransaction.data ? (
+                      fetchedTransaction.data.map((transaction: any) => (
+                        <tr key={transaction.ID} className="bg-gray-50 dark:bg-black">
+                          <td data-label={t('transaction_description')} className="py-2 px-4 border-b whitespace-break-spaces">
+                            {getStatusTranslation<typeof t>(transaction.Description, t)}
+                          </td>
+                          <td data-label={t('amount')} className="py-2 px-4 border-b">{formatAmount(transaction.Amount)}</td>
+                          <td data-label={t('date')} className="py-2 px-4 border-b"> {formatDateNew(transaction.CreatedAt)}</td>
+                          <td data-label={t('status')} className="py-2 px-4 border-b text-right">{getStatusTranslation<typeof t>(transaction.Status, t)}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={3} className="py-2 px-4 border-b">
+                          Loading...
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                  </table>
+                </div>
+                </div>
                 </div>
               </div>
             </TabsContent>

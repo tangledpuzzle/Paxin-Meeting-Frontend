@@ -35,8 +35,8 @@ const OverlayCards = () => {
     const observer = new ResizeObserver((entries) => {
       entries.forEach((entry) => {
         const cardIndex = cards.indexOf(entry.target as HTMLElement);
-        const width = entry.borderBoxSize[0].inlineSize;
-        const height = entry.borderBoxSize[0].blockSize;
+        let width = entry.borderBoxSize[0].inlineSize;
+        let height = entry.borderBoxSize[0].blockSize;
 
         if (cardIndex >= 0 && overlay && overlay.children[cardIndex]) {
           (overlay.children[cardIndex] as HTMLElement).style.width =
