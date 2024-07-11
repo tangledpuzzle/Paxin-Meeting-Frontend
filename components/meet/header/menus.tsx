@@ -36,7 +36,7 @@ const HeaderMenus = ({ onOpenAlert }: IHeaderMenusProps) => {
     return (
       <Menu.Items
         static
-        className='HeaderSettingMenu ring-opacity/5 absolute z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black focus:outline-none dark:bg-darkPrimary dark:ring-secondaryColor ltr:right-0 rtl:-left-4'
+        className='HeaderSettingMenu absolute z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-darkPrimary dark:ring-secondaryColor ltr:right-0 rtl:-left-4'
       >
         <div className='py-1' role='none'>
           <Menu.Item>

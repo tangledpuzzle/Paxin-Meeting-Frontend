@@ -71,10 +71,10 @@ export default function Meet({ currentConnection }: IMainAreaProps) {
   const footerVisible = useAppSelector(footerVisibilitySelector);
   const dispatch = useAppDispatch();
 
-  const [, setAllowChat] = useState<boolean>(true);
-  const [, setIsActiveScreenShare] =
+  const [allowChat, setAllowChat] = useState<boolean>(true);
+  const [isActiveScreenShare, setIsActiveScreenShare] =
     useState<boolean>(false);
-  const [, setHeight] = useState<number>(screenHeight);
+  const [height, setHeight] = useState<number>(screenHeight);
 
   useEffect(() => {
     const metadata = store.getState().session.currentRoom

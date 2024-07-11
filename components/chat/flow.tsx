@@ -94,7 +94,7 @@ const ChatComponent: React.FC = () => {
         }
       };
     }
-  }, [socket, locale, router]);
+  }, [socket]);
 
   return (
     <div id='chat-container'>
@@ -261,7 +261,7 @@ class Line {
 
     delay += 40;
 
-    otherEleList.forEach((e) => {
+    otherEleList.forEach((e, i) => {
       setTimeout(
         () => {
           e.style.opacity = '1';
@@ -289,6 +289,9 @@ class Line {
     name.addEventListener('click', () => {
       window.location.href = `https://www.myru.online/flows/${data.UniqId}/${data.Slug}`;
     });
+
+    const img = createElement({ class: 'img' });
+    const richBody = createElement({ class: 'rich-body' });
 
     name.textContent = this.textname;
 

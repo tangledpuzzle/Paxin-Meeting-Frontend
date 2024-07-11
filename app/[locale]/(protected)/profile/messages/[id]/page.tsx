@@ -12,18 +12,18 @@ const MessageWithCatchAll = () => {
       <div className='border-b px-4 pb-6'>
         <BackButton callback='' />
         <div className='my-4 text-center'>
-          {/* <img
-            className='mx-auto my-4 size-32 rounded-full border-4 border-white hover:!border-[#00B887] dark:border-gray-800'
+          <img
+            className='mx-auto my-4 h-32 w-32 rounded-full border-4 border-white hover:!border-[#00B887] dark:border-gray-800'
             src='https://randomuser.me/api/portraits/women/21.jpg'
             alt=''
-          /> */}
+          />
           <div className='py-2'>
             <h3 className='mb-1 text-2xl font-bold text-gray-800 dark:text-white'>
               Cait Genevieve
             </h3>
             <div className='inline-flex items-center text-gray-700 dark:text-gray-300'>
               <svg
-                className='mr-1 size-5 text-gray-400 dark:text-gray-600'
+                className='mr-1 h-5 w-5 text-gray-400 dark:text-gray-600'
                 fill='currentColor'
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 24 24'
@@ -51,10 +51,10 @@ const MessageWithCatchAll = () => {
           </button>
         </div>
       </div>
-      <div className='p-4'>
+      <div className='px-4 py-4'>
         <div className='mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-300'>
           <svg
-            className='size-6 text-gray-600 dark:text-gray-400'
+            className='h-6 w-6 text-gray-600 dark:text-gray-400'
             fill='currentColor'
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 24 24'
@@ -72,41 +72,41 @@ const MessageWithCatchAll = () => {
           </span>
         </div>
         <div className='flex'>
-          {/* <div className='mr-2 flex justify-end'>
+          <div className='mr-2 flex justify-end'>
             <img
-              className='-mr-2 size-10 rounded-full border-2 border-white dark:border-gray-800'
+              className='-mr-2 h-10 w-10 rounded-full border-2 border-white dark:border-gray-800'
               src='https://randomuser.me/api/portraits/men/32.jpg'
               alt=''
             />
             <img
-              className='-mr-2 size-10 rounded-full border-2 border-white dark:border-gray-800'
+              className='-mr-2 h-10 w-10 rounded-full border-2 border-white dark:border-gray-800'
               src='https://randomuser.me/api/portraits/women/31.jpg'
               alt=''
             />
             <img
-              className='-mr-2 size-10 rounded-full border-2 border-white dark:border-gray-800'
+              className='-mr-2 h-10 w-10 rounded-full border-2 border-white dark:border-gray-800'
               src='https://randomuser.me/api/portraits/men/33.jpg'
               alt=''
             />
             <img
-              className='-mr-2 size-10 rounded-full border-2 border-white dark:border-gray-800'
+              className='-mr-2 h-10 w-10 rounded-full border-2 border-white dark:border-gray-800'
               src='https://randomuser.me/api/portraits/women/32.jpg'
               alt=''
             />
             <img
-              className='-mr-2 size-10 rounded-full border-2 border-white dark:border-gray-800'
+              className='-mr-2 h-10 w-10 rounded-full border-2 border-white dark:border-gray-800'
               src='https://randomuser.me/api/portraits/men/44.jpg'
               alt=''
             />
             <img
-              className='-mr-2 size-10 rounded-full border-2 border-white dark:border-gray-800'
+              className='-mr-2 h-10 w-10 rounded-full border-2 border-white dark:border-gray-800'
               src='https://randomuser.me/api/portraits/women/42.jpg'
               alt=''
             />
-            <span className='flex size-10 items-center justify-center rounded-full border-2 border-gray-200 bg-white text-sm font-semibold text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-white'>
+            <span className='flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-200 bg-white text-sm font-semibold text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-white'>
               +999
             </span>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

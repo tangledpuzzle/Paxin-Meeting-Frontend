@@ -41,6 +41,7 @@ interface FormValue {
 }
 
 export default function ChannelInfo({
+  streamerIdentity,
   viewerIdentity,
 }: Props) {
   const participants = useRemoteParticipants();
@@ -104,11 +105,11 @@ export default function ChannelInfo({
           {speakingParticipant.length ? (
             <div className='hidden md:block'>
               <div className='grid place-items-center'>
-                <div className='absolute z-10 size-11 animate-ping rounded-full bg-red-600 dark:bg-red-400' />
+                <div className='absolute z-10 h-11 w-11 animate-ping rounded-full bg-red-600 dark:bg-red-400' />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className={cn(
-                    'md:siz-16 z-20 rounded-full border-2 border-white bg-gray-500 dark:border-zinc-900',
+                    'z-20 rounded-full border-2 border-white bg-gray-500 dark:border-zinc-900 md:h-16 md:w-16',
                     speakingParticipant[0] && 'ring-2 ring-red-600'
                   )}
                   src={`https://proxy.myru.online/100/https://img.myru.online/${speakingParticipant[0]?.metadata}`}
@@ -130,8 +131,8 @@ export default function ChannelInfo({
               <h1 className='text-lg font-bold text-white md:text-black'>
                 {speakingParticipant[0]?.name}
               </h1>
-              <div className='flex size-4 items-center justify-center rounded-full bg-blue-500'>
-                <Icons.check className='size-4 text-white dark:text-zinc-900' />
+              <div className='flex h-4 w-4 items-center justify-center rounded-full bg-blue-500'>
+                <Icons.check className='h-3 w-3 text-white dark:text-zinc-900' />
               </div>
             </div>
           </div>

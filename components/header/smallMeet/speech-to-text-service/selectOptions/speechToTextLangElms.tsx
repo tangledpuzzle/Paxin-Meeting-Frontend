@@ -65,7 +65,7 @@ const SpeechToTextLangElms = ({
                     .map((l) => (l.code === selectedSpeechLang ? l.name : null))
                     .join('')}
                 </span>
-                <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
+                <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 '>
                   <i className='pnm-updown primaryColor text-xl dark:text-darkText' />
                 </span>
               </Listbox.Button>
@@ -76,7 +76,7 @@ const SpeechToTextLangElms = ({
                 leaveFrom='opacity-100'
                 leaveTo='opacity-0'
               >
-                <Listbox.Options className='scrollBar scrollBar4 ring-opacity/5 absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm'>
+                <Listbox.Options className='scrollBar scrollBar4 absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
                   {speechService.allowed_speech_langs?.map((l) => (
                     <Listbox.Option
                       key={l}
@@ -104,7 +104,7 @@ const SpeechToTextLangElms = ({
                           </span>
                           {selected ? (
                             <span className='absolute inset-y-0 left-0 flex items-center pl-1 text-amber-600'>
-                              <i className='pnm-check size-4' />
+                              <i className='pnm-check h-4 w-4' />
                             </span>
                           ) : null}
                         </>
@@ -148,7 +148,7 @@ const SpeechToTextLangElms = ({
                 enableSpeechToText
                   ? 'ltr:translate-x-6 rtl:-translate-x-6'
                   : 'ltr:translate-x-1 rtl:translate-x-0'
-              } inline-block size-4 rounded-full bg-white transition-transform`}
+              } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
             />
           </Switch>
         </div>

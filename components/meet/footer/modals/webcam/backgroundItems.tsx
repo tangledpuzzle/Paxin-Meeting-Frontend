@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
-import Image from 'next/image';
+
 import {
   BackgroundConfig,
   backgroundImageUrls,
@@ -100,11 +100,9 @@ const BackgroundItems = ({ onSelect }: IBackgroundItemsProps) => {
             key={imageUrl}
             onClick={() => handleOnClick('image', imageUrl)}
           >
-            <Image
+            <img
               src={imageUrl}
               alt={`bg-${i + 1}`}
-              layout='fill'
-              objectFit='cover'
               className={`size-full object-cover`}
             />
           </div>

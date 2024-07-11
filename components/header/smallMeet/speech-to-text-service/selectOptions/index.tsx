@@ -132,9 +132,9 @@ const SelectOptions = ({
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <div className='overflow-[initial] my-8 inline-block w-full max-w-lg rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
+              <div className='overflow-[initial] my-8 inline-block w-full max-w-lg transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                 <button
-                  className='close-btn absolute top-8 size-[25px] outline-none ltr:right-6 rtl:left-6'
+                  className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
                   type='button'
                   onClick={() => setShowModal(false)}
                 >
@@ -201,7 +201,7 @@ const SelectOptions = ({
     <div className='show-speech-setting absolute bottom-1 left-1'>
       {modalElm()}
       <button onClick={() => setShowModal(true)}>
-        <div className='microphone footer-icon has-tooltip relative flex size-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:size-[40px]'>
+        <div className='microphone footer-icon has-tooltip relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px]'>
           <span className='tooltip ltr:tooltip-left rtl:tooltip-right !-left-3'>
             {t('speech-services.subtitle-settings')}
           </span>

@@ -21,7 +21,7 @@ const RightPanel = ({ currentRoom, isRecorder }: IRightPanelProps) => {
     <div id='main-right-panel' className='h-[calc(100%)]'>
       {!isRecorder ? (
         <div
-          className='close absolute left-[-14px] top-1 z-20 hidden size-6 cursor-pointer rounded-full border border-solid border-primaryColor bg-white dark:border-darkText dark:bg-darkSecondary md:inline-block'
+          className='close absolute -left-[14px] top-1 z-20 hidden h-6 w-6 cursor-pointer rounded-full border border-solid border-primaryColor bg-white dark:border-darkText dark:bg-darkSecondary md:inline-block'
           onClick={closePanel}
         >
           <span className='absolute left-[2px] top-[11px] inline-block h-[1px] w-[18px] rotate-45 bg-primaryColor dark:bg-darkText'></span>

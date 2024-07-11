@@ -19,6 +19,7 @@ import { IProduct } from './product-panel';
 export interface ProductCardProps extends IProduct {}
 
 export function ProductCard({
+  id,
   title,
   subtitle,
   gallery,

@@ -96,7 +96,7 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
   const [allowChat, setAllowChat] = useState<boolean>(true);
   const [isActiveScreenShare, setIsActiveScreenShare] =
     useState<boolean>(false);
-  const [, setHeight] = useState<number>(screenHeight);
+  const [height, setHeight] = useState<number>(screenHeight);
 
   useEffect(() => {
     const metadata = store.getState().session.currentRoom
@@ -244,7 +244,7 @@ const MainArea = ({ isRecorder, currentConnection }: IMainAreaProps) => {
       // style={{ height: `${height}px` }}
     >
       <div
-        className={`main-app-bg pointer-events-none absolute left-0 top-0 size-full bg-cover bg-center bg-no-repeat object-cover`}
+        className={`main-app-bg pointer-events-none absolute left-0 top-0 h-full w-full bg-cover bg-center bg-no-repeat object-cover`}
         style={{
           backgroundImage: `url("/images/meet/app-banner.jpg")`,
         }}

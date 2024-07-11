@@ -1,6 +1,6 @@
 import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import ClientHeader from './client.header';
 import { headers } from 'next/headers';
 import cookie from 'cookie';
@@ -36,6 +36,7 @@ async function getData(locale: string) {
 }
 
 export async function SiteHeader() {
+  const t = useTranslations('main');
   const locale = useLocale();
 
   // const pathname = headers().get('x-pathname') || '';

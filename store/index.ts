@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import activeSpeakersSlice from './slices/activeSpeakersSlice';
 import participantSlice from './slices/participantSlice';

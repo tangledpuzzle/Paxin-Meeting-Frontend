@@ -1,4 +1,4 @@
-// import { BodyPix } from '@tensorflow-models/body-pix';
+import { BodyPix } from '@tensorflow-models/body-pix';
 import { compileShader, createTexture, glsl } from '../helpers/webglHelper';
 import {
   BackgroundBlurStage,
@@ -228,7 +228,7 @@ export function buildWebGL2Pipeline(
     gl.deleteShader(vertexShader);
   }
 
-  function setBodyPixModel() {
+  function setBodyPixModel(newBodyPix: BodyPix) {
     // This pipeline doesn't use BodyPix, but we include the method for compatibility
   }
 

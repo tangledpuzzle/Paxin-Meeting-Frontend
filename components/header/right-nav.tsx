@@ -1,10 +1,12 @@
 'use client';
 
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import ThemeToggle from '../theme-toggle';
 import { AvatarWithMenu } from './avatar-with-menu';
 import { LanguageSelector } from './language';
@@ -20,7 +22,9 @@ interface RightNavProps {
 }
 
 export function RightNav({ user }: RightNavProps) {
+  const { setTheme, theme } = useTheme();
   const t = useTranslations('main');
+  const router = useRouter();
   const { user: userData } = useContext(PaxContext);
 
   return (

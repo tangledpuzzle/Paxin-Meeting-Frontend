@@ -14,6 +14,10 @@ import { IoSendOutline } from 'react-icons/io5';
 import DropdownMenuDemo from '@/components/ui/chatmenu';
 import ChatNavComponent from '@/components/chat/chat-nav';
 
+interface MessagesProps {
+  children: React.ReactNode;
+}
+
 const ChatSSRSkeleton = dynamic(() => import('@/components/chat/skeleton'), {
   ssr: true,
 });
@@ -28,6 +32,8 @@ interface ChatWindowProps {
 
 function ChatWindow({
   isOpen,
+  contactId,
+  onSelectContact,
   toggleSidebar,
 }: ChatWindowProps) {
   type Message = string | JSX.Element;
@@ -66,6 +72,11 @@ function ChatWindow({
       const newMessage = (
         <div className='chat-msg' style={{ overflowWrap: 'anywhere' }}>
           <div className='chat-msg-profile'>
+            <img
+              className='chat-msg-img'
+              src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png'
+              alt=''
+            />
             <div className='chat-msg-date'>Message not seen yet</div>
           </div>
           <div className='chat-msg-content'>
@@ -101,6 +112,13 @@ function ChatWindow({
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Предотвращаем стандартное действие (например, переход на новую строку)
+      setInputMessage((prevInputMessage) => prevInputMessage + '\n'); // Добавляем перенос строки в текущее значение поля ввода
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputMessage(e.target.value);
   };
@@ -116,6 +134,7 @@ function ChatWindow({
       for (const entry of entries) {
         if (entry.contentBoxSize) {
           const height = entry.contentBoxSize[0].blockSize;
+          // Update the style of chat-container
           if (chatContainer) {
             if (height !== prevHeight) {
               if (height > prevHeight) {
@@ -125,7 +144,13 @@ function ChatWindow({
                 const newTop = currentTop - 24;
                 chatContainer.style.marginTop = `${newTop}px`;
               } else {
-                parseInt(chatContainer.style.marginTop || '0');
+                const currentTop = parseInt(
+                  chatContainer.style.marginTop || '0'
+                );
+                // const newTop = currentTop + 24;
+                // chatContainer.style.marginTop = `${newTop}px`;
+                // console.log(chatContainer.style.marginTop)
+                // chatContainer.style.marginTop = `${newTop}px`;
               }
               prevHeight = height;
             }
@@ -149,7 +174,7 @@ function ChatWindow({
     <div>
       <div id='chat-container' className='h-auto'>
         <div
-          className={`relative left-[10px] top-[40px] h-[20px] bg-background${isOpen ? '' : ' '}`}
+          className={`relative left-[10px] top-[40px] bg-background h-[20px]${isOpen ? '' : ' '}`}
         >
           {!isOpen && (
             <div className='flex'>
@@ -173,6 +198,11 @@ function ChatWindow({
               <div className='chat-area-main'>
                 <div className='chat-msg'>
                   <div className='chat-msg-profile'>
+                    <img
+                      className='chat-msg-img'
+                      src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png'
+                      alt=''
+                    />
                     <div className='chat-msg-date'>Message seen 1.22pm</div>
                   </div>
                   <div className='chat-msg-content'>
@@ -180,6 +210,7 @@ function ChatWindow({
                       Luctus et ultrices posuere cubilia curae.
                     </div>
                     <div className='chat-msg-text bg-card-gradient-menu'>
+                      <img src='https://media0.giphy.com/media/yYSSBtDgbbRzq/giphy.gif?cid=ecf05e47344fb5d835f832a976d1007c241548cc4eea4e7e&amp;rid=giphy.gif' />
                     </div>
                     <div className='chat-msg-text bg-card-gradient-menu'>
                       Neque gravida in fermentum et sollicitudin ac orci
@@ -189,6 +220,11 @@ function ChatWindow({
                 </div>
                 <div className='chat-msg owner'>
                   <div className='chat-msg-profile'>
+                    <img
+                      className='chat-msg-img'
+                      src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png'
+                      alt=''
+                    />
                     <div className='chat-msg-date'>Message seen 1.22pm</div>
                   </div>
                   <div className='chat-msg-content'>
@@ -203,6 +239,11 @@ function ChatWindow({
                 </div>
                 <div className='chat-msg'>
                   <div className='chat-msg-profile'>
+                    <img
+                      className='chat-msg-img'
+                      src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png'
+                      alt=''
+                    />
                     <div className='chat-msg-date'>Message seen 2.45pm</div>
                   </div>
                   <div className='chat-msg-content'>
@@ -219,6 +260,11 @@ function ChatWindow({
                 </div>
                 <div className='chat-msg owner'>
                   <div className='chat-msg-profile'>
+                    <img
+                      className='chat-msg-img'
+                      src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png'
+                      alt=''
+                    />
                     <div className='chat-msg-date'>Message seen 2.50pm</div>
                   </div>
                   <div className='chat-msg-content'>
@@ -232,6 +278,11 @@ function ChatWindow({
                 </div>
                 <div className='chat-msg'>
                   <div className='chat-msg-profile'>
+                    <img
+                      className='chat-msg-img'
+                      src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%2812%29.png'
+                      alt=''
+                    />
                     <div className='chat-msg-date'>Message seen 3.16pm</div>
                   </div>
                   <div className='chat-msg-content'>
@@ -242,10 +293,15 @@ function ChatWindow({
                 </div>
                 <div className='chat-msg'>
                   <div className='chat-msg-profile'>
+                    <img
+                      className='chat-msg-img'
+                      src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png'
+                      alt=''
+                    />
                     <div className='chat-msg-date'>Message seen 3.16pm</div>
                   </div>
                   <div className='chat-msg-content'>
-                    <div className='chat-msg-text bg-card-gradient-menu'>
+                    <div className='chat-msg-text chat-msg-text bg-card-gradient-menu'>
                       Consectetur adipiscing elit pellentesque habitant morbi
                       tristique senectus et.
                     </div>
@@ -253,6 +309,11 @@ function ChatWindow({
                 </div>
                 <div className='chat-msg owner'>
                   <div className='chat-msg-profile'>
+                    <img
+                      className='chat-msg-img'
+                      src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png'
+                      alt=''
+                    />
                     <div className='chat-msg-date'>Message seen 2.50pm</div>
                   </div>
                   <div className='chat-msg-content'>
@@ -263,6 +324,11 @@ function ChatWindow({
                 </div>
                 <div className='chat-msg'>
                   <div className='chat-msg-profile'>
+                    <img
+                      className='chat-msg-img'
+                      src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png'
+                      alt=''
+                    />
                     <div className='chat-msg-date'>Message seen 3.16pm</div>
                   </div>
                   <div className='chat-msg-content'>
@@ -290,8 +356,9 @@ function ChatWindow({
           </div>
         </ScrollArea>
         <div className='chatInput'>
+          {/* <form onSubmit={sendMessage}> Обработчик отправки формы */}
           <div className='flex'>
-            <Button className='h-auto !items-end !rounded-none bg-card-gradient-menu'>
+            <Button className='h-auto !items-end !rounded-l-none !rounded-r-none bg-card-gradient-menu'>
               <DropdownMenuDemo />
             </Button>
 
@@ -299,7 +366,7 @@ function ChatWindow({
               ref={textareaRef}
               value={inputMessage}
               onChange={handleInputChange}
-              className='my-[10px] ml-[10px] mr-[40px] h-[68px] max-h-[200px] w-full rounded-xl bg-card-gradient-menu-on px-[10px] py-2'
+              className='mb-[10px] ml-[10px] mr-[40px] mt-[10px] h-[68px] max-h-[200px] w-full rounded-xl bg-card-gradient-menu-on pb-2 pl-[10px] pr-[10px] pt-2'
               onInput={auto_height}
             ></textarea>
             <button
@@ -310,6 +377,7 @@ function ChatWindow({
               <IoSendOutline color='gray' size={18} />
             </button>
           </div>
+          {/* </form> */}
         </div>
       </div>
     </div>
@@ -345,7 +413,8 @@ function auto_height(event: React.ChangeEvent<HTMLTextAreaElement>) {
   }
 }
 
-export default function Messages() {
+
+export default function Messages({ children }: MessagesProps) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
@@ -363,7 +432,7 @@ export default function Messages() {
 
   const [selectedContact, setSelectedContact] = useState<number | null>(null);
   const pathname = usePathname();
-  const [mode] = useState(true);
+  const [mode, setMode] = useState(true);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -392,6 +461,19 @@ export default function Messages() {
 
     const handleHideSideBar = () => {
       setIsOpen((prevIsOpen) => !prevIsOpen);
+    };
+
+    const scrollToMessage = () => {
+      const id = '522';
+      alert(id);
+      console.log('SCROLL TO MESSAGE', id);
+      if (window && window.document) {
+        const messageElement = window.document.getElementById(
+          `chat-message-${id}`
+        );
+        if (messageElement)
+          messageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     };
 
     eventBus.on('startChat', handleHideSideBar);
@@ -426,7 +508,7 @@ export default function Messages() {
           ref={sidebarRef}
           className='new-sidebar w-full pt-[70px] md:w-[300px]'
         >
-          <div className='h-screen w-full overflow-y-auto border-x bg-card-gradient py-2'>
+          <div className='h-screen w-full overflow-y-auto border-l border-r bg-card-gradient py-2'>
             <div className='px-5 text-lg font-medium text-gray-800 dark:text-white'>
               <button
                 className='toggle-btn  absolute right-4 top-[92px] z-10'
@@ -438,10 +520,27 @@ export default function Messages() {
                 <nav className='-mb-px flex flex-wrap text-center text-sm font-medium text-gray-500 dark:text-gray-400'>
                   <NavItem href='/profile/messages' text='Followers' />
                   <NavItem href='/profile/messages/settings' text='Settings' />
+                  {/* <NavItem href="/profile/messages/settings" text="Settings" /> */}
                 </nav>
               </div>
             </div>
             <ChatNavComponent mode={mode} />
+            {/* <ScrollArea className='h-[calc(100vh_-_12rem)] rounded-lg bg-background p-4'>
+              {React.Children.map(children, (child) => {
+                if (React.isValidElement(child)) {
+                  const props = {
+                    onSelectContact: handleContactSelect,
+                    toggleSidebar,
+                  } as ChatWindowProps;
+                  return React.cloneElement(child, {
+                    ...props,
+                    isOpen: isOpen,
+                  } as React.ComponentProps<typeof ChatWindow>);
+                  // Передаем isOpen как пропс в ChatWindow
+                }
+                return child;
+              })}
+            </ScrollArea> */}
           </div>
         </div>
         <div className='new-content-container'>
@@ -453,7 +552,7 @@ export default function Messages() {
                 onSelectContact={handleContactSelect}
                 autoHeightFunc={auto_height}
                 toggleSidebar={toggleSidebar}
-              />
+              /> // Передаем isOpen и toggleSidebar как пропсы в ChatWindow
             ) : (
               <ChatSSRSkeleton />
             )}

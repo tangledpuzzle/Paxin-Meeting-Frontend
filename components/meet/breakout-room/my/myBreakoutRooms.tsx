@@ -113,7 +113,7 @@ const MyBreakoutRooms = () => {
       <div className='polls-list-wrap-inner'>
         {render()}
         {isLoadingMyRooms ? (
-          <div className='loading absolute inset-x-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
+          <div className='loading absolute left-0 right-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
             <div className='lds-ripple'>
               <div className='border-secondaryColor' />
               <div className='border-secondaryColor' />

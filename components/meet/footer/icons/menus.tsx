@@ -326,7 +326,7 @@ const MenusIcon = () => {
         <Menu>
           {({ open }) => (
             <>
-              <Menu.Button className='footer-icon flex size-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:size-[40px]'>
+              <Menu.Button className='footer-icon flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px]'>
                 <i className='pnm-menu-horizontal primaryColor text-[5px] dark:text-darkText lg:text-[5px]' />
               </Menu.Button>
 
@@ -343,7 +343,7 @@ const MenusIcon = () => {
                 {/* Mark this component as `static` */}
                 <Menu.Items
                   static
-                  className='ring-opacity/5 absolute bottom-[48px] right-0 z-[9999] mt-2 w-60 origin-bottom-left divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black focus:outline-none dark:divide-secondaryColor dark:bg-darkPrimary dark:ring-secondaryColor sm:-left-20 sm:right-auto lg:-left-28 lg:w-72'
+                  className='absolute bottom-[48px] right-0 z-[9999] mt-2 w-60 origin-bottom-left divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-secondaryColor dark:bg-darkPrimary dark:ring-secondaryColor sm:-left-20 sm:right-auto lg:-left-28 lg:w-72'
                 >
                   {roomFeatures?.allow_rtmp ? (
                     <div className='py-1' role='none'>

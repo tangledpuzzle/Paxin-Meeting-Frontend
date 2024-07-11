@@ -118,7 +118,7 @@ export function ContactSection() {
 
   return (
     <div className='grid w-full md:grid-cols-2'>
-      <div className='flex flex-col items-center justify-center p-4 lg:px-16'>
+      <div className='flex flex-col items-center justify-center px-4 py-4 lg:px-16'>
         <div className='flex w-full max-w-md flex-col text-left text-2xl sm:text-3xl'>
           <span className='text-gradient mb-[16px] mt-4 px-0 pb-2 text-left font-roboto text-[2em] font-bold leading-[40px] sm:text-3xl sm:!leading-[2.5rem] md:text-4xl md:!leading-[3rem]  xl:text-5xl xl:!leading-[4rem]'>
             {t('get_in_touch')}

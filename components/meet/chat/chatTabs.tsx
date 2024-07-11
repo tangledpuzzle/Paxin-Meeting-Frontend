@@ -137,7 +137,7 @@ const ChatTabs = () => {
               ) : null}
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                className='size-5'
+                className='h-5 w-5'
                 viewBox='0 0 20 20'
                 fill='currentColor'
               >
@@ -155,7 +155,7 @@ const ChatTabs = () => {
             leaveFrom='opacity-100 z-90'
             leaveTo='opacity-0'
           >
-            <Listbox.Options className='ring-opacity/5 absolute max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black focus:outline-none dark:bg-darkPrimary sm:text-sm'>
+            <Listbox.Options className='absolute max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-darkPrimary sm:text-sm'>
               {chatOptions.map((option) => (
                 <Listbox.Option
                   key={option.id}
@@ -187,7 +187,7 @@ const ChatTabs = () => {
                         <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-secondaryColor'>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
-                            className='size-5'
+                            className='h-5 w-5'
                             fill='none'
                             viewBox='0 0 24 24'
                             stroke='currentColor'

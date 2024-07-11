@@ -157,6 +157,7 @@ const WebcamIcon = ({ currentRoom, isMobile }: IWebcamIconProps) => {
         el.srcObject = virtualBgLocalTrack;
       }
     }
+    console.log('ssss', onSelectedDevice);
     return () => {
       if (virtualBgLocalTrack) {
         virtualBgLocalTrack.getTracks().forEach((t) => t.stop());
@@ -294,7 +295,7 @@ const WebcamIcon = ({ currentRoom, isMobile }: IWebcamIconProps) => {
     return (
       <div className='relative z-10'>
         <div
-          className={`camera footer-icon h-[ relative flex${isMobile ? 25 : 35}px] w-[${isMobile ? 25 : 35}px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:size-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6${
+          className={`camera footer-icon relative flex h-[${isMobile ? 25 : 35}px] w-[${isMobile ? 25 : 35}px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
             showTooltip ? 'has-tooltip' : ''
           }`}
           onClick={() => toggleWebcam()}
@@ -310,7 +311,7 @@ const WebcamIcon = ({ currentRoom, isMobile }: IWebcamIconProps) => {
           ) : null}
           {lockWebcam ? (
             <div
-              className={`arrow-down absolute -bottom-1 -right-1 flex size-[16px] items-center justify-center rounded-full bg-white dark:bg-darkSecondary3`}
+              className={`arrow-down absolute -bottom-1 -right-1 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-white dark:bg-darkSecondary3`}
             >
               <i className='pnm-lock primaryColor' />
             </div>

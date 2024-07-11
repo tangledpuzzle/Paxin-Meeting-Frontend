@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import authOptions from '@/lib/authOptions';
 import { headers } from 'next/headers';
 import cookie from 'cookie';
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   let accessToken = session?.accessToken;
   if (!accessToken) {

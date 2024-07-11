@@ -95,7 +95,7 @@ const ChatBot: React.FC<ChatBotProps> = ({
       <div>
         <button
           id='chatbot'
-          className={`fixed bottom-4 right-4 z-[500] m-0 inline-flex size-16 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-primary bg-none text-sm font-medium${
+          className={`fixed bottom-4 right-4 z-[500] m-0 inline-flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-primary bg-none text-sm font-medium  ${
             isChatOpen ? 'chat-open' : 'chat-closed'
           }`}
           type='button'
@@ -115,7 +115,7 @@ const ChatBot: React.FC<ChatBotProps> = ({
             {/* Heading */}
             <div className='flex items-center justify-between space-y-1.5 rounded-t-xl border-b bg-background p-6'>
               <div className='flex flex-row'>
-                <span className='mr-4 inline-flex size-14 shrink-0 items-center justify-center rounded-full bg-primary'>
+                <span className='mr-4 inline-flex size-14 flex-shrink-0 items-center justify-center rounded-full bg-primary'>
                   <span className='font-medium leading-none text-white'>
                     <BotMessageSquare className='size-10' />
                   </span>
@@ -131,7 +131,7 @@ const ChatBot: React.FC<ChatBotProps> = ({
               <button
                 type='button'
                 onClick={toggleChat}
-                className='hs-dropdown-toggle inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gray-700  dark:focus:ring-offset-gray-800'
+                className='hs-dropdown-toggle inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md text-muted-foreground transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2  dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800'
                 data-hs-overlay='#hs-focus-management-modal'
               >
                 <span className='sr-only'>Close</span>
@@ -150,7 +150,7 @@ const ChatBot: React.FC<ChatBotProps> = ({
                 }}
               >
                 <div className='my-4 flex flex-1 gap-3 text-sm text-gray-600'>
-                  <span className='inline-flex size-[2.375rem] shrink-0 items-center justify-center rounded-full bg-primary'>
+                  <span className='inline-flex h-[2.375rem] w-[2.375rem] flex-shrink-0 items-center justify-center rounded-full bg-primary'>
                     <span className='text-sm font-medium leading-none text-white'>
                       <BotMessageSquare />
                     </span>

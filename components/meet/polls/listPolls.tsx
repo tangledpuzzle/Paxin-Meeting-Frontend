@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import useVirtual from 'react-cool-virtual';
+import { createSelector } from '@reduxjs/toolkit';
 
 import { useGetPollListsQuery } from '@/store/services/pollsApi';
 import Poll from './poll';
+import { RootState, store } from '@/store';
+import { useAppSelector } from '@/store/hook';
 import { PollInfo } from '@/helpers/proto/plugnmeet_polls_pb';
 
+const screenHeightSelector = createSelector(
+  (state: RootState) => state.bottomIconsActivity,
+  (bottomIconsActivity) => bottomIconsActivity.screenHeight
+);
 
 const ListPolls = () => {
+  const screenHeight = useAppSelector(screenHeightSelector);
   const { data, isLoading } = useGetPollListsQuery();
+  const isAdmin = store.getState().session.currentUser?.metadata?.is_admin;
   const [polls, setPolls] = useState<PollInfo[]>([]);
   const { outerRef, innerRef, items } = useVirtual({
     itemCount: polls.length,
@@ -45,7 +54,7 @@ const ListPolls = () => {
           </div>
         ))}
         {isLoading ? (
-          <div className='loading absolute inset-x-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
+          <div className='loading absolute left-0 right-0 top-1/2 z-[999] m-auto -translate-y-1/2 text-center'>
             <div className='lds-ripple'>
               <div className='border-secondaryColor' />
               <div className='border-secondaryColor' />

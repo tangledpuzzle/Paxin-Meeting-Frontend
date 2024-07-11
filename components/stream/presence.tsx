@@ -22,7 +22,7 @@ export default function Presence({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <div className='flex items-center gap-2 rounded-lg bg-primary px-2 py-1 hover:bg-violet-100 hover:transition-all focus:outline-none focus:ring'>
-          <Icons.user className='size-5' />
+          <Icons.user className='h-5 w-5' />
           <div className='font-bold'>{participants.length}</div>
         </div>
       </DialogTrigger>
@@ -40,7 +40,7 @@ export default function Presence({
           {participants.map((participant) => (
             <li key={participant.identity}>
               <div className='flex items-center gap-3'>
-                <div className={'size-6 rounded-full bg-slate-600'}>
+                <div className={'h-6 w-6 rounded-full bg-slate-600'}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     className='rounded-full'

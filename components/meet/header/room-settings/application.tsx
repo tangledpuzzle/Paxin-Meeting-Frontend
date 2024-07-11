@@ -16,8 +16,8 @@ import {
   ColumnCameraWidth,
   VideoObjectFit,
 } from '@/store/slices/interfaces/roomSettings';
-import { useTranslations } from 'next-intl';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 const themeSelector = createSelector(
   (state: RootState) => state.roomSettings,
@@ -38,11 +38,16 @@ const columnCameraPositionSelector = createSelector(
 
 const ApplicationSettings = () => {
   const t = useTranslations('meet');
+  const router = useRouter();
+  const locale = useLocale();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   console.log(pathname, searchParams);
+  const newSearchParams = new URLSearchParams(searchParams).toString();
 
-
+  const changeLang = (lang: string) => {
+    router.push(`/${lang}/meet${newSearchParams ? '?' + newSearchParams : ''}`);
+  };
   const dispatch = useAppDispatch();
   const theme = useAppSelector(themeSelector);
   const videoObjectFit = useAppSelector(videoObjectFitSelector);
@@ -100,7 +105,7 @@ const ApplicationSettings = () => {
                   theme === 'dark'
                     ? 'ltr:translate-x-6 rtl:-translate-x-5'
                     : 'ltr:translate-x-1 rtl:-translate-x-0.5'
-                } inline-block size-4 rounded-full bg-white transition-transform`}
+                } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
               />
             </Switch>
           </div>

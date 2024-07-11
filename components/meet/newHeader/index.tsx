@@ -44,11 +44,11 @@ export function MeetHeader({ id, user }: Props) {
         <MobileMenu user={user ? user : null} />
       </div>
       <div className='absolute left-[55%] top-[20px] flex h-12 justify-between sm:hidden'>
-        <div className='m-auto flex flex-row content-center justify-start'>
+        <div className='mx-auto my-auto flex flex-row content-center justify-start'>
           <p className='leading-8'>{id.slice(0, 6)}</p>
           <CopyClipboard text={`https://www.myru.online/meet/${id}`}>
-            <div className='notepad my-auto inline-block size-8 items-center justify-center rounded-full px-2 py-1'>
-              <i className='pnm-notepad size-4 text-primaryColor dark:text-secondaryColor' />
+            <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
+              <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
             </div>
           </CopyClipboard>
         </div>

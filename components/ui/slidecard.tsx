@@ -34,7 +34,7 @@ export function CardSlide({
       className='border-gradient'
     >
       <div className='mr-8'>
-        <div className='truncate px-4 text-base'>
+        <div className='overflow-hidden text-ellipsis whitespace-nowrap px-4 text-base'>
           # {title}
         </div>
       </div>

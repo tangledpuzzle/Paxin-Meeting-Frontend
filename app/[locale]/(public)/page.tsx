@@ -10,7 +10,7 @@ import NavigateSection from '@/components/main/navigate';
 // import ServiceList from '@/components/main/servicelist';
 
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 
 import '@/styles/main.css';
 import Link from 'next/link';
@@ -31,75 +31,75 @@ import FlowSection from '@/components/main/flow';
 //   { ssr: true }
 // );
 
-// const ProfilestagsWithSSR = dynamic(() => import('@/components/ui/tags'), {
-//   ssr: true,
-// });
+const ProfilestagsWithSSR = dynamic(() => import('@/components/ui/tags'), {
+  ssr: true,
+});
 
-// const DynamicLiAds = dynamic(() => import('@/components/main/tt'), {
-//   ssr: true,
-// });
+const DynamicLiAds = dynamic(() => import('@/components/main/tt'), {
+  ssr: true,
+});
 
-// async function getProfilePhotos() {
-//   const profilePhotos = [];
+async function getProfilePhotos() {
+  const profilePhotos = [];
 
-//   try {
-//     const res = await fetch(`${process.env.API_URL}/api/profiles/get`);
+  try {
+    const res = await fetch(`${process.env.API_URL}/api/profiles/get`);
 
-//     if (!res.ok) {
-//       throw new Error('Failed to fetch data');
-//     }
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+    }
 
-//     const data = await res.json();
+    const data = await res.json();
 
-//     for (const profile of data.data) {
-//       const avatar =
-//         profile.photos?.length > 0 && profile.photos[0].files?.length > 0
-//           ? `https://proxy.myru.online/150/https://img.myru.online/${profile.photos[0].files[0].path}`
-//           : '';
+    for (const profile of data.data) {
+      const avatar =
+        profile.photos?.length > 0 && profile.photos[0].files?.length > 0
+          ? `https://proxy.myru.online/150/https://img.myru.online/${profile.photos[0].files[0].path}`
+          : '';
 
-//       if (avatar) {
-//         profilePhotos.push({
-//           id: profile.User.Name,
-//           src: avatar,
-//         });
-//       }
-//     }
-//   } catch (error) {
-//     console.log(error)
-//   }
+      if (avatar) {
+        profilePhotos.push({
+          id: profile.User.Name,
+          src: avatar,
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error)
+  }
 
-//   return profilePhotos;
-// }
+  return profilePhotos;
+}
 
-// async function getCategories(locale: string) {
-//   const categories = [];
+async function getCategories(locale: string) {
+  const categories = [];
 
-//   try {
-//     const res = await fetch(
-//       `${process.env.API_URL}/api/guilds/getAll?limit=12`
-//     );
+  try {
+    const res = await fetch(
+      `${process.env.API_URL}/api/guilds/getAll?limit=12`
+    );
 
-//     if (!res.ok) {
-//       throw new Error('Failed to fetch data');
-//     }
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+    }
 
-//     const data = await res.json();
+    const data = await res.json();
 
-//     for (const item of data.data) {
-//       const category = item.Translations?.find(
-//         (c: any) => c.Language === locale
-//       )?.Name;
+    for (const item of data.data) {
+      const category = item.Translations?.find(
+        (c: any) => c.Language === locale
+      )?.Name;
 
-//       if (category) {
-//         categories.push(category);
-//       }
-//     }
-//   } catch (error) {
-//     console.log(error)
-//   }
+      if (category) {
+        categories.push(category);
+      }
+    }
+  } catch (error) {
+    console.log(error)
+  }
 
-//   return categories;
-// }
+  return categories;
+}
 
 function extractUsername(host: string): string {
   if (process.env.NODE_ENV === 'production') {
@@ -138,8 +138,8 @@ export default async function LandingPage({
   unstable_setRequestLocale(params.locale);
   const t = await getTranslations('main');
 
-  // const profilePhotos = await getProfilePhotos();
-  // const categories = await getCategories(params.locale);
+  const profilePhotos = await getProfilePhotos();
+  const categories = await getCategories(params.locale);
 
   return uuid ? (
     <section className='container grid items-center gap-6 pb-8 pt-6 md:py-10'>

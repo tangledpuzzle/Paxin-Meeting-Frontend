@@ -1,10 +1,22 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const ContextMenu = () => {
   const [visible, setVisible] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
-  const handleContextMenu = useCallback((event: MouseEvent) => {
+  useEffect(() => {
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('click', handleClick);
+    document.addEventListener('scroll', handleScroll);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('click', handleClick);
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleContextMenu = (event: MouseEvent) => {
     event.preventDefault();
 
     setVisible(true);
@@ -38,30 +50,18 @@ const ContextMenu = () => {
         rootRef.current.style.top = `${clickY - rootH - 5}px`;
       }
     }
-  }, []);
+  };
 
-  const handleClick = useCallback((event: MouseEvent) => {
+  const handleClick = (event: MouseEvent) => {
     const wasOutside =
       rootRef.current && !rootRef.current.contains(event.target as Node);
 
     if (wasOutside && visible) setVisible(false);
-  }, [visible]);
+  };
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = () => {
     if (visible) setVisible(false);
-  }, [visible]);
-
-  useEffect(() => {
-    document.addEventListener('contextmenu', handleContextMenu);
-    document.addEventListener('click', handleClick);
-    document.addEventListener('scroll', handleScroll);
-
-    return () => {
-      document.removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('click', handleClick);
-      document.removeEventListener('scroll', handleScroll);
-    };
-  }, [handleContextMenu, handleClick, handleScroll]);
+  };
 
   return (
     visible && (

@@ -4,13 +4,14 @@ import ChatRoomDropdown from '@/components/chat/chat-room-dropdown';
 import { Button } from '@/components/ui/button';
 import { PaxChatContext } from '@/context/chat-context';
 import { MoveLeft } from 'lucide-react';
-import { useFormatter } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useContext } from 'react';
 import { IoMdMore } from 'react-icons/io';
 import TypingDots from './typing-dots';
 
 export default function ChatHeader() {
+  const t = useTranslations('main');
   const { setShowSidebar, showNav, setShowNav, chatUser, currentTime } =
     useContext(PaxChatContext);
 

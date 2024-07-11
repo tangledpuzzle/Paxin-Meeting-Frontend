@@ -14,12 +14,14 @@ import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 // import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 export interface FlowProps {
   data: Array<IRoom>;
 }
 
 export default function FlowSection({ data }: FlowProps) {
   const t = useTranslations('stream');
+  const searchParams = useSearchParams();
 
   return (
     <div className='w-full'>
@@ -39,7 +41,7 @@ export default function FlowSection({ data }: FlowProps) {
                 <p className='text-center text-lg font-bold'>
                   {t('empty_search_result')}
                 </p>
-                <div className='p-2'>
+                <div className='px-2 py-2'>
                   <StreamingCreateModal onCreate={() => {}} isLoading={false}>
                     <Button variant='outline' className='mx-auto flex '>
                       {t('start_stream')}

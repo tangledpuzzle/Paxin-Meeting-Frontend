@@ -59,9 +59,9 @@ const BreakoutRoom = () => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-16 inline-block size-full max-w-5xl overflow-hidden rounded-2xl bg-white p-4 text-left shadow-xl transition-all dark:bg-darkPrimary md:p-6'>
+                <div className='my-16 inline-block h-full w-full max-w-5xl transform overflow-hidden rounded-2xl bg-white p-4 text-left shadow-xl transition-all dark:bg-darkPrimary md:p-6'>
                   <button
-                    className='close-btn absolute top-8 size-[25px] outline-none ltr:right-6 rtl:left-6'
+                    className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
                     type='button'
                     onClick={() => closeModal()}
                   >

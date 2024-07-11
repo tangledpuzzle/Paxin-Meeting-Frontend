@@ -6,6 +6,7 @@ import { useLocale } from 'next-intl';
 import { setCookie } from 'nookies';
 import React, { ReactNode, useEffect, useState } from 'react';
 import useSWR from 'swr';
+import cookie from 'cookie';
 import cookies from 'next-cookies';
 import { GetServerSideProps } from 'next';
 

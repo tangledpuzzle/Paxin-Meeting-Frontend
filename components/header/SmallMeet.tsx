@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext, useCallback} from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { toast } from 'react-toastify';
 import sendAPIRequest from '@/helpers/api/paxMeetAPI';
 import { useAppDispatch, useAppStore } from '@/store/hook';
@@ -16,7 +16,7 @@ import {
 } from '@/helpers/proto/plugnmeet_common_api_pb';
 import { Resizable } from 're-resizable';
 import { clearAccessToken, getAccessToken } from '@/helpers/utils';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useAppSelector } from '@/store/hook';
 import { RTCContext } from '@/provider/webRTCProvider';
 import { TiVideo } from 'react-icons/ti';
@@ -24,6 +24,8 @@ import Draggable, { DraggableHandle } from '../ui/draggable';
 import { FullscreenIcon, Minimize2Icon, MoveIcon } from 'lucide-react';
 import {
   participantSelector,
+  waitingForApprovalSelector,
+  isStartupSelector,
 } from './meetwrapper';
 import Meet from './meet';
 import { createSelector } from '@reduxjs/toolkit';
@@ -44,15 +46,16 @@ export default function SmallMeet() {
   const dispatch = useAppDispatch();
 
   const t = useTranslations('meet');
+  const locale = useLocale();
   const toastId = useRef<string>(null);
   const store = useAppStore();
   const roomId = useAppSelector(roomIdSelector);
-  const [, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const { width } = useWindowSize();
 
   // // it could be recorder or RTMP bot
-  const [, setIsRecorder] = useState<boolean>(false);
-  const [, setUserTypeClass] = useState('participant');
+  const [isRecorder, setIsRecorder] = useState<boolean>(false);
+  const [userTypeClass, setUserTypeClass] = useState('participant');
   const [accessTokenLocal, setAccessTokenLocal] = useState<string>('');
   const [accessTokenLoaded, setAccessTokenLoaded] = useState(false);
   // const [livekitInfo, setLivekitInfo] = useState<LivekitInfo>();
@@ -63,6 +66,7 @@ export default function SmallMeet() {
     setLivekitInfo,
     currentConnection,
     setCurrentConnection,
+    error,
     setError,
     roomConnectionStatus,
     setRoomConnectionStatus,
@@ -71,19 +75,22 @@ export default function SmallMeet() {
     updateDimension,
     updatePosition,
   } = useContext(RTCContext);
+  const waitForApproval = useAppSelector(waitingForApprovalSelector);
 
   // console.log('[App Store]: ', debugStore);
   // // we'll require making ready virtual background
   // // elements as early as possible.
   useBodyPix();
+  const isStartup = useAppSelector(isStartupSelector);
   // // some custom hooks
   useKeyboardShortcuts(currentConnection?.room);
   useDesignCustomization();
   useWatchVisibilityChange();
-  useWatchWindowSize(
+  const { deviceClass, orientationClass } = useWatchWindowSize(
     currentConnection?.room
   );
-  const verifyToken = useCallback(async () => {
+
+  const verifyToken = async () => {
     console.log('HEADER/VerifyToken');
     let res: VerifyTokenRes;
     try {
@@ -108,16 +115,24 @@ export default function SmallMeet() {
     } catch (error: any) {
       clearAccessToken();
       setAccessTokenLoaded(false);
+      // console.error(error);
+      // setRoomConnectionStatus('ready');
+      // setLoading(false);
+      // setError({
+      //   title: t('app.verification-failed-title'),
+      //   text: t('app.token-not-valid'),
+      // });
+      // clearAccessToken();
       return;
     }
-  
+
     setRoomConnectionStatus('ready');
     setLoading(false);
     if (res.status && res.livekitHost && res.token) {
       // we'll store token that we received from URL
       dispatch(addToken(accessTokenLocal));
       dispatch(addServerVersion(res.serverVersion ?? ''));
-  
+
       // for livekit need to use generated token & host
       setLivekitInfo({
         livekit_host: res.livekitHost,
@@ -127,15 +142,13 @@ export default function SmallMeet() {
     } else {
       clearAccessToken();
       setAccessTokenLoaded(false);
+      // setError({
+      //   title: t('app.verification-failed-title'),
+      //   //@ts-expect-error: no sms
+      //   text: t(res.msg),
+      // });
     }
-  }, [
-    accessTokenLocal,
-    dispatch,
-    setAccessTokenLoaded,
-    setLivekitInfo,
-    setLoading,
-    setRoomConnectionStatus,
-  ]);
+  };
 
   useEffect(() => {
     const token = getAccessToken();
@@ -148,7 +161,7 @@ export default function SmallMeet() {
     } else {
       setAccessTokenLocal(token), setAccessTokenLoaded(true);
     }
-  }, [setError, t]);
+  }, []);
 
   // useEffect(() => {
   //   if (accessTokenLoaded && !accessTokenLocal) {
@@ -170,7 +183,7 @@ export default function SmallMeet() {
         text: t('app.require-ssl-des'),
       });
     }
-  }, [setError, t]);
+  }, []);
 
   useEffect(() => {
     if (accessTokenLoaded && accessTokenLocal) {
@@ -193,8 +206,6 @@ export default function SmallMeet() {
     accessTokenLoaded,
     currentConnection,
     setRoomConnectionStatus,
-    roomConnectionStatus,
-    verifyToken
   ]);
 
   useEffect(() => {
@@ -248,7 +259,7 @@ export default function SmallMeet() {
         setCurrentConnection(newConnection);
       }
     })();
-  }, [livekitInfo, currentConnection, setCurrentConnection, startLivekitConnection, t]);
+  }, [livekitInfo]);
   const isMobile = width > 450 ? false : true;
   // console.log(popup);
   return currentConnection ? (
@@ -296,15 +307,15 @@ export default function SmallMeet() {
               minHeight={!isMobile ? 350 : 200}
               defaultSize={popup.dimension}
             >
-              <div className='flex size-full flex-col shadow-sky-50 dark:bg-darkPrimary'>
+              <div className='flex h-full w-full flex-col shadow-sky-50 dark:bg-darkPrimary'>
                 <div className='bg-h flex justify-between px-2 pt-2'>
                   <div className='flex w-full justify-center'>
                     {!isMobile && <p>{roomId}</p>}
                     <CopyClipboard
                       text={`https://www.myru.online/meet/${roomId}`}
                     >
-                      <div className='notepad my-auto inline-block size-8 items-center justify-center rounded-full px-2 py-1'>
-                        <i className='pnm-notepad size-4 text-primaryColor dark:text-secondaryColor' />
+                      <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
+                        <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
                       </div>
                     </CopyClipboard>
                   </div>

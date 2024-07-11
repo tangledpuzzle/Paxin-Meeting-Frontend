@@ -60,7 +60,7 @@ const data = [
 function TestimonialCard({
   avatar,
   fullname,
-  // username,
+  username,
   comment,
 }: {
   avatar: string;

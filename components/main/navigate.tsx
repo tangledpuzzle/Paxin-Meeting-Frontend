@@ -83,7 +83,7 @@ export default function NavigateSection() {
           ></div>
 
           <div
-            className='flex size-full flex-col items-start justify-center bg-[#00000008] bg-cover px-4 pb-[160px] pt-20 md:py-0'
+            className='flex size-full flex-col items-start justify-center bg-[#00000008] bg-cover px-4 pb-[160px] pt-20 md:pb-0 md:pt-0'
             style={{ backgroundImage: `url("/images/home/bg-nav-dark.webp")` }}
           >
             <div className='text-md pb-2 text-left font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white md:text-xl'>
@@ -214,7 +214,7 @@ export default function NavigateSection() {
               fill
             />
           </div>
-          <div className='relative p-4 pt-7'>
+          <div className='relative p-4 px-4 pt-7'>
             <div className='md:text-md text-md pb-2 font-extrabold text-secondary-foreground transition-all duration-500 group-hover:text-white'>
               {t('smart_filters_for_tailored_content')}
             </div>

@@ -37,7 +37,7 @@ const ParticipantIcon = () => {
 
   return (
     <div
-      className={`participants footer-icon relative flex size-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:size-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6${
+      className={`participants footer-icon relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
         showTooltip ? 'has-tooltip' : ''
       }`}
       onClick={() => toggleParticipantsPanel()}
@@ -50,7 +50,7 @@ const ParticipantIcon = () => {
 
       <i className={`pnm-participant ${iconCSS} text-[14px] lg:text-[16px]`} />
       {!isActiveParticipantsPanel ? (
-        <div className='unseen-message-count absolute -right-1 -top-2 flex size-5 items-center justify-center rounded-full bg-secondaryColor text-xs text-white'>
+        <div className='unseen-message-count absolute -right-1 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-secondaryColor text-xs text-white'>
           {participantsTotal}
         </div>
       ) : null}

@@ -144,7 +144,7 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
     return (
       <div className='wb-page-navigation ml-2 flex'>
         <button
-          className='pre flex size-8 items-center justify-center'
+          className='pre flex h-8 w-8 items-center justify-center'
           onClick={handlePre}
           disabled={disablePre}
         >
@@ -160,7 +160,7 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
           {options}
         </select>
         <button
-          className='next flex size-8 items-center justify-center'
+          className='next flex h-8 w-8 items-center justify-center'
           onClick={handleNext}
           disabled={disableNext}
         >
@@ -210,7 +210,7 @@ const FooterUI = ({ excalidrawAPI, isPresenter }: IFooterUIProps) => {
       >
         {isAdmin && !isRecorder ? (
           <button
-            className='flex size-8 items-center justify-center rounded-lg border border-solid border-[#3d3d3d] text-[#3d3d3d] hover:bg-[#3d3d3d] hover:text-[#b8b8b8] dark:bg-[#262627] dark:text-[#b8b8b8] dark:hover:bg-[#3d3d3d] ltr:mr-2 rtl:ml-2'
+            className='flex h-8 w-8 items-center justify-center rounded-lg border border-solid border-[#3d3d3d] text-[#3d3d3d] hover:bg-[#3d3d3d] hover:text-[#b8b8b8] dark:bg-[#262627] dark:text-[#b8b8b8] dark:hover:bg-[#3d3d3d] ltr:mr-2 rtl:ml-2'
             onClick={takeOverPresenter}
           >
             <i className='pnm-presenter text-[14px]' />

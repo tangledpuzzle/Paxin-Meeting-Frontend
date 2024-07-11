@@ -48,17 +48,17 @@ function ProfileCard(profile: ProfileCardProps) {
   const t = useTranslations('main');
   const {
     username,
-    //streaming,
+    streaming,
     bio,
     avatar,
     tags,
     cities,
     categories,
-    // qrcode,
-    // countrycode,
+    qrcode,
+    countrycode,
     review,
     totalfollowers,
-    // callbackURL,
+    callbackURL,
   } = profile;
 
   const saveScrollPosition = () => {

@@ -32,7 +32,7 @@ const SubtitleTextsHistory = ({ isOpenPopover }: SubtitleTextsHistoryProps) => {
         className='absolute bottom-1 left-[2.7rem] lg:left-[3.1rem]'
         onClick={() => setShowPopover(!showPopover)}
       >
-        <div className='microphone footer-icon has-tooltip relative flex size-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:size-[40px]'>
+        <div className='microphone footer-icon has-tooltip relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px]'>
           <span className='tooltip'>
             {t('speech-services.subtitle-history-modal-title')}
           </span>
