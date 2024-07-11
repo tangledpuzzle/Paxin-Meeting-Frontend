@@ -18,7 +18,7 @@ const isStartupSelector = createSelector(
 );
 const StartupJoinModal = ({ onCloseModal }: StartupJoinModalProps) => {
   const [open, setOpen] = useState<boolean>(true);
-  useAppSelector(isStartupSelector);
+  const isStartup = useAppSelector(isStartupSelector);
   const dispatch = useAppDispatch();
   const t = useTranslations('meet');
 
@@ -44,11 +44,11 @@ const StartupJoinModal = ({ onCloseModal }: StartupJoinModalProps) => {
           open
             ? 'opacity-1 pointer-events-auto'
             : 'pointer-events-none opacity-0'
-        } join-the-audio-popup absolute left-0 top-0 z-[999] flex size-full items-center justify-center bg-white/80 px-6 transition ease-in dark:bg-darkPrimary/90`}
+        } join-the-audio-popup absolute left-0 top-0 z-[999] flex h-full w-full items-center justify-center bg-white/80 px-6 transition ease-in dark:bg-darkPrimary/90`}
       >
         <div className='popup-inner relative w-full max-w-md rounded-2xl bg-white px-6 py-14 shadow-header dark:bg-darkPrimary/90'>
           <button
-            className='close-btn absolute right-6 top-8 size-[25px] outline-none'
+            className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
             type='button'
             onClick={() => onClose(true)}
           >
@@ -64,7 +64,7 @@ const StartupJoinModal = ({ onCloseModal }: StartupJoinModalProps) => {
               className='microphone bg-transparent text-center ltr:mr-4 rtl:ml-4'
               onClick={() => shareMic()}
             >
-              <div className='m-auto mb-1 flex size-[40px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary3 hover:dark:bg-darkSecondary2 md:size-[60px]'>
+              <div className='m-auto mb-1 flex h-[40px] w-[40px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary3 hover:dark:bg-darkSecondary2 md:h-[60px] md:w-[60px]'>
                 <i className='pnm-mic-unmute primaryColor text-xl dark:text-secondaryColor' />
               </div>
               <p className='primaryColor text-sm font-normal dark:text-darkText md:text-base'>
@@ -77,7 +77,7 @@ const StartupJoinModal = ({ onCloseModal }: StartupJoinModalProps) => {
               className='headphone bg-transparent text-center ltr:ml-4 rtl:mr-4'
             >
               <div
-                className='camera m-auto mb-1 flex size-[40px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary3 hover:dark:bg-darkSecondary2 md:size-[60px]'
+                className='camera m-auto mb-1 flex h-[40px] w-[40px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary3 hover:dark:bg-darkSecondary2 md:h-[60px] md:w-[60px]'
                 onClick={() => onClose()}
               >
                 <i className='pnm-listen-only primaryColor text-xl dark:text-secondaryColor' />
@@ -96,7 +96,7 @@ const StartupJoinModal = ({ onCloseModal }: StartupJoinModalProps) => {
   //   <div className='absolute left-0 top-0 z-50 h-full w-full'>{render()}</div>
   // ) : null;
   return (
-    <div className='absolute left-0 top-0 z-50 size-full'>{render()}</div>
+    <div className='absolute left-0 top-0 z-50 h-full w-full'>{render()}</div>
   );
 };
 

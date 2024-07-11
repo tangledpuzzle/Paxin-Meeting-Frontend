@@ -60,9 +60,9 @@ const KeyboardShortcuts = () => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-8 inline-block w-full max-w-xl overflow-hidden rounded-2xl bg-white px-4 py-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary lg:px-6'>
+                <div className='my-8 inline-block w-full max-w-xl transform overflow-hidden rounded-2xl bg-white px-4 py-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary lg:px-6'>
                   <button
-                    className='close-btn absolute right-6 top-8 size-[25px] outline-none'
+                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
                     type='button'
                     onClick={() => closeModal()}
                   >

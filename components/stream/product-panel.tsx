@@ -1,7 +1,7 @@
 import React, { useState, useDeferredValue } from 'react';
 import { useTranslations } from 'next-intl';
 import { ProductCard } from './product';
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export interface IProduct {
   id: string;
@@ -16,28 +16,32 @@ interface ProductPanelProps {
 }
 export default function ProductPanel({ products }: ProductPanelProps) {
   const t = useTranslations('stream');
-  // const router = useRouter();
-  const [keyword] = useState<string>('');
+  const router = useRouter();
+  const [keyword, setKeyword] = useState<string>('');
+  const [isOpen, setisOpen] = useState<boolean>(false);
 
   const filter = useDeferredValue(keyword);
   const filteredProducts = products.filter((el: IProduct) =>
     el.title.includes(filter)
   );
 
+  const webcam = () => {
+    setisOpen(true);
+  };
 
-  // const goback = () => {
-  //   router.push('/stream');
-  // };
-  // const end = () => {
-  //   const storeRoomId: string | null = localStorage.getItem('latest-stream-id');
-  //   if (storeRoomId !== null) {
-  //     const tokenKey = Object.keys(localStorage).find((key) =>
-  //       key.startsWith(storeRoomId)
-  //     );
-  //     if (tokenKey) localStorage.removeItem(tokenKey);
-  //   }
-  //   router.push('/stream');
-  // };
+  const goback = () => {
+    router.push('/stream');
+  };
+  const end = () => {
+    const storeRoomId: string | null = localStorage.getItem('latest-stream-id');
+    if (storeRoomId !== null) {
+      const tokenKey = Object.keys(localStorage).find((key) =>
+        key.startsWith(storeRoomId)
+      );
+      if (tokenKey) localStorage.removeItem(tokenKey);
+    }
+    router.push('/stream');
+  };
   return (
     <>
       {/* <div className='relative w-full'>

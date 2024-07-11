@@ -164,9 +164,9 @@ const BreakoutRoomInvitation = ({
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-4 inline-block h-full w-max overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
+                <div className='my-4 inline-block h-full w-max transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className='close-btn absolute right-6 top-8 size-[25px] outline-none'
+                    className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
                     type='button'
                     onClick={() => closeModal()}
                   >

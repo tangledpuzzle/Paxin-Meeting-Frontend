@@ -76,7 +76,7 @@ export default function Chat({ participantName }: Props) {
           </div>
         ))}
       </div>
-      <div className='shrink-0 p-2'>
+      <div className='flex-shrink-0 p-2'>
         <Textarea
           value={message}
           className='border-box h-10  bg-white dark:bg-zinc-900'
@@ -92,7 +92,7 @@ export default function Chat({ participantName }: Props) {
           className='mt-2 w-full'
         >
           <div className='flex items-center gap-2'>
-            <Icons.send className='size-4' />
+            <Icons.send className='h-4 w-4' />
           </div>
         </Button>
       </div>

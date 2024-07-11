@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import { IParticipant } from '@/store/slices/interfaces/participant';
 import { ICurrentUser } from '@/store/slices/interfaces/session';
 
@@ -12,12 +11,7 @@ const Avatar = ({ participant, from }: IAvatarProps) => {
   const render = () => {
     if (participant?.metadata?.profile_pic) {
       return (
-        <Image 
-          src={participant?.metadata.profile_pic} 
-          alt={participant.name} 
-          layout="fill"
-          objectFit="cover"
-        />
+        <img src={participant?.metadata.profile_pic} alt={participant.name} />
       );
     } else {
       let name = from.name;
@@ -27,9 +21,8 @@ const Avatar = ({ participant, from }: IAvatarProps) => {
       return <>{name?.slice(0, 2).toUpperCase()}</>;
     }
   };
-
   return (
-    <div className='avatar flex size-8 items-center justify-center overflow-hidden rounded-full bg-primaryColor text-white shadow-header'>
+    <div className='avatar flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-primaryColor text-white shadow-header'>
       {render()}
     </div>
   );

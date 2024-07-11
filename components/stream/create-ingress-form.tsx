@@ -36,6 +36,8 @@ export default function CreateIngressForm({
   const locale = useLocale();
   const {
     data: fetchedData,
+    error,
+    mutate: profileMutate,
   } = useSWR(`/api/profiles/me?language=${locale}`, fetcher);
   console.log(fetchedData);
   const [ingress, setIngress] = useState<IngressInfo | undefined>();
@@ -182,7 +184,7 @@ export default function CreateIngressForm({
           <div>
             <Link href={`/channel/${roomSlug}`}>
               <Button className='flex w-full items-center gap-2'>
-                Go to channel <Icons.arrowRight className='size-4' />
+                Go to channel <Icons.arrowRight className='h-4 w-4' />
               </Button>
             </Link>
           </div>

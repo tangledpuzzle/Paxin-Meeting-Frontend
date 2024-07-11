@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 
 const ChatSSRSkeleton = dynamic(() => import('@/components/chat/flow'), {
@@ -12,6 +13,8 @@ export interface SectionHeroImageProps
   extends React.HTMLAttributes<HTMLDivElement> {}
 
 function SectionHeroImage(props: SectionHeroImageProps) {
+  const t = useTranslations('main');
+
   return (
     <div
       className={cn(

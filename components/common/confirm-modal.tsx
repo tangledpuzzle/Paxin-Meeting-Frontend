@@ -49,7 +49,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
           {t('cancel')}
         </Button>
         <Button disabled={loading} variant='destructive' onClick={onConfirm}>
-          {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
+          {loading && <Loader2 className='size-4 mr-2 animate-spin' />}
           {t('continue')}
         </Button>
       </div>

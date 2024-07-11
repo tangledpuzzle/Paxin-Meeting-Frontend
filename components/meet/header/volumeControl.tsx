@@ -59,8 +59,8 @@ const VolumeControl = () => {
       <Menu>
         {({ open }) => (
           <>
-            <Menu.Button className='relative shrink-0 p-2'>
-              <div className='mt-[-2px] size-4'>
+            <Menu.Button className='relative flex-shrink-0 p-2'>
+              <div className='-mt-[2px] h-4 w-4'>
                 {volume > 0 ? (
                   <i className='pnm-speaker primaryColor dark:text-secondaryColor' />
                 ) : (
@@ -81,7 +81,7 @@ const VolumeControl = () => {
             >
               <Menu.Items
                 static
-                className='volume-popup-wrapper ring-opacity/5 absolute top-4 z-10 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white px-2 py-5 shadow-lg ring-1 ring-black focus:outline-none dark:bg-darkPrimary/90 dark:ring-secondaryColor ltr:right-0 rtl:left-0'
+                className='volume-popup-wrapper absolute top-4 z-10 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white px-2 py-5 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-darkPrimary/90 dark:ring-secondaryColor ltr:right-0 rtl:left-0'
               >
                 <p className='text-sm dark:text-darkText'>
                   {t('header.room-audio-volume')}
@@ -101,7 +101,7 @@ const VolumeControl = () => {
                   <p className='w-10 text-center text-sm dark:text-white'>
                     {Math.round(volume * 100)}
                   </p>
-                  <button className='size-5'>
+                  <button className='h-5 w-5'>
                     {volume > 0 ? (
                       <i className='pnm-speaker primaryColor dark:text-secondaryColor' />
                     ) : (
@@ -127,7 +127,7 @@ const VolumeControl = () => {
                   <p className='w-10 text-center text-sm dark:text-white'>
                     {Math.round(screenShareAudioVolume * 100)}
                   </p>
-                  <button className='size-5'>
+                  <button className='h-5 w-5'>
                     {screenShareAudioVolume > 0 ? (
                       <i className='pnm-speaker primaryColor dark:text-secondaryColor' />
                     ) : (

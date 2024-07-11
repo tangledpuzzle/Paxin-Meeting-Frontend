@@ -85,7 +85,7 @@ const VideoElm = ({ track }: IVideoElmProps) => {
   return (
     <div className='camera-video-player'>
       {!loaded ? (
-        <div className='loading absolute inset-x-0 top-3 z-[999] m-auto text-center'>
+        <div className='loading absolute left-0 right-0 top-3 z-[999] m-auto text-center'>
           <div className='lds-ripple'>
             <div className='border-secondaryColor' />
             <div className='border-secondaryColor' />
@@ -93,14 +93,14 @@ const VideoElm = ({ track }: IVideoElmProps) => {
         </div>
       ) : null}
       <button
-        className='absolute right-2 top-2 z-[999] flex size-6 bg-black/50 p-1'
+        className='absolute right-2 top-2 z-[999] flex h-6 w-6 bg-black/50 p-1'
         onClick={fullScreen}
       >
         <i className='icon pnm-fullscreen text[14px] text-white' />
       </button>
       {document.pictureInPictureEnabled ? (
         <button
-          className='absolute right-10 top-2 z-[999] flex size-6 bg-black/50 p-1'
+          className='absolute right-10 top-2 z-[999] flex h-6 w-6 bg-black/50 p-1'
           onClick={pictureInPicture}
         >
           <i className='icon pnm-pip text[14px] text-white' />

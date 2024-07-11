@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import axios from 'axios';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 import { Input } from '@/components/ui/input';
@@ -23,6 +23,7 @@ import Image from 'next/image';
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 export function SavedFilterModal({ setIsFilterModalOpen }: any) {
   const t = useTranslations('main');
+  const locale = useLocale();
   const router = useRouter();
 
   const [isFilterModalOpen, setModalOpen] = useState<boolean>(false);

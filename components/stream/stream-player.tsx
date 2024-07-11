@@ -56,9 +56,9 @@ export default function StreamPlayerWrapper({ streamerIdentity }: Props) {
       <>
         <div className='flex h-[calc(100%)] items-center justify-center bg-black text-sm uppercase text-white'>
           <div className='flex gap-2'>
-            <div className='size-4 animate-bounce rounded-full bg-neutral-400 delay-100' />
-            <div className='size-4 animate-bounce rounded-full bg-neutral-500 delay-200' />
-            <div className='size-4 animate-bounce rounded-full bg-neutral-600 delay-300' />
+            <div className='h-4 w-4 animate-bounce rounded-full bg-neutral-400 delay-100' />
+            <div className='h-4 w-4 animate-bounce rounded-full bg-neutral-500 delay-200' />
+            <div className='h-4 w-4 animate-bounce rounded-full bg-neutral-600 delay-300' />
           </div>
         </div>
       </>
@@ -118,16 +118,16 @@ export const StreamPlayer = ({ participant }: { participant: Participant }) => {
     <TooltipProvider delayDuration={300}>
       <div className='relative flex h-full bg-black' ref={playerEl}>
         <video ref={videoEl} width='100%' style={{ objectFit: 'cover' }} />
-        <div className='absolute top-0 size-full opacity-0 hover:opacity-100 hover:transition-all'>
+        <div className='absolute top-0 h-full w-full opacity-0 hover:opacity-100 hover:transition-all'>
           <div className='absolute bottom-0 flex h-14 w-full items-center justify-between bg-gradient-to-t from-neutral-900 px-4'>
             <div className='flex items-center gap-2'>
               <Tooltip>
                 <TooltipTrigger>
                   <div className='text-white' onClick={onToggleMute}>
                     {muted ? (
-                      <Icons.volumeOff className='size-6 hover:scale-110 hover:transition-all' />
+                      <Icons.volumeOff className='h-6 w-6 hover:scale-110 hover:transition-all' />
                     ) : (
-                      <Icons.volumeOn className='size-6 hover:scale-110 hover:transition-all' />
+                      <Icons.volumeOn className='h-6 w-6 hover:scale-110 hover:transition-all' />
                     )}
                   </div>
                 </TooltipTrigger>
@@ -145,9 +145,9 @@ export const StreamPlayer = ({ participant }: { participant: Participant }) => {
                 <TooltipTrigger>
                   <div className='text-white' onClick={onFullScreen}>
                     {isFullScreen ? (
-                      <Icons.minimize className='size-5 hover:scale-110 hover:transition-all' />
+                      <Icons.minimize className='h-5 w-5 hover:scale-110 hover:transition-all' />
                     ) : (
-                      <Icons.maximize className='size-5 hover:scale-110 hover:transition-all' />
+                      <Icons.maximize className='h-5 w-5 hover:scale-110 hover:transition-all' />
                     )}
                   </div>
                 </TooltipTrigger>
@@ -160,8 +160,8 @@ export const StreamPlayer = ({ participant }: { participant: Participant }) => {
         </div>
         <StartAudio
           label='Click to allow audio playback'
-          className='absolute top-0 size-full bg-black/75 text-white'
-          />
+          className='absolute top-0 h-full w-full bg-black bg-opacity-75 text-white'
+        />
       </div>
     </TooltipProvider>
   );

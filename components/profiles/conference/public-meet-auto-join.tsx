@@ -15,6 +15,7 @@ interface IConferenceProps {
 }
 
 export default function AutoJoinConference({
+  email,
   userId,
   name,
 }: IConferenceProps) {

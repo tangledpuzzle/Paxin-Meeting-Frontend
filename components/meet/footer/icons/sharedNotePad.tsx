@@ -137,7 +137,7 @@ const SharedNotePadIcon = () => {
   const render = () => {
     return (
       <div
-        className={`shared-notepad relative flex size-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:size-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6${
+        className={`shared-notepad relative flex h-[35px] w-[35px] cursor-pointer items-center justify-center rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
           showTooltip ? 'has-tooltip' : ''
         }`}
         onClick={() => toggleSharedNotePad()}

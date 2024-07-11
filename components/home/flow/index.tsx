@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'axios';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { FlowCard } from '@/components/home/flow/flow-card';
@@ -47,16 +47,15 @@ export default function FlowSection() {
   const [loading, setLoading] = useState<boolean>(true);
   const [total, setTotal] = useState<number>(0);
 
-
-  const getFetchURL = useCallback((skip: number) => {
+  const getFetchURL = (skip: number) => {
     const _title = searchParams.get('title') || 'all';
     const _city = searchParams.get('city') || 'all';
     const _category = searchParams.get('category') || 'all';
     const _hashtag = searchParams.get('hashtag') || 'all';
     const _money = searchParams.get('money') || 'all';
-  
+
     return `/api/flows/get?language=${locale}&limit=${pageSize}&skip=${skip}&title=${_title}&city=${_city}&category=${_category}&hashtag=${_hashtag}&money=${_money}`;
-  }, [searchParams, locale]);
+  };
 
   const { data: initialData, error } = useSWR(getFetchURL(0), fetcher);
 
@@ -67,7 +66,7 @@ export default function FlowSection() {
       setHasMore(initialData.data.length + skip < initialData.meta.total);
       setLoading(false);
     }
-  }, [initialData, skip]);
+  }, [initialData]);
 
   useEffect(() => {
     setSkip(0);
@@ -88,7 +87,7 @@ export default function FlowSection() {
     };
 
     fetchInitialData();
-  }, [searchParams, getFetchURL]);
+  }, [searchParams]);
 
   const loadMore = async () => {
     const nextSkip = skip + pageSize;

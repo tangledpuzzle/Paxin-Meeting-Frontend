@@ -15,6 +15,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
+import { PaxContext } from '@/context/context';
 import '@/styles/editor.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
@@ -23,7 +24,7 @@ import { signOut } from 'next-auth/react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FaTelegram } from 'react-icons/fa';
@@ -168,6 +169,7 @@ const subscriptions = [
 
 export default function SettingPage() {
   const t = useTranslations('main');
+  const { userMutate } = useContext(PaxContext);
   const locale = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -181,7 +183,7 @@ export default function SettingPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [additionalInfo, setAdditionalInfo] = useState<string>('');
   const [gallery, setGallery] = useState<GalleryType>({} as GalleryType);
-  // const [rechargecode, setRechargecode] = useState<string>('');
+  const [rechargecode, setRechargecode] = useState<string>('');
   const [requestType, setRequestType] = useState('');
 
   const [isBasicLoading, setIsBasicLoading] = useState<boolean>(false);
@@ -194,7 +196,7 @@ export default function SettingPage() {
   const [isGalleryLoading, setIsGalleryLoading] = useState<boolean>(false);
   const [isAdditionalLoading, setIsAdditionalLoading] =
     useState<boolean>(false);
-  const [isRechargeLoading] = useState<boolean>(false);
+  const [isRechargeLoading, setIsRechargeLoading] = useState<boolean>(false);
 
   const [hashtagURL, setHashtagURL] = useState<string>(
     `/api/hashtags/profile/get`
@@ -218,20 +220,20 @@ export default function SettingPage() {
     mutate: profileMutate,
   } = useSWR(`/api/profiles/me?language=${locale}`, fetcher);
 
-  const { data: fetchedCities } = useSWR(
+  const { data: fetchedCities, error: cityFetchError } = useSWR(
     cityKeyword
       ? `/api/cities/query?name=${cityKeyword}&lang=${locale}`
       : `/api/cities/get?lang=${locale}`,
     fetcher
   );
-  const { data: fetchedCategories } = useSWR(
+  const { data: fetchedCategories, error: categoryFetchError } = useSWR(
     categoryKeyword
       ? `/api/categories/query?name=${categoryKeyword}&lang=${locale}`
       : `/api/categories/get?lang=${locale}&limit=100`,
     fetcher
   );
 
-  const { data: fetchedTransaction } = useSWR(
+  const { data: fetchedTransaction, error: transactionFetchError } = useSWR(
     `/api/profiles/balance/get`,
     fetcher
   );
@@ -253,7 +255,7 @@ export default function SettingPage() {
     setCategoryKeyword(value);
   }, 300);
 
-  function customFilterFunction() {
+  function customFilterFunction(option: Option, searchInput: string) {
     return true;
   }
 
@@ -293,7 +295,7 @@ export default function SettingPage() {
 
       basicForm.setValue('bio', fetchedData.bio);
     }
-  }, [fetchedData, error, basicForm]);
+  }, [fetchedData, error]);
 
   useEffect(() => {
     if (fetchedCities) {
@@ -314,7 +316,7 @@ export default function SettingPage() {
         );
       }
     }
-  }, [fetchedCities, locale, t]);
+  }, [fetchedCities]);
 
   useEffect(() => {
     if (fetchedCategories) {
@@ -335,7 +337,7 @@ export default function SettingPage() {
         );
       }
     }
-  }, [fetchedCategories, locale, t]);
+  }, [fetchedCategories]);
 
   useEffect(() => {
     if (!hashtagFetchError && fetchedHashtags) {
@@ -550,34 +552,34 @@ export default function SettingPage() {
     }
   }, [openBankModal]);
 
-  // const submitRechargecode = async () => {
-  //   setIsRechargeLoading(true);
+  const submitRechargecode = async () => {
+    setIsRechargeLoading(true);
 
-  //   try {
-  //     const res = await axios.post('/api/profiles/balance/add', {
-  //       code: rechargecode,
-  //     });
+    try {
+      const res = await axios.post('/api/profiles/balance/add', {
+        code: rechargecode,
+      });
 
-  //     if (res.status === 200) {
-  //       toast.success(t('recharge_successfully'), {
-  //         position: 'top-right',
-  //       });
-  //       setRechargecode('');
-  //     } else {
-  //       toast.error(t('recharge_failed'), {
-  //         position: 'top-right',
-  //       });
-  //     }
+      if (res.status === 200) {
+        toast.success(t('recharge_successfully'), {
+          position: 'top-right',
+        });
+        setRechargecode('');
+      } else {
+        toast.error(t('recharge_failed'), {
+          position: 'top-right',
+        });
+      }
 
-  //     //balanceMutate();
-  //   } catch (error) {
-  //     toast.error(t('recharge_failed'), {
-  //       position: 'top-right',
-  //     });
-  //   }
+      //balanceMutate();
+    } catch (error) {
+      toast.error(t('recharge_failed'), {
+        position: 'top-right',
+      });
+    }
 
-  //   setIsRechargeLoading(false);
-  // };
+    setIsRechargeLoading(false);
+  };
 
   const removeGallery = (path: string) => {
     if (gallery.files.length === 1) {

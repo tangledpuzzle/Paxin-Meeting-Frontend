@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { LiveKitRoom } from '@livekit/components-react';
 import { useSession } from 'next-auth/react';
 import HostControls from '@/components/header/smallTrade/hostcontrols';
@@ -10,7 +10,7 @@ type SmallHostProps = {
 
 export default function SmallHost({ token, roomId }: SmallHostProps) {
   const { data } = useSession();
-  // const previewVideoEl = useRef<HTMLVideoElement>(null);
+  const previewVideoEl = useRef<HTMLVideoElement>(null);
   const viewerIdentity = data?.user?.name || '';
 
   return (

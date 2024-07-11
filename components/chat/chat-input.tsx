@@ -19,7 +19,6 @@ import {
   useEffect,
   useRef,
   useState,
-  useCallback
 } from 'react';
 import toast from 'react-hot-toast';
 import { BsReply } from 'react-icons/bs';
@@ -94,10 +93,14 @@ export default function ChatInputComponent() {
     activeRoom,
     isLoadingSubmit,
     setIsLoadingSubmit,
+    isDeleting,
+    setIsDeleting,
     isEditing,
     setIsEditing,
     isReplying,
     setIsReplying,
+    deleteMessageId,
+    setDeleteMessageId,
     editMessageId,
     setEditMessageId,
     replyMessageId,
@@ -525,27 +528,15 @@ export default function ChatInputComponent() {
     }
   };
 
-  const autoHeight = useCallback(() => {
+  const autoHeight = () => {
     if (!textareaRef.current) return;
 
     textareaRef.current.style.height = '68px';
     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     setChatWindowHeight(
-      `100vh - 5rem - 20px - 4rem - ${Math.min(
-        textareaRef.current.scrollHeight,
-        200
-      )}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''}${
-        isReplying && replyMessageId ? ' - 4.5rem' : ''
-      }${isEditing && editMessageId ? ' - 4.5rem' : ''}`
+      `100vh - 5rem - 20px - 4rem - ${Math.min(textareaRef.current.scrollHeight, 200)}px${uploadedFiles.length > 0 ? ' - 4.5rem' : ''}${isReplying && replyMessageId ? ' - 4.5rem' : ''}${isEditing && editMessageId ? ' - 4.5rem' : ''}`
     );
-  }, [
-    uploadedFiles.length,
-    isReplying,
-    replyMessageId,
-    isEditing,
-    editMessageId,
-    setChatWindowHeight
-  ]);
+  };
 
   const handleTyping = useDebouncedCallback(() => {
     pingUserIsTyping(activeRoom);
@@ -558,11 +549,11 @@ export default function ChatInputComponent() {
 
   useEffect(() => {
     autoHeight();
-  }, [uploadedFiles, inputMessage, isReplying, replyMessageId, autoHeight]);
+  }, [uploadedFiles, inputMessage, isReplying, replyMessageId]);
 
   useEffect(() => {
     setTimeout(() => textareaRef.current?.focus(), 100);
-  }, [isReplying, replyMessageId, isEditing, editMessageId, autoHeight]);
+  }, [isReplying, replyMessageId, isEditing, editMessageId]);
 
   useEffect(() => {
     console.log('chatWindowHeight', chatWindowHeight);
@@ -580,7 +571,7 @@ export default function ChatInputComponent() {
           </Button>
         </DropdownMenuDemo>
       </div>
-      <div className='my-[10px] ml-[10px] flex size-full flex-col justify-end'>
+      <div className='mb-[10px] ml-[10px] mt-[10px] flex h-full w-full flex-col justify-end'>
         <div className='flex w-full max-w-full gap-2 overflow-hidden'>
           {uploadedFiles.length > 0 &&
             uploadedFiles.map((file, index) => {

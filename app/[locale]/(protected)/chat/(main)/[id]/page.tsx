@@ -50,7 +50,7 @@ export default function ChatDetailPage({
 
   useEffect(() => {
     setActiveRoom(id);
-  }, [setActiveRoom, id]);
+  }, []);
 
   return !isMessageLoading && !isRoomLoading ? (
     <div className='new-content-container'>

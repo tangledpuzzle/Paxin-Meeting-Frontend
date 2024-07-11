@@ -18,7 +18,7 @@ const sendRequest = async (
   );
   const signature = CryptoJS.enc.Hex.stringify(hash);
 
-  const headers = {
+  let headers = {
     'Content-Type': 'application/json',
     'API-KEY': process.env.NEXT_PUBLIC_PAXMEET_API_KEY,
     'HASH-SIGNATURE': signature,

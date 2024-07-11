@@ -23,12 +23,12 @@ const DarkThemeSwitcher = () => {
       <button onClick={toggleDarkMode}>
         <>
           {theme === 'dark' ? (
-            <div className='moon flex size-8 items-center justify-center rounded-full'>
-              <i className='pnm-moon size-4 text-primaryColor dark:text-secondaryColor' />
+            <div className='moon flex h-8 w-8 items-center justify-center rounded-full'>
+              <i className='pnm-moon h-4 w-4 text-primaryColor dark:text-secondaryColor' />
             </div>
           ) : (
-            <div className='sun flex size-8 items-center justify-center rounded-full'>
-              <i className='pnm-sun size-4 text-primaryColor dark:text-secondaryColor' />
+            <div className='sun flex h-8 w-8 items-center justify-center rounded-full'>
+              <i className='pnm-sun h-4 w-4 text-primaryColor dark:text-secondaryColor' />
             </div>
           )}
         </>

@@ -54,14 +54,14 @@ export default function HomeForm() {
             onClick={() => router.push(`/setup?channel=${slug}`)}
             className='flex items-center gap-2'
           >
-            <Icons.uploadCloud className='size-4' />
+            <Icons.uploadCloud className='h-4 w-4' />
             Broadcast via LKC Ingress
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => router.push(`/channel/${slug}/host`)}
             className='flex items-center gap-2'
           >
-            <Icons.webcam className='size-4' />
+            <Icons.webcam className='h-4 w-4' />
             Broadcast from current device
           </DropdownMenuItem>
         </DropdownMenuContent>

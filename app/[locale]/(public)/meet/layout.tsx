@@ -7,6 +7,7 @@ type Props = {
 
 export default function ProfilePageLayout({
   children,
+  params: { locale },
 }: Props) {
   return <div>{children}</div>;
 }

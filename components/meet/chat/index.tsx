@@ -106,7 +106,7 @@ const ChatComponent = ({ currentRoom, isRecorder }: IChatComponentProps) => {
               onAfterSendMessage={onAfterSendMessage}
             />
             <div
-              className={`emoji-picker absolute bottom-5 left-2 size-5 cursor-pointer text-secondaryColor dark:text-darkText md:-left-6${
+              className={`emoji-picker absolute bottom-5 left-2 h-5 w-5 cursor-pointer text-secondaryColor dark:text-darkText md:-left-6 ${
                 isOpenEmojiPanel ? 'emoji-active' : ''
               }`}
               onClick={() => setIsOpenEmojiPanel(!isOpenEmojiPanel)}

@@ -143,7 +143,7 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
         )
       );
     }
-  }, [excalidrawAPI, whiteboard.requestedWhiteboardData, fetchedData, t]);
+  }, [excalidrawAPI, whiteboard.requestedWhiteboardData, fetchedData]);
 
   // if whiteboard file ID change this mean new office file was uploaded,
   // so we'll clean the canvas.

@@ -195,7 +195,7 @@ const useKeyboardShortcuts = (currentRoom?: Room) => {
     isActiveRaisehand: boolean,
     currentRoom: Room
   ) => {
-    const sid = await currentRoom.getSid();
+    let sid = await currentRoom.getSid();
     if (!isActiveRaisehand) {
       const body = new DataMessageReq({
         roomSid: sid,

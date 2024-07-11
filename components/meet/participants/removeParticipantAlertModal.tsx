@@ -93,7 +93,7 @@ const RemoveParticipantAlertModal = ({
 
           <div className='popup-inner relative w-full max-w-sm rounded-3xl bg-white px-4 py-12 shadow-header dark:bg-darkPrimary lg:px-6 lg:py-14'>
             <button
-              className='close-btn absolute right-6 top-8 size-[25px] outline-none'
+              className='close-btn absolute right-6 top-8 h-[25px] w-[25px] outline-none'
               type='button'
               onClick={() => onCloseRemoveParticipantAlert()}
             >

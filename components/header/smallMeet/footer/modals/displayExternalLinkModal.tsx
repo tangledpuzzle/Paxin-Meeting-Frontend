@@ -135,9 +135,9 @@ const DisplayExternalLinkModal = () => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div className='my-8 inline-block w-full max-w-2xl overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
+                <div className='my-8 inline-block w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-darkPrimary'>
                   <button
-                    className='close-btn absolute top-8 size-[25px] outline-none ltr:right-6 rtl:left-6'
+                    className='close-btn absolute top-8 h-[25px] w-[25px] outline-none ltr:right-6 rtl:left-6'
                     type='button'
                     onClick={() => closeStartModal()}
                   >
@@ -201,7 +201,7 @@ const DisplayExternalLinkModal = () => {
                                     tmp.name = !extraValues.name;
                                     setExtraValues(tmp);
                                   }}
-                                  className='size-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+                                  className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
                                 />
                               </div>
                               <div className='w-full text-center text-sm'>
@@ -228,7 +228,7 @@ const DisplayExternalLinkModal = () => {
                                     tmp.userId = !extraValues.userId;
                                     setExtraValues(tmp);
                                   }}
-                                  className='size-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+                                  className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
                                 />
                               </div>
                               <div className='w-full text-center text-sm'>
@@ -257,7 +257,7 @@ const DisplayExternalLinkModal = () => {
                                     tmp.role = !extraValues.role;
                                     setExtraValues(tmp);
                                   }}
-                                  className='size-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+                                  className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
                                 />
                               </div>
                               <div className='w-full text-center text-sm'>
@@ -286,7 +286,7 @@ const DisplayExternalLinkModal = () => {
                                     tmp.meetingId = !extraValues.meetingId;
                                     setExtraValues(tmp);
                                   }}
-                                  className='size-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+                                  className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
                                 />
                               </div>
                               <div className='w-full text-center text-sm'>

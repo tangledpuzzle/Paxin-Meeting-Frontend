@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getInitials } from '@/lib/utils';
 import { signOut } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { LanguageSelector } from './language';
 import { useContext } from 'react';
@@ -38,6 +39,7 @@ interface MobileMenuProps {
 export function MobileMenu({ user }: MobileMenuProps) {
   const { setTheme, theme } = useTheme();
   const t = useTranslations('main');
+  const router = useRouter();
   const { user: userData } = useContext(PaxContext);
 
   function deleteCookie(name: any, domain: any) {

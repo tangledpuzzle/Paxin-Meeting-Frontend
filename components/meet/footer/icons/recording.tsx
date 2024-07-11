@@ -226,7 +226,7 @@ const RecordingIcon = ({ currentRoom }: IRecordingIconProps) => {
         <button
           className={`${
             isRecording ? 'record' : ''
-          } footer-icon flex size-[35px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:size-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
+          } footer-icon flex h-[35px] w-[35px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#F2F2F2] hover:bg-[#ECF4FF] dark:bg-darkSecondary2 lg:h-[40px] lg:w-[40px] ltr:mr-3 lg:ltr:mr-6 rtl:ml-3 lg:rtl:ml-6 ${
             showTooltip ? 'has-tooltip' : ''
           }`}
           onClick={() => onClickRecordingBtn()}
