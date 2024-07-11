@@ -2,16 +2,16 @@
 
 export default async function getAssistantData(
   type: 'title' | 'subtitle' | 'content',
-  data: Record<string, any>
+  data: Object
 ) {
   const API_URL = `${process.env.AI_BLOG_ASSISTANT_API_URL}/api/assistant/${
     type === 'title'
       ? 'titles'
       : type === 'subtitle'
-      ? 'subtitles'
-      : type === 'content'
-      ? 'content'
-      : ''
+        ? 'subtitles'
+        : type === 'content'
+          ? 'content'
+          : ''
   }`;
 
   try {

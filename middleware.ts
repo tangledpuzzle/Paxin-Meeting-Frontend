@@ -12,7 +12,7 @@ const publicPages = [
   '/privacy',
   '/rules',
   '/stream',
-  '/stream/[slug]',
+  '/stream/[slug]', 
   '/auth/signin',
   '/auth/signup',
   '/auth/verify/[slug]',
@@ -34,24 +34,27 @@ const checkTokenFromCookies = (req: any) => {
   const cookies = cookie.parse(req.headers.get('cookie') || '');
   const token = cookies.access_token; // Измените это на название вашей куки
   if (!token) return false;
-
+  
   // Ваша логика проверки токена
   return validateToken(token);
 };
 
-const authMiddleware = withAuth((req) => intlMiddleware(req), {
-  callbacks: {
-    authorized: ({ token, req }) => {
-      if (token) {
-        return true;
-      }
-      return checkTokenFromCookies(req);
+const authMiddleware = withAuth(
+  (req) => intlMiddleware(req),
+  {
+    callbacks: {
+      authorized: ({ token, req }) => {
+        if (token) {
+          return true;
+        }
+        return checkTokenFromCookies(req);
+      },
     },
-  },
-  pages: {
-    signIn: '/auth/signin',
-  },
-});
+    pages: {
+      signIn: '/auth/signin',
+    },
+  }
+);
 
 const validateToken = (token: any) => {
   // Добавьте свою логику проверки токена здесь

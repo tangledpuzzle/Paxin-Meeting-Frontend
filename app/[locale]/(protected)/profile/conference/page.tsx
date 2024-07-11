@@ -3,7 +3,7 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 import Conference from '@/components/profiles/conference';
 import authOptions from '@/lib/authOptions';
 import { headers } from 'next/headers';
-import cookie from 'cookie';
+import cookie from 'cookie'; 
 
 async function getData(locale: string) {
   const session = await getServerSession(authOptions);
@@ -14,6 +14,7 @@ async function getData(locale: string) {
     const parsedCookies = cookie.parse(cookies);
     accessToken = parsedCookies.access_token;
   }
+
 
   try {
     const res = await fetch(

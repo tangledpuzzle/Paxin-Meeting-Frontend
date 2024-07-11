@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -15,6 +16,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import createRoom from '@/lib/server/chat/createRoom';
 import getRoomDetails from '@/lib/server/chat/getRoomDetails';

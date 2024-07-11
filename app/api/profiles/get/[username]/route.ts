@@ -88,8 +88,9 @@ export async function GET(req: NextRequest) {
       telegram: data.data.TelegramActivated ? data.data.TelegramName : '',
       qrcode: data.data.Name,
       follow: userId
-        ? data.data.Followings.filter((item: any) => item.ID === userId)
-            ?.length > 0
+        ? data.data.Followings.filter(
+            (item: any) => item.ID === userId
+          )?.length > 0
         : false,
       me: userId === data.data.ID,
     };

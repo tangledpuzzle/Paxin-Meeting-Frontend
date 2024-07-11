@@ -13,7 +13,7 @@ function useBodyPix() {
       // Динамический импорт TensorFlow.js и BodyPix
       const [tf, tfBodyPix] = await Promise.all([
         import('@tensorflow/tfjs'),
-        import('@tensorflow-models/body-pix'),
+        import('@tensorflow-models/body-pix')
       ]);
 
       await tf.ready();

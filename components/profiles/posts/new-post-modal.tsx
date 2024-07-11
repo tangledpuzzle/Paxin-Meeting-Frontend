@@ -188,7 +188,6 @@ export function NewPostModal({ children, mutate }: NewPostModalProps) {
       ],
       ['link', 'image', 'video', 'code-block'],
       ['clean'],
-      [{ 'vk-video': 'vkVideo' }],
     ],
   };
 

@@ -93,7 +93,7 @@ const FileSend = ({
       filePath
     }" target="_blank">${fileName}</a></span>`;
 
-    const sid = await currentRoom.getSid();
+    let sid = await currentRoom.getSid();
 
     const dataMsg = new DataMessage({
       type: DataMsgType.USER,

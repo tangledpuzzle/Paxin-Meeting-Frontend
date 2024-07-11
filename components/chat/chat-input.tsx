@@ -5,6 +5,7 @@ import DropdownMenuDemo from '@/components/ui/chatmenu';
 import { PaxChatContext } from '@/context/chat-context';
 import { PaxContext } from '@/context/context';
 import eventBus from '@/eventBus';
+import deleteMessage from '@/lib/server/chat/deleteMessage';
 import editMessage from '@/lib/server/chat/editMessage';
 import sendMessage from '@/lib/server/chat/sendMessage';
 import { cn, readFileAsDataURL } from '@/lib/utils';
@@ -254,18 +255,18 @@ export default function ChatInputComponent() {
             body: JSON.stringify(bodyData),
           }
         );
-      
+
         if (!res.ok) {
           throw new Error('Failed to fetch chat stream');
         }
-      
+
         const id = new Date().getTime().toString();
-      
+
         const reader = res.body?.getReader();
         const decoder = new TextDecoder('utf-8');
-      
+
         if (!reader) return;
-      
+
         setMessages([
           ..._messages,
           {
@@ -279,25 +280,23 @@ export default function ChatInputComponent() {
             },
           },
         ]);
-      
+
         let streamText = '';
         let lastStreamText = '';
-        let done = false;
-      
-        do {
-          const { value, done: streamDone } = await reader.read();
-          done = streamDone;
-      
+
+        while (true) {
+          const { value, done } = await reader.read();
+
           if (done) {
             break;
           }
-      
+
           const rawText = decoder.decode(value);
-      
+
           const lines = rawText.trim().split('\n');
-      
+
           let parsedData = null;
-      
+
           for (const line of lines) {
             try {
               parsedData = JSON.parse(line);
@@ -309,13 +308,13 @@ export default function ChatInputComponent() {
                 lastStreamText = line;
               }
             }
-      
+
             if (parsedData) {
               streamText +=
                 attachments.length > 0
                   ? parsedData.response
                   : parsedData.message.content;
-      
+
               setMessages((previousMessages) => {
                 const newMessages = previousMessages.map((msg) => {
                   if (msg.id === id) {
@@ -327,10 +326,10 @@ export default function ChatInputComponent() {
               });
             }
           }
-        } while (!done);
+        }
       } catch (error) {
         console.log(error);
-      }      
+      }
     } else {
       // In case of chatting with user
       setIsLoadingSubmit(true);

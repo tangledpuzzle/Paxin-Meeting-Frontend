@@ -71,7 +71,7 @@ const DirectLink = () => {
 
     if (!res.status) {
       toast.update(id, {
-        // @ts-expect-error: no sms
+        // @ts-ignore
         render: t(res.msg),
         type: 'error',
         isLoading: false,

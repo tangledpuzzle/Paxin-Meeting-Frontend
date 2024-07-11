@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function CTASection({ choice }: Props) {
-  console.log('sdfsdf', choice);
+  console.log('sdfsdf', choice)
   const t = useTranslations('stream');
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -51,32 +51,32 @@ export function CTASection({ choice }: Props) {
 
   return (
     <div className='container fixed bottom-0 top-[calc(100dvh_-_6.2rem)] z-20 mx-auto flex h-[100px] w-full flex-col-reverse items-center justify-start gap-2 bg-white  pb-[20px] pl-[10px] pr-[25px] pt-[10px] dark:bg-black sm:flex-row sm:justify-between md:sticky md:top-[80px] md:pl-[10px] md:pr-[10px] '>
-      {choice ? (
-        <ToggleGroup
-          type='single'
-          variant='outline'
-          value={searchParams.get('mode') || 'flow'}
-          className='w-full gap-0 rounded-lg  pl-[0px] md:pl-[0px]'
-          onValueChange={(value: string) => {
-            if (value) {
-              router.push(`?mode=${value}`);
-            }
-          }}
+      {choice?(<ToggleGroup
+        type='single'
+        variant='outline'
+        value={searchParams.get('mode') || 'flow'}
+        className='w-full gap-0 rounded-lg  pl-[0px] md:pl-[0px]'
+        onValueChange={(value: string) => {
+          if (value) {
+            router.push(`?mode=${value}`);
+          }
+        }}
+      >
+        <ToggleGroupItem
+          value='other'
+          className={`w-full  rounded-r-none bg-card-gradient-menu`}
         >
-          <ToggleGroupItem
-            value='other'
-            className={`w-full  rounded-r-none bg-card-gradient-menu`}
-          >
-            <FaUsers className='mr-2' /> {t('others_streams')}
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            value='me'
-            className={`w-full rounded-l-none border-l-0 bg-card-gradient-menu`}
-          >
-            <MdSms className='mr-2' /> {t('my_streams')}
-          </ToggleGroupItem>
-        </ToggleGroup>
-      ) : null}
+          <FaUsers className='mr-2' /> {t('others_streams')}
+        </ToggleGroupItem>
+        <ToggleGroupItem
+          value='me'
+          className={`w-full rounded-l-none border-l-0 bg-card-gradient-menu`}
+        >
+          <MdSms className='mr-2' /> {t('my_streams')}
+        </ToggleGroupItem>
+        
+      </ToggleGroup>
+      ):null}
 
       <div className='absolute -left-[10px] -top-[10px] flex w-full flex-row-reverse justify-between gap-3 bg-white px-4 pt-2 dark:bg-black md:static md:pt-0'>
         <div className='relative right-0 w-[-webkit-fill-available] md:w-[15rem] lg:w-[30rem]'>

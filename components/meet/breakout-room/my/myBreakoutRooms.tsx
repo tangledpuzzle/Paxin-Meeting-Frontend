@@ -23,7 +23,7 @@ const MyBreakoutRooms = () => {
   useEffect(() => {
     if (!isLoading && data) {
       if (!data.status) {
-        // @ts-expect-error: no sms
+        // @ts-ignore
         toast(t(data.msg), {
           type: 'error',
         });

@@ -20,8 +20,12 @@ export default function ChatDetailPage({
 }) {
   const t = useTranslations('chatting');
   const {
+    showNav,
+    setShowNav,
+    setShowSidebar,
     setChatRooms,
     setActiveRoom,
+    chatUser,
     activeRoomSubscribed,
     setActiveRoomSubscribed,
     isMessageLoading,
@@ -43,9 +47,7 @@ export default function ChatDetailPage({
 
         setActiveRoomSubscribed(true);
       }
-    } catch (error) {
-      console.error('Failed to subscribe:', error); 
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {

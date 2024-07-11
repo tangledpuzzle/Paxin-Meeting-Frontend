@@ -28,9 +28,7 @@ import { BiSolidCategory } from 'react-icons/bi';
 import { FaExclamation, FaTelegramPlane } from 'react-icons/fa';
 import { FaRubleSign } from 'react-icons/fa6';
 import { IoEyeSharp, IoFlagOutline } from 'react-icons/io5';
-import {
-  MdOutlineHouseSiding,
-} from 'react-icons/md';
+import { MdOutlineHouseSiding, MdFavoriteBorder, MdOutlineFavorite } from 'react-icons/md';
 import { RxCopy } from 'react-icons/rx';
 import { CiStreamOn, CiStreamOff } from 'react-icons/ci';
 
@@ -78,12 +76,7 @@ interface Favorite {
   BlogID: number;
 }
 
-async function getData(
-  locale: string,
-  id: string,
-  slug: string,
-  userId: string | null
-) {
+async function getData(locale: string, id: string, slug: string, userId: string | null) {
   try {
     const res = await fetch(
       `${process.env.API_URL}/api/blog/${slug}?language=${locale}`,
@@ -122,18 +115,18 @@ async function getData(
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
-      },
+      }
     })
-      .then((response) => {
-        if (response.ok) {
-          console.log(response);
-        } else {
-          console.error('err:', response.statusText);
-        }
-      })
-      .catch((error) => {
-        console.error('err:', error);
-      });
+    .then((response) => {
+      if (response.ok) {
+        console.log(response);
+      } else {
+        console.error('err:', response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error('err:', error);
+    });
 
     // console.log(favoriteRes)
     // if (favoriteRes.status !== 'success') {
@@ -144,6 +137,7 @@ async function getData(
     // console.log(favoriteData)
 
     // const isFavorite = favoriteData.data.some((fav: Favorite) => fav.BlogID === blogData.data[0].id);
+
 
     const blog = {
       id: blogData.data[0].id,
@@ -166,10 +160,12 @@ async function getData(
         downvotes:
           voteData.votes.filter((item: any) => !item?.IsUP).length || 0,
       },
-      vote: voteData.votes.find((item: any) => item?.UserID === userId)?.IsUP
+      vote: voteData.votes.find(
+        (item: any) => item?.UserID === userId
+      )?.IsUP
         ? 1
-        : voteData.votes.find((item: any) => item?.UserID === userId)?.IsUP ===
-            false
+        : voteData.votes.find((item: any) => item?.UserID === userId)
+              ?.IsUP === false
           ? -1
           : 0,
       gallery: blogData.data[0].photos[0].files.map((file: any) => {
@@ -200,6 +196,7 @@ async function getData(
       countrycode: blogData.data[0].lang,
       me: userId === blogData.data[0].user.userID,
       // isFavorite: isFavorite,
+
     };
 
     return blog;
@@ -218,6 +215,7 @@ export async function generateMetadata({
   const token = cookiesParsed['access_token'];
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id || userIdCookie || null;
+  
 
   const blogDetails: BlogDetails | null = await getData(
     params.locale,
@@ -282,10 +280,7 @@ export default async function FlowPage({
                   <MdOutlineHouseSiding className='size-5' />
                   {t('city')}
                 </div>
-                <div
-                  className='flex gap-2'
-                  style={{ overflowWrap: 'anywhere' }}
-                >
+                <div className='flex gap-2' style={{ overflowWrap: 'anywhere' }}>
                   {blogDetails.cities &&
                     blogDetails.cities.map((city: string) => (
                       <Link
@@ -308,10 +303,7 @@ export default async function FlowPage({
                   <BiSolidCategory className='size-4' />
                   {t('category')}
                 </div>
-                <div
-                  className='flex gap-2'
-                  style={{ overflowWrap: 'anywhere' }}
-                >
+                <div className='flex gap-2' style={{ overflowWrap: 'anywhere' }}>
                   {blogDetails.categories &&
                     blogDetails.categories.map((category: string) => (
                       <Link
@@ -373,24 +365,21 @@ export default async function FlowPage({
           </div>
           <Separator className='my-4' />
           <div className='block md:hidden'>
-            <div className='absolute z-10'>
-              {blogDetails?.streaming?.length > 0 ? (
-                <Link
-                  href={`/stream/${blogDetails.streaming}`}
-                  className='stream-item'
-                >
-                  <div className='flex items-center justify-start  bg-red-500 px-2 text-white'>
-                    <CiStreamOn className='mr-2' />
-                    <span>В эфире</span>
-                  </div>
-                </Link>
-              ) : (
-                <div className='flex items-center justify-start bg-black/50 px-2 text-white'>
-                  <CiStreamOff className='mr-2' />
-                  <span>Вне эфира</span>
-                </div>
-              )}
+          <div className='absolute z-10'>
+          {blogDetails?.streaming?.length > 0 ? (
+            <Link href={`/stream/${blogDetails.streaming}`} className='stream-item'>
+              <div className='flex items-center justify-start  bg-red-500 px-2 text-white'>
+                <CiStreamOn className='mr-2' />
+                <span>В эфире</span>
+              </div>
+            </Link>
+          ) : (
+            <div className='flex items-center justify-start bg-black/50 px-2 text-white'>
+              <CiStreamOff className='mr-2' />
+              <span>Вне эфира</span>
             </div>
+          )}
+          </div>
             <FlowImageGallery images={blogDetails?.gallery || []} />
           </div>
           <div>
@@ -405,24 +394,21 @@ export default async function FlowPage({
         </div>
         <div className='mx-auto w-full space-y-4'>
           <div className='hidden md:block'>
-            <div className='absolute z-10'>
-              {blogDetails?.streaming?.length > 0 ? (
-                <Link
-                  href={`/stream/${blogDetails.streaming}`}
-                  className='stream-item'
-                >
-                  <div className='flex items-center justify-start  bg-red-500 px-2 text-white'>
-                    <CiStreamOn className='mr-2' />
-                    <span>В эфире</span>
-                  </div>
-                </Link>
-              ) : (
-                <div className='flex items-center justify-start bg-black/50 px-2 text-white'>
-                  <CiStreamOff className='mr-2' />
-                  <span>Вне эфира</span>
-                </div>
-              )}
+          <div className='absolute z-10'>
+          {blogDetails?.streaming?.length > 0 ? (
+            <Link href={`/stream/${blogDetails.streaming}`} className='stream-item'>
+              <div className='flex items-center justify-start  bg-red-500 px-2 text-white'>
+                <CiStreamOn className='mr-2' />
+                <span>В эфире</span>
+              </div>
+            </Link>
+          ) : (
+            <div className='flex items-center justify-start bg-black/50 px-2 text-white'>
+              <CiStreamOff className='mr-2' />
+              <span>Вне эфира</span>
             </div>
+          )}
+          </div>
             <Card>
               <FlowImageGallery images={blogDetails?.gallery || []} />
             </Card>
@@ -441,7 +427,7 @@ export default async function FlowPage({
               <ComplainModal>
                 <Button
                   variant='outline'
-                  className='w-full !border-primary text-white dark:text-primary'
+                  className='w-full !border-primary dark:text-primary text-white'
                 >
                   <IoFlagOutline className='mr-2 size-4' />
                   {t('complain')}
@@ -523,7 +509,7 @@ export default async function FlowPage({
                 )}
               </div>
             </CardFooter>
-            <div className='flex flex-col gap-4 px-2 pb-4 pr-2 text-center'>
+            <div className='flex flex-col gap-4 text-center pb-4 pr-2 px-2'>
               <Button className='btn w-full !rounded-md' asChild>
                 <Link href={`/profiles/${blogDetails.author?.username}`}>
                   {t('visit_profile')}

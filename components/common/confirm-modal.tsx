@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -49,7 +47,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
           {t('cancel')}
         </Button>
         <Button disabled={loading} variant='destructive' onClick={onConfirm}>
-          {loading && <Loader2 className='size-4 mr-2 animate-spin' />}
+          {loading && <Loader2 className='sze-4 mr-2 animate-spin' />}
           {t('continue')}
         </Button>
       </div>

@@ -46,7 +46,7 @@ const SwitchPresenterMenuItem = ({ userId }: ISwitchPresenterMenuItemProps) => {
         type: 'info',
       });
     } else {
-      // @ts-expect-error: no sms
+      // @ts-ignore
       toast(t(res.msg), {
         toastId: 'lock-setting-status',
         type: 'error',

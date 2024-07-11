@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import Script from 'next/script';
+import { useEffect } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import Script from "next/script";
 
 export function Metrika() {
   const pathName = usePathname();
   const searchParams = useSearchParams();
   useEffect(() => {
     if (window.ym) {
-      window.ym(97671140, 'hit', window.location.href);
+      window.ym(97671140, "hit", window.location.href);
     }
   }, [pathName, searchParams]);
   return (
-    <Script id='yandex-metrika'>
+    <Script id="yandex-metrika">
       {`
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
         m[i].l=1*new Date();

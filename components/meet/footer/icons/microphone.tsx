@@ -69,20 +69,18 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
   // for change in mic lock setting
   useEffect(() => {
     const closeMicOnLock = async () => {
-      if (currentRoom?.localParticipant?.audioTrackPublications) {
-        for (const [
-          ,
-          publication,
-        ] of currentRoom.localParticipant.audioTrackPublications.entries()) {
-          if (
-            publication.track &&
-            publication.source === Track.Source.Microphone
-          ) {
-            await currentRoom.localParticipant.unpublishTrack(
-              publication.track,
-              true
-            );
-          }
+      for (const [
+        ,
+        publication,
+      ] of currentRoom?.localParticipant.audioTrackPublications.entries()) {
+        if (
+          publication.track &&
+          publication.source === Track.Source.Microphone
+        ) {
+          await currentRoom.localParticipant.unpublishTrack(
+            publication.track,
+            true
+          );
         }
       }
 
@@ -95,7 +93,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
 
       const currentUser = participantsSelector.selectById(
         store.getState(),
-        currentRoom?.localParticipant?.identity ?? ""
+        currentRoom.localParticipant.identity
       );
       if (currentUser?.audioTracks) {
         closeMicOnLock();
@@ -166,38 +164,36 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
   }, [currentRoom]);
 
   const muteUnmuteMic = async () => {
-    if (currentRoom?.localParticipant?.audioTrackPublications) {
-      for (const [
-        ,
-        publication,
-      ] of currentRoom.localParticipant.audioTrackPublications.entries()) {
-        if (
-          publication.track &&
-          publication.track.source === Track.Source.Microphone
-        ) {
-          if (publication.isMuted) {
-            await publication.track.unmute();
-            dispatch(updateIsMicMuted(false));
-            // send analytics
-            sendAnalyticsByWebsocket(
-              t,
-              AnalyticsEvents.ANALYTICS_EVENT_USER_MIC_STATUS,
-              AnalyticsEventType.USER,
-              proto3.getEnumType(AnalyticsStatus).values[AnalyticsStatus.UNMUTED]
-                .name
-            );
-          } else {
-            await publication.track.mute();
-            dispatch(updateIsMicMuted(true));
-            // send analytics
-            sendAnalyticsByWebsocket(
-              t,
-              AnalyticsEvents.ANALYTICS_EVENT_USER_MIC_STATUS,
-              AnalyticsEventType.USER,
-              proto3.getEnumType(AnalyticsStatus).values[AnalyticsStatus.MUTED]
-                .name
-            );
-          }
+    for (const [
+      ,
+      publication,
+    ] of currentRoom?.localParticipant.audioTrackPublications.entries()) {
+      if (
+        publication.track &&
+        publication.track.source === Track.Source.Microphone
+      ) {
+        if (publication.isMuted) {
+          await publication.track.unmute();
+          dispatch(updateIsMicMuted(false));
+          // send analytics
+          sendAnalyticsByWebsocket(
+            t,
+            AnalyticsEvents.ANALYTICS_EVENT_USER_MIC_STATUS,
+            AnalyticsEventType.USER,
+            proto3.getEnumType(AnalyticsStatus).values[AnalyticsStatus.UNMUTED]
+              .name
+          );
+        } else {
+          await publication.track.mute();
+          dispatch(updateIsMicMuted(true));
+          // send analytics
+          sendAnalyticsByWebsocket(
+            t,
+            AnalyticsEvents.ANALYTICS_EVENT_USER_MIC_STATUS,
+            AnalyticsEventType.USER,
+            proto3.getEnumType(AnalyticsStatus).values[AnalyticsStatus.MUTED]
+              .name
+          );
         }
       }
     }
@@ -251,8 +247,7 @@ const MicrophoneIcon = ({ currentRoom }: IMicrophoneIconProps) => {
     }
     if (muteOnStart) {
       setTimeout(async () => {
-        const audioTracks =
-          currentRoom?.localParticipant.audioTrackPublications;
+        const audioTracks = currentRoom?.localParticipant.audioTrackPublications;
 
         if (audioTracks) {
           for (const [, publication] of audioTracks.entries()) {

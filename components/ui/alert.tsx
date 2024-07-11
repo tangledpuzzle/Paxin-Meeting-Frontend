@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
@@ -32,10 +31,6 @@ const Alert = React.forwardRef<
   />
 ));
 Alert.displayName = 'Alert';
-Alert.propTypes = {
-  className: PropTypes.string,
-  variant: PropTypes.oneOf(['default', 'destructive']),
-};
 
 const AlertTitle = React.forwardRef<
   HTMLParagraphElement,
@@ -48,9 +43,6 @@ const AlertTitle = React.forwardRef<
   />
 ));
 AlertTitle.displayName = 'AlertTitle';
-AlertTitle.propTypes = {
-  className: PropTypes.string,
-};
 
 const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
@@ -63,8 +55,5 @@ const AlertDescription = React.forwardRef<
   />
 ));
 AlertDescription.displayName = 'AlertDescription';
-AlertDescription.propTypes = {
-  className: PropTypes.string,
-};
 
 export { Alert, AlertTitle, AlertDescription };

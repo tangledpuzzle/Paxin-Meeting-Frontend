@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// @ts-expect-error: no sms
+// @ts-ignore
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js';
 import 'video.js/dist/video-js.css';
 

@@ -2,6 +2,7 @@
 
 import { PaxChatContext } from '@/context/chat-context';
 import eventBus from '@/eventBus';
+import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import { useContext, useRef, useState, useEffect } from 'react';
 import { IoIosClose } from 'react-icons/io';
@@ -154,7 +155,10 @@ const ChatNavComponent: React.FC<Props> = ({ mode }: Props) => {
             </ScrollArea>
             <div className='bg-card-gradient-menu-on px-2 py-2'>
               <StreamingCreateModal onCreate={() => {}} isLoading={false}>
-                <Button variant='outline' className='mx-auto flex'>
+                <Button
+                  variant='outline'
+                  className='mx-auto flex'
+                >
                   {t('start_stream')}
                 </Button>
               </StreamingCreateModal>

@@ -45,7 +45,7 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
 
     if (result.status === 200) {
       toast.success(t('success_delete_saved_filters'));
-      const _filtersList = [];
+      let _filtersList = [];
       for (let i = 0; i < filtersList.length; i++) {
         if (i !== key) _filtersList.push(filtersList[i]);
       }
@@ -93,7 +93,7 @@ export function SavedFilterModal({ setIsFilterModalOpen }: any) {
       data: { ...each, Name: newName },
     });
 
-    const _filtersList = filtersList.map((each, key) => {
+    let _filtersList = filtersList.map((each, key) => {
       if (key == editMode) {
         return { ...each, Name: newName };
       } else {

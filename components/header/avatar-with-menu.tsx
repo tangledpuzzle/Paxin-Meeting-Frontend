@@ -5,6 +5,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
@@ -16,6 +17,7 @@ import { RiArticleLine, RiUserSettingsFill } from 'react-icons/ri';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { CiStreamOn } from 'react-icons/ci';
 
+
 interface AvatarWithMenuProps {
   user: {
     email: string;
@@ -26,30 +28,26 @@ interface AvatarWithMenuProps {
 
 export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
   const t = useTranslations('main');
-
-  function deleteCookie(name: any, domain: any) {
-    document.cookie =
-      name +
-      '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=' +
-      domain +
-      '; path=/';
+    
+  function deleteCookie(name:any, domain:any) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=" + domain + "; path=/";
   }
 
   function handleSignOut() {
     fetch('/api/auth/logout', {
       method: 'POST',
     })
-      .then((response) => {
-        if (response.ok) {
-          deleteCookie('access_token', '.myru.online');
-          signOut({ callbackUrl: '/' });
-        } else {
-          console.error('err:', response.statusText);
-        }
-      })
-      .catch((error) => {
-        console.error('err:', error);
-      });
+    .then((response) => {
+      if (response.ok) {
+        deleteCookie('access_token', '.myru.online');
+        signOut({ callbackUrl: '/' });
+      } else {
+        console.error('err:', response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error('err:', error);
+    });
   }
   return (
     <DropdownMenu>
@@ -95,11 +93,11 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className='cursor-pointer text-base' asChild>
-          <Link href='/stream'>
-            <CiStreamOn className='mr-2 size-5 text-primary' />
-            {t('trade')}
-          </Link>
-        </DropdownMenuItem>
+            <Link href='/stream'>
+              <CiStreamOn className='mr-2 size-5 text-primary' />
+              {t('trade')}
+            </Link>
+          </DropdownMenuItem>
         <DropdownMenuItem className='cursor-pointer text-base' asChild>
           <Link href='/profile/setting'>
             <RiUserSettingsFill className='mr-2 size-5 text-primary' />
@@ -109,7 +107,7 @@ export function AvatarWithMenu({ user }: AvatarWithMenuProps) {
         <DropdownMenuItem
           className='cursor-pointer text-base'
           onClick={handleSignOut}
-        >
+          >
           <FaSignOutAlt className='mr-2 size-5 text-primary' />
           {t('sign_out')}
         </DropdownMenuItem>

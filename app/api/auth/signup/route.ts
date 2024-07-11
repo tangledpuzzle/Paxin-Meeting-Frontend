@@ -8,10 +8,10 @@ export async function POST(req: NextRequest) {
     const { firstname, lastname, email, password, confirmPassword } =
       await req.json();
 
-    const deviceToken = cookies().get('deviceToken');
-    const deviceTokenVOIP = cookies().get('deviceTokenVOIP');
+    let deviceToken = cookies().get('deviceToken');
+    let deviceTokenVOIP = cookies().get('deviceTokenVOIP');
 
-    const data = {
+    let data = {
       email: email,
       name: `name${Math.floor(Math.random() * 10000)}`,
       password: password,

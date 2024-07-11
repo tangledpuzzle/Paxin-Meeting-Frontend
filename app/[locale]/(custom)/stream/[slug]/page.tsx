@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth';
 import { useLocale } from 'next-intl';
 import { faker } from '@faker-js/faker';
 import { headers } from 'next/headers';
-import cookie from 'cookie';
+import cookie from 'cookie'; 
 
 export function generateMetadata({ params: { slug } }: PageProps) {
   return {
@@ -46,6 +46,7 @@ async function getData(locale: string) {
   }
 }
 async function getTradingData(roomId: string) {
+
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_PAXTRADE_API_URL}room/get/${roomId}`
@@ -80,7 +81,7 @@ export default async function ChannelPage({ params: { slug } }: PageProps) {
     price: blog.Total,
     link: `/flows/${blog.UniqId}/${blog.Slug}`,
   }));
-  const defaultImage = 'default.jpg';
+  const defaultImage = 'default.jpg'
   const randomId = faker.string.uuid();
   const randomName = faker.internet.userName();
   return tradingData ? (
@@ -88,9 +89,9 @@ export default async function ChannelPage({ params: { slug } }: PageProps) {
       slug={slug}
       products={products}
       publisherId={tradingData.data.publisher.userID}
-      userAvatar={data ? data.data.user.photo : defaultImage}
-      userId={data ? data.data.user.id : randomId}
-      userName={data ? data.data.user.name : randomName}
+      userAvatar={data?data.data.user.photo:defaultImage}
+      userId={data?data.data.user.id: randomId}
+      userName={data?data.data.user.name: randomName}
     />
   ) : (
     <ErrorPage />

@@ -34,7 +34,7 @@ const BulkAction = ({ waitingParticipants }: IBulkActionProps) => {
       const res = CommonResponse.fromBinary(new Uint8Array(r));
 
       if (!res.status) {
-        // @ts-expect-error: no sms
+        // @ts-ignore
         toast(t(res.msg), {
           type: 'error',
         });
@@ -63,7 +63,7 @@ const BulkAction = ({ waitingParticipants }: IBulkActionProps) => {
       const res = CommonResponse.fromBinary(new Uint8Array(r));
 
       if (!res.status) {
-        // @ts-expect-error: no sms
+        // @ts-ignore
         toast(t(res.msg), {
           type: 'error',
         });

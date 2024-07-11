@@ -1,4 +1,3 @@
-/* eslint-disable */
 var createTFLiteSIMDModule = (() => {
   var _scriptDir =
     typeof document !== 'undefined' && document.currentScript

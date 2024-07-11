@@ -1,12 +1,14 @@
 'use client';
 
 import { MdDashboard } from 'react-icons/md';
+import React, { useEffect, useState } from 'react';
 import CTASection from '@/components/profiles/cta';
 import { Separator } from '@/components/ui/separator';
 import { PaxContext } from '@/context/context';
 import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useContext } from 'react';
 import { FaTelegram, FaUser } from 'react-icons/fa';
@@ -16,6 +18,7 @@ import { RiArticleLine } from 'react-icons/ri';
 import { MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 import { ChangeNamePopup } from '@/components/profiles/dashboard/change-name-popup';
 import { Button } from '@/components/ui/button';
+import io from 'socket.io-client';
 
 const services = [
   {
@@ -70,7 +73,7 @@ export default function DashboardPage() {
   // const { data: session } = useSession();
   // const userId = session?.user?.name || '';
   // console.log(userId)
-
+  
   // useEffect(() => {
   //   socket.on('connect', () => {
   //     console.log('connected to socket')

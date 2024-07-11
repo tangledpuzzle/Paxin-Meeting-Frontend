@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { z } from 'zod';
-import { Button } from './ui/button';
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { z } from "zod";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import { Icons } from './ui/icons';
-import { Input } from './ui/input';
+} from "./ui/dropdown-menu";
+import { Icons } from "./ui/icons";
+import { Input } from "./ui/input";
 
 const slugSchema = z
   .string()
@@ -19,7 +19,7 @@ const slugSchema = z
   .min(3);
 
 export default function HomeForm() {
-  const [slug, setSlug] = useState('');
+  const [slug, setSlug] = useState("");
   const [validSlug, setValidSlug] = useState(false);
   const router = useRouter();
 
@@ -33,11 +33,11 @@ export default function HomeForm() {
   }, [slug]);
 
   return (
-    <div className='flex items-center gap-2'>
+    <div className="flex items-center gap-2">
       <Input
-        className='w-[200px]'
-        type='text'
-        placeholder='example-stream'
+        className="w-[200px]"
+        type="text"
+        placeholder="example-stream"
         onChange={(e) => {
           setSlug(e.target.value);
         }}
@@ -45,29 +45,29 @@ export default function HomeForm() {
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant='secondary' disabled={!validSlug}>
+          <Button variant="secondary" disabled={!validSlug}>
             Join as host
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem
             onClick={() => router.push(`/setup?channel=${slug}`)}
-            className='flex items-center gap-2'
+            className="flex items-center gap-2"
           >
-            <Icons.uploadCloud className='h-4 w-4' />
+            <Icons.uploadCloud className="h-4 w-4" />
             Broadcast via LKC Ingress
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => router.push(`/channel/${slug}/host`)}
-            className='flex items-center gap-2'
+            className="flex items-center gap-2"
           >
-            <Icons.webcam className='h-4 w-4' />
+            <Icons.webcam className="h-4 w-4" />
             Broadcast from current device
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <Button
-        variant='secondary'
+        variant="secondary"
         disabled={!validSlug}
         onClick={() => router.push(`/channel/${slug}`)}
       >

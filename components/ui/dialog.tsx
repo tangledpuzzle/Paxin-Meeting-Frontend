@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 
@@ -28,10 +27,6 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
-DialogOverlay.propTypes = {
-  className: PropTypes.string,
-};
-
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
@@ -56,11 +51,6 @@ const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
-DialogContent.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-};
-
 const DialogHeader = ({
   className,
   ...props
@@ -75,10 +65,6 @@ const DialogHeader = ({
 );
 DialogHeader.displayName = 'DialogHeader';
 
-DialogHeader.propTypes = {
-  className: PropTypes.string,
-};
-
 const DialogFooter = ({
   className,
   ...props
@@ -92,10 +78,6 @@ const DialogFooter = ({
   />
 );
 DialogFooter.displayName = 'DialogFooter';
-
-DialogFooter.propTypes = {
-  className: PropTypes.string,
-};
 
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
@@ -112,10 +94,6 @@ const DialogTitle = React.forwardRef<
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
-DialogTitle.propTypes = {
-  className: PropTypes.string,
-};
-
 const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
@@ -127,10 +105,6 @@ const DialogDescription = React.forwardRef<
   />
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
-
-DialogDescription.propTypes = {
-  className: PropTypes.string,
-};
 
 export {
   Dialog,

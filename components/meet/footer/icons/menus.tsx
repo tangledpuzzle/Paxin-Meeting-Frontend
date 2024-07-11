@@ -143,7 +143,7 @@ const MenusIcon = () => {
         type: 'info',
       });
     } else {
-      // @ts-expect-error: no sms 
+      // @ts-ignore
       toast(t(res.msg), {
         toastId: 'asked-status',
         type: 'error',
@@ -168,7 +168,7 @@ const MenusIcon = () => {
       if (res.status) {
         dispatch(updateIsActiveSharedNotePad(true));
       } else {
-        // @ts-expect-error: no sms
+        // @ts-ignore
         toast(t(res.msg), {
           type: 'error',
         });
@@ -189,7 +189,7 @@ const MenusIcon = () => {
       if (res.status) {
         dispatch(updateIsActiveSharedNotePad(true));
       } else {
-        // @ts-expect-error: no sms
+        // @ts-ignore
         toast(t(res.msg), {
           type: 'error',
         });
@@ -210,7 +210,7 @@ const MenusIcon = () => {
       if (res.status) {
         dispatch(updateIsActiveSharedNotePad(false));
       } else {
-        // @ts-expect-error: no sms
+        // @ts-ignore
         toast(t(res.msg), {
           type: 'error',
         });
@@ -248,7 +248,7 @@ const MenusIcon = () => {
 
     if (!res.status) {
       toast.update(id, {
-        // @ts-expect-error: no sms
+        // @ts-ignore
         render: t(res.msg),
         type: 'error',
         isLoading: false,
@@ -289,7 +289,7 @@ const MenusIcon = () => {
 
     if (!res.status) {
       toast.update(id, {
-        // @ts-expect-error: no sms
+        // @ts-ignore
         render: t(res.msg),
         type: 'error',
         isLoading: false,

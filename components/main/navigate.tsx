@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 
 import Image from 'next/image';
 
-// import { SectionBadge } from '../common/section-badge';
+import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
 
@@ -17,7 +17,7 @@ export default function NavigateSection() {
       <SectionTitle className='px-4 text-left leading-[30px] md:text-center'>
         {t('discover_paxintrade')}
       </SectionTitle>
-      <SectionDescription className='px-4 pb-4 text-left font-bold md:text-center'>
+      <SectionDescription className='px-4 text-left md:text-center font-bold pb-4'>
         {t('navigating_your_digital_universe_description')}
       </SectionDescription>
       <div className='mt-4 flex flex-col gap-4 px-0 pb-4  md:flex-row  md:px-7 '>

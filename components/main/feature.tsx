@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { SectionBadge } from '../common/section-badge';
 import { SectionDescription } from '../common/section-description';
 import { SectionTitle } from '../common/section-title';
 import { Button } from '../ui/button';
@@ -112,7 +113,7 @@ export default function FeatureSection() {
   const t = useTranslations('main');
 
   return (
-    <div className='flex flex-col items-start justify-center px-0 pt-8 md:items-center'>
+    <div className='flex flex-col items-start justify-center px-0 md:items-center pt-8'>
       {/* <div className='px-7'>
         <SectionBadge>{t('navigating_your_digital_universe')}</SectionBadge>
       </div> */}

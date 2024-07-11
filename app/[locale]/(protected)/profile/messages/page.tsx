@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
+import { CiMenuKebab } from 'react-icons/ci';
 import eventBus from '@/eventBus';
+import Link from 'next/link';
 
 interface FollowersPageProps {
   onSelectContact: (contactId: number) => void;

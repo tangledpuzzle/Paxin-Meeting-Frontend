@@ -65,7 +65,7 @@ const RemoveParticipantAlertModal = ({
         type: 'info',
       });
     } else {
-      // @ts-expect-error: no sms
+      // @ts-ignore
       toast(t(res.msg), {
         type: 'error',
       });

@@ -35,9 +35,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(response.data);
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { error: 'Failed to send push notification' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to send push notification' }, { status: 500 });
   }
 }

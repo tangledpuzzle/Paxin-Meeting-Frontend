@@ -30,6 +30,7 @@ const useSocket = (locale: string): WebSocket | null => {
       }
     };
 
+    
     const pingIntervalId = setInterval(() => {
       if (newSocket.readyState === WebSocket.OPEN) {
         const pingData = JSON.stringify({

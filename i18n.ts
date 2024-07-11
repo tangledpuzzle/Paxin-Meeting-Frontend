@@ -8,11 +8,11 @@ type MessagesLoader = () => Promise<IntlMessages>;
 
 const localeData: Record<Locale, MessagesLoader> = {
   en: () => import('./messages/en.json').then((module) => module.default),
-  //@ts-expect-error: no sms
+  //@ts-ignore
   es: () => import('./messages/es.json').then((module) => module.default),
-  //@ts-expect-error: no sms
+  //@ts-ignore
   ka: () => import('./messages/ka.json').then((module) => module.default),
-  //@ts-expect-error: no sms
+  //@ts-ignore
   ru: () => import('./messages/ru.json').then((module) => module.default),
 };
 

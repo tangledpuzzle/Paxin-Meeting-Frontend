@@ -34,6 +34,7 @@ interface IStreamContext {
   updatePosition: (x: number, y: number) => void;
 }
 export const StreamContext = createContext<IStreamContext>({
+
   popup: {
     position: {
       x: 0,
@@ -60,7 +61,7 @@ type Props = {
 };
 export function StreamProvider({ children }: Props) {
   const [showPopup, togglePopup] = useState<boolean>(true);
-
+ 
   const { width, height } = useWindowSize();
 
   const [popup, setPopUp] = useState<IPopUp>({
@@ -73,9 +74,10 @@ export function StreamProvider({ children }: Props) {
       y: 0,
     },
   });
+  
 
   const dispatch = useAppDispatch();
-
+ 
   useEffect(() => {
     const isMobile = width > 450 ? false : true;
     setPopUp({

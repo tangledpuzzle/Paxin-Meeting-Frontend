@@ -36,7 +36,7 @@ const Create = () => {
           type: 'info',
         });
       } else {
-        // @ts-expect-error: no sms
+        // @ts-ignore
         toast(t(data.msg), {
           type: 'error',
         });

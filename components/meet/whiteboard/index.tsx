@@ -46,6 +46,7 @@ import {
 
 import './style.scss';
 import { useLocale, useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 
 interface WhiteboardProps {
   onReadyExcalidrawAPI: (excalidrawAPI: ExcalidrawImperativeAPI) => void;
@@ -130,7 +131,8 @@ const Whiteboard = ({ onReadyExcalidrawAPI }: WhiteboardProps) => {
       import('./helpers/handleRequestedWhiteboardData').then((e) =>
         e.sendRequestedForWhiteboardData(t)
       );
-      //sendRequestedForWhiteboardData(t);
+      //@ts-ignore
+      // sendRequestedForWhiteboardData(t);
       setFetchedData(true);
     }
 

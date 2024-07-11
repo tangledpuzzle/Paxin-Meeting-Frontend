@@ -2,7 +2,7 @@ import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
-import cookie from 'cookie';
+import cookie from 'cookie'; 
 
 export async function POST(req: NextRequest) {
   const locale = req.nextUrl.searchParams.get('language') || 'en';
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     accessToken = parsedCookies.access_token;
   }
   if (!accessToken) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
       я: 'ya',
     };
 
-    const lowerTitle = title.toLowerCase();
+    let lowerTitle = title.toLowerCase();
     let slug = '';
     for (let i = 0; i < lowerTitle.length; i++) {
       const char = lowerTitle[i];
@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const blogData = {
+    let blogData = {
       title: title,
       descr: subtitle,
       lang: locale,

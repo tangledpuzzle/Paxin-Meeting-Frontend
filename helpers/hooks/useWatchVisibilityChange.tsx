@@ -47,7 +47,7 @@ const useWatchVisibilityChange = () => {
     }
 
     const handleVisibilityChange = () => {
-      //@ts-expect-error: no sms
+      //@ts-ignore
       if (document[hidden]) {
         setHidden(true);
       } else {
@@ -60,7 +60,7 @@ const useWatchVisibilityChange = () => {
       hidden !== undefined
     ) {
       document.addEventListener(
-        // @ts-expect-error: no sms
+        // @ts-ignore
         visibilityChange,
         handleVisibilityChange,
         false
