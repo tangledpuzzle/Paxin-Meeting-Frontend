@@ -2,7 +2,7 @@ import authOptions from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
-import cookie from 'cookie'; 
+import cookie from 'cookie';
 
 export async function POST(req: NextRequest) {
   const locale = req.nextUrl.searchParams.get('language') || 'en';
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     accessToken = parsedCookies.access_token;
   }
   if (!accessToken) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -105,6 +105,8 @@ export async function POST(req: NextRequest) {
     );
 
     if (!res.ok) {
+      const errorData = await res.json(); // Получить данные об ошибке из ответа сервера
+      console.error('Error creating blog:', errorData);
       throw new Error('Failed to create blog');
     }
 
@@ -115,7 +117,7 @@ export async function POST(req: NextRequest) {
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -126,12 +128,18 @@ export async function POST(req: NextRequest) {
     );
 
     if (!blogPhotoRes.ok) {
+      const errorData = await blogPhotoRes.json(); // Получить данные об ошибке из ответа сервера
+      console.error('Error adding blog photos:', errorData);
       throw new Error('Failed to add blog photos');
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.log(error);
+    if (error instanceof Error) {
+      console.error('Error:', error.message);
+    } else {
+      console.error('Unexpected error:', error);
+    }
     return NextResponse.json(
       { error: 'Failed to fetch data' },
       { status: 500 }
