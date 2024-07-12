@@ -1,19 +1,18 @@
 'use client';
 
 import { createStreamerToken } from '@/app/[locale]/(protected)/stream/action';
-import { LiveKitRoom, useLocalParticipant, useParticipants } from '@livekit/components-react';
+import { LiveKitRoom, RoomContext, useLocalParticipant, useParticipants } from '@livekit/components-react';
 import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import Chat from './host-chat';
 import apiHelper from '@/helpers/api/apiRequest';
-import { Track, createLocalTracks, LocalTrack } from 'livekit-client';
+import { Track, createLocalTracks, LocalTrack, Room } from 'livekit-client';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { usePaxContext, PaxContext } from '@/context/context';
 import { Loader2 } from 'lucide-react';
-import MicrophoneModal from '@/components/meet/footer/modals/microphoneModal'; 
-import ShareWebcamModal from '@/components/meet/footer/modals/webcam/shareWebcam'; 
+import MicrophoneModal from '@/components/meet/footer/modals/microphoneModal';
+import ShareWebcamModal from '@/components/meet/footer/modals/webcam/shareWebcam';
 import ProductPanel, { IProduct } from './product-panel';
-
 
 interface HostChannelProps {
   slug: string;
@@ -31,9 +30,9 @@ export default function HostChannel({
   products,
 }: HostChannelProps) {
   const [streamerToken, setStreamerToken] = useState('');
-
   const [showWebcamModal, setShowWebcamModal] = useState(false);
   const [selectedWebcam, setSelectedWebcam] = useState<string>('');
+  const [videoTrack, setVideoTrack] = useState<LocalTrack | null>(null);
   const router = useRouter();
   const { user } = usePaxContext();
   const { lastCommand, additionalData } = useContext(PaxContext);
@@ -115,37 +114,60 @@ export default function HostChannel({
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_WS_URL}
       className='relative flex h-[calc(100vh-81px)] flex-col'
     >
-      <HostStreamManager
-        userId={userId}
-        sendPushNotification={sendPushNotification}
-        deleteTradingRoom={deleteTradingRoom}
-        products={products}
-        setShowWebcamModal={setShowWebcamModal} // Pass setShowWebcamModal function
-      />
+      <RoomContext.Consumer>
+        {room => room ? (
+          <>
+            <HostStreamManager
+              room={room}
+              userId={userId}
+              sendPushNotification={sendPushNotification}
+              deleteTradingRoom={deleteTradingRoom}
+              products={products}
+              setShowWebcamModal={setShowWebcamModal}
+              videoTrack={videoTrack}
+              setVideoTrack={setVideoTrack}
+              selectedWebcam={selectedWebcam}
+            />
 
-      <ShareWebcamModal
-        isOpen={showWebcamModal}
-        onSelectedDevice={(deviceId) => {
-          setSelectedWebcam(deviceId);
-          setShowWebcamModal(false);
-          console.log('Selected webcam device:', deviceId); // Debug log
-        }}
-        onClose={() => setShowWebcamModal(false)} // Ensure the modal can be closed
-      />
+            <ShareWebcamModal
+              isOpen={showWebcamModal}
+              onSelectedDevice={async (deviceId) => {
+                if (videoTrack) {
+                  videoTrack.stop();
+                  await room.localParticipant.unpublishTrack(videoTrack);
+                }
+                const tracks = await createLocalTracks({ video: { deviceId } });
+                const newVideoTrack = tracks.find(track => track.kind === Track.Kind.Video) as LocalTrack;
+                await room.localParticipant.publishTrack(newVideoTrack);
+                setVideoTrack(newVideoTrack);
+                setSelectedWebcam(deviceId);
+                setShowWebcamModal(false);
+                console.log('Selected webcam device:', deviceId);
+              }}
+              onClose={() => setShowWebcamModal(false)}
+            />
+          </>
+        ) : (
+          <div>Loading...</div>
+        )}
+      </RoomContext.Consumer>
     </LiveKitRoom>
   );
 }
 
 interface HostStreamManagerProps {
+  room: Room;
   userId: string;
   sendPushNotification: () => Promise<void>;
   deleteTradingRoom: () => Promise<void>;
   products: IProduct[];
   setShowWebcamModal: (show: boolean) => void;
+  videoTrack: LocalTrack | null;
+  setVideoTrack: (track: LocalTrack | null) => void;
+  selectedWebcam: string;
 }
 
-function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, products, setShowWebcamModal }: HostStreamManagerProps) {
-  const [videoTrack, setVideoTrack] = useState<LocalTrack>();
+function HostStreamManager({ room, userId, sendPushNotification, deleteTradingRoom, products, setShowWebcamModal, videoTrack, setVideoTrack, selectedWebcam }: HostStreamManagerProps) {
   const [audioTrack, setAudioTrack] = useState<LocalTrack>();
   const [isPublishing, setIsPublishing] = useState(false);
   const [isUnpublishing, setIsUnpublishing] = useState(false);
@@ -157,17 +179,14 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
   const [isStoppingStream, setIsStoppingStream] = useState(false);
   const [isClosingStream, setIsClosingStream] = useState(false);
   const previewVideoEl = useRef<HTMLVideoElement>(null);
-  const { localParticipant } = useLocalParticipant();
+  const localParticipant = room.localParticipant;
   const participants = useParticipants();
 
-  const createTracks = async (micId?: string) => {
-    const tracks = await createLocalTracks({ audio: { deviceId: micId }, video: true });
+  const createTracks = async (micId?: string, camId?: string) => {
+    const tracks = await createLocalTracks({ audio: { deviceId: micId }, video: { deviceId: camId } });
     tracks.forEach((track) => {
       switch (track.kind) {
         case Track.Kind.Video: {
-          if (previewVideoEl?.current) {
-            track.attach(previewVideoEl.current);
-          }
           setVideoTrack(track);
           break;
         }
@@ -180,8 +199,8 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
   };
 
   useEffect(() => {
-    void createTracks(selectedMic);
-  }, [selectedMic]);
+    void createTracks(selectedMic, selectedWebcam);
+  }, [selectedMic, selectedWebcam]);
 
   useEffect(() => {
     return () => {
@@ -194,19 +213,28 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
     setParticipantCount(participants.length);
   }, [participants]);
 
+  useEffect(() => {
+    if (videoTrack && previewVideoEl.current) {
+      console.log('Attaching video track to video element:', videoTrack);
+      videoTrack.attach(previewVideoEl.current);
+    }
+  }, [videoTrack]);
+
   const togglePublishing = useCallback(async () => {
     if (isPublishing && localParticipant) {
       setIsStoppingStream(true);
       setIsUnpublishing(true);
 
       if (videoTrack) {
-        void localParticipant.unpublishTrack(videoTrack);
+        console.log('Unpublishing video track');
+        await localParticipant.unpublishTrack(videoTrack);
       }
       if (audioTrack) {
-        void localParticipant.unpublishTrack(audioTrack);
+        console.log('Unpublishing audio track');
+        await localParticipant.unpublishTrack(audioTrack);
       }
 
-      await createTracks(selectedMic);
+      await createTracks(selectedMic, selectedWebcam);
 
       setTimeout(() => {
         setIsUnpublishing(false);
@@ -216,10 +244,12 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
       setIsStartingStream(true);
 
       if (videoTrack) {
-        void localParticipant.publishTrack(videoTrack);
+        console.log('Publishing video track');
+        await localParticipant.publishTrack(videoTrack);
       }
       if (audioTrack) {
-        void localParticipant.publishTrack(audioTrack);
+        console.log('Publishing audio track');
+        await localParticipant.publishTrack(audioTrack);
       }
 
       if (!hasSentNotification) {
@@ -230,7 +260,7 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
     }
 
     setIsPublishing((prev) => !prev);
-  }, [audioTrack, isPublishing, localParticipant, videoTrack, sendPushNotification, selectedMic]);
+  }, [audioTrack, isPublishing, localParticipant, videoTrack, sendPushNotification, selectedMic, selectedWebcam]);
 
   return (
     <div className='flex h-full flex-col gap-4'>
