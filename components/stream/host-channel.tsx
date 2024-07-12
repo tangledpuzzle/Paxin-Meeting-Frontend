@@ -2,18 +2,18 @@
 
 import { createStreamerToken } from '@/app/[locale]/(protected)/stream/action';
 import { LiveKitRoom, useLocalParticipant, useParticipants } from '@livekit/components-react';
-import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import Chat from './host-chat';
-import ChannelInfo from '@/components/stream/channel-info';
-import ProductPanel, { IProduct } from './product-panel';
 import apiHelper from '@/helpers/api/apiRequest';
-import StreamPlayerWrapper from '@/components/stream/stream-player'; // Импортируем StreamPlayerWrapper
 import { Track, createLocalTracks, LocalTrack } from 'livekit-client';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { usePaxContext, PaxContext } from '@/context/context';
 import { Loader2 } from 'lucide-react';
+import MicrophoneModal from '@/components/meet/footer/modals/microphoneModal'; 
+import ShareWebcamModal from '@/components/meet/footer/modals/webcam/shareWebcam'; 
+import ProductPanel, { IProduct } from './product-panel';
+
 
 interface HostChannelProps {
   slug: string;
@@ -31,6 +31,9 @@ export default function HostChannel({
   products,
 }: HostChannelProps) {
   const [streamerToken, setStreamerToken] = useState('');
+
+  const [showWebcamModal, setShowWebcamModal] = useState(false);
+  const [selectedWebcam, setSelectedWebcam] = useState<string>('');
   const router = useRouter();
   const { user } = usePaxContext();
   const { lastCommand, additionalData } = useContext(PaxContext);
@@ -101,6 +104,7 @@ export default function HostChannel({
       toast.error('Ошибка');
     } else {
       toast.success('Эфир закрыт');
+      // mutate('/profile/dashboard'); 
       router.push('/profile/posts');
     }
   }
@@ -115,7 +119,18 @@ export default function HostChannel({
         userId={userId}
         sendPushNotification={sendPushNotification}
         deleteTradingRoom={deleteTradingRoom}
-        products={products} // Передаем продукты здесь
+        products={products}
+        setShowWebcamModal={setShowWebcamModal} // Pass setShowWebcamModal function
+      />
+
+      <ShareWebcamModal
+        isOpen={showWebcamModal}
+        onSelectedDevice={(deviceId) => {
+          setSelectedWebcam(deviceId);
+          setShowWebcamModal(false);
+          console.log('Selected webcam device:', deviceId); // Debug log
+        }}
+        onClose={() => setShowWebcamModal(false)} // Ensure the modal can be closed
       />
     </LiveKitRoom>
   );
@@ -125,25 +140,28 @@ interface HostStreamManagerProps {
   userId: string;
   sendPushNotification: () => Promise<void>;
   deleteTradingRoom: () => Promise<void>;
-  products: IProduct[]; // Добавляем продукты в интерфейс
+  products: IProduct[];
+  setShowWebcamModal: (show: boolean) => void;
 }
 
-function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, products }: HostStreamManagerProps) {
+function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, products, setShowWebcamModal }: HostStreamManagerProps) {
   const [videoTrack, setVideoTrack] = useState<LocalTrack>();
   const [audioTrack, setAudioTrack] = useState<LocalTrack>();
   const [isPublishing, setIsPublishing] = useState(false);
   const [isUnpublishing, setIsUnpublishing] = useState(false);
   const [hasSentNotification, setHasSentNotification] = useState(false);
   const [participantCount, setParticipantCount] = useState(0);
-  const [isStartingStream, setIsStartingStream] = useState(false); // Loading state for start stream button
-  const [isStoppingStream, setIsStoppingStream] = useState(false); // Loading state for stop stream button
-  const [isClosingStream, setIsClosingStream] = useState(false); // Loading state for close stream button
+  const [showMicrophoneModal, setShowMicrophoneModal] = useState(false);
+  const [selectedMic, setSelectedMic] = useState<string>('');
+  const [isStartingStream, setIsStartingStream] = useState(false);
+  const [isStoppingStream, setIsStoppingStream] = useState(false);
+  const [isClosingStream, setIsClosingStream] = useState(false);
   const previewVideoEl = useRef<HTMLVideoElement>(null);
   const { localParticipant } = useLocalParticipant();
   const participants = useParticipants();
 
-  const createTracks = async () => {
-    const tracks = await createLocalTracks({ audio: true, video: true });
+  const createTracks = async (micId?: string) => {
+    const tracks = await createLocalTracks({ audio: { deviceId: micId }, video: true });
     tracks.forEach((track) => {
       switch (track.kind) {
         case Track.Kind.Video: {
@@ -162,8 +180,8 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
   };
 
   useEffect(() => {
-    void createTracks();
-  }, []);
+    void createTracks(selectedMic);
+  }, [selectedMic]);
 
   useEffect(() => {
     return () => {
@@ -188,7 +206,7 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
         void localParticipant.unpublishTrack(audioTrack);
       }
 
-      await createTracks();
+      await createTracks(selectedMic);
 
       setTimeout(() => {
         setIsUnpublishing(false);
@@ -212,10 +230,18 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
     }
 
     setIsPublishing((prev) => !prev);
-  }, [audioTrack, isPublishing, localParticipant, videoTrack, sendPushNotification]);
+  }, [audioTrack, isPublishing, localParticipant, videoTrack, sendPushNotification, selectedMic]);
 
   return (
     <div className='flex h-full flex-col gap-4'>
+      <MicrophoneModal
+        show={showMicrophoneModal}
+        onCloseMicrophoneModal={(deviceId) => {
+          setSelectedMic(deviceId || '');
+          setShowMicrophoneModal(false);
+        }}
+      />
+
       <div className='flex flex-col items-center justify-between absolute z-40 w-full md:w-[250px] top-4 md:right-[50px]'>
         <div className='flex gap-[5px] text-white mb-4 text-lg font-bold'>
           {isPublishing && !isUnpublishing ? (
@@ -231,6 +257,21 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
           )}{' '}
         </div>
         <div className='flex gap-2'>
+          <button
+            className='bg-primary hover:bg-blue-700 px-4 py-2 rounded animate-pulse text-xs md:text-md'
+            onClick={() => setShowMicrophoneModal(true)}
+          >
+            Выбрать микрофон
+          </button>
+          <button
+            className='bg-primary hover:bg-blue-700 px-4 py-2 rounded animate-pulse text-xs md:text-md'
+            onClick={() => {
+              console.log('Opening webcam modal'); // Debug log
+              setShowWebcamModal(true);
+            }}
+          >
+            Выбрать веб-камеру
+          </button>
           {isPublishing ? (
             <button
               className='bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-xs md:text-md'
@@ -268,11 +309,6 @@ function HostStreamManager({ userId, sendPushNotification, deleteTradingRoom, pr
           style={{ objectFit: 'cover' }}
         />
         <div className='flex h-full w-full justify-between md:h-full rtl:flex-row-reverse absolute inset-0 z-10'>
-          {/* <div className='relative w-full md:block'>
-            <div className='absolute bottom-0 right-0 top-0 flex h-full w-full flex-col gap-2 p-2'>
-              <ProductPanel products={products} />
-            </div>
-          </div> */}
           <div className='relative w-full md:block'>
             <div className='absolute bottom-0 right-0 top-0 flex h-full w-full md:w-[340px] pt-[120px] flex-col gap-2 p-2 bg-black/40'>
               <Chat participantName={userId} />
