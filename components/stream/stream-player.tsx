@@ -1,119 +1,69 @@
-import {
-  StartAudio,
-  useConnectionState,
-  useRemoteParticipant,
-  useTracks,
-} from '@livekit/components-react';
-import { ConnectionState, Track, type Participant } from 'livekit-client';
-import React, { useCallback, useRef, useState } from 'react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from './ui/tooltip';
-
-import Link from 'next/link';
+import { useTracks } from '@livekit/components-react';
+import { Track, Participant } from 'livekit-client';
+import React, { useCallback, useRef, useState, forwardRef, useEffect } from 'react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { Icons } from './ui/icons';
-import { useTranslations } from 'next-intl';
 
-function toString(connectionState: string) {
-  switch (connectionState) {
-    case 'connected':
-      return 'Connected!';
-    case 'connecting':
-      return 'Connecting...';
-    case 'disconnected':
-      return 'Disconnected';
-    case 'reconnecting':
-      return 'Reconnecting';
-    default:
-      return 'Unknown';
-  }
-}
-
-interface Props {
-  streamerIdentity: string;
-}
-
-export default function StreamPlayerWrapper({ streamerIdentity }: Props) {
-  const connectionState = useConnectionState();
-  const t = useTranslations('stream');
-  const participant = useRemoteParticipant(streamerIdentity);
-  const tracks = useTracks(Object.values(Track.Source)).filter(
-    (track) => track.participant.permissions?.canPublish
-  );
-
-  if (connectionState !== ConnectionState.Connected || !participant) {
-    return (
-      <div className='grid h-full items-center justify-center bg-black text-sm uppercase text-white'>
-        {connectionState === ConnectionState.Connected
-          ? t('offline_message')
-          : toString(connectionState)}
-      </div>
-    );
-  } else if (tracks.length === 0) {
-    return (
-      <>
-        <div className='flex h-[calc(100%)] items-center justify-center bg-black text-sm uppercase text-white'>
-          <div className='flex gap-2'>
-            <div className='h-4 w-4 animate-bounce rounded-full bg-neutral-400 delay-100' />
-            <div className='h-4 w-4 animate-bounce rounded-full bg-neutral-500 delay-200' />
-            <div className='h-4 w-4 animate-bounce rounded-full bg-neutral-600 delay-300' />
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  return <StreamPlayer participant={participant} />;
-}
-
-export const StreamPlayer = ({ participant }: { participant: Participant }) => {
+const StreamPlayer = forwardRef<HTMLVideoElement, { participant: Participant }>(({ participant }, ref) => {
   const [muted, setMuted] = useState(false);
   const [volume, setVolume] = useState(50);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const videoEl = useRef<HTMLVideoElement>(null);
+  const [audioPlaybackAllowed, setAudioPlaybackAllowed] = useState(false);
+  const videoEl = ref as React.RefObject<HTMLVideoElement>;
   const playerEl = useRef<HTMLDivElement>(null);
 
-  useTracks(Object.values(Track.Source))
-    .filter((track) => track.participant.identity === participant.identity)
-    .forEach((track) => {
-      if (videoEl.current) {
-        track.publication.track?.attach(videoEl.current);
-      }
-    });
+  const tracks = useTracks(Object.values(Track.Source)).filter(
+    (track) => track.participant.identity === participant.identity
+  );
+
+  useEffect(() => {
+    if (videoEl.current) {
+      tracks.forEach((track) => {
+        if (videoEl.current) {
+          track.publication.track?.attach(videoEl.current);
+        }
+      });
+    }
+  }, [videoEl, tracks]);
 
   const onVolumeChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setMuted(e.target.value === '0');
       setVolume(+e.target.value);
-      if (videoEl?.current) {
+      if (videoEl.current) {
         videoEl.current.muted = e.target.value === '0';
         videoEl.current.volume = +e.target.value * 0.01;
       }
     },
-    []
+    [videoEl]
   );
 
   const onToggleMute = useCallback(() => {
     setMuted(!muted);
     setVolume(muted ? 50 : 0);
-    if (videoEl?.current) {
+    if (videoEl.current) {
       videoEl.current.muted = !muted;
       videoEl.current.volume = muted ? 0.5 : 0;
     }
-  }, [muted]);
+  }, [muted, videoEl]);
 
   const onFullScreen = useCallback(() => {
     if (isFullScreen) {
       document.exitFullscreen().catch((err) => console.error(err));
       setIsFullScreen(false);
-    } else if (playerEl?.current) {
+    } else if (playerEl.current) {
       playerEl.current.requestFullscreen().catch((err) => console.error(err));
       setIsFullScreen(true);
     }
-  }, [isFullScreen]);
+  }, [isFullScreen, playerEl]);
+
+  const onAllowAudioPlayback = useCallback(() => {
+    setAudioPlaybackAllowed(true);
+    if (videoEl.current) {
+      videoEl.current.muted = false;
+      videoEl.current.play().catch((err) => console.error(err));
+    }
+  }, [videoEl]);
 
   return (
     <TooltipProvider delayDuration={300}>
@@ -159,11 +109,19 @@ export const StreamPlayer = ({ participant }: { participant: Participant }) => {
             </div>
           </div>
         </div>
-        <StartAudio
-          label='Click to allow audio playback'
-          className='absolute top-0 h-full w-full bg-black bg-opacity-75 text-white'
-        />
+        {!audioPlaybackAllowed && (
+          <div className='absolute z-10 top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-75 text-white'>
+            <button
+              className='bg-primary hover:bg-blue-700 px-4 py-2 rounded'
+              onClick={onAllowAudioPlayback}
+            >
+              Click to allow audio playback
+            </button>
+          </div>
+        )}
       </div>
     </TooltipProvider>
   );
-};
+});
+
+export default StreamPlayer;
