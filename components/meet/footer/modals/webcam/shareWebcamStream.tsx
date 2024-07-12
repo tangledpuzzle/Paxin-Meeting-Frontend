@@ -80,7 +80,7 @@ const ShareWebcamModal = ({ onSelectedDevice, isOpen, onClose }: IShareWebcamMod
               </select>
             </div>
 
-            <div className='col-span-6 max-h-[150px] sm:col-span-3'>
+            <div className='col-span-6 sm:col-span-3'>
               <PreviewWebcam deviceId={selectedWebcam} />
             </div>
 
