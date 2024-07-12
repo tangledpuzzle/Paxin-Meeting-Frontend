@@ -45,7 +45,6 @@ const selectedVideoDeviceSelector = createSelector(
 
 const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
   const dispatch = useAppDispatch();
-  // we don't need this for small devices
   const showTooltip = store.getState().session.userDeviceType === 'desktop';
 
   const showVideoShareModal = useAppSelector(showVideoShareModalSelector);
@@ -61,7 +60,6 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
   const [virtualBgLocalTrack, setVirtualBgLocalTrack] = useState<MediaStream>();
   const virtualBgVideoPlayer = useRef<HTMLVideoElement>(null);
 
-  // for change in webcam lock setting
   useEffect(() => {
     const closeMicOnLock = async () => {
       for (const [
@@ -92,7 +90,6 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
     }
   }, [isWebcamLock, currentRoom, dispatch]);
 
-  // default room lock settings
   useEffect(() => {
     const isLock =
       store.getState().session.currentRoom.metadata?.default_lock_settings
@@ -104,10 +101,8 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
         setLockWebcam(true);
       }
     }
-    // eslint-disable-next-line
   }, []);
 
-  // we should check & close track
   useEffect(() => {
     if (!isActiveWebcam && virtualBgLocalTrack && !selectedVideoDevice) {
       virtualBgLocalTrack.getTracks().forEach((t) => t.stop());
@@ -115,10 +110,8 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
     if (!isActiveWebcam && !selectedVideoDevice && deviceId) {
       setDeviceId(undefined);
     }
-    //eslint-disable-next-line
   }, [selectedVideoDevice]);
 
-  // this is required during changing webcam device
   useEffect(() => {
     if (!selectedVideoDevice || !deviceId) {
       return;
@@ -130,7 +123,6 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
     const changeDevice = async (deviceId: string) => {
       await currentRoom.switchActiveDevice('videoinput', deviceId);
     };
-    // for virtual background we'll require creating new stream
     const changeDeviceWithVB = async (deviceId: string) => {
       await createDeviceStream(deviceId);
     };
@@ -142,11 +134,8 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
     }
 
     setDeviceId(selectedVideoDevice);
-    // eslint-disable-next-line
   }, [selectedVideoDevice]);
 
-  // virtualBgLocalTrack only update when using virtual background
-  // need to stop previous track before starting new one
   useEffect(() => {
     if (virtualBgLocalTrack && virtualBgVideoPlayer) {
       const el = virtualBgVideoPlayer.current;
@@ -161,7 +150,6 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
     };
   }, [virtualBgLocalTrack]);
 
-  // for virtual background
   const handleVirtualBgVideoOnLoad = () => {
     const el = virtualBgVideoPlayer.current;
     if (el) {
@@ -181,7 +169,6 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
     if (!isActiveWebcam) {
       dispatch(updateShowVideoShareModal(!isActiveWebcam));
     } else if (isActiveWebcam) {
-      // leave webcam
       for (const [
         ,
         publication,
@@ -222,8 +209,6 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
     } else {
       const constraints: MediaStreamConstraints = {
         video: {
-          // width: { min: 160, ideal: 320 },
-          // height: { min: 90, ideal: 180 },
           deviceId: {
             exact: deviceId,
             ideal: deviceId,
@@ -234,7 +219,6 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
         await navigator.mediaDevices.getUserMedia(constraints);
       setVirtualBgLocalTrack(mediaStream);
     }
-
     return;
   };
 
@@ -244,7 +228,6 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
     dispatch(updateSelectedVideoDevice(deviceId));
   };
 
-  // handle virtual background canvas
   const onCanvasRef = (
     canvasRef: React.MutableRefObject<HTMLCanvasElement>
   ) => {
@@ -325,10 +308,13 @@ const WebcamIcon = ({ currentRoom }: IWebcamIconProps) => {
         {showButtons()}
 
         {showVideoShareModal ? (
-          <ShareWebcamModal onSelectedDevice={onSelectedDevice} />
+          <ShareWebcamModal
+            onSelectedDevice={onSelectedDevice}
+            isOpen={showVideoShareModal}
+            onClose={() => dispatch(updateShowVideoShareModal(false))}
+          />
         ) : null}
 
-        {/*For virtual background*/}
         {sourcePlayback && deviceId && virtualBackground.type !== 'none' ? (
           <div style={{ display: 'none' }}>
             <VirtualBackground
