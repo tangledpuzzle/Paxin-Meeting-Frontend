@@ -115,7 +115,7 @@ const StreamPlayer = forwardRef<HTMLVideoElement, { participant: Participant }>(
               className='bg-primary hover:bg-blue-700 px-4 py-2 rounded'
               onClick={onAllowAudioPlayback}
             >
-              Click to allow audio playback
+              Начать просмотр
             </button>
           </div>
         )}

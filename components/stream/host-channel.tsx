@@ -1,7 +1,7 @@
 "use client"
 import Chat from './host-chat';
 import { LiveKitRoom, RoomContext, useLocalParticipant, useParticipants } from '@livekit/components-react';
-import { createLocalTracks, LocalTrack, Track, Room } from 'livekit-client';
+import { createLocalTracks, LocalTrack, Track, Room, LocalTrackPublication } from 'livekit-client';
 import { useEffect, useState, useRef, useContext, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import apiHelper from '@/helpers/api/apiRequest';
@@ -138,10 +138,7 @@ export default function HostChannel({
             <ShareWebcamModal
               isOpen={showWebcamModal}
               onSelectedDevice={async (deviceId: string) => {
-                const tracks = await createLocalTracks({ video: { deviceId } });
-                const newVideoTrack = tracks.find(track => track.kind === Track.Kind.Video) as LocalTrack;
-                await room.localParticipant.publishTrack(newVideoTrack);
-                setVideoTrack(newVideoTrack);
+                await switchWebcamDevice(room, deviceId);
                 setSelectedWebcam(deviceId);
                 setShowWebcamModal(false);
                 console.log('Selected webcam device:', deviceId);
@@ -153,10 +150,7 @@ export default function HostChannel({
               show={showMicrophoneModal}
               onCloseMicrophoneModal={async (deviceId?: string) => {
                 if (deviceId) {
-                  const tracks = await createLocalTracks({ audio: { deviceId } });
-                  const newAudioTrack = tracks.find(track => track.kind === Track.Kind.Audio) as LocalTrack;
-                  await room.localParticipant.publishTrack(newAudioTrack);
-                  setAudioTrack(newAudioTrack);
+                  await switchMicrophoneDevice(room, deviceId);
                   setSelectedMic(deviceId);
                   console.log('Selected microphone device:', deviceId);
                 }
@@ -256,35 +250,52 @@ function HostStreamManager({
     }
   }, [videoTrack]);
 
-  const leaveWebcam = useCallback(() => {
+  const leaveWebcam = useCallback(async () => {
+    const unpublishPromises: Promise<LocalTrackPublication | undefined>[] = [];
+    
     room.localParticipant.videoTrackPublications.forEach(async (publication) => {
       if (publication.track && publication.track.source === Track.Source.Camera) {
         await room.localParticipant.unpublishTrack(publication.track, true);
       }
     });
+  
+    await Promise.all(unpublishPromises);
     setVideoTrack(null);
   }, [room]);
 
-  const leaveMic = useCallback(() => {
+  const leaveMic = useCallback(async () => {
+    const unpublishPromises: Promise<LocalTrackPublication | undefined>[] = [];
+
     room.localParticipant.audioTrackPublications.forEach(async (publication) => {
       if (publication.track && publication.track.kind === Track.Kind.Audio) {
         await room.localParticipant.unpublishTrack(publication.track, true);
       }
     });
+    await Promise.all(unpublishPromises);
     setAudioTrack(null);
   }, [room]);
 
   useEffect(() => {
     if (selectedWebcam) {
-      leaveWebcam();
+      leaveWebcam().then(async () => {
+        const tracks = await createLocalTracks({ video: { deviceId: selectedWebcam } });
+        const newVideoTrack = tracks.find(track => track.kind === Track.Kind.Video) as LocalTrack;
+        await room.localParticipant.publishTrack(newVideoTrack);
+        setVideoTrack(newVideoTrack);
+      });
     }
-  }, [selectedWebcam, leaveWebcam]);
+  }, [selectedWebcam, leaveWebcam, room]);
 
   useEffect(() => {
     if (selectedMic) {
-      leaveMic();
+      leaveMic().then(async () => {
+        const tracks = await createLocalTracks({ audio: { deviceId: selectedMic } });
+        const newAudioTrack = tracks.find(track => track.kind === Track.Kind.Audio) as LocalTrack;
+        await room.localParticipant.publishTrack(newAudioTrack);
+        setAudioTrack(newAudioTrack);
+      });
     }
-  }, [selectedMic, leaveMic]);
+  }, [selectedMic, leaveMic, room]);
 
   const togglePublishing = useCallback(async () => {
     if (isPublishing && localParticipant) {
@@ -345,12 +356,6 @@ function HostStreamManager({
           )}{' '}
         </div>
         <div className='flex gap-2 px-4'>
-          {/* <button
-            className='bg-primary hover:bg-blue-700 px-4 py-2 rounded animate-pulse text-xs md:text-md'
-            onClick={() => setShowMicrophoneModal(true)}
-          >
-            Выбрать микрофон
-          </button> */}
           <button
             className='bg-primary hover:bg-blue-700 px-4 py-2 rounded animate-pulse text-xs md:text-md'
             onClick={() => {
@@ -405,4 +410,28 @@ function HostStreamManager({
       </div>
     </div>
   );
+}
+
+async function switchWebcamDevice(room: Room, deviceId: string) {
+  const localParticipant = room.localParticipant;
+  localParticipant.videoTrackPublications.forEach(async (publication) => {
+    if (publication.track && publication.track.source === Track.Source.Camera) {
+      await localParticipant.unpublishTrack(publication.track, true);
+    }
+  });
+  const tracks = await createLocalTracks({ video: { deviceId } });
+  const newVideoTrack = tracks.find(track => track.kind === Track.Kind.Video) as LocalTrack;
+  await localParticipant.publishTrack(newVideoTrack);
+}
+
+async function switchMicrophoneDevice(room: Room, deviceId: string) {
+  const localParticipant = room.localParticipant;
+  localParticipant.audioTrackPublications.forEach(async (publication) => {
+    if (publication.track && publication.track.kind === Track.Kind.Audio) {
+      await localParticipant.unpublishTrack(publication.track, true);
+    }
+  });
+  const tracks = await createLocalTracks({ audio: { deviceId } });
+  const newAudioTrack = tracks.find(track => track.kind === Track.Kind.Audio) as LocalTrack;
+  await localParticipant.publishTrack(newAudioTrack);
 }
