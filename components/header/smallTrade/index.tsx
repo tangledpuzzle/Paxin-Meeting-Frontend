@@ -53,7 +53,7 @@ export default function SmallTrade() {
       const tokenKey = Object.keys(localStorage).find(key => key.startsWith(storeRoomId));
       if(tokenKey) localStorage.removeItem(tokenKey)
     }
-    router.push('/chat');
+    router.push('/stream');
   }
   // const roomId =  localStorage.getItem('latest-stream-id');
   useEffect(() => {
@@ -61,9 +61,8 @@ export default function SmallTrade() {
       const storeRoomId = localStorage.getItem('latest-stream-id');
       setRoomid(storeRoomId || '');
       return ()=>console.log('clear mount');
-      
-   
   }, []);
+  
   useEffect(()=>{
     if (roomId !== null && roomId !== '') {
       // Get viewer/streamerToken;
@@ -144,16 +143,16 @@ export default function SmallTrade() {
           >
             <div className='flex h-full w-full flex-col rounded-2xl shadow-sky-50 dark:bg-darkPrimary'>
               <div className='bg-h flex justify-between px-2 pt-2'>
-                <div className='flex w-full justify-center'>
+                {/* <div className='flex w-full justify-center'>
                   {!isMobile && <p>{roomId}</p>}
                   <CopyClipboard
-                    text={`https://www.myru.online/meet/${roomId}`}
+                    text={`https://www.myru.online/stream/${roomId}`}
                   >
                     <div className='notepad my-auto inline-block h-8 w-8 items-center justify-center rounded-full px-2 py-1'>
                       <i className='pnm-notepad h-4 w-4 text-primaryColor dark:text-secondaryColor' />
                     </div>
                   </CopyClipboard>
-                </div>
+                </div> */}
                 <div className='flex items-center'>
                   <DraggableHandle>
                     <MoveIcon size={isMobile ? 24 : 32} />
