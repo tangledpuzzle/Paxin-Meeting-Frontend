@@ -7,12 +7,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import eventBus from '@/lib/eventBus';
 import useSWR from 'swr';
+import toast from 'react-hot-toast';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function Notification({ authenticated }: { authenticated: boolean; }) {
 
-  const { user } = useContext(PaxContext);
+  const { user, socket } = useContext(PaxContext);
 
   const { data, error, mutate } = useSWR('/api/notifications/get', fetcher);
 
@@ -27,6 +28,18 @@ export default function Notification({ authenticated }: { authenticated: boolean
       eventBus.off('notificationRead', handleNotificationRead);
     };
   }, [mutate]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+        if (message.command === 'new_notification') {
+            toast.success('Для Вас новое уведомление');
+            mutate(); 
+        }
+      };
+    }
+  }, [socket, mutate]);
 
   if (!data) return null;
 
