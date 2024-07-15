@@ -21,6 +21,7 @@ import { Toaster } from 'react-hot-toast';
 import Script from 'next/script';
 import NextTopLoader from 'nextjs-toploader';
 import { cookies } from 'next/headers';
+import { NotificationProvider } from '@/provider/notificationProvider';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -107,6 +108,7 @@ export default async function RootLayout({
                     defaultTheme='system'
                     enableSystem={true}
                   >
+                    <NotificationProvider>
                     {children}
                     <CustomToaster />
                     <Toaster />
@@ -121,6 +123,7 @@ export default async function RootLayout({
                         });
                       `}
                     </Script>
+                    </NotificationProvider>
                   </ThemeProvider>
                   <TailwindIndicator />
                 </StreamProvider>
