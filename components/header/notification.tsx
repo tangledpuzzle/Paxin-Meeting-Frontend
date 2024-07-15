@@ -11,8 +11,7 @@ import useSWR from 'swr';
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function Notification({ authenticated }: { authenticated: boolean; }) {
-  const pathname = usePathname();
-  const router = useRouter();
+
   const { user } = useContext(PaxContext);
 
   const { data, error, mutate } = useSWR('/api/notifications/get', fetcher);
@@ -31,7 +30,7 @@ export default function Notification({ authenticated }: { authenticated: boolean
 
   if (!data) return null;
 
-  const unreadCount = data.data.unread;
+  const unreadCount = data?.data?.unread;
 
   return authenticated || user ? (
     <Link href="/profile/notifications">
