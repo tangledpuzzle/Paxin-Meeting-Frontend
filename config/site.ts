@@ -67,16 +67,16 @@ export const siteConfig = {
     resources: [
       {
         title: 'community',
-        href: '/community',
+        href: 'https://t.me/myruonline',
       },
-      {
-        title: 'discord',
-        href: 'https://discord.gg/shadcn',
-      },
-      {
-        title: 'twitter',
-        href: 'https://twitter.com/paxintrade',
-      },
+      // {
+      //   title: 'discord',
+      //   href: 'https://discord.gg/shadcn',
+      // },
+      // {
+      //   title: 'twitter',
+      //   href: 'https://twitter.com/paxintrade',
+      // },
     ],
     social: {
       facebook: 'https://www.facebook.com/paxintrade',
