@@ -102,14 +102,16 @@ export default function Notifications() {
         <ul className="space-y-4">
           {notifications.map(notification => (
             <li key={notification.ID}
-              className={`p-4 rounded-lg shadow-md flex justify-between items-center ${notification.read ? 'bg-white dark:bg-black' : 'bg-yellow-100 dark:bg-blue-500'}`}
+              className={`p-4 rounded-lg shadow-md flex justify-between items-center ${notification.read ? 'bg-white dark:bg-black' : 'bg-blue-100 dark:bg-blue-500'}`}
               onMouseOver={() => !notification.read && markAsRead(notification.ID)}
               onTouchStart={() => !notification.read && markAsRead(notification.ID)}
             >
               <div className="flex flex-col">
                 <h2 className="text-xl font-semibold">{notification.title}</h2>
                 <p className="text-gray-700 dark:text-white">{notification.message}</p>
-                <Link href={notification.url}  rel="noopener noreferrer" className="text-blue-500 hover:underline mt-2" passHref>
+                <Link href={notification.url}  rel="noopener noreferrer"               
+                className={`py-4 rounded-lg flex justify-between items-center ${notification.read ? 'text-blue-500 dark:text-blue-500' : 'text-gray-700 dark:text-white'}`}
+                passHref>
                   Открыть
                 </Link>
                 <p className="text-sm text-gray-700 dark:text-white mt-2">{new Date(notification.created_at).toLocaleString()}</p>
