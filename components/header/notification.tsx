@@ -8,6 +8,9 @@ import Link from 'next/link';
 import eventBus from '@/lib/eventBus';
 import useSWR from 'swr';
 import toast from 'react-hot-toast';
+import { Howl, Howler } from 'howler';
+
+Howler.autoUnlock = true;
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -16,6 +19,13 @@ export default function Notification({ authenticated }: { authenticated: boolean
   const { user, socket } = useContext(PaxContext);
 
   const { data, error, mutate } = useSWR('/api/notifications/get', fetcher);
+
+  const newSms = new Howl({
+    src: ['/audio/NotificationC.mp3'],
+    html5: true,
+    loop: false,
+    preload: true,
+  });
 
   useEffect(() => {
     const handleNotificationRead = () => {
@@ -34,8 +44,10 @@ export default function Notification({ authenticated }: { authenticated: boolean
       socket.onmessage = (event) => {
         const message = JSON.parse(event.data);
         if (message.command === 'new_notification') {
+            Howler.stop();
             toast.success('Для Вас новое уведомление');
-            mutate(); 
+            newSms.play();
+            mutate();
         }
       };
     }
