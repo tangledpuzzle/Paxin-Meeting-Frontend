@@ -102,7 +102,7 @@ export default function Notifications() {
         <ul className="space-y-4">
           {notifications.map(notification => (
             <li key={notification.ID}
-              className={`p-4 rounded-lg shadow-md flex justify-between items-center ${notification.read ? 'bg-white dark:bg-black' : 'bg-blue-100 dark:bg-blue-500'}`}
+              className={`p-4 rounded-lg shadow-md flex items-center ${notification.read ? 'bg-white dark:bg-black' : 'bg-blue-100 dark:bg-blue-500'}`}
               onMouseOver={() => !notification.read && markAsRead(notification.ID)}
               onTouchStart={() => !notification.read && markAsRead(notification.ID)}
             >
@@ -114,14 +114,16 @@ export default function Notifications() {
                 passHref>
                   Открыть
                 </Link>
+                <div className='flex gap-4  items-center'>
                 <p className="text-sm text-gray-700 dark:text-white mt-2">{new Date(notification.created_at).toLocaleString()}</p>
-              </div>
-              <button
+                <button
                 onClick={() => setNotificationToDelete(notification)}
                 className="text-red-500 hover:text-red-700"
               >
                 <MdDelete size={24} />
               </button>
+              </div>
+              </div>
             </li>
           ))}
         </ul>
