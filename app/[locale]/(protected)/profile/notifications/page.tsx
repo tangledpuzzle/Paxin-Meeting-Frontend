@@ -97,7 +97,7 @@ export default function Notifications() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-4">Уведомления</h1>
       {notifications.length === 0 ? (
-        <p className="text-center">Уведомления не найдены</p>
+        <p className="text-left">Уведомления не найдены</p>
       ) : (
         <ul className="space-y-4">
           {notifications.map(notification => (
