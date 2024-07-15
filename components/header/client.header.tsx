@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { MainNav } from '@/components/header/main-nav';
 import { siteConfig } from '@/config/site';
 import AlarmNav from './alarm-nav';
+import Notification from './notification';
+
 interface ClientHeaderProps {
   data: {
     data: {
@@ -25,7 +27,10 @@ export default function ClientHeader({ data }: ClientHeaderProps) {
       <div className='border-gardient-h relative top-[80px] w-full'></div>
       <div className='flex h-20 items-center space-x-4 px-2 sm:justify-between sm:space-x-0 md:px-4'>
         <MainNav items={siteConfig.mainNav} />
+        <div className='flex gap-6'>
         <AlarmNav authenticated={!!data} />
+        <Notification authenticated={!!data} />
+        </div>
         <RightNav
           user={
             data
