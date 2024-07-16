@@ -63,7 +63,7 @@ export default function ClientFooter() {
                     </Link>
                   ))}
                 </div>
-                <div className='flex flex-col'>
+                {/* <div className='flex flex-col'>
                   <div className='my-4 text-center font-satoshi text-xl  font-semibold md:text-left'>
                     {t('product')}
                   </div>
@@ -76,7 +76,7 @@ export default function ClientFooter() {
                       {t(item.title as keyof IntlMessages['main'])}
                     </Link>
                   ))}
-                </div>
+                </div> */}
                 <div className='flex flex-col text-center  md:ml-auto md:text-left'>
                   <div className='my-4 text-center font-satoshi text-xl  font-semibold md:text-left'>
                     {t('resources')}

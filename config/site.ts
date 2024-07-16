@@ -45,25 +45,25 @@ export const siteConfig = {
         title: 'terms_and_conditions',
         href: '/terms',
       },
-      {
-        title: 'faq',
-        href: '/faq',
-      },
+      // {
+      //   title: 'faq',
+      //   href: '/faq',
+      // },
     ],
-    product: [
-      {
-        title: 'documentation',
-        href: '/docs',
-      },
-      {
-        title: 'blog',
-        href: '/blog',
-      },
-      {
-        title: 'changelog',
-        href: '/changelog',
-      },
-    ],
+    // product: [
+    //   {
+    //     title: 'documentation',
+    //     href: '/docs',
+    //   },
+    //   {
+    //     title: 'blog',
+    //     href: '/blog',
+    //   },
+    //   {
+    //     title: 'changelog',
+    //     href: '/changelog',
+    //   },
+    // ],
     resources: [
       {
         title: 'community',
