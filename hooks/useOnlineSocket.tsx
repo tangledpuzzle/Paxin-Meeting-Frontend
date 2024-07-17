@@ -1,57 +1,52 @@
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { useEffect, useRef, useState } from 'react';
+import { usePaxContext } from '@/context/context';
 
 const useOnlineSocket = (): { [key: string]: any } => {
-  const socket = useRef<WebSocket>();
+  const { socket } = usePaxContext();
   const { data: session } = useSession();
   const [onlineState, setOnlineState] = useState<{ [key: string]: any }>({});
 
   useEffect(() => {
-    const wsProtocol = 'wss:';
-    socket.current = new WebSocket(
-      `${wsProtocol}//${process.env.NEXT_PUBLIC_SOCKET_URL}/socket.io/`
-    );
+    if (socket) {
+      const pingIntervalId = setInterval(() => {
+        if (socket.readyState === WebSocket.OPEN) {
+          const pingData = JSON.stringify({
+            messageType: 'ping',
+            data: [],
+          });
+          socket.send(pingData);
+        }
+      }, 50000);
 
-    const pingIntervalId = setInterval(() => {
-      if (socket.current?.readyState === WebSocket.OPEN) {
-        const pingData = JSON.stringify({
-          messageType: 'ping',
-          data: [],
-        });
-        socket.current?.send(pingData);
-      }
-    }, 50000);
+      const onMessage = (event: MessageEvent) => {
+        try {
+          const data = JSON.parse(event.data);
 
-    const onMessage = (event: MessageEvent) => {
-      try {
-        const data = JSON.parse(event.data);
-
-        if (data.command === 'userOffline' || data.command === 'userOnline') {
-          setOnlineState((prevState) => {
-            return {
+          if (data.command === 'userOffline' || data.command === 'userOnline') {
+            setOnlineState((prevState) => ({
               ...prevState,
               online: data.command === 'userOnline',
               username: data.userID,
               lastOnline: data.additional.replace(' ', 'T') + 'Z',
-            };
-          });
+            }));
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    };
+      };
 
-    socket.current.onmessage = onMessage;
+      socket.addEventListener('message', onMessage);
 
-    return () => {
-      clearInterval(pingIntervalId);
-      socket.current?.removeEventListener('message', onMessage);
-      socket.current?.close();
-    };
-  }, []);
+      return () => {
+        clearInterval(pingIntervalId);
+        socket.removeEventListener('message', onMessage);
+      };
+    }
+  }, [socket]);
 
   const pingUserIsTyping = (roomID: string) => {
-    if (socket.current?.readyState === WebSocket.OPEN) {
+    if (socket?.readyState === WebSocket.OPEN) {
       const pingData = JSON.stringify({
         messageType: 'UserIsTyping',
         data: [
@@ -62,7 +57,7 @@ const useOnlineSocket = (): { [key: string]: any } => {
         ],
       });
 
-      socket.current?.send(pingData);
+      socket.send(pingData);
     }
   };
 
