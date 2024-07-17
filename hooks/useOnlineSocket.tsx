@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { usePaxContext } from '@/context/context';
+import cookie from 'cookie';
 
 const useOnlineSocket = (): { [key: string]: any } => {
   const { socket } = usePaxContext();
@@ -9,16 +10,6 @@ const useOnlineSocket = (): { [key: string]: any } => {
 
   useEffect(() => {
     if (socket) {
-      const pingIntervalId = setInterval(() => {
-        if (socket.readyState === WebSocket.OPEN) {
-          const pingData = JSON.stringify({
-            messageType: 'ping',
-            data: [],
-          });
-          socket.send(pingData);
-        }
-      }, 50000);
-
       const onMessage = (event: MessageEvent) => {
         try {
           const data = JSON.parse(event.data);
@@ -39,20 +30,36 @@ const useOnlineSocket = (): { [key: string]: any } => {
       socket.addEventListener('message', onMessage);
 
       return () => {
-        clearInterval(pingIntervalId);
         socket.removeEventListener('message', onMessage);
       };
     }
   }, [socket]);
 
+  const getAccessToken = (): string | null => {
+    let accessToken: string | null = session?.accessToken as string | null;
+    if (!accessToken) {
+      if (typeof window !== 'undefined') {
+        const parsedCookies = cookie.parse(document.cookie);
+        accessToken = parsedCookies.access_token || null;
+      }
+    }
+    return accessToken;
+  };
+
   const pingUserIsTyping = (roomID: string) => {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+      console.error('Unauthorized');
+      return;
+    }
+
     if (socket?.readyState === WebSocket.OPEN) {
       const pingData = JSON.stringify({
         messageType: 'UserIsTyping',
         data: [
           {
             roomID,
-            access_token: session?.accessToken || '',
+            access_token: accessToken!,
           },
         ],
       });
