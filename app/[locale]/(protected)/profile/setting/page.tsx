@@ -127,7 +127,7 @@ const basicFormSchema = z.object({
         label: z.string(),
       })
     )
-    .min(1, 'Please select at least one city'),
+    .min(1, 'Выберите 1 из городов'),
   category: z
     .array(
       z.object({
@@ -135,7 +135,7 @@ const basicFormSchema = z.object({
         label: z.string(),
       })
     )
-    .min(1, 'Please select at least one category'),
+    .min(1, 'Выберите 1 из категорий'),
   hashtags: z
     .array(
       z.object({
@@ -143,8 +143,8 @@ const basicFormSchema = z.object({
         label: z.string(),
       })
     )
-    .min(1, 'Please select at least one hashtag'),
-  bio: z.string().min(1, 'Bio is required'),
+    .min(1, 'Выберите 1 из хэштегов'),
+  bio: z.string().min(1, 'Заполните краткое описание профиля'),
 });
 
 type BasicFormData = z.infer<typeof basicFormSchema>;
