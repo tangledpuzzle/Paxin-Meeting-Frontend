@@ -10,6 +10,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import useSWR from 'swr';
+import { Separator } from '@/components/ui/separator';
 
 interface UserType {
   id: string;
@@ -119,8 +120,9 @@ export default function Relationships() {
 
   return (
     <div className='container mx-auto mb-14 mt-4 px-4'>
+      <Separator className='mb-4' />
       <BackButton callback={searchParams.get('callback') || ''} />
-      <div className='mx-auto max-w-5xl'>
+      <div className='mx-auto w-full'>
         <div className='my-4 flex'>
           <div
             className='me-2 w-full cursor-pointer'

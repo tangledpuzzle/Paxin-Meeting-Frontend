@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import toast from 'react-hot-toast';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Separator } from '@/components/ui/separator';
 
 interface Notification {
   ID: number;
@@ -127,7 +128,7 @@ export default function Notifications() {
 
   if (!notifications.length && !loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto px-4 pb-8">
         {/* <h1 className="text-2xl font-bold mb-4">Уведомления</h1> */}
         <p className="text-left">Уведомления не найдены</p>
       </div>
@@ -135,7 +136,9 @@ export default function Notifications() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="mx-auto px-4 pb-8">
+    <Separator className='mb-4' />
+
       {/* <h1 className="text-2xl font-bold mb-4">Уведомления</h1> */}
       <InfiniteScroll
         dataLength={notifications.length}
@@ -204,7 +207,7 @@ export default function Notifications() {
 
 const SkeletonLoader = () => {
   return (
-    <div className="container mx-auto px-0 py-8">
+    <div className="mx-auto px-4 pb-8">
       {/* <h1 className="text-2xl font-bold mb-4">Уведомления</h1> */}
       <div className="space-y-4">
         {[...Array(10)].map((_, i) => (
