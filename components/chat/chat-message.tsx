@@ -179,7 +179,7 @@ export default function ChatMessage(props: ChatMessageProps) {
               </span>
             </div>
           </Link>
-          <div
+          {/* <div
             className={cn(
               'flex items-center gap-1',
               {
@@ -193,7 +193,7 @@ export default function ChatMessage(props: ChatMessageProps) {
                 ALLOWED_ATTR: ['href', 'target', 'rel'],
               }),
             }}
-          />
+          /> */}
         </>
       );
     else return null;

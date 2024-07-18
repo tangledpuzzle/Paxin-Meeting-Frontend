@@ -50,9 +50,9 @@ export default function ChatHeader() {
               <TypingDots />
             </>
           ) : chatUser?.online ? (
-            'online'
+            'онлайн'
           ) : (
-            'last seen ' +
+            'Был ' +
             format.relativeTime(
               chatUser?.lastOnlineTimestamp
                 ? new Date(chatUser?.lastOnlineTimestamp) > currentTime
