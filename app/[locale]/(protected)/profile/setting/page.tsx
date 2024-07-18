@@ -43,6 +43,9 @@ import { SubscriptionCard } from '@/components/profiles/setting/subscription-car
 import { NewPostModal } from '@/components/profiles/setting/request4new';
 import { NewInvoice } from '@/components/profiles/setting/request4newBank';
 import { formatDateNew, formatAmount, getStatusTranslation } from '@/lib/utils';
+import { GrHostMaintenance } from "react-icons/gr";
+import { IoMdPhotos } from "react-icons/io";
+import { MdDashboardCustomize } from "react-icons/md";
 
 import Loader from '@/components/ui/loader';
 const ReactQuill =
@@ -743,18 +746,20 @@ export default function SettingPage() {
           className='w-full items-start bg-background py-2 sm:flex'
           orientation='vertical'
         >
-          <TabsList className='flex h-auto w-full bg-background px-2 sm:w-60 sm:flex-col'>
+          <TabsList className='flex h-auto w-full bg-background px-2 sm:w-60 sm:flex-col !overflow-hidden justify-center md:justify-start'>
             <TabsTrigger
               value='profile'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
               asChild
             >
               <Link href='/profile/setting?tab=profile'>
+                <div className='flex flex-col md:flex-row justify-center items-center'>
                 <FaUser className='mr-2 size-4 min-w-4' />
-                {t('profile_settings')}
+                <span>{t('profile_settings')}</span>
+                </div>
               </Link>
             </TabsTrigger>
-            <TabsTrigger
+            {/* <TabsTrigger
               value='accounting'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
               asChild
@@ -763,15 +768,17 @@ export default function SettingPage() {
                 <MdAccountBalanceWallet className='mr-2 size-4 min-w-4' />
                 {t('accounting')}
               </Link>
-            </TabsTrigger>
+            </TabsTrigger> */}
             <TabsTrigger
               value='telegram'
               className='text-md w-full p-3 !shadow-none data-[state=active]:bg-primary/10 data-[state=active]:text-primary sm:justify-start'
               asChild
             >
               <Link href='/profile/setting?tab=telegram'>
+              <div className='flex flex-col md:flex-row justify-center items-center'>
                 <FaTelegram className='mr-2 size-4 min-w-4' />
-                {t('telegram')}
+                <span>{t('telegram')}</span>
+              </div>
               </Link>
             </TabsTrigger>
             {/* <TabsTrigger
@@ -788,28 +795,28 @@ export default function SettingPage() {
           <div className='w-full'>
             <TabsContent className='my-2 w-full' value='profile'>
               <div className='px-3'>
-                <div className='mb-2 text-2xl font-semibold'>
-                  {t('profile_settings')}
+                <div className='mb-3 text-2xl font-semibold text-center md:text-left'>
+                  {/* {t('profile_settings')} */}
                 </div>
                 <Tabs defaultValue='basic' className='w-full'>
-                  <TabsList className='flex w-auto justify-start bg-background'>
+                  <TabsList className='flex w-auto !gap-6 justify-start bg-background !overflow-hidden'>
                     <TabsTrigger
                       value='basic'
-                      className='w-auto rounded-none border-b-2 border-transparent bg-background data-[state=active]:border-primary data-[state=active]:shadow-none'
+                      className='w-auto !pl-0 !pr-0 rounded-none border-b-2 border-transparent bg-background data-[state=active]:border-primary data-[state=active]:shadow-none'
                     >
-                      {t('basic')}
+                     <div className='flex gap-1 items-center'><GrHostMaintenance size="12" /> {t('basic')}</div>
                     </TabsTrigger>
                     <TabsTrigger
                       value='photo-gallery'
-                      className='w-auto rounded-none border-b-2 border-transparent bg-background data-[state=active]:border-primary data-[state=active]:shadow-none'
+                      className='w-auto !pl-0 !pr-0 rounded-none border-b-2 border-transparent bg-background data-[state=active]:border-primary data-[state=active]:shadow-none'
                     >
-                      {t('photo_gallery')}
+                      <div className='flex gap-1 items-center'><IoMdPhotos size="12" /> {t('photo_gallery')} </div>
                     </TabsTrigger>
                     <TabsTrigger
                       value='additional'
-                      className='w-auto rounded-none border-b-2 border-transparent bg-background data-[state=active]:border-primary data-[state=active]:shadow-none'
+                      className='w-auto !pl-0 !pr-0 rounded-none border-b-2 border-transparent bg-background data-[state=active]:border-primary data-[state=active]:shadow-none'
                     >
-                      {t('additional')}
+                       <div className='flex gap-1 items-center'><MdDashboardCustomize size="12" />{t('additional')} </div>
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent
