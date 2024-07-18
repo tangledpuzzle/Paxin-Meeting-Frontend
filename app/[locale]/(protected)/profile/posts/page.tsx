@@ -227,7 +227,7 @@ export default function MyPostsPage() {
       {!error ? (
         fetchedData && blogs ? (
           blogs?.length > 0 ? (
-            <div className='w-full'>
+            <div className='w-full p-0 rounded-md'>
               {blogs.map((blog) => (
                 <PostCard
                   key={blog.id}
