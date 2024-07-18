@@ -114,7 +114,7 @@ export default function FlowSection() {
         next={loadMore}
         hasMore={hasMore}
         loader={
-          <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3'>
+          <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 top-[-30px] relative'>
             <FlowCardSkeleton />
             <FlowCardSkeleton className='hidden md:block' />
             <FlowCardSkeleton className='hidden lg:block' />

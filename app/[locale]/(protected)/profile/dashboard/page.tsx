@@ -123,24 +123,6 @@ export default function DashboardPage() {
 
   return (
     <div className='mb-[100px] p-4 md:mb-[0px]'>
-    <div className='mt-0 space-y-2 w-full'>
-    {fetchedData?.streaming !== null && (
-    <div className='mt-0 space-y-2 pb-4'>
-        {fetchedData?.streaming?.length > 0 ? (
-          fetchedData?.streaming?.map((stream: any, index: number) => (
-          <Link href={`/stream/${stream.RoomID}/host`} className='flex items-center justify-center gap-2'>
-            <div key={index} className='rounded-lg bg-blue-500 p-4 w-full'>
-              <div className='text-md'>Ваш эфир создан: {stream.Title}</div>
-              <div className='text-sm'>Отркыть</div>
-            </div>
-            </Link>
-          ))
-        ) : (
-          <div className='text-sm text-muted-foreground'></div>
-        )}
-        </div>
-      )}
-      </div>
       <CTASection
         title={t('dashboard')}
         description={t('dashboard_description')}
@@ -151,6 +133,24 @@ export default function DashboardPage() {
         <div className='col-span-2 grid gap-3 md:grid-cols-2'>
           <div className='relative flex justify-between rounded-lg bg-white p-6 dark:bg-black md:col-span-2'>
             <div>
+            <div className='mt-0 space-y-2 w-full'>
+            {fetchedData?.streaming !== null && (
+            <div className='mt-0 space-y-2 pb-4'>
+                {fetchedData?.streaming?.length > 0 ? (
+                  fetchedData?.streaming?.map((stream: any, index: number) => (
+                  <Link href={`/stream/${stream.RoomID}/host`} className='flex items-center justify-center gap-2'>
+                    <div key={index} className='rounded-lg bg-blue-500 p-4 w-full'>
+                      <div className='text-md'>Ваш эфир создан: {stream.Title}</div>
+                      <div className='text-sm'>Отркыть</div>
+                    </div>
+                    </Link>
+                  ))
+                ) : (
+                  <div className='text-sm text-muted-foreground'></div>
+                )}
+                </div>
+              )}
+              </div>
               <div className='flex cursor-pointer items-center text-2xl font-semibold'>
                 {t('hello')} {user?.username}
                 <ChangeNamePopup>
