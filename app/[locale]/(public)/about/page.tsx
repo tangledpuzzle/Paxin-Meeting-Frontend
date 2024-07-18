@@ -8,7 +8,7 @@ import { IntroSection } from '@/components/about/intro';
 export default function AboutUsPage() {
   return (
     <section>
-      <HeroSection />
+      {/* <HeroSection /> */}
       <IntroSection />
       {/* <ServicesSection />
       <ContactSection /> */}

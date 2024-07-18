@@ -6,7 +6,7 @@ import { HeroSection } from '@/components/contact/hero';
 export default function AboutUsPage() {
   return (
     <section>
-      <HeroSection />
+      {/* <HeroSection /> */}
       <ContactSection />
     </section>
   );
