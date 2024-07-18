@@ -96,8 +96,8 @@ export default function CTASection({ title, description, icon }: CTAProps) {
         <div className='rounded-full bg-primary/10 p-3 text-primary'>
           <Icon className='size-5' />
         </div>
-        <div>
-          <div className='text-lg font-semibold'>{title}</div>
+        <div className='w-[90px] md:w-full'>
+          <div className='text-lg truncate font-semibold'>{title}</div>
           <div className='hidden text-sm text-muted-foreground lg:block'>
             {description || ''}
           </div>

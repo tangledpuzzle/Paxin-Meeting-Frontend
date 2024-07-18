@@ -19,8 +19,8 @@ interface IMeetProps {
 export default memo(
   ({ t, isLoading, onCreateRoom, onJoinRoom, name }: IMeetProps) => {
     return (
-      <div className='p-4'>
-        <Separator className='my-4' />
+      <div className='pb-4 px-4'>
+        <Separator className='mb-4' />
         <div className='mb-[100px] flex h-[calc(100vh_-_13rem)] w-full flex-col rounded-xl bg-background p-4 md:mb-[0px] md:h-[calc(100vh_-_15rem)]'>
           <div className='flex size-full flex-col justify-center'>
             <div className='mb-48 mt-auto space-y-4'>
