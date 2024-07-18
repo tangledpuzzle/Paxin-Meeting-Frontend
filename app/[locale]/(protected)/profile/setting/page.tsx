@@ -46,49 +46,52 @@ import { formatDateNew, formatAmount, getStatusTranslation } from '@/lib/utils';
 import { GrHostMaintenance } from "react-icons/gr";
 import { IoMdPhotos } from "react-icons/io";
 import { MdDashboardCustomize } from "react-icons/md";
+import { useTheme } from 'next-themes';
 
 import Loader from '@/components/ui/loader';
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
 
-const customStyles: StylesConfig<Option, true> = {
+  const customStyles = (theme: string): StylesConfig<Option, true> => ({
     control: (provided) => ({
       ...provided,
-      backgroundColor: '#1a1a1a',
-      color: '#ffffff',
+      backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
+      color: theme === 'dark' ? '#ffffff' : '#000000',
     }),
     input: (provided) => ({
       ...provided,
-      color: '#ffffff',
+      color: theme === 'dark' ? '#ffffff' : '#000000',
     }),
     menu: (provided) => ({
       ...provided,
-      backgroundColor: '#333333',
+      backgroundColor: theme === 'dark' ? '#333333' : '#ffffff',
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isFocused ? '#555555' : '#333333',
-      color: '#ffffff',
+      backgroundColor: state.isFocused
+        ? theme === 'dark' ? '#555555' : '#eaeaea'
+        : theme === 'dark' ? '#333333' : '#ffffff',
+      color: theme === 'dark' ? '#ffffff' : '#000000',
       cursor: 'pointer',
     }),
     multiValue: (provided) => ({
       ...provided,
-      backgroundColor: '#555555',
+      backgroundColor: theme === 'dark' ? '#555555' : '#eaeaea',
     }),
     multiValueLabel: (provided) => ({
       ...provided,
-      color: '#ffffff',
+      color: theme === 'dark' ? '#ffffff' : '#000000',
     }),
     multiValueRemove: (provided) => ({
       ...provided,
-      color: '#ffffff',
+      color: theme === 'dark' ? '#ffffff' : '#000000',
       ':hover': {
-        backgroundColor: '#777777',
-        color: '#ffffff',
+        backgroundColor: theme === 'dark' ? '#777777' : '#cccccc',
+        color: theme === 'dark' ? '#ffffff' : '#000000',
       },
     }),
-  };
-
+  });
+  
 
 interface Profile {
   bio: string;
@@ -212,6 +215,7 @@ const subscriptions = [
 ];
 
 export default function SettingPage() {
+  const { theme } = useTheme();
 
   const t = useTranslations('main');
   const { userMutate } = useContext(PaxContext);
@@ -858,7 +862,7 @@ export default function SettingPage() {
                                   filterOption={customFilterFunction}
                                   noOptionsMessage={() => t('no_options')}
                                   placeholder={t('select') + '...'}
-                                  styles={customStyles}
+                                  styles={customStyles(theme || 'light')}
                                   classNames={{
                                     input: () =>
                                       'dark:text-white text-black text-[16px]',
@@ -889,7 +893,7 @@ export default function SettingPage() {
                                   noOptionsMessage={() => t('no_options')}
                                   options={categoryOptions}
                                   value={field.value}
-                                  styles={customStyles}
+                                  styles={customStyles(theme || 'light')}
                                   onInputChange={(value) =>
                                     handleCategorySearch(value)
                                   }
@@ -940,7 +944,7 @@ export default function SettingPage() {
                                   onChange={field.onChange}
                                   onInputChange={handleHashtagSearch}
                                   formatCreateLabel={(inputValue) => `Добавить "${inputValue}"`}
-                                  styles={customStyles}
+                                  styles={customStyles(theme || 'light')}
                                   classNames={{
                                     input: () =>
                                       'dark:text-white text-black text-[16px]',
