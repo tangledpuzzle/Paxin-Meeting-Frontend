@@ -128,7 +128,7 @@ export function PostCard({
     setIsExtendsLoading(false);
   };
   return (
-    <div>
+    <div className='mb-4 shadow-md p-3'>
       <div className='relative flex w-full flex-col gap-4 md:h-full md:flex-row'>
         <div
           aria-label='actions'
@@ -275,7 +275,7 @@ export function PostCard({
             {cities.map((city) => (
               <Badge
                 variant='outline'
-                className='rounded-full border-primary bg-primary/10 text-primary'
+                className='rounded-full border-primary bg-primary/10 text-xs text-primary'
                 key={city.id}
               >
                 <MdOutlineHouseSiding className='mr-1 size-4' />
@@ -286,7 +286,7 @@ export function PostCard({
             {categories.map((category) => (
               <Badge
                 variant='outline'
-                className='rounded-full border-primary bg-primary/10 text-primary'
+                className='rounded-full border-primary bg-primary/10 text-primary text-xs'
                 key={category.id}
               >
                 <BiSolidCategory className='mr-1 size-4' />
@@ -296,7 +296,7 @@ export function PostCard({
           </div>
         </div>
       </div>
-      <Separator className='my-4' />
+      {/* <Separator className='my-4' /> */}
     </div>
   );
 }

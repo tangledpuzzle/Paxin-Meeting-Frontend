@@ -125,7 +125,7 @@ export default function DashboardPage() {
       <Separator className='mb-4' />
       <div className='mb-0 grid grid-cols-2 md:mb-0'>
         <div className='col-span-2 grid gap-3 md:grid-cols-2'>
-          <div className='relative flex justify-between rounded-lg bg-white p-6 dark:bg-black md:col-span-2'>
+          <div className='relative flex justify-between rounded-lg bg-white p-6 dark:bg-black md:col-span-2 shadow-md'>
             <div>
             <div className='mt-0 space-y-2 w-full'>
             {fetchedData?.streaming !== null && (
@@ -208,7 +208,7 @@ export default function DashboardPage() {
               <Link
                 key={index}
                 href={service.link}
-                className='flex flex-col rounded-lg bg-white p-4 dark:bg-black/40'
+                className='flex flex-col rounded-lg bg-white p-4 dark:bg-black/40 shadow-md'
               >
                 <div className='flex size-8 items-center justify-center rounded-full bg-primary/10'>
                   <service.icon className='size-4 text-primary' />
@@ -222,13 +222,13 @@ export default function DashboardPage() {
               </Link>
             ))}
           </div>
-          <div className='flex size-full max-h-full flex-col rounded-lg bg-white p-4 dark:bg-black/40'>
+          <div className='flex size-full max-h-full flex-col rounded-lg bg-white p-4 dark:bg-black/40 shadow-md'>
             <div>
               <div className='text-lg font-semibold'>{t('configure')}</div>
               <div className='text-xs'>{t('configure_description')}</div>
             </div>
             <Separator className='my-2' />
-            <div className='size-full'>
+            <div className='size-full '>
               <div>
                 {audits.map((audit, index) => (
                   <Link href={audit.link} key={index}>
