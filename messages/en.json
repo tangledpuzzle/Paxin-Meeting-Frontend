@@ -4,6 +4,7 @@
     "description": "Streaming People's Network of Russia"
   },
   "main": {
+    "notifications": "Notifications",
     "no_more_results": "No more results",
     "balance_success": "The money has been credited to your balance",
     "send_request_payment": "Specify the top-up amount",

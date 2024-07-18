@@ -4,6 +4,7 @@
     "description": "Red de transmisión popular de Rusia"
   },
   "main": {
+    "notifications": "Notificaciones",
     "no_more_results": "No hay más resultados",
     "balance_success": "El dinero ha sido acreditado a su saldo",
     "send_request_payment": "Indique el monto de la recarga",

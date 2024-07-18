@@ -14,7 +14,7 @@ const HeroSection = () => {
       <SectionDescription className='px-4 text-left md:text-center'>
         {/* <span className='mb-2'>{t('empowering_connections_metaverse_description2')}</span> */}
         {/* <br/> */}
-        <span className='mr-2 pb-4 font-bold'>
+        <span className='mr-2 pb-4'>
           {t('empowering_connections_metaverse_description')}
         </span>
 

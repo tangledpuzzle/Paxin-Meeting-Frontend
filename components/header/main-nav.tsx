@@ -48,7 +48,7 @@ export function MainNav({ items }: MainNavProps) {
   };
 
   return (
-    <div className='flex items-center justify-center gap-6 md:gap-10'>
+    <div className='flex items-center justify-center gap-0 md:gap-10'>
       <Link href='/' className='flex items-center gap-2'>
         <Image
           src='/logo-black.svg'

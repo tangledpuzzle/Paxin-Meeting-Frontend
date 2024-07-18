@@ -5,7 +5,6 @@ import { MdOutlinePostAdd } from 'react-icons/md';
 import { RiArticleLine } from 'react-icons/ri';
 import { MdOutlineSpeakerNotesOff } from 'react-icons/md';
 import { ConfirmModal } from '@/components/common/confirm-modal';
-import CTASection from '@/components/profiles/cta';
 import { NewPostModal } from '@/components/profiles/posts/new-post-modal';
 import { PostCard, PostCardProps } from '@/components/profiles/posts/post-card';
 import { PostCardSkeleton } from '@/components/profiles/posts/post-card-skeleton';
@@ -140,13 +139,8 @@ export default function MyPostsPage() {
   };
 
   return (
-    <div className='mb-[100px] p-4 md:mb-[0px]'>
-      <CTASection
-        title={t('my_posts')}
-        description={t('my_posts_description')}
-        icon={RiArticleLine}
-      />
-      <Separator className='my-4' />
+    <div className='mb-[100px] pb-4 px-4 md:mb-[0px]'>
+      <Separator className='mb-4' />
       <div className='mb-4 flex w-full flex-col-reverse items-center justify-between gap-2 sm:flex-row'>
         <div className='relative w-full sm:w-80'>
           <Search className='absolute inset-y-0 left-3 my-auto size-4 text-gray-500' />

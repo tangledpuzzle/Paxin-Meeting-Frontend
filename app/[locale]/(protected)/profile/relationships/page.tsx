@@ -118,7 +118,7 @@ export default function Relationships() {
   };
 
   return (
-    <div className='container mx-auto'>
+    <div className='container mx-auto mb-14 mt-4 px-4'>
       <BackButton callback={searchParams.get('callback') || ''} />
       <div className='mx-auto max-w-5xl'>
         <div className='my-4 flex'>
@@ -170,6 +170,7 @@ export default function Relationships() {
                 </button>
               )}
             </div>
+            
           )
         ) : (
           <>

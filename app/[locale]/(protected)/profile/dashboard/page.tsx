@@ -2,7 +2,6 @@
 
 import { MdDashboard } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
-import CTASection from '@/components/profiles/cta';
 import { Separator } from '@/components/ui/separator';
 import { PaxContext } from '@/context/context';
 import { ChevronRight } from 'lucide-react';
@@ -122,13 +121,8 @@ export default function DashboardPage() {
   const { user } = useContext(PaxContext);
 
   return (
-    <div className='mb-[100px] p-4 md:mb-[0px]'>
-      <CTASection
-        title={t('dashboard')}
-        description={t('dashboard_description')}
-        icon={MdDashboard}
-      />
-      <Separator className='my-4' />
+    <div className='mb-[100px] pb-4 px-4 md:mb-[0px]'>
+      <Separator className='mb-4' />
       <div className='mb-0 grid grid-cols-2 md:mb-0'>
         <div className='col-span-2 grid gap-3 md:grid-cols-2'>
           <div className='relative flex justify-between rounded-lg bg-white p-6 dark:bg-black md:col-span-2'>
@@ -151,11 +145,14 @@ export default function DashboardPage() {
                 </div>
               )}
               </div>
-              <div className='flex cursor-pointer items-center text-2xl font-semibold'>
+              <div className='flex flex-col cursor-pointer items-start text-2xl font-semibold'>
                 {t('hello')} {user?.username}
                 <ChangeNamePopup>
-                  <Button variant='link' size='icon' className='inline'>
-                    <MdOutlineDriveFileRenameOutline className='text-2xl' />
+                  <Button variant='link' size='icon' className='inline w-full'>
+                    <div className='flex gap-2'>
+                      <div>Cменить имя</div>
+                      <MdOutlineDriveFileRenameOutline className='text-2xl' />
+                      </div>
                   </Button>
                 </ChangeNamePopup>
               </div>
@@ -185,7 +182,7 @@ export default function DashboardPage() {
                   className='relative mx-2 h-14 w-[1px]'
                 />
                 <Link
-                  href={`/relationships?callback=${encodeURIComponent('/profile/dashboard')}`}
+                  href={`/profile/relationships?callback=${encodeURIComponent('/profile/dashboard')}`}
                   className='cursor-pointer space-y-4 text-center'
                 >
                   <div className='text-center text-sm text-muted-foreground'>
@@ -197,7 +194,7 @@ export default function DashboardPage() {
                 </Link>
               </div>
             </div>
-            <div className=''>
+            <div className='hidden md:block'>
               <Image
                 src={'/images/analytic.svg'}
                 alt='analytic'
