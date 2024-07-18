@@ -116,7 +116,7 @@ export default function ProfileSection() {
         next={loadMore}
         hasMore={hasMore}
         loader={
-          <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3'>
+          <div className='grid w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 top-[-30px] relative'>
             <ProfileCardSkeleton />
             <ProfileCardSkeleton className='hidden md:block' />
             <ProfileCardSkeleton className='hidden lg:block' />
