@@ -2,7 +2,6 @@
 
 import { ConfirmModal } from '@/components/common/confirm-modal';
 import { ImageUpload, PreviewImage } from '@/components/common/file-uploader';
-import CTASection from '@/components/profiles/cta';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -669,19 +668,14 @@ export default function SettingPage() {
   };
 
   return (
-    <div className='p-4'>
+    <div className='pb-4 px-4'>
       <NewPostModal
         openModal={openModal}
         setOpenModal={setOpenModal}
         requestType={requestType}
       />
       {/* <Loader /> */}
-      <CTASection
-        title={t('settings')}
-        description={t('setting_description')}
-        icon={RiUserSettingsFill}
-      />
-      <Separator className='my-4' />
+      <Separator className='mb-4' />
       <div className='mb-[100px] w-full md:mb-[0px]'>
         <ConfirmModal
           isOpen={showDeleteModal}

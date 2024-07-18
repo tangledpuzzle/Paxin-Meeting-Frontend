@@ -128,7 +128,7 @@ export default function Notifications() {
   if (!notifications.length && !loading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-4">Уведомления</h1>
+        {/* <h1 className="text-2xl font-bold mb-4">Уведомления</h1> */}
         <p className="text-left">Уведомления не найдены</p>
       </div>
     );
@@ -136,7 +136,7 @@ export default function Notifications() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">Уведомления</h1>
+      {/* <h1 className="text-2xl font-bold mb-4">Уведомления</h1> */}
       <InfiniteScroll
         dataLength={notifications.length}
         next={loadMoreNotifications}

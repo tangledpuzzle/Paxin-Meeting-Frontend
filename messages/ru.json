@@ -4,6 +4,7 @@
     "description": "Стриминговая народная сеть России"
   },
   "main": {
+    "notifications": "Уведомления",
     "no_more_results": "Данных больше нет",
     "balance_success": "Деньги зачислены на ваш баланс",
     "send_request_payment": "Укажите сумму пополнения",
@@ -193,7 +194,7 @@
     "whatsapp_and_facebook": "Подключение персонального веб-адреса с клиентским обсулживанием в 2 клика",
     "whatsapp_and_facebook_description": "Синхрониризуйтесь",
     "unlock_new_dimension_of_connectivity": "Откройте новые возможности с MYRUONLINE",
-    "unlock_new_dimension_of_connectivity_description": "Готовы испытать следующее поколение онлайн-взаимодействия? Присоединяйтесь к нам сейчас. Создайте свой аккаунт и переопределите свое цифровое присутствие сегодня.",
+    "unlock_new_dimension_of_connectivity_description": "Готовы испытать следующее поколение онлайн-взаимодействия?.",
     "join_now": "Присоединяйтесь сейчас бесплатно",
     "pax_footer_description": "Торгово стриминговая сеть",
     "pax_footer_description_second": "Моя Россия онлайн!",

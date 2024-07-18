@@ -4,6 +4,7 @@
     "description": "რუსეთის სტრიმინგის სახალხო ქსელი"
   },
   "main": {
+    "notifications": "შეტყობინებები",
     "no_more_results": "მეტი მონაცემი არ არის",
     "balance_success": "ფული ჩარიცხულია თქვენს ბალანსზე",
     "send_request_payment": "მიუთითეთ შესავსები თანხა",

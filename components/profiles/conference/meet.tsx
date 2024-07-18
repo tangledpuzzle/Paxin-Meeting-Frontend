@@ -1,11 +1,9 @@
 'use client';
 
 import { memo, useContext, useState } from 'react';
-import { HiUserGroup } from 'react-icons/hi';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import CTASection from '@/components/profiles/cta';
 
 import { MeetCreateModal } from './meet-create-modal';
 import { MeetJoinModal } from './meet-join-modal';
@@ -20,10 +18,8 @@ interface IMeetProps {
 
 export default memo(
   ({ t, isLoading, onCreateRoom, onJoinRoom, name }: IMeetProps) => {
-    console.log('render Conference');
     return (
       <div className='p-4'>
-        <CTASection title={t('conference')} description='' icon={HiUserGroup} />
         <Separator className='my-4' />
         <div className='mb-[100px] flex h-[calc(100vh_-_13rem)] w-full flex-col rounded-xl bg-background p-4 md:mb-[0px] md:h-[calc(100vh_-_15rem)]'>
           <div className='flex size-full flex-col justify-center'>

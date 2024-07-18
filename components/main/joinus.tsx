@@ -28,7 +28,7 @@ export default function JoinUsSection() {
           />
           {t('unlock_new_dimension_of_connectivity')}
         </div>
-        <div className='prose  mt-3 max-w-full px-7 text-justify font-satoshi text-[1rem] tracking-[-0.09rem]	 text-gray-700/70 dark:text-white/70 md:text-center'>
+        <div className='prose  mt-3 max-w-full px-7 text-center font-satoshi text-[1rem]  text-gray-700/70 dark:text-white/70 md:text-center'>
           {t('unlock_new_dimension_of_connectivity_description')}
         </div>
         <div className='relative mt-10 flex w-full items-center justify-center'>

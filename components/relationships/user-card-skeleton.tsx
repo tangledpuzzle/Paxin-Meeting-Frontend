@@ -17,10 +17,10 @@ export default function UserCardSkeleton() {
           <Skeleton className='h-6 w-24 rounded-full' />
         </div>
       </div>
-      <div className='flex gap-2'>
+      {/* <div className='flex gap-2'>
         <Skeleton className='size-8 rounded-full' />
         <Skeleton className='h-8 w-20 rounded-full' />
-      </div>
+      </div> */}
     </div>
   );
 }
