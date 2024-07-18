@@ -33,7 +33,7 @@ import { MdAccountBalanceWallet } from 'react-icons/md';
 import { RiUserSettingsFill } from 'react-icons/ri';
 import { RxCopy } from 'react-icons/rx';
 import 'react-quill/dist/quill.snow.css';
-import Select from 'react-select';
+import Select, { components, StylesConfig } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useSWR, {mutate} from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
@@ -47,6 +47,45 @@ import { formatDateNew, formatAmount, getStatusTranslation } from '@/lib/utils';
 import Loader from '@/components/ui/loader';
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false;
+
+const customStyles: StylesConfig<Option, true> = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: '#1a1a1a',
+      color: '#ffffff',
+    }),
+    input: (provided) => ({
+      ...provided,
+      color: '#ffffff',
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: '#333333',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? '#555555' : '#333333',
+      color: '#ffffff',
+      cursor: 'pointer',
+    }),
+    multiValue: (provided) => ({
+      ...provided,
+      backgroundColor: '#555555',
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      color: '#ffffff',
+    }),
+    multiValueRemove: (provided) => ({
+      ...provided,
+      color: '#ffffff',
+      ':hover': {
+        backgroundColor: '#777777',
+        color: '#ffffff',
+      },
+    }),
+  };
+
 
 interface Profile {
   bio: string;
@@ -170,6 +209,7 @@ const subscriptions = [
 ];
 
 export default function SettingPage() {
+
   const t = useTranslations('main');
   const { userMutate } = useContext(PaxContext);
   const locale = useLocale();
@@ -669,6 +709,7 @@ export default function SettingPage() {
 
   return (
     <div className='pb-4 px-4'>
+
       <NewPostModal
         openModal={openModal}
         setOpenModal={setOpenModal}
@@ -810,6 +851,7 @@ export default function SettingPage() {
                                   filterOption={customFilterFunction}
                                   noOptionsMessage={() => t('no_options')}
                                   placeholder={t('select') + '...'}
+                                  styles={customStyles}
                                   classNames={{
                                     input: () =>
                                       'dark:text-white text-black text-[16px]',
@@ -840,6 +882,7 @@ export default function SettingPage() {
                                   noOptionsMessage={() => t('no_options')}
                                   options={categoryOptions}
                                   value={field.value}
+                                  styles={customStyles}
                                   onInputChange={(value) =>
                                     handleCategorySearch(value)
                                   }
@@ -889,6 +932,8 @@ export default function SettingPage() {
                                   value={field.value}
                                   onChange={field.onChange}
                                   onInputChange={handleHashtagSearch}
+                                  formatCreateLabel={(inputValue) => `Добавить "${inputValue}"`}
+                                  styles={customStyles}
                                   classNames={{
                                     input: () =>
                                       'dark:text-white text-black text-[16px]',
