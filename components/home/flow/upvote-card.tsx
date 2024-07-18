@@ -72,12 +72,12 @@ function UpvoteCard({ upvotes, downvotes, vote, me, id }: UpvoteCardProps) {
       <Card>
         <CardContent className='space-y-3 p-4'>
           <div>
-            <div className='flex items-center justify-between gap-2 lowercase'>
-              <div className='flex items-center text-primary'>
+            <div className='flex items-center justify-center gap-2 pb-2 lowercase'>
+              {/* <div className='flex items-center text-primary'>
                 <FaThumbsUp className='mr-2 size-4' />
                 {t('upvotes')}
-              </div>
-              {numberOfUpvotes} {t('votes')}
+              </div> */}
+              {numberOfUpvotes}  {t('votes')}
             </div>
             <Progress
               value={
@@ -87,11 +87,11 @@ function UpvoteCard({ upvotes, downvotes, vote, me, id }: UpvoteCardProps) {
             />
           </div>
           <div>
-            <div className='flex items-center justify-between gap-2 lowercase'>
-              <div className='flex items-center'>
+            <div className='flex items-center justify-center gap-2 pb-2 lowercase'>
+              {/* <div className='flex items-center'>
                 <FaThumbsDown className='mr-2 size-4' />
                 {t('downvotes')}
-              </div>
+              </div> */}
               {numberOfDownvotes} {t('votes')}
             </div>
             <Progress
@@ -106,7 +106,7 @@ function UpvoteCard({ upvotes, downvotes, vote, me, id }: UpvoteCardProps) {
       </Card>
       <div className='grid w-full grid-cols-2 gap-2'>
         <Button
-          className='btn btn--wide w-full !rounded-md'
+          className='btn btn--wide w-full !rounded-md !text-white'
           variant={vote === 1 ? 'default' : 'outline'}
           disabled={isUpVoteLoading || isDownVoteLoading || me}
           onClick={() => handleVote({ id: id, vote: true })}
