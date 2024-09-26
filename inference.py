@@ -20,25 +20,6 @@ parser.add_argument('--audio', type=str,
 parser.add_argument('--outfile', type=str, help='Video path to save result. See default for an e.g.', 
 								default='results/result_voice.mp4')
 
-parser.add_argument('--static', type=bool, 
-					help='If True, then use only first video frame for inference', default=False)
-parser.add_argument('--fps', type=float, help='Can be specified only if input is a static image (default: 25)', 
-					default=25., required=False)
-
-parser.add_argument('--pads', nargs='+', type=int, default=[0, 10, 0, 0], 
-					help='Padding (top, bottom, left, right). Please adjust to include chin at least')
-
-parser.add_argument('--face_det_batch_size', type=int, 
-					help='Batch size for face detection', default=16)
-parser.add_argument('--wav2lip_batch_size', type=int, help='Batch size for Wav2Lip model(s)', default=128)
-
-parser.add_argument('--resize_factor', default=1, type=int, 
-			help='Reduce the resolution by this factor. Sometimes, best results are obtained at 480p or 720p')
-
-parser.add_argument('--crop', nargs='+', type=int, default=[0, -1, 0, -1], 
-					help='Crop video to a smaller region (top, bottom, left, right). Applied after resize_factor and rotate arg. ' 
-					'Useful if multiple face present. -1 implies the value will be auto-inferred based on height, width')
-
 parser.add_argument('--box', nargs='+', type=int, default=[-1, -1, -1, -1], 
 					help='Specify a constant bounding box for the face. Use only as a last resort if the face is not detected.'
 					'Also, might work only if the face is not moving around much. Syntax: (top, bottom, left, right).')
