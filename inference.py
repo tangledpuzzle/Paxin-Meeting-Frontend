@@ -55,31 +55,6 @@ args.img_size = 96
 
 if os.path.isfile(args.face) and args.face.split('.')[1] in ['jpg', 'png', 'jpeg']:
 	args.static = True
-
-def get_smoothened_boxes(boxes, T):
-	for i in range(len(boxes)):
-		if i + T > len(boxes):
-			window = boxes[len(boxes) - T:]
-		else:
-			window = boxes[i : i + T]
-		boxes[i] = np.mean(window, axis=0)
-	return boxes
-
-def face_detect(images):
-	detector = face_detection.FaceAlignment(face_detection.LandmarksType._2D, 
-											flip_input=False, device=device)
-
-	batch_size = args.face_det_batch_size
-	
-	while 1:
-		predictions = []
-		try:
-			for i in tqdm(range(0, len(images), batch_size)):
-				predictions.extend(detector.get_detections_for_batch(np.array(images[i:i + batch_size])))
-		except RuntimeError:
-			if batch_size == 1: 
-				raise RuntimeError('Image too big to run face detection on GPU. Please use the --resize_factor argument')
-			batch_size //= 2
 			print('Recovering from OOM error; New batch size: {}'.format(batch_size))
 			continue
 		break
